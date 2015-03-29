@@ -59,17 +59,18 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
         return pop();
     }
 
+
     /**
-     * AEmptyIdentList-s (Empty Identified List) are functions in the form of:
+     * ANonParameterizedFunction-s are functions in the form of:
      *
      * fn ()
      */
     @Override
-    public void outAEmptyIdentList(AEmptyIdentList node) {
+    public void outANonParameterizedFunction(ANonParameterizedFunction node) {
         ArrayList<Object> values = new ArrayList<Object>();
         final Object model;
         try {
-            model = interopComponent(node.getIdent().getText(), values);
+            model = interopComponent(node.getIdentifier().getText(), values);
             push(model);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -88,18 +89,18 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     }
 
     /**
-     * AFilledIdentList-s (Filled Identified List) are functions of the form of:
+     * AParameterizedFunction-s are functions of the form of:
      *
      * ident (expr_1, ... expr_n), with n > 0.
      */
     @Override
-    public void outAFilledIdentList(AFilledIdentList node) {
+    public void outAParameterizedFunction(AParameterizedFunction node) {
         ArrayList<Object> values = new ArrayList<Object>();
         for (int i = 0; i < node.getElement().size(); i++) {
             values.add(pop());
         }
         try {
-            final Object model = interopComponent(node.getIdent().getText(), values);
+            final Object model = interopComponent(node.getIdentifier().getText(), values);
             push(model);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -118,11 +119,11 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     }
 
     /**
-     * AIdentElemnt-s are identifier representations (e.g. variables or references).
+     * AIdentifierElement-s are identifier representations (e.g. variables or references).
      */
     @Override
-    public void outAIdentElement(AIdentElement node) {
-        final TIdent identifierElement = node.getIdent();
+    public void outAIdentifierElement(AIdentifierElement node) {
+        final TIdentifier identifierElement = node.getIdentifier();
         final String identifier = identifierElement.getText();
         push(identifier);
     }
@@ -188,9 +189,10 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
      * In case the elements on the stack deviate from the SimpleEntry-type, this method raises a ClassCastException.
      */
     @Override
+    @SuppressWarnings("unchecked") // Required for reflection.
     public void outAObjectElement(AObjectElement node) {
         Map<Object, Object> hashMap = new HashMap<Object, Object>();
-        for (int i = 0; i < node.getObjectEl().size(); i++) {
+        for (int i = 0; i < node.getKeyValue().size(); i++) {
             final AbstractMap.SimpleEntry<Object, Object> entry =
                     (AbstractMap.SimpleEntry<Object, Object>) pop();
             final Object keyObject = entry.getKey();
@@ -202,20 +204,18 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     }
 
     /**
-     * AObjectEl-s are the entries in the AObjectElement's key-value map.
+     * AKeyValue-s are the entries in the AObjectElement's key-value map.
      *
      * Syntax:
      *
-     * AStringElement ':' (Any)Element
+     * (Any)Element ':' (Any)Element
      *
      * =>
      *
      * SimpleEntry<Object, Object>
-     *
-     * In case the first element on the stack deviates from the String-type (key), this method raises a ClassCastException.
      */
     @Override
-    public void outAObjectEl(AObjectEl node) {
+    public void outAKeyValue(AKeyValue node) {
         AbstractMap.SimpleEntry<Object, Object> mapEntry = new AbstractMap.SimpleEntry<Object, Object>(pop(), pop());
         push(mapEntry);
     }
@@ -236,7 +236,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     }
 
     /** QLSAdapter can only be used through the QLSInterpreter and the QLSTypeChecker. */
-    protected QLSAdapter() {};
+    protected QLSAdapter() {}
 
     static {
         allowablePaths.add(COMPONENTS_PACKAGE_PREFIX);

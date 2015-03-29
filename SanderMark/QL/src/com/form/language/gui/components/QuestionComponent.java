@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;

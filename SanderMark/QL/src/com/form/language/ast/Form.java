@@ -28,21 +28,11 @@ public class Form {
 	}
     }
 
-    public Iterator<Statement> iterator() {
-	return statementList.iterator();
-    }
-
     public Context initMemory(Context context) {
 	for (Statement s : statementList) {
 	    s.initMemory(context);
 	}
 	return context;
-    }
-
-    public void showTypes(Context context) {
-	for (Statement s : statementList) {
-	    System.out.println(s.checkType(context));
-	}
     }
     
     public List<Statement> getStatements(){

@@ -12,7 +12,6 @@ import net.miginfocom.swing.MigLayout;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.typechecker.TypeChecker;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.Panel;

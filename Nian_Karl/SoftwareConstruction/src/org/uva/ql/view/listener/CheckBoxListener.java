@@ -22,6 +22,7 @@ public class CheckBoxListener implements ItemListener {
 	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		System.out.println("Setting checkbox");
 		if (checkBox.getWidget().isSelected()) {
 			widgetListener.widgetValueChanged(identifier, new BoolValue(checkBox.getValue()));
 		} else {

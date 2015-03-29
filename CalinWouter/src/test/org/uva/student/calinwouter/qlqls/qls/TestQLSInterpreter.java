@@ -9,7 +9,7 @@ public class TestQLSInterpreter {
 
 //    private StyleSheet parseStyleSheetString(String styleSheetStr)
 //            throws ParserException, IOException, LexerException {
-//        QLSAdapter qlsInterpreter = InterpreterHelper.interpetStylesheetString(styleSheetStr);
+//        QLSAdapter qlsInterpreter = QLHelper.interpetStylesheetString(styleSheetStr);
 //        return (StyleSheet) qlsInterpreter.getValue().getValue();
 //    }
 //

@@ -10,7 +10,7 @@ class TokenIndex extends AnalysisAdapter
     int index;
 
     @Override
-    public void caseTTnot(@SuppressWarnings("unused") TTnot node)
+    public void caseTTokenNot(@SuppressWarnings("unused") TTokenNot node)
     {
         this.index = 0;
     }
@@ -40,55 +40,55 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTSub(@SuppressWarnings("unused") TSub node)
+    public void caseTSubtract(@SuppressWarnings("unused") TSubtract node)
     {
         this.index = 5;
     }
 
     @Override
-    public void caseTMul(@SuppressWarnings("unused") TMul node)
+    public void caseTMultiply(@SuppressWarnings("unused") TMultiply node)
     {
         this.index = 6;
     }
 
     @Override
-    public void caseTDiv(@SuppressWarnings("unused") TDiv node)
+    public void caseTDivide(@SuppressWarnings("unused") TDivide node)
     {
         this.index = 7;
     }
 
     @Override
-    public void caseTMod(@SuppressWarnings("unused") TMod node)
+    public void caseTModulo(@SuppressWarnings("unused") TModulo node)
     {
         this.index = 8;
     }
 
     @Override
-    public void caseTLparen(@SuppressWarnings("unused") TLparen node)
+    public void caseTLeftParenthesis(@SuppressWarnings("unused") TLeftParenthesis node)
     {
         this.index = 9;
     }
 
     @Override
-    public void caseTRparen(@SuppressWarnings("unused") TRparen node)
+    public void caseTRightParenthesis(@SuppressWarnings("unused") TRightParenthesis node)
     {
         this.index = 10;
     }
 
     @Override
-    public void caseTTform(@SuppressWarnings("unused") TTform node)
+    public void caseTTokenForm(@SuppressWarnings("unused") TTokenForm node)
     {
         this.index = 11;
     }
 
     @Override
-    public void caseTLbrace(@SuppressWarnings("unused") TLbrace node)
+    public void caseTLeftBrace(@SuppressWarnings("unused") TLeftBrace node)
     {
         this.index = 12;
     }
 
     @Override
-    public void caseTRbrace(@SuppressWarnings("unused") TRbrace node)
+    public void caseTRightBrace(@SuppressWarnings("unused") TRightBrace node)
     {
         this.index = 13;
     }
@@ -112,31 +112,31 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTTbool(@SuppressWarnings("unused") TTbool node)
+    public void caseTTokenBoolean(@SuppressWarnings("unused") TTokenBoolean node)
     {
         this.index = 17;
     }
 
     @Override
-    public void caseTTtrue(@SuppressWarnings("unused") TTtrue node)
+    public void caseTTokenTrue(@SuppressWarnings("unused") TTokenTrue node)
     {
         this.index = 18;
     }
 
     @Override
-    public void caseTTfalse(@SuppressWarnings("unused") TTfalse node)
+    public void caseTTokenFalse(@SuppressWarnings("unused") TTokenFalse node)
     {
         this.index = 19;
     }
 
     @Override
-    public void caseTTstring(@SuppressWarnings("unused") TTstring node)
+    public void caseTTokenString(@SuppressWarnings("unused") TTokenString node)
     {
         this.index = 20;
     }
 
     @Override
-    public void caseTTint(@SuppressWarnings("unused") TTint node)
+    public void caseTTokenInteger(@SuppressWarnings("unused") TTokenInteger node)
     {
         this.index = 21;
     }
@@ -148,43 +148,43 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTTeq(@SuppressWarnings("unused") TTeq node)
+    public void caseTTokenEquals(@SuppressWarnings("unused") TTokenEquals node)
     {
         this.index = 23;
     }
 
     @Override
-    public void caseTTneq(@SuppressWarnings("unused") TTneq node)
+    public void caseTTokenNotEquals(@SuppressWarnings("unused") TTokenNotEquals node)
     {
         this.index = 24;
     }
 
     @Override
-    public void caseTTlt(@SuppressWarnings("unused") TTlt node)
+    public void caseTTokenLesserThan(@SuppressWarnings("unused") TTokenLesserThan node)
     {
         this.index = 25;
     }
 
     @Override
-    public void caseTTgt(@SuppressWarnings("unused") TTgt node)
+    public void caseTTokenGreaterThan(@SuppressWarnings("unused") TTokenGreaterThan node)
     {
         this.index = 26;
     }
 
     @Override
-    public void caseTTlte(@SuppressWarnings("unused") TTlte node)
+    public void caseTTokenLesserThanOrEquals(@SuppressWarnings("unused") TTokenLesserThanOrEquals node)
     {
         this.index = 27;
     }
 
     @Override
-    public void caseTTgte(@SuppressWarnings("unused") TTgte node)
+    public void caseTTokenGreaterThanOrEquals(@SuppressWarnings("unused") TTokenGreaterThanOrEquals node)
     {
         this.index = 28;
     }
 
     @Override
-    public void caseTIdent(@SuppressWarnings("unused") TIdent node)
+    public void caseTIdentifier(@SuppressWarnings("unused") TIdentifier node)
     {
         this.index = 29;
     }
