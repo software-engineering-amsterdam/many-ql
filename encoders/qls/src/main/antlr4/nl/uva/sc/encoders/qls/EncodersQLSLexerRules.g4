@@ -1,5 +1,11 @@
 lexer grammar EncodersQLSLexerRules;
 
+
+HEXCOLOR: HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT;
+
+HEXDIGIT: [0-9A-F];
+
+
 DATATYPE      : ( BOOLEAN 
                 | INTEGER 
                 | STRING
