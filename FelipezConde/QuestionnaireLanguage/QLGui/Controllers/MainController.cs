@@ -3,6 +3,8 @@ using AST.Nodes.Expressions;
 using Evaluation;
 using Evaluation.Values;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Windows;
 
 namespace QLGui.Controllers
@@ -12,7 +14,6 @@ namespace QLGui.Controllers
         private ASTResult astTree;
         private MainWindow window;
         private SymbolTable symbolTable;
-        public EventUpdateValue EventUpdateValue { get; set; }
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
@@ -22,21 +23,19 @@ namespace QLGui.Controllers
             symbolTable = new SymbolTable();
         }
 
-        public UIElement ProcessBody()
+        public void ProcessBody()
         {
             if (!astTree.HasError())
             {
-                SubController nodeBodyProcessor = new SubController(symbolTable);
-                nodeBodyProcessor.EventUpdateValue += UpdateValue;
+                SubController BodyProcessor = new SubController(symbolTable);
+                              BodyProcessor.EventUpdateValue += UpdateValue;
+                              BodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
 
-                symbolTable = nodeBodyProcessor.Register(symbolTable);
-
-                return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                              symbolTable = BodyProcessor.SymbolTable;
             }
             else
             {
-                //paint errors
-                throw new NotImplementedException();
+                window.PrintErrorsInGui(astTree.NotificationManager);
             }
         }
 
@@ -47,6 +46,12 @@ namespace QLGui.Controllers
             window.DeleteElements();
 
             ProcessBody();
+        }
+
+        public void ExportAnswers()
+        {
+            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
+            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
         }
     }
 }

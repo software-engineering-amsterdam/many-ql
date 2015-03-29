@@ -3,6 +3,7 @@ package qls.ast;
 import ql.ast.AstNode;
 import ql.ast.type.Type;
 import ql.ast.type.TypeFactory;
+import ql.util.StringHelper;
 import qls.ast.rule.*;
 import qls.ast.rule.widget.*;
 import qls.ast.statement.*;
@@ -32,6 +33,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
 
         String stylesheetId = context.Identifier().getText();
         int lineNumber = context.Identifier().getSymbol().getLine();
+
         return new Stylesheet(stylesheetId, definitions, lineNumber);
     }
 
@@ -64,7 +66,12 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return visitQuestion(context.question());
         }
 
-        return visitDefaultStmt(context.defaultStmt());
+        if (context.defaultStmt() != null)
+        {
+            return visitDefaultStmt(context.defaultStmt());
+        }
+
+        throw new IllegalStateException("Unsupported statement");
     }
 
     @Override
@@ -132,10 +139,16 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return new Width(value, lineNumber);
         }
 
-        if (label.equals("color"))
+        if (label.equals("backcolor"))
         {
             ColorValue c = new ColorValue(context.Color().getText());
             return new BackColor(c, lineNumber);
+        }
+
+        if (label.equals("forecolor"))
+        {
+            ColorValue c = new ColorValue(context.Color().getText());
+            return new ForeColor(c, lineNumber);
         }
 
         if (label.equals("font"))
@@ -155,7 +168,7 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return new Widget(value, lineNumber);
         }
 
-        throw new IllegalStateException("No such stylesheet rule");
+        throw new IllegalStateException("Unsupported stylesheet rule");
     }
 
     @Override
@@ -165,25 +178,34 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
 
         if (label.equals("slider"))
         {
-            BigDecimal min = new BigDecimal(context.min.getText());
-            BigDecimal max = new BigDecimal(context.max.getText());
-            BigDecimal step = new BigDecimal(context.step.getText());
+            if (context.decMin != null)
+            {
+                BigDecimal min = new BigDecimal(context.decMin.getText());
+                BigDecimal max = new BigDecimal(context.decMax.getText());
+                BigDecimal step = new BigDecimal(context.decStep.getText());
 
-            return new Slider(min, max, step);
+                return new DecSlider(min, max, step);
+            }
+
+            Integer min = Integer.parseInt(context.intMin.getText());
+            Integer max = Integer.parseInt(context.intMax.getText());
+            Integer step = Integer.parseInt(context.intStep.getText());
+
+            return new IntSlider(min, max, step);
         }
 
         if (label.equals("radio"))
         {
-            String yes = context.yesText.getText();
-            String no = context.noText.getText();
+            String yes = StringHelper.unescapeString(context.yesText.getText());
+            String no = StringHelper.unescapeString(context.noText.getText());
 
             return new Radio(yes, no);
         }
 
         if (label.equals("dropdown"))
         {
-            String yes = context.yesText.getText();
-            String no = context.noText.getText();
+            String yes = StringHelper.unescapeString(context.yesText.getText());
+            String no = StringHelper.unescapeString(context.noText.getText());
 
             return new Dropdown(yes, no);
         }

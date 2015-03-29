@@ -1,5 +1,6 @@
 ﻿using AST.Nodes;
 using Notifications;
+using System.Collections.Generic;
 
 namespace AST
 {
@@ -17,5 +18,11 @@ namespace AST
         {
             return NotificationManager.HasError();
         }
+
+        public void CombineNotifications(INotificationManager manager)
+        {
+            this.NotificationManager.Combine(manager);
+        }
+
     }
 }

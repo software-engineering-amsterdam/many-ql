@@ -60,6 +60,13 @@ public class Question extends Statement {
 		return labelTextValue.replaceAll("\"", "");
 	}
 	
+	public boolean hasBinaryExpression(){
+		if (this.expression == null){
+			return false;
+		}
+		return this.expression.isBinaryExpression();
+	}
+	
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		if (this.expression == null){

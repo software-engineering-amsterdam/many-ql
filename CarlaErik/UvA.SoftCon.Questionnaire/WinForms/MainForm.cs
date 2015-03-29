@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
-using UvA.SoftCon.Questionnaire.Runtime;
+using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 using UvA.SoftCon.Questionnaire.WinForms.UIBuilding;
 
@@ -81,7 +81,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 }
                 else
                 {
-                    MessageBox.Show("Errors occured", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Validation errors in the questionnaire AST. See Output Window for details."
+                        , "Validation errors", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SplitPanel.Panel2Collapsed = false;
                 }
             }
@@ -108,12 +109,15 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 if (qlReport.NrOfErrors == 0 && qlsReport.NrOfErrors == 0)
                 {
-                    var ui = BuildUI(styleSheet, form);
+                    QuestionStyleCollection questionStyles = GetQuestionStyles(styleSheet, form);
+
+                    var ui = BuildUI(styleSheet, questionStyles, form);
                     SplitPanel.Panel1.Controls.Add(ui);
                 }
                 else
                 {
-                    MessageBox.Show("Errors occured", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Validation errors in the questionnaire and/or style sheet AST. See Output Window for details."
+                        , "Validation errors", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SplitPanel.Panel2Collapsed = false;
                 }
             }
@@ -160,7 +164,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             try
             {
-                var runtimeController = new RuntimeController();
+                var runtimeController = new QL.Runtime.RuntimeController();
                 return runtimeController.Validate(form);
             }
             catch (Exception ex)
@@ -173,12 +177,25 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             try
             {
-                var runtimeController = new RuntimeController();
+                var runtimeController = new QLS.Runtime.RuntimeController();
                 return runtimeController.Validate(styleSheet, form);
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("An unexpected error occured during the validation of the style sheet AST.", ex);
+            }
+        }
+
+        private QuestionStyleCollection GetQuestionStyles(StyleSheet styleSheet, QuestionForm form)
+        {
+            try
+            {
+                var runtimeController = new QLS.Runtime.RuntimeController();
+                return runtimeController.GetQuestionStyles(styleSheet, form);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during the evaluation of the question styles.", ex);
             }
         }
 
@@ -195,12 +212,12 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
-        private Control BuildUI(StyleSheet styleSheet, QuestionForm form)
+        private Control BuildUI(StyleSheet styleSheet, QuestionStyleCollection questionStyles, QuestionForm form)
         {
             try
             {
                 var uiBuilder = new StyleSheetUIBuilder();
-                return uiBuilder.BuildUI(styleSheet, form, Output);
+                return uiBuilder.BuildUI(styleSheet, questionStyles, form, Output);
             }
             catch (Exception ex)
             {

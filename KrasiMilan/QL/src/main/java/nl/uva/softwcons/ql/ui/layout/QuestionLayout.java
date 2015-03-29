@@ -3,26 +3,33 @@ package nl.uva.softwcons.ql.ui.layout;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import nl.uva.softwcons.ql.ast.statement.Question;
+import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ui.widget.Widget;
 
-public class QuestionLayout {
-
-    private final Question question;
+public class QuestionLayout implements Layout {
     private final VBox vbox;
+    private final Identifier questionId;
 
-    public QuestionLayout(final Question question) {
-        this.question = question;
+    public QuestionLayout(final Identifier questionId, final String label, final Widget layout) {
         this.vbox = new VBox();
+        this.questionId = questionId;
 
-        this.add(new Label(this.question.getLabel()));
+        vbox.getChildren().add(new Label(label));
+        vbox.getChildren().add(layout.getWidget());
     }
 
-    public void add(final Node node) {
-        vbox.getChildren().add(node);
-    }
-
+    @Override
     public Node getNode() {
-        return this.vbox;
+        return vbox;
+    }
+
+    @Override
+    public void add(final Layout layout) {
+        vbox.getChildren().add(layout.getNode());
+    }
+
+    public Identifier getQuestionId() {
+        return questionId;
     }
 
     public void setVisible(final boolean visible) {

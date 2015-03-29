@@ -1,16 +1,14 @@
 package qls.parser
 
 import ql.ast._
-import qls.ast.Question
-import qls.ast._
-
 import ql.parser.{Parser => QLParser}
+import qls.ast.{Question, _}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
 
-  var qlParser = new QLParser
+  val qlParser = new QLParser
 
   // general parsers
   override val whiteSpace = qlParser.whiteSpace

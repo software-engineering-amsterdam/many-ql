@@ -55,8 +55,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExportFormulaireController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="EventUpdateValue.cs" />
     <Compile Include="ValueVisitors\ValueToStackPanel.cs" />
+    <Compile Include="ValueVisitors\ValueToString.cs" />
     <Compile Include="ValueVisitors\ValueToUIElement.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

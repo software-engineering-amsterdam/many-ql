@@ -26,14 +26,12 @@ public class Row extends Segment<Pane> implements Refreshable
     private final VBox inputBox;
     private final Label label;
     private final Input input;
-    private final Type type;
 
-    public Row(Expr condition, Type type, Label label, Input input)
+    public Row(Expr condition, Label label, Input input)
     {
-        super(new HBox(), Collections.emptyList(), true);
+        super(new HBox(), true);
         this.input = input;
         this.label = label;
-        this.type = type;
         this.condition = condition;
 
         this.inputBox = new VBox();
@@ -85,12 +83,6 @@ public class Row extends Segment<Pane> implements Refreshable
     public Value evaluate(ValueTable valueTable)
     {
         return ExprEvaluator.evaluate(condition, valueTable);
-    }
-
-    @Override
-    public Boolean isRefreshPrerequisite()
-    {
-        return false;
     }
 
     public void applyStyle(RowStyle style)

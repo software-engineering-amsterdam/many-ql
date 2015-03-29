@@ -1,10 +1,10 @@
 package qls.interpreter
 
 import ql.ast.Form
-import qls.gui.FormBuilder
 import ql.interpreter.{Interpreter => QLInterpreter}
 import ql.typechecker.Error
 import qls.ast.StyleSheet
+import qls.gui.FormBuilder
 import qls.parser.Parser
 import qls.typechecker.{DuplicatePlacementChecker, QuestionPlacementChecker, ReferenceChecker, TypeChecker}
 import types.TypeEnvironment
@@ -26,7 +26,6 @@ object Interpreter {
         val qlsTypeChecks = checkTypes(qlsAst, env)
 
         if (qlTypeChecks && qlsTypeChecks) {
-          //QLInterpreter.render(qlAst)
           render(qlAst, qlsAst)
         }
       case _ => ()
@@ -77,6 +76,7 @@ object Interpreter {
   }
 
   def render(ast: Form, stylesheet: StyleSheet): Unit = {
+    // TODO: Style cascading
     val formBuilder = new FormBuilder(stylesheet)
 
     formBuilder.build(ast).main(Array())

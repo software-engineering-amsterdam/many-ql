@@ -1,7 +1,7 @@
 package qls.typechecker
 
 import qls.ast._
-import types._
+import types.VariableName
 
 object Variables {
 

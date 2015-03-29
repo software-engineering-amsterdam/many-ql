@@ -20,7 +20,7 @@ public abstract class Type extends Node{
 		super(_codeLines);
 	}
 	
-	public boolean checkTypeConformance(List<Type> supportedTypes) {
+	public boolean typeDoesConfirm(List<Type> supportedTypes) {
 		
 		for (Type type : supportedTypes){
 			if (this.equals(type)){

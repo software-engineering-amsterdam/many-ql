@@ -1,31 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
     public partial class PageControl : UserControl
     {
+        private IEnumerable<SectionControl> _sections;
+
         public event EventHandler NavigateBackwards;
         public event EventHandler NavigateForwards;
 
         public PageControl()
         {
             InitializeComponent();
+            Dock = DockStyle.Fill; // As it turns out, for user controls this property can not be set in the designer.
         }
 
         internal PageControl(IEnumerable<SectionControl> sections)
             : this()
         {
+            _sections = sections;
             SectionContainer.Controls.AddRange(sections.ToArray());
         }
 
+        public void SetResults(IDictionary<string, Value> results)
+        {
+            foreach (var section in _sections)
+            {
+                section.SetResults(results);
+            }
+        }
 
         protected virtual void OnNavigateBackwards(EventArgs e)
         {
@@ -44,7 +51,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
                 handler(this, e);
             }
         }
-
 
         private void PreviousButton_Click(object sender, EventArgs e)
         {
