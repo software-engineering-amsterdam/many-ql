@@ -2,14 +2,13 @@ import sys, os
 
 from ql.evaluator.evaluator import createEvaluator
 
-from ql.gui.View import *
-from ql.gui.Controller import *
-from ql.gui.Model import *
+from ql.gui.View import View
+from ql.gui.Controller import Controller
+from ql.gui.Model import QuestionModel
 
 from ql.parser.ANTLR import Parser
 from ql.typechecking import\
     Typechecking, OrderedErrorsWarningsResult, ConsoleMessage
-
 
 
 def main():
