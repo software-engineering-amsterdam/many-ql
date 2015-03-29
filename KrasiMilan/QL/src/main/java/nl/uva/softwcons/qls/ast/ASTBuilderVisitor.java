@@ -35,15 +35,15 @@ import nl.uva.softwcons.qls.ast.segment.Page;
 import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
-import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widget.type.SliderType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
+import nl.uva.softwcons.qls.ast.widgetstyle.Style;
+import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
 
 import org.antlr.v4.runtime.Token;
 
@@ -62,7 +62,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<PageSegment> sections = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-        final Map<Type, StylizedWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
+        final Map<Type, StyledWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
 
         return new Page(id, sections, styles);
     }
@@ -72,7 +72,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         final String label = Utils.unquote(ctx.STRING().getText());
         final List<PageSegment> content = ctx.pageSegment().stream().map(st -> (PageSegment) st.accept(this))
                 .collect(Collectors.toList());
-        final Map<Type, StylizedWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
+        final Map<Type, StyledWidget> styles = this.constructTypeWithWidgetMap(ctx.defaultStatement());
 
         return new Section(label, content, styles, extractLineInfo(ctx.STRING().getSymbol()));
     }
@@ -87,24 +87,24 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitQuestionWithWidget(final QuestionWithWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
-        final StylizedWidget widget = (StylizedWidget) ctx.widget().accept(this);
+        final StyledWidget widget = (StyledWidget) ctx.widget().accept(this);
 
         return new Question(id, widget);
     }
 
     @Override
-    public StylizedWidget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
+    public StyledWidget visitWidgetWithoutStyle(final WidgetWithoutStyleContext ctx) {
         final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
 
-        return new StylizedWidget(type);
+        return new StyledWidget(type);
     }
 
     @Override
-    public StylizedWidget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
+    public StyledWidget visitWidgetWithStyle(final WidgetWithStyleContext ctx) {
         final WidgetType type = (WidgetType) ctx.widgetType().accept(this);
         final Style style = (Style) ctx.style().accept(this);
 
-        return new StylizedWidget(type, style);
+        return new StyledWidget(type, style);
     }
 
     @Override
@@ -162,12 +162,12 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         }
     }
 
-    private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
-        final Map<Type, StylizedWidget> typeWithWidget = new ConcurrentHashMap<>();
+    private Map<Type, StyledWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
+        final Map<Type, StyledWidget> typeWithWidget = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
             final Type questionType = getType(c.type().getText());
-            final StylizedWidget widget = (StylizedWidget) c.widget().accept(this);
+            final StyledWidget widget = (StyledWidget) c.widget().accept(this);
 
             typeWithWidget.put(questionType, widget);
         });

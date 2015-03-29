@@ -7,11 +7,11 @@ import uva.sc.ql.atom.ID;
 
 public class ListenerHelper {
 
-    public Component getComponentByName(ID element,
+    public Component getComponentByName(ID id,
 	    List<Component> componentList) {
 	Component result = null;
 	for (Component component : componentList) {
-	    if (element.getValue().equals(component.getName())) {
+	    if (id.getValue().equals(component.getName())) {
 		result = component;
 	    }
 	}

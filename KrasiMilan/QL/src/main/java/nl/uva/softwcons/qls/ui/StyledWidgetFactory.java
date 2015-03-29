@@ -24,11 +24,11 @@ import nl.uva.softwcons.qls.ui.widget.DropdownWidget;
 import nl.uva.softwcons.qls.ui.widget.RadioButtonWidget;
 import nl.uva.softwcons.qls.ui.widget.SliderWidget;
 
-public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<Widget> {
+public class StyledWidgetFactory implements WidgetFactory, WidgetTypeVisitor<Widget> {
     private final StylesheetResolver resolver;
     private final WidgetFactory defaultFactory;
 
-    public StylizedWidgetFactory(final Form form, final Stylesheet stylesheet) {
+    public StyledWidgetFactory(final Form form, final Stylesheet stylesheet) {
         this.resolver = new StylesheetResolver(stylesheet, form);
         this.defaultFactory = new DefaultWidgetFactory();
     }

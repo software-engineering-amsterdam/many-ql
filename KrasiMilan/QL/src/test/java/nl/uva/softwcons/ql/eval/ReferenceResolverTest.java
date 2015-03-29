@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
@@ -22,7 +22,7 @@ public class ReferenceResolverTest {
     public void testResolvingReferencedConditionalsForUnusedVariable() {
         String questionText = "question: \"Label\" boolean";
         String conditionText = "if (question) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, conditionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, conditionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedConditionals(UNUSED)).isEmpty();
@@ -31,7 +31,7 @@ public class ReferenceResolverTest {
     @Test
     public void testResolvingReferencedQuestionsForUnusedVariable() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedQuestions(UNUSED)).isEmpty();
@@ -41,7 +41,7 @@ public class ReferenceResolverTest {
     public void testResolvingReferencedConditionalsForUnboundedVariable() {
         String questionText = "question: \"Label\" boolean";
         String conditionText = "if (test) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, conditionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, conditionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedConditionals(QUESTION)).isEmpty();
@@ -50,7 +50,7 @@ public class ReferenceResolverTest {
     @Test
     public void testResolvingReferencedQuestionsForUnboundedVariable() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedQuestions(QUESTION)).isEmpty();
@@ -60,7 +60,7 @@ public class ReferenceResolverTest {
     public void testResolvingReferencedConditionalsForQuestionBoundedVariable() {
         String questionText = "question: \"Label\" boolean (question != true)";
         String conditionText = "if (test) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, conditionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, conditionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedConditionals(QUESTION)).isEmpty();
@@ -70,7 +70,7 @@ public class ReferenceResolverTest {
     public void testResolvingReferencedQuestionsForConditionalBoundedVariable() {
         String questionText = "question: \"Label\" boolean";
         String conditionText = "if (question) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, conditionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, conditionText));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         assertThat(referencesResolver.getReferencedQuestions(QUESTION)).isEmpty();
@@ -79,7 +79,7 @@ public class ReferenceResolverTest {
     @Test
     public void testResolvingReferencedConditionalsForBoundedVariable() {
         String conditionText = "if (question) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", conditionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", conditionText));
         Conditional conditionForQuestion = (Conditional) form.getStatements().get(0);
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
@@ -89,7 +89,7 @@ public class ReferenceResolverTest {
     @Test
     public void testResolvingReferencedQuestionsForBoundedVariable() {
         String questionText = "question1: \"Label\" boolean (question != true)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         ComputedQuestion question1 = (ComputedQuestion) form.getStatements().get(0);
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
@@ -101,7 +101,7 @@ public class ReferenceResolverTest {
         String condition1Text = "if (question != true) { question1: \"Label\" boolean }";
         String condition2Text = "if (question || false) { question2: \"Label\" boolean }";
         String condition3Text = "if (question > 1) { question3: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", condition1Text, condition2Text, condition3Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", condition1Text, condition2Text, condition3Text));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         // convert all statements to conditionals for easier assertion
@@ -118,7 +118,7 @@ public class ReferenceResolverTest {
         String question1Text = "question1: \"Label\" boolean (question != true)";
         String question2Text = "question2: \"Label\" boolean (question > 2)";
         String question3Text = "question3: \"Label\" boolean (question + 2 - 1 == 5)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text, question3Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, question2Text, question3Text));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         // convert all statements to computed questions for easier assertion
@@ -134,7 +134,7 @@ public class ReferenceResolverTest {
         String question1Text = "question1: \"Label\" boolean (question != true)";
         String condition1Text = "if (question) { question2: \"Label\" boolean (question > 2) }";
         String condition2Text = "if (question2) { question3: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, condition1Text, condition2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, condition1Text, condition2Text));
         ReferenceResolver referencesResolver = new ReferenceResolver(form);
 
         // expected results

@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ast.style;
+package nl.uva.softwcons.qls.ast.widgetstyle;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -23,12 +23,12 @@ public class CheckBox extends Widget {
 	
 	public JCheckBox getCheckBox()
 	{
-		return this.checkbox;
+		return checkbox;
 	}
 
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
-			setContextValue(new BoolValue(CheckBox.this.checkbox.isSelected()));
+			setContextValue(new BoolValue(checkbox.isSelected()));
 			checkDependencyVisibility();
 		}
 	}

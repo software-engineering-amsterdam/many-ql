@@ -12,7 +12,9 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public class StylesheetBuilder {
+public final class StylesheetBuilder {
+    private StylesheetBuilder() {
+    }
 
     public static Stylesheet build(final String input) {
         return parseStylesheet(new ANTLRInputStream(input));

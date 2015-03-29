@@ -12,6 +12,6 @@ public class Label {
 	}
 
 	public JLabel getLabel() {
-		return this.label;
+		return label;
 	}
 }

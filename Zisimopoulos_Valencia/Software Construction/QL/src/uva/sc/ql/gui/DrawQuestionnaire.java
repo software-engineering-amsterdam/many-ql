@@ -16,9 +16,9 @@ public class DrawQuestionnaire extends ListenerHelper {
 
     private List<Component> componentList;
     private ID formTitle;
-
-    public DrawQuestionnaire(List<Component> components, ID formTitle) {
-	componentList = components;
+    
+    public DrawQuestionnaire(List<Component> componentList, ID formTitle) {
+	this.componentList = componentList;
 	this.formTitle = formTitle;
     }
 
@@ -46,5 +46,4 @@ public class DrawQuestionnaire extends ListenerHelper {
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
     }
-
 }

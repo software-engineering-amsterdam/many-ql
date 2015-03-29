@@ -23,16 +23,12 @@ public class FileChooser extends JPanel implements ActionListener {
     private static JFrame frame;
 
     public FileChooser() {
-
 	JPanel panel = new JPanel();
 	panel.setPreferredSize(new Dimension(200, 100));
-
 	fileChooser = new JFileChooser();
 	chooseFileButton = new JButton("Choose a file");
 	chooseFileButton.addActionListener(this);
-
 	panel.add(chooseFileButton);
-
 	add(panel, BorderLayout.PAGE_START);
     }
 
@@ -84,5 +80,4 @@ public class FileChooser extends JPanel implements ActionListener {
 	    }
 	});
     }
-
 }

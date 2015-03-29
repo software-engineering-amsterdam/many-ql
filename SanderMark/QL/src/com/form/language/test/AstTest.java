@@ -88,7 +88,6 @@ public class AstTest {
 	GrammarParser parser = AstTest.getParser(str);
 	Context ctxt = new Context();
 	parser.expression().result.getType(ctxt);
-	System.out.println(ctxt.getErrors());
 	int actual = ((IntValue) (parser.expression().result).evaluate(ctxt)).getValue();
 	int exspected = -1;
 	assertEquals(exspected, actual);
