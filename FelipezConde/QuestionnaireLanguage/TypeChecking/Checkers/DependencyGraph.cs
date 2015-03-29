@@ -53,7 +53,6 @@ namespace TypeChecking.Checkers
             }
 
             dependencies = ExpandedDependencies;
-
         }
     }
 }

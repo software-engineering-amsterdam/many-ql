@@ -120,7 +120,7 @@ namespace TypeChecking.Collectors
             Types.Type left = node.Left().Accept(new ExpressionTypeCollector(idToType));
             Types.Type right = node.Right().Accept(new ExpressionTypeCollector(idToType));
 
-            if (!left.IsEqual(expectedType) && right.IsEqual(expectedType))
+            if (!(left.IsEqual(expectedType) && right.IsEqual(expectedType)))
             {
                 notificationManager.AddNotification(new IncompatibleBinaryOperator(node, left, right));
             }

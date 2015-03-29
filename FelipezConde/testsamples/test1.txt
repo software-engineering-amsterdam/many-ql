@@ -1,2 +1,0 @@
--- Sample 1: empty form
-form { }
