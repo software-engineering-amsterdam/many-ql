@@ -1,7 +1,10 @@
 ﻿using AST;
+using Notifications;
 using QLGui.Controllers;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TypeChecking;
 
@@ -24,12 +27,9 @@ namespace QLGui
             {
                 ast = TypeChecker.GetTypeCheckDiagnosis(ast);
 
-                    controller = new MainController(this, ast);
-                    controller.ProcessBody();
+                controller = new MainController(this, ast);
+                controller.ProcessBody();
             }
-            
-            
-            
         }
 
         public UIElement GetRootElement()
@@ -46,8 +46,17 @@ namespace QLGui
             Keyboard.ClearFocus();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ExportAnswers_Click(object sender, RoutedEventArgs e)
         {
+            controller.ExportAnswers();
+        }
+
+        public void CreateAndAddErrorList(IList<INotification> notifications)
+        {
+            ListBox listBox = new ListBox();
+            listBox.ItemsSource = notifications;
+
+            this._stack.Children.Add(listBox);
         }
     }
 }
