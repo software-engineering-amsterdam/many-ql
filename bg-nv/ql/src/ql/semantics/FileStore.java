@@ -21,39 +21,28 @@ import java.io.File;
  */
 public class FileStore extends DataStore
 {
+    private final File file;
 
-    //TODO: put file in the constructor
-    public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
+    public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable, File file)
     {
         super(condQuestionTable, valueTable);
+        this.file = file;
     }
 
     @Override
-    public Boolean save(File file)
+    public void save() throws Exception
     {
-        assert file != null;
-        Boolean success = true;
-        try
-        {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-            Document doc = this.createDocument(docBuilder);
+        Document doc = this.createDocument(docBuilder);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(file);
 
-            transformer.transform(source, result);
-        }
-        catch (ParserConfigurationException|TransformerException e)
-        {
-            this.addMessage(Error.fileSaveFail(e.getMessage()));
-            success = false;
-        }
-
-        return success;
+        transformer.transform(source, result);
     }
 
     private Document createDocument(DocumentBuilder docBuilder)
