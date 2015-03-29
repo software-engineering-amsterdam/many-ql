@@ -39,16 +39,6 @@ public class TypeCheckerTest {
 	}
 
 	@Test
-	public void testCheckTypes_notAllQLQuestionsArePlacedIsInvalid() {
-
-	}
-
-	@Test
-	public void testCheckTypes_incompatibleWidgetToQuestionAssignmentIsInvalid() {
-
-	}
-
-	@Test
 	public void testCheckTypes_singleQuestionPlacedMultipleTimesIsInvalid() {
 		Questionnaire questionnaire = aQuestionnaire().build();
 		String questionLabelA = "duplicateQuestionLabel";

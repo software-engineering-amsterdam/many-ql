@@ -22,7 +22,6 @@ public class SectionBuilder {
 		builder.name = "Section with all kinds of Crap";
 		builder.questionNames.add("SomeQuestionA");
 		builder.questionNames.add("SomeQuestionB");
-		builder.subSections.add(aSection().build());
 		return builder;
 	}
 
