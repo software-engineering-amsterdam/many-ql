@@ -63,6 +63,7 @@ class QuestionTable(object):
     def getQuestionList(self, identifier):
         return self._table.get(identifier, None)
 
+
 class QuestionList(list):
     def getVisibleQuestion(self):
         for question in self:
