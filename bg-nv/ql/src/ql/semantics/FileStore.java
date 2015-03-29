@@ -22,6 +22,7 @@ import java.io.File;
 public class FileStore extends DataStore
 {
 
+    //TODO: put file in the constructor
     public FileStore(CondQuestionTable condQuestionTable, ValueTable valueTable)
     {
         super(condQuestionTable, valueTable);
@@ -30,6 +31,7 @@ public class FileStore extends DataStore
     @Override
     public Boolean save(File file)
     {
+        assert file != null;
         Boolean success = true;
         try
         {

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by Nik on 3-3-15.
@@ -43,8 +42,7 @@ public class Refresher implements Observer
         Input input = (Input) o;
         valueTable.storeEntry(input.getId(), (Value) arg);
 
-        this.evaluatePrerequisites(this.getPrerequisites());
-        this.evaluate(this.getNonPrerequisites());
+        this.evaluateRecursively(this.items);
 
         for (Refreshable refreshable : this.items)
         {
@@ -52,12 +50,12 @@ public class Refresher implements Observer
         }
     }
 
-    private void evaluatePrerequisites(Set<Refreshable> items)
+    private void evaluateRecursively(Set<Refreshable> items)
     {
         Set<Refreshable> unresolved = this.evaluate(items);
         if (!unresolved.equals(items))
         {
-            this.evaluatePrerequisites(unresolved);
+            this.evaluateRecursively(unresolved);
         }
     }
 
@@ -73,22 +71,5 @@ public class Refresher implements Observer
             }
         }
         return unresolved;
-    }
-
-    // TODO:
-    private Set<Refreshable> getPrerequisites()
-    {
-        return this.items
-                .stream()
-                .filter(p -> p.isRefreshPrerequisite())
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
-    private Set<Refreshable> getNonPrerequisites()
-    {
-        return this.items
-                .stream()
-                .filter(p -> !p.isRefreshPrerequisite())
-                .collect(Collectors.toCollection(HashSet::new));
     }
 }

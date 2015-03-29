@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ql.ast.form.Form;
@@ -81,9 +79,9 @@ public class Main extends Application
         }
 
         //TODO: move this part below + maybe pull out the attaching of listeners etc. from SimpleGui as well ?
-        ValueTable valueTable = Evaluator.evaluate(form);
+        ValueTable valueTable = ValueTableBuilder.build(form);
         DataStore dataStore = new FileStore(condQuestionTable, valueTable);
-        Canvas canvas = modeler.model();
+        Canvas canvas = modeler.buildCanvas();
         //TODO: user feedback
         canvas.setSubmitAction(
                 e ->
