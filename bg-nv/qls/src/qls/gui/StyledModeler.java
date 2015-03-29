@@ -57,7 +57,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
                 segments.add(segment);
             }
         }
-        return new ql.gui.segment.Section(segments, true);
+        return new ql.gui.segment.Section(s.getName(), segments, true);
     }
 
     @Override
