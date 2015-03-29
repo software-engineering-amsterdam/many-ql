@@ -14,8 +14,7 @@ public class QLSQuestion extends QLSNode {
         super(lineNumber);
 
         List<Question> questions = qlAST.getAllChildrenOfType_ForAst(Question.class);
-
-        //TODO: We need to do something about Identfiers being Strings.
+        id = id.substring(1,id.length() -1);
         if (id != null) {
             for (Question q : questions) {
                 if (id.equals(q.getIdentifier())) {
@@ -23,7 +22,7 @@ public class QLSQuestion extends QLSNode {
                 }
             }
             if (questionNode == null) {
-                System.err.println("QLS Error @ line " + getLineNumber() + " Reference to undefined question :" + this.identifier);
+                System.err.println("QLS Error @ line " + getLineNumber() + " Reference to undefined question :" + id);
             }
         } else {
             System.err.println("Root Error: No identifier specified");

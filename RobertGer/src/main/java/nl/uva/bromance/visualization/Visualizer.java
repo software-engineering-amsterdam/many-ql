@@ -35,6 +35,14 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         return focusUuid;
     }
 
+    public QLSPage getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(QLSPage page){
+        currentPage = page;
+    }
+
     public void render(AST<QLNode> qlAst, VBox pages, VBox questions) {
         this.qlNode = qlAst.getRoot();
         this.pages = pages;
@@ -48,11 +56,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
     public void visualize(UUID focusId) {
         this.focusUuid = focusId;
 
-        if (qlsNode.isPresent()) {
-            processQls();
-        } else {
-            processQl();
-        }
+        refresh();
         if (focusedNode != null) {
             focusedNode.requestFocus();
             // Fix for the position caret in textfields, had to use instanceof sorry Tijs!
@@ -104,24 +108,9 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
     @Override
     public void visit(QLSPage page) {
         if (init) {
-            if (currentPage == null) {
-                currentPage = page;
-            }
-
-            String identifier = page.getIdentifier();
-            javafx.scene.control.Label label = new javafx.scene.control.Label(identifier);
-            label.setOnMouseClicked((event) -> {
-                currentPage = page;
-                refresh(UUID.randomUUID());
-            });
-            if (currentPage == page) {
-                label.getStyleClass().add("active");
-                for (QLSNode child : currentPage.getChildren()) {
-                    child.visualize(questions, answerMap, this);
-                }
-            }
-            label.getStyleClass().add("pageLabel");
-            pages.getChildren().add(label);
+            page.addPageToPane(pages, this);
+        } else {
+            page.refresh(this);
         }
     }
 
@@ -211,11 +200,14 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
 
     public void refresh(UUID focusId) {
         this.focusUuid = focusId;
+        refresh();
+    }
+
+    public void refresh(){
         if (qlsNode.isPresent()) {
             processQls();
         } else {
             processQl();
-
         }
     }
 

@@ -8,8 +8,8 @@ Page: "General Information" {
 	}
 }
 Page: "Income" {
-	Question: "Income1" {}
-	Question: "Income2" {}
+	Question: "income1" {}
+	Question: "income2" {}
 	Question: "income_partner" {}
 	Label: "totalincome" {}
 }
