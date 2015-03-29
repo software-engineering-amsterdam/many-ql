@@ -23,12 +23,12 @@ import nl.uva.sc.encoders.qlruntime.ui.ValidationsGridPane;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.CombinedParsingResult;
 import nl.uva.sc.encoders.qlsruntime.ui.handler.QLSParseButtonHandler;
-import nl.uva.sc.encoders.qlsruntime.ui.handler.QLSParseButtonHandler.ParseCombinedResultCallback;
 
 public class Main extends Application {
 
@@ -86,26 +86,17 @@ public class Main extends Application {
 
 		InputFileTextCallback inputQLFileTextCallback = () -> qlInputFileTextField.getText();
 		InputFileTextCallback inputQLSFileTextCallback = () -> qlsInputFileTextField.getText();
-		ParseCombinedResultCallback parseCombinedResultCallback = new ParseCombinedResultCallback() {
-
-			@Override
-			public void showResult(CombinedParsingResult combinedParsingResult) {
-				QuestionnaireParsingResult questionnaireParsingResult = combinedParsingResult.getQuestionnaireParsingResult();
-				showNode(stackPane, validationsGridPane);
-				ValidationResult validationResult = questionnaireParsingResult.validate();
-				showButton.setVisible(!validationResult.containsErrors());
-				validationsGridPane.showValidations(validationResult.getValidationMessages());
-				questionnaire = questionnaireParsingResult.getQuestionnaire();
-			}
-
-			@Override
-			public void showResult(QuestionnaireParsingResult parsingResult) {
-				// TODO Auto-generated method stub
-			}
-
+		ParseResultCallback parseCombinedResultCallback = combinedParsingResult -> {
+			QuestionnaireParsingResult questionnaireParsingResult = ((CombinedParsingResult) combinedParsingResult)
+					.getQuestionnaireParsingResult();
+			showNode(stackPane, validationsGridPane);
+			ValidationResult validationResult = questionnaireParsingResult.validate();
+			showButton.setVisible(!validationResult.containsErrors());
+			validationsGridPane.showValidations(validationResult.getValidationMessages());
+			questionnaire = questionnaireParsingResult.getQuestionnaire();
 		};
-		parseButton
-				.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback, parseCombinedResultCallback));
+		parseButton.setOnAction(new QLSParseButtonHandler(inputQLFileTextCallback, inputQLSFileTextCallback,
+				parseCombinedResultCallback));
 
 		ShowResultCallback showResultCallback = result -> {
 			ScrollPane scrollPane = new ScrollPane(result);

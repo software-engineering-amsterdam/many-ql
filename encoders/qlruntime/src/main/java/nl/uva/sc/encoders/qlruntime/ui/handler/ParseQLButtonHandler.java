@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import nl.uva.sc.encoders.ql.parser.ParsingResult;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParser;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 
@@ -14,21 +15,21 @@ import org.controlsfx.dialog.ExceptionDialog;
 
 public class ParseQLButtonHandler implements EventHandler<ActionEvent> {
 
-	public interface ParseQLResultCallback {
-		void showResult(QuestionnaireParsingResult parsingResult);
+	public interface ParseResultCallback {
+		void showResult(ParsingResult parsingResult);
 	}
 
 	public interface InputFileTextCallback {
 		String getInputFileText();
 	}
 
-	private final ParseQLResultCallback parseQLResultCallback;
+	private final ParseResultCallback parseResultCallback;
 
 	private final InputFileTextCallback inputFileTextCallback;
 
-	public ParseQLButtonHandler(InputFileTextCallback inputFileTextCallback, ParseQLResultCallback parseQLResultCallback) {
+	public ParseQLButtonHandler(InputFileTextCallback inputFileTextCallback, ParseResultCallback parseResultCallback) {
 		this.inputFileTextCallback = inputFileTextCallback;
-		this.parseQLResultCallback = parseQLResultCallback;
+		this.parseResultCallback = parseResultCallback;
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class ParseQLButtonHandler implements EventHandler<ActionEvent> {
 
 	protected void handleInternal() throws IOException, URISyntaxException {
 		String inputFilePath = getQlInputFilePath();
-		parseQLResultCallback.showResult(parseQLInputFile(inputFilePath));
+		parseResultCallback.showResult(parseQLInputFile(inputFilePath));
 	}
 
 	protected String getQlInputFilePath() {
@@ -71,6 +72,10 @@ public class ParseQLButtonHandler implements EventHandler<ActionEvent> {
 	private URL getURL(String path) {
 		ClassLoader classLoader = getClass().getClassLoader();
 		return classLoader.getResource(path);
+	}
+
+	protected ParseResultCallback getParseResultCallback() {
+		return parseResultCallback;
 	}
 
 }

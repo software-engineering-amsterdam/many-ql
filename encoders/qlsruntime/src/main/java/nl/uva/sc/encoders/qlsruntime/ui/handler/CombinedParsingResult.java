@@ -1,9 +1,10 @@
 package nl.uva.sc.encoders.qlsruntime.ui.handler;
 
+import nl.uva.sc.encoders.ql.parser.ParsingResult;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
 
-public class CombinedParsingResult {
+public class CombinedParsingResult implements ParsingResult {
 	private final QuestionnaireParsingResult questionnaireParsingResult;
 	private final StylesheetParsingResult stylesheetParsingResult;
 
@@ -20,4 +21,5 @@ public class CombinedParsingResult {
 	public StylesheetParsingResult getStylesheetParsingResult() {
 		return stylesheetParsingResult;
 	}
+
 }

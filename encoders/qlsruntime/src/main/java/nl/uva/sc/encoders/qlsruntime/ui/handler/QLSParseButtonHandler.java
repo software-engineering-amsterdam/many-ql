@@ -10,19 +10,12 @@ import nl.uva.sc.encoders.qls.parser.StylesheetParsingResult;
 
 public class QLSParseButtonHandler extends ParseQLButtonHandler {
 
-	private InputFileTextCallback inputQLSFileTextCallback;
-
-	private ParseCombinedResultCallback parseCombinedResultCallback;
-
-	public interface ParseCombinedResultCallback extends ParseQLResultCallback {
-		void showResult(CombinedParsingResult combinedParsingResult);
-	}
+	private final InputFileTextCallback inputQLSFileTextCallback;
 
 	public QLSParseButtonHandler(InputFileTextCallback inputQLFileTextCallback, InputFileTextCallback inputQLSFileTextCallback,
-			ParseCombinedResultCallback parseCombinedResultCallback) {
-		super(inputQLFileTextCallback, parseCombinedResultCallback);
+			ParseResultCallback parseResultCallback) {
+		super(inputQLFileTextCallback, parseResultCallback);
 		this.inputQLSFileTextCallback = inputQLSFileTextCallback;
-		this.parseCombinedResultCallback = parseCombinedResultCallback;
 	}
 
 	@Override
@@ -30,7 +23,7 @@ public class QLSParseButtonHandler extends ParseQLButtonHandler {
 		QuestionnaireParsingResult questionnaireParsingResult = parseQLInputFile(getQlInputFilePath());
 		StylesheetParsingResult stylesheetParsingResult = parseQLSInputFile();
 		CombinedParsingResult combinedParsingResult = new CombinedParsingResult(questionnaireParsingResult, stylesheetParsingResult);
-		parseCombinedResultCallback.showResult(combinedParsingResult);
+		getParseResultCallback().showResult(combinedParsingResult);
 	}
 
 	protected StylesheetParsingResult parseQLSInputFile() throws IOException, URISyntaxException {

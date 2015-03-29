@@ -13,12 +13,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
+import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ChooseInputButtonHandler.PathSelectedCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.InputFileTextCallback;
-import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseQLResultCallback;
+import nl.uva.sc.encoders.qlruntime.ui.handler.ParseQLButtonHandler.ParseResultCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.QuestionnaireCallback;
 import nl.uva.sc.encoders.qlruntime.ui.handler.ShowButtonHandler.ShowResultCallback;
@@ -68,14 +69,15 @@ public class Main extends Application {
 		ValidationsGridPane validationsGridPane = new ValidationsGridPane();
 
 		InputFileTextCallback inputFileTextCallback = () -> inputFileTextField.getText();
-		ParseQLResultCallback parseQLResultCallback = parsingResult -> {
+		ParseResultCallback parseResultCallback = parsingResult -> {
+			QuestionnaireParsingResult qlParsingResult = (QuestionnaireParsingResult) parsingResult;
 			showNode(stackPane, validationsGridPane);
-			ValidationResult validationResult = parsingResult.validate();
+			ValidationResult validationResult = qlParsingResult.validate();
 			showButton.setVisible(!validationResult.containsErrors());
 			validationsGridPane.showValidations(validationResult.getValidationMessages());
-			questionnaire = parsingResult.getQuestionnaire();
+			questionnaire = qlParsingResult.getQuestionnaire();
 		};
-		parseButton.setOnAction(new ParseQLButtonHandler(inputFileTextCallback, parseQLResultCallback));
+		parseButton.setOnAction(new ParseQLButtonHandler(inputFileTextCallback, parseResultCallback));
 		ShowResultCallback showResultCallback = result -> {
 			ScrollPane scrollPane = new ScrollPane(result);
 			scrollPane.setPrefSize(SCROLLPANE_HEIGHT, SCROLLPANE_WIDTH);
