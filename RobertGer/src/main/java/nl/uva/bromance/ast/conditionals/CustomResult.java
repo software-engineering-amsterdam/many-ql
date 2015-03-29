@@ -4,10 +4,8 @@ import java.util.List;
 
 public class CustomResult extends Result {
     private StringResult currentResult;
-    private List<StringResult> options;
 
     public CustomResult(List<StringResult> options) {
-        this.options = options;
         if (currentResult == null) {
             currentResult = options.get(0);
         }
