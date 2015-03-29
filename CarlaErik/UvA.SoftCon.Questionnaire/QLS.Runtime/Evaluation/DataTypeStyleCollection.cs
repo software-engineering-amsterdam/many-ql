@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
+using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets;
 
-namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
+namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation
 {
     /// <summary>
-    /// Hold a set of style attributes for each data type.
+    /// Contains the style sets for each data type.
     /// </summary>
-    public class StyleLibrary
+    internal class DataTypeStyleCollection
     {
         private IDictionary<DataType, StyleSet> _styleSets = new Dictionary<DataType, StyleSet>();
 
-        public static StyleLibrary Default
+        public static DataTypeStyleCollection Default
         {
             get
             {
@@ -25,11 +25,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
                 styleSets.Add(DataType.Date, StyleSet.Default(DataType.Date));
                 styleSets.Add(DataType.Integer, StyleSet.Default(DataType.Integer));
                 styleSets.Add(DataType.String, StyleSet.Default(DataType.String));
-                return new StyleLibrary(styleSets);
+                return new DataTypeStyleCollection(styleSets);
             }
         }
 
-        private StyleLibrary(IDictionary<DataType, StyleSet> styleSets)
+        private DataTypeStyleCollection(IDictionary<DataType, StyleSet> styleSets)
         {
             _styleSets = styleSets;
         }
@@ -47,7 +47,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             return _styleSets[dataType];
         }
 
-        public StyleLibrary GetCopy()
+        public DataTypeStyleCollection GetCopy()
         {
             var styleSets = new Dictionary<DataType, StyleSet>();
 
@@ -55,7 +55,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
             {
                 styleSets.Add(dataType, _styleSets[dataType].GetCopy());
             }
-            return new StyleLibrary(styleSets);
+            return new DataTypeStyleCollection(styleSets);
         }
+
     }
 }

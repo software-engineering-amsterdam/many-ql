@@ -10,6 +10,8 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QLS;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
+using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation;
+using UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation.StyleSets;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
@@ -19,25 +21,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// </summary>
     internal class StyleSheetUIBuilder : TopDownStyleSheetVisitor<Control>
     {
-        internal QuestionForm QuestionForm
-        {
-            get;
-            private set;
-        }
+        private QuestionStyleCollection _questionStyles;
+        private QuestionForm _questionForm;
+        private OutputWindow _outputWindow;
 
         internal ICollection<QuestionWidget> QuestionWidgets
-        {
-            get;
-            private set;
-        }
-
-        internal StyleLibrary CurrentStyles
-        {
-            get;
-            private set;
-        }
-
-        internal OutputWindow OutputWindow
         {
             get;
             private set;
@@ -46,25 +34,16 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         internal StyleSheetUIBuilder()
         {
             QuestionWidgets = new List<QuestionWidget>();
-            CurrentStyles = StyleLibrary.Default;
         }
 
-        internal StyleSheetUIBuilder(StyleSheetUIBuilder parent, IEnumerable<DefaultStyle> defaultStyles) 
+        public Control BuildUI(StyleSheet styleSheet, QuestionStyleCollection questionStyles, QuestionForm questionForm, OutputWindow outputWindow)
         {
-            QuestionForm = parent.QuestionForm;
-            QuestionWidgets = parent.QuestionWidgets;
-            CurrentStyles = parent.CurrentStyles.GetCopy();
-            CurrentStyles.OverrideStyles(defaultStyles);
-        }
-
-        public Control BuildUI(StyleSheet styleSheet, QuestionForm form, OutputWindow outputWindow)
-        {
-            QuestionForm = form;
-            OutputWindow = outputWindow;
+            _questionStyles = questionStyles;
+            _questionForm = questionForm;
+            _outputWindow = outputWindow;
 
             return VisitStyleSheet(styleSheet);
         }
-
 
         public override Control VisitStyleSheet(StyleSheet styleSheet)
         {
@@ -75,17 +54,16 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
                 pageControls.Add((PageControl)page.Accept(this));
             }
 
-            return new StyledQuestionFormControl(QuestionForm, pageControls, QuestionWidgets, OutputWindow);
+            return new StyledQuestionFormControl(_questionForm, pageControls, QuestionWidgets, _outputWindow);
         }
 
         public override Control VisitPage(Page page)
         {
             var sectionControls = new List<SectionControl>();
-            var sectionBuilder = new StyleSheetUIBuilder(this, page.DefaultStyles);
 
             foreach (var section in page.Sections)
             {
-                sectionControls.Add((SectionControl)section.Accept(sectionBuilder));
+                sectionControls.Add((SectionControl)section.Accept(this));
             }
 
             return new PageControl(sectionControls);
@@ -94,11 +72,10 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         public override Control VisitSection(Section section)
         {
             var questionWidgets = new List<QuestionWidget>();
-            var questionBuilder = new StyleSheetUIBuilder(this, section.DefaultStyles);
 
             foreach (var questionRef in section.QuestionReferences)
             {
-                questionWidgets.Add((QuestionWidget)questionRef.Accept(questionBuilder));
+                questionWidgets.Add((QuestionWidget)questionRef.Accept(this));
             }
 
             return new SectionControl(section.Title, questionWidgets);
@@ -107,21 +84,20 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
         public override Control VisitQuestionReference(QuestionReference questionRef)
         {
-            var question = QuestionForm.GetAllQuestions().Where(q => q.Name == questionRef.Name).SingleOrDefault();
+            var question = _questionForm.GetAllQuestions().Where(q => q.Name == questionRef.Name).SingleOrDefault();
             
             if (question != null)
             {
-                StyleSet questionStyles = CurrentStyles.GetStyleSet(question.DataType).GetCopy();
-                questionStyles.OverrideStyles(questionRef.StyleAttributes);
+                StyleSet questionStyles = _questionStyles.GetStyleSet(question.Name);
 
                 var widgetBuilder = new WidgetBuilder();
-                var questionWidget = widgetBuilder.CreateQuestionWidget(question, questionStyles.WidgetType);
+                var questionWidget = widgetBuilder.CreateQuestionWidget(question, questionStyles.WidgetStyle);
 
                 return questionWidget;
             }
             else
             {
-                throw new ApplicationException("Question not found.");
+                throw new ApplicationException("Question not found in the quesiotnnaire AST.");
             }
         }
     }
