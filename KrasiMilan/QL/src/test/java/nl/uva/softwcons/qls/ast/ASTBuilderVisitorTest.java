@@ -40,7 +40,7 @@ public class ASTBuilderVisitorTest {
                 "page page1 { question q1 section \"s1\" { question q2 } }",
                 "page page2 { section \"s2\" { section \"s3\" { question q3 } } }"));
         withStyleForPage = build(TestHelper.buildStylesheet("s1",
-                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { width: 2 } }"));
+                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { \"width\": 2 } }"));
         withStylesForSection = build(TestHelper.buildStylesheet("withStylesForSection",
                 "page p1 { section \"s1\" { question q2 default boolean widget dropdown(\"True\", \"False\") } }"));
         withStylesForQuestions = build(TestHelper.buildStylesheet("withStylesForQuestions",
