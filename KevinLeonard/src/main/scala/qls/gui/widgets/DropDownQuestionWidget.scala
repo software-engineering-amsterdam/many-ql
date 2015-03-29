@@ -5,7 +5,7 @@ import ql.gui.widgets.QuestionWidget
 import types._
 
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.control.{ChoiceBox, CheckBox}
+import scalafx.scene.control.ChoiceBox
 
 class DropDownQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
   extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
