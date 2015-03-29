@@ -1,9 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals.Wrappers;
-using QL.UI.Annotations;
 
 namespace QL.UI.Controls
 {
@@ -13,22 +10,14 @@ namespace QL.UI.Controls
     /// </summary>
     public abstract class WidgetBase : UserControl
     {
-        protected UnitBase Unit { get; set; }
-
-        /// <summary>
-        /// Display text of the widget
-        /// </summary>
-        public abstract object Text { get; }
-
-        /// <summary>
-        /// Holds the value of the widget
-        /// </summary>
-        public abstract object Value { get; set; }
+        protected internal UnitBase Unit { get; set; }
 
         protected WidgetBase(UnitBase unit, ITerminalWrapper terminalWrapper)
         {
             Unit = unit;
-            Name = unit.Identifier.Value;
+            
+            // by setting the widget's datacontext to the unit, we enable WPF's binding listeners
+            DataContext = unit;
         }
     }
 

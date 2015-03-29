@@ -11,20 +11,20 @@ namespace QL.AST.Nodes.Branches
     /// </summary>
     public abstract class UnitBase : ElementBase, INotifyPropertyChanged
     {
-        private string _displayText;
+        private string _text;
 
         public event PropertyChangedEventHandler PropertyChanged;
         
         public IStaticReturnType DataType { get; set; }
         public Identifier Identifier { get; set; }
 
-        public string DisplayText
+        public string Text
         {
-            get { return _displayText; }
+            get { return _text; }
             set
             {
-                if (value == _displayText) return;
-                _displayText = value;
+                if (value == _text) return;
+                _text = value;
                 OnPropertyChanged();
             }
         }
@@ -37,7 +37,7 @@ namespace QL.AST.Nodes.Branches
         {
             Identifier = identifier;
             DataType = dataType;
-            DisplayText = UnwrapQuotes(displayText);
+            Text = UnwrapQuotes(displayText);
         }
 
         protected UnitBase(Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)

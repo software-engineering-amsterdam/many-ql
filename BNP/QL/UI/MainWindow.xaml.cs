@@ -186,15 +186,17 @@ namespace QL.UI
 
         private void BindTestData()
         {
-            WidgetFactory factory = new WidgetFactory();
-            List<WidgetBase> renders = new List<WidgetBase>
-                                        {
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text(), "What is your name?")),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
-                                        };
+            _qlBuilder.ElementsToDisplay[0].Value = "Joe D.";
 
-            WidgetsContainer.ItemsSource = renders;
+            //WidgetFactory factory = new WidgetFactory();
+            //List<WidgetBase> renders = new List<WidgetBase>
+            //                            {
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text(), "What is your name?")),
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
+            //                            };
+
+            //WidgetsContainer.ItemsSource = renders;
         }
     }
 }
