@@ -8,6 +8,9 @@ from tkFileDialog import askopenfile
 import tkMessageBox
 
 import os
+import uuid
+
+from sqlitedict import SqliteDict
 
 class GUI(tk.Tk):
     def __init__(self, debug=False, *args, **kwargs):
@@ -18,6 +21,9 @@ class GUI(tk.Tk):
 
         self.buildWidgets()
         self.currentWidget = None
+
+        self.answers = {}
+        self.answerStorage = SqliteDict('./answers.sqlite')
 
     def run(self):
         self.mainloop()
@@ -87,23 +93,35 @@ class GUI(tk.Tk):
         self._displayQuestion(widget)
 
     def _next(self):
+        if self.currentWidget:
+            val = self.currentWidget.value()
+            self.answers.update(val)
+
+            self.builder.availableAnswers(self.answers)
+
         widget = self.builder.nextQuestion()
         self._displayQuestion(widget)
 
     def _displayQuestion(self, questionWidget=None):
-        # Remove prev visible question
+        # Remove "previous" visible question
         if self.currentWidget:
             self.currentWidget.tearDown()
 
         if questionWidget:
             self.currentWidget = questionWidget
         else:
+            self._saveAnswers()
             self._reset()
 
+    def _saveAnswers(self):
+        if self.answers:
+            ID = uuid.uuid1()
 
+            #self.answerStorage[ID] = self.answers
+            #self.answerStorage.commit()
 
+    # i.e. start state of file-select
     def _reset(self):
-        # Display fileSelect button
         self.fileSelect.pack()
 
         self.prevButton.pack_forget()

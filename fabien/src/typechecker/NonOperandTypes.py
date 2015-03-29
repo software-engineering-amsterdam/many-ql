@@ -2,10 +2,10 @@
 from Errors import QLTypeError
 
 class NonOperandTypes:
-    def __init__(self, questionIDs=None):
+    def __init__(self, IDs=None, types=None):
         self.errors = []
         self.expressions = []
-        self.questionIDs = questionIDs
+        self.questionIDs = IDs
 
     def OperandExpression(self, node):
         self.expressions.append(node)

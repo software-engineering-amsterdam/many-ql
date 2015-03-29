@@ -6,7 +6,10 @@ class String(Widget):
     def __init__(self, Frame, node):
         Widget.__init__(self, Frame, node)
 
-        entry = tk.Entry()
-        entry.grid(in_=self.Frame, sticky="ew")
+        self.entry = tk.Entry()
+        self.entry.grid(in_=self.Frame, sticky="ew")
 
-        self.elements.append(entry)
+        self.elements.append(self.entry)
+
+    def value(self):
+        return { self.node.ID : self.entry.get() }

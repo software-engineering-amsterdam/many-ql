@@ -36,7 +36,7 @@ t_GT_EQ  = r'>='
 t_OR     = r'\|\||or'
 t_AND    = r'&&|and'
 
-t_STRING = r'("[^"]*")|(\'[^\']*\')'
+
 t_NUMBER = r'[0-9]*\.?[0-9]+'
 t_TYPE   = r'integer|boolean|string|money'
 
@@ -44,6 +44,12 @@ t_TYPE   = r'integer|boolean|string|money'
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, "ID")
+    return t
+
+def t_STRING(t):
+    r'("[^"]*")|(\'[^\']*\')'
+    # Skip quotes in actual value
+    t.value = t.value[1:-1]
     return t
 
 # Track line numbers to use in error messages

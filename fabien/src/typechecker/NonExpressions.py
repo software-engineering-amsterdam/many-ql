@@ -2,14 +2,10 @@
 from Errors import QLTypeError
 
 class NonExpressions():
-    def __init__(self, questionIDs=None):
+    def __init__(self, IDs=None, types=None):
         self.errors = []
         self.branchExpressions = []
-
-        self.questionTypes = {}
-
-    def Question(self, node):
-        self.questionTypes[node.ID] = node.type
+        self.questionTypes = types
 
     def Branch(self, node):
         self.branchExpressions.append(node.expression)

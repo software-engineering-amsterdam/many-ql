@@ -14,4 +14,9 @@ form taxOfficeExample {
   if (hasSoldHouse == "Admin") {
 
   }
+
+  if ( hasSoldHouse-10 > 20) {
+    "What was the selling price?"
+      sellingPrice: money
+  }
 }

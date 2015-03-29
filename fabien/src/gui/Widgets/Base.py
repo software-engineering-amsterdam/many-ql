@@ -8,7 +8,6 @@ class Widget():
 
         self.createLabel()
 
-
     def createLabel(self):
         text = self.node.labelText()
 
@@ -17,11 +16,12 @@ class Widget():
 
         self.addElement(label)
 
-
     def addElement(self, elem):
         self.elements.append(elem)
-
 
     def tearDown(self):
         for elem in self.elements:
             elem.grid_remove()
+
+    def value(self):
+        return { self.node.ID : None }
