@@ -37,7 +37,6 @@ import nl.uva.softwcons.qls.ast.segment.PageSegment;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.style.Style;
-import nl.uva.softwcons.qls.ast.style.StyleProperty;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
@@ -93,6 +92,19 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
         return typeWithWidget;
     }
 
+    private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
+        final Map<String, String> styleProperties = new HashMap<>();
+
+        ctx.forEach(c -> {
+            final String key = c.key.getText();
+            final String value = Utils.unquote(c.value().getText());
+
+            styleProperties.put(key, value);
+        });
+
+        return styleProperties;
+    }
+
     @Override
     public Question visitQuestionWithoutWidget(final QuestionWithoutWidgetContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
@@ -125,15 +137,9 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
 
     @Override
     public Style visitStyle(final StyleContext ctx) {
-        final List<StyleProperty> styles = ctx.styleProperty().stream().map(st -> (StyleProperty) st.accept(this))
-                .collect(Collectors.toList());
+        final Map<String, String> styles = this.constructStyleProperties(ctx.styleProperty());
 
         return new Style(styles);
-    }
-
-    @Override
-    public StyleProperty visitStyleProperty(final StylePropertyContext ctx) {
-        return new StyleProperty(ctx.key.getText(), Utils.unquote(ctx.value().getText()));
     }
 
     @Override
