@@ -1,8 +1,12 @@
+### Who are these guys?
+Jelle van Assema (10200363)
+Guido Loupias (10837345)
+
 ### What's implemented?
 QL **without** QLS.
 
 ### Where's the code?
-* `ql/ql/` is our implementation of the language.
+* `ql/ql/` is the implementation of the language.
 * `ql/ql.py` is an executable interpreter.
 * `ql/unittest/` contains all the unit tests.
 
