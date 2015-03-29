@@ -19,24 +19,17 @@ using QL.UI.ControlWrappers;
 
 namespace QL.UI.Controls
 {
-    /// <summary>
-    /// Interaction logic for TextWidget.xaml
-    /// </summary>
     public partial class YesNoWidget
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(YesNoWidget));
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(YesNoWidget));
+        public override object Text
+        {
+            get { return Unit.DisplayText; }
+        }
 
         public override object Value
         {
-            get { return (bool)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
-
-        public override object Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            protected set { SetValue(TextProperty, value); }
+            get { return (bool?)Unit.Value; }
+            set { Unit.Value = value; }
         }
 
         public YesNoWidget(UnitBase unit, YesnoWrapper terminalWrapper) : base(unit, terminalWrapper)
@@ -44,7 +37,7 @@ namespace QL.UI.Controls
             InitializeComponent();
             DataContext = this;
 
-            Text = unit.DisplayText;
+            Unit = unit;
             Value = terminalWrapper.Value;
         }
     }

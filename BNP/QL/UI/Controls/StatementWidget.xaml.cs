@@ -23,19 +23,15 @@ namespace QL.UI.Controls
     /// </summary>
     public partial class StatementWidget
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(StatementWidget));
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(object), typeof(StatementWidget));
+        public override object Text
+        {
+            get { return (string)Unit.DisplayText; }
+        }
 
         public override object Value
         {
-            get { return (string)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
-
-        public override object Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            protected set { SetValue(TextProperty, value); }
+            get { return (string)((StatementUnit)Unit).Expression.Child.ToString(); }
+            set { }
         }
 
         public StatementWidget(UnitBase unit, ITerminalWrapper terminalWrapper) : base(unit, terminalWrapper)
@@ -44,9 +40,8 @@ namespace QL.UI.Controls
             DataContext = this;
 
             StatementUnit statement = unit as StatementUnit;
-            
-            Text = statement.Expression.Child.ToString();
-            Value = statement.DisplayText;
+
+            Unit = statement;
         }
     }
 }

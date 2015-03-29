@@ -124,6 +124,7 @@
     <Compile Include="obj\Debug\QLParser.cs" />
     <Compile Include="obj\Debug\QLVisitor.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\Warnings\TypeCheckerWarning.cs" />
   </ItemGroup>

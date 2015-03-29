@@ -4,5 +4,5 @@
 	question MyQuestion2 (yesno) "Are you enrolled in the UvA Master Software Engineering?";
 	question MyQuestion3 (number) "How old are you?";
 
-	statement MyStatement99 (text, "319 Please") "Welcome to the dawn.";
+	statement MyStatement99 (text, "-> Welcome to the dawn.") "319 Please?";
 }

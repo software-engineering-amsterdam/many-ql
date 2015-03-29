@@ -29,10 +29,10 @@
         <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Name}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=True}">
+            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter=True}">
                 <TextBlock>Yes</TextBlock>
             </RadioButton>
-            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=False}" Margin="15,0,0,0">
+            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter=False}" Margin="15,0,0,0">
                 <TextBlock>No</TextBlock>
             </RadioButton>
         </StackPanel>

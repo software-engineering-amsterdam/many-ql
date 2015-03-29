@@ -25,7 +25,7 @@ namespace Tests.ASTBuilderTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists);
+            Assert.IsTrue(Listener.ASTExists);
 
         }
        

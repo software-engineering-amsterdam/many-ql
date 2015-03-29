@@ -42,17 +42,14 @@ namespace QL.AST.ASTCreation
             _childrenStack.Push(new Stack<ElementBase>());
         }
 
-        public bool AstExists
+        public bool ASTExists
         {
-            get 
-            {
-                return _astRootNode != null; 
-            }
+            get { return _astRootNode != null; }
         }
         
         public Form GetAstRootNode()
         {
-            return AstExists ? _astRootNode : null;
+            return ASTExists ? _astRootNode : null;
         }
 
         void ThrowExceptionIfAny()

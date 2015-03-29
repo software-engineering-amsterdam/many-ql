@@ -194,7 +194,6 @@ namespace QL.UI
                                             factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
                                         };
 
-            WidgetsContainer.Items.Clear();
             WidgetsContainer.ItemsSource = renders;
         }
     }

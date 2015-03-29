@@ -109,3 +109,4 @@ _ReSharper*/
 */.idea
 
 Steven/target/
+*.DotSettings
