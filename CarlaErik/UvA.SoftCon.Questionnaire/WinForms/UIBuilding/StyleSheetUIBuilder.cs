@@ -87,6 +87,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
                 QuestionWidget questionWidget = (QuestionWidget)questionStyles.WidgetStyle.CreateWidgetControl(new WidgetFactory(question));
 
+                questionWidget.ApplyStyles(questionStyles);
+
                 QuestionWidgets.Add(questionWidget);
 
                 return questionWidget;

@@ -18,7 +18,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
 
         T VisitDefaultStyle(DefaultStyle defaultStyle);
 
-        T VisitColorStyle(ColorStyle colorStyle);
+        T VisitFontColor(FontColor fontColor);
 
         T VisitFontName(FontName fontName);
 

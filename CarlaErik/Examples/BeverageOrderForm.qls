@@ -8,9 +8,12 @@ styleSheet BeverageOrderForm
 			{
 				fontsize: 9
 				color: #FF0000
-				widget: textbox
+				widget: spinbox
 			}
 			question canShowId
+			{
+				widget: radiobuttons("Jazeker!", "Ben ik vergeten.")
+			}
 		}
 		section "Alcoholic Drinks"
 		{
@@ -27,6 +30,11 @@ styleSheet BeverageOrderForm
 		{
 			question totalNrOfGlasses
 			question totalPrice
+		}
+		
+		default int
+		{
+			color: #00FF00
 		}
 	}
 }

@@ -13,9 +13,8 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
     {
         private const string DefaultFontName = "Microsoft Sans Serif";
         private const int DefaultFontSize = 8;
-        private const string DefaultColor = "#000000"; // Black
 
-        public string Color
+        public Color FontColor
         {
             get;
             private set;
@@ -62,12 +61,12 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
                     throw new NotSupportedException(message);
             }
 
-            return new StyleSet(DefaultColor, DefaultFontName, DefaultFontSize, defaultWidget);
+            return new StyleSet(Color.Black, DefaultFontName, DefaultFontSize, defaultWidget);
         }
 
-        private StyleSet(string color, string fontName, int fontSize, WidgetStyle widgetStyle)
+        private StyleSet(Color fontColor, string fontName, int fontSize, WidgetStyle widgetStyle)
         {
-            Color = color;
+            FontColor = fontColor;
             FontName = fontName;
             FontSize = fontSize;
             WidgetStyle = widgetStyle;
@@ -75,7 +74,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 
         private StyleSet(StyleSet styleSet)
         {
-            Color = styleSet.Color;
+            FontColor = styleSet.FontColor;
             FontName = styleSet.FontName;
             FontSize = styleSet.FontSize;
             WidgetStyle = styleSet.WidgetStyle;
@@ -94,9 +93,9 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
             }
         }
 
-        internal void OverrideColor(string color)
+        internal void OverrideFontColor(string fontColor)
         {
-            Color = color;
+            FontColor = new Color(fontColor);
         }
 
         internal void OverrideFontName(string fontName)

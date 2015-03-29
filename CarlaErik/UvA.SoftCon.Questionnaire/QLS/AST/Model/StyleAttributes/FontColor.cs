@@ -3,7 +3,7 @@ using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
 {
-    public class ColorStyle : StyleAttribute
+    public class FontColor : StyleAttribute
     {
         public string RGBCode
         {
@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
             private set;
         }
 
-        internal ColorStyle(string rgbCode, TextPosition position)
+        internal FontColor(string rgbCode, TextPosition position)
             : base(position)
         {
             RGBCode = rgbCode;
@@ -19,12 +19,12 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes
 
         public override T Accept<T>(IStyleSheetVisitor<T> visitor)
         {
-            return visitor.VisitColorStyle(this);
+            return visitor.VisitFontColor(this);
         }
 
         public override void OverrideStyle(StyleSet styleSet)
         {
-            styleSet.OverrideColor(RGBCode);
+            styleSet.OverrideFontColor(RGBCode);
         }
 
         public override string ToString()
