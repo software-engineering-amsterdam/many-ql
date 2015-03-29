@@ -8,12 +8,11 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.antlr.v4.runtime.RecognitionException;
+
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.atom.ID;
-
-import org.antlr.v4.runtime.RecognitionException;
-
 import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 import uva.sc.ql.form.Form;
 import uva.sc.ql.gui.helpers.QuestionData;
@@ -27,11 +26,11 @@ import uva.sc.ql.statements.Statement;
 public class GUIVisitor extends JFrame implements
 	IQLFormNodeVisitor<Component>, IQLStatementNodeVisitor<Component> {
 
-    Map<ID, List<ID>> patronElements;
-    List<Component> componentList = new ArrayList<Component>();
+    private Map<ID, List<ID>> patronElements;
+    private List<Component> componentList = new ArrayList<Component>();
 
-    QuestionsPropertiesVisitor questionProperties;
-    ID currentElement;
+    private QuestionsPropertiesVisitor questionProperties;
+    private ID currentElement;
 
     public GUIVisitor(QuestionsPropertiesVisitor questionsProperties,
 	    PatronQuestionsVisitor d) {

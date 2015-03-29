@@ -51,12 +51,12 @@ import uva.sc.ql.statements.Statement;
 public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	IQLStatementNodeVisitor<INode>, IQLExpressionNodeVisitor<INode> {
 
-    List<IError> errors;
-    List<IWarning> warnings;
-    List<String> questionLabels;
-    ID currentQuestion;
-
-    Map<ID, Type> symbolTable = new HashMap<ID, Type>();
+    private List<IError> errors;
+    private List<IWarning> warnings;
+    private List<String> questionLabels;
+    private ID formTitle;
+    private ID currentQuestion;
+    private Map<ID, Type> symbolTable = new HashMap<ID, Type>();
 
     // getters
     public List<IError> getErrors() {
@@ -70,6 +70,10 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
     public Map<ID, Type> getSymbolTable() {
 	return symbolTable;
     }
+    
+    public ID getFormTitle() {
+	return formTitle;
+    }
 
     // constructor
     public TypeCheckerVisitor() {
@@ -80,8 +84,8 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 
     // visit methods
     public Form visit(Form questionnaire) {
-	ID id = questionnaire.getId();
-	symbolTable.put(id, null);
+	formTitle = questionnaire.getId();
+	symbolTable.put(formTitle, null);
 
 	List<Statement> statements = questionnaire.getStatements();
 	for (Statement statement : statements) {
@@ -211,7 +215,8 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	Expression expr2 = bool.getSecondOperand();
 	Type firstOperandType = (Type) expr1.accept(this);
 	Type secondOperandType = (Type) expr2.accept(this);
-	if (!((new Boolean().equals(firstOperandType)) && (new Boolean().equals(secondOperandType)))) {
+	if (!((new Boolean().equals(firstOperandType)) && (new Boolean()
+		.equals(secondOperandType)))) {
 	    errors.add(new uva.sc.core.errors.Boolean());
 	}
 	return new Boolean();
@@ -260,7 +265,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
     public Type visit(StringAtom str) {
 	return new uva.sc.core.types.String();
     }
-    
+
     private void checkDuplicatedQuestionIDs(Type type) {
 	if (!symbolTable.containsKey(currentQuestion)) {
 	    symbolTable.put(currentQuestion, type);
@@ -268,12 +273,12 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
 	    errors.add(new DuplicatedID(currentQuestion));
 	}
     }
-    
+
     private void checkDuplicatedQuestionLabels(String questionLabel) {
 	if (questionLabels.contains(questionLabel)) {
 	    warnings.add(new DuplicatedLabel(questionLabel));
 	} else {
 	    questionLabels.add(questionLabel);
 	}
-    } 
+    }
 }

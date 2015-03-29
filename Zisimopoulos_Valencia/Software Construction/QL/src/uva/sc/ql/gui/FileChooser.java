@@ -18,9 +18,9 @@ import javax.swing.UIManager;
 @SuppressWarnings({ "serial" })
 public class FileChooser extends JPanel implements ActionListener {
 
-    JButton chooseFileButton;
-    JFileChooser fileChooser;
-    static JFrame frame;
+    private JButton chooseFileButton;
+    private JFileChooser fileChooser;
+    private static JFrame frame;
 
     public FileChooser() {
 
@@ -56,8 +56,8 @@ public class FileChooser extends JPanel implements ActionListener {
     private void generateQuestionnaire(File file) throws IOException {
 	frame.setVisible(false);
 	this.setVisible(false);
-	@SuppressWarnings("unused")
-	QuestionnaireForm qf = new QuestionnaireForm(file);
+	QuestionnaireForm questionnaireForm = new QuestionnaireForm();
+	questionnaireForm.drawQuestionnaireFormManager(file);
     }
 
     private void handleIOException() {
@@ -72,6 +72,7 @@ public class FileChooser extends JPanel implements ActionListener {
 	frame = new JFrame("QL File Chooser");
 	frame.add(new FileChooser());
 	frame.pack();
+	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
     }
 
