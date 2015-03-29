@@ -10,39 +10,42 @@ import java.util.Stack;
  */
 public class StyleStack
 {
-    private final Stack<Style> styles;
+    private final Stack<Style> styleStack;
 
     public StyleStack()
     {
-        this.styles = new Stack<>();
+        this.styleStack = new Stack<>();
     }
 
     public void push(Style rs)
     {
         assert rs != null;
 
-        if (this.styles.empty())
+        if (this.styleStack.empty())
         {
-            this.styles.push(rs);
+            this.styleStack.push(rs);
         }
         else
         {
-            Style p = this.styles.peek();
-            rs.addStyle(p);
-            this.styles.push(rs);
+            Style prevStyle = this.styleStack.peek();
+            Style newStyle = new Style();
+            newStyle.addStyle(rs);
+            newStyle.addStyle(prevStyle);
+
+            this.styleStack.push(newStyle);
         }
     }
 
     public void pop()
     {
-        this.styles.pop();
+        this.styleStack.pop();
     }
 
-    public Rules getRulesForType(Type t)
+    public Rules peekRulesForType(Type t)
     {
-        assert !this.styles.empty();
+        assert !this.styleStack.empty();
 
-        Style s = this.styles.peek();
+        Style s = this.styleStack.peek();
         return s.getRulesForType(t);
     }
 }

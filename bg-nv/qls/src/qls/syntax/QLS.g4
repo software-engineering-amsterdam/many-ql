@@ -16,7 +16,8 @@ stylesheetRule
     : label='width' ':' Integer
     | label='fontsize' ':' Integer
     | label='font' ':' String
-    | label='color' ':' Color
+    | label='forecolor' ':' Color
+    | label='backcolor' ':' Color
     | label='widget' widgetValue
     ;
 

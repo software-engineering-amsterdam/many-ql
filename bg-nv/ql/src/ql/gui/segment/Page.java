@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class Page extends Segment<GridPane> implements Refreshable
 {
-    private Integer pageNumber;
     private String name;
 
     public Page(List<Segment> subSegments, String name, Boolean visible)
