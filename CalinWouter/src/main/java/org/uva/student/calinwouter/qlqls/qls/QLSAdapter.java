@@ -11,8 +11,8 @@ import java.util.*;
 
 /**
  * This adapter parses the syntax reverse depth-first and creates a corresponding internal model of the results,
- * using the components defined in the COMPONENTS_PACKAGE_PREFIX location. This way, QLS is extremely flexible,
- * as the user can simply add new components whenever required, without touching the syntax.
+ * using the functions defined in the COMPONENTS_PACKAGE_PREFIX location. This way, QLS is extremely flexible,
+ * as the user can simply add new functions whenever required, without touching the syntax.
  *
  * Note that the GUI and QLS are completely separated, and that QLS is also completely separated
  * from the QL Interpreter.
@@ -23,13 +23,13 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
 
     private final static List<String> allowablePaths = new LinkedList<String>();
 
-    /* This is the relative package where the components reside. */
+    /* This is the relative package where the functions reside. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
-            QLSAdapter.class.getPackage().getName() + ".model.components.";
+            QLSAdapter.class.getPackage().getName() + ".model.functions.";
 
-    /* This is the relative package where the components reside. */
+    /* This is the relative package where the functions reside. */
     private final static String WIDGETS_PACKAGE_PREFIX =
-            QLSAdapter.class.getPackage().getName() + ".model.components.widgets.";
+            QLSAdapter.class.getPackage().getName() + ".model.functions.widgets.";
 
     /* The stack is used for pushing parameters of functions and the hashmaps to the stack, and forming a model
      * by popping the elements of the stack and putting them into the constructor of the corresponding class. */

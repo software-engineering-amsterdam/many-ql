@@ -1,12 +1,12 @@
 package org.uva.student.calinwouter.qlqls.qls.interfaces;
 
-import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
 
 public interface IQLSRenderer<T> {
 
-    public T render(Question question);
+    T render(Question question);
 
-    public T render(ComputedValue computedValue);
+    T render(ComputedValue computedValue);
 
 }
