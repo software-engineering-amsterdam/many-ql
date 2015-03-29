@@ -11,7 +11,7 @@ import nl.uva.softwcons.ql.ui.layout.Layout;
 import nl.uva.softwcons.qls.StylesheetBuilder;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ui.QLSRenderer;
-import nl.uva.softwcons.qls.ui.StylizedWidgetFactory;
+import nl.uva.softwcons.qls.ui.StyledWidgetFactory;
 
 public class Main extends Application {
 
@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final Form f = FormBuilder.build(UiBuilder.class.getResourceAsStream("/form.ql"));
         final Stylesheet s = StylesheetBuilder.build(UiBuilder.class.getResourceAsStream("/form_stylesheet.qls"));
-        final Layout formLayout = UiBuilder.buildFrom(f, new QLSRenderer(s), new StylizedWidgetFactory(f, s));
+        final Layout formLayout = UiBuilder.buildFrom(f, new QLSRenderer(s), new StyledWidgetFactory(f, s));
 
         final StackPane root = new StackPane();
         root.getChildren().add(formLayout.getNode());
