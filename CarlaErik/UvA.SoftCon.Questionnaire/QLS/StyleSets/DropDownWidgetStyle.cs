@@ -33,5 +33,10 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
             TrueLabel = trueLabel;
             FalseLabel = falseLabel;
         }
+
+        public override object CreateWidgetControl(IWidgetFactory factory)
+        {
+            return factory.CreateDropDownWidget(TrueLabel, FalseLabel);
+        }
     }
 }

@@ -15,5 +15,10 @@ namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
                 return new SpinBoxWidgetStyle();
             }
         }
+
+        public override object CreateWidgetControl(IWidgetFactory factory)
+        {
+            return factory.CreateSpinBoxWidget();
+        }
     }
 }
