@@ -25,7 +25,7 @@ public class TextField extends Widget {
 	
 	public JTextField getTextField()
 	{
-		return this.textfield;
+		return textfield;
 	}
 	
 	private class TextFieldListener implements DocumentListener {
