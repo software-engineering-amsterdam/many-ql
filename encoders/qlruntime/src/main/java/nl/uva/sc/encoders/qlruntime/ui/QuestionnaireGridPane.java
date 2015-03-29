@@ -67,7 +67,7 @@ public class QuestionnaireGridPane extends GridPane {
 				runtimeQuestion.addPropertyChangeListener(controlPropertyChangeWrapper);
 				control.setDisable(true);
 				addChangeListeners(allRuntimeQuestions, runtimeQuestion, computed, evt -> {
-					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(runtimeQuestionsToShow);
+					ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(allRuntimeQuestions);
 					Value value = computed.accept(expressionEvaluator);
 					runtimeQuestion.setValue(value);
 				});
