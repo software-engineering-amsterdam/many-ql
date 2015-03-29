@@ -5,10 +5,10 @@ class Widget:
     def __init__(self, question_style):
         self.widget = question_style.get_widget()
         self.property_map = self.widget.property_map()
+        self.__enrich_widget()
 
-    def __enrich_widget(self, question_style):
-        widget = question_style.get_widget()
-        for i in widget.default_settings():
+    def __enrich_widget(self):
+        for i in constants.PROPERTIES:
             if i in self.property_map:
                 setattr(self, i, self.property_map[i])
             else:
@@ -28,3 +28,8 @@ class Widget:
 
     def get_size(self):
         return self.size
+
+    def string_presentation(self, level=0):
+        s = self.widget.string_presentation(level)
+        s += str(self.property_map)
+        return s

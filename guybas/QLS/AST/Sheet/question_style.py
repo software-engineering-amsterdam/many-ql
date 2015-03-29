@@ -12,9 +12,7 @@ class QuestionStyle(e.SheetElement):
 
     def string_presentation(self, level=0):
         s = "    " * level + "Question " + self._id + "\n"
-        s += self._widget.__str__(level + 1)
-        # for i in constants.PROPERTIES:
-        #     s += "    " * (level + 1) + i + ":" + getattr(self, i) + "\n"
+        s += self._widget.string_presentation(level + 1)
         return s
 
     def get_ids(self):

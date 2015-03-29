@@ -12,6 +12,7 @@ class Sheet(ql_form.Form):
         if not isinstance(qls_ast, qls.Sheet):
             raise exc.RuntimeException("Input must be a QLS AST!")
         self.qls_ast = qls_ast
+        self.set_default_properties()
         self.gui_pages = self.__generate_pages()
 
     def __generate_pages(self):
@@ -30,13 +31,12 @@ class Sheet(ql_form.Form):
                 section_obj = runtime_section.Section(order)
                 page_elements.append(section_obj)
                 for q_style in section.get_question_styles():
-                    q_id = q_style.ids()[0]
+                    q_id = q_style.get_ids()[0]
                     w = widget.Widget(q_style)
                     # get the actual question using the QL runtime form
                     question = self.get_statement_dict()[q_id]
                     page_elements.append(question)
         return page_elements
-
 
     def _enrich_questions(self):
         """
@@ -54,3 +54,8 @@ class Sheet(ql_form.Form):
             enriched_question = runtime_question.Question(basic_question, order, self._q_conditions_dict[qid])
             self._questions.append(enriched_question)
             order += 1
+
+    def set_default_properties(self):
+        d = self.qls_ast.get_property_dict()
+        for i in d:
+            print("%s" % i, d[i])
