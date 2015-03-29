@@ -12,9 +12,9 @@ import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
-public class ParseButtonHandler implements EventHandler<ActionEvent> {
+public class ParseQLButtonHandler implements EventHandler<ActionEvent> {
 
-	public interface ParseResultCallback {
+	public interface ParseQLResultCallback {
 		void showResult(QuestionnaireParsingResult parsingResult);
 	}
 
@@ -22,24 +22,19 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		String getInputFileText();
 	}
 
-	private final ParseResultCallback parseResultCallback;
+	private final ParseQLResultCallback parseQLResultCallback;
 
 	private final InputFileTextCallback inputFileTextCallback;
 
-	public ParseButtonHandler(InputFileTextCallback inputFileTextCallback, ParseResultCallback parseResultCallback) {
+	public ParseQLButtonHandler(InputFileTextCallback inputFileTextCallback, ParseQLResultCallback parseQLResultCallback) {
 		this.inputFileTextCallback = inputFileTextCallback;
-		this.parseResultCallback = parseResultCallback;
+		this.parseQLResultCallback = parseQLResultCallback;
 	}
 
 	@Override
 	public void handle(ActionEvent event) {
-		String inputFilePath = inputFileTextCallback.getInputFileText();
 		try {
-			String absolutePath = getAbsoluteFilePath(inputFilePath);
-			QuestionnaireParser questionnaireParser = new QuestionnaireParser();
-			QuestionnaireParsingResult questionnaireParsingResult = questionnaireParser.parse(absolutePath);
-			parseResultCallback.showResult(questionnaireParsingResult);
-
+			handleInternal();
 		} catch (IOException | URISyntaxException e) {
 			ExceptionDialog dialog = new ExceptionDialog(e);
 			dialog.show();
@@ -47,7 +42,22 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 		}
 	}
 
-	private String getAbsoluteFilePath(String inputFilePath) throws URISyntaxException {
+	protected void handleInternal() throws IOException, URISyntaxException {
+		String inputFilePath = getQlInputFilePath();
+		parseQLResultCallback.showResult(parseQLInputFile(inputFilePath));
+	}
+
+	protected String getQlInputFilePath() {
+		return inputFileTextCallback.getInputFileText();
+	}
+
+	protected QuestionnaireParsingResult parseQLInputFile(String inputFilePath) throws IOException, URISyntaxException {
+		String absolutePath = getAbsoluteFilePath(inputFilePath);
+		QuestionnaireParser questionnaireParser = new QuestionnaireParser();
+		return questionnaireParser.parse(absolutePath);
+	}
+
+	protected String getAbsoluteFilePath(String inputFilePath) throws URISyntaxException {
 		URL resource = getURL(inputFilePath);
 		File file;
 		if (resource != null) {
