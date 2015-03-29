@@ -24,7 +24,7 @@ public class PageBuilder {
 	}
 
 	public Page build() {
-		return new Page(textLocation, name);
+		return new Page(textLocation, name, sections, pageDefaultStyles);
 	}
 
 	public PageBuilder withSections(List<Section> sections) {

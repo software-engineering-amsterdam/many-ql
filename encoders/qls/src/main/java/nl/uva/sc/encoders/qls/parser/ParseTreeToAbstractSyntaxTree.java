@@ -58,16 +58,17 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 	public Page visitPage(PageContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
 		String name = ctx.name.getText();
-		Page page = new Page(textLocation, name);
+		List<Section> sections = new ArrayList<>();
+		List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
 		for (SectionContext sectionContext : ctx.section()) {
 			Section section = (Section) sectionContext.accept(this);
-			page.addSection(section);
+			sections.add(section);
 		}
 		for (DefaultStyleContext defaultStyleContext : ctx.defaultStyle()) {
 			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
-			page.addPageDefaultStyle(defaultStyle);
+			pageDefaultStyles.add(defaultStyle);
 		}
-		return page;
+		return new Page(textLocation, name, sections, pageDefaultStyles);
 	}
 
 	@Override
