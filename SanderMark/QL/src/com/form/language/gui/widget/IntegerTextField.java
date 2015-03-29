@@ -34,12 +34,7 @@ public class IntegerTextField extends Widget {
 
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			//JOptionPane.showMessageDialog(textfield, "Eggs are not supposed to be green.");
-			Integer value = tryParse(textfield.getText(),textfield);
-			if(value != null)
-			{
-			setContextValue(new IntValue(value));
-			}
+			tryParse(textfield.getText(),textfield);
 			checkDependencyVisibility();
 		}
 
@@ -59,12 +54,12 @@ public class IntegerTextField extends Widget {
 		}
 	}
 	
-	private static Integer tryParse(String text,Component textfield) {
+	private void tryParse(String text,Component textfield) {
 		  try {
-		    return new Integer(text);
+		    int result = Integer.parseInt(text);
+		    setContextValue(new IntValue(result));
 		  } catch (NumberFormatException e) {
 			 JOptionPane.showMessageDialog(textfield, "Invalid value");
-		    return null;
 		  }
 		}
 }
