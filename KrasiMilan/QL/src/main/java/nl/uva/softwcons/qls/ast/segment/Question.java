@@ -11,7 +11,7 @@ public class Question extends PageSegment {
 
     public Question(final Identifier id) {
         this.id = id;
-        this.widget = null;
+        this.widget = new StylizedWidget();
     }
 
     public Question(final Identifier id, final StylizedWidget widget) {
@@ -31,17 +31,21 @@ public class Question extends PageSegment {
         return widget;
     }
 
-    public boolean hasStylizedWidget() {
-        return this.widget != null;
+    public boolean hasWidget() {
+        return this.widget.getWidgetType().isPresent();
     }
 
     public boolean isCompatibleWithWidget(final Type questionType) {
-        return widget.getWidgetType().isCompatibleWith(questionType);
+        return widget.getWidgetType().get().isCompatibleWith(questionType);
     }
 
     @Override
     public <T> T accept(final SegmentVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    public <T, V> T accept(SegmentValueVisitor<T, V> visitor, V value) {
+        return visitor.visit(this, value);
     }
 
 }

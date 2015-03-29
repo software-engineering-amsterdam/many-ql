@@ -6,4 +6,5 @@ public abstract class PageSegment implements ASTNode {
 
     public abstract <T> T accept(SegmentVisitor<T> visitor);
 
+    public abstract <T, V> T accept(SegmentValueVisitor<T, V> visitor, V value);
 }
