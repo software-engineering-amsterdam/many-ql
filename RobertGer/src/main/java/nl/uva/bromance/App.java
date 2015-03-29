@@ -68,9 +68,11 @@ public class App extends Application {
         mainPane.getDividers();
 
         pages = new VBox();
+        ScrollPane pane = new ScrollPane();
         questions = new VBox();
+        pane.setContent(questions);
 
-        mainPane.getItems().addAll(pages, questions);
+        mainPane.getItems().addAll(pages, pane);
         return mainPane;
     }
 
