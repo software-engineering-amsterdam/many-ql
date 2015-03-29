@@ -12,7 +12,7 @@ styleSheet BeverageOrderForm
 			}
 			question canShowId
 			{
-				widget: radiobuttons("Jazeker!", "Ben ik vergeten.")
+				widget: checkbox("Jazeker!")
 			}
 		}
 		section "Alcoholic Drinks"
@@ -29,12 +29,13 @@ styleSheet BeverageOrderForm
 		section "Totals"
 		{
 			question totalNrOfGlasses
-			question totalPrice
-		}
-		
-		default int
-		{
-			color: #00FF00
+			question totalPrice 
+
+			default int
+			{
+				widget: textbox
+				color: #0000FF
+			}
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             InitializeComponent();
 
             AnswerUpDown.Value = 0;
-            QuestionLabel.Text = Label;
+            QuestionLabel.Text = Question.Label;
             AnswerUpDown.Enabled = !astQuestion.IsComputed;
         }
 

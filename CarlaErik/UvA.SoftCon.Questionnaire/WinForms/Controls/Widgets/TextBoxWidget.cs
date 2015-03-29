@@ -13,13 +13,21 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             : base(astQuestion)
         {
             InitializeComponent();
-            QuestionLabel.Text = Label;
+            QuestionLabel.Text = Question.Label;
             AnswerTextBox.Enabled = !astQuestion.IsComputed;
+            AnswerTextBox.Text = Question.DataType == DataType.Integer ? "0" : String.Empty;
         }
 
         public override Value GetValue()
         {
-            return new StringValue(AnswerTextBox.Text);
+            if (Question.DataType == DataType.Integer)
+            {
+                return new IntegerValue(Int32.Parse(AnswerTextBox.Text));
+            }
+            else
+            {
+                return new StringValue(AnswerTextBox.Text);
+            }
         }
 
         public override void SetValue(Value value)
@@ -30,9 +38,13 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
                 {
                     AnswerTextBox.Text = ((StringValue)value).Val;
                 }
+                else if (value.DataType == DataType.Integer)
+                {
+                    AnswerTextBox.Text = ((IntegerValue)value).Val.ToString();
+                }
                 else
                 {
-                    throw new ArgumentException("Parameter value must be of datatype 'string'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'string' or 'int'.");
                 }
             }
         }

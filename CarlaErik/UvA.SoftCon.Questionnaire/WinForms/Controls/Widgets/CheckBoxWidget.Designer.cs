@@ -52,13 +52,13 @@
             this.YesCheckBox.UseVisualStyleBackColor = true;
             this.YesCheckBox.CheckedChanged += new System.EventHandler(this.YesCheckBox_CheckedChanged);
             // 
-            // CheckBoxControl
+            // CheckBoxWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.YesCheckBox);
             this.Controls.Add(this.QuestionLabel);
-            this.Name = "CheckBoxControl";
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "CheckBoxWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

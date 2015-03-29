@@ -20,20 +20,19 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Evaluation
         {
         }
 
-        internal QuestionStyleEvaluator(DataTypeStyleCollection dataTypeStyles, QuestionStyleCollection questionStyles, IEnumerable<Question> questions)
+        private QuestionStyleEvaluator(DataTypeStyleCollection dataTypeStyles, QuestionStyleCollection questionStyles, IEnumerable<Question> questions)
         {
             _currentDataTypeStyles = dataTypeStyles;
             _questionStyles = questionStyles;
             _questions = questions;
         }
 
-        public QuestionStyleCollection GetQuestionStyles(StyleSheet styleSheet, IEnumerable<Question> qlQuestions)
+        internal QuestionStyleCollection GetQuestionStyles(StyleSheet styleSheet, IEnumerable<Question> qlQuestions)
         {
             _questions = qlQuestions;
             VisitStyleSheet(styleSheet);
             return _questionStyles;
         }
-
 
         public override object VisitPage(Page page)
         {

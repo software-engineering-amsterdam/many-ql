@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
@@ -10,12 +11,13 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
     /// <summary>
     /// Checks whether widget assignments are compatible with their question types.
     /// </summary>
-    internal class TypeChecker : ASTChecker
+    internal class WidgetTypeChecker : ASTChecker
     {
+        private const string MessageFormat = "Widget '{0}' can not be applied to a question of type '{1}'.";
         private readonly IEnumerable<Question> questions;
         private DataType currentDataType = DataType.Undefined;
 
-        internal TypeChecker(IEnumerable<Question> qlQuestions)
+        internal WidgetTypeChecker(IEnumerable<Question> qlQuestions)
         {
             questions = qlQuestions;
         }
@@ -54,7 +56,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!dropDown.SupportsDataType(currentDataType))
             {
-                Report.AddError(dropDown.Position, "Widget dropdown can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(dropDown.Position, MessageFormat, "dropdown", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
@@ -63,7 +65,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!calendar.SupportsDataType(currentDataType))
             {
-                Report.AddError(calendar.Position, "Widget calendar can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(calendar.Position, MessageFormat, "calendar", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
@@ -72,7 +74,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!checkBox.SupportsDataType(currentDataType))
             {
-                Report.AddError(checkBox.Position, "Widget calendar can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(checkBox.Position, MessageFormat, "checkbox", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
@@ -81,7 +83,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!radioButtons.SupportsDataType(currentDataType))
             {
-                Report.AddError(radioButtons.Position, "Widget radio buttons can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(radioButtons.Position, MessageFormat, "radiobuttons", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
@@ -90,7 +92,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!spinBox.SupportsDataType(currentDataType))
             {
-                Report.AddError(spinBox.Position, "Widget spinBox can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(spinBox.Position, MessageFormat, "spinbox", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
@@ -99,7 +101,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
         {
             if (!textBox.SupportsDataType(currentDataType))
             {
-                Report.AddError(textBox.Position, "Widget textBox can not be applied to data type '{0}'.", currentDataType);
+                Report.AddError(textBox.Position, MessageFormat, "textbox", StringEnum.GetStringValue(currentDataType));
             }
             return null;
         }
