@@ -23,9 +23,9 @@ class ErrorsWarningsResult:
 # a family of classes. i.e. we want to have one factory for
 # ErrorsWarningsResult objects but also for objects of subclasses of
 # ErrorsWarningsResult that are constructed in the same way (i.e. 
-# SortedErrorsWarningsResult). This increases the complexity of the
+# OrderedErrorsWarningsResult). This increases the complexity of the
 # code a little bit but it eliminates some duplication. Now
-# SortedErrorsWarningsResult can reuse the factory instead of duplicating
+# OrderedErrorsWarningsResult can reuse the factory instead of duplicating
 # its code. That duplication could become problematic when there needs
 # be a change in the way ErrorsWarningsResult objects (and objects of
 # its subclasses) are constructed for whatever reason.
