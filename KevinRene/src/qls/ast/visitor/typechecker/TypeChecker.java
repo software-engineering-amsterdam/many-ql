@@ -120,7 +120,8 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		if(identifierType == null || identifierType == new QLForm()) {
 			errorEnvironment.addError(new NullQuestionError(questionNode.getIdentifier()));
-		} else if(!questionNode.hasCompatibleWidget(identifierType)) {
+		} 
+		else if(!questionNode.hasCompatibleWidget(identifierType)) {
 			errorEnvironment.addError(new IncompatibleWidgetError(questionNode,
 					identifierType, questionNode.getWidget()));
 		}
