@@ -3,6 +3,7 @@ package nl.uva.sc.encoders.qls.ast;
 import static nl.uva.sc.encoders.ql.ast.TextLocationBuilder.aTextLocation;
 import static nl.uva.sc.encoders.qls.ast.PageBuilder.aPage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
@@ -11,7 +12,7 @@ public class StylesheetBuilder {
 
 	private TextLocation textLocation;
 	private String name;
-	private List<Page> pages;
+	private List<Page> pages = new ArrayList<>();
 
 	public static StylesheetBuilder aStylesheet() {
 		StylesheetBuilder stylesheetBuilder = new StylesheetBuilder();
