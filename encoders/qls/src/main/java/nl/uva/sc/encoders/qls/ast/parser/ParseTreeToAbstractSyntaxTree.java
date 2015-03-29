@@ -9,10 +9,12 @@ import nl.uva.sc.encoders.qls.EncodersQLSParser.DefaultStyleContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.SectionContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.StylePropertyContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.WidgetContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.DefaultStyle;
+import nl.uva.sc.encoders.qls.ast.DefaultStyleProperty;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
@@ -79,6 +81,12 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 		String widgetDataType = widgetContext.getText();
 		Widget defaultStyleWidget = new Widget(textLocation, widgetDataType);
 		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType, defaultStyleWidget);
+		List<StylePropertyContext> stylePropertyContext = ctx.styleProperty();
+		for (int i = 0; i < stylePropertyContext.size(); i++) {
+			String defaultStylePropertyText = stylePropertyContext.get(i).getText();
+			DefaultStyleProperty defaultStyleProperty = new DefaultStyleProperty(textLocation, defaultStylePropertyText);
+			defaultStyle.addDefaultStyleProperty(defaultStyleProperty);
+		}
 		return defaultStyle;
 	}
 

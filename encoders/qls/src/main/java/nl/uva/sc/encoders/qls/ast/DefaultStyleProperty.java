@@ -4,20 +4,15 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 
 public class DefaultStyleProperty extends AstNode {
 
-	private final String propertyName;
-	private final String propertyValue;
+	private final String defaultStyleProperty;
 
-	public DefaultStyleProperty(TextLocation textLocation, String propertyName, String propertyValue) {
+	public DefaultStyleProperty(TextLocation textLocation, String defaultStyleProperty) {
 		super(textLocation);
-		this.propertyName = propertyName;
-		this.propertyValue = propertyValue;
+		this.defaultStyleProperty = defaultStyleProperty;
 	}
 
-	public String getPropertyName() {
-		return propertyName;
+	public String getDefaultStyleProperty() {
+		return defaultStyleProperty;
 	}
 
-	public String getPropertyValues() {
-		return propertyValue;
-	}
 }
