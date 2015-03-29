@@ -12,8 +12,10 @@ import org.fugazi.qls.gui.ui_segment.UIPage;
 import org.fugazi.qls.gui.ui_segment.UISection;
 import org.fugazi.qls.gui.widget.QLSWidgetsFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StyledGUIBuilder extends GUIBuilder {
 

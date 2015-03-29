@@ -3,11 +3,8 @@ package org.fugazi.ql.ast.form;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.IASTVisitor;
 import org.fugazi.ql.ast.statement.Statement;
-import org.fugazi.ql.ast.type.Type;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Form extends AbstractASTNode {
 
