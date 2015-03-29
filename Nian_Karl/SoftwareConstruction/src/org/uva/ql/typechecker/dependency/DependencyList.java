@@ -37,7 +37,6 @@ public class DependencyList {
 	private List<DependencyPair> getTransitiveClosure() {
 		boolean isComplete = true;
 		List<DependencyPair> copy = new ArrayList<DependencyPair>(dependencyClosure);
-
 		for (DependencyPair i : copy) {
 			for (DependencyPair j : copy) {
 				if (hasSameName(i.getDependent(), j.getDominant())) {
