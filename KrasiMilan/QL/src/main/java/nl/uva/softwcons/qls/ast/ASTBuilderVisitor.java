@@ -6,9 +6,9 @@ import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.generated.QLSBaseVisitor;
@@ -171,7 +171,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
-        final Map<Type, StylizedWidget> typeWithWidget = new HashMap<>();
+        final Map<Type, StylizedWidget> typeWithWidget = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
             final Type questionType = getType(c.type().getText());
@@ -184,7 +184,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
-        final Map<String, String> styleProperties = new HashMap<>();
+        final Map<String, String> styleProperties = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
             final String key = c.key.getText();

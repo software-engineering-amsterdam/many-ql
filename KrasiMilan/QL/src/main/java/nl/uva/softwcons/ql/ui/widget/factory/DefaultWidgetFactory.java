@@ -44,7 +44,7 @@ public class DefaultWidgetFactory implements TypeVisitor<Widget>, WidgetFactory 
 
     @Override
     public Widget visit(final UndefinedType type) {
-        throw new UnsupportedOperationException(""); // TODO add message
+        throw new UnsupportedOperationException("Should never visit the undefined type!");
     }
 
 }

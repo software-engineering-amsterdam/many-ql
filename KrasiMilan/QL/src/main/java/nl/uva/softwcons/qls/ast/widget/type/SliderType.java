@@ -9,7 +9,7 @@ public class SliderType extends WidgetType {
     private final Double end;
     private final Double step;
 
-    public SliderType(double start, double end, double step, final LineInfo lineInfo) {
+    public SliderType(final double start, final double end, final double step, final LineInfo lineInfo) {
         super(lineInfo);
         this.start = start;
         this.end = end;
@@ -22,7 +22,7 @@ public class SliderType extends WidgetType {
     }
 
     @Override
-    public <T> T accept(WidgetTypeVisitor<T> visitor) {
+    public <T> T accept(final WidgetTypeVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

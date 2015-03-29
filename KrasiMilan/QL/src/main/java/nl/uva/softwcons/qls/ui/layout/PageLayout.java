@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import nl.uva.softwcons.ql.ui.layout.Layout;
 
 public class PageLayout implements Layout {
-    private VBox layout;
+    private final VBox layout;
 
     public PageLayout() {
         this.layout = new VBox();
@@ -13,7 +13,7 @@ public class PageLayout implements Layout {
     }
 
     @Override
-    public void add(Layout layout) {
+    public void add(final Layout layout) {
         this.layout.getChildren().add(layout.getNode());
     }
 

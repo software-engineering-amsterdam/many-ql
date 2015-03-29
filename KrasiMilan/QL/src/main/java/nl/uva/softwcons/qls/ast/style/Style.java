@@ -21,12 +21,12 @@ public class Style implements ASTNode {
         return properties;
     }
 
-    public void addProperty(String key, String value) {
+    public void addProperty(final String key, final String value) {
         this.properties.put(key, value);
     }
 
     public Style inherit(final Style parentStyle) {
-        Style mergedStyle = new Style(this.properties);
+        final Style mergedStyle = new Style(this.properties);
         parentStyle.getProperties().forEach((key, value) -> {
             if (!properties.containsKey(key)) {
                 mergedStyle.addProperty(key, value);
