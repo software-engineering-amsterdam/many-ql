@@ -9,7 +9,6 @@ import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.segment.SegmentVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
-import nl.uva.softwcons.qls.ast.widget.StylizedType;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.validation.widget.error.IncompatibleWidget;
 
@@ -29,6 +28,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
                 addError(new IncompatibleWidget(page.getLineInfo()));
             }
         }
+
         return null;
     }
 
@@ -38,6 +38,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
         if (question.hasWidget() && !question.isCompatibleWithWidget(questionType)) {
             addError(new IncompatibleWidget(question.getLineInfo()));
         }
+
         return null;
     }
 
