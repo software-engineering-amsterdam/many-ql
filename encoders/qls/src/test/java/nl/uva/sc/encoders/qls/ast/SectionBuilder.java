@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
-import nl.uva.sc.encoders.qls.ast.property.FontSize;
 
 public class SectionBuilder {
 
@@ -14,7 +13,7 @@ public class SectionBuilder {
 	private String name;
 	private List<String> questionNames = new ArrayList<>();
 	private List<Section> subSections = new ArrayList<>();
-	private List<FontSize> sectionDefaultStyles = new ArrayList<>();
+	private List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
 
 	public static SectionBuilder aSection() {
 		SectionBuilder builder = new SectionBuilder();
@@ -26,7 +25,7 @@ public class SectionBuilder {
 	}
 
 	public Section build() {
-		return new Section(textLocation, name);
+		return new Section(textLocation, name, questionNames, subSections, sectionDefaultStyles);
 	}
 
 	public SectionBuilder withName(String name) {
