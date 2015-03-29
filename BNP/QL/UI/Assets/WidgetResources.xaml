@@ -3,7 +3,8 @@
                     xmlns:controls="clr-namespace:QL.UI.Controls">
 
     <Style x:Key="CommonWidgetStyle" TargetType="{x:Type UserControl}">
-        <Setter Property="BorderBrush" Value="DarkBlue" />
+        <Setter Property="BorderBrush" Value="DarkGray" />
+        <Setter Property="Background" Value="LightGray" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="10" />

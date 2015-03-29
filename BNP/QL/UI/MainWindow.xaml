@@ -28,18 +28,17 @@
         
         <TabControl>
             <TabItem Header="Questionnaire">
-                <ItemsControl Name="QLElements">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Name="QuestionsPanel">
-                                <!--<controls:TextWidget Text="Question 1" Value="Hello World" x:Name="TextWidget" />
-                                <controls:NumberWidget Text="Question 2" Value="10" x:Name="NumberWidget" />
-                                <controls:YesNoWidget Text="Question 3" Value="False" x:Name="BoolWidget" />
-                                <controls:StatementWidget Text="Statement 1" Value="Displaying hello world text here" x:Name="StatementWidget" />-->
-                            </StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                <ScrollViewer>
+                    <ItemsControl Name="WidgetsContainer">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <!-- Widgets are loaded here -->
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Input">
