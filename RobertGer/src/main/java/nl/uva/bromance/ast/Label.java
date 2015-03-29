@@ -17,6 +17,10 @@ public class Label extends QLNode {
         }
     }
 
+    public String getIdentifier(){
+        return identifier;
+    }
+
     @Override
     public void accept(QLNodeVisitor visitor) {
         visitor.visit(this);

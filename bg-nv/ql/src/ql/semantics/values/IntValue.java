@@ -1,5 +1,7 @@
 package ql.semantics.values;
 
+import ql.ast.type.Type;
+
 /**
  * Created by bore on 16/02/15.
  */
@@ -151,6 +153,12 @@ public class IntValue extends Value<Integer>
     public Value posInteger()
     {
         return new IntValue(this.getValue());
+    }
+
+    @Override
+    public Value promoteTo(Value v)
+    {
+        return v.promoteInt(this);
     }
 
     public <T> T accept (ValueVisitor<T> visitor)

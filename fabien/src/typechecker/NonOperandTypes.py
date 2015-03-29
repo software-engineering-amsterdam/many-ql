@@ -1,18 +1,14 @@
 
-from errors import QLTypeError
+from Errors import QLTypeError
 
 class NonOperandTypes:
-    def __init__(self):
-        self.questionIDs = {}
-
+    def __init__(self, questionIDs=None):
         self.errors = []
         self.expressions = []
+        self.questionIDs = questionIDs
 
     def OperandExpression(self, node):
         self.expressions.append(node)
-
-    def Question(self, node):
-        self.questionIDs[node.ID] = node.type
 
     def Done(self):
         errorMessage = "Invalid operation"

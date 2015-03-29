@@ -56,4 +56,13 @@ public class QLSParseTreeListener extends QLSBaseListener {
         QLSQuestion question = (QLSQuestion) nodeStack.pop();
         nodeStack.peek().addChild(question);
     }
+
+    public void enterLabel(QLSParser.LabelContext ctx) {
+        nodeStack.push(new QLSLabel(ctx.start.getLine(), ctx.name.getText(), qlAST));
+    }
+
+    public void exitLabel(QLSParser.LabelContext ctx) {
+        QLSLabel label = (QLSLabel) nodeStack.pop();
+        nodeStack.peek().addChild(label);
+    }
 }

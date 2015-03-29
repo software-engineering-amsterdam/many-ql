@@ -6,11 +6,10 @@ import org.uva.student.calinwouter.qlqls.generated.node.PStatement;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.model.VariableTable;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class PFormInterpreter extends AnalysisAdapter {
-    private final PStmtInterpreter stmtInterpreter;
+    private final PStatementInterpreter stmtInterpreter;
 
     @Override
     public void caseAForm(AForm aForm) {
@@ -21,6 +20,6 @@ public class PFormInterpreter extends AnalysisAdapter {
     }
 
     public PFormInterpreter(VariableTable oldVariableTable, VariableTable newVariableTable, StaticFields staticFields) {
-        this.stmtInterpreter = new PStmtInterpreter(oldVariableTable, newVariableTable, staticFields);
+        this.stmtInterpreter = new PStatementInterpreter(oldVariableTable, newVariableTable, staticFields);
     }
 }

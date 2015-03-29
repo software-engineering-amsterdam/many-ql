@@ -1,7 +1,8 @@
 package org.fugazi.ql.ast.form.form_data.visitor;
 
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.ast.statement.*;
+import org.fugazi.ql.ast.statement.IfStatement;
+import org.fugazi.ql.ast.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

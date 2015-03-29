@@ -2,17 +2,20 @@ package org.fugazi.ql.ast.form.form_data;
 
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
 import org.fugazi.ql.ast.form.form_data.visitor.IdTypeVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
-import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
-import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
-import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.type.UndefinedType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class QLFormDataStorage {
     private final Form form;

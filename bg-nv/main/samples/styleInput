@@ -1,11 +1,11 @@
 stylesheet sample {
     page "main" {
         question maritalStatus
-        question married
-        section "Tra" {
+        section "Marital Status" {
             default boolean {
                 font: "Calibri"
             }
+            question married
             question notMarried
         }
         default decimal {
@@ -23,6 +23,13 @@ stylesheet sample {
         question combinedName
         question age
         question beer
+        question q1
+        question q2
+        question q3
+        question q4
+        question q5
+        question q6
+        question q7
     }
     page "second" {
         question division

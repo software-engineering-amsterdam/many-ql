@@ -21,16 +21,13 @@ public class StyleStack
     {
         assert rs != null;
 
-        if (this.styleStack.empty())
-        {
-            this.styleStack.push(rs);
-        }
-        else
+        Style newStyle = rs;
+        if (!(this.styleStack.empty()))
         {
             Style prevStyle = this.styleStack.peek();
-            Style newStyle = Style.mergeStyles(rs, prevStyle);
-            this.styleStack.push(newStyle);
+            newStyle = Style.mergeStyles(rs, prevStyle);
         }
+        this.styleStack.push(newStyle);
     }
 
     public void pop()

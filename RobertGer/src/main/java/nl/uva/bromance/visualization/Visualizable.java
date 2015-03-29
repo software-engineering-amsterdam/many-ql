@@ -10,7 +10,5 @@ import java.util.Map;
  */
 public interface Visualizable {
 
-    void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer);
-
     void setVisible(boolean visible);
 }

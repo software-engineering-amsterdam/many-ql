@@ -6,10 +6,10 @@ form Box1HouseOwning {
 	if (hasSoldHouse) {
 		sellingPrice: "Price the house was sold for:" number
 		privateDebt: "Private debts for the sold house:" number
-		valueResidue: "Value residue:" number(sellingPrice + privateDebt)
+		valueResidue: "Value residue:" number(sellingPrice - privateDebt)
 	}
 
-	color: "Enter a color:" string
-	anotherColor: "Enter another color:" string
-	matchingColors: "Matching colors:" boolean(color == anotherColor)
+	//color: "Enter a color:" string
+	//anotherColor: "Enter another color:" string
+	//matchingColors: "Matching colors:" boolean(color == anotherColor)
 }

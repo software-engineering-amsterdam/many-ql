@@ -1,0 +1,14 @@
+stylesheet beer {
+  page "Beers" {
+    default boolean {
+      widget radio ("Yes, please!", "No, thanks")
+    }
+    question age {
+      widget textbox
+    }
+
+    question orderBeer
+    question numberOfBeers
+    question price
+  }
+}

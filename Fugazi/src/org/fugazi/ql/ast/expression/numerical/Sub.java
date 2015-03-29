@@ -2,8 +2,6 @@ package org.fugazi.ql.ast.expression.numerical;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
-import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.Type;
 
 public class Sub extends Numerical {
     

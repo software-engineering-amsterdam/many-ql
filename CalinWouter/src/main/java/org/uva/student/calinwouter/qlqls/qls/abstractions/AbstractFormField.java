@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.abstractions;
 
-import org.uva.student.calinwouter.qlqls.qls.interfaces.IQLSRenderer;
 import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
+import org.uva.student.calinwouter.qlqls.qls.model.QLSRenderParameters;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -14,11 +14,6 @@ import java.util.Map;
 public abstract class AbstractFormField {
     protected final String identifier;
     protected final Map<String, Object> stylingArguments;
-
-    /**
-     * Call the applicable renderer on the provided renderer.
-     */
-    public abstract <T> T applyRenderer(IQLSRenderer<T> iQlsRenderer);
 
     public AbstractFormField(String identifier, Map<String, Object> stylingArguments) {
         this.identifier = identifier;
@@ -41,7 +36,5 @@ public abstract class AbstractFormField {
         return identifier;
     }
 
-    public Component render() {
-        return null;
-    }
+    public abstract Component render(QLSRenderParameters qlsRenderParameters);
 }

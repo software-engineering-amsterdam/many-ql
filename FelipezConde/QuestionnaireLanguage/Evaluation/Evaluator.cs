@@ -78,8 +78,7 @@ namespace Evaluation
         #region Unary Expressions
         public Value Visit(Negate node)
         {
-
-            Value value = node.Accept(this);
+            Value value = node.GetChildExpression().Accept(this);
             return value.Negate();
         }
         public Value Visit(Priority node)

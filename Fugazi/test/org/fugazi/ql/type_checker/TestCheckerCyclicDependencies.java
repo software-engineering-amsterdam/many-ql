@@ -2,15 +2,14 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.CyclicDependenciesError;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
 
@@ -39,7 +38,7 @@ public class TestCheckerCyclicDependencies extends TestQlTypeCheckerBase {
         List<ASTNodeIssue> errors = qlChecker.getErrors();
 
         for (ASTNodeIssue error: errors) {
-            assertTrue(error.getErrorType().equals(ASTNodeIssueType.ERROR.CYCLIC));
+            assertTrue(error.getErrorType().equals(new CyclicDependenciesError()));
         }
     }
 

@@ -20,9 +20,9 @@ import nl.uva.softwcons.ql.ui.widget.Widget;
 import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
 
 public class UiBuilder implements FormVisitor<Void>, StatementVisitor<List<QuestionLayout>> {
-    private Evaluator evaluator;
-    private WidgetFactory widgetFactory;
-    private Renderer renderer;
+    private final Evaluator evaluator;
+    private final WidgetFactory widgetFactory;
+    private final Renderer renderer;
 
     public UiBuilder(final Form form, final Renderer renderer, final WidgetFactory widgetFactory) {
         this.evaluator = new Evaluator(form);

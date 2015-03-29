@@ -15,12 +15,12 @@ import java.util.Set;
 /**
  * This type checker checks:
  *
- * Reference to undefined questions
- * Duplicate question declarations with different types
- * Conditions that are not of the type boolean
- * Operands of invalid type to operators
- * Cyclic dependencies between questions
- * Duplicate labels (warning)
+ * - Reference to undefined questions
+ * - Duplicate question declarations with different types
+ * - Conditions that are not of the type boolean
+ * - Operands of invalid type to operators
+ * - Cyclic dependencies between questions
+ * - Duplicate labels (warning)
  */
 public class QLTypeChecker {
     private final AForm aForm;
@@ -28,7 +28,7 @@ public class QLTypeChecker {
     private final TypeCheckResults typeCheckResults;
 
     private void collectDuplicateLabels() {
-        Set<String> labels = new HashSet<String>();
+        final Set<String> labels = new HashSet<String>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             final String fieldLabel = abstractStaticFormField.getLabel();
             if (!labels.add(fieldLabel)) {
@@ -55,7 +55,7 @@ public class QLTypeChecker {
     }
 
     private void collectDuplicateQuestionsWithDifferentTypes() {
-        Map<String, ITypeDescriptor> identifierToTypeMap = new HashMap<String, ITypeDescriptor>();
+        final Map<String, ITypeDescriptor> identifierToTypeMap = new HashMap<String, ITypeDescriptor>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             putIfNotSet(identifierToTypeMap, abstractStaticFormField);
             checkSameType(identifierToTypeMap, abstractStaticFormField);
@@ -63,7 +63,7 @@ public class QLTypeChecker {
     }
 
     private void collectTypeCheckErrorsInDepth() {
-        PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
+        final PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
         aForm.apply(formTypeChecker);
     }
 

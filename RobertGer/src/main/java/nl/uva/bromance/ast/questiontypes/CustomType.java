@@ -3,12 +3,11 @@ package nl.uva.bromance.ast.questiontypes;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
-import nl.uva.bromance.ast.conditionals.CustomResult;
 import nl.uva.bromance.ast.conditionals.Result;
 import nl.uva.bromance.ast.conditionals.StringResult;
+import nl.uva.bromance.ast.visitors.QuestionTypeVisitor;
 import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -29,53 +28,43 @@ public class CustomType implements QuestionType {
         return "custom";
     }
 
-    @Override
-    public Result getCorrespondingResultType() {
-        return new CustomResult(Arrays.asList(new StringResult("")));
-    }
 
     @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        label = new Label(q.getQuestionString());
-        label.getStyleClass().add("prettyLabel");
-        parent.getChildren().add(label);
+        if (q.isVisible()) {
+            label = new Label(q.getQuestionString());
+            label.getStyleClass().add("prettyLabel");
+            parent.getChildren().add(label);
 
-        group = new ToggleGroup();
-        String id = q.getIdentifier().getId();
-        StringResult answer = (StringResult) answerMap.get(id);
+            group = new ToggleGroup();
+            String id = q.getIdentifier();
+            StringResult answer = (StringResult) answerMap.get(id);
 
-        group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-            RadioButton rb = (RadioButton) newToggle.getToggleGroup().getSelectedToggle();
-            answerMap.put(id, new StringResult(rb.getText()));
-            if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null)) {
-                visualizer.refresh(q.getUuid());
-            }
-        });
-
-        for (StringResult option : q.getMultipleChoicesOptions()) {
-            RadioButton radioButton = new RadioButton(option.getResult());
-            radioButton.setToggleGroup(group);
-            if (answer != null && option.getResult().equals(answer.getResult())) {
-                radioButton.setSelected(true);
-                if (visualizer.getFocusUuid() == q.getUuid()) {
-                    visualizer.setFocusedNode(radioButton);
+            group.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+                RadioButton rb = (RadioButton) newToggle.getToggleGroup().getSelectedToggle();
+                answerMap.put(id, new StringResult(rb.getText()));
+                if ((oldToggle != null && !oldToggle.equals(newToggle)) || (answer == null && oldToggle == null)) {
+                    visualizer.refresh(q.getUuid());
                 }
-            }
-            parent.getChildren().add(radioButton);
-        }
+            });
 
-        setVisibilityOfComponents();
+            for (StringResult option : q.getMultipleChoicesOptions()) {
+                RadioButton radioButton = new RadioButton(option.getResult());
+                radioButton.setToggleGroup(group);
+                if (answer != null && option.getResult().equals(answer.getResult())) {
+                    radioButton.setSelected(true);
+                    if (visualizer.getFocusUuid() == q.getUuid()) {
+                        visualizer.setFocusedNode(radioButton);
+                    }
+                }
+                parent.getChildren().add(radioButton);
+            }
+        }
     }
 
     @Override
-    public void refresh() {
-        setVisibilityOfComponents();
+    public void accept(QuestionTypeVisitor visitor) {
+        visitor.visit(this);
     }
 
-    private void setVisibilityOfComponents() {
-        label.setVisible(q.isVisible());
-        for (Toggle toggle : group.getToggles()) {
-            ((ToggleButton) toggle).setVisible(q.isVisible());
-        }
-    }
 }

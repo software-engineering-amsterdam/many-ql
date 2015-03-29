@@ -17,10 +17,6 @@ public abstract class QLSNode extends Node<QLSNode> implements Visualizable, QLS
     }
 
     @Override
-    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-    }
-
-    @Override
     public void setVisible(boolean visible) {
 
     }

@@ -2,7 +2,8 @@ package org.fugazi.qls.gui.widget;
 
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.widgets.*;
+import org.fugazi.ql.gui.widgets.IWidget;
+import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.ast.widget.AbstractQLSWidget;

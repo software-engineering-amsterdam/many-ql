@@ -2,6 +2,8 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.TypeMismatchError;
+import org.fugazi.ql.type_checker.issue.error.UndefinedQuestionError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,8 +41,8 @@ public class TestCheckerUndefinedVariables extends TestQlTypeCheckerBase {
 
         List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.UNDEFINED);
-        expectedTypes.add(ASTNodeIssueType.ERROR.TYPE_MISMATCH);
+        expectedTypes.add(new UndefinedQuestionError());
+        expectedTypes.add(new TypeMismatchError());
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
