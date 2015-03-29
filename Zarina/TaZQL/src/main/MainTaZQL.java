@@ -1,5 +1,6 @@
 /*
 * @Zarina
+* SC course, February - March 2015
 */
 
 package main;

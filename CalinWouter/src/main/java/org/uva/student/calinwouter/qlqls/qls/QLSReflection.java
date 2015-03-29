@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class is used for dynamically creating new components or widgets from the provided component/widget paths.
+ * This class is used for dynamically creating new functions or widgets from the provided component/widget paths.
  */
 public class QLSReflection {
     private final List<String> searchPaths;
@@ -59,14 +59,15 @@ public class QLSReflection {
      * an array).
      */
     private Object[] newInstanceParametersUsingVarArgs(List<Object> args, Constructor constructor) {
+        List<Object> argsCopy = new LinkedList<Object>(args);
         final int origLength = constructor.getParameterTypes().length;
         final List<Object> varArgsArguments = new LinkedList<Object>();
         final List<Object> results = new LinkedList<Object>();
-        while (args.size() >= origLength) {
-            Object lastArgument = args.remove(args.size() - 1);
+        while (argsCopy.size() >= origLength) {
+            Object lastArgument = argsCopy.remove(argsCopy.size() - 1);
             varArgsArguments.add(0, lastArgument);
         }
-        results.addAll(args);
+        results.addAll(argsCopy);
         final Object[] castedConstructorVarArgs = castConstructorVarArgsArgumentsUp(varArgsArguments, constructor);
         results.add(castedConstructorVarArgs);
         return results.toArray();
@@ -84,8 +85,11 @@ public class QLSReflection {
     private Object createNewInstanceOrReturnNull(Constructor constructor, List<Object> args)
             throws IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
-            return createNewInstance(constructor, args);
-        } catch(IllegalArgumentException e) {
+            final Object o = createNewInstance(constructor, args);
+            return o;
+        } catch (IllegalArgumentException e) {
+            return null;
+        } catch (ArrayStoreException e) {
             return null;
         }
     }

@@ -48,11 +48,6 @@ public class TypeChecker extends NullQLNodeVisitor implements OperatorVisitor {
         if ((question.isQuestionTypeBoolean() || question.isQuestionTypeString()) && question.getQuestionRange().isPresent()) {
             exceptions.add(new TypeCheckingException.QuestionRangeTypeCheckingException(prefix + "no range allowed for types boolean and string."));
         }
-        if (referenceMap.get(question.getIdentifier().toString()) != null) {
-            exceptions.add(new TypeCheckingException.AlreadyDefinedTypeCheckingException(question, question.getIdentifier().toString()));
-        } else {
-            referenceMap.put(question.getIdentifier().toString(), question);
-        }
     }
 
     @Override

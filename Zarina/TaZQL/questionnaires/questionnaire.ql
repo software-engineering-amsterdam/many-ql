@@ -3,6 +3,4 @@ FORM Questionnaire {
 	hasSoldHouse "2. How much did you get for your house?" digits
 	amountHouses "3. How much did you pay for new house?" digits
 	calculation "4. The difference between q#2 and q#3 equals to:" digits (hasSoldHouse -amountHouses)
-	extra "5. Above should appear if-question" text
-	
 } END
