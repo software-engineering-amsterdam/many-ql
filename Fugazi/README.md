@@ -1,11 +1,23 @@
 UvA - Software Construction 2014-2015
 =======
+
 ## Fugazi Team
 
 - Theologos Zacharopoulos (10850619)
 - Lukasz Harezlak (10630171)
 
-We are working on the branch [fugazi](https://github.com/software-engineering-amsterdam/many-ql/tree/fugazi/).
+Usage
+========
+
+To run the application you need `java` installed o you machine, the usage is the following:
+```
+java -jar Fugazi.jar qlfilename.ql [qlsfilename.qls]
+```
+
+An example:
+```
+java -jar <Fugazi Folder>/out/artifacts/Fugazi_jar/Fugazi.jar <Fugazi Folder>/test/input_forms/fugaziFormExample.ql <Fugazi Folder>/test/input_forms/fugaziStyleExample.qls
+```
 
 Tools
 ========
@@ -411,3 +423,10 @@ stylesheet taxOfficeExample
     default bool widget radio("Yes", "No")
   }
 ```
+
+Architecture
+========
+
+![alt tag](https://raw.githubusercontent.com/software-engineering-amsterdam/many-ql/master/Fugazi/doc/Class%20diagram.png)
+
+_You can also take a better look at it under the `doc` folder of the project_
