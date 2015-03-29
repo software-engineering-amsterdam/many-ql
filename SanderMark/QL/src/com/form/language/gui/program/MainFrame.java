@@ -85,18 +85,14 @@ public class MainFrame {
 		    textArea_output.setText("Cannot parse input");
 		} else {
 		    form.getTypes(context);
-		    handleIssues(context);
-		}
-	    }
 
-	    private void handleIssues(final Context context) {
-		String issues = context.getWarnings();
-		if (context.hasErrors()) {
-		    issues += "\n" + context.getErrors();
-		} else {
-		    button_createQuestionnaire.setEnabled(true);
+		    if (context.hasErrors()) {
+			textArea_output.setText(context.getErrors());
+			System.out.println(context.getErrors());
+		    } else {
+			button_createQuestionnaire.setEnabled(true);
+		    }
 		}
-		textArea_output.setText(issues);
 	    }
 	};
     }
