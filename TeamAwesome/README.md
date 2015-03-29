@@ -13,7 +13,7 @@ https://www.python.org/downloads/
 `pip install antlr4-python3-runtime`
 
 # How do I run it?
-Run `python main.py <ql_file>` from inside the `ql/` directory.
+Run `python ql.py <ql_file>` from inside the `ql/` directory.
 
 Example: `python ql.py examples/tax_office.ql`
 
