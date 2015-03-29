@@ -20,6 +20,7 @@ public class Section extends ParentSegment<TitledPane>
         this.name = name;
 
         VBox contentBox = new VBox();
+        contentBox.setStyle("-fx-background-color: white; ");
         for (Segment s : subSegments)
         {
             contentBox.getChildren().add(s.getContainer());
@@ -29,7 +30,6 @@ public class Section extends ParentSegment<TitledPane>
         this.container.setText(this.name);
         this.container.setTextAlignment(TextAlignment.LEFT);
         this.container.setCollapsible(false);
-        this.container.setStyle("-fx-background-color: white;");
         this.container.setContent(contentBox);
     }
 
