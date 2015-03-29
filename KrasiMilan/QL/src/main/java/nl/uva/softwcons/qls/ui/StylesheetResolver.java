@@ -20,12 +20,12 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
         SegmentValueVisitor<Void, Map<Type, StylizedWidget>> {
     private final Map<Identifier, Optional<WidgetType>> questionWidgetType;
     private final Map<Identifier, Style> questionStyle;
-    private final Map<Identifier, Type> questionType;
+    private final QuestionTypeCollector questionType;
 
-    public StylesheetResolver() {
-        questionStyle = new HashMap<>();
-        questionWidgetType = new HashMap<>();
-        questionType = new HashMap<>(); // TODO
+    public StylesheetResolver(QuestionTypeCollector questionTypeCollector) {
+        this.questionStyle = new HashMap<>();
+        this.questionWidgetType = new HashMap<>();
+        this.questionType = questionTypeCollector;
     }
 
     public Optional<WidgetType> getWidgetType(final Identifier id) {
