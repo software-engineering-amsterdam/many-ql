@@ -1,7 +1,6 @@
 package org.uva.ql.test.typechecker;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.binary.Addition;
@@ -22,89 +21,82 @@ import org.uva.ql.typechecker.TypeChecker;
 
 public class BoolTest {
 
-	private TypeChecker typechecker;
-	private Literal left;
-	private Literal right;
-	private CodePosition codePosition;
+	private final TypeChecker TYPECHECKER = new TypeChecker();
+	private final CodePosition POS = new CodePosition(0, 0);
+	private final Literal LEFT_EXPR = new BoolLiteral(true, POS);
+	private final Literal RIGHT_EXPR = new BoolLiteral(false, POS);
 
-	@Before
-	public void setUp() throws Exception {
-		codePosition = new CodePosition(0, 0);
-		left = new BoolLiteral(true, codePosition);
-		right = new BoolLiteral(false, codePosition);
-		typechecker = new TypeChecker();
-	}
 
 	@Test
 	public void testBoolAdditionBool() {
-		Addition add = new Addition(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(add), false);
+		Addition add = new Addition(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(add), false);
 	}
 
 	@Test
 	public void testBoolSubstractionBool() {
-		Substraction substraction = new Substraction(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(substraction), false);
+		Substraction substraction = new Substraction(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(substraction), false);
 	}
 
 	@Test
 	public void testBoolMultiplyBool() {
-		Multiply multiply = new Multiply(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(multiply), false);
+		Multiply multiply = new Multiply(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(multiply), false);
 	}
 
 	@Test
 	public void testBoolDivideBool() {
-		Divide divide = new Divide(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(divide), false);
+		Divide divide = new Divide(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(divide), false);
 	}
 
 	@Test
 	public void testBoolGreaterBool() {
-		GreaterEqual greaterEqual = new GreaterEqual(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(greaterEqual), false);
+		GreaterEqual greaterEqual = new GreaterEqual(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(greaterEqual), false);
 	}
 
 	@Test
 	public void testBoolGreaterEqualBool() {
-		Greater greater = new Greater(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(greater), false);
+		Greater greater = new Greater(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(greater), false);
 	}
 
 	@Test
 	public void testBoolLessBool() {
-		Less less = new Less(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(less), false);
+		Less less = new Less(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(less), false);
 	}
 
 	@Test
 	public void testBoolLessEqualBool() {
-		LessEqual lessEqual = new LessEqual(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(lessEqual), false);
+		LessEqual lessEqual = new LessEqual(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(lessEqual), false);
 	}
 
 	@Test
 	public void testBoolEqualBool() {
-		Equal equal = new Equal(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(equal), true);
+		Equal equal = new Equal(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(equal), true);
 	}
 
 	@Test
 	public void testBoolNotEqualBool() {
-		NotEqual notEqual = new NotEqual(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(notEqual), true);
+		NotEqual notEqual = new NotEqual(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(notEqual), true);
 	}
 
 	@Test
 	public void testBoolOrBool() {
-		Or or = new Or(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(or), true);
+		Or or = new Or(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(or), true);
 	}
 
 	@Test
 	public void testBoolAndBool() {
-		And and = new And(left, right, codePosition);
-		Assert.assertEquals(typechecker.visit(and), true);
+		And and = new And(LEFT_EXPR, RIGHT_EXPR, POS);
+		Assert.assertEquals(TYPECHECKER.visit(and), true);
 	}
 
 }

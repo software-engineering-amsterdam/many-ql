@@ -11,9 +11,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class IntegerType implements QuestionType {
 
 
@@ -32,52 +29,42 @@ public class IntegerType implements QuestionType {
 
     @Override
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-        label = new Label(q.getQuestionString());
-        label.getStyleClass().add("prettyLabel");
-        parent.getChildren().add(label);
+        if (q.isVisible()) {
+            label = new Label(q.getQuestionString());
+            label.getStyleClass().add("prettyLabel");
+            parent.getChildren().add(label);
 
-        textField = new TextField();
-        String id = q.getIdentifier();
-        IntResult answer = (IntResult) answerMap.get(id);
-        if (answer != null) {
-            textField.setText(Integer.toString(answer.getResult()));
-        }
-        if (visualizer.getFocusUuid() == q.getUuid()) {
-            visualizer.setFocusedNode(textField);
-        }
-
-        // Disable any input other than numbers
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9-]*")) {
-                textField.setText(oldValue);
-            } else {
-                if (newValue.length() >= 1 && !newValue.equals("-")) {
-                    answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
-                }
-                if (newValue.length() == 0){
-                    answerMap.put(id, new IntResult(0));
-                }
-                visualizer.visualize(q.getUuid());
+            textField = new TextField();
+            String id = q.getIdentifier();
+            IntResult answer = (IntResult) answerMap.get(id);
+            if (answer != null) {
+                textField.setText(Integer.toString(answer.getResult()));
             }
-        });
-        parent.getChildren().add(textField);
+            if (visualizer.getFocusUuid() == q.getUuid()) {
+                visualizer.setFocusedNode(textField);
+            }
 
-        setVisibilityOfComponents();
-    }
-
-    @Override
-    public void refresh() {
-        setVisibilityOfComponents();
+            // Disable any input other than numbers
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("[0-9-]*")) {
+                    textField.setText(oldValue);
+                } else {
+                    if (newValue.length() >= 1 && !newValue.equals("-")) {
+                        answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
+                    }
+                    if (newValue.length() == 0) {
+                        answerMap.put(id, new IntResult(0));
+                    }
+                    visualizer.visualize(q.getUuid());
+                }
+            });
+            parent.getChildren().add(textField);
+        }
     }
 
     @Override
     public void accept(QuestionTypeVisitor visitor) {
         visitor.visit(this);
-    }
-
-    private void setVisibilityOfComponents() {
-        textField.setVisible(q.isVisible());
-        label.setVisible(q.isVisible());
     }
 
 

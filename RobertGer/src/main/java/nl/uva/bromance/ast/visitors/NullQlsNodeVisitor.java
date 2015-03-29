@@ -1,13 +1,7 @@
 package nl.uva.bromance.ast.visitors;
 
-import nl.uva.bromance.ast.QLSPage;
-import nl.uva.bromance.ast.QLSQuestion;
-import nl.uva.bromance.ast.QLSSection;
-import nl.uva.bromance.ast.QLSStylesheet;
+import nl.uva.bromance.ast.*;
 
-/**
- * Created by Robert on 26-3-2015.
- */
 public class NullQLSNodeVisitor implements QLSNodeVisitor {
     @Override
     public void visit(QLSPage page) {
@@ -23,5 +17,10 @@ public class NullQLSNodeVisitor implements QLSNodeVisitor {
 
     @Override
     public void visit(QLSStylesheet stylesheet) {
+    }
+
+    @Override
+    public void visit(QLSLabel label) {
+
     }
 }

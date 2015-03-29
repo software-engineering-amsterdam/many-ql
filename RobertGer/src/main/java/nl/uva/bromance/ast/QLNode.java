@@ -16,10 +16,6 @@ public abstract class QLNode extends Node<QLNode> implements QlNodeElement, Visu
     }
 
     @Override
-    public void visualize(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
-    }
-
-    @Override
     public void setVisible(boolean visible) {
 
     }

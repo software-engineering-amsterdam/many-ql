@@ -3,9 +3,6 @@ package nl.uva.bromance.ast.conditionals;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class Terminal extends QLNode {
 
     private String value;
@@ -44,10 +41,7 @@ public class Terminal extends QLNode {
     }
 
     public boolean isBoolean() {
-        if (value.toLowerCase().equals("true") || value.toLowerCase().equals(("false"))) {
-            return true;
-        }
-        return false;
+        return value.toLowerCase().equals("true") || value.toLowerCase().equals(("false"));
     }
 
     public boolean isString() {

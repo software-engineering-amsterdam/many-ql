@@ -9,25 +9,30 @@ class OperatorTable:
     def __init__(self):
         self._rules = self._createRules()
 
+
     def unaryOperationType(self, op, typeRight):
         rule = self._rules.get((op, typeRight), None)
         if rule:
             return rule[0]
+
 
     def binaryOperationType(self, op, typeLeft, typeRight):
         rule = self._rules.get((op, typeLeft, typeRight), None)
         if rule:
             return rule[0]
 
+
     def getUnaryOperator(self, op, valueType):
         rule = self._rules.get((op, valueType), None)
         if rule:
             return rule[1]
 
+
     def getBinaryOperator(self, op, leftType, rightType):
         rule = self._rules.get((op, leftType, rightType), None)
         if rule:
             return rule[1]
+
 
     # The rules contain type information and evaluation information
     # for operators applied to various types of operands.

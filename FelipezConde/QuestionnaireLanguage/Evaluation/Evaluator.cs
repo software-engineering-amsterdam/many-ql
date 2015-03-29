@@ -4,6 +4,7 @@ using AST.Nodes.Expressions.Unaries;
 using AST.VisitorInterfaces;
 using Evaluation.Values;
 using Literals = AST.Nodes.Literals;
+using System;
 
 namespace Evaluation
 {
@@ -77,8 +78,7 @@ namespace Evaluation
         #region Unary Expressions
         public Value Visit(Negate node)
         {
-
-            Value value = node.Accept(this);
+            Value value = node.GetChildExpression().Accept(this);
             return value.Negate();
         }
         public Value Visit(Priority node)
@@ -132,7 +132,7 @@ namespace Evaluation
 
         public Value Visit(Literals.String node)
         {
-            return new String(node.GetValue());
+            return new Evaluation.Values.String(node.GetValue());
         }
         #endregion
 

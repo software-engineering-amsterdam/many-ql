@@ -2,8 +2,6 @@ package org.fugazi.ql.ast.expression.logical;
 
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
-import org.fugazi.ql.ast.type.BoolType;
-import org.fugazi.ql.ast.type.Type;
 
 public class Or extends Logical {
     

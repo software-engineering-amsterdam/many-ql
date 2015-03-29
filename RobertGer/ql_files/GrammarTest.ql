@@ -48,4 +48,21 @@ Name: "Tax" {
 			}
 		}
     }
+        Form: "derp" {
+
+    		Question: "employment" {
+    			Text: "Are you currently employed?"
+    			Answer: boolean
+    		}
+
+            Question: "partner" {
+    			Text: "What is your marital status?"
+    			Answer: ["Single" || "Married" || "Cohabitation"]
+            }
+            Question: "age" {
+                Text: "How old are you?"
+                Answer: Integer
+                Range: 0 - 150
+            }
+        }
 }

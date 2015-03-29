@@ -2,9 +2,6 @@ package nl.uva.bromance.ast.conditionals;
 
 import java.util.List;
 
-/**
- * Created by Robert on 10-3-2015.
- */
 public class CustomResult extends Result {
     private StringResult currentResult;
     private List<StringResult> options;
@@ -16,7 +13,6 @@ public class CustomResult extends Result {
         }
     }
 
-    //TODO: This might go wrong. Consider this.
     @Override
     public Result isEqual(Result r) {
         BooleanResult result = new BooleanResult(false);

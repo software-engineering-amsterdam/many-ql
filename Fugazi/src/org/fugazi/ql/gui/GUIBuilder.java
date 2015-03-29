@@ -14,7 +14,10 @@ import org.fugazi.ql.gui.ui_element.ui_questions.UIQuestion;
 import org.fugazi.ql.gui.ui_element.visitors.UIQuestionBuilder;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GUIBuilder implements IMediator {
     protected class QuestionsWithConditions extends LinkedHashMap<UIQuestion, List<IfStatement>> {}

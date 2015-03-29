@@ -4,8 +4,8 @@ import java.util.List;
 
 public class ASTIssuePrinter {
 
-    public ASTIssuePrinter() {}
-
+    public ASTIssuePrinter() {
+    }
 
     /**
      * =======================
@@ -43,5 +43,4 @@ public class ASTIssuePrinter {
         this.displayWarnings(errors);
         this.displayErrors(warnings);
     }
-
 }

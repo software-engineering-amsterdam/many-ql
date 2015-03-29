@@ -57,7 +57,7 @@ namespace Evaluation.Values
         #region NotEqual
         public override Value NotEqual(Value value)
         {
-            return value.BoolEqual(this);
+            return value.BoolNotEqual(this);
         }
 
         public override Value BoolNotEqual(Bool boolValue)

@@ -1,8 +1,5 @@
 package nl.uva.bromance.ast.conditionals;
 
-/**
- * Created by Ger on 24-2-2015.
- */
 public class IntResult extends Result {
 
     private int result;

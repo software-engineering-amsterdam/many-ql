@@ -54,7 +54,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExportFormulaireController.cs">
       <SubType>Code</SubType>
     </Compile>

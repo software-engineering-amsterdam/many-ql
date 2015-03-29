@@ -3,10 +3,6 @@ package nl.uva.bromance.ast.conditionals;
 import nl.uva.bromance.ast.QLNode;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
-
 public class IfStatement extends QLNode implements ContainsExpression {
     private Expression expression;
 
@@ -33,9 +29,7 @@ public class IfStatement extends QLNode implements ContainsExpression {
     public boolean ExpressionEvaluatesToTrue() {
         Result result = expression.getResult();
         if (result instanceof BooleanResult) {
-            for (QLNode child : this.getChildren()) {
-                return ((BooleanResult) result).getResult();
-            }
+            return ((BooleanResult) result).getResult();
         }
         return false;
     }

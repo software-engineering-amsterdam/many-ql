@@ -14,9 +14,6 @@ import nl.uva.bromance.ast.questiontypes.StringType;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Robert on 29-3-2015.
- */
 public class QLInitializer extends NullQLNodeVisitor implements QuestionTypeVisitor {
 
     private Map<String, Result> answerMap = new HashMap<>();

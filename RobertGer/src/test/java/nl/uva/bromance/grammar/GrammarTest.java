@@ -22,7 +22,6 @@ public class GrammarTest extends ParsingTest {
     protected FakeGrammarListener listener;
     protected ParseTreeWalker walker;
 
-    //TODO: consider asserting the messages in expectedException
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 

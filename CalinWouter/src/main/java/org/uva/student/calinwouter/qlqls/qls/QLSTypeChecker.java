@@ -5,16 +5,13 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
 import org.uva.student.calinwouter.qlqls.qls.model.QLSTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetType;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Defaults;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Page;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Section;
-import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.Defaults;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
 
 import java.util.*;
 

@@ -54,11 +54,8 @@ public abstract class TestQlsTypeCheckerBase extends TestQlTypeCheckerBase {
         StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
 
         // Get the styles.
-        DefaultStyleHandler defaultStyleDeclaration =
-                new DefaultStyleHandler(this.formDataStorage, styleSheet);
-        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
-
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
+        DefaultStyleHandler.applyStylesToStyleSheet(this.formDataStorage, styleSheet);
+        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styleSheet);
 
         // Perform QLS type checking.
         this.qlsChecker = new QLSTypeChecker(

@@ -5,9 +5,6 @@ import nl.uva.bromance.ast.questiontypes.CustomType;
 import nl.uva.bromance.ast.questiontypes.IntegerType;
 import nl.uva.bromance.ast.questiontypes.StringType;
 
-/**
- * Created by Robert on 29-3-2015.
- */
 public interface QuestionTypeVisitor {
 
     void visit(BooleanType booleanType);

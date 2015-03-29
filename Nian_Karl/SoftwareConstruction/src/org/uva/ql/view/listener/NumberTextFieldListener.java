@@ -29,7 +29,6 @@ public class NumberTextFieldListener implements DocumentListener {
 	}
 
 	public void notifyListener(DocumentEvent e) {
-		System.out.println("Hello, this is strange.");
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);

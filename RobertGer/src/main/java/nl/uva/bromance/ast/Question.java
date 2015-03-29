@@ -65,8 +65,7 @@ public class Question extends QLNode implements HasIdentifier {
     public void setVisible(boolean visible) {
         this.isVisible = visible;
     }
-
-    //TODO: Not digging the use of instanceof, already better then the strings however.
+    
     public boolean isQuestionTypeBoolean() {
         return questionType instanceof BooleanType;
     }

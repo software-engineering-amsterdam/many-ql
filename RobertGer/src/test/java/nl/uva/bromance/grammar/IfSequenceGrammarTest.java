@@ -11,8 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 * */
 public class IfSequenceGrammarTest extends GrammarTest {
 
-    //TODO: Add IfSequence node
-
     @Test
     public void correctIfSequence() throws IOException {
         String content = "Name: \"Tax\" {\n" +
