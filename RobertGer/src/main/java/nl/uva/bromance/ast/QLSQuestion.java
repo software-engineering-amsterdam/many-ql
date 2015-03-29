@@ -3,10 +3,8 @@ package nl.uva.bromance.ast;
 import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
 
 import java.util.List;
-import java.util.UUID;
 
 public class QLSQuestion extends QLSNode {
-    private UUID identifier;
 
     private Question questionNode;
 
@@ -14,8 +12,8 @@ public class QLSQuestion extends QLSNode {
         super(lineNumber);
 
         List<Question> questions = qlAST.getAllChildrenOfType_ForAst(Question.class);
-        id = id.substring(1,id.length() -1);
         if (id != null) {
+            id = id.substring(1, id.length() - 1);
             for (Question q : questions) {
                 if (id.equals(q.getIdentifier())) {
                     questionNode = q;

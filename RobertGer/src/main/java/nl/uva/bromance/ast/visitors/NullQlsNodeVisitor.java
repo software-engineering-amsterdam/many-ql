@@ -2,9 +2,6 @@ package nl.uva.bromance.ast.visitors;
 
 import nl.uva.bromance.ast.*;
 
-/**
- * Created by Robert on 26-3-2015.
- */
 public class NullQLSNodeVisitor implements QLSNodeVisitor {
     @Override
     public void visit(QLSPage page) {

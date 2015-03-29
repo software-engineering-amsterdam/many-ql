@@ -3,9 +3,6 @@ package nl.uva.bromance.ast;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
-/**
- * Created by Robert on 3/1/2015.
- */
 public class NodeAssert extends AbstractAssert<NodeAssert, QLNode> {
 
 

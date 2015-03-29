@@ -1,7 +1,6 @@
 package nl.uva.bromance.ast;
 
 
-
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 
 public class Label extends QLNode {

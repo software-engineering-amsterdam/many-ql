@@ -11,9 +11,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class IntegerType implements QuestionType {
 
 
@@ -55,7 +52,7 @@ public class IntegerType implements QuestionType {
                     if (newValue.length() >= 1 && !newValue.equals("-")) {
                         answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
                     }
-                    if (newValue.length() == 0){
+                    if (newValue.length() == 0) {
                         answerMap.put(id, new IntResult(0));
                     }
                     visualizer.visualize(q.getUuid());

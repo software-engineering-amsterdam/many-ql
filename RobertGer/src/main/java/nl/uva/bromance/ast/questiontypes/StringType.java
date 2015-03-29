@@ -11,9 +11,6 @@ import nl.uva.bromance.visualization.Visualizer;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 9-3-2015.
- */
 public class StringType implements QuestionType {
 
     private final Question q;

@@ -13,9 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 16-3-2015.
- */
+
 public class ExpressionEvaluatorTest extends ASTTest {
 
     @Test

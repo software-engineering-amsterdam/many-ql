@@ -1,10 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="52c8e781-001b-42e6-abc8-2832e354ec33" name="Default" comment="-">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/App.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/App.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseIfStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseIfStatement.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IfStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IfStatement.java" />
+    <list default="true" id="52c8e781-001b-42e6-abc8-2832e354ec33" name="Default" comment="- removed warnings">
+      <change type="DELETED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\main\java\nl\uva\bromance\Answer.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\main\java\nl\uva\bromance\ast\Identifier.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\main\java\nl\uva\bromance\typechecking\ReferenceMap.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/AST.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/AST.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/ASTTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/ASTTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/AndOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/AndOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Between.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Between.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/BiggerThan.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/BiggerThan.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/BooleanResult.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/BooleanResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/BooleanType.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/BooleanType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Calculation.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Calculation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/CalculationASTTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/CalculationASTTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/CalculationGrammarTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/CalculationGrammarTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/CalculationRetrievalVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/CalculationRetrievalVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/ConditionalHandler.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/ConditionalHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/CustomResult.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/CustomResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/CustomType.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/CustomType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/ElseIfStatementGrammarTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/ElseIfStatementGrammarTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseStatement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/ElseStatementGrammarTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/ElseStatementGrammarTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/EqualsOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/EqualsOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ExpressionEvaluator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ExpressionEvaluator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/visitors/ExpressionEvaluatorTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/visitors/ExpressionEvaluatorTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/GrammarErrorListener.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/GrammarErrorListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/IfStatementGrammarTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/IfStatementGrammarTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IntResult.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IntResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/IntegerType.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/IntegerType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Label.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Label.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/LargerThanOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/LargerThanOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/LargerThanOrEqualsOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/LargerThanOrEqualsOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/MinusOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/MinusOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/MultiplyOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/MultiplyOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Node.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Node.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/NodeAssert.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ast/NodeAssert.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/NotEqualsOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/NotEqualsOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQLNodeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQLNodeVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQlsNodeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQlsNodeVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/Operator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/Operator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/OperatorVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/OperatorVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/OrOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/OrOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ParsingTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/ParsingTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/PlusOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/PlusOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLInitializer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLNodeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLNodeVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSNode.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSNode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLSParseTreeListener.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLSParseTreeListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSQuestion.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSQuestion.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlNodeElement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlNodeElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeElement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/QuestionType.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/QuestionType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QuestionTypeVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QuestionTypeVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/QuestionnaireGrammarTest.java" afterPath="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/QuestionnaireGrammarTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Range.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Range.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/Result.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/Result.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/SmallerThan.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/SmallerThan.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/SmallerThanOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/SmallerThanOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/SmallerThanOrEqualsOperator.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/SmallerThanOrEqualsOperator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/StringResult.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/StringResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/StringType.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/StringType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/Terminal.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/Terminal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/Test.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/Test.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/exceptions/TypecheckingInvalidOperandException.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/exceptions/TypecheckingInvalidOperandException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/visualization/Visualizable.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/visualization/Visualizable.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="825168ea-5e23-4125-9669-8bc8678bf714" name="Failed commit: Default" comment="- packages are renamed to fit conventions&#10;- removed switch case from Expression and implemented polymorphism aproach&#10;- moved operators into separate package" />
@@ -44,40 +107,48 @@
       <file leaf-file-name="Calculation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Calculation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="697">
               <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomResult.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CustomResult.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/CustomResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30769232" vertical-offset="0" max-vertical-offset="697">
-              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="680">
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Refreshable.class" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_25/jre/lib/rt.jar!/javax/security/auth/Refreshable.class">
+      <file leaf-file-name="ExpressionEvaluator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ExpressionEvaluator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="340">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#297#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="884">
+              <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AST.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/AST.java">
+      <file leaf-file-name="HasIdentifier.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="204">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TypeChecker.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.13207547" vertical-offset="255" max-vertical-offset="1632">
+              <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -86,7 +157,7 @@
       <file leaf-file-name="CalculationRetrievalVisitor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/CalculationRetrievalVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
+            <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="391">
               <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
               <folding />
             </state>
@@ -96,7 +167,7 @@
       <file leaf-file-name="Between.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Between.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="374">
               <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
               <folding />
             </state>
@@ -106,7 +177,7 @@
       <file leaf-file-name="BiggerThan.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/BiggerThan.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="306">
               <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
               <folding />
             </state>
@@ -116,18 +187,8 @@
       <file leaf-file-name="BooleanResult.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/BooleanResult.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+            <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="697">
               <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QLSQuestion.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSQuestion.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-              <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -136,8 +197,8 @@
       <file leaf-file-name="ElseIfStatement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseIfStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="232" max-vertical-offset="850">
-              <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="23" max-vertical-offset="850">
+              <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -152,8 +213,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/GrammarErrorListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Identifier.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IfStatement.java" />
         <option value="$PROJECT_DIR$/src/test/java/nl/uva/bromance/grammar/IfStatementGrammarTest.java" />
@@ -203,6 +262,8 @@
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/range/Between.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/CalculationRetrievalVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/CustomResult.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ExpressionEvaluator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java" />
       </list>
     </option>
   </component>
@@ -1877,6 +1938,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="QlsNodeElement.java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="QLSNodeElement" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
             </PATH_ELEMENT>
@@ -1992,44 +2057,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="QLInitializer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FormParser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RobertGer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bromance" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ast" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="visitors" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OperatorVisitor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3274,6 +3301,44 @@
               <option name="myItemId" value="conditionals" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ExpressionEvaluator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RobertGer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bromance" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ast" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conditionals" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -3564,269 +3629,6 @@
       <recent name="nl.uva.bromance.questionnaire" />
       <recent name="nl.uva.bromance.listeners" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation/Evaluator.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation/Values/Bool.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/QLGui/App.config</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/TypeChecking.Test/TypeChecking.Test.csproj</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/testsamples/demo.txt</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/.gitignore</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/README.md</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/doc/Class diagram.png</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/Main.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/FugaziQLVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/logical/And.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/logical/Or.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/numerical/Add.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/numerical/Div.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/numerical/Mul.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/expression/numerical/Sub.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/Form.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/form_data/QLFormDataStorage.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/form_data/visitor/FullQLFormVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/form_data/visitor/IdTypeVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/form_data/visitor/IfStatementsVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/ast/form/form_data/visitor/QuestionsVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/evaluator/visitor/EvaluationExprVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/gui/GUIBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/parser/QLLexer.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/parser/QLParser.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/QLTypeChecker.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/ASTIssueHandler.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/ASTIssuePrinter.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/ASTNodeIssueType.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/visitor/CyclicDependenciesVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/visitor/TypeMismatchVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/visitor/UndefinedQuestionsVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/DefaultStyleHandler.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/DefaultWidgetsFactory.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/FugaziQLSVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/widget/AbstractQLSWidget.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/widget/QLSRadioBtn.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/widget/QLSSlider.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/ast/widget/QLSSpinBox.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/gui/StyledGUIBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/gui/widget/QLSWidgetsFactory.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/parser/QLSLexer.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/parser/QLSParser.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/type_checker/QLSTypeChecker.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerCyclicDependencies.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerDuplicateConflictingQuestions.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerDuplicateLabels.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerInvalidOperandTypes.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerNonBoolConditions.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/ql/type_checker/TestCheckerUndefinedVariables.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/test/org/fugazi/qls/type_checker/TestQlsTypeCheckerBase.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Form.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/Label.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/LabelText.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLNode.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSNode.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQlsNodeVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeVisitor.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLSParseTreeListener.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/visualization/Visualizable.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/visualization/Visualizer.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../SanderMark/QL/src/com/form/language/gui/components/QuestionComponent.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../SanderMark/QL/src/com/form/language/gui/program/MainFrame.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../SanderMark/QL/src/com/form/language/memory/Context.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/ql/src/main/java/nl/uva/sc/encoders/ql/ast/Questionnaire.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/ql/src/main/java/nl/uva/sc/encoders/ql/parser/QuestionnaireParsingResult.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/model/RuntimeQuestion.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/ui/Main.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/ui/QuestionnaireGridPane.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/antlr4/nl/uva/sc/encoders/qls/EncodersQLS.g4</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/antlr4/nl/uva/sc/encoders/qls/EncodersQLSLexerRules.g4</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/DefaultStyle.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/Page.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/Section.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/Stylesheet.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/validation/TypeChecker.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/SectionBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/parser/ParseTreeToAbstractSyntaxTreeTest.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/pom.xml</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/src/main/java/nl/uva/sc/encoders/qlsruntime/ui/Main.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation.Test/Evaluation.Test.csproj</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation.Test/EvaluatorTests.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation.Test/Properties/AssemblyInfo.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluation.Test/SymbolTableTests.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/TypeChecking.Test/Checkers/IdentifierCheckerTest.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/TypeChecking.Test/Checkers/LabelCheckerTest.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/build.properties</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/build.xml</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/artifacts/Fugazi_jar/Fugazi.jar</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/ql/grammar/QL.g4</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/ql/parser/QL.tokens</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/ql/parser/QLLexer.tokens</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/qls/grammar/QLS.g4</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/qls/parser/QLS.tokens</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/production/Fugazi/org/fugazi/qls/parser/QLSLexer.tokens</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/input_forms/fugaziFormExample.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/input_forms/fugaziStyleExample.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/correctForm.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/cyclicDependencies.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/duplicateConflictingQuestions.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/duplicateLabels.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/invalidOperandTypes.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/nonBoolConditions.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/ql/type_checker/test_form/undefinedVariableForm.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/qls/type_checker/test_form/correctForm.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/qls/type_checker/test_form/incompatibleWidgets.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/qls/type_checker/test_form/multipleQuestions.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/qls/type_checker/test_form/undefinedQuestions.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/out/test/Fugazi/org/fugazi/qls/type_checker/test_form/unplacedQuestions.qls</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/QLApplication.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/ASTErrorIssue.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/CyclicDependenciesError.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/DuplicateQuestionError.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/NonBoolConditionError.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/TypeMismatchError.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/error/UndefinedQuestionError.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/warning/ASTWarningIssue.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/ql/type_checker/issue/warning/DuplicateLabelWarning.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../Fugazi/src/org/fugazi/qls/QLSApplication.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/QLSLabel.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/JavaFXTest/src/pagination/PaginationSample.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/ql/src/main/java/nl/uva/sc/encoders/ql/parser/ParsingResult.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/ui/handler/ParseQLButtonHandler.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/property/Color.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/property/DefaultStyleProperty.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/property/Font.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/property/FontSize.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/property/Width.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/parser/ParseTreeToAbstractSyntaxTree.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/parser/StylesheetParser.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/parser/StylesheetParsingResult.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/PageBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/StylesheetBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/property/FontSizeBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/ast/widget/RadioBuilder.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/test/java/nl/uva/sc/encoders/qls/validation/TypeCheckerTest.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/src/main/java/nl/uva/sc/encoders/qlsruntime/ui/handler/CombinedParsingResult.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/src/main/java/nl/uva/sc/encoders/qlsruntime/ui/handler/QLSParseButtonHandler.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluator.Test/Evaluator.Test.csproj</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluator.Test/EvaluatorTests.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluator.Test/Properties/AssemblyInfo.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../FelipezConde/QuestionnaireLanguage/Evaluator.Test/SymbolTableTests.cs</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/ui/handler/ParseButtonHandler.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlruntime/src/main/java/nl/uva/sc/encoders/qlruntime/ui/handler/ShowButtonHandler.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/DefaultStyleProperty.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/parser/ParseTreeToAbstractSyntaxTree.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/parser/StylesheetParser.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qls/src/main/java/nl/uva/sc/encoders/qls/ast/parser/StylesheetParsingResult.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/src/main/java/nl/uva/sc/encoders/qlsruntime/ui/StylesheetGridPane.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../encoders/qlsruntime/src/main/java/nl/uva/sc/encoders/qlsruntime/ui/handler/ParseButtonHandler.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Application.App">
     <configuration default="false" name="nl.uva.bromance.grammar in FormParser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -4471,7 +4273,13 @@
       <option name="project" value="LOCAL" />
       <updated>1427657890932</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="- removed warnings">
+      <created>1427661152438</created>
+      <option name="number" value="00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1427661152438</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -4499,39 +4307,39 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="1" width="1918" height="1038" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938644" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864866" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3240043" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25765577" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18568353" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39935413" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25618947" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27771798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25618947" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32805908" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="760" y="651" width="1051" height="311" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26445848" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16469322" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26445848" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12291667" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35306782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="SonarQube" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35306782" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3240043" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39935413" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27771798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16469322" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -4584,7 +4392,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="- Started with Expression evaluation." />
     <MESSAGE value="- GrammarErrorListener message is now clearer.&#10;- GrammarTest extended.&#10;- Updated grammar to force a question to have a text and an answertype" />
     <MESSAGE value="- Added several grammar tests&#10;- Introduced @Rule in all tests&#10;- Added GrammarTest super to all GrammarTests" />
     <MESSAGE value="- Added initial set up for AST tests." />
@@ -4609,7 +4416,8 @@
     <MESSAGE value="-" />
     <MESSAGE value="- boyscout&#10;- now showing syntax errors" />
     <MESSAGE value="- Removed already defined typechecking exception&#10;- Added scrollable pane&#10;- Added some extra questions to GrammarTest.ql to illustrate scroll" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Removed already defined typechecking exception&#10;- Added scrollable pane&#10;- Added some extra questions to GrammarTest.ql to illustrate scroll" />
+    <MESSAGE value="- removed warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="- removed warnings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -4638,29 +4446,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/questiontypes/IntegerType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="28" max-vertical-offset="1207">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/IntResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/operators/LargerThanOperator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4668,7 +4457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4676,7 +4464,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4684,7 +4471,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4692,7 +4478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4700,7 +4485,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4708,7 +4492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4716,15 +4499,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQLSNodeVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/NullQlsNodeVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4732,7 +4513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4740,7 +4520,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4748,7 +4527,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4756,7 +4534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4764,7 +4541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4772,7 +4548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4780,7 +4555,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4788,7 +4562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4796,23 +4569,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLSNodeElement.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeElement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QLSNodeVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/visitors/QlsNodeVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4820,7 +4590,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2074">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4828,7 +4597,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4836,7 +4604,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4844,7 +4611,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4852,7 +4618,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4860,7 +4625,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4868,7 +4632,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4876,7 +4639,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4884,7 +4646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4892,7 +4653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4900,7 +4660,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4908,7 +4667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4916,7 +4674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4924,7 +4681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4932,7 +4688,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="62" max-vertical-offset="697">
           <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4948,7 +4703,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3094">
           <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4956,17 +4710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1003">
           <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
-          <folding>
-            <element signature="e#429#430#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
-          <caret line="18" column="63" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4974,9 +4717,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#297#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4984,15 +4724,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
           <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseIfStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="232" max-vertical-offset="850">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5000,7 +4731,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5046,8 +4776,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/CustomResult.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30769232" vertical-offset="0" max-vertical-offset="697">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="680">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ExpressionEvaluator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="884">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/ElseIfStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="23" max-vertical-offset="850">
+          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/ast/conditionals/HasIdentifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13207547" vertical-offset="255" max-vertical-offset="1632">
+          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
           <folding />
         </state>
       </provider>
