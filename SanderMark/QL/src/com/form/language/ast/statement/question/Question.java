@@ -8,7 +8,6 @@ import com.form.language.gui.components.FormComponent;
 import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
-//TODO :: Seperate each variable?
 public class Question extends Statement {
     private QuestionId id;
     private QuestionLabel label;
@@ -37,7 +36,6 @@ public class Question extends Statement {
 	context.setValue(getId(), questionType.defaultValue());
     }
     
-    //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
     @Override
     public boolean checkType(Context context) {
 	context.addQuestion(this);

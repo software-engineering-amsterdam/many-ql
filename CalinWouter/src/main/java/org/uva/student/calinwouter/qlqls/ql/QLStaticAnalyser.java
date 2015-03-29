@@ -8,8 +8,8 @@ public class QLStaticAnalyser {
     private final AForm aForm;
 
     public StaticFields collectStaticFields() {
-        StaticFields staticFields = new StaticFields();
-        PFormStaticFieldsCollector typeCollector = new PFormStaticFieldsCollector(staticFields);
+        final StaticFields staticFields = new StaticFields();
+        final PFormStaticFieldsCollector typeCollector = new PFormStaticFieldsCollector(staticFields);
         aForm.apply(typeCollector);
         return staticFields;
     }

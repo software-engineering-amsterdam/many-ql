@@ -4,8 +4,8 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 public abstract class AbstractStaticFormField {
-    private String label, variable;
-    private ITypeDescriptor typeDescriptor;
+    private final String label, variable;
+    private final ITypeDescriptor typeDescriptor;
 
     public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer);
 

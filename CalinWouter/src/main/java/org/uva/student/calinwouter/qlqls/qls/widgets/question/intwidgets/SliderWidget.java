@@ -13,9 +13,9 @@ import java.awt.*;
 
 
 public class SliderWidget implements IWidget {
-    final String questionIdentifier;
-    final QLInterpreter qlInterpreter;
-    final StateWrapper stateWrapper;
+    private final String questionIdentifier;
+    private final QLInterpreter qlInterpreter;
+    private final StateWrapper stateWrapper;
     private JSlider sliderWidget;
 
     public Component getWidgetComponent() {

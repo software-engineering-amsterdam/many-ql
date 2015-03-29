@@ -11,26 +11,26 @@ import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
 public class CheckBox extends Widget {
-	private JCheckBox checkbox;
+    private JCheckBox checkbox;
 
-	public CheckBox(Question question, QuestionComponent questionComponent, Context context) {
-		super(question,context);
-		this.checkbox = new JCheckBox();
-		
-		this.checkbox.setName(question.getId());
-		CheckBoxListener checkboxListener = new CheckBoxListener();
-		this.checkbox.addItemListener((ItemListener) checkboxListener);
-	}
-	
-	public JCheckBox getCheckBox()
-	{
-		return checkbox;
-	}
+    public CheckBox(Question question, QuestionComponent questionComponent, Context context) {
+	super(question,context);
+	this.checkbox = new JCheckBox();
 
-	private class CheckBoxListener implements ItemListener {
-		public void itemStateChanged(ItemEvent e) {
-			setContextValue(new BoolValue(checkbox.isSelected()));
-			checkDependencyVisibility();
-		}
+	this.checkbox.setName(question.getId());
+	CheckBoxListener checkboxListener = new CheckBoxListener();
+	this.checkbox.addItemListener((ItemListener) checkboxListener);
+    }
+
+    public JCheckBox getCheckBox()
+    {
+	return checkbox;
+    }
+
+    private class CheckBoxListener implements ItemListener {
+	public void itemStateChanged(ItemEvent e) {
+	    setContextValue(new BoolValue(checkbox.isSelected()));
+	    checkDependencyVisibility();
 	}
+    }
 }

@@ -147,7 +147,7 @@ public class QLSTypeChecker {
                                                               final Defaults defaults) {
         final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
         final AbstractWidget widget = getWidgetFromDefaultStyles(defaults, valueTypeDescriptor);
-        if (!valueTypeDescriptor.isAllowed(widget)) {
+        if (widget != null && !valueTypeDescriptor.isAllowed(widget)) {
             final WidgetType unallowedWidgetType = new WidgetType(widget, valueTypeDescriptor);
             invalidDefaultWidgetAssignments.add(unallowedWidgetType);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace TypeChecking.Test.Checkers
 {
     [TestClass]
-    public class CyclicDependencyCheckerTest
+    public class DependencyGraphTest
     {
 
     }

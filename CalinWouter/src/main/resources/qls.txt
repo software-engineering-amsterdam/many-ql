@@ -9,13 +9,13 @@ styleSheet(taxOfficeExample,
             sections(
                 section("Selling",
                     fields(
-                        question(hasSoldHouse, {widget: radio("Yes", "No")})
+                        question(hasSoldHouse, {color: #FFAAAA, widget: radio("Yes", "No")})
                     ), defaults({
-                        int: {
+                        boolean: {
                             width: 400,
                             font: "Arial",
                             fontSize: 14,
-                            color: #999999,
+                            color: #FFAAAA,
                             widget: spinbox()
                         }})
                     ),

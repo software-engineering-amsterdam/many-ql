@@ -72,14 +72,12 @@ public class StylingSettings {
      * Create a map based on the provided styling settings, with fallback parameters to the defaults.
      */
     private Map<String, Object> createMapBackedByDefaults(ITypeDescriptor typeDescriptor, Map<String, Object> stylingSettingsMap) {
-        DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
-
-        // When no typeDescriptor is set, it is not attached to a type, thus do not set the default widget.
-        if (typeDescriptor != null) { // TODO
+        final DefaultStylingSettingsCreator defaultStylingSettingsCreator = new DefaultStylingSettingsCreator();
+        if (typeDescriptor != null) {
             typeDescriptor.callTypeMethod(defaultStylingSettingsCreator);
         }
-        Map<String, Object> newStylingSettingsMap =
-                new HashMap<String, Object>(defaultStylingSettingsCreator.getResults());
+        final Map<String, Object> results = defaultStylingSettingsCreator.getResults();
+        final Map<String, Object> newStylingSettingsMap = new HashMap<String, Object>(results);
         newStylingSettingsMap.putAll(stylingSettingsMap);
         return newStylingSettingsMap;
     }

@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
-import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
+import org.uva.student.calinwouter.qlqls.ql.model.QLTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 
 import java.util.HashMap;
@@ -12,11 +12,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static org.uva.student.calinwouter.qlqls.ql.helper.ASTHelper.*;
+
 public class PStatementTypeChecker extends AnalysisAdapter {
     private final StaticFields staticFields;
     private final PExpressionTypeChecker pExpressionTypeChecker;
     private final Map<String, List<String>> variableDependencies;
-    private final TypeCheckResults typeCheckResults;
+    private final QLTypeCheckResults QLTypeCheckResults;
 
     private void typeCheckExpressionIsBoolean(PExpression ifExpression) {
         ifExpression.apply(pExpressionTypeChecker);
@@ -69,7 +71,7 @@ public class PStatementTypeChecker extends AnalysisAdapter {
     }
 
     private ITypeDescriptor getTypeOfField(AValueStatement node) {
-        String identifier = node.getIdentifier().getText();
+        final String identifier = getIdentifier(node);
         return staticFields.getTypeOfField(identifier);
     }
 
@@ -86,7 +88,7 @@ public class PStatementTypeChecker extends AnalysisAdapter {
     private void checkCyclicDependency(String identifier){
         for(String dependency: variableDependencies.get(identifier)){
             if(variableDependencies.get(dependency) != null && variableDependencies.get(dependency).contains(identifier)) {
-                typeCheckResults.addCyclicDependencyError(identifier, dependency);
+                QLTypeCheckResults.addCyclicDependencyError(identifier, dependency);
             }
         }
     }
@@ -94,7 +96,7 @@ public class PStatementTypeChecker extends AnalysisAdapter {
     @Override
     public void caseAValueStatement(AValueStatement node) {
         final ITypeDescriptor typeDescriptor = getTypeOfField(node);
-        final String identifier = node.getIdentifier().getText();
+        final String identifier = getIdentifier(node);
         variableDependencies.put(identifier, new LinkedList<String>());
         pExpressionTypeChecker.setLastComputedValueIdentifier(identifier);
         checkExpressionIsOfType(node, typeDescriptor);
@@ -102,11 +104,11 @@ public class PStatementTypeChecker extends AnalysisAdapter {
         pExpressionTypeChecker.setLastComputedValueIdentifier(null);
     }
 
-    public PStatementTypeChecker(StaticFields staticFields, TypeCheckResults typeCheckResults) {
+    public PStatementTypeChecker(StaticFields staticFields, QLTypeCheckResults QLTypeCheckResults) {
         this.staticFields = staticFields;
-        this.typeCheckResults = typeCheckResults;
+        this.QLTypeCheckResults = QLTypeCheckResults;
         variableDependencies = new HashMap<String, List<String>>();
-        this.pExpressionTypeChecker = new PExpressionTypeChecker(staticFields, typeCheckResults, variableDependencies);
+        this.pExpressionTypeChecker = new PExpressionTypeChecker(staticFields, QLTypeCheckResults, variableDependencies);
     }
 
 }

@@ -20,4 +20,9 @@ public class Checkbox extends AbstractWidget {
         final StateWrapper stateWrapper = qlsRenderParameters.getStateWrapper();
         return new CheckboxWidget(identifier, qlInterpreter, stateWrapper);
     }
+
+    @Override
+    public Boolean allowsBooleanValue() {
+        return true;
+    }
 }
