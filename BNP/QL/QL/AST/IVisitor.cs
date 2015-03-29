@@ -8,13 +8,11 @@ using QL.Exceptions;
 namespace QL.AST
 {
     /// <summary>
-    /// An AST visitor providing only the most elementary types that need be visited
+    /// An AST visitor providing types that can be visited with a fallback visit() of ElementBase.
+    /// The fallback should ideally not be implemented but throw an error instead.
     /// </summary>
     public interface IVisitor
     {
-        ReferenceTables ReferenceTables { get; }
-        IList<QLBaseException> Exceptions { get; }
-
         void Visit(Form node);
         void Visit(Block node);
         void Visit(ControlUnit node);
