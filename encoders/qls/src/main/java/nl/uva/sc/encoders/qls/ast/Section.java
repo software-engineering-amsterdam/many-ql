@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
 
 public class Section extends AstNode {
 
@@ -47,6 +48,10 @@ public class Section extends AstNode {
 		for (Section subSection : subSections) {
 			subSection.collectQuestions(questions);
 		}
+	}
+
+	public <T> T accept(SectionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

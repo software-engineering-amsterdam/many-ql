@@ -28,7 +28,7 @@ public class TypeCheckerTest {
 		Stylesheet stylesheet = aStylesheet().build();
 		TypeChecker typeChecker = new TypeChecker(stylesheet, questionnaire);
 
-		List<TypeValidation> validations = typeChecker.checkQuestionReferences();
+		List<TypeValidation> validations = typeChecker.checkTypes();
 		assertThat(validations.toString(), validations.size(), is(1));
 		ValidationMessage validationMessage = validations.get(0);
 		assertThat(validationMessage.getValidationMessage(), is("Referenced Question does not exist in QL."));
