@@ -61,7 +61,7 @@ public class ConditionalDomain {
 			return;
 		}
 		
-		if(((BooleanValue) value).getValue()) {
+		if(((BooleanValue) value).getPrimitive()) {
 			activateIfPanel();
 		} else {
 			activateElsePanel();

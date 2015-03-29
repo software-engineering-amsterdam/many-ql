@@ -126,26 +126,26 @@ public abstract class StatementVisitor<T> extends ql.ast.visitor.StatementVisito
 
 
 	public T visit(Color color) {
-		color.getValue().accept(expressionVisitor);
+		color.getLiteral().accept(expressionVisitor);
 		return null;
 	}
 	
 	public T visit(Width width) {
-		width.getValue().accept(expressionVisitor);
+		width.getLiteral().accept(expressionVisitor);
 		return null;
 	}
 	
 	public T visit(Height height) {
-		height.getValue().accept(expressionVisitor);
+		height.getLiteral().accept(expressionVisitor);
 		return null;
 	}
 	
 	public T visit(Font font) {
-		font.getValue().accept(expressionVisitor);
+		font.getLiteral().accept(expressionVisitor);
 		return null;
 	}
 	public T visit(FontSize fontSize) {
-		fontSize.getValue().accept(expressionVisitor);
+		fontSize.getLiteral().accept(expressionVisitor);
 		return null;
 	}
 }

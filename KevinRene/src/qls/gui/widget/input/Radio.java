@@ -55,7 +55,7 @@ public class Radio extends DefaultComponent implements InputWidget<BooleanValue>
 
 	@Override
 	public void setValue(BooleanValue value) {
-		if(value.getValue()) {
+		if(value.getPrimitive()) {
 			trueRadio.setValue(new BooleanValue(true));
 		} else {
 			falseRadio.setValue(new BooleanValue(true));

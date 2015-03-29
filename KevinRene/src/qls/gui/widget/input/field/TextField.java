@@ -32,6 +32,6 @@ public class TextField extends Field<StringValue> {
 
 	@Override
 	public String convertValue(Value value) {
-		return value.getValue().toString();
+		return value.getPrimitive().toString();
 	}
 }

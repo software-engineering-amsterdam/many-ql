@@ -21,7 +21,7 @@ public abstract class Field<T extends Value> extends
 			@Override
 			public void run() {
 				setValue(newValue);
-				textField().setText(convertValue(getValue()));
+				textField().setText(convertValue(newValue));
 			}
 		};
 		

@@ -46,6 +46,6 @@ public class MoneyField extends Field<MoneyValue> implements CaretListener {
 	}
 	@Override
 	public String convertValue(Value value) {
-		return decimalFormat.format(value.getValue());	
+		return decimalFormat.format(value.getPrimitive());	
 	}
 }

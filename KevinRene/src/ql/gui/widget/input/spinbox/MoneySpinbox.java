@@ -28,7 +28,7 @@ public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener 
 		this();
 		
 		disable();
-		spinbox().setValue(decimalFormat.format(moneyValue.getValue()));
+		spinbox().setValue(decimalFormat.format(moneyValue.getPrimitive()));
 	}
 	
 	@Override

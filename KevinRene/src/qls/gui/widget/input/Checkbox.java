@@ -19,7 +19,7 @@ public class Checkbox extends DefaultComponent implements InputWidget<BooleanVal
 	}
 	public Checkbox(BooleanValue value) {
 		this();
-		checkBox.setSelected(value.getValue());
+		checkBox.setSelected(value.getPrimitive());
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class Checkbox extends DefaultComponent implements InputWidget<BooleanVal
 
 	@Override
 	public void setValue(BooleanValue value) {
-		checkBox.setSelected(value.getValue());
+		checkBox.setSelected(value.getPrimitive());
 	}
 
 	@Override

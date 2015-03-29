@@ -24,7 +24,7 @@ public abstract class Slider<T extends Value> extends DefaultComponent implement
 	public Slider(IntegerValue minValue, IntegerValue maxValue) {
 		stylizer = new WidgetStylizer();
 		
-		slider = new JSlider(JSlider.HORIZONTAL, minValue.getValue(), maxValue.getValue(), minValue.getValue());		
+		slider = new JSlider(JSlider.HORIZONTAL, minValue.getPrimitive(), maxValue.getPrimitive(), minValue.getPrimitive());		
 		slider.setMaximumSize(new Dimension(slider.getPreferredSize().width, 
 				slider.getPreferredSize().height * 2));
 		slider.addChangeListener(this);

@@ -22,7 +22,7 @@ public class BooleanValue implements Value {
 	}
 
 	@Override
-	public Boolean getValue() {
+	public Boolean getPrimitive() {
 		return this.value;
 	}
 	
@@ -93,7 +93,7 @@ public class BooleanValue implements Value {
 
 	@Override
 	public Value not() {
-		return new BooleanValue(!getValue());
+		return new BooleanValue(!getPrimitive());
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class BooleanValue implements Value {
 
 	@Override
 	public Value orBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() || getValue());
+		return new BooleanValue(argument.getPrimitive() || getPrimitive());
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class BooleanValue implements Value {
 
 	@Override
 	public Value notEqualToBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() != getValue());
+		return new BooleanValue(argument.getPrimitive() != getPrimitive());
 	}
 
 	@Override
@@ -208,7 +208,7 @@ public class BooleanValue implements Value {
 
 	@Override
 	public Value equalToBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() == getValue());
+		return new BooleanValue(argument.getPrimitive() == getPrimitive());
 	}
 
 	@Override
@@ -233,7 +233,7 @@ public class BooleanValue implements Value {
 
 	@Override
 	public Value andBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() && getValue());
+		return new BooleanValue(argument.getPrimitive() && getPrimitive());
 	}
 
 	@Override
@@ -244,7 +244,7 @@ public class BooleanValue implements Value {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof BooleanValue) {
-			return getValue().equals(((BooleanValue) obj).getValue());
+			return getPrimitive().equals(((BooleanValue) obj).getPrimitive());
 		}
 		
 		return false;
@@ -252,6 +252,6 @@ public class BooleanValue implements Value {
 
 	@Override
 	public String toString() {
-		return getValue().toString();
+		return getPrimitive().toString();
 	}
 }

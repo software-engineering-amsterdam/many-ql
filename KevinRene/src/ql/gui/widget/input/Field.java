@@ -107,13 +107,13 @@ public abstract class Field<T extends Value> extends DefaultComponent implements
 	
 	@Override
 	public T getValue() {
-		return this.value;
+		return value;
 	}
 	
 	@Override
 	public void setValue(T value) {
 		this.value = value;
-		textField.setText(value.getValue().toString());		
+		textField.setText(value.getPrimitive().toString());		
 	}
 	
 	@Override
