@@ -67,11 +67,19 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         }
         init = false;
     }
+    private void processQl() {
+        if (evaluateQLNode()) {
+            questions.getChildren().clear();
+            qlNode.accept(this);
+        }
+    }
 
     private void processQls() {
         if (evaluateQLNode()) {
+            questions.getChildren().clear();questions.getChildren().clear();
             qlsNode.get().accept(this);
         }
+
     }
 
     private boolean evaluateQLNode() {
@@ -93,12 +101,6 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
         new ExpressionEvaluator(answerMap).evaluate(qlNode);
         new ConditionalHandler().handle(qlNode);
         return true;
-    }
-
-    private void processQl() {
-        if (evaluateQLNode()) {
-            qlNode.accept(this);
-        }
     }
 
     public void setQlsAst(AST<QLSNode> qlsAst) {
@@ -170,11 +172,7 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
     }
 
     private void processQuestion(Question question) {
-        if (init) {
-            question.getQuestionType().addQuestionToPane(questions, answerMap, this);
-        } else {
-            question.getQuestionType().refresh();
-        }
+        question.getQuestionType().addQuestionToPane(questions, answerMap, this);
     }
 
 

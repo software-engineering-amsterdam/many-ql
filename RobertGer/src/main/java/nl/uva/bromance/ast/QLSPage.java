@@ -49,6 +49,7 @@ public class QLSPage extends QLSNode {
         if (visualizer.getCurrentPage() == this){
             label.getStyleClass().remove("active");
             label.getStyleClass().add("active");
+            visitChildren(visualizer);
         } else {
             label.getStyleClass().remove("active");
         }

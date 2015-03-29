@@ -16,7 +16,5 @@ public interface QuestionType {
 
     public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer);
 
-    public void refresh();
-
     public void accept(QuestionTypeVisitor visitor);
 }
