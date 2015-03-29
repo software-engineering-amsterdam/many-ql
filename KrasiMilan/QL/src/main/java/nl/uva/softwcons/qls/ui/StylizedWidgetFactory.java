@@ -43,7 +43,7 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
         final Widget widget;
         if (questionWidget.isPresent()) {
             widget = questionWidget.get().accept(this);
-            widget.getWidget().setStyle(questionStyle.toString()); // TODO
+            widget.getWidget().setStyle(questionStyle.asString()); // TODO
         } else {
             widget = defaultFactory.getWidget(question);
         }

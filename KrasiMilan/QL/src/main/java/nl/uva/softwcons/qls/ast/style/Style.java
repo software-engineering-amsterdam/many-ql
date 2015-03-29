@@ -40,4 +40,12 @@ public class Style implements ASTNode {
         // TODO Auto-generated method stub
         return null;
     }
+
+    public String asString() {
+        StringBuilder builder = new StringBuilder();
+        this.properties.forEach((key, value) -> {
+            builder.append("-fx-" + key + ": " + value + ";\n");
+        });
+        return builder.toString();
+    }
 }
