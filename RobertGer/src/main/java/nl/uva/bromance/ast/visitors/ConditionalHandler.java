@@ -3,13 +3,14 @@ package nl.uva.bromance.ast.visitors;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.ElseIfStatement;
 import nl.uva.bromance.ast.conditionals.ElseStatement;
-import nl.uva.bromance.ast.conditionals.Expression;
 import nl.uva.bromance.ast.conditionals.IfStatement;
 
 /**
  * Created by Robert on 16-3-2015.
  */
-public class ConditionalHandler extends NullNodeVisitor {
+public class ConditionalHandler extends NullQLNodeVisitor {
+
+    private boolean makeChildrenInvisible = false;
 
     public void handle(QLNode qlNode)
     { qlNode.accept(this);}
@@ -21,11 +22,31 @@ public class ConditionalHandler extends NullNodeVisitor {
 
     @Override
     public void visit(IfStatement ifStatement) {
+        makeChildrenInvisible = false;
         ifStatement.handleExpressionResult();
+        if (ifStatement.ExpressionEvaluatesToTrue()){
+            makeChildrenInvisible = true;
+        }
     }
 
     @Override
     public void visit(ElseIfStatement elseIfStatement) {
-        elseIfStatement.handleExpressionResult();
+        if (makeChildrenInvisible){
+            elseIfStatement.setChildrenVisible(false);
+        } else {
+            elseIfStatement.handleExpressionResult();
+            if (elseIfStatement.ExpressionEvaluatesToTrue()){
+                makeChildrenInvisible = true;
+            }
+        }
+    }
+
+    @Override
+    public void visit(ElseStatement elseStatement) {
+        if (makeChildrenInvisible){
+            elseStatement.setChildrenVisible(false);
+        } else {
+            elseStatement.setChildrenVisible(true);
+        }
     }
 }

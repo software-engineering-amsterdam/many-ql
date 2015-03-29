@@ -4,23 +4,23 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import nl.uva.se.ql.ast.statement.Question;
 import nl.uva.se.ql.evaluation.value.BooleanValue;
-import nl.uva.se.ql.gui.listeners.IMediator;
 import nl.uva.se.ql.gui.listeners.Listener;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.validators.BooleanValidator;
-import nl.uva.se.ql.gui.validators.Validator;
 
-public class BooleanQuestion extends BaseQuestion<Boolean>{
-	
+public class BooleanQuestion extends BaseQuestion<Boolean> {
+
 	private CheckBox checkBox = new CheckBox();
-	
-	public BooleanQuestion(Question question, IMediator mediator) {
+
+	public BooleanQuestion(Question question, Mediator mediator) {
 		super(question, mediator);
 		Listener<Boolean> listener = new Listener<Boolean>(getMediator());
-		checkBox.selectedProperty().addListener(listener.addListener(this, getValidator()));		
-	}	
+		checkBox.selectedProperty().addListener(
+				listener.addListener(this, getValidator()));
+	}
 
 	@Override
-	public Validator<Boolean> initValidator() {
+	public BooleanValidator initValidator() {
 		return new BooleanValidator();
 	}
 
@@ -38,5 +38,5 @@ public class BooleanQuestion extends BaseQuestion<Boolean>{
 	public Node getWidget() {
 		return this.checkBox;
 	}
-	
+
 }

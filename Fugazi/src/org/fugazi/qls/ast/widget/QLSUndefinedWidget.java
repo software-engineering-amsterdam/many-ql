@@ -3,7 +3,7 @@ package org.fugazi.qls.ast.widget;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -33,34 +33,27 @@ public class QLSUndefinedWidget extends AbstractQLSWidget {
     }
 
     @Override
-    public void render(UIForm _canvas) {
-        throw new AssertionError();
-    }
+    public void render(UIForm _canvas) {}
 
     @Override
-    public void supress(UIForm _canvas){
-        throw new AssertionError();
-    }
+    public void suppress(UIForm _canvas) {}
 
     @Override
     public UndefinedValue getWidgetValue() {
-        throw new AssertionError();
+        return null;
     }
 
     @Override
-    public void setWidgetValue(ExpressionValue _value) {
-        throw new AssertionError();
-    }
+    public void setWidgetValue(ExpressionValue _value) {}
 
     @Override
-    public void setReadOnly(boolean _isReadonly) {
-        throw new AssertionError();
-    }
+    public void setReadOnly(boolean _isReadonly) {}
 
     @Override
-    public void addEventListener(WidgetsEventListener _listener) {
-        throw new AssertionError();
-    }
+    public void addEventListener(WidgetsEventListener _listener) {}
+
+    @Override
+    public void setLabel(String _label) {}
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {
         return _visitor.visitUndefinedWidget(this);

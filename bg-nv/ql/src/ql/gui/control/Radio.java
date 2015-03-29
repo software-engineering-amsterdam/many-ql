@@ -21,9 +21,9 @@ public class Radio extends ControlElement implements BoolControl
     private final RadioButton falseRadio;
     private final HBox controlNode;
 
-    public Radio(Boolean visible, Boolean disabled, String trueLabel, String falseLabel)
+    public Radio(String trueLabel, String falseLabel)
     {
-        super(visible, disabled);
+        super();
         this.group = new ToggleGroup();
         this.trueRadio = this.createRadio(trueLabel, group);
         this.falseRadio = this.createRadio(falseLabel, group);
@@ -33,9 +33,6 @@ public class Radio extends ControlElement implements BoolControl
         box.getChildren().addAll(this.trueRadio, this.falseRadio);
         this.controlNode.getChildren().add(box);
         this.controlNode.setAlignment(Pos.BOTTOM_RIGHT);
-
-        this.setVisible(visible);
-        this.setDisabled(disabled);
     }
 
     private RadioButton createRadio(String label, ToggleGroup group) {
@@ -43,14 +40,6 @@ public class Radio extends ControlElement implements BoolControl
         radio.setText(label);
         radio.setToggleGroup(group);
         return radio;
-    }
-
-    @Override
-    public void setVisible(Boolean visible)
-    {
-        super.setVisible(visible);
-        this.controlNode.setVisible(visible);
-        this.controlNode.setManaged(visible);
     }
 
     @Override

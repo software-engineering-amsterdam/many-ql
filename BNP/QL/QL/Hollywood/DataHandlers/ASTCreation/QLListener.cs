@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
-using QL;
+using QL.AST;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.Model;
-using System.Diagnostics;
-using QL.Model.Terminals;
-using Antlr4.Runtime;
-using QL.Model.Operators;
-using System.Diagnostics.Contracts;
+using QL.Grammar;
+using System;
 
-
-namespace QL.Grammars
+namespace QL.Hollywood.DataHandlers.ASTCreation
 {
     public class QLListener : QLBaseListener
     {
         #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private Form _astRootNode;
-        private IList<QLBaseException> AstBuilderExceptions;
+        private IList<QLBaseException> _astBuilderExceptions;
 
 
         public QLListener()
         {
             _childrenStack = new Stack<Stack<ElementBase>>();
-            AstBuilderExceptions = new List<QLBaseException>();
+            _astBuilderExceptions = new List<QLBaseException>();
 
         }
 
-        public QLListener(IList<QLBaseException> AstBuilderExceptions)
+        public QLListener(IList<QLBaseException> astBuilderExceptions)
         {
-            this.AstBuilderExceptions = AstBuilderExceptions;
+            _astBuilderExceptions = astBuilderExceptions;
             _childrenStack = new Stack<Stack<ElementBase>>();
 
         }
@@ -46,7 +43,10 @@ namespace QL.Grammars
 
         public bool AstExists
         {
-            get { return _astRootNode != null; }
+            get 
+            {
+                return _astRootNode != null; 
+            }
         }
         
         public Form GetAstRootNode()
@@ -56,17 +56,22 @@ namespace QL.Grammars
 
         void ThrowExceptionIfAny()
         {
-            if (AstBuilderExceptions.Any())
+            if (_astBuilderExceptions.Any())
             {
-                throw AstBuilderExceptions.Last();
+                throw _astBuilderExceptions.Last();
             }
         }
         private IList<ElementBase> GetChildren()
         {
             ThrowExceptionIfAny();
-            Contract.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
+            if (!_childrenStack.Any())
+            {
+                //we are intentionally not throwing QL exception, it is not intented to be displayed
+                _astBuilderExceptions.Add(new ParserError("Level with children should be always initialized before appending one."));
+            }
+            
             Stack<ElementBase> children = _childrenStack.Pop();
-            //stack has opposite ordering, need to be reversed to have the order as it was created.  // todo use queue instead          
+            //stack has to be reversed to have the order as it was created.
             IList<ElementBase> reversed = children.Reverse().ToList();            
             return reversed;
         }
@@ -80,17 +85,8 @@ namespace QL.Grammars
             }
             else
             {
-                try
-                {
-                    //this is the last one
-                    _astRootNode = (Form)newChild;
-                }
-                catch
-                {
-                    // todo add ex to list of errors as fatal error
-                    _astRootNode = null;
-                    throw;
-                }
+                //this is the last one, it should be Form
+                _astRootNode = (Form)newChild;                
             }
         }
 
@@ -106,16 +102,17 @@ namespace QL.Grammars
         {
             IList<ElementBase> children = GetChildren();
 
-            if (children.Count() != 1)
+            if (children.Count() != 2)
             {
-                AstBuilderExceptions.Add(new ParserError("initial form block should have only one child", SourceLocation.CreateFor(context)));
-                return;
+                _astBuilderExceptions.Add(new ParserError("initial form block should have two children", SourceLocation.CreateFor(context)));
             }
+
+            Form form = new Form(
+                (Identifier)children[0], 
+                (Block)children[1], 
+                SourceLocation.CreateFor(context)
+                );
             
-            Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            Block bodyBlock = (Block)children[0];
-            Form form = new Form(formBlockId, bodyBlock);
-            form.SourceLocation = SourceLocation.CreateFor(context);
             AppendToAST(form);
         }
 
@@ -126,148 +123,137 @@ namespace QL.Grammars
 
         public override void ExitBlock(QLParser.BlockContext context)
         {
-            Block block = new Block();
-            block.SourceLocation = SourceLocation.CreateFor(context);
-            block.Children = GetChildren();
+            IList<ElementBase> children = GetChildren();
+
+            Block block = new Block(
+                children,
+                SourceLocation.CreateFor(context)
+                );
+
             AppendToAST(block);
         }
-
-        public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
+        public override void EnterUnit(QLParser.UnitContext context)
         {
             InitializeNewLevel();
         }
 
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
-            IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel above
+            IList<ElementBase> children = GetChildren();
+
             ThrowExceptionIfAny();
-            Contract.Assert(!children.Any(), "A question should syntactically not have any children.");
+            if (children.Count()!=1)
+            {
+                _astBuilderExceptions.Add(new ParserError("A question should have only identifier as a child."));
+            }
 
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IResolvableTerminalType dataType = GetTypeInstance(context.type());
-
-            string unitText = context.TEXT().GetText();
-
-            QuestionUnit question = new QuestionUnit();
-
-            question.Identifier = identifier;
-            question.DataType = dataType;
-            question.DisplayText = unitText;
-            question.SourceLocation = SourceLocation.CreateFor(context);
-
+            QuestionUnit question = new QuestionUnit(
+                (Identifier)children[0], 
+                TypeFactory.GetTypeInstance(context.type()),
+                context.TEXT().GetText(),
+                SourceLocation.CreateFor(context)
+                );
             AppendToAST(question);
         }
 
-        public override void EnterStatementUnit(QLParser.StatementUnitContext context)
-        {
-            InitializeNewLevel();
-        }
+        
+
+        
 
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
+            
             ThrowExceptionIfAny();
-            Contract.Assert(children.Count() == 1, "A statement should have only expression as a child.");
-
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            IResolvableTerminalType dataType = GetTypeInstance(context.type());
-            string unitText = context.TEXT().GetText();
-
-            StatementUnit statement = new StatementUnit();
-
-            statement.Expression = (Expression)children[0];
-            statement.Identifier = identifier;
-            statement.DataType = dataType;
-            statement.DisplayText = unitText;
-            statement.SourceLocation = SourceLocation.CreateFor(context);
+            if (children.Count() != 2)
+            {
+                _astBuilderExceptions.Add(new ParserError("A statement should have only expression and an identifier as children."));
+            }
+            
+            StatementUnit statement = new StatementUnit(
+                (Identifier)children[0],
+                (Expression)children[1],
+                context.TEXT().GetText(),
+                TypeFactory.GetTypeInstance(context.type()),
+                SourceLocation.CreateFor(context)
+                );
 
             AppendToAST(statement);
-        }
-
-        public IResolvableTerminalType GetTypeInstance(QLParser.TypeContext context)
-        {
-            if (context as QLParser.YesnoContext != null) return new Yesno();
-
-            if (context as QLParser.NumberContext != null) return new Number();
-
-            if (context as QLParser.TextContext != null) return new Text();
-
-            AstBuilderExceptions.Add(new QLError("No appropriate type given", SourceLocation.CreateFor(context)));
-            return null; // formality
-        }
-
-        public override void EnterControlUnit(QLParser.ControlUnitContext context)
-        {
-            InitializeNewLevel();
         }
 
         public override void ExitControlUnit(QLParser.ControlUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
-
-            ControlUnit controlUnit = new ControlUnit();
-            Contract.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
-            controlUnit.Expression = (Expression)children[0];
-            controlUnit.ConditionTrueBlock = (Block)children[1];
+            
+            ControlUnit controlUnit;
             if (children.Count() == 3)
             {
-                controlUnit.ConditionFalseBlock = (Block)children[2];
+                controlUnit = new ControlUnit(
+                    (Expression)children[0],
+                    (Block)children[1],
+                    (Block)children[2],
+                    SourceLocation.CreateFor(context)
+                    );
             }
-                        
-            controlUnit.SourceLocation = SourceLocation.CreateFor(context);
+            else if (children.Count() == 2)
+            {
+                controlUnit = new ControlUnit(
+                    (Expression)children[0],
+                    (Block)children[1],
+                    SourceLocation.CreateFor(context)
+                    );
+
+            }
+            else
+            {
+                _astBuilderExceptions.Add(new ParserError("Bad number of controlUnit children:"+children.Count()));
+                return;
+            }
 
             AppendToAST(controlUnit);
         }
 
-        public override void EnterLiteral(QLParser.LiteralContext context)
+        
+        public override void ExitNumber(QLParser.NumberContext context)
         {
-            InitializeNewLevel();
+            Number literal = new Number(
+                context.NUMBER().GetText(),
+                SourceLocation.CreateFor(context)
+                );
+
+            AppendToAST(literal);
+        }
+        
+        public override void ExitYesno(QLParser.YesnoContext context)
+        {
+            Yesno literal = new Yesno(
+                context.YESNO().GetText(),
+                SourceLocation.CreateFor(context)
+                );
+
+            AppendToAST(literal);
+        }
+        
+        public override void ExitText(QLParser.TextContext context)
+        {
+            Text literal = new Text(
+            context.TEXT().GetText(),
+            SourceLocation.CreateFor(context)
+            );
+
+            AppendToAST(literal);
+        }
+        
+        public override void ExitIdentifier(QLParser.IdentifierContext context)
+        {
+            Identifier literal = new Identifier(
+                context.IDENTIFIER().GetText(),
+                SourceLocation.CreateFor(context)
+                    );
+
+            AppendToAST(literal);
         }
 
-        public override void ExitLiteral(QLParser.LiteralContext context)
-        {
-            IList<ElementBase> children = GetChildren();
-            if (context.YESNO() != null)
-            {
-                Yesno literal = new Yesno();
-                literal.SetValue(context.YESNO().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-                AppendToAST(literal);
-
-            }
-            else if (context.NUMBER() != null)
-            {
-                Number literal = new Number();
-                literal.SetValue(context.NUMBER().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else if (context.IDENTIFIER() != null)
-            {
-                Identifier literal = new Identifier();
-                literal.SetValue(context.IDENTIFIER().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else if (context.TEXT() != null)
-            {
-                Text literal = new Text();
-                literal.SetValue(context.TEXT().GetText());
-                literal.SourceLocation = SourceLocation.CreateFor(context);
-
-                AppendToAST(literal);
-            }
-            else
-            {
-                throw new QLError("not known literal");
-                
-            }
-
-            ThrowExceptionIfAny();
-            Contract.Assert(!children.Any(), "Children of the literal are not empty");
-        }        
 
         public override void EnterExpression(QLParser.ExpressionContext context)
         {
@@ -277,70 +263,107 @@ namespace QL.Grammars
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
             IList<ElementBase> children = GetChildren();
-
             Expression expression;
 
             if (children.Count() == 1)
             {
-                expression=new Expression(children[0]);
+                expression = new Expression(
+                    children[0], 
+                    SourceLocation.CreateFor(context)
+                    );
             }
-            else if (children.Count() == 2 && context.children.Count() == 5)
+            else if (children.Count() == 3)
             {
-                QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
-                ElementBase leftOperand = children[0];
-                ElementBase rightOperand = children[1];
+                
+                
+                ElementBase leftNode = children[0];
+                BinaryTreeElementBase operatorNode = (BinaryTreeElementBase) children[1];
+                ElementBase rightNode = children[2];
 
-                if (operatorContext != null)
-                {
-                    BinaryTreeElementBase operatorElement = null;
-                    TryCreateOperator<EqualsOperator>(operatorContext, operatorContext.EQUALS(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<NotEqualsOperator>(operatorContext, operatorContext.NOTEQUALS(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<GreaterThanOperator>(operatorContext, operatorContext.GREATERTHAN(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<GreaterThanEqualToOperator>(operatorContext, operatorContext.GREATERTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<LessThanOperator>(operatorContext, operatorContext.LESSTHAN(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<LessThanEqualToOperator>(operatorContext, operatorContext.LESSTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<MultiplicationOperator>(operatorContext, operatorContext.MULTIPLICATION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<DivisionOperator>(operatorContext, operatorContext.DIVISION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<PlusOperator>(operatorContext, operatorContext.ADDITION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<MinusOperator>(operatorContext, operatorContext.SUBTRACTION(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<AndOperator>(operatorContext, operatorContext.AND(), leftOperand, rightOperand, ref operatorElement);
-                    TryCreateOperator<OrOperator>(operatorContext, operatorContext.OR(), leftOperand, rightOperand, ref operatorElement);
-
-                    expression= new Expression(operatorElement);
+                operatorNode.Left=leftNode;
+                operatorNode.Right=rightNode;
+                
+                expression = new Expression(
+                    operatorNode,
+                    SourceLocation.CreateFor(context)
+                    );
                 }
-                else
-                {
-                    throw new QLError("Unknown operator");
-                }
-
-            }
             else
             {
-                throw new QLError("Expression without a child");
-
+                _astBuilderExceptions.Add(new ParserError("Expression without a child"));
+                return;
             }
-            expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
+            
 
             AppendToAST(expression);
         }
+
         
-
-        public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
-            where T : BinaryTreeElementBase, IOperator, new()
+        public override void ExitOperatorAddition(QLParser.OperatorAdditionContext context)
         {
-            if (node == null)
-            {
-                operatorElement = operatorElement ?? null;
-                return;
-            }
+            BinaryTreeElementBase op = new PlusOperator(sourceLocation:SourceLocation.CreateFor(context));
+            AppendToAST(op);
 
-            T @operator = new T();
-            @operator.Left=leftOperand;
-            @operator.Right=rightOperand;
-            @operator.SourceLocation = SourceLocation.CreateFor(context);
-
-            operatorElement = @operator;
         }
+        public override void ExitOperatorAnd(QLParser.OperatorAndContext context)
+        {
+            BinaryTreeElementBase op = new AndOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        
+        
+        public override void ExitOperatorEquals(QLParser.OperatorEqualsContext context)
+        {
+            BinaryTreeElementBase op = new EqualsOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorDivision(QLParser.OperatorDivisionContext context)
+        {
+            BinaryTreeElementBase op = new DivisionOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorGreaterThan(QLParser.OperatorGreaterThanContext context)
+        {
+            BinaryTreeElementBase op = new GreaterThanOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorGreaterThanOrEqualTo(QLParser.OperatorGreaterThanOrEqualToContext context)
+        {
+            BinaryTreeElementBase op = new GreaterThanEqualToOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorLessThan(QLParser.OperatorLessThanContext context)
+        {
+            BinaryTreeElementBase op = new LessThanOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorSubtraction(QLParser.OperatorSubtractionContext context)
+        {
+            BinaryTreeElementBase op = new MinusOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorLessThanOrEqualTo(QLParser.OperatorLessThanOrEqualToContext context)
+        {
+            BinaryTreeElementBase op = new LessThanEqualToOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorMultiplication(QLParser.OperatorMultiplicationContext context)
+        {
+            BinaryTreeElementBase op = new MultiplicationOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorNotEquals(QLParser.OperatorNotEqualsContext context)
+        {
+            BinaryTreeElementBase op = new NotEqualsOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+        public override void ExitOperatorOr(QLParser.OperatorOrContext context)
+        {
+            BinaryTreeElementBase op = new OrOperator(sourceLocation: SourceLocation.CreateFor(context));
+            AppendToAST(op);
+        }
+    
+       
         #endregion
     }
 

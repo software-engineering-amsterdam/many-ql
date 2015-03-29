@@ -3,7 +3,6 @@ package uva.qls.ast.literal;
 import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.BooleanValue;
 import uva.qls.ast.CodeLines;
-import uva.qls.supporting.*;
 
 public class BooleanLiteral extends Literal {
 	
@@ -21,16 +20,6 @@ public class BooleanLiteral extends Literal {
 	@Override
 	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visitBooleanLiteral(this);
-	}
-
-	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
 	}
 	
 	@Override

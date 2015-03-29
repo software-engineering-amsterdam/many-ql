@@ -1,14 +1,13 @@
 package ast.expression.variables;
 
 import ast.expression.IExpressionVisitor;
-import ast.type.DigitsType;
+import ast.type.IntegerType;
 
-public class IntegerVariable extends Variable { //<Integer> {
+public class IntegerVariable extends Variable { 
 	private final Integer intVariable;
 
 	public IntegerVariable (int intVariable) {
 		this.intVariable = intVariable;
-		//super(intVariable);
 	}	
 	
 	public int getVariable() {
@@ -26,8 +25,7 @@ public class IntegerVariable extends Variable { //<Integer> {
 	}
 
 	@Override
-	public DigitsType getExpressionType() {
-		return new DigitsType();
+	public IntegerType getType() {
+		return new IntegerType();
 	}
-
 }

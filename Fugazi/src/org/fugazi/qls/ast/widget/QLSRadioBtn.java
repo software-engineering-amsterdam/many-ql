@@ -5,32 +5,36 @@ import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.BoolValue;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.widget.widget_types.RadioBtnType;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QLSRadioBtn extends AbstractQLSWidget {
 
+    private static final String DEFAULT_YES_TEXT = "Yes";
+    private static final String DEFAULT_NO_TEXT = "No";
+    
     private String actionCommandValue;
     private final String yesLabel;
     private final String noLabel;
-
-    private JPanel panel;
-    private JLabel componentLabel;
+    
     private ButtonGroup radioButtonGroup;
     private JRadioButton yesBtn;
     private JRadioButton noBtn;
 
     public QLSRadioBtn() {
-        this("", "yes", "no");
+        this("", DEFAULT_YES_TEXT, DEFAULT_NO_TEXT);
     }
 
     public QLSRadioBtn(String _yes, String _no) {
@@ -41,8 +45,7 @@ public class QLSRadioBtn extends AbstractQLSWidget {
         this.yesLabel = _yes;
         this.noLabel = _no;
 
-        this.panel = new JPanel();
-        this.componentLabel = new JLabel(_label);
+        this.componentLabel.setText(_label);
 
         this.yesBtn = new JRadioButton(_yes);
         this.noBtn = new JRadioButton(_no);
@@ -50,44 +53,34 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
         this.radioButtonGroup.add(this.yesBtn);
         this.radioButtonGroup.add(this.noBtn);
-        this.panel.add(this.componentLabel);
-        this.panel.add(this.yesBtn);
-        this.panel.add(this.noBtn);
+        this.component.add(this.componentLabel);
+        this.component.add(this.yesBtn);
+        this.component.add(this.noBtn);
 
         this.type = new RadioBtnType();
     }
-
-    public String getYesLabel() {
-        return this.yesLabel;
-    }
-
-    public String getNoLabel() {
-        return this.noLabel;
-    }
-
-    @Override
-    public void setLabel(String _label) {
-        this.componentLabel.setText(_label);
-    }
-
+    
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
-        // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        Font font = new Font(
+            _style.getFont(this.getDefaultFont().getValue()), 0,
+            _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
 
-        // todo
-    }
+        Color color = _style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
 
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
+        this.yesBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.yesBtn.getPreferredSize().getHeight()
+        ));
+        this.noBtn.setPreferredSize(new Dimension(
+                this.getDefaultWidth().getValue(),
+                (int) this.noBtn.getPreferredSize().getHeight()
+        ));
     }
 
     @Override
@@ -113,6 +106,8 @@ public class QLSRadioBtn extends AbstractQLSWidget {
     public BoolValue getWidgetValue() {
         if (this.actionCommandValue.equals(this.yesLabel)) {
             return new BoolValue(true);
+        } else if (this.actionCommandValue.equals(this.noLabel)) {
+            return new BoolValue(false);
         }
         return new BoolValue(false);
     }
@@ -131,14 +126,16 @@ public class QLSRadioBtn extends AbstractQLSWidget {
 
     @Override
     public void setReadOnly(boolean _isReadonly) {
-        this.panel.setEnabled(false);
+        this.component.setEnabled(false);
     }
 
     public List<Type> getSupportedQuestionTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new BoolType());
-        supportedTypes.add(new StringType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(
+                        new BoolType(),
+                        new StringType()
+                )
+        );
         return supportedTypes;
     }
 

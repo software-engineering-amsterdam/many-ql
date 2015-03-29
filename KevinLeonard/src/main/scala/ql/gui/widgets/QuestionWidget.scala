@@ -5,7 +5,7 @@ import ql.evaluator.Evaluator
 import ql.gui.DependencyResolver
 import types.{Dependencies, EvalEnvironment, VariableName}
 
-import scalafx.collections.ObservableMap.{Replace, Add}
+import scalafx.collections.ObservableMap.{Add, Replace}
 import scalafx.geometry.Insets
 import scalafx.scene.control.Label
 import scalafx.scene.layout.VBox
@@ -46,20 +46,22 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
   def updateEnvironment(newValue: Value): Unit = env += (q.variable.name -> newValue)
 
   def updateProperties(updatedVariable: VariableName): Unit = {
-    updateVisibility(updatedVariable)
+    val becameVisible = updateVisibility(updatedVariable)
     if (isVisible) {
-      updateValue(updatedVariable)
+      updateValue(updatedVariable, becameVisible)
     }
   }
 
-  def updateVisibility(updatedVariable: VariableName): Unit = {
+  def updateVisibility(updatedVariable: VariableName): Boolean = {
+    val wasVisible = isVisible
     if (visibilityDependencies contains updatedVariable) {
       visible = shouldBeVisible
       managed = isVisible
     }
+    !wasVisible && isVisible
   }
 
-  def updateValue(updatedVariable: VariableName): Unit
+  def updateValue(updatedVariable: VariableName, becameVisible: Boolean): Unit
 
   def isVisible: Boolean = visible.value
 
@@ -70,5 +72,5 @@ abstract class QuestionWidget(q: Question, visibilityExpressions: List[Expressio
     case _ => false
   }
 
-  def isQuestionWithSameKey(updatedVariable: VariableName) = updatedVariable == q.variable.name
+  def isQuestionWithSameKey(updatedVariable: VariableName): Boolean = updatedVariable == q.variable.name
 }

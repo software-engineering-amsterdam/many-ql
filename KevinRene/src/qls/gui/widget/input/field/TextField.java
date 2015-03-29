@@ -1,41 +1,37 @@
 package qls.gui.widget.input.field;
 
-import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
 
+import ql.Value;
 import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Field;
 
 public class TextField extends Field<StringValue> {
-	private JTextField textField;
-	
 	public TextField() {
-		super();
+		super(new StringValue(""));
 	}
 	
 	public TextField (StringValue stringValue) {
-		super();		
-    	textField.setText(stringValue.getValue());	
+		super(stringValue);		
 	}
-	
+
 	@Override
-	public StringValue getValue() {
+	public void caretUpdate(CaretEvent e) {
+		handleChange(getFieldValue(), this);
+	}
+
+	@Override
+	protected StringValue getFieldValue() {
 		return new StringValue(textField.getText());
 	}
 	
-	@Override
-	public void setValue(StringValue value) {
-		textField.setText(value.toString());		
-	}
-
-	@Override
 	public void setStyle(StyleProperties properties) {
-		
+		stylizer.setStyle(textField, properties);
 	}
 
 	@Override
-	public void setFont(Font font) {
-		
+	public String convertValue(Value value) {
+		return value.getValue().toString();
 	}
 }

@@ -9,7 +9,7 @@ public class Radio extends BoolWidgetValue
 {
     public Radio(String yesLabel, String noLabel)
     {
-        super("radio", yesLabel, noLabel);
+        super(yesLabel, noLabel);
     }
 
     @Override

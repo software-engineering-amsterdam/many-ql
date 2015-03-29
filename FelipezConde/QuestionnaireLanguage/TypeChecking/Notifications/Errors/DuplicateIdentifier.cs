@@ -1,6 +1,4 @@
-﻿using Notifications;
-using System.Collections.Generic;
-using AST;
+﻿using AST;
 
 namespace TypeChecking.Notifications.Errors
 {

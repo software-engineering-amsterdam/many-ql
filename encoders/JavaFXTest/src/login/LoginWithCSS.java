@@ -69,8 +69,8 @@ public class LoginWithCSS extends Application {
 		Scene scene = new Scene(grid, 300, 275);
 		primaryStage.setScene(scene);
 
-		scene.getStylesheets().add(
-				LoginWithCSS.class.getResource("Login.css").toExternalForm());
+		String externalForm = LoginWithCSS.class.getResource("Login.css").toExternalForm();
+		scene.getStylesheets().add(externalForm);
 
 		primaryStage.show();
 	}

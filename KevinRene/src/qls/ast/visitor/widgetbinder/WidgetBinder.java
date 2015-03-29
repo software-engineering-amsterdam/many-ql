@@ -1,8 +1,5 @@
 package qls.ast.visitor.widgetbinder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ql.TypeEnvironment;
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
@@ -48,7 +45,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 	private DefaultWidgetEnvironment defaultWidgets;
 	private WidgetEnvironment widgetEnvironment;
 	private TypeEnvironment typeEnvironment;
-	private List<Question> processedQuestions;
+	private UnboundQuestionRegister unboundQuestions;
 	
 	private WidgetBinder(TypeEnvironment typeEnvironment) {
 		super.setExpressionVisitor(this);
@@ -58,7 +55,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 		
 		defaultWidgets = new DefaultWidgetEnvironment();
 		widgetEnvironment = new WidgetEnvironment();
-		processedQuestions = new ArrayList<Question>();
+		unboundQuestions = new UnboundQuestionRegister();
 	}
 	
 	public WidgetEnvironment getWidgetEnvironment() {
@@ -73,26 +70,20 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 		return binder.getWidgetEnvironment();
 	}
 	
-	private void bindDefaultQuestions() {
-		processedQuestions.stream()
-				.filter(question -> question.hasDefaultWidget())
-				.forEach(question -> widgetEnvironment.store(question.getIdentifier(), 
-										defaultWidgets.resolve(question.getIdentifier().accept(this))));
-	}
-	
-	private void decreaseScope() {
+	private void scopeDown() {
 		defaultWidgets = new DefaultWidgetEnvironment(defaultWidgets);
+		unboundQuestions = new UnboundQuestionRegister(unboundQuestions);
 	}
 	
-	private void increaseScope() {
+	private void scopeUp() {
 		defaultWidgets = defaultWidgets.getParent();
+		unboundQuestions = unboundQuestions.getParent();
 	}
 	
 	public Void visit(Block blockNode) {
-		increaseScope();
+		scopeDown();
 		super.visit(blockNode);
-		bindDefaultQuestions();
-		decreaseScope();
+		scopeUp();
 		return null;
 	}
 	
@@ -142,7 +133,7 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 
 	@Override
 	public WidgetFactory visit(RadioButton radioButtonNode) {
-		return new RadioButtonFactory();
+		return new RadioButtonFactory(radioButtonNode.getFirstValue(), radioButtonNode.getSecondValue());
 	}
 
 	@Override
@@ -157,12 +148,14 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 
 	@Override
 	public WidgetFactory visit(Slider sliderNode) {
-		return new SliderFactory();
+		return new SliderFactory(sliderNode.getFirstValue(), sliderNode.getSecondValue());
 	}
 
 	public Void visit(DefaultStyle defaultNode) {
 		defaultWidgets.storeDefaultStyle(defaultNode.getType(), 
 				defaultNode.getStyleProperties());
+		unboundQuestions.bindWidgets(defaultNode.getType(), 
+				widgetEnvironment, defaultWidgets);
 		
 		super.visit(defaultNode);
 		
@@ -175,7 +168,9 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 		
 		InputWidget<?> widget = factory.create(builder, defaultNode.getWidget().getStyleRules());		
 		defaultWidgets.store(defaultNode.getType(), widget);
-
+		
+		unboundQuestions.bindWidgets(defaultNode.getType(), widgetEnvironment, defaultWidgets);
+		
 		return null;
 	}
 	
@@ -189,13 +184,16 @@ public class WidgetBinder extends StatementVisitor<Object> implements Expression
 	public Void visit(Question questionNode) {
 		QLType questionType = questionNode.getIdentifier().accept(this);
 		
+		if(questionNode.hasDefaultWidget()) {
+			unboundQuestions.register(questionType, questionNode);
+		}
+		
 		WidgetBuilder builder = questionType.accept(this);
 		WidgetFactory factory = (WidgetFactory) questionNode.getWidget().accept(this);
 		
 		InputWidget<?> questionWidget = factory.create(builder, questionNode.getWidget().getStyleRules());
 		widgetEnvironment.store(questionNode.getIdentifier(), questionWidget);
 		
-		processedQuestions.add(questionNode);
 		return null;
 	}
 }

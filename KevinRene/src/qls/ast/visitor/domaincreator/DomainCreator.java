@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ql.ValueEnvironment;
+import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
@@ -19,6 +20,7 @@ import ql.gui.UIComponent;
 import ql.gui.content.UIComputedQuestion;
 import ql.gui.content.UIQuestion;
 import ql.gui.structure.Label;
+import qls.ast.visitor.ProcessedCache;
 import qls.ast.visitor.WidgetEnvironment;
 import qls.gui.widget.InputWidget;
 
@@ -26,7 +28,8 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	private WidgetEnvironment widgetEnvironment;
 	private ValueEnvironment valueEnvironment;
 	private List<ConditionalDomain> conditionalDomains;
-	private ProcessedQuestions processedQuestions;
+	private ProcessedCache<UIComponent> processedQuestions;
+	private ProcessedCache<Expression> prerequisiteExpressions;
 	 
 	private DomainCreator(WidgetEnvironment widgetEnvironment) {
 		super.setExpressionVisitor(this);
@@ -35,7 +38,8 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		this.widgetEnvironment = widgetEnvironment;
 		valueEnvironment = new ValueEnvironment();
 		conditionalDomains = new ArrayList<ConditionalDomain>(); 
-		processedQuestions = new ProcessedQuestions();
+		processedQuestions = new ProcessedCache<UIComponent>();
+		prerequisiteExpressions = new ProcessedCache<Expression>();
 	}
 
 	public static List<ConditionalDomain> create(Statement tree, WidgetEnvironment widgetEnvironment) {
@@ -51,11 +55,13 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 	}
 	
 	private void decreaseScope() {
-		processedQuestions = new ProcessedQuestions(processedQuestions);
+		processedQuestions = new ProcessedCache<UIComponent>(processedQuestions);
+		prerequisiteExpressions = new ProcessedCache<Expression>(prerequisiteExpressions);
 	}
 	
 	private void increaseScope() {
 		processedQuestions = processedQuestions.getParent();
+		prerequisiteExpressions = prerequisiteExpressions.getParent();
 	}
 	
 	@Override
@@ -73,10 +79,13 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		ConditionalDomain ifDomain = new ConditionalDomain(ifNode.getExpression(), valueEnvironment);
 		
 		decreaseScope();
-		ifNode.getBlock().accept(this);		
-		ifDomain.setIfComponent(processedQuestions.getProcessedQuestions());
-		increaseScope();
 		
+		ifNode.getBlock().accept(this);	
+		prerequisiteExpressions.addObject(ifNode.getExpression());
+		ifDomain.setIfComponent(processedQuestions.getProcessedObjects());
+		increaseScope();
+
+		ifDomain.setPrerequisites(prerequisiteExpressions.getProcessedObjects());
 		conditionalDomains.add(ifDomain);
 		
 		return null;
@@ -87,13 +96,16 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
 		ConditionalDomain ifElseDomain = new ConditionalDomain(ifElseNode.getExpression(), valueEnvironment);
 
 		decreaseScope();
+		prerequisiteExpressions.addObject(ifElseNode.getExpression());
 		ifElseNode.getIfBranch().accept(this);
-		ifElseDomain.setIfComponent(processedQuestions.getProcessedQuestions());
+		ifElseDomain.setIfComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
+		
+		ifElseDomain.setPrerequisites(prerequisiteExpressions.getProcessedObjects());
 		
 		decreaseScope();
 		ifElseNode.getElseBranch().accept(this);
-		ifElseDomain.setElseComponent(processedQuestions.getProcessedQuestions());
+		ifElseDomain.setElseComponent(processedQuestions.getProcessedObjects());
 		increaseScope();
 		
 		conditionalDomains.add(ifElseDomain);
@@ -110,7 +122,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
     	
     	widgetEnvironment.store(compQuestionNode.getIdentifier(), computedQuestionWidget);
     	
-    	processedQuestions.addQuestion(computedQuestionWidget);
+    	processedQuestions.addObject(computedQuestionWidget);
     	
     	return null;
 	}
@@ -124,7 +136,7 @@ public class DomainCreator extends StatementVisitor<Void> implements ExpressionV
     	
     	widgetEnvironment.store(questionNode.getIdentifier(), questionWidget);
     	
-    	processedQuestions.addQuestion(questionWidget);
+    	processedQuestions.addObject(questionWidget);
     	
     	return null;
 	}

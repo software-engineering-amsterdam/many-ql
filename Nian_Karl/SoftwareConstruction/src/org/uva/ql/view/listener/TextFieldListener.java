@@ -36,7 +36,6 @@ public class TextFieldListener implements DocumentListener {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());
-			
 			widgetListener.widgetValueChanged(identifier, new StrValue(s));
 		} catch (BadLocationException e1) {
 			throw new IndexOutOfBoundsException("Index is out of bound at number textfield listener");

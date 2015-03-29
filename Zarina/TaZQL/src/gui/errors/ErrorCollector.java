@@ -35,11 +35,11 @@ public class ErrorCollector {
 	public String toString() {
 		String output = "";
 		for(TaZQLError error : errorCollection) {
-			output += error.getErrorMessage().toString();
+			output += error.getMessage().toString();
 		}
 		output += " \n";
 		for(TaZQLWarning warn : warningCollection) {
-			output += warn.getWarningMessage().toString();
+			output += warn.getMessage().toString();
 		}
 		output += " \n";
 		

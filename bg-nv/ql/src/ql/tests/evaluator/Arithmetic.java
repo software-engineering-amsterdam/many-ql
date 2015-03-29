@@ -1,7 +1,6 @@
 package ql.tests.evaluator;
 
 import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.values.*;
 import ql.tests.TestHelper;
 import org.junit.Test;
@@ -124,7 +123,7 @@ public class Arithmetic
     public void undefinedAdd()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -133,7 +132,7 @@ public class Arithmetic
     public void undefinedSub()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -142,7 +141,7 @@ public class Arithmetic
     public void undefinedMul()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -151,7 +150,7 @@ public class Arithmetic
     public void undefinedDiv()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -160,7 +159,7 @@ public class Arithmetic
     public void undefinedPos()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -169,7 +168,7 @@ public class Arithmetic
     public void undefinedNeg()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeEntry("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }

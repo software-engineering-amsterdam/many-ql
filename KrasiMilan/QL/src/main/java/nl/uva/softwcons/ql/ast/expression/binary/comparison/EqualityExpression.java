@@ -24,7 +24,7 @@ public abstract class EqualityExpression extends BinaryExpression {
      */
     @Override
     public Type resolveType(final Type type, final Type otherType) {
-        if (type == otherType && type != UNDEFINED_TYPE) {
+        if (type == otherType && type != UNDEFINED_TYPE) { // NOPMD
             return BOOLEAN_TYPE;
         }
 

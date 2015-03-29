@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.GenericDataHandlers;
+using QL.Hollywood.DataHandlers;
+using QL.Hollywood.DataHandlers.ASTCreation;
+using QL.Hollywood.DataHandlers.Evaluation;
+using QL.Hollywood.DataHandlers.InputHandling;
+using QL.Hollywood.DataHandlers.TypeChecking;
 
-namespace QL
+namespace QL.Hollywood
 {
     /// <summary>
     /// This is the god class.
     ///  After putting source as into the constructor, this class accumulates all the information
     ///  made by evaluator, type checker ...
-    ///  Is this good, bad? 
     /// </summary>
     public class QLBuilder
     {
@@ -22,10 +27,19 @@ namespace QL
         protected IList<IExecutable> Renderers;
         protected IList<IExecutable> Exporters;
 
-        public readonly DataContext DataContext; //needs to be public because of tests
-        public IList<Exception> Errors { get; private set; }
+
+
+        public QLBuilderStateMachine BuilderStateMachine { get; private set; }
+        public DataContext DataContext { get; private set; } //needs to be public because of tests
         
-        public QLBuilder()
+        public IList<Exception> UnhandledExceptions { get; private set; }
+        public ReadOnlyObservableCollection<QLBaseException> QLExceptions
+        {
+            get { return new ReadOnlyObservableCollection<QLBaseException>(DataContext.ASTHandlerExceptions); }
+        }
+
+        #region Constructors
+        private QLBuilder()
         {
             Initializers = new List<IExecutable>();
             ASTBuilders = new List<IExecutable>();
@@ -34,20 +48,22 @@ namespace QL
             Renderers = new List<IExecutable>();
             Exporters = new List<IExecutable>();
 
-            DataContext = new DataContext();
-            Errors = new List<Exception>();
+            BuilderStateMachine = new QLBuilderStateMachine();
+            UnhandledExceptions = new List<Exception>();
         }
 
         public QLBuilder(string input) : this()
         {
-            SetInput(input);
+            DataContext = new DataContext(input);
         }
 
         public QLBuilder(Stream input) : this()
         {
-            SetInput(input);
+            DataContext = new DataContext(input);
         }
+        #endregion
 
+        #region Handler level registration
         public void RegisterInitializer(IExecutable handler)
         {
             Initializers.Add(handler);
@@ -77,30 +93,108 @@ namespace QL
         {
             Exporters.Add(handler);
         }
+        #endregion
 
+        #region Handler level runners
 
-        private bool RunOneLevel(IEnumerable<IExecutable> thisLevelHandlers)
+        public bool RunInit()
+        {
+            BuilderStateMachine.InputIsSet = RunHandlerLevel(Initializers);
+            return BuilderStateMachine.InputIsSet;
+        }
+
+        public bool RunASTBuilders()
+        {
+            if (!BuilderStateMachine.InputIsSet)
+            {
+                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+
+            BuilderStateMachine.ASTIsBuilt = RunHandlerLevel(ASTBuilders);
+            return BuilderStateMachine.ASTIsBuilt;
+        }
+
+        public bool RunTypeCheckers()
+        {
+            if (!BuilderStateMachine.ASTIsBuilt)
+            {
+                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            BuilderStateMachine.TypeIsChecked = RunHandlerLevel(TypeCheckers);
+            return BuilderStateMachine.TypeIsChecked;
+        }
+
+        public bool RunEvaluators()
+        {
+            if (!BuilderStateMachine.TypeIsChecked)
+            {
+                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            BuilderStateMachine.IsEvaluated = RunHandlerLevel(Evaluators);
+            return BuilderStateMachine.IsEvaluated;
+        }
+      
+
+        public bool RunRenderers()
+        {
+            if (!BuilderStateMachine.IsEvaluated)
+            {
+                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
+                return false;
+            }
+            BuilderStateMachine.IsRendered = RunHandlerLevel(Renderers);
+            return BuilderStateMachine.IsRendered;
+
+        }
+
+        public bool RunExporters()
+        {
+            if (!BuilderStateMachine.IsEvaluated)
+            {
+                DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
+                return false;
+            }
+            return RunHandlerLevel(Exporters);
+        }
+        #endregion
+
+        /// <summary>
+        /// Runs all registrerd handlers. If any error occurs, returns false but continues running if possible.
+        /// </summary>
+        public bool RunAllHandlers()
+        {
+            bool retVal = false;
+            retVal |= RunInit();
+            retVal |= RunASTBuilders();
+            retVal |= RunTypeCheckers();
+            retVal |= RunEvaluators();
+            retVal |= RunRenderers();
+            retVal |= RunExporters();
+            return retVal;
+        }
+
+        private bool RunHandlerLevel(IEnumerable<IExecutable> levelHandlerList)
         {
             bool successfulExecution = true;
 
-            foreach (IExecutable handler in thisLevelHandlers)
+            foreach (IExecutable handler in levelHandlerList)
             {
                 try
                 {
-                    successfulExecution = handler.execute(DataContext);
+                    successfulExecution = handler.Execute(DataContext);
                 }
                 catch (QLBaseException ex)
                 {
                     DataContext.ASTHandlerExceptions.Add(ex);
                     successfulExecution = false;
-
                 }
                 catch (Exception ex)
-                {
-                    //not known exception!
-                    Errors.Add(ex);
+                {   //not known exception!
+                    UnhandledExceptions.Add(ex);
                     successfulExecution = false;
-
                 }
 
                 if (!successfulExecution)
@@ -108,77 +202,7 @@ namespace QL
                     break;
                 }
             }
-
             return successfulExecution;
-        }
-
-        public bool RunInit()
-        {
-            DataContext.InputSet = RunOneLevel(Initializers);
-            return DataContext.InputSet;
-        }
-
-        public bool RunAstBuild()
-        {
-            if (!DataContext.InputSet)
-            {
-                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
-                return false;
-            }
-
-            DataContext.AstBuilt = RunOneLevel(ASTBuilders);
-            return DataContext.AstBuilt;
-        }
-
-        public bool RunTypeCheck()
-        {
-
-            if (!DataContext.AstBuilt)
-            {
-                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
-                return false;
-            }
-            DataContext.TypeChecked = RunOneLevel(TypeCheckers);
-            return DataContext.TypeChecked;
-
-        }
-
-        public bool RunEvaluate()
-        {
-
-            if (!DataContext.TypeChecked)
-            {
-                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
-                return false;
-            }
-            DataContext.Evaluated = RunOneLevel(Evaluators);
-            return DataContext.Evaluated;
-
-        }
-
-        public bool RunRender()
-        {
-
-            if (!DataContext.Evaluated)
-            {
-                DataContext.ASTHandlerExceptions.Add(new QLError("previous step not completed successfuly"));
-                return false;
-            }
-            DataContext.Rendered = RunOneLevel(Renderers);
-            return DataContext.Rendered;
-
-        }
-
-        public bool RunExport()
-        {
-
-            if (!DataContext.Evaluated)
-            {
-                DataContext.ASTHandlerExceptions.Add(new QLError("Evaluation not completed successfuly"));
-                return false;
-            }
-            return RunOneLevel(Exporters);
-
         }
 
         public void RegisterGenericDataHandlers()
@@ -187,16 +211,6 @@ namespace QL
             RegisterASTBuilder(new ASTBuilder());
             RegisterTypeChecker(new TypeChecker());
             RegisterEvaluator(new Evaluator());
-        }
-        
-        public void SetInput(string input)
-        {
-            DataContext.Input = input;
-        }
-
-        public void SetInput(Stream input)
-        {
-            DataContext.InputStream = input;
         }
     }
 }

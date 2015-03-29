@@ -1,13 +1,13 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IAllowTypeChecker;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 public class BoolValue extends Value {
-    public static final TypeDescriptor BOOL_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor() {
+    public static final ITypeDescriptor BOOL_VALUE_TYPE_DESCRIPTOR = new ITypeDescriptor() {
         @Override
-        public void callTypeMethod(final TypeCallback typeCallback) {
+        public void callTypeMethod(final ITypeCallback typeCallback) {
             typeCallback.usesBoolean();
         }
 
@@ -28,10 +28,10 @@ public class BoolValue extends Value {
 
         @Override
         public boolean equals(final Object obj) {
-            if (!(obj instanceof TypeDescriptor)) {
+            if (!(obj instanceof ITypeDescriptor)) {
                 return false;
             }
-            final TypeDescriptor otherType = (TypeDescriptor) obj;
+            final ITypeDescriptor otherType = (ITypeDescriptor) obj;
             final Value otherDefaultValue = otherType.getDefaultValue();
             final Value thisDefaultValue = getDefaultValue();
             final BoolValue equalityComparisonValue = otherDefaultValue.eq(thisDefaultValue);
@@ -41,26 +41,26 @@ public class BoolValue extends Value {
 
     @Override
     public Value or(Value value) {
-        return new BoolValue((Boolean) getInternalValue() || (Boolean) value.getInternalValue());
+        return new BoolValue((Boolean) toJavaObject() || (Boolean) value.toJavaObject());
     }
 
     @Override
     public Value and(Value value) {
-        return new BoolValue((Boolean) getInternalValue() && (Boolean) value.getInternalValue());
+        return new BoolValue((Boolean) toJavaObject() && (Boolean) value.toJavaObject());
     }
 
     @Override
     public BoolValue not() {
-        return new BoolValue(!(Boolean) getInternalValue());
+        return new BoolValue(!(Boolean) toJavaObject());
     }
 
     @Override
-    public void apply(TypeCallback typeCallback) {
+    public void apply(ITypeCallback typeCallback) {
         typeCallback.usesBoolean();
     }
 
     public boolean isTrue() {
-        return (Boolean) getInternalValue();
+        return (Boolean) toJavaObject();
     }
 
     public BoolValue(Boolean value) {

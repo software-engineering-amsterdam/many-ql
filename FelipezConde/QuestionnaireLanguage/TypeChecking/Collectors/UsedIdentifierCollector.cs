@@ -3,17 +3,17 @@ using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
 using AST.Nodes.FormObjects;
+using AST.Nodes.Literals;
 using AST.VisitorInterfaces;
 using System.Collections.Generic;
 using System.Linq;
-using AST.Nodes.Literals;
 
 
 namespace TypeChecking.Collectors
 {
     public class UsedIdentifierCollector : IFormVisitor<IEnumerable<Id>>, IFormObjectVisitor<IEnumerable<Id>>, IExpressionVisitor<IEnumerable<Id>>
     {
-        //selectmany flattens lists of lists.
+        //select many flattens lists of lists.
         public  IEnumerable<Id> Visit(Form node)
         {
             return node.GetBody()
@@ -22,7 +22,7 @@ namespace TypeChecking.Collectors
 
         public  IEnumerable<Id> Visit(Conditional node)
         {
-            return node.Condition.Accept(this) //Gather the Ientifiers from the condition
+            return node.Condition.Accept(this) //Gather the Identifiers from the condition
                    .Concat(
                         node.GetBody() //Gather the Identifiers from the body
                        .SelectMany(x => x.Accept(this))

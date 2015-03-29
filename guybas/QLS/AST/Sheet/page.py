@@ -10,13 +10,13 @@ class Page(e.SheetElement):
     def string_presentation(self, level=0):
         s = "    " * level + "Page " + self._name + "\n"
         for p in self._sections:
-            s += p.string_presentation(level+1)
+            s += p.__str__(level+1)
         return s
 
     def get_ids(self):
         ids = []
         for q in self._sections:
-            ids += q.get_ids()
+            ids += q.ids()
         return ids
 
     def get_widget_dict(self):

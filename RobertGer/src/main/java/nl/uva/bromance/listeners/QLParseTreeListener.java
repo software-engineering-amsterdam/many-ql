@@ -8,7 +8,6 @@ import nl.uva.bromance.ast.range.BiggerThan;
 import nl.uva.bromance.ast.range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
-import org.mockito.internal.matchers.Contains;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -32,7 +31,6 @@ public class QLParseTreeListener extends QLBaseListener {
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
         ast = new AST(nodeStack.pop());
         System.out.println("--Printing ast--");
-        ast.printDebug();
     }
 
     @Override
@@ -132,6 +130,7 @@ public class QLParseTreeListener extends QLBaseListener {
     /*
      * Expression logic
      */
+
     @Override
     public void enterIfStatement(QLParser.IfStatementContext ctx) {
         nodeStack.push(new IfStatement(ctx.start.getLine()));
@@ -154,9 +153,6 @@ public class QLParseTreeListener extends QLBaseListener {
         IfStatement ifs = (IfStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(ifs);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setIfStatement(ifs);
-        }
     }
 
     @Override
@@ -164,9 +160,6 @@ public class QLParseTreeListener extends QLBaseListener {
         ElseStatement est = (ElseStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(est);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setElseStatement(est);
-        }
     }
 
     @Override
@@ -174,9 +167,6 @@ public class QLParseTreeListener extends QLBaseListener {
         ElseIfStatement eis = (ElseIfStatement) nodeStack.pop();
         QLNode peek = nodeStack.peek();
         peek.addChild(eis);
-        if (peek instanceof CanContainConditionals) {
-            ((CanContainConditionals) peek).setElseIfStatement(eis);
-        }
     }
 
     @Override
@@ -190,17 +180,13 @@ public class QLParseTreeListener extends QLBaseListener {
         Expression expression = (Expression) nodeStack.pop();
         QLNode parent = nodeStack.peek();
         parent.addChild(expression);
-        if(parent instanceof Expression) {
-            if(((Expression)parent).getLeftHandSide().isPresent())
-            {
+        if (parent instanceof Expression) {
+            if (((Expression) parent).getLeftHandSide().isPresent()) {
                 ((Expression) parent).setRightHandSide(Optional.of(expression));
-            }
-            else {
+            } else {
                 ((Expression) parent).setLeftHandSide(Optional.of(expression));
             }
-        }
-        else if(parent instanceof ContainsExpression)
-        {
+        } else if (parent instanceof ContainsExpression) {
             ((ContainsExpression) parent).setExpression(expression);
         }
     }
@@ -208,8 +194,12 @@ public class QLParseTreeListener extends QLBaseListener {
     //TODO: this is actually not an id these are terminals that can appear in a expression.
     @Override
     public void enterId(QLParser.IdContext ctx) {
-        ((Expression) nodeStack.peek()).setTerminal(new Terminal(ctx.getText()));
+        nodeStack.push(new Terminal(ctx.start.getLine(), ctx.getText()));
     }
 
-
+    @Override
+    public void exitId(QLParser.IdContext ctx) {
+        Terminal terminal = (Terminal) nodeStack.pop();
+        nodeStack.peek().addChild(terminal);
+    }
 }

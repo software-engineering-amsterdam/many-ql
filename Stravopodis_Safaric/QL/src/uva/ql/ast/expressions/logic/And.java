@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.expressions.BinaryExpressions;
+import uva.ql.ast.expressions.BinaryExpression;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.type.Type;
@@ -12,25 +12,23 @@ import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class And extends BinaryExpressions{
+public class And extends BinaryExpression{
 
 	public And(Expression _left, Expression _right, CodeLines _codeLines){
 		super(_left, _right, Operator.AND, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitAnd(this);
-	}
-	
-	@Override
 	public BooleanValue evaluate() {
-		return new BooleanValue((boolean)this.getLeftExpr().evaluate().getValue()).and(new BooleanValue((boolean)this.getRightExpr().evaluate().getValue()));
+		boolean left = (boolean)this.getLeftExpressionValue();
+		boolean right = (boolean)this.getRightExpressionValue();
+		
+		return new BooleanValue(left).and(new BooleanValue(right));
+	}
+	
+	@Override
+	public Object getValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override
@@ -39,8 +37,18 @@ public class And extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeBoolean());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitAnd(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

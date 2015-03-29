@@ -1,78 +1,74 @@
 package qls.parser
 
 import ql.ast._
-import qls.ast.Question
-import qls.ast._
-
 import ql.parser.{Parser => QLParser}
+import qls.ast.{Question, _}
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
 
-  val qlParsers = new QLParser
+  val qlParser = new QLParser
 
   // general parsers
-  override val whiteSpace = qlParsers.whiteSpace
+  override val whiteSpace = qlParser.whiteSpace
   def variable: Parser[Variable] = ident ^^ Variable
-
-  def style: Parser[StyleSheet] = "style" ~> ident ~ stylesheetElements ^^ {
-    case label ~ sss => StyleSheet(label, sss)
+  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ {
+    v => new HexadecimalColor(v)
   }
 
+  // style sheet parsers
+  def styleSheet: Parser[StyleSheet] = "style" ~> ident ~ stylesheetElements ^^ {
+    case label ~ sss => StyleSheet(label, sss)
+  }
   def stylesheetElements: Parser[List[StyleSheetElement]] = "{" ~> rep(page | defaultWidget) <~ "}"
 
+  // page parsers
   def page: Parser[StyleSheetElement] = "page" ~> ident ~ pageElements ^^ {
     case v ~ ps => Page(v, ps)
   }
-
   def pageElements: Parser[List[Section]] = "{" ~> rep(section) <~ "}"
 
+  // section parsers
   def section: Parser[Section] = "section" ~> stringLiteral ~ sectionElements ^^ {
     case t ~ ss => Section(t.substring(1, t.length - 1).replace("\\", ""), ss)
   }
-
   def sectionElements: Parser[List[SectionElement]] = "{" ~> rep(question | section) <~ "}"
 
-  // question widget parsers
+  // question parsers
   def question: Parser[Question] = positioned(variable ~ widget ^^ {
     case v ~ w => Question(v, w)
   })
-
-  // TODO: Move question type to QL
   def questionType: Parser[Type] = ("boolean" | "number" | "string") ^^ {
     case "boolean" => BooleanType()
     case "number" => NumberType()
     case "string" => StringType()
   }
 
-  def widget: Parser[Widget] = widgetType ~ widgetStyle ^^ {
-    case "spinbox" ~ properties => SpinBox(properties)
-    case "slider" ~ properties => Slider(properties)
-    case "text" ~ properties => Text(properties)
-    case "textBlock" ~ properties => TextBlock(properties)
-    case "radio" ~ properties => Radio(properties)
-    case "checkbox" ~ properties => CheckBox(properties)
-    case "dropdown" ~ properties => DropDown(properties)
-  }
-
-  def defaultWidget: Parser[DefaultWidget] = "default" ~> questionType ~ widget ^^ {
+  // widget parsers
+  def defaultWidget: Parser[DefaultWidget] = positioned("default" ~> questionType ~ widget ^^ {
     case t ~ w => DefaultWidget(t, w)
+  })
+  def widget: Parser[Widget] = widgetType ~ styles ^^ {
+    case "spinbox" ~ styles => SpinBox(styles)
+    case "slider" ~ styles => Slider(styles)
+    case "text" ~ styles => Text(styles)
+    case "textBlock" ~ styles => TextBlock(styles)
+    case "radio" ~ styles => Radio(styles)
+    case "checkbox" ~ styles => CheckBox(styles)
+    case "dropdown" ~ styles => DropDown(styles)
   }
-
   def widgetType: Parser[String] = "spinbox" | "slider" | "textBlock" | "text" | "radio" | "checkbox" | "dropdown"
-
-  def widgetStyle: Parser[List[StyleProperty]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
-    case Some(properties) => properties
+  def styles: Parser[List[Style]] = opt("{" ~> rep(width | font | fontSize | fontColor) <~ "}") ^^ {
+    case Some(styles) => styles
     case None => List()
   }
 
-  def width: Parser[StyleProperty] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
-  def font: Parser[StyleProperty] = "font:" ~> stringLiteral ^^ {
+  // style parsers
+  def width: Parser[Style] = "width:" ~> wholeNumber ^^ { v => Width(v.toInt) }
+  def font: Parser[Style] = "font:" ~> stringLiteral ^^ {
     v => Font(v.substring(1, v.length - 1).replace("\\", ""))
   }
-  def fontSize: Parser[StyleProperty] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
-  def fontColor: Parser[StyleProperty] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
-
-  def hexadecimalColor: Parser[HexadecimalColor] = "#" ~> """([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})""".r ^^ { v => new HexadecimalColor(v) }
+  def fontSize: Parser[Style] = "fontSize:" ~> wholeNumber ^^ { v => FontSize(v.toInt) }
+  def fontColor: Parser[Style] = "color:" ~> hexadecimalColor ^^ { v => FontColor(v) }
 }

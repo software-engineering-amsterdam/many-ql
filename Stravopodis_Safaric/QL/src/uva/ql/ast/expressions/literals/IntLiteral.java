@@ -2,6 +2,7 @@ package uva.ql.ast.expressions.literals;
 
 import java.util.Arrays;
 import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeInteger;
@@ -28,7 +29,7 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
+	public CodeLines getLinesOfCode() {
 		return this.codeLines;
 	}
 	
@@ -38,13 +39,18 @@ public class IntLiteral extends Literal{
 	}
 	
 	@Override
+	public Object getValue() {
+		return this.evaluate().getValue();
+	}
+	
+	@Override
 	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override

@@ -6,13 +6,11 @@ import javax.swing.event.ChangeListener;
 import ql.Value;
 import ql.value.IntegerValue;
 import qls.ast.statement.widget.styling.StyleProperties;
-import qls.ast.statement.widget.styling.property.Font;
 import qls.gui.widget.input.Spinbox;
 
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListener {
-	        
 	public IntegerSpinbox() {
 		super(new SpinnerNumberModel(
 					0, //initial value
@@ -46,11 +44,6 @@ public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListe
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		
-	}
-
-	@Override
-	public void setFont(Font font) {
-		
+		stylizer.setStyle(spinbox, properties);
 	}
 }

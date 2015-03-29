@@ -1,30 +1,27 @@
-﻿using AST;
+﻿using AST.Nodes.Expressions.Unaries;
+using Types = AST.Types;
 
 namespace TypeChecking.Notifications.Errors
 {
     public class IncompatibleUnaryOperator : Error
     {
-            private readonly PositionInText position;
-            private readonly string op;
-            private readonly string childType;
+        private readonly Unary node;
+        private readonly Types.Type childType;
 
-            public IncompatibleUnaryOperator(PositionInText position, string op, string childType)
-            {
-                this.op = op;
-                this.childType = childType;
-                this.position = position;
-            }
+        public IncompatibleUnaryOperator(Unary node, Types.Type childType)
+        {
+            this.node = node;
+            this.childType = childType;
+        }
 
-            public override string Message()
-            {
-                return string.Format("Operator \"{0}\" is incompatible with type \"{1}\" at {2}",
-                        new string[] {
-                            op,
-                            childType,
-                            position.ToString()
-                        });
-            }
-
-            
+        public override string Message()
+        {
+            return string.Format("Operator \"{0}\" is incompatible with type \"{1}\" at {2}",
+                    new object[] {
+                        node,
+                        childType,
+                        node.GetPosition()
+                    });
+        }
     }
 }

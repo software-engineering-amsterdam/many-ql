@@ -1,12 +1,11 @@
 package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 
 public interface IWidget {
-
     public void render(UIForm _canvas);
-    public void supress(UIForm _canvas);
+    public void suppress(UIForm _canvas);
 
     public ExpressionValue getWidgetValue();
     public void setWidgetValue(ExpressionValue _value);

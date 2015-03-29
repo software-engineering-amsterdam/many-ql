@@ -1,5 +1,4 @@
-﻿using Expressions = AST.Nodes.Interfaces;
-
+﻿
 namespace AST.Nodes.Expressions.Unaries
 {
     public abstract class Unary : Expression

@@ -1,4 +1,4 @@
-// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/ql/grammar/QL.g4 by ANTLR 4.5
+// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/ql/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.ql.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -39,14 +39,14 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSimpleQuestion(@NotNull QLParser.SimpleQuestionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitComputedQuestion(@NotNull QLParser.ComputedQuestionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

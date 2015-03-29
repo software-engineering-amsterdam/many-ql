@@ -16,7 +16,7 @@ public class SymbolTable  {
 		return this.symbolTable.containsKey(key);
 	}
 
-	public boolean valueExists(String key, Type value) {
+	public boolean typeEqualsTo(String key, Type value) {
 		
 		if (this.keyExists(key)){
 			return this.symbolTable.get(key).equals(value);
@@ -25,13 +25,12 @@ public class SymbolTable  {
 		return false;
 	}
 
-	public Type retrieveValue(String key) {
-		return this.symbolTable.get(key);
+	public Type retrieveType(String fromIdentifier) {
+		return this.symbolTable.get(fromIdentifier);
 	}
 
 	@Override
 	public String toString() {
 		return this.symbolTable.toString();
 	}
-
 }

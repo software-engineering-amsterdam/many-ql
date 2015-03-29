@@ -1,7 +1,7 @@
 package ql.gui.widgets
 
 import ql.ast.{Expression, NumberValue, Question, Value}
-import types._
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.TextField
 
@@ -25,13 +25,13 @@ class NumberQuestionWidget(q: Question, visibilityExpressions: List[Expression],
   children.add(textField)
 
   // Methods
-  override def updateValue(updatedVariable: VariableName): Unit = {
+  override def updateValue(updatedVariable: VariableName, becameVisible: Boolean): Unit = {
     if (valueDependencies contains updatedVariable) {
       textField.text = eval().toString
     }
 
     // Needed in order to keep multiple questions with the same key in sync
-    if (isQuestionWithSameKey(updatedVariable)) {
+    if (isQuestionWithSameKey(updatedVariable) || becameVisible) {
       val value = env.getOrElse(q.variable.name, NumberValue())
       textField.text = extract(value).toString
     }

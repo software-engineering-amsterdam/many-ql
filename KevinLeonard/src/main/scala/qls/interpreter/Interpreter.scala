@@ -1,9 +1,12 @@
 package qls.interpreter
 
+import ql.ast.Form
 import ql.interpreter.{Interpreter => QLInterpreter}
+import ql.typechecker.Error
 import qls.ast.StyleSheet
+import qls.gui.FormBuilder
 import qls.parser.Parser
-import qls.typechecker.{QuestionPlacementChecker, ReferenceChecker, TypeChecker}
+import qls.typechecker.{DuplicatePlacementChecker, QuestionPlacementChecker, ReferenceChecker, TypeChecker}
 import types.TypeEnvironment
 
 import scala.io.Source
@@ -19,12 +22,11 @@ object Interpreter {
 
     (optionalQlAst, optionalQlsAst) match {
       case (Some(qlAst), Some(qlsAst)) =>
-        val result = QLInterpreter.checkTypes(qlAst)
-        val qlTypeChecks = result._1.isEmpty
-        val qlsTypeChecks = checkTypes(qlsAst, result._2)
+        val (qlTypeChecks, env) = QLInterpreter.checkTypes(qlAst)
+        val qlsTypeChecks = checkTypes(qlsAst, env)
 
         if (qlTypeChecks && qlsTypeChecks) {
-          QLInterpreter.render(qlAst)
+          render(qlAst, qlsAst)
         }
       case _ => ()
     }
@@ -33,38 +35,50 @@ object Interpreter {
   def parse(source: String): Option[StyleSheet] = {
     val parser = new Parser()
 
-    parser.parseAll(parser.style, source) match {
+    parser.parseAll(parser.styleSheet, source) match {
       case parser.Success(ast: StyleSheet, _) => Some(ast)
       case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg); None
       case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg); None
     }
   }
 
+  // TODO: Show errors in GUI instead of console? This function does now two things.
+  // TODO: 1) Checking for errors & 2) Printing errors.
   def checkTypes(ast: StyleSheet, env: TypeEnvironment): Boolean = {
+    val referenceErrors = getReferenceErrors(ast, env)
+    val placementErrors = getPlacementErrors(ast, env)
+    val typeErrors = getTypeErrors(ast, env)
+    val duplicatePlacementErrors = getDuplicatePlacementErrors(ast)
+
+    val errors = referenceErrors ++ placementErrors ++ typeErrors ++ duplicatePlacementErrors
+    errors.foreach(println)
+    errors.isEmpty
+  }
+
+  def getReferenceErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
     val referenceChecker = new ReferenceChecker()
+    referenceChecker.check(ast, env)
+  }
+
+  def getPlacementErrors(ast: StyleSheet, env: TypeEnvironment): Option[Error] = {
     val questionPlacementChecker = new QuestionPlacementChecker()
+    questionPlacementChecker.check(ast, env)
+  }
+
+  def getTypeErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
     val typeChecker = new TypeChecker()
+    typeChecker.check(ast, env)
+  }
 
-    // TODO: env does not contain the questions inside if/else blocks
+  def getDuplicatePlacementErrors(ast: StyleSheet): List[Error] = {
+    val duplicatePlacementChecker = new DuplicatePlacementChecker()
+    duplicatePlacementChecker.check(ast)
+  }
 
-    val referenceErrors = referenceChecker.check(ast, env)
-    if (referenceErrors.nonEmpty) {
-      referenceErrors.foreach(println)
-      return false
-    }
+  def render(ast: Form, stylesheet: StyleSheet): Unit = {
+    // TODO: Style cascading
+    val formBuilder = new FormBuilder(stylesheet)
 
-    val placementErrors = questionPlacementChecker.check(ast, env)
-    println(placementErrors)
-    if (placementErrors.nonEmpty) {
-      placementErrors.foreach(println)
-      return false
-    }
-
-    val typeCheckErrors = typeChecker.check(ast, env)
-    typeCheckErrors.foreach(println)
-
-    // TODO: duplicate placement checker
-
-    typeCheckErrors.isEmpty
+    formBuilder.build(ast).main(Array())
   }
 }

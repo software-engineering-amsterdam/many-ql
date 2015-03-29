@@ -1,69 +1,74 @@
-import QL.AST.Expressions.Primitives.primitive as e
+import QL.AST.Expressions.Primitives.primitive as primitive
 
 
 # The binary expression abstract class contains almost all functionality of the sub classes
-class BinaryExpression(e.Primitive):
+class BinaryExpression(primitive.Primitive):
 
-    def __init__(self, operand1, operand2):
-        self._operand1 = operand1
-        self._operand2 = operand2
-        self.symbol = self.set_operator()
+    def __init__(self, left_operand, right_operand):
+        self._left_operand = left_operand
+        self._right_operand = right_operand
+        self._symbol = self.set_string_operator()
 
     # place parentheses around the expression to show the priorities in the expression
-    def string_presentation(self, level=0):
-        return "(" + self._operand1.string_presentation() + " " + self.symbol + " " + self._operand2.string_presentation() + ")"
+    def __str__(self):
+        return "(%s %s %s)" % (str(self._left_operand), self._symbol, str(self._right_operand))
 
     # returns the error message of the expression checking, empty if valid
-    def is_valid_expression_message(self, type_map):
+    def type_error_messages(self, type_map):
         error_messages = []
 
         # check for both operands if they are valid
-        error_messages.extend(self._operand1.is_valid_expression_message(type_map))
-        error_messages.extend(self._operand2.is_valid_expression_message(type_map))
+        error_messages.extend(self._left_operand.type_error_messages(type_map))
+        error_messages.extend(self._right_operand.type_error_messages(type_map))
 
-        # if the types of both operands are not similar the expression is not correct (except for compare expressions)
-        if self._operand1.return_type_string(type_map) != self._operand2.return_type_string(type_map):
-            error_messages.append(self._operand1.string_presentation() +
-                                  " is not the same type as " + self._operand2.string_presentation())
+        if not self.operands_same_type(type_map):
+            error_messages.append("%s is not the same type as %s" % (str(self._left_operand), str(self._right_operand)))
 
         # if the types of the operands do not match with the operation it's own type it is incorrect
-        # (except for compare expressions)
-        elif self._operand1.return_type_string(type_map) != self.return_type_string(type_map):
-            error_messages.append("the operands " + self._operand1.string_presentation() +
-                                  " and " + self._operand2.string_presentation() + " are not of the correct type")
+        elif not self.operands_correct_type(type_map):
+            error_messages.append("the operands %s and %s are not of the correct type"
+                                  % (str(self._left_operand), str(self._right_operand)))
 
         return error_messages
 
+    def operands_same_type(self, type_map):
+        left_operand_type = self._left_operand.return_type(type_map)
+        right_operand_type = self._right_operand.return_type(type_map)
+        if left_operand_type == right_operand_type:
+            return True
+        return False
+
+    def operands_correct_type(self, type_map):
+        # Only one check is needed, as is already checked if they are they same
+        return self._left_operand.return_type(type_map) == self.return_type(type_map)
+
     # get the variables in both operands
     def get_variables(self):
-        l = []
-        l += (self._operand1.get_variables())
-        l += (self._operand2.get_variables())
-        return l
+        return self._left_operand.get_variables() + self._right_operand.get_variables()
 
     # evaluate both operands and evaluate the result afterwards
-    def eval_expression(self, type_map):
-        x = self._operand1.eval_expression(type_map)
-        y = self._operand2.eval_expression(type_map)
+    def eval_expression(self, answer_map):
+        x = self._left_operand.eval_expression(answer_map)
+        y = self._right_operand.eval_expression(answer_map)
         if x is None or y is None:
             z = None
         else:
-            z = self.eval(x, y)
+            z = self.concrete_eval(x, y)
         return z
 
     #
-    # Need to be overridden by sub classes
+    # Need to be overridden sub classes
     #
 
     # Since the init is the same for all binary expressions this method is needed to make the distinction between
     # the operations
-    def set_operator(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def set_string_operator(self):
+        raise NotImplementedError("Not implemented here")
 
-    # get the return _type of the _expression, only one needed to be overwritten
-    def return_type_string(self, type_map):
-        raise NotImplementedError("Not implemented by sub class")
+    def return_type(self, type_map):
+        raise NotImplementedError("Not implemented here")
 
-    def eval(self, x, y):
-        raise NotImplementedError("Not implemented by sub class")
+    # concrete evaluation specific for each binary expression
+    def concrete_eval(self, x, y):
+        raise NotImplementedError("Not implemented here")
 

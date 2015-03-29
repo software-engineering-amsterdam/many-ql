@@ -14,7 +14,6 @@ class TypeCheckerSpec extends Specification {
   val AnyBoolean: BooleanLiteral = BooleanLiteral(BooleanValue())
   val AnyNumber: NumberLiteral = NumberLiteral(NumberValue())
   val AnyString: StringLiteral = StringLiteral(StringValue())
-
   val AnyVariableName: VariableName = "X"
   val AnyLabel: Label = "label"
 
@@ -49,7 +48,9 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed boolean question with invalid expression" in {
       val question = Question(BooleanType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber))
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map(AnyVariableName -> BooleanType()))
+      val result = (List(
+        Error("Invalid expression type for computed question: expected boolean, got number", Some(NoPosition))
+      ), Map(AnyVariableName -> BooleanType()))
 
       checker.check(question, EmptyEnvironment) must beEqualTo(result)
     }
@@ -63,7 +64,9 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed number question with invalid expression" in {
       val question = Question(NumberType(), Variable(AnyVariableName), AnyLabel, Some(AnyBoolean))
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map(AnyVariableName -> NumberType()))
+      val result = (List(
+        Error("Invalid expression type for computed question: expected number, got boolean", Some(NoPosition))
+      ), Map(AnyVariableName -> NumberType()))
 
       checker.check(question, EmptyEnvironment) must beEqualTo(result)
     }
@@ -77,72 +80,89 @@ class TypeCheckerSpec extends Specification {
 
     "return error and add variable + type to environment, if statement is computed string question with invalid expression" in {
       val question = Question(StringType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber))
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), Map(AnyVariableName -> StringType()))
+      val result = (List(
+        Error("Invalid expression type for computed question: expected string, got number", Some(NoPosition))
+      ), Map(AnyVariableName -> StringType()))
 
       checker.check(question, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return empty environment, if valid boolean condition" in {
+    "add variable + type to environment, if valid boolean condition" in {
       val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None), None)
-      val result = (EmptyErrorList, EmptyEnvironment)
+      val result = (EmptyErrorList, Map(AnyVariableName -> BooleanType()))
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return error, if invalid boolean condition" in {
+    "return error and add variable + type to environment, if invalid boolean condition" in {
       val ifBlock = IfStatement(AnyNumber, Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None), None)
-      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+      val result = (List(
+        Error("Invalid boolean condition for if statement", Some(NoPosition))
+      ), Map(AnyVariableName -> BooleanType()))
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return error, if error in if block" in {
-      val ifBlock = IfStatement(AnyBoolean, Question(BooleanType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber)), None)
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+    "return error and add variable + type to environment, if error in if block" in {
+      val ifBlock = IfStatement(AnyBoolean,
+        Question(BooleanType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber)), None
+      )
+      val result = (List(
+        Error("Invalid expression type for computed question: expected boolean, got number", Some(NoPosition))
+      ), Map(AnyVariableName -> BooleanType()))
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return empty environment, if valid boolean condition (with else block)" in {
+    "add variable + type only once to environment, if valid boolean condition (with else block)" in {
       val ifBlock = IfStatement(
         AnyBoolean,
         Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None),
         Some(Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None))
       )
-      val result = (EmptyErrorList, EmptyEnvironment)
+      val result = (EmptyErrorList, Map(AnyVariableName -> BooleanType()))
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return error, if invalid boolean condition (with else block)" in {
+    "return error and add variable + type only once to environment, if invalid boolean condition (with else block)" in {
       val ifBlock = IfStatement(
         AnyNumber,
         Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None),
         Some(Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None))
       )
-      val result = (List(Error("Invalid boolean condition for if statement", Some(NoPosition))), EmptyEnvironment)
+      val result = (
+        List(Error("Invalid boolean condition for if statement", Some(NoPosition))),
+        Map(AnyVariableName -> BooleanType())
+      )
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return error, if error in if block (with else block)" in {
+    "return error and add variable + type only once to environment, if error in if block (with else block)" in {
       val ifBlock = IfStatement(
         AnyBoolean,
         Question(BooleanType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber)),
         Some(Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None))
       )
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val result = (
+        List(Error("Invalid expression type for computed question: expected boolean, got number", Some(NoPosition))),
+        Map(AnyVariableName -> BooleanType())
+      )
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
 
-    "return error, if error in else block" in {
+    "return error and add variable + type only once to environment, if error in else block" in {
       val ifBlock = IfStatement(
         AnyBoolean,
         Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None),
         Some(Question(BooleanType(), Variable(AnyVariableName), AnyLabel, Some(AnyNumber)))
       )
-      val result = (List(Error("Invalid expression type for computed question", Some(NoPosition))), EmptyEnvironment)
+      val result = (
+        List(Error("Invalid expression type for computed question: expected boolean, got number", Some(NoPosition))),
+        Map(AnyVariableName -> BooleanType())
+      )
 
       checker.check(ifBlock, EmptyEnvironment) must beEqualTo(result)
     }
@@ -511,10 +531,17 @@ class TypeCheckerSpec extends Specification {
   }
 
   "type checker" should {
-    "detect duplicate question declarations" in {
+    "allow duplicate question declarations with same types" in {
       val question = Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None)
       val environmentWithQuestion = Map(AnyVariableName -> BooleanType())
-      val errors = List(Error("Variable X is already defined", Some(NoPosition)))
+
+      checker.check(question, environmentWithQuestion) must beEqualTo((EmptyErrorList, environmentWithQuestion))
+    }
+
+    "detect duplicate question declarations with different types" in {
+      val question = Question(BooleanType(), Variable(AnyVariableName), AnyLabel, None)
+      val environmentWithQuestion = Map(AnyVariableName -> NumberType())
+      val errors = List(Error("Variable X is already defined as a number", Some(NoPosition)))
 
       checker.check(question, environmentWithQuestion) must beEqualTo((errors, environmentWithQuestion))
     }

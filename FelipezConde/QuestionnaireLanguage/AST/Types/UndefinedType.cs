@@ -5,12 +5,12 @@ namespace AST.Types
     {
         public override bool IsEqual(Types.Type type)
         {
-            return type.IsUndefined();
+            return false;
         }
 
         public override bool IsUndefined()
         {
-            return true;
+            return false;
         }
 
         public override T Accept<T>(Visitors.ITypeVisitor<T> visitor)
@@ -18,7 +18,7 @@ namespace AST.Types
             return visitor.Visit(this);
         }
 
-        public override string GetString()
+        public override string ToString()
         {
             return "undefined";
         }

@@ -27,7 +27,7 @@ widget: 'widget' widgetType                          # widgetWithoutStyle
 
 style: '{' styleProperty+ '}';
 
-styleProperty: key=ID ':' value;
+styleProperty: key=STRING ':' value;
 
 value: ID
      | STRING
@@ -40,12 +40,11 @@ type: BOOL_TYPE
     | DATE_TYPE
     ;
 
-widgetType: RADIO '(' yes=STRING',' no=STRING ')'         # radio
-          | CHECKBOX '(' yes=STRING ')'                   # checkbox
-          | SPINBOX                                       # spinbox
-          | DROPDOWN '(' yes=STRING',' no=STRING ')'      # dropdown
-          | SLIDER                                        # slider
-          | TEXT                                          # text
+widgetType: RADIO '(' yes=STRING',' no=STRING ')'                     # radio
+          | CHECKBOX '(' yes=STRING ')'                               # checkbox
+          | DROPDOWN '(' yes=STRING',' no=STRING ')'                  # dropdown
+          | SLIDER '(' start=NUMBER',' end=NUMBER',' step=NUMBER ')'  # slider
+          | TEXT                                                      # text
           ;
 
 

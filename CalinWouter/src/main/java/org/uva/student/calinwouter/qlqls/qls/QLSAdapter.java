@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.staticfieldscollector.PTypeCollector;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
 
@@ -149,7 +149,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
         push(string);
     }
 
-    private TypeDescriptor convertAstTypeToTypeDescriptor(PType nodeAstType) {
+    private ITypeDescriptor convertAstTypeToTypeDescriptor(PType nodeAstType) {
         nodeAstType.apply(pTypeCollector);
         return pTypeCollector.popType();
     }
@@ -160,7 +160,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     @Override
     public void outATypeElement(ATypeElement node) {
         final PType nodeAstType = node.getType();
-        final TypeDescriptor nodeTypeDescriptor = convertAstTypeToTypeDescriptor(nodeAstType);
+        final ITypeDescriptor nodeTypeDescriptor = convertAstTypeToTypeDescriptor(nodeAstType);
         push(nodeTypeDescriptor);
     }
 

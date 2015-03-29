@@ -1,6 +1,8 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLError;
 
 public class UndefinedValue implements Value {
 	@Override
@@ -13,6 +15,16 @@ public class UndefinedValue implements Value {
 		return false;
 	}
 
+	@Override
+	public Void getValue() {
+		return null;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLError();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		return this;

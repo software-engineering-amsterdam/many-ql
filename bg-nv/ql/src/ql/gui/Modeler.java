@@ -34,6 +34,5 @@ public abstract class Modeler implements StatVisitor<Row>
         return this.condQuestionTable.getQuestion(questionId);
     }
 
-    // TODO: getCanvas() ?
-    public abstract Canvas model();
+    public abstract Canvas buildCanvas();
 }

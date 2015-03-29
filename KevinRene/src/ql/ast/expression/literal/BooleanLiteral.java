@@ -2,7 +2,6 @@ package ql.ast.expression.literal;
 
 import ql.ast.QLType;
 import ql.ast.expression.Literal;
-import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 import ql.value.BooleanValue;
 
@@ -14,7 +13,7 @@ public class BooleanLiteral extends Literal<BooleanValue> {
 
 	@Override
 	public QLType getType() {
-		return new QLBoolean();
+		return getValue().getType();
 	}
 
 	@Override

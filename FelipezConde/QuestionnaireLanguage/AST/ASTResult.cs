@@ -1,6 +1,5 @@
 ﻿using AST.Nodes;
 using Notifications;
-using System;
 using System.Collections.Generic;
 
 namespace AST
@@ -14,5 +13,16 @@ namespace AST
             RootNode = tree;
             NotificationManager = notificationManager;
         }
+
+        public bool HasError()
+        {
+            return NotificationManager.HasError();
+        }
+
+        public void CombineNotifications(INotificationManager manager)
+        {
+            this.NotificationManager.Combine(manager);
+        }
+
     }
 }

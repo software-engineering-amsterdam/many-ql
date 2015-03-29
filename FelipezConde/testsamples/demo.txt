@@ -18,4 +18,13 @@ form {
 	question totalTaxes int
 	label    : "You have to pay:"
   	computed : (salary + bank) / 6
+
+	enable when (ItDoesntExist) {
+		
+		question IQ1 string 
+		label : "What is the name of you imaginary friend"
+		
+		question IQ2 int 
+		label : "How ols is he?"
+	}
 }

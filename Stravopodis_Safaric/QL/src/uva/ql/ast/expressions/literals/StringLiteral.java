@@ -28,7 +28,7 @@ public class StringLiteral extends Literal{
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
+	public CodeLines getLinesOfCode() {
 		return this.codeLines;
 	}
 	
@@ -38,13 +38,18 @@ public class StringLiteral extends Literal{
 	}
 	
 	@Override
+	public String getValue() {
+		return this.evaluate().getValue();
+	}
+	
+	@Override
 	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeString());
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeString());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override

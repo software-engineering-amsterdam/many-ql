@@ -6,11 +6,6 @@ import com.form.language.ast.values.IntValue;
 public final class IntType extends Type {
 
     @Override
-    public Type getType() {
-	return this;
-    }
-
-    @Override
     public boolean isIntType() {
 	return true;
     }

@@ -2,7 +2,6 @@ package org.fugazi.ql.gui.widgets;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,43 +9,35 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 import java.text.NumberFormat;
 
-public class IntegerOnlyTextBox implements IWidget{
+public class IntegerOnlyTextBox extends AbstractWidget {
 
     private static int COLUMNS = 7;
+    private static int MIN_NUM = -1000000;
+    private static int MAX_NUM = 1000000;
 
     private JFormattedTextField input;
-    private JPanel panel;
     private NumberFormatter numberFormatter; 
 
     public IntegerOnlyTextBox(String _label) {
-        this.panel = new JPanel();
         JLabel label = new JLabel(_label);
 
         NumberFormat intFormat = NumberFormat.getIntegerInstance();
         intFormat.setGroupingUsed(false);
         intFormat.setParseIntegerOnly(true);
+        
         numberFormatter = new NumberFormatter(intFormat);
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setAllowsInvalid(false);
-        numberFormatter.setMinimum(0);
+        numberFormatter.setMinimum(MIN_NUM);
+        numberFormatter.setMaximum(MAX_NUM);
         numberFormatter.setOverwriteMode(true);
 
         this.input = new JFormattedTextField(numberFormatter);
 
         this.input.setColumns(COLUMNS);
 
-        this.panel.add(label);
-        this.panel.add(input);
-    }
-
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
+        this.component.add(label);
+        this.component.add(input);
     }
 
     @Override
@@ -78,7 +69,5 @@ public class IntegerOnlyTextBox implements IWidget{
     public void setReadOnly(boolean _isReadonly) {
         this.input.setEditable(false);
         numberFormatter.setAllowsInvalid(true);
-        numberFormatter.setMinimum(-1000);
-        numberFormatter.setOverwriteMode(false);
     }
 }

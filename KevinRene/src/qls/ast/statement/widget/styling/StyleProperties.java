@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import qls.ast.Statement;
+import qls.ast.statement.widget.styling.property.Color;
+import qls.ast.statement.widget.styling.property.Font;
+import qls.ast.statement.widget.styling.property.FontSize;
 import qls.ast.statement.widget.styling.property.Height;
 import qls.ast.statement.widget.styling.property.Width;
 import qls.ast.visitor.StatementVisitor;
@@ -30,12 +33,24 @@ public class StyleProperties extends Statement {
 		properties.put(property, property);
 	}
 	
+	public Font getFont() {
+		return (Font) properties.get(new Font(null));
+	}
+	
+	public FontSize getFontSize() {
+		return (FontSize) properties.get(new FontSize(null));
+	}
+	
 	public Height getHeight() {
 		return (Height) properties.get(new Height(null));
 	}
 	
 	public Width getWidth() {
 		return (Width) properties.get(new Width(null));
+	}
+	
+	public Color getColor() {
+		return (Color) properties.get(new Color(null));
 	}
 	
 	public Map<Property, Property> getProperties() {

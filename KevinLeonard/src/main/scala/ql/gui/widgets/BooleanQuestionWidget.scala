@@ -1,7 +1,7 @@
 package ql.gui.widgets
 
 import ql.ast.{BooleanValue, Expression, Question, Value}
-import types._
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.CheckBox
 
@@ -18,13 +18,13 @@ class BooleanQuestionWidget(q: Question, visibilityExpressions: List[Expression]
   children.add(checkBox)
 
   // Methods
-  override def updateValue(updatedVariable: VariableName): Unit = {
+  override def updateValue(updatedVariable: VariableName, becameVisible: Boolean): Unit = {
     if (valueDependencies contains updatedVariable) {
       checkBox.selected = eval()
     }
 
     // Needed in order to keep multiple questions with the same key in sync
-    if (isQuestionWithSameKey(updatedVariable)) {
+    if (isQuestionWithSameKey(updatedVariable) || becameVisible) {
       val value = env.getOrElse(q.variable.name, BooleanValue())
       checkBox.selected = extract(value)
     }

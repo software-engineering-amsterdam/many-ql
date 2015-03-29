@@ -1,5 +1,3 @@
-from typechecking import Message
-
 from .AbstractBase import AbstractBase
 
 from ...core import TypeRules, QLTypes
@@ -37,50 +35,43 @@ class Checker(AbstractBase):
 
     def _typeOfExpression(self, expression):
         visitor = TypeOfExpressionVisitor(
-            self._parser,
-            self._resultAlgebra
+            self._questionnaire,
+            self._resultFactory,
+            self._messageFactory
         )
         expression.accept(visitor)
-        self._result = self._resultAlgebra.merge([
+        self._result = self._resultFactory.merge([
             self._result,
             visitor.result
         ])
         return visitor.typeOfExpression
 
 
-    def _allowExpression(self, allowedTypes, exprType, node):
+    def _allowExpression(self, allowedTypes, actualType, node):
         allowedEffectiveTypeExists = any(map(
             lambda t: t in allowedTypes,
-            _effectiveTypes(exprType)
+            _effectiveTypes(actualType)
         ))
         if not allowedEffectiveTypeExists:
-
-            exprTypeString = self._parser.expressionTypeToken(exprType)
-            allowedString = ', '.join(map(
-                lambda t: '`'+self._parser.expressionTypeToken(t)+'`',
-                allowedTypes
-            ))
-
-            self._result = self._resultAlgebra.withError(
+            self._result = self._resultFactory.withError(
                 self._result,
-                Message.Error(
-                    'got an expression of type `'+exprTypeString\
-                   +'` which is not castable to any of the '\
-                   +'following types which are allowed here '\
-                   +'here: '+allowedString,
-                   node
+                self._messageFactory.incompatibleExpressionType(
+                    actualType,
+                    allowedTypes,
+                    node.lineNumber
                 )
             )
 
 
         
 class TypeOfExpressionVisitor(ExpressionVisitor):
-    def __init__(self, parser, resultAlgebra):
+    def __init__(self, questionnaire, resultFactory, messageFactory):
         super().__init__()
         self._operatorTable = TypeRules.OperatorTable()
-        self._parser = parser
-        self._result = resultAlgebra.empty()
-        self._resultAlgebra = resultAlgebra
+        self._questionnaire = questionnaire
+        self._resultFactory = resultFactory
+        self._messageFactory = messageFactory
+        self._result = resultFactory.empty()
         self._typesOfSeenExpressions = []
 
 
@@ -91,33 +82,29 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
 
     @property
     def typeOfExpression(self):
-        return self._typeOfLastSeenExpression
+        return self._typeOfLastSeenExpression()
 
 
-    @property
     def _typeOfLastSeenExpression(self):
         return self._typesOfSeenExpressions[-1]
 
 
     def visitIdentifier(self, node):
-        self._typesOfSeenExpressions.append(typeOfIdentifier(
-            node,
-            self._parser.questionnaire
-        ))
+        myType = typeOfIdentifier(node, self._questionnaire)
 
-        if self._typeOfLastSeenExpression is None:
-            self._result = self._resultAlgebra.withError(
+        if myType is None:
+            self._result = self._resultFactory.withError(
                 self._result,
-                Message.Error(
-                    'undeclared identifier '+str(node),
-                    node
+                self._messageFactory.undeclaredIdentifier(
+                    node, node.lineNumber
                 )
             )
+
+        self._typesOfSeenExpressions.append(myType)
 
 
     def visitString(self, node):
         self._typesOfSeenExpressions.append(QLTypes.QLString)
-
 
 
     def visitInteger(self, node):
@@ -133,28 +120,25 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
 
 
     def visitUnaryExpressionEnd(self, node):
-        if self._typeOfLastSeenExpression is None:
-            self._typesOfSeenExpressions.append(None)
+        if self._typeOfLastSeenExpression() is None:
+            myType = None
         else:
-            self._typesOfSeenExpressions.append(
-                self._operatorTable.unaryOperationType(
-                    node.operator,
-                    self._typeOfLastSeenExpression
-                )
+            myType = self._operatorTable.unaryOperationType(
+                node.operator,
+                self._typeOfLastSeenExpression()
             )
 
-        if self._typeOfLastSeenExpression is None:
-
-            operatorToken = self._parser.operatorToken(node.operator)
-
-            self._result = self._resultAlgebra.withError(
+        if myType is None:
+            self._result = self._resultFactory.withError(
                 self._result,
-                Message.Error(
-                    'invalid operands to unary operator `'+operatorToken\
-                   +'`: '+str(node.expression),
-                   node
+                self._messageFactory.invalidOperands(
+                    node.operator,
+                    [node.expression],
+                    node.lineNumber
                 )
             )
+
+        self._typesOfSeenExpressions.append(myType)
 
 
     def visitBinaryExpressionEnd(self, node):
@@ -162,28 +146,26 @@ class TypeOfExpressionVisitor(ExpressionVisitor):
         typeOfRightExpression = self._typesOfSeenExpressions[-1]
 
         if typeOfLeftExpression is None or typeOfRightExpression is None:
-            self._typesOfSeenExpressions.append(None)
+            myType = None
         else:
-            self._typesOfSeenExpressions.append(
-                self._operatorTable.binaryOperationType(
-                    node.operator,
-                    typeOfLeftExpression,
-                    typeOfRightExpression
-                )
+            myType = self._operatorTable.binaryOperationType(
+                node.operator,
+                typeOfLeftExpression,
+                typeOfRightExpression
             )
 
-        if self._typeOfLastSeenExpression is None: 
-
-            operatorToken = self._parser.operatorToken(node.operator)
-
-            self._result = self._resultAlgebra.withError(
+        if myType is None: 
+            self._result = self._resultFactory.withError(
                 self._result,
-                Message.Error(
-                    'invalid operands to binary operator `'+operatorToken\
-                   +'`: ('+str(node.left)+','+str(node.right)+')',
-                    node
+                self._messageFactory.invalidOperands(
+                    node.operator,
+                    [node.left, node.right],
+                    node.lineNumber
                 )
             )
+
+        self._typesOfSeenExpressions.append(myType)
+
 
 
 def _castableTo(fromType):
@@ -196,6 +178,7 @@ def _castableTo(fromType):
         return castingSpec[fromType]
 
     return []
+
 
 
 def _effectiveTypes(actualType):

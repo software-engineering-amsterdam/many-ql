@@ -9,13 +9,14 @@ import uva.ql.ast.visitor.StatementVisitor;
 
 public class Question extends Statement {
 	
-	private Type type;
-	private Identifier identifier;
 	private StringLiteral questionLabel;
+	private Identifier identifier;
 	private Expression expression;
+	private Type type;
 	
 	public Question(Type _type, Identifier _identifier, StringLiteral _questionLabel, CodeLines _codeLines){
 		super(_codeLines);
+		
 		this.type = _type;
 		this.identifier = _identifier;
 		this.questionLabel = _questionLabel;
@@ -23,14 +24,23 @@ public class Question extends Statement {
 	
 	public Question(Type _type, Identifier _identifier, StringLiteral _questionLabel, Expression _expression, CodeLines _codeLines){
 		super(_codeLines);
+		
 		this.type = _type;
 		this.identifier = _identifier;
 		this.questionLabel = _questionLabel;
 		this.expression = _expression;
 	}
 	
+	public Expression getQuestionExpression(){
+		return this.expression;
+	}
+	
 	public Type getQuestionType(){
 		return this.type;
+	}
+	
+	public boolean questionTypeEquals(Type type){
+		return this.type.equals(type);
 	}
 	
 	public Identifier getQuestionIdentifier(){
@@ -38,7 +48,7 @@ public class Question extends Statement {
 	}
 	
 	public String getQuestionIdentifierValue(){
-		return this.identifier.evaluate().getValue();
+		return this.identifier.getValue();
 	}
 	
 	public StringLiteral getQuestionLabel(){
@@ -46,11 +56,24 @@ public class Question extends Statement {
 	}
 	
 	public String getQuestionLabelText(){
-		return this.getQuestionLabel().evaluate().getValue().replaceAll("\"", "");
+		String labelTextValue = this.getQuestionLabel().getValue();
+		return labelTextValue.replaceAll("\"", "");
 	}
 	
-	public Expression getQuestionExpression(){
-		return this.expression;
+	public boolean hasBinaryExpression(){
+		if (this.expression == null){
+			return false;
+		}
+		return this.expression.isBinaryExpression();
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		if (this.expression == null){
+			return visitor.visitSimpleQuestion(this);
+		}
+		
+		return visitor.visitComputedQuestion(this);
 	}
 	
 	@Override
@@ -59,18 +82,7 @@ public class Question extends Statement {
 	}
 	
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		if (this.expression == null){
-			return visitor.visitSimpleQuestion(this);
-		}
-		return visitor.visitComputedQuestion(this);
-	}
-	
-	@Override
 	public String toString(){
 		return "Question(" + this.identifier + ","  + this.type + "," + this.questionLabel + "," + this.expression + "))";
 	}
 }
-
-
-

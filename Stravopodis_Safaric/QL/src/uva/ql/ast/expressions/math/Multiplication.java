@@ -11,25 +11,23 @@ import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Multiplication extends BinaryExpressions{
+public class Multiplication extends BinaryExpression{
 
 	public Multiplication(Expression left, Expression right, CodeLines _codeLines){
 		super(left, right, Operator.MUL, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitMultiplication(this);
-	}
-	
-	@Override
 	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).multiplication(new NumberValue((int)this.getRightExpr().evaluate().getValue()));	
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).multiplication(new NumberValue(right));	
+	}
+	
+	@Override
+	public Object getValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override
@@ -38,8 +36,18 @@ public class Multiplication extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitMultiplication(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

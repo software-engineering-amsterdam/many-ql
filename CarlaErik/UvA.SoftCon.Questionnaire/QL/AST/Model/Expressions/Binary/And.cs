@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.Common.AST;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
@@ -14,7 +8,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary
         internal And(Operation operation, Expression left, Expression right, TextPosition position)
             : base(operation, left, right, position) {}
 
-        public override T Accept<T>(IQLVisitor<T> visitor)
+        public override T Accept<T>(IQuestionFormVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }

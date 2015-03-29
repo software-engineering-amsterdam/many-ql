@@ -5,20 +5,27 @@ import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
+
+import uva.qls.ast.type.TypeBoolean;
+import uva.qls.ast.type.TypeInteger;
+import uva.qls.ast.type.TypeMoney;
+import uva.qls.ast.type.TypeString;
 import uva.qls.ast.*;
 import uva.qls.ast.component.*;
 import uva.qls.ast.style.*;
+import uva.qls.ast.style.availableStyles.AvailableStyles;
+import uva.qls.ast.style.visitor.StyleTable;
 import uva.qls.ast.literal.BooleanLiteral;
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.literal.MoneyLiteral;
 import uva.qls.ast.literal.StringLiteral;
-import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
 import uva.qls.ast.statements.Section;
 import uva.qls.ast.statements.Statement;
 import uva.qls.ast.statements.Subsection;
+import uva.qls.ast.type.Type;
 import uva.qls.parser.*;
 import uva.qls.parser.QLSParser.CtxBooleanLiteralContext;
 import uva.qls.parser.QLSParser.CtxCheckboxContext;
@@ -96,7 +103,7 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 		CodeLines codeLines = this.getCodeLines(ctx);
 		Type type = (Type)ctx.primitiveType().accept(this);
 		
-		return new DefaultValue(type, this.visitStyle(ctx.stms), codeLines);
+		return new DefaultValue(type, this.visitStyles(ctx.stms), codeLines);
 	}
 
 	@Override
@@ -140,33 +147,33 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Textbox visitCtxTextbox(CtxTextboxContext ctx) {
-		return new Textbox(this.getCodeLines(ctx), this.visitStyle(ctx.stls));
+		return new Textbox(this.getCodeLines(ctx), this.visitStyles(ctx.stls));
 	}
 
 	@Override
 	public Spinbox visitCtxSpinbox(CtxSpinboxContext ctx) {
-		return new Spinbox(this.getCodeLines(ctx), this.visitStyle(ctx.stls));
+		return new Spinbox(this.getCodeLines(ctx), this.visitStyles(ctx.stls));
 	}
 
 	@Override
 	public Slider visitCtxSlider(CtxSliderContext ctx) {
-		return new Slider(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
+		return new Slider(ctx.v1.getText(), ctx.v2.getText(), this.visitStyles(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Dropdown visitCtxDropdown(CtxDropdownContext ctx) {
-		return new Dropdown(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
+		return new Dropdown(ctx.v1.getText(), ctx.v2.getText(), this.visitStyles(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Radio visitCtxRadio(CtxRadioContext ctx) {
-		return new Radio(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
+		return new Radio(ctx.v1.getText(), ctx.v2.getText(), this.visitStyles(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Checkbox visitCtxCheckbox(CtxCheckboxContext ctx) {
 		CodeLines codeLines = this.getCodeLines(ctx);
-		return new Checkbox(this.visitString(ctx.STRING().getText(), codeLines), this.visitStyle(ctx.stls), codeLines);
+		return new Checkbox(this.visitString(ctx.STRING().getText(), codeLines), this.visitStyles(ctx.stls), codeLines);
 	}
 
 	@Override
@@ -177,7 +184,8 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Height visitCtxHeight(CtxHeightContext ctx) {
-		return new Height((IntLiteral)ctx.Integer().accept(this), this.getCodeLines(ctx));
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new Height(this.visitCtxInteger(ctx.Integer().getText(), codeLines), this.getCodeLines(ctx));
 	}
 
 	@Override
@@ -194,7 +202,7 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Color visitCtxColor(CtxColorContext ctx) {
-		return new Color(Integer.parseInt(ctx.Integer().getText()), this.getCodeLines(ctx));
+		return new Color(ctx.v.getText(), this.getCodeLines(ctx));
 	}
 
 	@Override
@@ -217,23 +225,23 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 	}
 	
 	@Override 
-	public Type visitCtxPrimitiveBoolean(QLSParser.CtxPrimitiveBooleanContext ctx) {
-		return new Type(ctx.getText(), this.getCodeLines(ctx));
+	public TypeBoolean visitCtxPrimitiveBoolean(QLSParser.CtxPrimitiveBooleanContext ctx) {
+		return new TypeBoolean(this.getCodeLines(ctx));
 	}
 	
 	@Override 
-	public Type visitCtxPrimitiveMoney(QLSParser.CtxPrimitiveMoneyContext ctx) {
-		return new Type(ctx.getText(), this.getCodeLines(ctx)); 
+	public TypeMoney visitCtxPrimitiveMoney(QLSParser.CtxPrimitiveMoneyContext ctx) {
+		return new TypeMoney(this.getCodeLines(ctx)); 
 	}
 	
 	@Override 
-	public Type visitCtxPrimitiveString(QLSParser.CtxPrimitiveStringContext ctx) { 
-		return new Type(ctx.getText(), this.getCodeLines(ctx));
+	public TypeString visitCtxPrimitiveString(QLSParser.CtxPrimitiveStringContext ctx) { 
+		return new TypeString(this.getCodeLines(ctx));
 	}
 
 	@Override 
-	public Type visitCtxPrimitiveInteger(QLSParser.CtxPrimitiveIntegerContext ctx) { 
-		return new Type(ctx.getText(), this.getCodeLines(ctx)); 
+	public TypeInteger visitCtxPrimitiveInteger(QLSParser.CtxPrimitiveIntegerContext ctx) { 
+		return new TypeInteger(this.getCodeLines(ctx)); 
 	}
 	
 	
@@ -251,12 +259,15 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 		return statements;
 	}
 	
-	private ArrayList<Style> visitStyle(List<StyleContext> stls){
-		ArrayList<Style> styles = new ArrayList<Style>();
+	private StyleTable visitStyles(List<StyleContext> stls){
+		StyleTable table = AvailableStyles.getAvailableStyles();
+		
 		for (StyleContext s : stls){
-			styles.add((Style)s.accept(this));
+			Style style = (Style)s.accept(this);
+			table.putValue(style.getClass().getSimpleName(), style);
 		}
-		return styles;
+		
+		return table;
 	}
 	
 	private StringLiteral visitString(String _value, CodeLines _codeLines){

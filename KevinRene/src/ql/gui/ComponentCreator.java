@@ -7,6 +7,7 @@ import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
 import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.MoneyLiteral;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.statement.Block;
 import ql.ast.statement.ComputedQuestion;
@@ -91,6 +92,11 @@ public class ComponentCreator extends StatementVisitor<UIComponent> implements E
 	@Override
 	public UIComponent visit(FloatLiteral floatLiteral) {
 		return new FloatSpinbox(floatLiteral.getValue());
+	}
+	
+	@Override
+	public UIComponent visit(MoneyLiteral moneyNode) {
+		return new MoneySpinbox(moneyNode.getValue());
 	}
 	
 	@Override

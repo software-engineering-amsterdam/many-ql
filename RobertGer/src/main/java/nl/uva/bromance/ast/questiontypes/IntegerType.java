@@ -1,21 +1,28 @@
 package nl.uva.bromance.ast.questiontypes;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.ast.Question;
-import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.IntResult;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.conditionals.StringResult;
 import nl.uva.bromance.visualization.Visualizer;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Robert on 9-3-2015.
  */
 public class IntegerType implements QuestionType {
+
+
+    private final Question q;
+    private TextField textField;
+    private Label label;
+
+    public IntegerType(Question question) {
+        this.q = question;
+    }
 
     @Override
     public String getTypeString() {
@@ -28,27 +35,45 @@ public class IntegerType implements QuestionType {
     }
 
     @Override
-    public void addQuestionToPane(Pane parent, List<StringResult> multipleChoice, Map<String, Result> answerMap, Visualizer visualizer, Question q) {
-        TextField tf = new TextField();
-        String id = q.getIdentifier().get().getId();
+    public void addQuestionToPane(Pane parent, Map<String, Result> answerMap, Visualizer visualizer) {
+        label = new Label(q.getQuestionString());
+        label.getStyleClass().add("prettyLabel");
+        parent.getChildren().add(label);
+
+        textField = new TextField();
+        String id = q.getIdentifier().getId();
         IntResult answer = (IntResult) answerMap.get(id);
         if (answer != null) {
-            tf.setText(Integer.toString(answer.getResult()));
+            textField.setText(Integer.toString(answer.getResult()));
         }
-        if (visualizer.getFocusId() == q.hashCode()){
-            visualizer.setFocusedNode(tf);
+        if (visualizer.getFocusUuid() == q.getUuid()) {
+            visualizer.setFocusedNode(textField);
         }
 
         // Disable any input other than numbers
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9]*")) {
-                tf.setText(oldValue);
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9-]*")) {
+                textField.setText(oldValue);
             } else {
-                answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
-                visualizer.visualize(q.hashCode());
+                if (newValue.length() >= 1 && !newValue.equals("-")){
+                    answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
+                }
+                visualizer.visualize(q.getUuid());
             }
         });
-        parent.getChildren().add(tf);
+        parent.getChildren().add(textField);
+
+        setVisibilityOfComponents();
+    }
+
+    @Override
+    public void refresh() {
+        setVisibilityOfComponents();
+    }
+
+    private void setVisibilityOfComponents() {
+        textField.setVisible(q.isVisible());
+        label.setVisible(q.isVisible());
     }
 
 

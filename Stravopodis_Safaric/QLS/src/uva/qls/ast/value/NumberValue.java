@@ -1,21 +1,15 @@
 package uva.qls.ast.value;
 
-public class NumberValue extends GenericValue<Number> {
+public class NumberValue extends GenericValue<Integer> {
 	
-	private Number value;
+	private int value;
 	
-	public NumberValue(Number _value){
+	public NumberValue(int _value){
 		this.value=_value;
 	}
 
 	@Override
-	public Number getValue() {
+	public Integer getValue() {
 		return this.value;
 	}
-
-	@Override
-	public int intValue() {
-		return this.value.intValue();
-	}
-
 }

@@ -1,23 +1,24 @@
 package uva.qls.ast.component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import uva.qls.ast.CodeLines;
-import uva.qls.ast.value.StringValue;
-import uva.qls.supporting.*;
 import uva.qls.ast.literal.StringLiteral;
 import uva.qls.ast.statements.visitor.StatementVisitor;
-import uva.qls.ast.style.*;
+import uva.qls.ast.style.visitor.StyleTable;
 
 public class Checkbox extends Component{
 	
 	private StringLiteral value;
+	private StyleTable style;
 	
-	public Checkbox(StringLiteral _value, ArrayList<Style> _style, CodeLines _codeLines) {
+	public Checkbox(StringLiteral _value, StyleTable _style, CodeLines _codeLines) {
 		super(_codeLines);
 		this.value = _value;
 		this.style = _style;
+	}
+	
+	public String getCheckboxValue(){
+		return this.value.toString();
 	}
 	
 	@Override
@@ -26,28 +27,18 @@ public class Checkbox extends Component{
 	}
 	
 	@Override
-	public Tuple<Integer, Integer> getLOCTuple() {
-		return this.codeLines.getCodeLocation();
-	}
-
-	@Override
-	public CodeLines getLOC() {
-		return this.codeLines;
-	}
-
-	@Override
-	public StringValue evaluate() {
-		return new StringValue(this.value.evaluatedValue());
-	}
-	
-	@Override
-	public void componentStyle(List<Style> style) {
+	public void componentStyle(StyleTable style) {
 		this.style = style;
 	}
 	
 	@Override
+	public StyleTable getStyle() {
+		return this.style;
+	}
+	
+	@Override
 	public String toString(){
-		return "Checkbox(" + this.value.evaluatedValue() + " " + this.style.toString() + ")";
+		return "Checkbox(" + this.value.toString() + " " + this.style.toString() + ")";
 	}
 
 	@Override

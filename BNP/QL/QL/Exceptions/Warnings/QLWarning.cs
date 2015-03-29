@@ -1,5 +1,6 @@
 ﻿using System;
-using QL.Model;
+using QL.AST;
+using QL.AST.Nodes;
 
 namespace QL.Exceptions.Warnings
 {
@@ -8,6 +9,11 @@ namespace QL.Exceptions.Warnings
     /// </summary>
     public class QLWarning : QLBaseException
     {
+        public override string Origin
+        {
+            get { return GetType().Name; }
+        }
+
         public QLWarning()
         {
         }

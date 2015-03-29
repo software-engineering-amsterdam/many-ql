@@ -57,7 +57,7 @@ import org.antlr.v4.runtime.Token;
 public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
-    public Form visitForm(FormContext ctx) {
+    public Form visitForm(final FormContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Statement> statements = ctx.statement().stream().map(st -> (Statement) st.accept(this))
                 .collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Question visitSimpleQuestion(SimpleQuestionContext ctx) {
+    public Question visitSimpleQuestion(final SimpleQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = getType(ctx.type().getText());
@@ -75,7 +75,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ComputedQuestion visitComputedQuestion(ComputedQuestionContext ctx) {
+    public ComputedQuestion visitComputedQuestion(final ComputedQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = getType(ctx.type().getText());
@@ -85,7 +85,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public Conditional visitConditional(ConditionalContext ctx) {
+    public Conditional visitConditional(final ConditionalContext ctx) {
         final Expression condition = (Expression) ctx.expr().accept(this);
         final List<Question> questions = ctx.question().stream().map(q -> (Question) q.accept(this))
                 .collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public BinaryExpression visitMulDivExpr(MulDivExprContext ctx) {
+    public BinaryExpression visitMulDivExpr(final MulDivExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
 
@@ -109,7 +109,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitAddSubExpr(AddSubExprContext ctx) {
+    public ASTNode visitAddSubExpr(final AddSubExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
 
@@ -125,7 +125,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public ASTNode visitComparisonExpr(ComparisonExprContext ctx) {
+    public ASTNode visitComparisonExpr(final ComparisonExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
 
@@ -148,46 +148,46 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public And visitAndExpr(AndExprContext ctx) {
+    public And visitAndExpr(final AndExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
         return new And(leftExpression, rightExpression, extractLineInfo(ctx.AND().getSymbol()));
     }
 
     @Override
-    public Or visitOrExpr(OrExprContext ctx) {
+    public Or visitOrExpr(final OrExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
         return new Or(leftExpression, rightExpression, extractLineInfo(ctx.OR().getSymbol()));
     }
 
     @Override
-    public Not visitNotExpr(NotExprContext ctx) {
+    public Not visitNotExpr(final NotExprContext ctx) {
         return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.NOT().getSymbol()));
     }
 
     @Override
-    public Expression visitParenthesis(ParenthesisContext ctx) {
+    public Expression visitParenthesis(final ParenthesisContext ctx) {
         return (Expression) ctx.expr().accept(this);
     }
 
     @Override
-    public BooleanLiteral visitBoolean(BooleanContext ctx) {
+    public BooleanLiteral visitBoolean(final BooleanContext ctx) {
         return new BooleanLiteral(Boolean.valueOf(ctx.BOOLEAN().getText()), extractLineInfo(ctx.BOOLEAN().getSymbol()));
     }
 
     @Override
-    public StringLiteral visitString(StringContext ctx) {
+    public StringLiteral visitString(final StringContext ctx) {
         return new StringLiteral(Utils.unquote(ctx.STRING().getText()), extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override
-    public ASTNode visitNumber(NumberContext ctx) {
+    public ASTNode visitNumber(final NumberContext ctx) {
         return new NumberLiteral(Double.valueOf(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
     }
 
     @Override
-    public Identifier visitId(IdContext ctx) {
+    public Identifier visitId(final IdContext ctx) {
         return new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
     }
 

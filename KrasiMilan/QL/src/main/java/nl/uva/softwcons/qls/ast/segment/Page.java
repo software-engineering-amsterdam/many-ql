@@ -1,17 +1,20 @@
 package nl.uva.softwcons.qls.ast.segment;
 
 import java.util.List;
+import java.util.Map;
 
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.ASTNode;
-import nl.uva.softwcons.qls.ast.widget.DefaultStyle;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 
 public class Page implements ASTNode {
     private final Identifier id;
     private final List<PageSegment> segments;
-    private final List<DefaultStyle> styles;
+    private final Map<Type, StylizedWidget> styles;
 
-    public Page(final Identifier id, final List<PageSegment> regions, final List<DefaultStyle> styles) {
+    public Page(final Identifier id, final List<PageSegment> regions, final Map<Type, StylizedWidget> styles) {
         this.id = id;
         this.segments = regions;
         this.styles = styles;
@@ -25,12 +28,20 @@ public class Page implements ASTNode {
         return segments;
     }
 
-    public List<DefaultStyle> getStyles() {
+    public Map<Type, StylizedWidget> getStyles() {
         return styles;
     }
 
     public <T> T accept(final SegmentVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    public <T, V> T accept(final SegmentValueVisitor<T, V> visitor, final V value) {
+        return visitor.visit(this, value);
+    }
+
+    public LineInfo getLineInfo() {
+        return id.getLineInfo();
     }
 
 }

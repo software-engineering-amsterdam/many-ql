@@ -17,7 +17,6 @@ public class Panel extends DefaultChangeHandler implements UIComponent {
 	
 	public Panel() {		
 		panel = new JPanel(new MigLayout("hidemode 3"));
-//		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		components = new ArrayList<UIComponent>();
 	}
@@ -27,9 +26,18 @@ public class Panel extends DefaultChangeHandler implements UIComponent {
 		setHandler(handler);
 	}
 	
+	protected JPanel getPanel() {
+		return panel;
+	}
+	
+	protected List<UIComponent> getComponents() {
+		return components;
+	}
+	
 	public void addComponent(UIComponent component) {
 		addComponent(component, "wrap");
 	}
+	
 	public void addComponent(UIComponent component, String migSetting) {
 		components.add(component);
 		

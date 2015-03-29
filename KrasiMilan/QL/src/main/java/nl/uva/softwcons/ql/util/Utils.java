@@ -15,7 +15,7 @@ public final class Utils {
      * @return value unquoted
      *
      */
-    public static String unquote(String str) {
+    public static String unquote(final String str) {
 
         if ((str.startsWith("\"") && str.endsWith("\"")) || (str.startsWith("'") && str.endsWith("'"))) {
             return str.substring(1, str.length() - 1);

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QL.Model
+﻿namespace QL.AST.Nodes.Branches
 {
     public class ControlUnit : ElementBase
     {
         public Expression Expression;
         public Block ConditionTrueBlock;
         public Block ConditionFalseBlock;
-
 
         public ControlUnit()
         {
@@ -25,6 +18,17 @@ namespace QL.Model
         public ControlUnit(Expression e, Block trueBlock, Block falseBlock):this(e,trueBlock)
         {
             ConditionFalseBlock = falseBlock;
+        }
+
+        public ControlUnit(Expression expression, Block trueBlock, Block falseBlock, AST.SourceLocation sourceLocation)
+            : this(expression, trueBlock, falseBlock)
+        {
+            SourceLocation = sourceLocation;
+        }
+
+        public ControlUnit(Expression expression, Block trueBlock, AST.SourceLocation sourceLocation):this(expression,trueBlock)
+        {            
+            SourceLocation = sourceLocation;
         }
 
       

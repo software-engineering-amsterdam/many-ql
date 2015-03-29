@@ -7,11 +7,6 @@ import ql.ast.type.Type;
  */
 public class Checkbox extends WidgetValue
 {
-    public Checkbox()
-    {
-        super("checkbox");
-    }
-
     @Override
     public boolean isCompatibleWithType(Type t)
     {

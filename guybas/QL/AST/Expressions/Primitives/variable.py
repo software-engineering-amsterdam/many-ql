@@ -1,18 +1,18 @@
-import QL.AST.Expressions.Primitives.primitive as p
+import QL.AST.Expressions.Primitives.primitive as primitive
 
 
-class Variable(p.Primitive):
+class Variable(primitive.Primitive):
     def __init__(self, name):
         self.__name = name
 
     # return the type name (string) of the variable
     # we need to check if the variable exists because the type checking continuous even if other errors have been found
-    def return_type_string(self, type_dict):
-        if self.__name not in type_dict:
+    def return_type(self, type_map):
+        if self.__name not in type_map:
             return None
-        return type_dict[self.__name]
+        return type_map[self.__name]
 
-    def string_presentation(self):
+    def __str__(self):
         return self.__name
 
     # The variables are the variable itself
@@ -23,5 +23,4 @@ class Variable(p.Primitive):
     def eval_expression(self, answer_map):
         if answer_map.exists(self.__name):
             return answer_map.get_answer_by_id(self.__name)
-        else:
-            return None
+        return None

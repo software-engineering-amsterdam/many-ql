@@ -9,6 +9,7 @@ import ql.ast.type.QLFloat;
 import ql.ast.type.QLInteger;
 import ql.ast.type.QLMoney;
 import ql.ast.type.QLString;
+import ql.value.StringValue;
 import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.input.Radio;
@@ -24,7 +25,7 @@ public class DefaultWidgetEnvironment {
 	public DefaultWidgetEnvironment() {
 		environment = new HashMap<QLType, InputWidget<?>>();
 		
-		environment.put(new QLBoolean(), new Radio());
+		environment.put(new QLBoolean(), new Radio(new StringValue("Yes"), new StringValue("No")));
 		environment.put(new QLFloat(), new FloatSpinbox());
 		environment.put(new QLInteger(), new IntegerSpinbox());
 		environment.put(new QLMoney(), new MoneySpinbox());

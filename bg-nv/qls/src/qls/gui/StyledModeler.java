@@ -22,75 +22,32 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
 {
     private final Stylesheet stylesheet;
     private final QuestionStyles questionStyles;
+    private List<ql.gui.segment.Page> pages;
 
     public StyledModeler(CondQuestionTable condQuestionTable, Stylesheet stylesheet, QuestionStyles questionStyles)
     {
         super(condQuestionTable);
         this.stylesheet = stylesheet;
         this.questionStyles = questionStyles;
+
     }
 
     @Override
-    public Canvas model()
+    public Canvas buildCanvas()
     {
-        List<Segment> pageSegments = new ArrayList<>();
-        for (Page p : this.stylesheet.getBody())
-        {
-            pageSegments.add(p.accept(this));
-        }
-
-        return new Canvas("Unicorn!", pageSegments);
+        this.pages = new ArrayList<>();
+        this.stylesheet.accept(this);
+        return new Canvas(this.getCondQuestionTable().getTitle(), this.pages);
     }
 
-    @Override
-    public Segment visit(Section s)
-    {
-        List<Segment> segments = new ArrayList<>();
-
-        for (Statement stat : s.getBody())
-        {
-            if (stat.isRenderable())
-            {
-                Segment segment = stat.accept(this);
-                segments.add(segment);
-            }
-        }
-        return new ql.gui.segment.Section(segments, true);
-    }
-
-    @Override
-    public Segment visit(qls.ast.statement.Question q)
-    {
-        return getConditional(q.getId());
-    }
-
-    @Override
-    public Segment visit(QuestionWithRules q)
-    {
-
-        return getConditional(q.getId());
-    }
-
-    private Segment getConditional(String id)
-    {
-        ql.ast.statement.Question q = this.getQuestion(id);
-        Row row = q.accept(this);
-        Rules rules = questionStyles.getStyleForQuestion(id);
-        RowStyle style = RowStyleBuilder.build(rules);
-        row.applyStyle(style);
-        return row;
-    }
-
-    @Override
-    public Segment visit(DefaultStat d)
-    {
-        throw new IllegalStateException("Visiting a default node is not allowed");
-    }
-
-    // TODO: why throw exception for the default stat but not for the stylesheet?
     @Override
     public Segment visit(Stylesheet s)
     {
+        for (Page p : s.getBody())
+        {
+            p.accept(this);
+        }
+
         return null;
     }
 
@@ -108,6 +65,53 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
             }
         }
 
-        return new ql.gui.segment.Page(segments, true);
+        this.pages.add(new ql.gui.segment.Page(segments, p.getName(), true));
+
+        return null;
+    }
+
+    @Override
+    public Segment visit(Section s)
+    {
+        List<Segment> segments = new ArrayList<>();
+
+        for (Statement stat : s.getBody())
+        {
+            if (stat.isRenderable())
+            {
+                Segment segment = stat.accept(this);
+                segments.add(segment);
+            }
+        }
+        return new ql.gui.segment.Section(s.getName(), segments, true);
+    }
+
+    @Override
+    public Segment visit(qls.ast.statement.Question q)
+    {
+        return getConditional(q.getId());
+    }
+
+    @Override
+    public Segment visit(QuestionWithRules q)
+    {
+        return getConditional(q.getId());
+    }
+
+    private Segment getConditional(String id)
+    {
+        ql.ast.statement.Question q = this.getQuestion(id);
+        Row row = q.accept(this);
+        Rules rules = questionStyles.getStyleForQuestion(id);
+        RowStyle style = RowStyleBuilder.build(rules);
+        row.applyStyle(style);
+
+        return row;
+    }
+
+    @Override
+    public Segment visit(DefaultStat d)
+    {
+        throw new IllegalStateException("Visiting a default node is not allowed");
     }
 }

@@ -12,7 +12,7 @@
     <AssemblyName>QL</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>18ca7c2e</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>9c4f29a9</NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.Runtime.net45">
+    <Reference Include="Antlr4.Runtime.net45, Version=4.3.0.0, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr4.Runtime.4.3.0\lib\net45\Antlr4.Runtime.net45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Hollywood\DataContext.cs" />
     <Compile Include="Hollywood\DataHandlers\ASTCreation\AstBuilder.cs" />
+    <Compile Include="Hollywood\DataHandlers\ASTCreation\TypeFactory.cs" />
     <Compile Include="Hollywood\DataHandlers\InputHandling\Initializer.cs" />
     <Compile Include="Hollywood\DataHandlers\IExecutable.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
     <Compile Include="Hollywood\DataHandlers\Evaluation\Evaluator.cs" />
     <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeChecker.cs" />
-    <Compile Include="AST\ValueWrappers\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="AST\ValueWrappers\ITerminalWrapper.cs" />
     <Compile Include="AST\IVisitor.cs" />
@@ -90,7 +92,6 @@
     <Compile Include="AST\Nodes\Branches\Form.cs" />
     <Compile Include="AST\Nodes\ITypeStatic.cs" />
     <Compile Include="AST\Nodes\ITypeInferred.cs" />
-    <Compile Include="AST\Nodes\IVisitable.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\AndOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\DivisionOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs" />
@@ -102,19 +103,17 @@
     <Compile Include="AST\Nodes\Branches\Operators\OrOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\PlusOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\EqualsOperator.cs" />
-    <Compile Include="AST\Nodes\Branches\Operators\IOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\NotEqualsOperator.cs" />
     <Compile Include="AST\Nodes\Branches\QuestionUnit.cs" />
     <Compile Include="AST\SourceLocation.cs" />
     <Compile Include="AST\Nodes\Branches\StatementUnit.cs" />
     <Compile Include="AST\Nodes\Terminals\Identifier.cs" />
     <Compile Include="AST\Nodes\ITypeResolvable.cs" />
-    <Compile Include="AST\Nodes\Terminals\IResolvableTerminalType.cs" />
     <Compile Include="AST\Nodes\Terminals\Number.cs" />
-    <Compile Include="AST\Nodes\Terminals\ITerminalType.cs" />
     <Compile Include="AST\Nodes\Terminals\Text.cs" />
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
     <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
+    <Compile Include="Hollywood\QLBuilderStateMachine.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />
@@ -139,13 +138,13 @@
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>QL.obj.Debug</CustomToolNamespace>
     </AntlrTokens>
-    <None Include="packages.config" />
     <Antlr4 Include="Grammar\QL.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>QL.Grammars</CustomToolNamespace>
+      <CustomToolNamespace>QL.Grammar</CustomToolNamespace>
       <Listener>True</Listener>
       <Visitor>True</Visitor>
     </Antlr4>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="obj\Debug\QL.csproj.Antlr4GeneratedCodeFileListAbsolute.txt" />

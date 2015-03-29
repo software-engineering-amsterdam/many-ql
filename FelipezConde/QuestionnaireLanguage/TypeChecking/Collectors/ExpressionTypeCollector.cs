@@ -1,30 +1,20 @@
 ﻿using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
-using Notifications;
-using System.Collections.Generic;
-using TypeChecking.Notifications.Errors;
-using Types = AST.Types;
 using AST.VisitorInterfaces;
+using System.Collections.Generic;
+using Types = AST.Types;
 
 namespace TypeChecking.Collectors
 {
     public class ExpressionTypeCollector : IExpressionVisitor<Types.Type>
     {
         private readonly Dictionary<Id, Types.Type> idToType;
-        private List<INotification> collectedNotifications = new List<INotification>();
 
         public ExpressionTypeCollector(Dictionary<Id, Types.Type> idToType)
         {
             this.idToType = idToType;
         }
-
-        public IList<INotification> GetCollectedNotifications()
-        { return collectedNotifications; }
-
-        public void ClearCollectedNotifications()
-        { collectedNotifications = new List<INotification>(); }
-
         #region Id
         public  Types.Type Visit(Id node)
         {
@@ -112,7 +102,7 @@ namespace TypeChecking.Collectors
 
             if (!left.IsEqual(expectedType) && right.IsEqual(expectedType))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
+                return new Types.UndefinedType();
             }
 
             return expectedType;
@@ -124,7 +114,7 @@ namespace TypeChecking.Collectors
 
             if (!left.IsEqual(right))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
+                return new Types.UndefinedType();
             }
 
             return left;
@@ -139,7 +129,7 @@ namespace TypeChecking.Collectors
 
             if (childType.IsEqual(expectedType))
             {
-                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.ToString(), childType.GetString()));
+                return new Types.UndefinedType();
             }
 
             return expectedType;

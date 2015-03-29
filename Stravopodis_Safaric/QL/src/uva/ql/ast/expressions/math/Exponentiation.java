@@ -11,25 +11,23 @@ import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Exponentiation extends BinaryExpressions{
+public class Exponentiation extends BinaryExpression{
 
 	public Exponentiation(Expression left, Expression right, CodeLines _codeLines) {
 		super(left, right, Operator.EXP, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitExponentiation(this);
-	}
-	
-	@Override
 	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).exponentiation(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).exponentiation(new NumberValue(right));
+	}
+	
+	@Override
+	public Object getValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override
@@ -38,8 +36,18 @@ public class Exponentiation extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitExponentiation(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override 

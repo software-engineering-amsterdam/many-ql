@@ -9,15 +9,12 @@ import ql.gui.control.*;
 public class InputBuilder implements TypeVisitor<Input>
 {
     private final String id;
-    private final Boolean VISIBLE = true;
-    private final Boolean DISABLED = false;
 
     public static Input build(String id, Type type)
     {
         InputBuilder b = new InputBuilder(id);
         return type.accept(b);
     }
-
 
     private InputBuilder(String id)
     {
@@ -27,31 +24,25 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id, new Radio(VISIBLE, DISABLED, "yes", "no"));
-    }
-
-    @Override
-    public Input visit(DateType type)
-    {
-        return null; //new DateInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new BoolInput(this.id, new Dropdown("yes", "no"));
     }
 
     @Override
     public Input visit(DecType type)
     {
-        return new DecInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new DecInput(this.id, new TextField());
     }
 
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id, new Slider(VISIBLE, DISABLED, 0, 100, 1));
+        return new IntInput(this.id, new Slider(0, 100, 1));
     }
 
     @Override
     public Input visit(StrType type)
     {
-        return new StrInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new StrInput(this.id, new TextField());
     }
 
     @Override

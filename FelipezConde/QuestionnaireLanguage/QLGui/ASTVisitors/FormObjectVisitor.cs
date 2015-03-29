@@ -1,7 +1,5 @@
-﻿using Evaluation.Values;
-using FormObjects = QLGui.FormObjects;
+﻿using AST.VisitorInterfaces;
 using ASTFormObject = AST.Nodes.FormObjects;
-using AST.VisitorInterfaces;
 
 namespace QLGui.ASTVisitors
 {

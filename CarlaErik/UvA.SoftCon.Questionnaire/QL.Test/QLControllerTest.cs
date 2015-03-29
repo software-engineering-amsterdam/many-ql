@@ -1,11 +1,7 @@
-﻿using Antlr4.Runtime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.IO;
 using System.Linq;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
-using UvA.SoftCon.Questionnaire.QL;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.QL.Test

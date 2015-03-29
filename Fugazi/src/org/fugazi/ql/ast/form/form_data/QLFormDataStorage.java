@@ -65,6 +65,16 @@ public class QLFormDataStorage {
         return allQuestions;
     }
 
+    public Question getQuestionById(String _idName) {
+        List<Question> questions = this.getAllQuestions();
+        for (Question question : questions) {
+            if (question.getIdName().equals(_idName)) {
+                return question;
+            }
+        }
+        return null;
+    }
+
     public List<IfStatement> getIfStatements() {
         return this.ifStatementsVisitor.getIfStatement();
     }

@@ -1,23 +1,20 @@
-from typechecking import Message
-
 from .AbstractBase import AbstractBase
 
 
 
 class Checker(AbstractBase):
-    def __init__(self, parser, resultAlgebra):
-        super().__init__(parser, resultAlgebra)
+    def __init__(self, resultFactory, messageFactory):
+        super().__init__(resultFactory, messageFactory)
         self._labels = {}
 
     def visitQuestionnaireEnd(self, questionnaire):
-        for text, lines in self._labels.items():
-            if len(lines) > 1:
-                for l in lines:
-                    self._result = self._resultAlgebra.withWarning(
+        for label, occuringLines in self._labels.items():
+            if len(occuringLines) > 1:
+                for lineNumber in occuringLines:
+                    self._result = self._resultFactory.withWarning(
                         self._result,
-                        Message.Warning(
-                            'duplicate question label `'+text+'`',
-                            l
+                        self._messageFactory.duplicateLabel(
+                            label, lineNumber
                         )
                     )
 

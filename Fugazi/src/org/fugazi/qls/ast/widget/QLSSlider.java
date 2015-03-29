@@ -4,7 +4,7 @@ import org.fugazi.ql.ast.type.IntType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.IntValue;
-import org.fugazi.ql.gui.ui_elements.UIForm;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
@@ -13,7 +13,9 @@ import org.fugazi.qls.ast.widget.widget_types.SliderType;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QLSSlider extends AbstractQLSWidget {
@@ -22,8 +24,6 @@ public class QLSSlider extends AbstractQLSWidget {
     private static final int MAX = 1000;
     private static final int STEP = 1;
 
-    private final JLabel componentLabel;
-    private final JPanel panel;
     private final JSlider slider;
     private JLabel valueLabel;
 
@@ -33,36 +33,36 @@ public class QLSSlider extends AbstractQLSWidget {
 
     public QLSSlider(String _label) {
 
-        this.panel = new JPanel();
-        this.componentLabel = new JLabel(_label);
+        this.componentLabel.setText(_label);
         this.valueLabel = new JLabel("0");
         this.slider = new JSlider(JSlider.HORIZONTAL, MIN, MAX, STEP);
 
-        this.panel.add(this.componentLabel);
-        this.panel.add(this.slider);
-        this.panel.add(this.valueLabel);
+        this.component.add(this.componentLabel);
+        this.component.add(this.slider);
+        this.component.add(this.valueLabel);
 
         this.type = new SliderType();
     }
 
     @Override
     public void applyStyle(Style _style) {
-        Style style = _style;
+        _style.inheriteFromStyle(this.getDefaultStyle());
 
-        // inherit properties that are not set in the given style from default.
-        style.inheriteFromStyle(this.getDefaultStyle());
+        Font font = new Font(
+                _style.getFont(this.getDefaultFont().getValue()), 0,
+                _style.getFontSize(this.getDefaultFontSize().getValue())
+        );
+        this.componentLabel.setFont(font);
 
-        // todo
-    }
+        Color color = _style.getColor(this.getDefaultColor().getValue());
+        this.componentLabel.setForeground(color);
 
-    @Override
-    public void render(UIForm _canvas) {
-        _canvas.addWidget(this.panel);
-    }
-
-    @Override
-    public void supress(UIForm _canvas){
-        _canvas.removeWidget(this.panel);
+        this.slider.setPreferredSize(
+                new Dimension(
+                        this.getDefaultWidth().getValue(), 
+                        (int) this.slider.getPreferredSize().getHeight()
+                )
+        );
     }
 
     @Override
@@ -97,15 +97,10 @@ public class QLSSlider extends AbstractQLSWidget {
     }
     
     public List<Type> getSupportedQuestionTypes() {
-        List<Type> supportedTypes = new ArrayList<>();
-        supportedTypes.add(new IntType());
-
+        List<Type> supportedTypes = new ArrayList<>(
+                Arrays.asList(new IntType())
+        );
         return supportedTypes;
-    }
-
-    @Override
-    public void setLabel(String _label) {
-        this.componentLabel.setText(_label);
     }
 
     public <T> T accept(IQLSASTVisitor<T> _visitor) {

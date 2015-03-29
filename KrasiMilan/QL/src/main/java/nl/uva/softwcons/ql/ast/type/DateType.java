@@ -7,7 +7,7 @@ public final class DateType extends Type {
     }
 
     @Override
-    public <T> T accept(TypeVisitor<T> visitor) {
+    public <T> T accept(final TypeVisitor<T> visitor) {
         return visitor.visit(this);
     }
 

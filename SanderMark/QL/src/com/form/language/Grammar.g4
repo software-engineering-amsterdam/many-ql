@@ -11,7 +11,7 @@ grammar Grammar;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
-	import com.form.language.error.QLToken;
+	import com.form.language.issue.QLToken;
 	import com.form.language.memory.*;
 }
 

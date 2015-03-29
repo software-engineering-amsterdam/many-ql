@@ -1,8 +1,9 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.gui.GUIBuilder;
+import org.fugazi.ql.gui.UIFormManager;
+import org.fugazi.ql.gui.ui_element.UIForm;
 import org.fugazi.ql.gui.widgets.WidgetsFactory;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
@@ -10,12 +11,11 @@ import org.fugazi.qls.ast.DefaultStyleHandler;
 import org.fugazi.qls.ast.QLSASTBuilder;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
-import org.fugazi.qls.gui.QLSWidgetsFactory;
+import org.fugazi.qls.gui.StyledGUIBuilder;
 import org.fugazi.qls.type_checker.QLSTypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Map;
 
 public class Main {
 
@@ -31,9 +31,11 @@ public class Main {
         if (inputQLFile != null)
             qlInput = new FileInputStream(inputQLFile);
 
-        /** ---------------------
-          * QL
-          * --------------------- */
+        /** 
+         * ---------------------
+         * QL
+         * ---------------------
+         */
         // Create The AST Builder.
         QLASTBuilder qLAstBuilder = new QLASTBuilder(qlInput);
 
@@ -47,66 +49,71 @@ public class Main {
         boolean isFormTypesCorrect = qLTypeChecker.checkForm();
 
         // display warnings and errors and if form is not type-correct, exit
-        ASTIssuePrinter printer = new ASTIssuePrinter(
+        ASTIssuePrinter printer = new ASTIssuePrinter();
+        printer.displayWarningsAndErrors(
                 qLTypeChecker.getErrors(), qLTypeChecker.getWarnings()
         );
-        printer.displayWarningsAndErrors();
 
         if (!isFormTypesCorrect) {
             System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
             System.exit(-1);
         }        
 
-        /** ---------------------
+        /**
+         * ---------------------
          * QLS
-         * --------------------- */
-        String inputQLSFile = null;
-
-        if (args.length > 1)
+         * ---------------------
+         */
+        if (args.length > 1) {
+            String inputQLSFile = null;
             inputQLSFile = args[1];
 
-        InputStream qlsInput = System.in;
+            InputStream qlsInput = System.in;
 
-        if (inputQLFile != null)
-            qlsInput = new FileInputStream(inputQLSFile);
+            if (inputQLFile != null)
+                qlsInput = new FileInputStream(inputQLSFile);
 
-         // Create The AST Builder.
-        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
+            // Create The AST Builder.
+            QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
 
-        // Build the AST.
-        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+            // Build the AST.
+            StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
 
-        // Get the styles.
-        DefaultStyleHandler defaultStyleDeclaration =
-                new DefaultStyleHandler(formDataStorage, styleSheet);
-        StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
+            // Get the styles.
+            DefaultStyleHandler defaultStyleDeclaration =
+                    new DefaultStyleHandler(formDataStorage, styleSheet);
+            StyleSheet styledStyleSheet = defaultStyleDeclaration.getStylesheetWithStyles();
 
-        QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
+            QLSStyleSheetDataStorage styleSheetData = new QLSStyleSheetDataStorage(styledStyleSheet);
 
-        // Perform QLS type checking.
-        QLSTypeChecker qLSTypeChecker = new QLSTypeChecker();
-        boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet(
-                styleSheetData, formDataStorage
-        );
+            // Perform QLS type checking.
+            QLSTypeChecker qLSTypeChecker = new QLSTypeChecker(styleSheetData, formDataStorage);
+            boolean isQLSFormTypesCorrect = qLSTypeChecker.checkStylesheet();
 
-        // display warnings and errors and if form is not type-correct, exit
-        printer = new ASTIssuePrinter(
-                qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings()
-        );
-        printer.displayWarningsAndErrors();
+            // display warnings and errors and if form is not type-correct, exit
+            printer = new ASTIssuePrinter();
+            printer.displayWarningsAndErrors(qLSTypeChecker.getErrors(), qLSTypeChecker.getWarnings());
 
-        if (!isQLSFormTypesCorrect) {
-            System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(-1);
+            if (!isQLSFormTypesCorrect) {
+                System.err.println("Stylesheet is not type correct. Cannot evaluate and render. Please fix the errors.");
+                System.exit(-1);
+            }
+
+            // QLS
+            GUIBuilder styledGUIBuilder = new StyledGUIBuilder(form, styleSheetData);
+            styledGUIBuilder.renderUI();
+
+        } else {
+
+            // QL
+            GUIBuilder guiBuilder = new GUIBuilder(
+                                        form, 
+                                        new WidgetsFactory(), 
+                                        new UIFormManager(
+                                                new UIForm(form.getName())
+                                        )
+                                    );
+            guiBuilder.renderUI();
         }
-
-        // QL
-//        GUIBuilder guiBuilder = new GUIBuilder(form, new WidgetsFactory());
-//        guiBuilder.renderUI();
-
-        // QLS
-        QLSWidgetsFactory qlsWidgetsFactory = new QLSWidgetsFactory(styleSheetData);
-        GUIBuilder guiBuilder = new GUIBuilder(form, qlsWidgetsFactory);
-        guiBuilder.renderUI();
     }
 }

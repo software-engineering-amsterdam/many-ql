@@ -4,7 +4,7 @@ Page Housing
 
     Section Buying {
         Question hasBoughtHouse
-        Widget : Checkbox (option1, option2)
+        Widget : Checkbox
     }
 
     Section Loaning {
@@ -16,23 +16,20 @@ Page Selling
 
     Section Selling {
         Question hasSoldHouse
-        Widget : Radio (Yes, No) default : No
+        Widget : Dropdown (Yes, No)
     }
 
     Section You_Sold_A_House {
         Question sellingPrice
-            Widget : Textbox 100
+            Widget : Textbox
 
         Question privateDebt
-            Widget : Checkbox (yes, no)
-
-        QuestionValueResidue
-            Widget : Spinbox 1 10
+            Widget : Slider 1 100
     }
 
     Section Check {
         Question sellingPrice
-            Widget : Radio(yes, no)
+            Widget : Radio(yes, no) { font : verdana }
     }
 
 Default bool Widget : Radio (yes, no) {

@@ -2,7 +2,7 @@ package nl.uva.bromance.ast.operators;
 
 import nl.uva.bromance.ast.conditionals.BooleanResult;
 import nl.uva.bromance.ast.conditionals.Result;
-import nl.uva.bromance.ast.exceptions.InvalidOperandException;
+import nl.uva.bromance.ast.visitors.OperatorVisitor;
 
 /**
  * Created by Ger on 24-2-2015.
@@ -10,14 +10,10 @@ import nl.uva.bromance.ast.exceptions.InvalidOperandException;
 public class OrOperator extends Operator {
 
     @Override
-    public Result performOperation(Result one, Result two) throws InvalidOperandException {
-        if (!(one instanceof BooleanResult) || !(two instanceof BooleanResult)) {
-            throw new InvalidOperandException();
-        } else {
-            BooleanResult intResultOne = (BooleanResult) one;
-            BooleanResult intResultTwo = (BooleanResult) two;
-            return intResultOne.or(intResultTwo);
-        }
+    public Result performOperation(Result one, Result two) {
+        BooleanResult intResultOne = (BooleanResult) one;
+        BooleanResult intResultTwo = (BooleanResult) two;
+        return intResultOne.or(intResultTwo);
     }
 
     @Override
@@ -26,7 +22,7 @@ public class OrOperator extends Operator {
     }
 
     @Override
-    public Operator getNewOperatorOfThisType() {
-        return new OrOperator();
+    public void accept(OperatorVisitor visitor) {
+        visitor.visit(this);
     }
 }

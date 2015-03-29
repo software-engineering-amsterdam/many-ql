@@ -10,10 +10,8 @@ using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using QL.Exceptions;
 using QL.Exceptions.Errors;
-using QL.Grammars;
-using QL.Infrastructure;
-using QL.Model;
-using QL.Visitors;
+using QL.Grammar;
+using QL.Hollywood;
 
 
 namespace QL
@@ -33,10 +31,10 @@ namespace QL
 
                 ast.RegisterGenericDataHandlers();
                 ast.RunInit();
-                ast.RunAstBuild();
-                ast.RunTypeCheck();
-                ast.RunEvaluate();
-                foreach (Exception e in ast.Errors){
+                ast.RunASTBuilders();
+                ast.RunTypeCheckers();
+                ast.RunEvaluators();
+                foreach (Exception e in ast.UnhandledExceptions){
                     Console.WriteLine(e.ToString());
                 }
 

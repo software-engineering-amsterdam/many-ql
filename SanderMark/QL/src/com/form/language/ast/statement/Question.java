@@ -3,8 +3,9 @@ package com.form.language.ast.statement;
 import javax.swing.JPanel;
 
 import com.form.language.ast.type.Type;
-import com.form.language.error.QLToken;
 import com.form.language.gui.components.FormComponent;
+import com.form.language.issue.QLToken;
+import com.form.language.issue.Warning;
 import com.form.language.memory.Context;
 
 //TODO :: Seperate each variable?
@@ -21,15 +22,15 @@ public class Question extends Statement {
     }
 
     public Type getType(Context context) {
-	return this.questionType;
+	return questionType;
     }
 
     public String getText() {
-	return this.questionLabel;
+	return questionLabel;
     }
 
     public String getId() {
-	return this.id;
+	return id;
     }
 
     public void initMemory(Context context) {
@@ -39,8 +40,16 @@ public class Question extends Statement {
     //TODO: This is not really 'checkType' but rather something like initialization we can't do in the constructor.
     @Override
     public boolean checkType(Context context) {
-	context.addId(this);
+	context.addQuestion(this);
+	checkExistingLabels(context);
+	context.addLabel(questionLabel);
 	return true;
+    }
+
+    private void checkExistingLabels(Context context) {
+	if (context.containsLabel(questionLabel)) {
+	    context.addWarning(new Warning(tokenInfo, "A question labeled \" + questionLabel + \" already exists"));
+	}
     }
 
     @Override

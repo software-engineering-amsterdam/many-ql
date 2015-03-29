@@ -1,4 +1,4 @@
-﻿using QL.Model;
+﻿using QL.AST;
 
 namespace QL.Exceptions.Warnings
 {

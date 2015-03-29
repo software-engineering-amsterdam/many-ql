@@ -15,28 +15,13 @@ public class StyleCollector extends DefaultStatementVisitor<Style> implements St
     @Override
     public Style visit(Page p)
     {
-        return this.extractStyle(p.getBody());
+        return this.constructStyle(p.getBody());
     }
 
     @Override
     public Style visit(Section s)
     {
-        return this.extractStyle(s.getBody());
-    }
-
-    private Style extractStyle(Iterable<qls.ast.statement.Statement> stats)
-    {
-        Style result = new Style();
-        for (Statement stat : stats)
-        {
-            if (stat.isStyleDefinition())
-            {
-                Style statStyle = stat.accept(this);
-                result.addStyle(statStyle);
-            }
-        }
-
-        return result;
+        return this.constructStyle(s.getBody());
     }
 
     @Override
@@ -57,5 +42,20 @@ public class StyleCollector extends DefaultStatementVisitor<Style> implements St
     public Style visitDefault(Statement s)
     {
         return style;
+    }
+
+    private Style constructStyle(Iterable<qls.ast.statement.Statement> stats)
+    {
+        Style result = new Style();
+        for (Statement stat : stats)
+        {
+            if (stat.isStyleDefinition())
+            {
+                Style statStyle = stat.accept(this);
+                result.addStyle(statStyle);
+            }
+        }
+
+        return result;
     }
 }

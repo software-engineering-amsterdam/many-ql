@@ -53,9 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\Model\Expressions\Literals\DateLiteral.cs" />
+    <Compile Include="AST\Model\Statements\BooleanQuestion.cs" />
+    <Compile Include="AST\Model\Statements\DateQuestion.cs" />
+    <Compile Include="AST\Model\Statements\IntegerQuestion.cs" />
+    <Compile Include="AST\Model\Statements\StringQuestion.cs" />
     <Compile Include="QLController.cs" />
-    <Compile Include="TopDownVisitor.cs" />
-    <Compile Include="IQLVisitor.cs" />
+    <Compile Include="TopDownQuestionFormVisitor.cs" />
+    <Compile Include="IQuestionFormVisitor.cs" />
     <Compile Include="AST\Model\Expressions\Binary\Add.cs" />
     <Compile Include="AST\Model\Expressions\Binary\And.cs" />
     <Compile Include="AST\Model\Expressions\Binary\BinaryExpression.cs" />
@@ -83,9 +87,9 @@
     <Compile Include="AST\Model\Statements\IfStatement.cs" />
     <Compile Include="AST\Model\Statements\Statement.cs" />
     <Compile Include="AST\Model\Statements\Question.cs" />
-    <Compile Include="AST\Building\ExpressionVisitor.cs" />
-    <Compile Include="AST\Building\FormVisitor.cs" />
-    <Compile Include="AST\Building\StatementVisitor.cs" />
+    <Compile Include="AST\Building\ExpressionBuilder.cs" />
+    <Compile Include="AST\Building\QuestionFormBuilder.cs" />
+    <Compile Include="AST\Building\StatementBuilder.cs" />
     <Compile Include="Grammar\QL.g4.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>

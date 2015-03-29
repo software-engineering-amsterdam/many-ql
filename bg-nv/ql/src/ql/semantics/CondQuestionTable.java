@@ -13,11 +13,18 @@ public class CondQuestionTable implements Iterable<Question>
 {
     private final List<Question> ids;
     private final Map<Question, Expr> idToCondition;
+    private final String title;
 
-    public CondQuestionTable()
+    public CondQuestionTable(String title)
     {
+        this.title = title;
         this.ids = new ArrayList<>();
         this.idToCondition = new HashMap<>();
+    }
+
+    public String getTitle()
+    {
+        return this.title;
     }
 
     public void addQuestion(Expr condition, Question question)

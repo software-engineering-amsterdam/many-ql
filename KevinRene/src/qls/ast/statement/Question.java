@@ -45,5 +45,4 @@ public class Question extends Statement {
 	public String toString() {
 		return "Question";
 	}
-
 }

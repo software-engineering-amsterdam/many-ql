@@ -7,11 +7,6 @@ import ql.ast.type.Type;
  */
 public class Textbox extends WidgetValue
 {
-    public Textbox()
-    {
-        super("textbox");
-    }
-
     @Override
     public boolean isCompatibleWithType(Type t)
     {

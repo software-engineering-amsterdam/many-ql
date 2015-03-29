@@ -1,47 +1,67 @@
 package uva.ql.interpreter.gui;
 
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-import uva.ql.ast.ASTNode;
+
+import javax.swing.JFrame;
+
+import uva.ql.ast.Node;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
+import uva.ql.ast.expression.evaluation.ValueTable;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.tablevisitor.ValueTable;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Question;
 import uva.ql.ast.statements.Statement;
+import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.StatementVisitor;
-import uva.ql.interpreter.gui.elements.Size;
-import uva.ql.interpreter.gui.elements.UIContainer;
 import uva.ql.interpreter.gui.elements.UIFrame;
-import uva.ql.interpreter.gui.elements.UIQuestion;
 import uva.ql.interpreter.gui.elements.UIScrollPanel;
+import uva.ql.interpreter.gui.elements.UIWidget;
+import uva.ql.interpreter.gui.supporting.Size;
+import uva.ql.interpreter.gui.supporting.UpdateValue;
 
 public class Renderer implements StatementVisitor<Void>, Observer{
 
-	private final ValueTable valueTable;
 	private UIScrollPanel scrollPanel;
+	private ValueTable valueTable;
 	private Identifier lastFocus;
-	private UIFrame frame;
+	private JFrame frame;
 	private Prog prog;
 	
 	public Renderer(Prog prog){
-		this.prog = prog;
 		this.valueTable = new ValueTable(prog);
+		this.prog = prog;
 		this.setFrame();
 	}
 	
 	private void setFrame(){
-		if (this.frame == null){
-			this.scrollPanel = new UIScrollPanel(new Size(500, 400));
-			this.scrollPanel.getPanel().setLayout(new GridLayout(1,1));
-			
-			this.frame = new UIFrame(new Size(500,400), this.scrollPanel);
-			this.frame.randerFrame();
-		}
+		this.scrollPanel = new UIScrollPanel();
+		
+		this.frame = new UIFrame().randerFrame(new Size(500,400));
+		this.frame.add(this.scrollPanel.randerScrollPane(new Size(500,400)));
+		this.frame.revalidate();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		UpdateValue value = (UpdateValue)arg;
+		
+		this.valueTable.updateValueTable(value.getIdentifier(), value.getUpdateValue());
+		this.valueTable.refreshValueTable();
+		
+		this.scrollPanel.removeAll();
+		this.scrollPanel.revalidateLayout();
+		
+		this.lastFocus = value.getIdentifier();
+		
+		this.visitProg(this.prog);	
+	}
+	
+	private boolean hasFocus(Identifier identifier){
+		return identifier.equals(lastFocus);
 	}
 	
 	@Override
@@ -52,14 +72,14 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 
 	@Override
 	public Void visitForm(Form form) {
-		for (Statement statement : form.getStatement()){
+		for (Statement statement : form.getFormStatements()){
 			statement.accept(this);
 		}
 		return null;
 	}
 
 	@Override
-	public Void visitASTNode(ASTNode node) {
+	public Void visitASTNode(Node node) {
 		return null;
 	}
 
@@ -71,38 +91,37 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 
 	@Override
 	public Void visitSimpleQuestion(Question question) {
-			
-		UIQuestion _question = new UIQuestion(question, this.valueTable, this);
-		UIContainer component = _question.returnQuestionElement();
-		
-		this.scrollPanel.addComponent(component);
-		this.scrollPanel.revalidatePanel();
-		
-		this.hasFocus(question.getQuestionIdentifier(), component.getChildComponent());
-		
+		this.randerQuestion(question);
 		return null;
 	}
-
+	
 	@Override
 	public Void visitComputedQuestion(Question question) {
-		
-		UIQuestion _question = new UIQuestion(question, this.valueTable, this);
-		UIContainer component = _question.returnQuestionElement();
-		
-		this.scrollPanel.addComponent(component);
-		this.scrollPanel.revalidatePanel();
-		
-		this.hasFocus(question.getQuestionIdentifier(), component.getChildComponent());
-		
+		this.randerQuestion(question);
 		return null;
+	}
+	
+	private void randerQuestion(Question question){
+		
+		Identifier id = question.getQuestionIdentifier();
+		String identifier = question.getQuestionIdentifierValue();
+		
+		GenericValue<?> value = this.valueTable.getValue(identifier);
+		
+		UIWidget widget = new UIWidget(question, value, this);
+		
+		this.scrollPanel.addComponent(widget.randerUIWidget());
+		this.scrollPanel.revalidateMasterPanel();
+		
+		widget.requestFocus(this.hasFocus(id));
 	}
 
 	@Override
 	public Void visitIfStatement(IfStatement ifStatement) {
-		boolean conditionIsTrue = this.valueTable.conditionalExpression(ifStatement.getExpression());
+		boolean conditionIsTrue = this.valueTable.conditionalExpression(ifStatement.getIfStatementExpression());
 		
 		if (conditionIsTrue){
-			for (Statement statement : ifStatement.getStatement()){
+			for (Statement statement : ifStatement.getStatements()){
 				statement.accept(this);
 			}
 		}
@@ -113,21 +132,5 @@ public class Renderer implements StatementVisitor<Void>, Observer{
 	@Override
 	public Void visitAssign(Assign assign) {
 		return null;
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		this.valueTable.updateValueTable();
-		this.scrollPanel.removeAll();
-		this.scrollPanel.revalidate();
-		this.lastFocus = (Identifier)arg;
-		this.visitProg(this.prog);	
-	}
-	
-	private void hasFocus(Identifier identifier, Component component){
-		if (identifier.equals(this.lastFocus)){
-			System.out.println("has focus: " + identifier + " " + component);
-			component.requestFocus();
-		}
 	}
 }

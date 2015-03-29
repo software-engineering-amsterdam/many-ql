@@ -13,19 +13,10 @@ public class TextField extends ControlElement implements IntControl, DecControl,
 {
     private final javafx.scene.control.TextInputControl textField;
 
-    public TextField(Boolean visible, Boolean disabled)
+    public TextField()
     {
-        super(visible, disabled);
+        super();
         this.textField = new javafx.scene.control.TextField();
-        this.setVisible(visible);
-        this.setDisabled(disabled);
-    }
-
-    @Override
-    public void setVisible(Boolean visible)
-    {
-        this.textField.setVisible(visible);
-        this.textField.setManaged(visible);
     }
 
     @Override

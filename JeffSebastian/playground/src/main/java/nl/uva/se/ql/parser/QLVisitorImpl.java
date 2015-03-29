@@ -45,7 +45,6 @@ import nl.uva.se.ql.parser.QLParser.FormContext;
 import nl.uva.se.ql.parser.QLParser.LiteralContext;
 import nl.uva.se.ql.parser.QLParser.QuestionContext;
 import nl.uva.se.ql.parser.QLParser.StatementContext;
-import nl.uva.se.ql.parser.helper.Operator;
 
 public class QLVisitorImpl extends QLBaseVisitor<Node> {
 
@@ -71,7 +70,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
 		String id = ctx.Identifier().getText();
-		String question = ctx.String().getText();
+		String question = removeQuotes(ctx.String().getText());
 
 		if (type == null) {
 			throw new IllegalArgumentException("Type " + ctx.Type().getText() + " not supported!");
@@ -118,7 +117,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 			return visitLiteral(ctx.singleLtr);
 		}
 		
-		Operator operator = Operator.getByName(ctx.op.getText());
+		QLOperators operator = QLOperators.getByName(ctx.op.getText());
 		if (operator == null) {
 			throw new IllegalArgumentException("Operator " + ctx.op.getText() + " not supported!");
 		}
@@ -209,7 +208,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 			return new Reference(lineNumber, offset, ctx.getText());
 		}
 		
-		return new StringLiteral(lineNumber, offset, ctx.getText().substring(1, ctx.getText().length()-1));
+		return new StringLiteral(lineNumber, offset, removeQuotes(ctx.getText()));
 	}
 	
 	public Type getTypeForName(String typeName) {
@@ -224,6 +223,10 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		}
 		
 		return new UndefinedType();
+	}
+	
+	private String removeQuotes(String question) {
+		return question.substring(1, question.length()-1);
 	}
 
 }

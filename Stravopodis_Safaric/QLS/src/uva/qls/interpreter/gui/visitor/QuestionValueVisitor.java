@@ -19,7 +19,6 @@ import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.literal.Literal;
 import uva.qls.ast.literal.MoneyLiteral;
 import uva.qls.ast.literal.StringLiteral;
-import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
 import uva.qls.ast.statements.Section;
@@ -33,6 +32,7 @@ import uva.qls.ast.style.FontSize;
 import uva.qls.ast.style.Height;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.style.Width;
+import uva.qls.ast.type.Type;
 import uva.qls.interpreter.gui.GUI;
 import uva.qls.interpreter.gui.table.DefaultTableValue;
 import uva.qls.interpreter.typecheck.TypeCheckQLS;
@@ -40,6 +40,7 @@ import uva.qls.interpreter.typecheck.TypeCheckQLS;
 public class QuestionValueVisitor implements StatementVisitor<Object> {
 
 	private GUI gui;
+	private Page page;
 	
 	public QuestionValueVisitor(GUI _gui){
 		this.gui = _gui;
@@ -58,6 +59,7 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 
 	@Override
 	public Page visitPage(Page page) {
+		this.page = page;
 		
 		this.defaultValues(page.getStatement());
 		this.visitStatements(page.getStatement());
@@ -107,7 +109,7 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 			this.gui.getQuestionValueTable().putValue(question, this.gui.table.retrieveValue(questionType).peek());
 		}
 		else {
-			DefaultTableValue value = new DefaultTableValue(question.getComponent(), new Type(questionType, question.getLOC()));
+			DefaultTableValue value = new DefaultTableValue(question.getComponent().getStyle(), question.getComponent(), this.page);
 			this.gui.getQuestionValueTable().putValue(question, value);
 		}
 		
@@ -134,8 +136,9 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 		for (Statement s : statements){
 			
 			if (s.getClass().equals(DefaultValue.class)){
+				DefaultValue value = (DefaultValue)s;
 				
-				this.gui.table.push(((DefaultValue)s).getType().getTypeName(), (DefaultTableValue)s.accept(this));
+				this.gui.table.push(value.getType().getTypeName(), (DefaultTableValue)value.accept(this));
 				typesPushed.add(((DefaultValue)s).getType().getTypeName());
 			}
 		}
@@ -144,12 +147,12 @@ public class QuestionValueVisitor implements StatementVisitor<Object> {
 
 	@Override
 	public DefaultTableValue visitDefaultValueComponent(DefaultValue defaultValue) {
-		return new DefaultTableValue(defaultValue.getStyle(), defaultValue.getComponent(), defaultValue.getType());
+		return new DefaultTableValue(defaultValue.getComponent().getStyle(), defaultValue.getComponent(), this.page);
 	}
 
 	@Override
 	public DefaultTableValue visitDefaultValueStatements(DefaultValue defaultValue) {
-		return new DefaultTableValue(defaultValue.getStyle(), defaultValue.getComponent(), defaultValue.getType());
+		return new DefaultTableValue(defaultValue.getStyle(), defaultValue.getComponent(), this.page);
 	}
 
 	@Override

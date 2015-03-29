@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Exceptions;
-using QL.Visitors;
-
-namespace QL.Model
+﻿namespace QL.AST.Nodes
 {
-    public abstract class ElementBase : IVisitable
+    public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; set; }
 
@@ -19,7 +11,9 @@ namespace QL.Model
         protected ElementBase()
         {
         }
-
+        protected ElementBase(SourceLocation sourceLocation) {
+            SourceLocation = sourceLocation;
+        }
 
         public virtual void Accept(IVisitor visitor)
         {

@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import ql.gui.control.Control;
-import ql.semantics.ValueTableEntry;
 import ql.semantics.errors.Message;
 import ql.semantics.values.Value;
 
@@ -26,13 +25,6 @@ public abstract class RegularInput<T extends Control> extends Input<T>
         this.errorField.setVisible(false);
         this.errorField.setManaged(false);
         this.fillInputNode();
-    }
-
-    @Override
-    public void setVisible(Boolean visible)
-    {
-        super.setVisible(visible);
-        this.control.setVisible(visible);
     }
 
     @Override
@@ -76,7 +68,7 @@ public abstract class RegularInput<T extends Control> extends Input<T>
             this.addValidationError(this.getInvalidInputErrorMsg());
         }
         this.setChanged();
-        this.notifyObservers(new ValueTableEntry(this.getId(), val));
+        this.notifyObservers(val);
     }
 
     protected abstract Value convertUserInputToValue();

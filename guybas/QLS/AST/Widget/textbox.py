@@ -1,8 +1,8 @@
-import QLS.AST.Widget.widget as w
-import QL.Grammar.constants as constants
+import QLS.AST.Widget.widget_interface as w
+from QL.AST.Expressions.Types import *
 
 
-class Textbox(w.Widget):
+class Textbox(w.IWidget):
     def __init__(self):
         self._properties = {self.widget_name(): "" }
 
@@ -10,7 +10,7 @@ class Textbox(w.Widget):
         return "    " * level + "Textbox \n"
 
     def get_compatible(self):
-        return [constants.GrammarConstants.TEXT]
+        return [text_type.Text()]
 
     def set_settings(self, dictionary):
         for x in dictionary:

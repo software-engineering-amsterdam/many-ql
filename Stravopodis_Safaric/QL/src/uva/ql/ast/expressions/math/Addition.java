@@ -10,25 +10,23 @@ import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Addition extends BinaryExpressions{
+public class Addition extends BinaryExpression{
 	
 	public Addition(Expression _left, Expression _right, CodeLines _codeLines) {
 		super(_left, _right, Operator.ADD, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
-	}
-	
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitAddition(this);
-	}
-	
-	@Override
 	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).addition(new NumberValue((int)this.getRightExpr().evaluate().getValue()));
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).addition(new NumberValue(right));
+	}
+	
+	@Override
+	public Object getValue() {
+		return this.evaluate().getValue();
 	}
 	
 	@Override
@@ -37,8 +35,18 @@ public class Addition extends BinaryExpressions{
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
+	public List<Type> acceptedTypes() {
 		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitAddition(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

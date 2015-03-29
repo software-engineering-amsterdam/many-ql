@@ -113,9 +113,9 @@ state 13
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 19
 	andOrBlock  goto 17
 	evaluatable  goto 18
+	term  goto 19
 	value  goto 22
 
 state 14
@@ -131,7 +131,7 @@ state 15
 
 
 state 16
-	questionType:  ComputedQuestionToken.'=' term 
+	questionType:  ComputedQuestionToken.'=' andOrBlock 
 
 	'='  shift 28
 	.  error
@@ -141,18 +141,18 @@ state 17
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' 
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken ifBlock 
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' ElseToken '{' stack '}' 
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 
 	')'  shift 29
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  error
 
 
 state 18
-	andOrBlock:  evaluatable.BoolAndToken evaluatable 
-	andOrBlock:  evaluatable.BoolOrToken evaluatable 
 	andOrBlock:  evaluatable.    (14)
 
-	BoolAndToken  shift 30
-	BoolOrToken  shift 31
 	.  reduce 14 (src line 168)
 
 
@@ -200,8 +200,8 @@ state 20
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 19
 	evaluatable  goto 45
+	term  goto 19
 	value  goto 22
 
 state 21
@@ -216,9 +216,9 @@ state 21
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 19
 	andOrBlock  goto 46
 	evaluatable  goto 18
+	term  goto 19
 	value  goto 22
 
 state 22
@@ -258,17 +258,20 @@ state 27
 
 
 state 28
-	questionType:  ComputedQuestionToken '='.term 
+	questionType:  ComputedQuestionToken '='.andOrBlock 
 
 	QuotedStringToken  shift 25
 	TextToken  shift 24
 	'('  shift 21
+	'!'  shift 20
 	NumericToken  shift 23
 	BoolTrueToken  shift 26
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 47
+	andOrBlock  goto 47
+	evaluatable  goto 18
+	term  goto 19
 	value  goto 22
 
 state 29
@@ -281,7 +284,7 @@ state 29
 
 
 state 30
-	andOrBlock:  evaluatable BoolAndToken.evaluatable 
+	andOrBlock:  andOrBlock BoolAndToken.evaluatable 
 
 	QuotedStringToken  shift 25
 	TextToken  shift 24
@@ -292,12 +295,12 @@ state 30
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 19
 	evaluatable  goto 49
+	term  goto 19
 	value  goto 22
 
 state 31
-	andOrBlock:  evaluatable BoolOrToken.evaluatable 
+	andOrBlock:  andOrBlock BoolOrToken.evaluatable 
 
 	QuotedStringToken  shift 25
 	TextToken  shift 24
@@ -308,8 +311,8 @@ state 31
 	BoolFalseToken  shift 27
 	.  error
 
-	term  goto 19
 	evaluatable  goto 50
+	term  goto 19
 	value  goto 22
 
 state 32
@@ -501,27 +504,23 @@ state 45
 
 
 state 46
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 	term:  '(' andOrBlock.')' 
 
 	')'  shift 64
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  error
 
 
 state 47
-	questionType:  ComputedQuestionToken '=' term.    (8)
-	term:  term.'+' term 
-	term:  term.'-' term 
-	term:  term.'*' term 
-	term:  term.'/' term 
-	term:  term.'%' term 
-	term:  term.'.' term 
+	questionType:  ComputedQuestionToken '=' andOrBlock.    (8)
+	andOrBlock:  andOrBlock.BoolAndToken evaluatable 
+	andOrBlock:  andOrBlock.BoolOrToken evaluatable 
 
-	'+'  shift 39
-	'-'  shift 40
-	'*'  shift 41
-	'/'  shift 42
-	'.'  shift 44
-	'%'  shift 43
+	BoolAndToken  shift 30
+	BoolOrToken  shift 31
 	.  reduce 8 (src line 115)
 
 
@@ -536,13 +535,13 @@ state 48
 	stack  goto 65
 
 state 49
-	andOrBlock:  evaluatable BoolAndToken evaluatable.    (12)
+	andOrBlock:  andOrBlock BoolAndToken evaluatable.    (12)
 
 	.  reduce 12 (src line 159)
 
 
 state 50
-	andOrBlock:  evaluatable BoolOrToken evaluatable.    (13)
+	andOrBlock:  andOrBlock BoolOrToken evaluatable.    (13)
 
 	.  reduce 13 (src line 164)
 
@@ -834,11 +833,11 @@ state 71
 37 grammar rules, 72/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 60 working sets used
-memory: parser 53/30000
-21 extra closures
-217 shift entries, 1 exceptions
+memory: parser 55/30000
+43 extra closures
+216 shift entries, 1 exceptions
 31 goto entries
-27 entries saved by goto default
-Optimizer space used: output 99/30000
-99 table entries, 5 zero
+29 entries saved by goto default
+Optimizer space used: output 98/30000
+98 table entries, 0 zero
 maximum spread: 40, maximum offset: 69

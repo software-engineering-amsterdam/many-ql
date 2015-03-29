@@ -15,15 +15,22 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
-func readInputCsv(pipes *plumbing.Pipes, inReader io.Reader) {
+func readInput(pipes *plumbing.Pipes, inReader io.Reader) {
 	if inReader == nil {
 		return
 	}
 	csvinput.Read(pipes, inReader)
+	// Replace the line above with this line below to change the input
+	// format. Remember to run goimports to update the import list.
+	// jsoninput.Read(pipes, inReader)
 }
 
-func writeOutputCsv(pipes *plumbing.Pipes, outWriter io.Writer) {
+func writeOutput(pipes *plumbing.Pipes, outWriter io.Writer) {
 	csvoutput.Write(pipes, outWriter)
+
+	// Replace the line above with this line below to change the output
+	// format. Remember to run goimports to update the import list.
+	// jsonoutput.Write(pipes, outWriter)
 }
 
 func errorHandler() {
@@ -32,8 +39,7 @@ func errorHandler() {
 	}
 }
 
-func startInterpreter(srcReader io.Reader, srcFn string) (
-	pipes *plumbing.Pipes,
+func startInterpreter(srcReader io.Reader, srcFn string) (pipes *plumbing.Pipes,
 	guiAppName string,
 ) {
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)

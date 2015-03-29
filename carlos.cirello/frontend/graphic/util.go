@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"text/template"
+	"time"
 
 	"gopkg.in/qml.v1"
 )
@@ -40,4 +41,9 @@ func renderAndInsertAt(newQuestionQML string, rows qml.Object) qml.Object {
 	question.Set("parent", rows)
 
 	return question
+}
+
+func isValidDate(date string) bool {
+	_, err := time.Parse("02/01/2006", date)
+	return err == nil
 }

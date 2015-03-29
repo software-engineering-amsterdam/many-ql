@@ -15,6 +15,10 @@ public abstract class Value<T> {
 	public boolean isUndefined() {
 		return false;
 	}
+	
+	public Value promote() {
+		return this;
+	}
 
 	public Value add(Value value) {
 		throw new IllegalStateException();

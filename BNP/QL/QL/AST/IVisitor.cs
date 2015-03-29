@@ -1,13 +1,11 @@
-﻿using QL.Exceptions;
-using QL.Model;
-using QL.Model.Operators;
-using QL.Model.Terminals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
+using QL.AST.Nodes.Terminals;
+using QL.Exceptions;
 
-namespace QL.Visitors
+namespace QL.AST
 {
     public interface IVisitor
     {

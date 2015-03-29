@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.FieldType;
 import org.uva.student.calinwouter.qlqls.qls.model.StylingSettings;
@@ -23,7 +23,7 @@ public class StyleSheet {
      */
     // TODO looks pretty bad...
     public StylingSettings getStylingSettings(FieldType fieldType) {
-        final TypeDescriptor type = fieldType.getTypeDescriptor();
+        final ITypeDescriptor type = fieldType.getTypeDescriptor();
         final String identifier = fieldType.getFieldName();
 
         for (Page page : getPages()) {
@@ -55,6 +55,6 @@ public class StyleSheet {
 
     @SuppressWarnings("unused")
     public StyleSheet(String ident, Page... pages) {
-        this(ident, new Pages(pages), new Defaults(new HashMap<TypeDescriptor, Map<String, Object>>()));
+        this(ident, new Pages(pages), new Defaults(new HashMap<ITypeDescriptor, Map<String, Object>>()));
     }
 }

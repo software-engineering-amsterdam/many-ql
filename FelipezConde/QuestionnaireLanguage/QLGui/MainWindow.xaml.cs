@@ -1,10 +1,13 @@
 ﻿using AST;
 using Notifications;
 using QLGui.Controllers;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using WinControls = System.Windows.Controls;
 using System.Windows.Input;
 using TypeChecking;
+
 
 namespace QLGui
 {
@@ -13,26 +16,19 @@ namespace QLGui
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainController controller;
+
         public MainWindow()
         {
             InitializeComponent();
 
             ASTResult ast = new ASTBuilder().BuildAST(ConfigurationManager.AppSettings["inputFile"]);
 
-            if (!ast.NotificationManager.HasError())
-            {
-                var notificationM1 = TypeChecker.GetTypeCheckDiagnosis(ast);
+            ast = MainTypeChecker.GetTypeCheckDiagnosis(ast);
 
-                //if(!notificationM1.HasError())
-                //{ 
-                //}
-            }
-            
-            MainController controller = new MainController(this, ast);
+            controller = new MainController(this, ast);
             controller.ProcessBody();
-            
         }
-
         public UIElement GetRootElement()
         {
             return this._stack;
@@ -45,6 +41,29 @@ namespace QLGui
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Keyboard.ClearFocus();
+        } 
+        private void ExportAnswers_Click(object sender, RoutedEventArgs e)
+        {
+            controller.ExportAnswers();
+        }
+
+        public void PrintErrorsInGui(INotificationManager notifications)
+        {
+            IList<INotification> notificationList = notifications.GetNotifications();
+
+            WinControls.Label label = new WinControls.Label()
+            {
+                Content = "Errors and warnings: " + notificationList.Count
+            };
+            
+            this._stack.Children.Add(label);
+
+            WinControls.ListBox listBox = new WinControls.ListBox();
+            listBox.ItemsSource = notificationList;
+            this._stack.Children.Add(listBox);
+
+            this.Width = 800;
+            this.Height = 600;
         }
     }
 }

@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedValueOperationException;
 
 public abstract class Value {
@@ -54,7 +54,7 @@ public abstract class Value {
         throw new UnsupportedValueOperationException();
     }
 
-    Object getInternalValue() {
+    public Object toJavaObject() {
         return internalValue;
     }
 
@@ -64,8 +64,8 @@ public abstract class Value {
     }
 
     public BoolValue eq(Value value) {
-        final Object otherInternalValue = value.getInternalValue();
-        final Object myInternalValue = getInternalValue();
+        final Object otherInternalValue = value.toJavaObject();
+        final Object myInternalValue = toJavaObject();
         final Boolean equality = otherInternalValue.equals(myInternalValue);
         return new BoolValue(equality);
     }
@@ -75,10 +75,10 @@ public abstract class Value {
         return equalityBoolValue.not();
     }
 
-    public abstract void apply(TypeCallback typeCallback);
+    public abstract void apply(ITypeCallback typeCallback);
 
     @Override
     public String toString() {
-        return "" + getInternalValue();
+        return "" + toJavaObject();
     }
 }

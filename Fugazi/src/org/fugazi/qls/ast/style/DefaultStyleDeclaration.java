@@ -7,7 +7,7 @@ import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
 
 public class DefaultStyleDeclaration extends AbstractASTNode {
 
-    private final Style style;
+    private Style style;
     private final IWidgetType widgetType;
     private final Type questionType;
 
@@ -21,6 +21,10 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
 
     public Style getStyle() {
         return this.style;
+    }
+
+    public void setStyle(Style _style) {
+        this.style = _style;
     }
 
     public IWidgetType getWidgetType() {
@@ -47,5 +51,10 @@ public class DefaultStyleDeclaration extends AbstractASTNode {
 
         DefaultStyleDeclaration other = (DefaultStyleDeclaration) o;
         return (this.questionType.toString() == other.questionType.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.questionType.hashCode());
     }
 }

@@ -46,7 +46,7 @@ public class QLTypeChecker {
      */
 
     private void checkDuplicateLabels() {
-        List<Question> questions = this.formData.getQuestions();
+        List<Question> questions = this.formData.getAllQuestions();
         List<String> labels = new ArrayList<>();
 
         for (Question question : questions) {
@@ -60,7 +60,6 @@ public class QLTypeChecker {
                 labels.add(label);
             }
         }
-        return;
     }
 
     private void checkQuestionTypes() {

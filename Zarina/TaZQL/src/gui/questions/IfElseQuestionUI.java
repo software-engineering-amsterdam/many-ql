@@ -2,7 +2,7 @@ package gui.questions;
 
 import evaluator.BooleanValue;
 import evaluator.Value;
-import gui.widgets.listeners.Updater;
+import gui.listeners.Updater;
 
 import java.util.LinkedHashSet;
 
@@ -41,9 +41,8 @@ public class IfElseQuestionUI implements IQuestionUI,IQuestionUpdater {
 			question.setVisibilityValue(value);
 		}
 		
-		//TODO Maybe find more elegant solution for if-else statement
 		for (IQuestionUI question : elseBody) {	
-			if(trueValue.equals(value.toString())) {	
+			if(trueValue.equals(value.toString())) {
 				question.setVisibilityValue(setFalse);
 			}
 			else {
@@ -60,7 +59,5 @@ public class IfElseQuestionUI implements IQuestionUI,IQuestionUpdater {
 	@Override
 	public void updateGUI() {
 		this.updater.updateGUI(this);
-	}
-
-	
+	}	
 }

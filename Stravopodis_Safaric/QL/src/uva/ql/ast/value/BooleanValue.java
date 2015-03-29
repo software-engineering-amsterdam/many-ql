@@ -1,5 +1,8 @@
 package uva.ql.ast.value;
 
+import java.util.Arrays;
+import java.util.List;
+import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeBoolean;
 
 
@@ -25,8 +28,8 @@ public class BooleanValue extends GenericValue<Boolean> {
 	}
 
 	@Override
-	public TypeBoolean getValueType() {
-		return new TypeBoolean();
+	public List<Type> valueHasType() {
+		return Arrays.asList(new TypeBoolean());
 	}
 	
 	@Override
@@ -35,14 +38,6 @@ public class BooleanValue extends GenericValue<Boolean> {
 			return false;
 		}
 		return value.getValue() == this.getValue();
-	}
-	
-	@Override
-	public boolean isNotEqual(GenericValue<?> value) {
-		if (value == null){
-			return false;
-		}
-		return value.getValue() != this.getValue();
 	}
 	
 	@Override
