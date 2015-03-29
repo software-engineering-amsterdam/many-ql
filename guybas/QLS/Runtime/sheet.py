@@ -67,7 +67,7 @@ class Sheet(ql_form.Form):
 
     def __question_widget(self, q_id, widget):
         question = self.get_statement_dict()[q_id]
-        question.set_bg_color(widget.get_color()) #TODO (BAS) : BG COLOR
-        question.set_fg_color(widget.get_color()) #TODO (BAS) : FG COLOR
-        question.set_font_style(widget.get_font()) #TODO (BAS) : FONT STYLE
+        question.set_bg_color(widget.get_color())
+        question.set_fg_color(widget.get_bg_color())
+        question.set_font_style(widget.get_font())
         return question

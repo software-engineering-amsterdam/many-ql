@@ -18,6 +18,9 @@ class Widget:
     def get_color(self):
         return self.color
 
+    def get_bg_color(self):
+        return self.bg_color
+
     def get_font(self):
         return self.font
 
