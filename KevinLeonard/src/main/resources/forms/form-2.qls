@@ -18,18 +18,10 @@ style PartyForm {
         fontSize: 14
         color: #999999
     }
-    default boolean dropdown {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
 
     page page1 {
-
         // Number Questions
         section "Number Questions" {
-
             section "Number Questions" {
                 numberOfFriends slider
             }
@@ -40,9 +32,6 @@ style PartyForm {
         // String Questions
         section "String Questions" {
             reason text
-            /*
-            reason textBlock
-            */
             preferences textBlock
         }
     }
@@ -51,8 +40,12 @@ style PartyForm {
         // Boolean Questions
         section "Boolean Questions" {
             comesToParty checkbox
-            needPlaceToCrash dropdown
+            needPlaceToCrash dropdown {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
         }
     }
-
 }

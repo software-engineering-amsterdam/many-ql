@@ -1,28 +1,38 @@
-# What's implemented?
-QL, not QLS.
+### What's implemented?
+QL **without** QLS.
 
-# Where's the code?
-The `ql/ql/` folder is the python module for most of the code.
-`ql/ql.py` is the main executable.
+### Where's the code?
+* `ql/ql/` is our implementation of the language.
+* `ql/ql.py` is an executable interpreter.
+* `ql/unittest/` contains all the unit tests.
 
-# What are the runtime dependencies?
-## Python 3.4
-https://www.python.org/downloads/
+### What are the runtime dependencies?
+1. **Python 3.4**: https://www.python.org/downloads/
+2. **ANTLR 4.5 Python 3 runtime**: `pip install antlr4-python3-runtime`
 
-## ANTLR 4.5 Python 3 runtime
-`pip install antlr4-python3-runtime`
+### I have both Python 2 and Python 3 installed
+**Make sure you run this project with *Python 3* otherwise you might
+experience weird behaviour.**
+For example, if you run the unit tests with **Python 2** it will not
+complain but it will run 0 unit tests because it cannot discover them.
 
-# How do I run it?
+On Ubuntu you can run `python3` instead of `python` to run **Python 3**
+if you have both installed.
+
+### How do I run the interpreter?
 Run `python ql.py <ql_file>` from inside the `ql/` directory.
 
 Example: `python ql.py examples/tax_office.ql`
 
-# How do I run the unit tests?
-Go into `ql/unittest/` and do `python -m unittest`.
+### How do I run the unit tests?
+Run `python -m unittest` from inside `ql/unittest/`.
 
-# What if I want to regenerate the parser?
-The grammar for QL is in `ql/antlr/QL.g4`.
+### What if I want to regenerate the parser?
+Make sure the **ANTLR 4.5 tool** is installed (a copy is in `antlr/`).
 
-Make sure ANTLR 4.5 and Python 3 are installed.
-The parser can be rebuilt by running `python generateParser.py` from
-there.
+The grammar is in `ql/antlr/QL.g4`.
+
+Run `python generateParser.py` from inside `ql/antlr/` to regenerate the
+parser.
+It should put the generated code in the proper directory
+(`ql/ql/parser/antlr_generated/`).

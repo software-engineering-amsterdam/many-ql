@@ -6,32 +6,29 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace QLGui.Controllers
 {
     public class MainController
     {
-        private ASTResult astTree;
-        private MainWindow window;
-        private SymbolTable symbolTable;
+        private readonly ASTResult astTree;
+        private readonly MainWindow window;
+        private SymbolTable symbolTable = new SymbolTable();
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
             window = mainWindow;
             astTree = ast;
-
-            symbolTable = new SymbolTable();
         }
 
-        public void ProcessBody()
+        public void CreateMainUIBody()
         {
             if (!astTree.HasError())
             {
-                SubController BodyProcessor = new SubController(symbolTable);
-                              BodyProcessor.EventUpdateValue += UpdateValue;
-                              BodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
-
-                              symbolTable = BodyProcessor.SymbolTable;
+                SubController bodyController = new SubController(symbolTable, UpdateValue);
+                bodyController.CreateUIBody(astTree.RootNode, (StackPanel)window.GetRootElement()); //Defined in XML, so object has to be casted
+                symbolTable = bodyController.SymbolTable;
             }
             else
             {
@@ -39,19 +36,19 @@ namespace QLGui.Controllers
             }
         }
 
+        //this method is passed along as a delegate to the subcontroller
         private void UpdateValue(string id, Value value)
         {
             symbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
 
-            window.DeleteElements();
-
-            ProcessBody();
+            window.Invalidate();
+            CreateMainUIBody();
         }
 
         public void ExportAnswers()
         {
-            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
-            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
+            new ExportFormulaireController()
+                .ExportAnswers(astTree.RootNode, symbolTable);
         }
     }
 }

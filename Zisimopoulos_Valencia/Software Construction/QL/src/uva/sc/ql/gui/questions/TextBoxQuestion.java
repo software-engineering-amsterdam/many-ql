@@ -20,11 +20,12 @@ import uva.sc.ql.gui.listeners.CalculatorListener;
 @SuppressWarnings({ "serial" })
 public class TextBoxQuestion extends Question {
 
-    Map<ID, List<ID>> patronElements;
-    QuestionsPropertiesVisitor questionsProperties;
-    List<Component> componentList;
+    private Map<ID, List<ID>> patronElements;
+    private QuestionsPropertiesVisitor questionsProperties;
+    private List<Component> componentList;
 
-    public TextBoxQuestion(Map<ID, List<ID>> patronElements, QuestionsPropertiesVisitor questionsProperties,
+    public TextBoxQuestion(Map<ID, List<ID>> patronElements,
+	    QuestionsPropertiesVisitor questionsProperties,
 	    List<Component> componentList) {
 	this.patronElements = patronElements;
 	this.questionsProperties = questionsProperties;
@@ -33,7 +34,8 @@ public class TextBoxQuestion extends Question {
 
     public JPanel drawQuestion(ID id, String label, boolean isEditable) {
 	QuestionData data = questionsProperties.questionData(id);
-	boolean visibility = data.evaluateVisibility(questionsProperties.getValuesTable());
+	boolean visibility = data.evaluateVisibility(questionsProperties
+		.getValuesTable());
 	JTextField textField = createTextField(id);
 	return generatePanel(id, label, visibility, textField);
     }
@@ -66,10 +68,11 @@ public class TextBoxQuestion extends Question {
     private void addListener(ID id, JTextField textField,
 	    Entry<ID, List<ID>> entry) {
 	if (id.equals(entry.getKey())) {
-	    textField.getDocument().addDocumentListener(
-		    (new CalculatorListener(patronElements, questionsProperties,
-			    componentList, textField, id)));
+	    textField.getDocument()
+		    .addDocumentListener(
+			    (new CalculatorListener(patronElements,
+				    questionsProperties, componentList,
+				    textField, id)));
 	}
     }
-
 }

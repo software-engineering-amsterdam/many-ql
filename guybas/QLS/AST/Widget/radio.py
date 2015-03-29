@@ -7,7 +7,6 @@ class Radio(w.IWidget):
         self.option1 = option1
         self.option2 = option2
         self.default = default
-        self._properties = {self.widget_name(): ""}
 
     def string_presentation(self, level=0):
         s = "    " * level + "Radio "
@@ -19,10 +18,6 @@ class Radio(w.IWidget):
 
     def get_settings(self):
         return self._properties
-
-    def set_settings(self, dictionary):
-        for x in dictionary:
-            self._properties[x] = dictionary[x]
 
     def widget_name(self):
         return "radiobox"

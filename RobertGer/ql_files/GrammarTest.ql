@@ -37,16 +37,15 @@ Name: "Tax" {
         		Range: >0
         	}
         }
+		Calculation: "ttl_income" {
+			Input: income1+income2+income_partner
+		}
 		Label: "totalincome" {
-			Text: "Total income: [income1]+[income2]+[income3]"
+			If: ttl_income  < 50000 {
+				Text: "Total income: [ttl_income] Euro"
+			} Else: {
+				Text: "MANY INCOME WOW : [ttl_income] Euro"
+			}
 		}
     }
-    Form: "withCalculation" {
-		Question: "income3" {
-			Text: "How much money did you earn through employer paid wages during 2014?"
-			Answer: integer
-			Range: >0
-		}
-    }
-
 }

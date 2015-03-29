@@ -12,8 +12,6 @@ public interface QLNodeVisitor {
 
     void visit(Form form);
 
-    void visit(Input input);
-
     void visit(Label label);
 
     void visit(LabelText labelText);

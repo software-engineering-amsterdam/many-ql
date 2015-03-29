@@ -11,10 +11,12 @@ class RadioQuestionWidget(q: Question, visibilityExpressions: List[Expression], 
 
   val value = eval()
   val radioButtonYes = new RadioButton() {
+    text = "True"
     selected = value
     selected.onChange((_, _, newValue) => updateEnvironment(BooleanValue(newValue)))
   }
   val radioButtonNo = new RadioButton() {
+    text = "False"
     selected = !value
     selected.onChange((_, _, newValue) => updateEnvironment(BooleanValue(!newValue)))
   }

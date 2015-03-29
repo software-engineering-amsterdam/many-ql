@@ -1,13 +1,5 @@
 form sample
 {
-/*
-    boolean test3 "Mwahaha"
-    boolean test "Test question" true
-    boolean test2 "Test question 2" test3
-    integer a "label" 2 + b
-    integer b "label1"
-    string strinput "string input" "test"
-*/
     string name "What is your first name?"
     string surname "What is your last name?"
     integer age "How old are you?"
@@ -28,17 +20,4 @@ form sample
     integer age2 "Your age is" age
     boolean maritalStatus2 "You are married" maritalStatus
     decimal division2 "The result of the division is" division
-
-/**/
-/*
-form Box1HouseOwning {
-    boolean hasSoldHouse "Did you sell a house in 2010?"
-    boolean hasBoughtHouse "Did you by a house in 2010?"
-    boolean hasMaintLoan "Did you enter a loan for maintenance/reconstruction?"
-
- //if (hasSoldHouse) {
-    decimal sellingPrice "Price the house was sold for:"
-    decimal privateDebt "Private debts for the sold house:" sellingPrice / 2
- //}
-   */
 }

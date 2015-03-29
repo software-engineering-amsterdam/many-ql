@@ -71,8 +71,7 @@ public class Main extends Application
             qls.ast.AstBuilder qlsBuilder = new qls.ast.AstBuilder();
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
-            Messages qlsMs =  TypeChecker.check(stylesheet, form);
-// TODO: fix the ql and qls files and enable type checking
+//            Messages qlsMs =  TypeChecker.check(stylesheet, form);
 //            if (qlsMs.containsError())
 //            {
 //                this.showErrorAlert(qlsMs.toString());
@@ -113,7 +112,6 @@ public class Main extends Application
             }
         }
     }
-
 
     private CharStream getStream(String file)
     {

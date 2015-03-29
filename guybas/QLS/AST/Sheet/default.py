@@ -7,13 +7,13 @@ class Default(p.Page):
     def __init__(self, qtype, widget, properties):
         self._type = qtype
         self._widget = widget
-        self._properties = properties
+        self._properties = self._widget.get_settings()
 
     def string_presentation(self, level=0):
-        s = "    " * level + "Default " + self._type + " "
-        s += self._widget.__str__()
+        s = "    " * level + "Default " + self._type.get_name() + " "
+        s += self._widget.string_presentation()
         for i in self._properties:
-            s += i.__str__(level + 1)
+            s += i.string_presentation(level + 1)
         return s
 
     def get_ids(self):
@@ -36,6 +36,6 @@ class Default(p.Page):
 
     def get_property_dict(self):
         d = {}
-        for x in self._propertieselements:
+        for x in self._properties:
             d[x.prop_name()] = x.prop_value()
         return {self._widget.widget_name(): d}

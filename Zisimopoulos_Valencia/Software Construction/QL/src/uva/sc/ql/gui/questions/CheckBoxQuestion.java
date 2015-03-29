@@ -19,12 +19,13 @@ import uva.sc.ql.gui.listeners.VisibilityListener;
 @SuppressWarnings("serial")
 public class CheckBoxQuestion extends Question {
 
-    Map<ID, List<ID>> patronElements;
-    QuestionsPropertiesVisitor questionsProperties;
-    List<Component> componentList;
+    private Map<ID, List<ID>> patronElements;
+    private QuestionsPropertiesVisitor questionsProperties;
+    private List<Component> componentList;
 
     public CheckBoxQuestion(Map<ID, List<ID>> patronElements,
-	    QuestionsPropertiesVisitor questionsProperties, List<Component> componentList) {
+	    QuestionsPropertiesVisitor questionsProperties,
+	    List<Component> componentList) {
 	this.patronElements = patronElements;
 	this.questionsProperties = questionsProperties;
 	this.componentList = componentList;
@@ -57,8 +58,7 @@ public class CheckBoxQuestion extends Question {
 	    Entry<ID, List<ID>> entry) {
 	if (entry.getKey().equals(id)) {
 	    checkBox.addActionListener(new VisibilityListener(
-		patronElements, questionsProperties, componentList, checkBox, id));
+		patronElements, questionsProperties, componentList, id));
 	}
     }
-
 }

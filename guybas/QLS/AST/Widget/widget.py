@@ -8,9 +8,9 @@ class Widget(w.IWidget):
         self._properties = {self.widget_name(): "" }
 
     def string_presentation(self, level=0):
-        s = "    " * level + "Widget " + self.widget.__str__()
-        for i in self.default_settings:
-            s += i.__str__(level + 2)
+        s = "    " * level + "Widget " + self.widget.string_presentation()
+        # for i in self.default_settings:
+        #     s += i.string_presentation(level + 2)
         return s
 
     def get_compatible(self):
@@ -21,16 +21,13 @@ class Widget(w.IWidget):
             self._properties[x] = dictionary[x]
 
     def get_settings(self):
-        return self._properties
+        return self.default_settings
 
     def widget_name(self):
-        return "get_widget"
+        return self.widget.widget_name()
 
     def get_widget(self):
         return self.widget
-
-    def defaults(self):
-        return self.default_settings
 
     def property_map(self):
         d = {}

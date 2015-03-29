@@ -10,8 +10,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.junit.Test;
 
 import com.form.language.GrammarParser;
-import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.form.Form;
 import com.form.language.ast.statement.IfStatement;
 import com.form.language.ast.statement.Statement;
 import com.form.language.ast.statement.question.Question;

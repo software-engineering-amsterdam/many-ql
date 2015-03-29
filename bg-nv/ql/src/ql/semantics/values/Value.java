@@ -1,5 +1,7 @@
 package ql.semantics.values;
 
+import ql.ast.type.IntType;
+
 /**
  * Created by bore on 16/02/15.
  */
@@ -258,6 +260,16 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
-    
+
+    public Value promoteTo(Value v)
+    {
+        return this;
+    }
+
+    protected Value promoteInt(IntValue v)
+    {
+        return v;
+    }
+
     public abstract <T> T accept (ValueVisitor<T> visitor);
 }

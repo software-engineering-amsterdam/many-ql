@@ -46,6 +46,13 @@ public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitQuestionWithRules(@NotNull QLSParser.QuestionWithRulesContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitQuestion(@NotNull QLSParser.QuestionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

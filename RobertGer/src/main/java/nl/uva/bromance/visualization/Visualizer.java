@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nl.uva.bromance.ast.*;
 import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.visitors.CalculationRetrievalVisitor;
 import nl.uva.bromance.ast.visitors.ConditionalHandler;
 import nl.uva.bromance.ast.visitors.QLNodeVisitor;
 import nl.uva.bromance.ast.visitors.QLSNodeVisitor;
@@ -83,6 +84,9 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
             stage.show();
             return false;
         }
+        // Calculations depend on expressions and expressions can also depend on calculations, that is why the expressions are evaluated twice
+        new ExpressionEvaluator(answerMap).evaluate(qlNode);
+        new CalculationRetrievalVisitor(answerMap).handle(qlNode);
         new ExpressionEvaluator(answerMap).evaluate(qlNode);
         new ConditionalHandler().handle(qlNode);
         return true;
@@ -156,11 +160,6 @@ public class Visualizer implements QLSNodeVisitor, QLNodeVisitor {
             label.getStyleClass().add("formHeader");
             questions.getChildren().add(label);
         }
-    }
-
-    @Override
-    public void visit(Input input) {
-
     }
 
     @Override

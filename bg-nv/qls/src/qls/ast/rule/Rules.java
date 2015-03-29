@@ -1,14 +1,13 @@
 package qls.ast.rule;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by bore on 08/03/15.
  */
 public class Rules implements Iterable<Rule>
 {
+    public static final Rules empty = new Rules(Collections.EMPTY_LIST);
     private final List<Rule> rules;
 
     public Rules(List<Rule> rules)

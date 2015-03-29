@@ -24,11 +24,6 @@ public class Messages implements Iterable<Message>
         this.messages.add(m);
     }
 
-    public void addAll(Messages ms)
-    {
-        this.messages.addAll(ms.messages);
-    }
-
     public boolean containsError()
     {
         for (Message m : this.messages)
@@ -54,6 +49,6 @@ public class Messages implements Iterable<Message>
                 .map(m -> m.toString())
                 .collect(Collectors.toList());
 
-        return StringHelper.printStrValueList(ms);
+        return StringHelper.printStrValueList(ms, "\n");
     }
 }

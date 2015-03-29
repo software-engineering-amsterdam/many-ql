@@ -18,11 +18,6 @@ public class NullQLNodeVisitor implements QLNodeVisitor {
     }
 
     @Override
-    public void visit(Input input) {
-
-    }
-
-    @Override
     public void visit(Label label) {
 
     }

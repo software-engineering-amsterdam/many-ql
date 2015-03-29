@@ -15,21 +15,27 @@ import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class QuestionsPropertiesVisitor extends Observable implements IQLStatementNodeVisitor, IQLFormNodeVisitor{
+/**
+ * Visits the AST generating the values table - each change notifies the
+ * listeners (observers) - that contains: 
+ * 	for each question 
+ * 		1. its expression for calculating the value and 
+ * 		2. its expression for calculating if it is visible
+ * 
+ * @author Pantelis & Santiago
+ */
 
-    Map<ID, QuestionData> valuesTable = new HashMap<ID, QuestionData>();
-    Expression currentIfCondition;
-    EvaluatorVisitor evalVisitor;
-    
-    public QuestionsPropertiesVisitor(EvaluatorVisitor evalVisitor) {
-	this.evalVisitor = evalVisitor;
-    }
-    
-    public QuestionData questionData (ID id) {
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class QuestionsPropertiesVisitor extends Observable implements
+	IQLStatementNodeVisitor, IQLFormNodeVisitor {
+
+    private Map<ID, QuestionData> valuesTable = new HashMap<ID, QuestionData>();
+    private Expression currentIfCondition;
+
+    public QuestionData questionData(ID id) {
 	return valuesTable.get(id);
     }
-    
+
     public Map<ID, QuestionData> getValuesTable() {
 	return valuesTable;
     }
@@ -50,8 +56,8 @@ public class QuestionsPropertiesVisitor extends Observable implements IQLStateme
 
     public Expression visit(Question question) {
 	if (question.getExpr() != null) {
-	    putToValuesTable(question.getId(), new QuestionData(
-		    question.getExpr(), currentIfCondition));
+	    putToValuesTable(question.getId(),
+		    new QuestionData(question.getExpr(), currentIfCondition));
 	} else {
 	    putToValuesTable(question.getId(), new QuestionData(null,
 		    currentIfCondition));
