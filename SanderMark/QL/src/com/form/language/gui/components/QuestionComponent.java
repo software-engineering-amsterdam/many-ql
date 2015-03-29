@@ -41,8 +41,7 @@ public class QuestionComponent {
 	createQuestionType();
     }
 
-    // TODO: casten to specifc widget needed?
-    // TODO: kent beck Case Statements, chapter 3 code smells
+    //
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
 		CheckBox checkbox = new CheckBox(question, this, rm);
