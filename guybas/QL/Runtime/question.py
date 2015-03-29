@@ -1,5 +1,3 @@
-import QL.AST.Statements.question as ast_q
-import QL.Tools.exceptions as e
 import QL.GUI.Elements.factory as gui_elements_f
 
 
