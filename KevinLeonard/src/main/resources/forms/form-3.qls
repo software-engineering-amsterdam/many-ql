@@ -33,14 +33,11 @@ style PartyForm {
 
             preferences text {
                 width: 400
-                font: "Arial"
-                fontSize: 16
                 color: #00cc00
             }
 
             aLotOfPreferences textBlock {
                 width: 400
-                font: "Arial"
                 fontSize: 18
                 color: #0000cc
             }
