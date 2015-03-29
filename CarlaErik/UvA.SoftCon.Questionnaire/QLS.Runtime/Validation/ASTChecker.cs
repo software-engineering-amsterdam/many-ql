@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
 {
-    internal abstract class ASTChecker : QLSVisitor<object>
+    internal abstract class ASTChecker : TopDownStyleSheetVisitor<object>
     {
         protected ValidationReport Report
         {

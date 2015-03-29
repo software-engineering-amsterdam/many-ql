@@ -86,7 +86,7 @@
     <Compile Include="IQLSVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLSController.cs" />
-    <Compile Include="QLSVisitor.cs" />
+    <Compile Include="TopDownStyleSheetVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="Grammar\QLS.g4">

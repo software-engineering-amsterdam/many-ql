@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 {
-    internal class Interpreter : QLVisitor<object>
+    internal class Interpreter : TopDownQuestionFormVisitor<object>
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 

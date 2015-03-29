@@ -13,7 +13,7 @@ using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 {
-    internal class ExpressionInterpreter : QLVisitor<Value>
+    internal class ExpressionInterpreter : TopDownQuestionFormVisitor<Value>
     {
         protected IDictionary<string, Value> Context
         {

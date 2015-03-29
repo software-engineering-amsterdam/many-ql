@@ -17,7 +17,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// <summary>
     /// Creates a UI control tree based on the style sheet AST.
     /// </summary>
-    internal class StyleSheetUIBuilder : QLSVisitor<Control>
+    internal class StyleSheetUIBuilder : TopDownStyleSheetVisitor<Control>
     {
         internal QuestionForm QuestionForm
         {

@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
     /// <summary>
     /// Creates a default UI control tree based on a list of questions.
     /// </summary>
-    internal class DefaultUIBuilder : QLVisitor<object>
+    internal class DefaultUIBuilder : TopDownQuestionFormVisitor<object>
     {
         private ICollection<QuestionWidget> questionControls = new List<QuestionWidget>();
 

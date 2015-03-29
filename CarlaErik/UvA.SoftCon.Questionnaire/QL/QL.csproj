@@ -58,7 +58,7 @@
     <Compile Include="AST\Model\Statements\IntegerQuestion.cs" />
     <Compile Include="AST\Model\Statements\StringQuestion.cs" />
     <Compile Include="QLController.cs" />
-    <Compile Include="TopDownVisitor.cs" />
+    <Compile Include="TopDownQuestionFormVisitor.cs" />
     <Compile Include="IQLVisitor.cs" />
     <Compile Include="AST\Model\Expressions\Binary\Add.cs" />
     <Compile Include="AST\Model\Expressions\Binary\And.cs" />
