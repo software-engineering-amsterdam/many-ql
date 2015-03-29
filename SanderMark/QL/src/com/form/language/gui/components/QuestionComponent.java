@@ -38,7 +38,8 @@ public class QuestionComponent {
 	createQuestionType();
     }
 
-    //
+    //Polymorphism  could be used within type to ask which widget (type) the question is but this would, 
+    //increase the responsibilty of the Type.
     private void createQuestionType() {
 	if (question.getType(rm).isBoolType()) {
 	    CheckBox checkbox = new CheckBox(question, this, rm);
