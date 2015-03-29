@@ -10,7 +10,7 @@ import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
 
-  var qlParser = new QLParser
+  val qlParser = new QLParser
 
   // general parsers
   override val whiteSpace = qlParser.whiteSpace
