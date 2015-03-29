@@ -8,7 +8,6 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class Stylesheet extends AstNode {
 
 	private final String name;
-
 	private final List<Page> pages;
 
 	public Stylesheet(TextLocation textLocation, String name, List<Page> pages) {

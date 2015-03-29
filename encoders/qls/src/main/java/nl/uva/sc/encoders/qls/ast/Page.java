@@ -9,8 +9,8 @@ import nl.uva.sc.encoders.ql.ast.TextLocation;
 public class Page extends AstNode {
 
 	private final String name;
-	private List<Section> sections = new ArrayList<Section>();
-	private List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
+	private final List<Section> sections = new ArrayList<Section>();
+	private final List<DefaultStyle> pageDefaultStyles = new ArrayList<>();
 
 	public Page(TextLocation textLocation, String name) {
 		super(textLocation);
