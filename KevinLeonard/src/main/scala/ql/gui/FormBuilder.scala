@@ -1,7 +1,7 @@
 package ql.gui
 
 import ql.ast._
-import ql.gui.widgets.{NumberQuestionWidget, BooleanQuestionWidget, StringQuestionWidget}
+import ql.gui.widgets.{BooleanQuestionWidget, NumberQuestionWidget, StringQuestionWidget}
 import types.EvalEnvironment
 
 import scalafx.collections.ObservableMap
