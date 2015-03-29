@@ -1,18 +1,19 @@
 ﻿using AST.VisitorInterfaces;
-using ASTFormObject = AST.Nodes.FormObjects;
+using Ast = AST.Nodes.FormObjects;
+using QLGui.FormObjects;
 
 namespace QLGui.ASTVisitors
 {
-    public class FormObjectVisitor : IFormObjectVisitor<FormObjects.FormObject>
+    public class FormObjectVisitor : IFormObjectVisitor<FormObject>
     {
-        public FormObjects.FormObject Visit(ASTFormObject.Conditional node)
+        public FormObject Visit(Ast.Conditional node)
         {
-            return new FormObjects.ConditionalObject(node);
+            return new ConditionalObject(node);
         }
 
-        public FormObjects.FormObject Visit(ASTFormObject.Question node)
+        public FormObject Visit(Ast.Question node)
         {
-            return new FormObjects.QuestionObject(node);
+            return new QuestionObject(node);
         }
     }
 }

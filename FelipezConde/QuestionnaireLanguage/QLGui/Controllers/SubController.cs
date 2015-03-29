@@ -13,12 +13,12 @@ namespace QLGui.Controllers
     public class SubController
     {
         public SymbolTable SymbolTable { get; private set; }
-        public EventUpdateValue EventUpdateValue { get; set; }
+        private EventUpdateValue EventUpdateValue;
 
-        public SubController(SymbolTable symbolTable, EventUpdateValue updateCallbackFunction)
+        public SubController(SymbolTable symbolTable, EventUpdateValue UpdateCallbackFunction)
         {
             this.SymbolTable = symbolTable;
-            this.EventUpdateValue = updateCallbackFunction;
+            this.EventUpdateValue = UpdateCallbackFunction;
         }
 
         public StackPanel CreateUIBody(IFormObjectContainer rootNode, StackPanel parent)

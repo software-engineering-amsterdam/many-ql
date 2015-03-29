@@ -1,0 +1,18 @@
+form {
+	question books int
+		label : "How many books have you read?"
+	
+	question years int
+		label : "How many years have you been reading?"
+	
+	question averageBooksPerYear int
+		label : "your average amount of books:"
+		computed : (books / years)
+
+	enable when ((books / years) > 60) {
+		question verdict string 
+			label : "It's official:"
+			computed : "you're a nerd!"
+	}
+   
+}
