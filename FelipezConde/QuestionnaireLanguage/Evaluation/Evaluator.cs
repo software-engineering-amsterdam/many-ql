@@ -88,7 +88,6 @@ namespace Evaluation
         #endregion
 
         #region Arithmetic
-
         public Value Visit(Add node)
         {
             Value left = node.Left().Accept(this);
@@ -96,7 +95,6 @@ namespace Evaluation
 
             return left.Add(right);
         }
-
         public Value Visit(Subtract node)
         {
             Value left = node.Left().Accept(this);
@@ -104,7 +102,6 @@ namespace Evaluation
 
             return left.Substract(right);
         }
-
         public Value Visit(Multiply node)
         {
             Value left = node.Left().Accept(this);
@@ -112,7 +109,6 @@ namespace Evaluation
 
             return left.Multiply(right);
         }
-
         public Value Visit(Divide node)
         {
             Value left = node.Left().Accept(this);

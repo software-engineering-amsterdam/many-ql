@@ -12,8 +12,8 @@ namespace QLGui.Controllers
 {
     public class MainController
     {
-        private ASTResult astTree;
-        private MainWindow window;
+        private readonly ASTResult astTree;
+        private readonly MainWindow window;
         private SymbolTable symbolTable = new SymbolTable();
 
         public MainController(MainWindow mainWindow, ASTResult ast)
@@ -26,14 +26,9 @@ namespace QLGui.Controllers
         {
             if (!astTree.HasError())
             {
-                SubController BodyController = new SubController(symbolTable);
-                              BodyController.EventUpdateValue += UpdateValue; //when the subController updates, update this as well.
-                              BodyController.CreateUIBody(
-                                    astTree.RootNode.GetBody(), 
-                                    (StackPanel)window.GetRootElement() //Defined in XML, so has to be casted
-                              );
-
-                              symbolTable = BodyController.SymbolTable;
+                SubController bodyController = new SubController(symbolTable, UpdateValue);
+                bodyController.CreateUIBody(astTree.RootNode, (StackPanel)window.GetRootElement()); //Defined in XML, so object has to be casted
+                symbolTable = bodyController.SymbolTable;
             }
             else
             {
@@ -41,18 +36,19 @@ namespace QLGui.Controllers
             }
         }
 
+        //this method is passed along as a delegate to the subcontroller
         private void UpdateValue(string id, Value value)
         {
             symbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
 
-            window.DeleteElements();
+            window.Invalidate();
             CreateMainUIBody();
         }
 
         public void ExportAnswers()
         {
             new ExportFormulaireController()
-                .ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
+                .ExportAnswers(astTree.RootNode, symbolTable);
         }
     }
 }
