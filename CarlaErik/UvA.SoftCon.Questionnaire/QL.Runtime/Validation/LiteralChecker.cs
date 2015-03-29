@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.Common;
-using UvA.SoftCon.Questionnaire.QL;
+﻿using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 
 namespace UvA.SoftCon.Questionnaire.QL.Runtime.Validation

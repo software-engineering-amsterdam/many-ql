@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
+﻿namespace UvA.SoftCon.Questionnaire.QLS.StyleSets
 {
     public class DropDownWidgetStyle : WidgetStyle
     {
