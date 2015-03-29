@@ -3,7 +3,7 @@ package nl.uva.softwcons.helper;
 import java.util.List;
 import java.util.function.Function;
 
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.form.Form;
@@ -40,7 +40,7 @@ public final class TestHelper {
      * @return Any errors found by the checker
      */
     public static List<Error> getCheckerErrors(Function<Form, List<Error>> checker, final String... formContents) {
-        final Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
+        final Form form = FormBuilder.build(TestHelper.buildForm("form1", formContents));
 
         return checker.apply(form);
     }

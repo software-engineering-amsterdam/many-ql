@@ -10,13 +10,17 @@ FORM Questionnaire {
 	
 	if(calculation > 100) {
 		ifText "4a. Appears when calculation of q4 is bigger than 100" digits
+			if(ifText == 6) {
+			devilOne "4aa. Equality check worked in nested if" text
+			}
 	}
 	
-	extra "5. Above should appear if-question" text
+	extra "5. Above should appear if-question, when q#4 > 100." text
 	if(hasSoldHouse > 1000) {
 		ifelseIF "IF. Appears when question 2 value is bigger than 1000." text
 	}
 	else {
 		ifelseELSE "ELSE. Default and when answer on q#2 is less than 1k." text
 	}
+		
 } END

@@ -1,45 +1,47 @@
 package nl.uva.softwcons.qls.ui.style;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 
 public class DefaultStylesMerged {
-
-    private final Map<Type, WidgetType> widgetsForTypes = new HashMap<>();
-    private final Map<Type, StyleBlock> stylesForTypes = new HashMap<>();
+    private final Map<Type, WidgetType> widgetsForTypes;
+    private final Map<Type, StyleBlock> stylesForTypes;
 
     public DefaultStylesMerged() {
+        this.widgetsForTypes = new ConcurrentHashMap<>();
+        this.stylesForTypes = new ConcurrentHashMap<>();
     }
 
-    public DefaultStylesMerged(Map<Type, StylizedWidget> styles) {
+    public DefaultStylesMerged(final Map<Type, StylizedWidget> styles) {
+        this();
         styles.forEach((type, stylizedWidget) -> {
             widgetsForTypes.put(type, stylizedWidget.getWidgetType().get());
             stylesForTypes.put(type, new StyleBlock(stylizedWidget.getWidgetStyle()));
         });
     }
 
-    public StyleBlock getStyle(Type type) {
+    public StyleBlock getStyle(final Type type) {
         return stylesForTypes.getOrDefault(type, new StyleBlock());
     }
 
-    public WidgetType getWidget(Type type) {
+    public WidgetType getWidget(final Type type) {
         return widgetsForTypes.get(type);
     }
 
-    public void addStyle(Type type, StyleBlock style) {
+    public void addStyle(final Type type, final StyleBlock style) {
         stylesForTypes.put(type, style);
     }
 
-    public void addWidget(Type type, WidgetType widget) {
+    public void addWidget(final Type type, final WidgetType widget) {
         widgetsForTypes.put(type, widget);
     }
 
-    public boolean contains(Type type) {
+    public boolean contains(final Type type) {
         return widgetsForTypes.containsKey(type);
     }
 
@@ -47,13 +49,13 @@ public class DefaultStylesMerged {
         return widgetsForTypes.keySet();
     }
 
-    public void applyParentStyles(DefaultStylesMerged parentStyles) {
+    public void applyParentStyles(final DefaultStylesMerged parentStyles) {
         parentStyles.getAllTypes().forEach(type -> {
             overrideType(type, parentStyles.getWidget(type), parentStyles.getStyle(type));
         });
     }
 
-    private void overrideType(Type type, WidgetType parentWidgetType, StyleBlock parentStyleBlock) {
+    private void overrideType(final Type type, final WidgetType parentWidgetType, final StyleBlock parentStyleBlock) {
         if (this.contains(type) && getWidget(type).getClass() == parentWidgetType.getClass()) {
             addStyle(type, getStyle(type).inherit(parentStyleBlock));
         } else {

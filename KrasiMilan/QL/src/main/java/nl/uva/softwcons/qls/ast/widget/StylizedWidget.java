@@ -8,12 +8,11 @@ import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 
 public class StylizedWidget implements ASTNode {
-    private final WidgetType widgetType;
+    private WidgetType widgetType;
     private final Style widgetStyle;
 
     public StylizedWidget() {
         this.widgetStyle = new Style(null);
-        this.widgetType = null;
     }
 
     public StylizedWidget(final WidgetType type) {

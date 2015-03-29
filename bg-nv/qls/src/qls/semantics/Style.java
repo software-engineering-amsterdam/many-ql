@@ -25,7 +25,11 @@ public class Style
 
     public Rules getRulesForType(Type t)
     {
-        return this.typeToRules.get(t);
+        if (this.typeToRules.containsKey(t))
+        {
+            return this.typeToRules.get(t);
+        }
+        return Rules.empty;
     }
 
     public static Style mergeStyles(Style highPr, Style lowPr)
@@ -52,7 +56,6 @@ public class Style
             return Rules.mergeRules(highPr, lowPr);
         }
 
-        Rules empty = new Rules(Collections.<Rule>emptyList());
-        return Rules.mergeRules(lowPr, empty);
+        return Rules.mergeRules(lowPr, Rules.empty);
     }
 }

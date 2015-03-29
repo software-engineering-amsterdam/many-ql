@@ -130,6 +130,15 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 		return null;
 	}
 	
+	public Void checkEqualityExpression(Binary expression) {
+		expression.getLeftExpression().accept(this);
+		expression.getRightExpression().accept(this);
+		
+		checkType(expression.getLeftExpression(), expression.getRightExpression().getType());
+		
+		return null;
+	}
+	
 	public void checkType(Expression expression, Type type) {
 	   if(expression.getType() != null) {
 		if(expression.getType().isCompatibleToType(type)) {
@@ -248,12 +257,12 @@ public class TypeCheckerVisitor implements IFormVisitor<Void>, IQuestionVisitor<
 
 	@Override
 	public Void visit(Equal expr) {
-		return this.checkExpression(expr);
+		return this.checkEqualityExpression(expr);
 	}
 
 	@Override
 	public Void visit(NotEqual expr) {
-		return this.checkExpression(expr);
+		return this.checkEqualityExpression(expr);
 	}
 
 	@Override

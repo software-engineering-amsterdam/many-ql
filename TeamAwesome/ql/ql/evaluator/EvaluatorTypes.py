@@ -21,7 +21,7 @@ class Question(object):
 		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)
 
 	def isVisible(self):
-		return self.conditionalExpressions.value
+		return self.conditionalExpressions.evaluate()
 
 
 class Evaluable(object):

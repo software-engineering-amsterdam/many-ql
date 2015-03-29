@@ -22,9 +22,7 @@ public class ParsingTest {
     protected static final String CORRECT_IF = "   If: something{  Text: \"something\" }\n";
     protected static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\" }\n";
 
-    protected static final String CORRECT_CALCULATION = "Calculation: \"calculation\"{\n" +
-            CORRECT_IF +
-            "    }\n";
+    protected static final String CORRECT_CALCULATION = "Calculation: \"calculation\"{\n Input: 50+5 }\n";
 
     protected static final String CORRECT_FORM_SETUP = "Name: \"Tax\" {\n" +
             CORRECT_FORM +
