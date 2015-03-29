@@ -13,7 +13,6 @@ import ql.value.MoneyValue;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener {
-
 	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
 	        
 	public MoneySpinbox() {
