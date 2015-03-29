@@ -1,5 +1,7 @@
 package nl.uva.softwcons.qls.ast.widget;
 
+import java.util.Optional;
+
 import nl.uva.softwcons.qls.ast.ASTNode;
 import nl.uva.softwcons.qls.ast.style.Style;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
@@ -8,8 +10,13 @@ public class StylizedWidget implements ASTNode {
     private final WidgetType widgetType;
     private final Style widgetStyle;
 
+    public StylizedWidget() {
+        widgetStyle = new Style();
+        widgetType = null;
+    }
+
     public StylizedWidget(final WidgetType type) {
-        this.widgetStyle = null;
+        this.widgetStyle = new Style();
         this.widgetType = type;
     }
 
@@ -22,7 +29,7 @@ public class StylizedWidget implements ASTNode {
         return widgetStyle;
     }
 
-    public WidgetType getWidgetType() {
-        return widgetType;
+    public Optional<WidgetType> getWidgetType() {
+        return Optional.of(widgetType);
     }
 }

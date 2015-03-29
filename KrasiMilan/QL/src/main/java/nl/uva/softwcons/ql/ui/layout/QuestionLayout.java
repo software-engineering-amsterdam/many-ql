@@ -3,22 +3,16 @@ package nl.uva.softwcons.ql.ui.layout;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import nl.uva.softwcons.ql.ast.statement.Question;
+import nl.uva.softwcons.ql.ui.widget.Widget;
 
 public class QuestionLayout {
-
-    private final Question question;
     private final VBox vbox;
 
-    public QuestionLayout(final Question question) {
-        this.question = question;
+    public QuestionLayout(final String label, final Widget layout) {
         this.vbox = new VBox();
 
-        this.add(new Label(this.question.getLabel()));
-    }
-
-    public void add(final Node node) {
-        vbox.getChildren().add(node);
+        vbox.getChildren().add(new Label(label));
+        vbox.getChildren().add(layout.getWidget());
     }
 
     public Node getNode() {

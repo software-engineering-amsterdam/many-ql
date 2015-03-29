@@ -10,6 +10,7 @@ import nl.uva.softwcons.qls.ast.segment.SegmentVisitor;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.stylesheet.StylesheetVisitor;
 import nl.uva.softwcons.qls.ast.widget.StylizedType;
+import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
 import nl.uva.softwcons.qls.validation.widget.error.IncompatibleWidget;
 
 public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void>, SegmentVisitor<Void> {
@@ -23,7 +24,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(final Page page) {
         page.getSegments().forEach(segment -> segment.accept(this));
-        for (final StylizedType style : page.getStyles()) {
+        for (final StylizedWidget style : page.getStyles().values()) {
             if (style.hasTypeConflict()) {
                 addError(new IncompatibleWidget(page.getLineInfo()));
             }
@@ -34,7 +35,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
     @Override
     public Void visit(final Question question) {
         final Type questionType = typeEnv.resolveVariable(question.getId());
-        if (question.hasStylizedWidget() && !question.isCompatibleWithWidget(questionType)) {
+        if (question.hasWidget() && !question.isCompatibleWithWidget(questionType)) {
             addError(new IncompatibleWidget(question.getLineInfo()));
         }
         return null;
