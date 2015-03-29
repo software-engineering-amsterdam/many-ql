@@ -2,22 +2,20 @@ package nl.uva.softwcons.ql.ui.layout;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import nl.uva.softwcons.ql.ast.form.Form;
 
-public class FormLayout {
-
-    private final Form form;
+public class QLRenderer implements Renderer {
     private final VBox vbox;
 
-    public FormLayout(final Form form) {
-        this.form = form;
+    public QLRenderer() {
         this.vbox = new VBox();
     }
 
+    @Override
     public void add(final QuestionLayout node) {
         this.vbox.getChildren().add(node.getNode());
     }
 
+    @Override
     public Node getNode() {
         return this.vbox;
     }

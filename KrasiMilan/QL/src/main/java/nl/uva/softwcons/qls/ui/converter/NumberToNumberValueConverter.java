@@ -8,11 +8,9 @@ import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 public class NumberToNumberValueConverter implements ValueConverter<Number> {
 
     private final Double start;
-    private final Double end;
 
-    public NumberToNumberValueConverter(double start, double end) {
+    public NumberToNumberValueConverter(double start) {
         this.start = start;
-        this.end = end;
     }
 
     @Override
@@ -25,6 +23,7 @@ public class NumberToNumberValueConverter implements ValueConverter<Number> {
         if (value == UNDEFINED) {
             return start;
         }
+
         return value.getNumber();
     }
 
