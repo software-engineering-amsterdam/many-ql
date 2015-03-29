@@ -23,7 +23,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.parser.QuestionnaireParsingResult;
 import nl.uva.sc.encoders.ql.validation.ValidationResult;
@@ -131,16 +130,12 @@ public class Main extends Application {
 
 			List<Page> pages = stylesheet.getPages();
 			Pagination pagination = new Pagination(pages.size());
-			pagination.setPageFactory(new Callback<Integer, Node>() {
-
-				@Override
-				public Node call(Integer pageIndex) {
-					Page page = pages.get(pageIndex);
-					List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
-							.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
-					QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
-					return new ScrollPane(questionnaireGridPane);
-				}
+			pagination.setPageFactory(pageIndex -> {
+				Page page = pages.get(pageIndex);
+				List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
+						.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
+				QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
+				return new ScrollPane(questionnaireGridPane);
 			});
 			AnchorPane anchor = new AnchorPane();
 			AnchorPane.setTopAnchor(pagination, 10.0);
