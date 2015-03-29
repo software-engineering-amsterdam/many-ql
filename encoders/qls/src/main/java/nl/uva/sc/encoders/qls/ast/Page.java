@@ -36,6 +36,10 @@ public class Page extends AstNode {
 		return null;
 	}
 
+	public List<DefaultStyle> getPageDefaultStyles() {
+		return pageDefaultStyles;
+	}
+
 	public void collectQuestions(Collection<String> questions) {
 		for (Section section : sections) {
 			section.collectQuestions(questions);
