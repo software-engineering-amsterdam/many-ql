@@ -15,8 +15,8 @@ class NoDuplication(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.DuplicateQuestionLabels]
         )
         self.assertEqual(0, len(result.warnings))
@@ -45,8 +45,8 @@ class OneDuplicate(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.DuplicateQuestionLabels]
         )
         self.assertEqual(2, len(result.warnings))

@@ -8,7 +8,7 @@ from ql.gui.Model import *
 
 from ql.parser.ANTLR import Parser
 from ql.typechecking import\
-    Typechecking, ErrorsWarningsResult, ConsoleMessage
+    Typechecking, OrderedErrorsWarningsResult, ConsoleMessage
 
 
 
@@ -40,11 +40,11 @@ def main():
 def typecheck(parser):
     result = Typechecking.check(
         parser.questionnaire,
-        ErrorsWarningsResult.Factory(),
-        ConsoleMessage.Factory(parser)
+        OrderedErrorsWarningsResult.factory(),
+        ConsoleMessage.factory(parser)
     )
 
-    for message in result.errors + result.warnings:
+    for message in result.messages:
         print(message)
 
     return len(result.errors) == 0

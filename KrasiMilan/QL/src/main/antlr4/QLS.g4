@@ -27,7 +27,7 @@ widget: 'widget' widgetType                          # widgetWithoutStyle
 
 style: '{' styleProperty+ '}';
 
-styleProperty: key=ID ':' value;
+styleProperty: key=STRING ':' value;
 
 value: ID
      | STRING

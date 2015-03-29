@@ -40,8 +40,10 @@ class Evaluator(object):
     def getValue(self, identifier):
         question = self._questionTable.get(identifier)
         value = self._questionValueTable.get(question)
-        return value if value != None else EvalNone()
-
+        if value != None:
+            return value
+        return EvalNone()
+        
     def addQuestion(self, question):
         self._questionTable.add(question)
         self._questionValueTable.add(question)

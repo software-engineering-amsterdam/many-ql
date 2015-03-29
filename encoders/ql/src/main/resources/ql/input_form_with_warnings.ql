@@ -11,7 +11,9 @@ form taxOfficeExample {
     commissioning: integer
   "Do you have a contract?"
     hasContract: boolean
-
+  "Do you have a contract?"
+    hasContract2: boolean
+    
   if (hasSoldHouse) {
     "What was the selling price?"
       sellingPrice: integer
