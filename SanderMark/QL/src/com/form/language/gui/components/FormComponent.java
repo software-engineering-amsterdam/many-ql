@@ -4,10 +4,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.form.Form;
 import com.form.language.ast.statement.Statement;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.memory.Context;
 
 public class FormComponent {

@@ -14,9 +14,9 @@ namespace QLGui.CustomUIElements.InputHandlers
             }
         }
 
-        public override Value UpdateValue(object sender)
+        public override Value CreateValue(CustomTextBox sender)
         {
-            return new Int(int.Parse(((CustomTextBox)sender).Text));
+            return new Int(int.Parse(sender.Text));
         }
     }
 }

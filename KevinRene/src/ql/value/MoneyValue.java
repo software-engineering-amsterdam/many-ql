@@ -22,7 +22,7 @@ public class MoneyValue extends FloatValue {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof MoneyValue) {
-			return getValue().equals(((MoneyValue) obj).getValue());
+			return getPrimitive().equals(((MoneyValue) obj).getPrimitive());
 		}
 		
 		return false;

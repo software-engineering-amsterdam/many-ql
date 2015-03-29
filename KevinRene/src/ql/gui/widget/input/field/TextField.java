@@ -24,6 +24,6 @@ public class TextField extends Field<StringValue> implements CaretListener {
 	
 	@Override
 	protected StringValue getFieldValue() {
-		return new StringValue(textField.getText());
+		return new StringValue(textField().getText());
 	}
 }

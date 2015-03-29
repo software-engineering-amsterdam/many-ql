@@ -1,7 +1,6 @@
 package ql.ast.visitor.evaluator;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.Expression;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;

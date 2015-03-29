@@ -27,7 +27,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             Output = new OutputWindow(OutputTextBox);
         }
 
-
         #region Event Handlers
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -38,6 +37,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenQLFileDialog.ShowDialog();
+        }
+
+        private void closeFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SplitPanel.Panel1.Controls.Clear();
         }
 
         private void OpenQLFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -64,6 +68,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         }
 
         #endregion
+
+        #region Default Questionnaire
 
         private void InitializeQuestionnaire(FileInfo qlFile)
         {
@@ -93,6 +99,48 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
+        private QuestionForm ParseQLFile(FileInfo qlFile)
+        {
+            try
+            {
+                var qlController = new QLController();
+                return qlController.ParseQLFile(qlFile);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during parsing of the QL file.", ex);
+            }
+        }
+
+        private ValidationReport ValidateQuestionForm(QuestionForm form)
+        {
+            try
+            {
+                var runtimeController = new QL.Runtime.RuntimeController();
+                return runtimeController.Validate(form);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during the validation of the questionnaire AST.", ex);
+            }
+        }
+
+        private QuestionFormControl BuildUI(QuestionForm form)
+        {
+            try
+            {
+                var uiBuilder = new DefaultUIBuilder();
+                return uiBuilder.BuildUI(form, Output);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An unexpected error occured during creating of the user interface.", ex);
+            }
+        }
+
+        #endregion
+
+        #region Styled Questionnaire
 
         private void InitializeQuestionnaire(FileInfo qlFile, FileInfo qlsFile)
         {
@@ -128,48 +176,16 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
-        private QuestionForm ParseQLFile(FileInfo qlFile)
-        {
-            try
-            {
-                Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
-                var qlController = new QLController();
-                var form = qlController.ParseQLFile(qlFile);
-                Output.WriteLine("------ Parsing finished, 0 errors. ------");
-                return form;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("An unexpected error occured during parsing of the QL file.", ex);
-            }
-        }
-
         private StyleSheet ParseQLSFile(FileInfo qlsFile)
         {
             try
             {
-                Output.WriteLine("------ Parsing started: QLS File: {0} ------", qlsFile.Name);
                 var qlsController = new QLSController();
-                var styleSheet = qlsController.ParseQLSFile(qlsFile);
-                Output.WriteLine("------ Parsing finished, 0 errors. ------");
-                return styleSheet;
+                return qlsController.ParseQLSFile(qlsFile);
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("An unexpected error occured during parsing of the QLS file.", ex);
-            }
-        }
-
-        private ValidationReport ValidateQuestionForm(QuestionForm form)
-        {
-            try
-            {
-                var runtimeController = new QL.Runtime.RuntimeController();
-                return runtimeController.Validate(form);
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("An unexpected error occured during the validation of the questionnaire AST.", ex);
             }
         }
 
@@ -199,19 +215,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             }
         }
 
-        private QuestionFormControl BuildUI(QuestionForm form)
-        {
-            try
-            {
-                var uiBuilder = new DefaultUIBuilder();
-                return uiBuilder.BuildUI(form, Output);
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("An unexpected error occured during creating of the user interface.", ex);
-            }
-        }
-
         private Control BuildUI(StyleSheet styleSheet, QuestionStyleCollection questionStyles, QuestionForm form)
         {
             try
@@ -224,5 +227,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 throw new ApplicationException("An unexpected error occured during creating of the styled user interface.", ex);
             }
         }
+
+        #endregion
     }
 }

@@ -17,7 +17,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
             {
                 sections.Add(sectionContext.Accept(new SectionBuilder()));
             }
-            foreach (var defaultStyleContext in context.default_styles())
+            foreach (var defaultStyleContext in context.default_style())
             {
                 defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleBuilder()));
             }

@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldNotFoundException;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
@@ -32,48 +32,12 @@ public class QLSTypeChecker {
     private final List<FieldType> fieldTypes;
     private final List<Defaults> collectedDefaults;
 
-    private List<Defaults> collectDefaults(Page page) {
-        final List<Defaults> collectedDefaults = new LinkedList<Defaults>();
-        for (final Section s : page.getSections()) {
-            collectedDefaults.add(s.getDefaults());
-        }
-        return collectedDefaults;
-    }
-
     private List<Defaults> collectDefaults() {
-        final List<Defaults> collectedDefaults = new LinkedList<Defaults>();
-        for (final Page page : styleSheet.getPages()) {
-            final List<Defaults> sectionsDefaults = collectDefaults(page);
-            final Defaults pageDefaults = page.getDefaults();
-            collectedDefaults.addAll(sectionsDefaults);
-            collectedDefaults.add(pageDefaults);
-        }
-        collectedDefaults.add(styleSheet.getDefaults());
-        return collectedDefaults;
-    }
-
-    private List<String> collectFields(Section section) {
-        final List<String> collectedFields = new LinkedList<String>();
-        for (AbstractFormField abstractFormField : section.getFields()) {
-            collectedFields.add(abstractFormField.getIdent());
-        }
-        return collectedFields;
-    }
-
-    private List<String> collectFields(Page page) {
-        final List<String> collectedFields = new LinkedList<String>();
-        for (final Section section : page.getSections()) {
-            collectedFields.addAll(collectFields(section));
-        }
-        return collectedFields;
+        return styleSheet.collectAllDefaultsInstances();
     }
 
     private List<String> collectFields() {
-        final List<String> collectedFields = new LinkedList<String>();
-        for (final Page p : styleSheet.getPages()) {
-            collectedFields.addAll(collectFields(p));
-        }
-        return collectedFields;
+        return styleSheet.collectFields();
     }
 
     private void addIfDuplicateField(Set<String> foundFields, Set<String> duplicateFields, String testField) {
@@ -127,7 +91,7 @@ public class QLSTypeChecker {
     private void detectInvalidWidgetAssignment(FieldType fieldType, Set<String> invalidWidgetAssignments) {
         final String fieldName = fieldType.getFieldName();
         try {
-            final StylingSettings stylingSettings = styleSheet.getStylingSettings(fieldType);
+            final StylingSettings stylingSettings = styleSheet.deriveStylingSettings(fieldType);
             final AbstractWidget abstractWidget = stylingSettings.getWidget();
             final ITypeDescriptor fieldTypeDescriptor = fieldType.getTypeDescriptor();
             addIfInvalidWidgetAssignment(invalidWidgetAssignments, fieldTypeDescriptor, abstractWidget, fieldName);
@@ -150,7 +114,7 @@ public class QLSTypeChecker {
     private void detectInvalidBooleanDefaultWidgetAssignments(
             Set<WidgetType> invalidDefaultWidgetAssignments, Defaults defaults) {
         final Set<WidgetType> invalidBooleanDefaultWidgetAssignments =
-                detectInvalidDefaultWidgetAssignments(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR, defaults);
+                detectInvalidDefaultWidgetAssignments(BooleanValue.BOOL_VALUE_TYPE_DESCRIPTOR, defaults);
         invalidDefaultWidgetAssignments.addAll(invalidBooleanDefaultWidgetAssignments);
     }
 
@@ -178,16 +142,14 @@ public class QLSTypeChecker {
         return invalidDefaultWidgetAssignments;
     }
 
-    private AbstractWidget getAbstractWidget(Defaults defaults, ITypeDescriptor valueTypeDescriptor) {
-        final Map<ITypeDescriptor, Map<String, Object>> styleSheetSettings = defaults.getDefaultStyleSheetSettings();
-        Map<String, Object> stringToStyleElement = styleSheetSettings.get(valueTypeDescriptor);
-        return (AbstractWidget) stringToStyleElement.get("widget");
+    private AbstractWidget getWidgetFromDefaultStyles(Defaults defaults, ITypeDescriptor valueTypeDescriptor) {
+        return defaults.getWidget(valueTypeDescriptor);
     }
 
     private Set<WidgetType> detectInvalidDefaultWidgetAssignments(final ITypeDescriptor valueTypeDescriptor,
                                                               final Defaults defaults) {
         final Set<WidgetType> invalidDefaultWidgetAssignments = new HashSet<WidgetType>();
-        final AbstractWidget widget = getAbstractWidget(defaults, valueTypeDescriptor);
+        final AbstractWidget widget = getWidgetFromDefaultStyles(defaults, valueTypeDescriptor);
         if (!valueTypeDescriptor.isAllowed(widget)) {
             final WidgetType unallowedWidgetType = new WidgetType(widget, valueTypeDescriptor);
             invalidDefaultWidgetAssignments.add(unallowedWidgetType);

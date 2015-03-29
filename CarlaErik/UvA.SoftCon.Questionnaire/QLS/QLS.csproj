@@ -63,7 +63,7 @@
     <Compile Include="AST\Model\QLSNode.cs" />
     <Compile Include="AST\Model\QuestionReference.cs" />
     <Compile Include="AST\Model\Section.cs" />
-    <Compile Include="AST\Model\StyleAttributes\ColorStyle.cs" />
+    <Compile Include="AST\Model\StyleAttributes\FontColor.cs" />
     <Compile Include="AST\Model\StyleAttributes\FontName.cs" />
     <Compile Include="AST\Model\StyleAttributes\FontSize.cs" />
     <Compile Include="AST\Model\StyleAttributes\StyleAttribute.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="QLSController.cs" />
     <Compile Include="StyleSets\CalendarWidgetStyle.cs" />
     <Compile Include="StyleSets\CheckBoxWidgetStyle.cs" />
+    <Compile Include="StyleSets\Color.cs" />
     <Compile Include="StyleSets\DropDownWidgetStyle.cs" />
     <Compile Include="StyleSets\RadioWidgetStyle.cs" />
     <Compile Include="StyleSets\SpinBoxWidgetStyle.cs" />

@@ -43,11 +43,11 @@ public class IntegerField extends Field<IntegerValue> implements CaretListener {
 	
 	@Override
 	protected IntegerValue getFieldValue() {
-		return new IntegerValue(Integer.parseInt(textField.getText()));
+		return new IntegerValue(Integer.parseInt(textField().getText()));
 	}
 	
 	@Override
 	public void setStyle(StyleProperties properties) {
-		stylizer.setStyle(textField, properties);
+		stylizer.setStyle(textField(), properties);
 	}
 }

@@ -123,7 +123,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder colorString = new StringBuilder(printNode(color));
 		
 		indent();
-		colorString.append(color.getValue().accept(this));
+		colorString.append(color.getLiteral().accept(this));
 		unindent();
 		
 		return colorString.toString();
@@ -180,7 +180,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder fontString = new StringBuilder(printNode(font));
 		
 		indent();
-		fontString.append(font.getValue().accept(this));
+		fontString.append(font.getLiteral().accept(this));
 		unindent();
 		
 		return fontString.toString();
@@ -191,7 +191,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder fontSizeString = new StringBuilder(printNode(fontSize));
 		
 		indent();
-		fontSizeString.append(fontSize.getValue().accept(this));
+		fontSizeString.append(fontSize.getLiteral().accept(this));
 		unindent();
 		
 		return fontSizeString.toString();
@@ -202,7 +202,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder heightString = new StringBuilder(printNode(height));
 		
 		indent();
-		heightString.append(height.getValue().accept(this));
+		heightString.append(height.getLiteral().accept(this));
 		unindent();
 		
 		return heightString.toString();
@@ -385,7 +385,7 @@ public class PrettyPrinter extends StatementVisitor<String> implements Expressio
 		StringBuilder widthString = new StringBuilder(printNode(width));
 		
 		indent();
-		widthString.append(width.getValue().accept(this));
+		widthString.append(width.getLiteral().accept(this));
 		unindent();
 		
 		return widthString.toString();

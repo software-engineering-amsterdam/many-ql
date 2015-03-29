@@ -27,7 +27,7 @@ namespace QLGui
             ast = MainTypeChecker.GetTypeCheckDiagnosis(ast);
 
             controller = new MainController(this, ast);
-            controller.ProcessBody();
+            controller.CreateMainUIBody();
         }
         public UIElement GetRootElement()
         {

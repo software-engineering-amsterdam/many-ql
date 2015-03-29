@@ -6,17 +6,15 @@ import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 public class IntegerValue extends Value {
     public static final ITypeDescriptor INTEGER_VALUE_TYPE_DESCRIPTOR = new ITypeDescriptor() {
-        @Override
+
         public void callTypeMethod(final ITypeCallback typeCallback) {
             typeCallback.usesInteger();
         }
 
-        @Override
         public IntegerValue getDefaultValue() {
             return new IntegerValue(0);
         }
 
-        @Override
         public boolean isAllowed(IAllowTypeChecker allowTypeChecker) {
             return  allowTypeChecker.allowsIntegerValue();
         }
@@ -34,54 +32,45 @@ public class IntegerValue extends Value {
             final ITypeDescriptor otherType = (ITypeDescriptor) obj;
             final Value otherDefaultValue = otherType.getDefaultValue();
             final Value thisDefaultValue = getDefaultValue();
-            final BoolValue equalityComparisonValue = otherDefaultValue.eq(thisDefaultValue);
+            final BooleanValue equalityComparisonValue = otherDefaultValue.valueEquals(thisDefaultValue);
             return equalityComparisonValue.isTrue();
         }
     };
 
-    @Override
     public Value add(Value value) {
         return new IntegerValue((Integer) toJavaObject() + (Integer) value.toJavaObject());
     }
 
-    @Override
-    public Value sub(Value value) {
+    public Value subtract(Value value) {
         return new IntegerValue((Integer) toJavaObject() - (Integer) value.toJavaObject());
     }
 
-    @Override
-    public Value mul(Value value) {
+    public Value multiply(Value value) {
         return new IntegerValue((Integer) toJavaObject() * (Integer) value.toJavaObject());
     }
 
-    @Override
-    public Value div(Value value) {
+    public Value divide(Value value) {
         return new IntegerValue((Integer) toJavaObject() / (Integer) value.toJavaObject());
     }
 
-    @Override
-    public Value mod(Value value) {
+    public Value modulo(Value value) {
         return new IntegerValue((Integer) toJavaObject() % (Integer) value.toJavaObject());
     }
 
-    @Override
-    public BoolValue lt(Value value) {
-        return new BoolValue((Integer) toJavaObject() < (Integer) value.toJavaObject());
+    public BooleanValue lesserThan(Value value) {
+        return new BooleanValue((Integer) toJavaObject() < (Integer) value.toJavaObject());
     }
 
-    @Override
-    public BoolValue gt(Value value) {
-        return new BoolValue((Integer) toJavaObject() > (Integer) value.toJavaObject());
+    public BooleanValue greaterThan(Value value) {
+        return new BooleanValue((Integer) toJavaObject() > (Integer) value.toJavaObject());
     }
 
-    @Override
-    public BoolValue lte(Value value) {
-        return new BoolValue((Integer) toJavaObject() <= (Integer) value.toJavaObject());
+    public BooleanValue lesserThanOrEquals(Value value) {
+        return new BooleanValue((Integer) toJavaObject() <= (Integer) value.toJavaObject());
     }
 
-    @Override
-    public BoolValue gte(Value value) {
-        return new BoolValue((Integer) toJavaObject() >= (Integer) value.toJavaObject());
+    public BooleanValue greaterThanOrEquals(Value value) {
+        return new BooleanValue((Integer) toJavaObject() >= (Integer) value.toJavaObject());
     }
 
     @Override

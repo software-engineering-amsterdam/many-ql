@@ -16,11 +16,6 @@ public class ConditionalHandler extends NullQLNodeVisitor {
     { qlNode.accept(this);}
 
     @Override
-    public void visit(Input input) {
-        input.handleExpressionResult();
-    }
-
-    @Override
     public void visit(IfStatement ifStatement) {
         makeChildrenInvisible = false;
         ifStatement.handleExpressionResult();

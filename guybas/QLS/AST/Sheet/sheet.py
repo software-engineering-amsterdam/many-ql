@@ -15,7 +15,7 @@ class Sheet(e.SheetElement):
     def string_presentation(self, level=0):
         s = "    " * level + "Sheet " + self._name + "\n"
         for p in self._pages:
-            s += p.__str__(level + 1)
+            s += p.string_presentation(level + 1)
         return s
 
     def get_ids(self):
@@ -43,6 +43,13 @@ class Sheet(e.SheetElement):
         return l
 
     def get_property_dict(self):
+        d = {}
+        for x in self._pages:
+            if x.is_default():
+                d = dict(list(d.items()) + list(x.get_property_dict().items()))
+        return d
+
+    def get_defaults(self):
         d = {}
         for x in self._pages:
             if x.is_default():

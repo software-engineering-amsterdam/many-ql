@@ -39,8 +39,8 @@ default_property = (
     (suppress("size") + col + number).setParseAction(properties.make_size) |
     (suppress("color") + col + hexacolor).setParseAction(properties.make_color) |
     (suppress("width") + col + number).setParseAction(properties.make_width) |
-    (suppress("height") + col + number).setParseAction(properties.make_height))
-
+    (suppress("height") + col + number).setParseAction(properties.make_height) |
+    (suppress("background_color") + col + number).setParseAction(properties.make_background_color))
 # there is at least one property and the order doesn't matter
 default_properties = group(one_or_more(default_property))
 

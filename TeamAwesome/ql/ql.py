@@ -2,9 +2,9 @@ import sys, os
 
 from ql.evaluator.evaluator import createEvaluator
 
-from ql.gui.View import *
-from ql.gui.Controller import *
-from ql.gui.Model import *
+from ql.gui.View import View
+from ql.gui.Controller import Controller
+from ql.gui.Model import QuestionModel
 
 from ql.parser.ANTLR import Parser
 from ql.typechecking import\
@@ -37,6 +37,7 @@ def main():
     controller.run()
 
 
+
 def typecheck(parser):
     result = Typechecking.check(
         parser.questionnaire,
@@ -48,6 +49,7 @@ def typecheck(parser):
         print(message)
 
     return len(result.errors) == 0
+
 
 
 if __name__ == '__main__':

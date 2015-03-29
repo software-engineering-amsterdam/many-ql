@@ -28,10 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AnswerUpDown = new System.Windows.Forms.NumericUpDown();
             this.QuestionLabel = new System.Windows.Forms.Label();
+            this.AnswerUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.AnswerUpDown)).BeginInit();
             this.SuspendLayout();
+            // 
+            // QuestionLabel
+            // 
+            this.QuestionLabel.AutoSize = true;
+            this.QuestionLabel.Location = new System.Drawing.Point(4, 4);
+            this.QuestionLabel.Name = "QuestionLabel";
+            this.QuestionLabel.Size = new System.Drawing.Size(55, 13);
+            this.QuestionLabel.TabIndex = 2;
+            this.QuestionLabel.Text = "Question?";
             // 
             // AnswerUpDown
             // 
@@ -51,21 +60,13 @@
             this.AnswerUpDown.TabIndex = 1;
             this.AnswerUpDown.ValueChanged += new System.EventHandler(this.AnswerUpDown_ValueChanged);
             // 
-            // QuestionLabel
-            // 
-            this.QuestionLabel.AutoSize = true;
-            this.QuestionLabel.Location = new System.Drawing.Point(4, 4);
-            this.QuestionLabel.Name = "QuestionLabel";
-            this.QuestionLabel.Size = new System.Drawing.Size(55, 13);
-            this.QuestionLabel.TabIndex = 2;
-            this.QuestionLabel.Text = "Question?";
-            // 
-            // NumericQuestion
+            // SpinBoxWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.QuestionLabel);
             this.Controls.Add(this.AnswerUpDown);
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "SpinBoxWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             ((System.ComponentModel.ISupportInitialize)(this.AnswerUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -47,7 +47,7 @@
     <Compile Include="Validation\ASTChecker.cs" />
     <Compile Include="Validation\QuestionReferencingChecker.cs" />
     <Compile Include="Validation\StyleAttributeChecker.cs" />
-    <Compile Include="Validation\TypeChecker.cs" />
+    <Compile Include="Validation\WidgetTypeChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

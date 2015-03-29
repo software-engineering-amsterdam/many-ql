@@ -91,7 +91,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterCalculation(QLParser.CalculationContext ctx) {
-        nodeStack.push(new Calculation(ctx.start.getLine(), ctx.name.getText()));
+        nodeStack.push(new Calculation(ctx.start.getLine(), new Identifier(ctx.name.getText())));
     }
 
     @Override
@@ -115,18 +115,6 @@ public class QLParseTreeListener extends QLBaseListener {
     public void exitLabelText(QLParser.LabelTextContext ctx) {
         nodeStack.peek().addChild(new LabelText(ctx.start.getLine(), ctx.text.getText()));
     }
-
-    @Override
-    public void enterInput(QLParser.InputContext ctx) {
-        nodeStack.push(new Input(ctx.start.getLine()));
-    }
-
-    @Override
-    public void exitInput(QLParser.InputContext ctx) {
-        Input in = (Input) nodeStack.pop();
-        nodeStack.peek().addChild(in);
-    }
-
     /*
      * Expression logic
      */

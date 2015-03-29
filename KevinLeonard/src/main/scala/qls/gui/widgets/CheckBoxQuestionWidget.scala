@@ -1,6 +1,6 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, BooleanValue, Expression, Question}
+import ql.ast.{BooleanValue, Expression, Question, Value}
 import qls.ast.Style
 import types.{EvalEnvironment, VariableName}
 
@@ -45,5 +45,4 @@ class CheckBoxQuestionWidget(q: Question, visibilityExpressions: List[Expression
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Boolean.")
     }
   }
-
 }

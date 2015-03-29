@@ -7,8 +7,7 @@ namespace QLGui.CustomUIElements.InputHandlers
     {
         public virtual void CheckValidCharacter(object sender, TextCompositionEventArgs e) {}
 
-        public abstract Value UpdateValue(object sender);
-
+        public abstract Value CreateValue(CustomTextBox sender);
         public virtual bool IsValid(string text)
         {
             return true;

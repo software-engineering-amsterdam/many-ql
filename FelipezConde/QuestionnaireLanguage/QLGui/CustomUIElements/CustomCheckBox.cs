@@ -1,4 +1,5 @@
-﻿using QLGui.CustomUIElements.InputHandlers;
+﻿using Evaluation.Values;
+using QLGui.CustomUIElements.InputHandlers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,7 +7,6 @@ namespace QLGui.CustomUIElements
 {
     public class CustomCheckBox : CheckBox
     {
-        private BoolHandler inputHandler = new BoolHandler();
         public EventUpdateValue EventUpdateValue { get; set; }
 
         #region Constructors
@@ -19,7 +19,9 @@ namespace QLGui.CustomUIElements
         #region Events
         void CustomCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            EventUpdateValue(((CustomCheckBox)sender).Name, inputHandler.GetValue(sender));
+            CustomCheckBox UIElement = (CustomCheckBox)sender;
+
+            EventUpdateValue(UIElement.Name, new Bool(UIElement.IsChecked.Value));
         }
 
         #endregion

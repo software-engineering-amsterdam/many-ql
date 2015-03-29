@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
-import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
@@ -8,20 +7,32 @@ import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Checkbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Intbox;
 import org.uva.student.calinwouter.qlqls.qls.model.components.widgets.Textbox;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This model contains all styling settings for a (default) type.
  */
-@Data
 public class StylingSettings {
     private final AbstractWidget widget;
     private final String font;
-    private final int fontSize, color, width;
+    private final Integer fontSize, color, width;
+
+    public Font createFont() {
+        return new Font(font, 0, fontSize);
+    }
 
     public AbstractWidget getWidget() {
         return widget;
+    }
+
+    public Color createForegroundColor() {
+        return new Color(color);
+    }
+
+    public Dimension createSizeDimension(int oldHeight) {
+        return new Dimension(width, oldHeight);
     }
 
     /**
@@ -30,17 +41,14 @@ public class StylingSettings {
     private class DefaultStylingSettingsCreator implements ITypeCallback {
         private final Map<String, Object> stylingSettings = new HashMap<String, Object>();
 
-        @Override
         public void usesBoolean() {
             stylingSettings.put("widget", new Checkbox());
         }
 
-        @Override
         public void usesInteger() {
             stylingSettings.put("widget", new Intbox());
         }
 
-        @Override
         public void usesString() {
             stylingSettings.put("widget", new Textbox());
         }

@@ -20,7 +20,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
             {
                 questionStyles.Add(questionStyleContext.Accept(new QuestionReferenceBuilder()));
             }
-            foreach (var defaultStyleContext in context.default_styles())
+            foreach (var defaultStyleContext in context.default_style())
             {
                 defaultStyles.Add(defaultStyleContext.Accept(new DefaultStyleBuilder()));
             }

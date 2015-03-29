@@ -5,6 +5,7 @@ import java.util.Arrays;
 import ql.ast.Expression;
 
 public abstract class Binary extends Expression {
+	
 	private Expression left, right;
 	private String operator;
 	

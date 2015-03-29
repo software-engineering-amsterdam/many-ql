@@ -23,8 +23,7 @@ public class Question extends QLNode implements HasIdentifier {
     private Range questionRange;
     private UUID uuid;
     private boolean isVisible = true;
-
-    //TODO: Harmonize identifier use and answermap.
+    
     public Question(int lineNumber, Identifier identifier) {
         super(lineNumber);
         this.uuid = UUID.randomUUID();
