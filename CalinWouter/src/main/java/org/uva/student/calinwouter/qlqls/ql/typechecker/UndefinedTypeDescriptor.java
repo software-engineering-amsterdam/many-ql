@@ -9,7 +9,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.Value;
 public class UndefinedTypeDescriptor implements ITypeDescriptor{
 
     public void callTypeMethod(ITypeCallback typeCallback) {
-        return;
+
     }
 
     public Value getDefaultValue() {

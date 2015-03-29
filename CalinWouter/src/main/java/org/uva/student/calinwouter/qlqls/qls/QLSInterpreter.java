@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AStylesheetBegin;
 import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
-import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
 
 /**
  * QLS interpretation basically means converting the abstract syntax tree into an internal QLS model.

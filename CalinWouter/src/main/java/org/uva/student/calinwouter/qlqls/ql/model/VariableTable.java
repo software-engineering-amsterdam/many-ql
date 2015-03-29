@@ -8,16 +8,16 @@ import java.util.Map;
 public class VariableTable {
     private Map<String, Value> variableMap;
 
-    public boolean isSet(String identifer) {
-        return variableMap.get(identifer) != null;
+    public boolean isSet(String identifier) {
+        return variableMap.get(identifier) != null;
     }
 
-    public void setVariable(String identifer, Value value) {
-        variableMap.put(identifer, value);
+    public void setVariable(String identifier, Value value) {
+        variableMap.put(identifier, value);
     }
 
-    public Value getVariable(String identifer) {
-        return variableMap.get(identifer);
+    public Value getVariable(String identifier) {
+        return variableMap.get(identifier);
     }
 
     public VariableTable() {
