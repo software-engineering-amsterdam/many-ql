@@ -11,20 +11,20 @@ import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
 
 public class QuestionFactory {
 
-    public Question questionType(uva.sc.ql.statements.Question question, QuestionsPropertiesVisitor questionProperties,
-	    Map<ID, List<ID>> patronElements,
-	    List<Component> componentList) {
+    public Question questionType(uva.sc.ql.statements.Question question,
+	    QuestionsPropertiesVisitor questionProperties,
+	    Map<ID, List<ID>> patronElements, List<Component> componentList) {
 	Type type = question.getType();
 	Question questionType = null;
 	if (type.equals(new Boolean())) {
-	    questionType = new CheckBoxQuestion(patronElements, questionProperties,
-		    componentList);
+	    questionType = new CheckBoxQuestion(patronElements,
+		    questionProperties, componentList);
 	} else if (type.equals(new String())) {
-	    questionType = new TextBoxQuestion(patronElements, questionProperties,
-		    componentList);
+	    questionType = new TextBoxQuestion(patronElements,
+		    questionProperties, componentList);
 	} else {
-	    questionType = new CalculatedQuestion(patronElements, questionProperties,
-		    componentList);
+	    questionType = new CalculatedQuestion(patronElements,
+		    questionProperties, componentList);
 	}
 	return questionType;
     }

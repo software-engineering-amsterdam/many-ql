@@ -33,7 +33,7 @@ calculation:
 
 //TODO: Can a calculation have multiple inputs?
 calculationBody:
-   '{' (ifSequence|input)+'}';
+   '{' input '}';
 
 ifSequence: ifStatement (elseIfStatement)* (elseStatement)?;
 

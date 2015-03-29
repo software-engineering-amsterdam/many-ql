@@ -68,6 +68,11 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
             return visitQuestion(context.question());
         }
 
+        if (context.questionWithRules() != null)
+        {
+            return visitQuestionWithRules(context.questionWithRules());
+        }
+
         if (context.defaultStmt() != null)
         {
             return visitDefaultStmt(context.defaultStmt());
@@ -98,19 +103,23 @@ public class AstBuilder extends QLSBaseVisitor<AstNode>
         String id = context.Identifier().getText();
         int lineNumber = context.Identifier().getSymbol().getLine();
 
-        if (context.stylesheetRule() != null)
-        {
-            List<Rule> rules = new ArrayList<Rule>();
-            for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
-            {
-                Rule s = (Rule)this.visit(ruleContext);
-                rules.add(s);
-            }
+        return new Question(id, lineNumber);
+    }
 
-            return new QuestionWithRules(id, lineNumber, new Rules(rules));
+    @Override
+    public AstNode visitQuestionWithRules(@NotNull QLSParser.QuestionWithRulesContext context)
+    {
+        String id = context.Identifier().getText();
+        int lineNumber = context.Identifier().getSymbol().getLine();
+
+        List<Rule> rules = new ArrayList<>();
+        for (QLSParser.StylesheetRuleContext ruleContext : context.stylesheetRule())
+        {
+            Rule s = (Rule)this.visit(ruleContext);
+            rules.add(s);
         }
 
-        return new Question(id, lineNumber);
+        return new QuestionWithRules(id, lineNumber, new Rules(rules));
     }
 
     @Override

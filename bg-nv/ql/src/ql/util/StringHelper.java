@@ -16,14 +16,14 @@ public class StringHelper
         return result.replace("\\\"", "\"");
     }
 
-    public static String printStrValueList(Iterable<String> c)
+    public static String printStrValueList(Iterable<String> c, String delimiter)
     {
         StringBuilder builder = new StringBuilder();
 
         for (String s : c)
         {
             builder.append(s);
-            builder.append(", ");
+            builder.append(delimiter);
         }
 
         if (builder.length() < 2)
