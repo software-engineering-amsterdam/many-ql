@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UvA.SoftCon.Questionnaire.QL;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;

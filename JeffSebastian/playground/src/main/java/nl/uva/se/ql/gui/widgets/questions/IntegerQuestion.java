@@ -7,7 +7,6 @@ import nl.uva.se.ql.evaluation.value.IntegerValue;
 import nl.uva.se.ql.gui.listeners.Listener;
 import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.validators.IntegerValidator;
-import nl.uva.se.ql.gui.validators.Validator;
 
 public class IntegerQuestion extends BaseQuestion<String> {
 
@@ -30,7 +29,7 @@ public class IntegerQuestion extends BaseQuestion<String> {
 	}
 
 	@Override
-	public Validator<String> initValidator() {
+	public IntegerValidator initValidator() {
 		return new IntegerValidator();
 	}
 

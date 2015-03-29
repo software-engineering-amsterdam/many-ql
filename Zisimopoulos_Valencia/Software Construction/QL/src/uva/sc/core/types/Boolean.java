@@ -7,10 +7,9 @@ public class Boolean implements Type {
     }
 
     public boolean equals(Type type) {
-
 	if (type == null) {
 	    return false;
 	}
-	return type.toString() == this.toString();
+	return type.getClass() == this.getClass();
     }
 }

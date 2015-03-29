@@ -1,9 +1,11 @@
-package uva.ql.interpreter.typecheck.depedency;
+package uva.ql.interpreter.typecheck.table;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import uva.ql.interpreter.typecheck.depedency.IdentifierSet;
 
 public class DependencyTable {
 
@@ -27,8 +29,8 @@ public class DependencyTable {
 		return this.dependencies;
 	}
 	
-	public void putValue(String key, IdentifierSet value) {
-		this.dependencies.put(key, value);
+	public void putIdentifierSet(String key, IdentifierSet set) {
+		this.dependencies.put(key, set);
 	}
 
 	public boolean keyExists(String key) {
@@ -37,7 +39,7 @@ public class DependencyTable {
 
 	public boolean valueEmpty(String identifier){
 		
-		IdentifierSet set = this.retrieveValue(identifier);
+		IdentifierSet set = this.retrieveIdentifierSet(identifier);
 		
 		if (set == null){
 			return true;
@@ -46,7 +48,7 @@ public class DependencyTable {
 		return set.isEmpty();
 	}
 	
-	public IdentifierSet retrieveValue(String key) {
+	public IdentifierSet retrieveIdentifierSet(String key) {
 		return this.dependencies.get(key);
 	}
 

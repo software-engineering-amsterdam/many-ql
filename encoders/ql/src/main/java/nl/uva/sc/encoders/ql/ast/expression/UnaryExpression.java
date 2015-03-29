@@ -42,4 +42,13 @@ public class UnaryExpression extends Expression {
 	public DataType getType(TypeMap typeMap) {
 		return expression.getType(typeMap);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(operator);
+		builder.append(" ");
+		builder.append(expression);
+		return builder.toString();
+	}
 }

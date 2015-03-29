@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+﻿using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QLS;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
@@ -17,7 +12,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         {
             _question = question;
         }
-
 
         public object CreateCalendarWidget()
         {

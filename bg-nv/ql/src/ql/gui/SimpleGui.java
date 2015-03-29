@@ -73,6 +73,10 @@ public class SimpleGui implements ModelVisitor<Void>
     @Override
     public Void visit(Section section)
     {
+        for (Segment segment : section.getSubSegments())
+        {
+            segment.accept(this);
+        }
         return null;
     }
 

@@ -34,4 +34,14 @@ public abstract class BinaryExpression extends Expression{
 	public Operator getOperator(){
 		return this.operator;
 	}
+	
+	@Override
+	public boolean isLiteral(){
+		return false;
+	}
+	
+	@Override
+	public boolean isBinaryExpression(){
+		return true;
+	}
 }

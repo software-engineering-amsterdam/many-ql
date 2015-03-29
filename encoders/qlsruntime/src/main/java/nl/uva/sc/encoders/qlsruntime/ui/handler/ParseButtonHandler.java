@@ -18,7 +18,7 @@ import nl.uva.sc.encoders.qls.ast.Stylesheet;
 import nl.uva.sc.encoders.qls.ast.parser.StylesheetParser;
 import nl.uva.sc.encoders.qls.ast.parser.StylesheetParsingResult;
 import nl.uva.sc.encoders.qls.validation.TypeChecker;
-import nl.uva.sc.encoders.qlsruntime.ui.StylesheetUI;
+import nl.uva.sc.encoders.qlsruntime.ui.StylesheetGridPane;
 
 import org.controlsfx.dialog.ExceptionDialog;
 
@@ -85,10 +85,8 @@ public class ParseButtonHandler implements EventHandler<ActionEvent> {
 			return validationsGridPane;
 		}
 
-		// How will we refer to the QL environment?
-
-		StylesheetUI stylesheetUIFactory = new StylesheetUI();
+		StylesheetGridPane stylesheetGridPane = new StylesheetGridPane();
 		String stylesheetTitle = stylesheet.getName();
-		return stylesheetUIFactory.generateUI(stylesheetTitle);
+		return stylesheetGridPane.generateStylesheetGridPane(stylesheetTitle);
 	}
 }

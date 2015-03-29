@@ -1,6 +1,6 @@
 package qls.ast
 
-import ql.ast.{BooleanType, StringType, NumberType, Type}
+import ql.ast.{BooleanType, NumberType, StringType, Type}
 
 sealed trait Widget {
   val styles: List[Style]
