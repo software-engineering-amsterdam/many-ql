@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System;
 
 namespace QLGui.CustomUIElements
 {
@@ -30,14 +31,23 @@ namespace QLGui.CustomUIElements
         #region Events
         private void Lost_Focus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (inputHandler.IsValid((sender as CustomTextBox).Text))
-            {
-                EventUpdateValue(((CustomTextBox)sender).Name, inputHandler.UpdateValue(sender));
+            CustomTextBox UIElement = (CustomTextBox)sender;
 
-                this.BorderBrush = Brushes.Black;
-            }
-            else
+            try
             {
+                if (inputHandler.IsValid(UIElement.Text))
+                {
+                    EventUpdateValue(UIElement.Name, inputHandler.CreateValue(UIElement));
+                    this.BorderBrush = Brushes.Black;
+                }
+                else
+                {
+                    this.BorderBrush = Brushes.Red;
+                }
+            }
+            catch (Exception error) 
+            {
+                UIElement.Text = error.Message;
                 this.BorderBrush = Brushes.Red;
             }
         }

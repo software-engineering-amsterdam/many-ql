@@ -19,22 +19,22 @@ class Widget:
                 setattr(self, i, constants.PROPERTIES[i])
 
     def get_color(self):
-        return self.color
+        return self.font_color
 
     def get_bg_color(self):
-        return self.bg_color
+        return self.background_color
 
     def get_font(self):
-        return self.font
+        return self.font_family
 
     def get_width(self):
-        return self.width
+        return self.widget_width
 
     def get_height(self):
-        return self.height
+        return self.widget_height
 
     def get_size(self):
-        return self.size
+        return self.font_size
 
     def string_presentation(self, level=0):
         s = self.widget.string_presentation(level)

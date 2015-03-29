@@ -1,11 +1,11 @@
 # The use of constants to avoid using string literals, this is also the list of properties we support
 
-FONT_FAMILY = "font"
-FONT_SIZE = "size"
-FONT_COLOR = "color"
-WIDGET_WIDTH = "width"
-WIDGET_HEIGHT = "height"
-BACKGROUND_COLOR = "bg_color"
+FONT_FAMILY = "font_family"
+FONT_SIZE = "font_size"
+FONT_COLOR = "font_color"
+WIDGET_WIDTH = "widget_width"
+WIDGET_HEIGHT = "widget_height"
+BACKGROUND_COLOR = "background_color"
 
 PROPERTIES = {FONT_FAMILY: "arial",
                    FONT_SIZE: "12",

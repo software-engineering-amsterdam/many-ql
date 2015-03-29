@@ -7,6 +7,7 @@ class Checker(AbstractBase):
         super().__init__(resultFactory, messageFactory)
         self._labels = {}
 
+
     def visitQuestionnaireEnd(self, questionnaire):
         for label, occuringLines in self._labels.items():
             if len(occuringLines) > 1:
@@ -19,6 +20,7 @@ class Checker(AbstractBase):
                     )
 
         return super().visitQuestionnaireEnd(questionnaire)
+        
 
     def visitQuestionStatement(self, node):
         if node.text not in self._labels:
