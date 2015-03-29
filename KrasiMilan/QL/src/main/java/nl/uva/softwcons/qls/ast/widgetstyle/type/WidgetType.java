@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ast.widget.type;
+package nl.uva.softwcons.qls.ast.widgetstyle.type;
 
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
