@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.form.language.memory.Context;
+
 public class StatementCollection implements Iterable<Statement> {
     private List<Statement> statements;
     
@@ -13,6 +15,12 @@ public class StatementCollection implements Iterable<Statement> {
     
     public StatementCollection(List<Statement> statements){
 	this.statements = statements;
+    }
+    
+    public void checkTypes(Context context){
+    for (Statement s : statements) {
+    	s.checkType(context);
+    }
     }
 
     @Override

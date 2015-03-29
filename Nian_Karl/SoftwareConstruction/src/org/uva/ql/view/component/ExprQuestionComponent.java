@@ -18,6 +18,9 @@ public class ExprQuestionComponent extends QuestionComponent {
 
 	public void evaluateAndChange(Evaluator evaluator) {
 		Value value = evaluator.evaluate(expr);
-		widget.setWidgetValue(value);
+		if (value.isDefined()) {
+			widget.setWidgetValue(value);		
+			System.out.println("Evaluate and changing widget");
+		}
 	}
 }

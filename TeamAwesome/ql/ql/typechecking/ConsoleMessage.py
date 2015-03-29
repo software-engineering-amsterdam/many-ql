@@ -15,7 +15,7 @@ class ConsoleMessage:
 
 
     # allows messages to be ordered
-    def __le__(self, other):
+    def __lt__(self, other):
         if self.lineNumber is None:
             return False
         elif other.lineNumber is None:
@@ -46,15 +46,18 @@ def factory(parser, cls = ConsoleMessage):
             return cls(
                 Warning(),
                 Local(lineNumber),
-                'duplicate question label `%s`' % (label)
+                'Duplicate question label `%s`' % (label)
             )
 
         def questionCycle(self, questionCycle, lineNumber):
             text = 'There is a question dependency cycle: %s. \
-    It means the calculation of the answer requires its own \
-    result as input. This is not possible. Please double check \
-    the definitions of the questions.' % (
-                   ' <- '.join([str(q.identifier) for q in questionCycle])
+It means the calculation of `%s` requires its own \
+result as input. This is not possible. Please double check \
+the definitions of the questions.' % (
+                    ' <- '.join(
+                        ['`%s`' % (q.identifier) for q in questionCycle]
+                    ),
+                    questionCycle[0].identifier
                 )
 
             return cls(
@@ -66,8 +69,8 @@ def factory(parser, cls = ConsoleMessage):
         def questionRedefinition(
             self, question, actualType, expectedType, lineNumber
         ):
-            text = 'duplicate definition of question `%s` with different \
-    type `%s` (expected type `%s`)' % (
+            text = 'Redefinition of question `%s` with different \
+type `%s` (expected type `%s`)' % (
                     question.identifier,
                     self._parser.expressionTypeToken(actualType),
                     self._parser.expressionTypeToken(expectedType)
@@ -88,9 +91,9 @@ def factory(parser, cls = ConsoleMessage):
                 lambda t: '`%s`' % (self._parser.expressionTypeToken(t)),
                 allowedTypes
             ))
-            text = 'got an expression of type `%s` which is not \
-    compatible with any of the following types which are \
-    allowed here: %s' % (
+            text = 'Got an expression of type `%s` which is not \
+compatible with any of the following types which are \
+allowed here: %s' % (
                     actualTypeText, ', '.join(allowedTypesText)
                 )
 
@@ -105,12 +108,12 @@ def factory(parser, cls = ConsoleMessage):
             return cls(
                 Error(),
                 Local(lineNumber),
-                'undeclared identifier `%s`' % (identifier)
+                'Undeclared identifier `%s`' % (identifier)
             )
 
 
         def invalidOperands(self, operator, operands, lineNumber):
-            text = 'invalid operand(s) to operator `%s`: %s' % (
+            text = 'Invalid operand(s) to operator `%s`: %s' % (
                 self._parser.operatorToken(operator),
                 ', '.join([str(operand) for operand in operands])
             )

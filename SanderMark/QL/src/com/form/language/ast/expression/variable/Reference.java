@@ -9,20 +9,20 @@ import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Reference extends Expression {
-    private String name;
+    private ReferenceName name;
 
     public Reference(String value, QLToken tokenInfo) {
 	super(tokenInfo);
-	this.name = value;
+	this.name = new ReferenceName(value);
     }
 
     public String getName() {
-        return name;
+        return name.getValue();
     }
 
     @Override
     public GenericValue evaluate(Context context) {
-	return context.getValue(name);
+	return context.getValue(name.getValue());
     }
     
     @Override
