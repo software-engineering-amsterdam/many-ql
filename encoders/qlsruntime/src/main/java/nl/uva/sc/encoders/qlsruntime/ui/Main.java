@@ -5,6 +5,7 @@ import static nl.uva.sc.encoders.qlruntime.ui.Main.DEFAULT_QL_INPUT_FILE_NAME;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -126,7 +127,10 @@ public class Main extends Application {
 
 				@Override
 				public Node call(Integer pageIndex) {
-					QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions);
+					Page page = pages.get(pageIndex);
+					List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
+							.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
+					QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
 					return new ScrollPane(questionnaireGridPane);
 				}
 			});

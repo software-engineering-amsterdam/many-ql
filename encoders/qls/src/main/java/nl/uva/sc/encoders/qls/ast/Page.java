@@ -48,4 +48,9 @@ public class Page extends AstNode {
 		pageDefaultStyles.add(pageDefault);
 	}
 
+	public boolean containsQuestion(String name) {
+		List<String> questions = new ArrayList<>();
+		collectQuestions(questions);
+		return questions.stream().anyMatch(question -> question.equals(name));
+	}
 }
