@@ -13,7 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
@@ -36,9 +38,9 @@ public class Main extends Application {
 
 	private static final String DEFAULT_QLS_INPUT_FILE_NAME = "stylesheet.qls";
 
-	private static final int SCROLLPANE_HEIGHT = 750;
+	private static final int WIDTH = 750;
 
-	private static final int SCROLLPANE_WIDTH = 600;
+	private static final int HEIGHT = 700;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -59,6 +61,11 @@ public class Main extends Application {
 
 		GridPane grid = new GridPane();
 		grid.getStyleClass().add("grid");
+
+		ColumnConstraints columnConstraints = new ColumnConstraints();
+		columnConstraints.setFillWidth(true);
+		columnConstraints.setHgrow(Priority.ALWAYS);
+		grid.getColumnConstraints().add(columnConstraints);
 
 		String defaultQlsLocation = DEFAULT_QLS_INPUT_FILE_DIRECTORY + DEFAULT_QLS_INPUT_FILE_NAME;
 		String defaultQlLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
@@ -100,7 +107,6 @@ public class Main extends Application {
 
 		ShowResultCallback showResultCallback = result -> {
 			ScrollPane scrollPane = new ScrollPane(result);
-			scrollPane.setPrefSize(SCROLLPANE_HEIGHT, SCROLLPANE_WIDTH);
 			showNode(stackPane, scrollPane);
 		};
 		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
@@ -108,7 +114,7 @@ public class Main extends Application {
 
 		grid.add(stackPane, 0, 2, 4, 1);
 
-		Scene scene = new Scene(grid, 750, 600);
+		Scene scene = new Scene(grid, WIDTH, HEIGHT);
 		scene.getStylesheets().add(getClass().getResource("UIElements.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();

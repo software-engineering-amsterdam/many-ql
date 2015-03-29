@@ -9,7 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import nl.uva.sc.encoders.ql.ast.Questionnaire;
@@ -30,11 +32,9 @@ public class Main extends Application {
 
 	public static final String DEFAULT_QL_INPUT_FILE_NAME = "input_form.ql";
 
-	private static final int SCROLLPANE_HEIGHT = 750;
+	private static final int WIDTH = 750;
 
-	private static final int SCROLLPANE_WIDTH = 600;
-
-	private static final int PADDING = 100;
+	private static final int HEIGHT = 600;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -50,6 +50,11 @@ public class Main extends Application {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+
+		ColumnConstraints columnConstraints = new ColumnConstraints();
+		columnConstraints.setFillWidth(true);
+		columnConstraints.setHgrow(Priority.ALWAYS);
+		grid.getColumnConstraints().add(columnConstraints);
 
 		String defaultLocation = DEFAULT_QL_INPUT_FILE_DIRECTORY + DEFAULT_QL_INPUT_FILE_NAME;
 		final TextField inputFileTextField = new TextField(defaultLocation);
@@ -80,7 +85,6 @@ public class Main extends Application {
 		parseButton.setOnAction(new ParseQLButtonHandler(inputFileTextCallback, parseResultCallback));
 		ShowResultCallback showResultCallback = result -> {
 			ScrollPane scrollPane = new ScrollPane(result);
-			scrollPane.setPrefSize(SCROLLPANE_HEIGHT, SCROLLPANE_WIDTH);
 			showNode(stackPane, scrollPane);
 		};
 		QuestionnaireCallback questionnaireCallback = () -> questionnaire;
@@ -88,7 +92,7 @@ public class Main extends Application {
 
 		grid.add(stackPane, 0, 1, 4, 1);
 
-		Scene scene = new Scene(grid, SCROLLPANE_HEIGHT + PADDING, SCROLLPANE_WIDTH + PADDING);
+		Scene scene = new Scene(grid, WIDTH, HEIGHT);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
