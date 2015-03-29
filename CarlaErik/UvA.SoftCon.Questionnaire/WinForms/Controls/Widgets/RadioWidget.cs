@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             :base(astQuestion)
         {
             InitializeComponent();
-            QuestionLabel.Text = Label;
+            QuestionLabel.Text = Question.Label;
             TrueButton.Enabled = !astQuestion.IsComputed;
             FalseButton.Enabled = !astQuestion.IsComputed;
         }

@@ -2,21 +2,26 @@ package qls.ast.statement.widget.styling;
 
 import java.util.List;
 
+import ql.Value;
 import ql.ast.QLType;
-import qls.ast.expression.Literal;
 import qls.ast.Statement;
+import qls.ast.expression.Literal;
 
 public abstract class Property extends Statement {
 	private final List<QLType> compatibleTypes;
-	private final Literal<?> value;
+	private final Literal<?> literal;
 	
-	public Property(List<QLType> compatibleTypes, Literal<?> value) {
+	public Property(List<QLType> compatibleTypes, Literal<?> literal) {
 		this.compatibleTypes = compatibleTypes;
-		this.value = value;
+		this.literal = literal;
 	}
 	
-	public Literal<?> getValue() {
-		return this.value;
+	protected final Value value() {
+		return literal.getValue();
+	}
+	
+	public Literal<?> getLiteral() {
+		return literal;
 	}
 	
 	public boolean isCompatibleWith(QLType type) {
@@ -35,6 +40,6 @@ public abstract class Property extends Statement {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + "(" + value.toString() + ")";
+		return this.getClass().getSimpleName() + "(" + literal.toString() + ")";
 	}
 }

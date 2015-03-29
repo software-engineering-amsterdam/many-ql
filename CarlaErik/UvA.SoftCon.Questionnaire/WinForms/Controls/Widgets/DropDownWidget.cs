@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         {
             InitializeComponent();
 
-            QuestionLabel.Text = Label;
+            QuestionLabel.Text = Question.Label;
             YesNoDropDownBox.Enabled = !astQuestion.IsComputed;
         }
 

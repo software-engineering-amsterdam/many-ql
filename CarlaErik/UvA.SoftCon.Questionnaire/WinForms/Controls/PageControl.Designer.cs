@@ -60,6 +60,7 @@
             this.SectionContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.SectionContainer.BackColor = System.Drawing.SystemColors.Control;
             this.SectionContainer.Location = new System.Drawing.Point(3, 3);
             this.SectionContainer.Name = "SectionContainer";
             this.SectionContainer.Size = new System.Drawing.Size(687, 459);

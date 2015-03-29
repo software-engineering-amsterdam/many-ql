@@ -5,8 +5,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 
 import ql.Value;
-import ql.gui.DefaultChangeHandler;
-import ql.gui.UIComponent;
+import ql.gui.DefaultComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 import ql.gui.widget.input.RadioButton;
 import ql.value.BooleanValue;
@@ -15,7 +15,7 @@ import qls.ast.statement.widget.styling.StyleProperties;
 import qls.gui.widget.InputWidget;
 import qls.gui.widget.WidgetStylizer;
 
-public class Radio extends DefaultChangeHandler implements InputWidget<BooleanValue> {
+public class Radio extends DefaultComponent implements InputWidget<BooleanValue> {
 	private WidgetStylizer stylizer;
 	private RadioButton trueRadio, falseRadio;
 	private ButtonGroup buttons;
@@ -55,7 +55,7 @@ public class Radio extends DefaultChangeHandler implements InputWidget<BooleanVa
 
 	@Override
 	public void setValue(BooleanValue value) {
-		if(value.getValue()) {
+		if(value.getPrimitive()) {
 			trueRadio.setValue(new BooleanValue(true));
 		} else {
 			falseRadio.setValue(new BooleanValue(true));
@@ -73,7 +73,7 @@ public class Radio extends DefaultChangeHandler implements InputWidget<BooleanVa
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {
+	public void handleChange(Value changedValue, Component source) {
 		super.handleChange(getValue(), this);
 	}
 }

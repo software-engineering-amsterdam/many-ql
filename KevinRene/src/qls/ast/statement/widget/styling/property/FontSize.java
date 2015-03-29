@@ -8,12 +8,12 @@ import qls.ast.statement.widget.styling.Property;
 import qls.ast.visitor.StatementVisitor;
 
 public class FontSize extends Property {
-	public FontSize(Literal<?> value) {
-		super(Arrays.asList(new QLInteger()), value);
+	public FontSize(Literal<?> literal) {
+		super(Arrays.asList(new QLInteger()), literal);
 	}
 	
 	public int getFontSize() {
-		return (int) getValue().getValue().getValue();
+		return (int) value().getPrimitive();
 	}
 	
 	@Override

@@ -8,12 +8,12 @@ import qls.ast.statement.widget.styling.Property;
 import qls.ast.visitor.StatementVisitor;
 
 public class Color extends Property {
-	public Color(Literal<?> value) {
-		super(Arrays.asList(new QLInteger()), value);
+	public Color(Literal<?> literal) {
+		super(Arrays.asList(new QLInteger()), literal);
 	}
 
 	public int getColor() {
-		return (int) getValue().getValue().getValue();
+		return (int) value().getPrimitive();
 	}
 	
 	@Override

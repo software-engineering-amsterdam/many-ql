@@ -3,19 +3,19 @@ package ql.gui.content;
 import javax.swing.JComponent;
 
 import ql.Value;
-import ql.ValueEnvironment;
 import ql.ast.expression.Identifier;
-import ql.gui.DefaultChangeHandler;
-import ql.gui.UIComponent;
+import ql.ast.visitor.evaluator.ValueEnvironment;
+import ql.gui.DefaultComponent;
+import ql.gui.Component;
 import ql.gui.structure.Panel;
 
-public class UIQuestion extends DefaultChangeHandler implements UIComponent {
+public class UIQuestion extends DefaultComponent {
 	private final Identifier identifier;
 	private final Panel questionPanel;
 	private final ValueEnvironment valueEnvironment;
-	private final UIComponent questionText, questionWidget;
+	private final Component questionText, questionWidget;
 	
-	public UIQuestion(Identifier identifier, UIComponent questionText, UIComponent widget, ValueEnvironment valueEnvironment) {
+	public UIQuestion(Identifier identifier, Component questionText, Component widget, ValueEnvironment valueEnvironment) {
 		this.identifier = identifier;
 		this.questionText = questionText;
 		this.questionWidget = widget;
@@ -28,7 +28,7 @@ public class UIQuestion extends DefaultChangeHandler implements UIComponent {
 	}
 	
 	@Override
-	public void handleChange(Value changedValue, UIComponent source) {		
+	public void handleChange(Value changedValue, Component source) {		
 		valueEnvironment.store(identifier, changedValue);
 		
 		super.handleChange(changedValue, this);
