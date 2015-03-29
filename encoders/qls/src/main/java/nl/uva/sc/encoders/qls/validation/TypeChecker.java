@@ -1,6 +1,5 @@
 package nl.uva.sc.encoders.qls.validation;
 
-import static nl.uva.sc.encoders.ql.message.Messages.getString;
 import static nl.uva.sc.encoders.ql.validation.ValidationMessage.Type.ERROR;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 		questions = stylesheet.getAllQuestions();
 		for (String question : questions) {
 			if (!questionnaire.containsQuestion(question)) {
-				String validationMessage = getString(NON_EXISTING_QUESTION_REFERENCE, name);
+				String validationMessage = "Question '" + name + "' does not exist in questionnaire";
 				TextLocation textLocation = section.getTextLocation();
 				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 			}

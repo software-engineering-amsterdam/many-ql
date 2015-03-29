@@ -39,7 +39,8 @@ public class TypeCheckerTest {
 		List<TypeValidation> validations = typeChecker.checkTypes();
 		assertThat(validations.toString(), validations.size(), is(1));
 		ValidationMessage validationMessage = validations.get(0);
-		assertThat(validationMessage.getValidationMessage(), is("Referenced Question does not exist in QL."));
+		assertThat(validationMessage.getValidationMessage(),
+				is("Question 'Section with all kinds of Crap' does not exist in questionnaire"));
 	}
 
 	@Test
