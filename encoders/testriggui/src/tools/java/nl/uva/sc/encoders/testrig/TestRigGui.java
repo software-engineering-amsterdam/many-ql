@@ -60,7 +60,7 @@ public class TestRigGui extends JFrame implements ActionListener {
 	private final String inputLocation;
 
 	public static void main(String[] args) throws Exception {
-		String grammarName = TestRigGui.class.getPackage().getName() + ".EncodersQLS";
+		String grammarName = "nl.uva.sc.encoders.qls.EncodersQLS";
 		String startName = "stylesheet";
 		String inputLocation = "qls/stylesheet.qls";
 		if (args.length == 3) {

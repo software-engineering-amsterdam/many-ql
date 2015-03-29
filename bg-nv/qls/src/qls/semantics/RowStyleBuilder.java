@@ -41,7 +41,7 @@ public class RowStyleBuilder implements RuleVisitor<Void>, WidgetVisitor<Control
     @Override
     public Void visit(Font r)
     {
-        this.rowStyle.setFont(r.getValue());
+        this.rowStyle.setFontName(r.getValue());
         return null;
     }
 

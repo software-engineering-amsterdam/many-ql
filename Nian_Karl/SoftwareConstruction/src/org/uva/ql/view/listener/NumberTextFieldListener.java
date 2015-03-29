@@ -11,7 +11,7 @@ import javax.swing.text.BadLocationException;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.IntValue;
 import org.uva.ql.ast.value.UndefinedValue;
-import org.uva.ql.view.widgit.BaseTextField;
+import org.uva.ql.view.widget.BaseTextField;
 
 public class NumberTextFieldListener implements DocumentListener {
 
@@ -29,6 +29,7 @@ public class NumberTextFieldListener implements DocumentListener {
 	}
 
 	public void notifyListener(DocumentEvent e) {
+		System.out.println("Hello, this is strange.");
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);

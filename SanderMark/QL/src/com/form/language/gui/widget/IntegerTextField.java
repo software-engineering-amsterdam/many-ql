@@ -6,7 +6,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.IntValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
@@ -26,12 +26,12 @@ public class IntegerTextField extends Widget {
 	
 	public JTextField getTextField()
 	{
-		return this.textfield;
+		return textfield;
 	}
 
 	private class TextFieldListener implements DocumentListener {
 		public void actionPerformed(DocumentEvent e) {
-			setContextValue( new IntValue(Integer.parseInt(IntegerTextField.this.textfield.getText())));
+			setContextValue( new IntValue(Integer.parseInt(textfield.getText())));
 			checkDependencyVisibility();
 		}
 

@@ -1,11 +1,13 @@
 grammar QLS;
-stylesheet: (page)*|(question)*;
+stylesheet: (page)*|(question|label)*;
 page: 'Page:' name=STRING pageBody;
-pageBody: '{'(section|question)*'}';
+pageBody: '{'(section|question|label)*'}';
 section: 'Section:' name=STRING sectionBody;
-sectionBody: '{'question*'}';
+sectionBody: '{'(question|label)*'}';
 question: 'Question:' name=STRING questionBody;
+label: 'Label:' name=STRING labelBody;
 questionBody: '{' '}';
+labelBody: '{' '}';
 
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;

@@ -17,6 +17,7 @@ class Checker(AbstractBase):
                     )
                 )
 
+
     def _questionDependencyChains(self, breadcrumbs, node):
         cycleFound = node in breadcrumbs
         
@@ -39,6 +40,7 @@ class Checker(AbstractBase):
 
         return chains
 
+
     def _extractIdentifiers(self, expression):
         visitor = ExtractIdentifiersVisitor()
         expression.accept(visitor)
@@ -50,9 +52,11 @@ class ExtractIdentifiersVisitor(ExpressionVisitor):
     def __init__(self):
         self._identifiers = []
 
+
     @property
     def identifiers(self):
         return self._identifiers
+        
 
     def visitIdentifier(self, node):
         self._identifiers.append(node) 

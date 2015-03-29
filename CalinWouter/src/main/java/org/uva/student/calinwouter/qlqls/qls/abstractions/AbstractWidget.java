@@ -1,27 +1,20 @@
 package org.uva.student.calinwouter.qlqls.qls.abstractions;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IAllowTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 
-@Data
-@AllArgsConstructor
 public abstract class AbstractWidget implements IAllowTypeChecker {
     public abstract <T> T createWidget(IQuestionWidgetCallback<T> widgetCallback);
 
-    @Override
-    public boolean allowsBooleanValue() {
+    public Boolean allowsBooleanValue() {
         return false;
     }
 
-    @Override
-    public boolean allowsIntegerValue() {
+    public Boolean allowsIntegerValue() {
         return false;
     }
 
-    @Override
-    public boolean allowsStringValue() {
+    public Boolean allowsStringValue() {
         return false;
     }
 }

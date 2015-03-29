@@ -6,7 +6,8 @@ import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.StringLiteral;
 import ql.ast.visitor.StatementVisitor;
 
-public class Question extends Statement {	
+public class Question extends Statement {
+	
 	private final Identifier identifier;
 	private final QLType type;
 	private final StringLiteral questionText;

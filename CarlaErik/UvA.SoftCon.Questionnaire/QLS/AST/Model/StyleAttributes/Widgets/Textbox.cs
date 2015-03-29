@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.Common.AST.Model;
+﻿using UvA.SoftCon.Questionnaire.Common.AST.Model;
+using UvA.SoftCon.Questionnaire.QLS.StyleSets;
 
 namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
 {
@@ -16,7 +12,12 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets
         {
             return visitor.VisitTextBox(this);
         }
-        
+
+        public override void OverrideStyle(StyleSet styleSet)
+        {
+            styleSet.OverrideWidget(new TextBoxWidgetStyle());
+        }
+
         public override bool SupportsDataType(DataType dataType)
         {
             return dataType == DataType.String || dataType == DataType.Integer;

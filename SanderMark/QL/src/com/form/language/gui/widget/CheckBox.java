@@ -5,7 +5,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
@@ -23,12 +23,12 @@ public class CheckBox extends Widget {
 	
 	public JCheckBox getCheckBox()
 	{
-		return this.checkbox;
+		return checkbox;
 	}
 
 	private class CheckBoxListener implements ItemListener {
 		public void itemStateChanged(ItemEvent e) {
-			setContextValue(new BoolValue(CheckBox.this.checkbox.isSelected()));
+			setContextValue(new BoolValue(checkbox.isSelected()));
 			checkDependencyVisibility();
 		}
 	}

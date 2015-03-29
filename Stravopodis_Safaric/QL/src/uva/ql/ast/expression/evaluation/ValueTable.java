@@ -3,13 +3,11 @@ package uva.ql.ast.expression.evaluation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import uva.ql.ast.Form;
 import uva.ql.ast.Node;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.literals.Literal;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Question;
@@ -26,7 +24,6 @@ public class ValueTable implements StatementVisitor<Void>{
 	public ValueTable(Prog _prog) {
 		this.prog = _prog;
 		this.visitProg(this.prog);
-		
 	}
 	
 	public void refreshValueTable(){
@@ -96,15 +93,15 @@ public class ValueTable implements StatementVisitor<Void>{
 	@Override
 	public Void visitComputedQuestion(Question question) {
 		
-		GenericValue<?> expression = this.expressionEvaluator.visitExpressionWithValueTable(question.getQuestionExpression(), this);
+		Expression expression = question.getQuestionExpression();
+		GenericValue<?> value = this.expressionEvaluator.visitExpressionWithValueTable(expression, this);
 		String questionIdentifier = question.getQuestionIdentifierValue();
-	
-		// Aware of the Code Smell instanceof and its binding to am implementation
-		if (this.valueTable.containsKey(questionIdentifier) && question.getQuestionExpression() instanceof Literal){
+		
+		if (this.valueTable.containsKey(questionIdentifier) && expression.isLiteral()){
 			return null;
 		}
 		
-		this.valueTable.put(questionIdentifier, expression);
+		this.valueTable.put(questionIdentifier, value);
 		
 		return null;
 	}

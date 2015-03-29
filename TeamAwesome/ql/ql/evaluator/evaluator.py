@@ -40,8 +40,10 @@ class Evaluator(object):
     def getValue(self, identifier):
         question = self._questionTable.get(identifier)
         value = self._questionValueTable.get(question)
-        return value if value != None else EvalNone()
-
+        if value != None:
+            return value
+        return EvalNone()
+        
     def addQuestion(self, question):
         self._questionTable.add(question)
         self._questionValueTable.add(question)
@@ -64,11 +66,22 @@ class Evaluator(object):
         return questions
 
 
+class ExpressionList(list):
+    def __add__(self, value):
+        return ExpressionList(list.__add__(self, value))
+
+    def evaluate(self):
+        return all(expr.value.value for expr in self)
+
+    def copy(self):
+        return ExpressionList(self)
+
+
 class Visitor(ASTStatementVisitor):
     def __init__(self):
         self._evaluator = Evaluator()
         self._currentForm = None
-        self._conditionalStatements = ExpressionsList()
+        self._conditionalStatements = ExpressionList()
 
     def visitQuestionnaireEnd(self, node):
         return self._evaluator

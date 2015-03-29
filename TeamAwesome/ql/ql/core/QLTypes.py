@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 class QLType(object):
 	def __init__(self, value):
 		self._value = value
@@ -21,20 +23,25 @@ class QLType(object):
 
 
 class QLInteger(QLType):
-	pass
+	def __init__(self, value):
+		self._value = int(value)
 
 
 class QLString(QLType):
-	pass
+	def __init__(self, value):
+		self._value = str(value)
 
 
 class QLIdentifier(QLType):
-	pass
+	def __init__(self, value):
+		self._value = str(value)
 
 
 class QLMoney(QLType):
-	pass
+	def __init__(self, value):
+		self._value = Decimal(value)
 
 
 class QLBoolean(QLType):
-	pass
+	def __init__(self, value):
+		self._value = bool(value)	

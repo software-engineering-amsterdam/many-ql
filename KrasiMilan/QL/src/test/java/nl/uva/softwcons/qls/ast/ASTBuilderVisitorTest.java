@@ -10,9 +10,9 @@ import nl.uva.softwcons.qls.ast.segment.Page;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.StylizedWidget;
-import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
-import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
+import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.DropdownType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.RadioButtonType;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -40,7 +40,7 @@ public class ASTBuilderVisitorTest {
                 "page page1 { question q1 section \"s1\" { question q2 } }",
                 "page page2 { section \"s2\" { section \"s3\" { question q3 } } }"));
         withStyleForPage = build(TestHelper.buildStylesheet("s1",
-                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { width: 2 } }"));
+                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { \"width\": 2 } }"));
         withStylesForSection = build(TestHelper.buildStylesheet("withStylesForSection",
                 "page p1 { section \"s1\" { question q2 default boolean widget dropdown(\"True\", \"False\") } }"));
         withStylesForQuestions = build(TestHelper.buildStylesheet("withStylesForQuestions",
@@ -173,7 +173,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testDefaultStyleWidgetStyleExistance() {
         Page page1 = withStyleForPage.getPages().get(0);
-        StylizedWidget widget = page1.getStyles().get(BooleanType.BOOLEAN_TYPE);
+        StyledWidget widget = page1.getStyles().get(BooleanType.BOOLEAN_TYPE);
 
         assertThat(widget.getWidgetStyle()).isNotNull();
     }
@@ -197,7 +197,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testWidgetStyleInSectionExistance() {
         Section section = (Section) withStylesForSection.getPages().get(0).getSegments().get(0);
-        StylizedWidget widget = section.getStyles().get(BOOLEAN_TYPE);
+        StyledWidget widget = section.getStyles().get(BOOLEAN_TYPE);
 
         assertThat(widget.getWidgetStyle()).isNotNull();
     }
@@ -217,8 +217,8 @@ public class ASTBuilderVisitorTest {
         Question q1 = (Question) page1.getSegments().get(0);
         Question q2 = (Question) page1.getSegments().get(1);
 
-        assertThat(q1.getStylizedWidget().getWidgetType().get()).isExactlyInstanceOf(RadioButtonType.class);
-        assertThat(q2.getStylizedWidget().getWidgetType().get()).isExactlyInstanceOf(DropdownType.class);
+        assertThat(q1.getStyledWidget().getWidgetType().get()).isExactlyInstanceOf(RadioButtonType.class);
+        assertThat(q2.getStyledWidget().getWidgetType().get()).isExactlyInstanceOf(DropdownType.class);
     }
 
     @Test
@@ -227,8 +227,8 @@ public class ASTBuilderVisitorTest {
         Question q1 = (Question) page1.getSegments().get(0);
         Question q2 = (Question) page1.getSegments().get(1);
 
-        RadioButtonType rb = (RadioButtonType) q1.getStylizedWidget().getWidgetType().get();
-        DropdownType dd = (DropdownType) q2.getStylizedWidget().getWidgetType().get();
+        RadioButtonType rb = (RadioButtonType) q1.getStyledWidget().getWidgetType().get();
+        DropdownType dd = (DropdownType) q2.getStyledWidget().getWidgetType().get();
 
         assertThat(rb.getYes()).isEqualTo("True");
         assertThat(rb.getNo()).isEqualTo("False");
@@ -246,7 +246,7 @@ public class ASTBuilderVisitorTest {
         final QLSParser parser = new QLSParser(new CommonTokenStream(lexer));
         final ParseTree tree = parser.stylesheet();
 
-        return (Stylesheet) new ASTBuilderVisitor().visit(tree);
+        return (Stylesheet) new ASTBuilderQLS().visit(tree);
     }
 
 }

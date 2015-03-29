@@ -15,6 +15,7 @@ class DuplicateLabelsChecker {
   private def getLabels(s: Statement, ls: List[Label] = List()): List[Label] = s match {
     case Sequence(statements) => statements.flatMap(s => getLabels(s, ls))
     case Question(_, _, l, _) => l :: ls
-    case _: IfStatement => ls
+    case IfStatement(_, ifBlock, None) => getLabels(ifBlock) ++ ls
+    case IfStatement(_, ifBlock, Some(elseBlock)) => getLabels(ifBlock) ++ getLabels(elseBlock) ++ ls
   }
 }

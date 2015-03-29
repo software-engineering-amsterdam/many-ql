@@ -1,4 +1,4 @@
-// Generated from D:/intellij_projects/many-ql/bg-nv/qls/src/qls/syntax\QLS.g4 by ANTLR 4.5
+// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/qls/src/qls/syntax/QLS.g4 by ANTLR 4.5
 package qls.gen;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -35,6 +35,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#questionWithRules}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionWithRules(@NotNull QLSParser.QuestionWithRulesContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#question}.
 	 * @param ctx the parse tree

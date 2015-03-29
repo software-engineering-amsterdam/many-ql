@@ -58,6 +58,9 @@ public class IntegerType implements QuestionType {
                 if (newValue.length() >= 1 && !newValue.equals("-")){
                     answerMap.put(id, new IntResult(Integer.parseInt(newValue)));
                 }
+                if (newValue.length() == 0){
+                    answerMap.put(id, new IntResult(0));
+                }
                 visualizer.visualize(q.getUuid());
             }
         });

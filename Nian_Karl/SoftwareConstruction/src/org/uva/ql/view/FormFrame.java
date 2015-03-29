@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.panel.IfQuestionPanel;
@@ -23,7 +24,7 @@ public class FormFrame {
 
 	public FormFrame() {
 		frame = new JFrame("QL Form");
-		frame.setMinimumSize(new Dimension(400, 400));
+		frame.setMinimumSize(new Dimension(400, 600));
 		frame.setLayout(new MigLayout("", "[grow, push, fill]", ""));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.exprPanels = new ArrayList<IfQuestionPanel>();
@@ -52,9 +53,13 @@ public class FormFrame {
 		addWithConstraints(button);
 	}
 
-	public void notifyPanels(Evaluator evaluator) {
+	public void notifyPanels(Evaluator evaluator, Identifier identifier) {
+
 		for (ExprQuestionComponent component : exprComponents) {
-			component.evaluateAndChange(evaluator);
+			// This if statement is there to prevent it from updating itself.
+			if (!component.getIdentifier().equals(identifier)) {
+				component.evaluateAndChange(evaluator);
+			}
 		}
 
 		for (IfQuestionPanel panel : exprPanels) {

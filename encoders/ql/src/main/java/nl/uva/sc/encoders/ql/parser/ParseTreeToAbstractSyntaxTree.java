@@ -33,11 +33,13 @@ import nl.uva.sc.encoders.ql.ast.operator.AddOperator;
 import nl.uva.sc.encoders.ql.ast.operator.AndOperator;
 import nl.uva.sc.encoders.ql.ast.operator.BinaryOperator;
 import nl.uva.sc.encoders.ql.ast.operator.DivideOperator;
+import nl.uva.sc.encoders.ql.ast.operator.EqualsOperator;
 import nl.uva.sc.encoders.ql.ast.operator.GreaterOrEqualOperator;
 import nl.uva.sc.encoders.ql.ast.operator.GreaterThanOperator;
 import nl.uva.sc.encoders.ql.ast.operator.LessOrEqualOperator;
 import nl.uva.sc.encoders.ql.ast.operator.LessThanOperator;
 import nl.uva.sc.encoders.ql.ast.operator.MultiplyOperator;
+import nl.uva.sc.encoders.ql.ast.operator.NotEqualsOperator;
 import nl.uva.sc.encoders.ql.ast.operator.NotOperator;
 import nl.uva.sc.encoders.ql.ast.operator.OrOperator;
 import nl.uva.sc.encoders.ql.ast.operator.SubstractOperator;
@@ -226,9 +228,9 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 		case ">=":
 			return new GreaterOrEqualOperator(operator);
 		case "!=":
-			return new GreaterOrEqualOperator(operator);
+			return new NotEqualsOperator(operator);
 		case "==":
-			return new GreaterOrEqualOperator(operator);
+			return new EqualsOperator(operator);
 		default:
 			throw new AssertionError("Operator " + operator + " is not suppoerted.");
 		}

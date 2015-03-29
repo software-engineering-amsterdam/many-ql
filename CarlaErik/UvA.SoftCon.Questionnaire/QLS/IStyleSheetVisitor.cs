@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QLS.AST.Model;
+﻿using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes.Widgets;
 
@@ -23,7 +18,7 @@ namespace UvA.SoftCon.Questionnaire.QLS
 
         T VisitDefaultStyle(DefaultStyle defaultStyle);
 
-        T VisitColorStyle(ColorStyle colorStyle);
+        T VisitFontColor(FontColor fontColor);
 
         T VisitFontName(FontName fontName);
 

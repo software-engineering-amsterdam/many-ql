@@ -5,7 +5,15 @@ styleSheet BeverageOrderForm
 		section "Age"
 		{
 			question age
+			{
+				fontsize: 9
+				color: #FF0000
+				widget: spinbox
+			}
 			question canShowId
+			{
+				widget: checkbox("Jazeker!")
+			}
 		}
 		section "Alcoholic Drinks"
 		{
@@ -21,7 +29,13 @@ styleSheet BeverageOrderForm
 		section "Totals"
 		{
 			question totalNrOfGlasses
-			question totalPrice
+			question totalPrice 
+
+			default int
+			{
+				widget: textbox
+				color: #0000FF
+			}
 		}
 	}
 }

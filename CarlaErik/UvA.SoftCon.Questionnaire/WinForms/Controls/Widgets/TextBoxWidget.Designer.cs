@@ -48,12 +48,13 @@
             this.AnswerTextBox.Size = new System.Drawing.Size(516, 20);
             this.AnswerTextBox.TabIndex = 1;
             // 
-            // TextQuestion
+            // TextBoxWidget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.AnswerTextBox);
             this.Controls.Add(this.QuestionLabel);
-            this.Size = new System.Drawing.Size(523, 50);
+            this.Name = "TextBoxWidget";
+            this.Size = new System.Drawing.Size(640, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
 

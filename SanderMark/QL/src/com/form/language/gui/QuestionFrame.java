@@ -2,7 +2,7 @@ package com.form.language.gui;
 
 import javax.swing.JFrame;
 
-import com.form.language.ast.Form;
+import com.form.language.ast.form.Form;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.memory.Context;
 

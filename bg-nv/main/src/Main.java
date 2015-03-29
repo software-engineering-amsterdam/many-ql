@@ -1,6 +1,5 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ql.ast.form.Form;
@@ -8,11 +7,10 @@ import ql.gen.QLLexer;
 import ql.gen.QLParser;
 import ql.ast.AstBuilder;
 import ql.gui.Modeler;
-import ql.gui.SimpleGui;
+import ql.gui.Renderer;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
 import ql.semantics.*;
-import ql.semantics.errors.Message;
 import qls.semantics.TypeChecker;
 import ql.semantics.errors.Messages;
 import qls.ast.Stylesheet;
@@ -39,7 +37,12 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        // TODO: display error if there is no file!
+        if (!(this.isQlFileSpecified()))
+        {
+            this.showErrorAlert("No ql file specified");
+            System.exit(1);
+        }
+
         String qlFile = getParameter(0);
         CharStream qlStream = getStream(qlFile);
         QLLexer qlLexer = new QLLexer(qlStream);
@@ -51,7 +54,7 @@ public class Main extends Application
         Messages ms = ql.semantics.TypeChecker.check(form);
         if (ms.containsError())
         {
-            System.err.print(ms.toString());
+            this.showErrorAlert(ms.toString());
             System.exit(1);
         }
 
@@ -68,11 +71,10 @@ public class Main extends Application
             qls.ast.AstBuilder qlsBuilder = new qls.ast.AstBuilder();
             Stylesheet stylesheet = (Stylesheet)qlsBuilder.visit(qlsContext);
 
-            Messages qlsMs =  TypeChecker.check(stylesheet, form);
-// TODO: fix the ql and qls files and enable type checking
+//            Messages qlsMs =  TypeChecker.check(stylesheet, form);
 //            if (qlsMs.containsError())
 //            {
-//                System.err.print(qlsMs.toString());
+//                this.showErrorAlert(qlsMs.toString());
 //                System.exit(1);
 //            }
 
@@ -80,32 +82,35 @@ public class Main extends Application
             modeler = new StyledModeler(condQuestionTable, stylesheet, questionStyles);
         }
 
-        //TODO: move this part below + maybe pull out the attaching of listeners etc. from SimpleGui as well ?
-        ValueTable valueTable = Evaluator.evaluate(form);
-        DataStore dataStore = new FileStore(condQuestionTable, valueTable);
-        Canvas canvas = modeler.model();
-        //TODO: user feedback
-        canvas.setSubmitAction(
-                e ->
-                {
-                    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+        //TODO: move this part below + maybe pull out the attaching of listeners etc. from Renderer as well ?
+        ValueTable valueTable = ValueTableBuilder.build(form);
+        Canvas canvas = modeler.buildCanvas();
 
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.getExtensionFilters().add(filter);
+        canvas.setSubmitAction(e -> this.saveAction(primaryStage, condQuestionTable, valueTable));
 
-                    File file = fileChooser.showSaveDialog(primaryStage);
-                    if (file != null)
-                    {
-                        Boolean saved = dataStore.save(file);
-                        if (!saved)
-                        {
-                            Message msg = dataStore.getMessage();
-                            canvas.addMessage(msg);
-                        }
-                    }
-                });
+        Renderer.display(valueTable, canvas, primaryStage);
+    }
 
-        SimpleGui.display(valueTable, canvas, primaryStage);
+    private void saveAction(Stage primaryStage, CondQuestionTable condQuestionTable, ValueTable valueTable)
+    {
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(filter);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+        if (file != null)
+        {
+            DataStore dataStore = new FileStore(condQuestionTable, valueTable, file);
+            try
+            {
+                dataStore.save();
+            }
+            catch (Exception ex)
+            {
+                this.showErrorAlert("Saving failed!");
+            }
+        }
     }
 
     private CharStream getStream(String file)
@@ -129,8 +134,20 @@ public class Main extends Application
         return parameters.get(n);
     }
 
+    private boolean isQlFileSpecified()
+    {
+        return getParameters().getRaw().size() > 0;
+    }
+
     private boolean isQlsFileSpecified()
     {
         return getParameters().getRaw().size() > 1;
+    }
+
+    private void showErrorAlert(String msg)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(msg);
+        alert.showAndWait();
     }
 }

@@ -3,12 +3,12 @@ package qls.ast.visitor.typechecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import ql.TypeEnvironment;
 import ql.ast.Expression;
 import ql.ast.QLType;
 import ql.ast.expression.Identifier;
 import ql.ast.type.QLForm;
 import ql.ast.visitor.TypeVisitor;
+import ql.ast.visitor.typechecker.TypeEnvironment;
 import ql.errorhandling.ErrorEnvironment;
 import qls.ast.Statement;
 import qls.ast.expression.literal.BooleanLiteral;
@@ -120,7 +120,8 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 		
 		if(identifierType == null || identifierType == new QLForm()) {
 			errorEnvironment.addError(new NullQuestionError(questionNode.getIdentifier()));
-		} else if(!questionNode.hasCompatibleWidget(identifierType)) {
+		} 
+		else if(!questionNode.hasCompatibleWidget(identifierType)) {
 			errorEnvironment.addError(new IncompatibleWidgetError(questionNode,
 					identifierType, questionNode.getWidget()));
 		}
@@ -203,7 +204,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 	 *********************/
 	@Override
 	public Void visit(Color color) {
-		QLType valueType = color.getValue().accept(this);
+		QLType valueType = color.getLiteral().accept(this);
 		
 		if(!color.isCompatibleWith(valueType)) {
 			errorEnvironment.addError(new IllegalPropertyValueError(color, valueType));
@@ -214,7 +215,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 	@Override
 	public Void visit(Width width) {
-		QLType valueType = width.getValue().accept(this);
+		QLType valueType = width.getLiteral().accept(this);
 
 		if(!width.isCompatibleWith(valueType)) {
 			errorEnvironment.addError(new IllegalPropertyValueError(width, valueType));
@@ -225,7 +226,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 	@Override
 	public Void visit(Height height) {
-		QLType valueType = height.getValue().accept(this);
+		QLType valueType = height.getLiteral().accept(this);
 		
 		if(!height.isCompatibleWith(valueType)) {
 			errorEnvironment.addError(new IllegalPropertyValueError(height, valueType));
@@ -236,7 +237,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 	@Override
 	public Void visit(Font font) {
-		QLType valueType = font.getValue().accept(this);
+		QLType valueType = font.getLiteral().accept(this);
 		
 		if(!font.isCompatibleWith(valueType)) {
 			errorEnvironment.addError(new IllegalPropertyValueError(font, valueType));
@@ -247,7 +248,7 @@ public class TypeChecker extends StatementVisitor<Void> implements ExpressionVis
 
 	@Override
 	public Void visit(FontSize fontSize) {
-		QLType valueType = fontSize.getValue().accept(this);
+		QLType valueType = fontSize.getLiteral().accept(this);
 		
 		if(!fontSize.isCompatibleWith(valueType)) {
 			errorEnvironment.addError(new IllegalPropertyValueError(fontSize, valueType));

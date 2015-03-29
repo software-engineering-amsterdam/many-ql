@@ -1,7 +1,7 @@
 package qls.typechecker
 
-import qls.ast._
-import types._
+import qls.ast.{DefaultWidget, Page, Question, Section, StyleSheet}
+import types.VariableName
 
 object Variables {
 

@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.types;
 
 import org.junit.Test;
-import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.BooleanValue;
 
 import static org.junit.Assert.*;
 
@@ -9,24 +9,24 @@ public class TestBoolOperations {
 
     @Test
     public void testOr() {
-        assertEquals(true, new BoolValue(true).or(new BoolValue(true)).toJavaObject());
-        assertEquals(true, new BoolValue(true).or(new BoolValue(false)).toJavaObject());
-        assertEquals(true, new BoolValue(false).or(new BoolValue(true)).toJavaObject());
-        assertEquals(false, new BoolValue(false).or(new BoolValue(false)).toJavaObject());
+        assertEquals(true, new BooleanValue(true).or(new BooleanValue(true)).toJavaObject());
+        assertEquals(true, new BooleanValue(true).or(new BooleanValue(false)).toJavaObject());
+        assertEquals(true, new BooleanValue(false).or(new BooleanValue(true)).toJavaObject());
+        assertEquals(false, new BooleanValue(false).or(new BooleanValue(false)).toJavaObject());
     }
 
     @Test
     public void testAnd() {
-        assertEquals(true, new BoolValue(true).and(new BoolValue(true)).toJavaObject());
-        assertEquals(false, new BoolValue(true).and(new BoolValue(false)).toJavaObject());
-        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).toJavaObject());
-        assertEquals(false, new BoolValue(false).and(new BoolValue(false)).toJavaObject());
+        assertEquals(true, new BooleanValue(true).and(new BooleanValue(true)).toJavaObject());
+        assertEquals(false, new BooleanValue(true).and(new BooleanValue(false)).toJavaObject());
+        assertEquals(false, new BooleanValue(false).and(new BooleanValue(false)).toJavaObject());
+        assertEquals(false, new BooleanValue(false).and(new BooleanValue(false)).toJavaObject());
     }
 
     @Test
     public void testNot() {
-        assertEquals(false, new BoolValue(true).not().toJavaObject());
-        assertEquals(true, new BoolValue(false).not().toJavaObject());
+        assertEquals(false, new BooleanValue(true).not().toJavaObject());
+        assertEquals(true, new BooleanValue(false).not().toJavaObject());
     }
 
 }

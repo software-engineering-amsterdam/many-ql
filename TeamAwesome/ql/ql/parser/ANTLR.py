@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from .AbstractBase import AbstractBase
 
 from antlr4 import *
@@ -75,7 +73,7 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
         lineNumber = ctx.start.line
-        return Nodes.Boolean(ctx.getText() == 'true', lineNumber);
+        return Nodes.Boolean(ctx.getText() == 'true', lineNumber)
 
     # Visit a parse tree produced by QLParser#string.
     def visitString(self, ctx):
@@ -85,12 +83,12 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#integer.
     def visitInteger(self, ctx):
         lineNumber = ctx.start.line
-        return Nodes.Integer(int(ctx.getText()), lineNumber)
+        return Nodes.Integer(ctx.getText(), lineNumber)
 
     # Visit a parse tree produced by QLParser#money.
     def visitMoney(self, ctx):
         lineNumber = ctx.start.line
-        return Nodes.Money(Decimal(ctx.getText()), lineNumber)
+        return Nodes.Money(ctx.getText(), lineNumber)
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx):
@@ -105,7 +103,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitExpr(self, ctx):
         # no operator in expression (atom or expression between brackets)
         if ctx.op == None:
-            return self.visitChildren(ctx.left)
+            return self.visit(ctx.left)
 
         lineNumber = ctx.start.line
         op = ctx.op.text

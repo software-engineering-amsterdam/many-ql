@@ -1,19 +1,20 @@
 package qls.gui.widgets
 
-import ql.ast.{Value, StringValue, Expression, Question}
-import ql.gui.widgets.{QuestionWidget => QLQuestionWidget}
-import types._
+import ql.ast.{Expression, Question, StringValue, Value}
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
-import scalafx.scene.control.{TextField, TextArea}
+import scalafx.scene.control.TextArea
 
-class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QLQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   // Initialize TextField
   val value = eval()
   val textField = new TextArea {
     text = value
     text.onChange((_, _, newValue) => updateEnvironment(StringValue(newValue)))
+    maxWidth = MaxWidth
   }
   updateEnvironment(StringValue(value))
   children.add(textField)
@@ -45,5 +46,4 @@ class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expressio
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type String.")
     }
   }
-
 }

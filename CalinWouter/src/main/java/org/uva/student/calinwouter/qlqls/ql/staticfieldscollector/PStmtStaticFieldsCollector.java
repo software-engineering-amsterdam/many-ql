@@ -17,7 +17,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAQuestionStmt(final AQuestionStmt node) {
+    public void caseAQuestionStatement(final AQuestionStatement node) {
         final ITypeDescriptor typeOfValue = getType(node);
         final String label = getLabel(node);
         final String identifier = getIdentifier(node);
@@ -25,7 +25,7 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAValueStmt(final AValueStmt node) {
+    public void caseAValueStatement(final AValueStatement node) {
         final ITypeDescriptor typeOfValue = getType(node);
         final String label = getLabel(node);
         final String identifier = getIdentifier(node);
@@ -33,62 +33,62 @@ public class PStmtStaticFieldsCollector extends AnalysisAdapter {
     }
 
     @Override
-    public void caseAIfelseStmt(AIfelseStmt node) {
+    public void caseAIfElseStatement(AIfElseStatement node) {
         collectStaticFieldsThenList(node);
         collectStaticFieldsElseList(node);
     }
 
     @Override
-    public void caseAIfStmt(AIfStmt node) {
+    public void caseAIfStatement(AIfStatement node) {
         collectStaticFieldsThenList(node);
     }
 
-    private static String getLabel(AValueStmt statement) {
-        final TString labelInAst = statement.getStr();
+    private static String getLabel(AValueStatement statement) {
+        final TString labelInAst = statement.getString();
         return labelInAst.getText();
     }
 
-    private static String getIdentifier(AValueStmt statement) {
-        final TIdent identifierInAst = statement.getIdent();
+    private static String getIdentifier(AValueStatement statement) {
+        final TIdentifier identifierInAst = statement.getIdentifier();
         return identifierInAst.getText();
     }
 
-    private ITypeDescriptor getType(final AValueStmt node) {
+    private ITypeDescriptor getType(final AValueStatement node) {
         final PType nodeTypeObject = node.getType();
         nodeTypeObject.apply(pTypeCollector);
         return pTypeCollector.popType();
     }
 
-    private static String getLabel(AQuestionStmt statement) {
-        final TString labelInAst = statement.getStr();
+    private static String getLabel(AQuestionStatement statement) {
+        final TString labelInAst = statement.getString();
         return labelInAst.getText();
     }
 
-    private static String getIdentifier(AQuestionStmt statement) {
-        final TIdent identifierInAst = statement.getIdent();
+    private static String getIdentifier(AQuestionStatement statement) {
+        final TIdentifier identifierInAst = statement.getIdentifier();
         return identifierInAst.getText();
     }
 
-    private ITypeDescriptor getType(final AQuestionStmt node) {
+    private ITypeDescriptor getType(final AQuestionStatement node) {
         final PType nodeTypeObject = node.getType();
         nodeTypeObject.apply(pTypeCollector);
         return pTypeCollector.popType();
     }
 
-    private void collectStaticFieldsThenList(AIfStmt node) {
-        for (PStmt pStmt : node.getThenStmtList()) {
+    private void collectStaticFieldsThenList(AIfStatement node) {
+        for (PStatement pStmt : node.getThenStatementList()) {
             pStmt.apply(this);
         }
     }
 
-    private void collectStaticFieldsThenList(AIfelseStmt node) {
-        for (PStmt pStmt : node.getThenStmtList()) {
+    private void collectStaticFieldsThenList(AIfElseStatement node) {
+        for (PStatement pStmt : node.getThenStatementList()) {
             pStmt.apply(this);
         }
     }
 
-    private void collectStaticFieldsElseList(AIfelseStmt node) {
-        for (PStmt pStmt : node.getElseStmtList()) {
+    private void collectStaticFieldsElseList(AIfElseStatement node) {
+        for (PStatement pStmt : node.getElseStatementList()) {
             pStmt.apply(this);
         }
     }

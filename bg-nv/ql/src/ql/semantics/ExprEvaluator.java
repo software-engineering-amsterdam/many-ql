@@ -77,7 +77,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.add(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.add(rightProm);
     }
 
     @Override
@@ -85,7 +87,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.sub(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.sub(rightProm);
     }
 
     @Override
@@ -93,7 +97,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.mul(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.mul(rightProm);
     }
 
     @Override
@@ -101,7 +107,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.div(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.div(rightProm);
     }
 
     @Override
@@ -109,7 +117,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.gt(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.gt(rightProm);
     }
 
     @Override
@@ -117,7 +127,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.lt(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.lt(rightProm);
     }
 
     @Override
@@ -125,7 +137,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.gtEqu(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.gtEqu(rightProm);
     }
 
     @Override
@@ -133,7 +147,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.ltEqu(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.ltEqu(rightProm);
     }
 
     @Override
@@ -141,7 +157,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.equ(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.equ(rightProm);
     }
 
     @Override
@@ -149,7 +167,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.notEqu(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.notEqu(rightProm);
     }
 
     @Override
@@ -157,7 +177,9 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.and(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.and(rightProm);
     }
 
     @Override
@@ -165,6 +187,8 @@ public class ExprEvaluator implements ExprVisitor<Value>
     {
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
-        return left.or(right);
+        Value leftProm = left.promoteTo(right);
+        Value rightProm = right.promoteTo(left);
+        return leftProm.or(rightProm);
     }
 }

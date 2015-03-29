@@ -1,0 +1,12 @@
+form beer {
+  integer age "How old are you?"
+
+  if (age >= 18){
+    boolean orderBeer "Would you like to order beer?"
+  }
+
+  if (orderBeer){
+    decimal price "Your bill is: "  3.5 * numberOfBeers
+    integer numberOfBeers "How many beers do you want?"
+  }
+}

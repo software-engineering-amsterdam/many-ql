@@ -6,6 +6,7 @@ import ql.ast.visitor.ExpressionVisitor;
 import ql.value.FloatValue;
 
 public class FloatLiteral extends Literal<FloatValue> {	
+	
 	public FloatLiteral(float value) {
 		super(new FloatValue(value));
 	}

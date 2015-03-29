@@ -15,8 +15,8 @@ class NoRedefinition(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.QuestionRedefinitions]
         )
         self.assertEqual(0, len(result.errors))
@@ -45,8 +45,8 @@ class Redefinition(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.QuestionRedefinitions]
         )
         self.assertEqual(1, len(result.errors))

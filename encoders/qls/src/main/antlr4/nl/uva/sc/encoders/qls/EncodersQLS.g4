@@ -3,7 +3,7 @@ import EncodersQLSLexerRules;
 
 stylesheet: 'stylesheet' name=NAME page+ EOF;
     
-page: 'page' name=NAME '{' section+ defaultStyle? '}';
+page: 'page' name=NAME '{' section+ defaultStyle* '}';
     
 section: 
          'section' name=STRINGLITERAL      (question | section | defaultStyle)
@@ -13,8 +13,8 @@ section:
 question:  'question' name=NAME widget?;
 
 defaultStyle:
-          'default' DATATYPE      (styleProperty | widget)
-        | 'default' DATATYPE  '{' (styleProperty | widget)+ '}'
+          'default' DATATYPE     (styleProperty | widget)
+        | 'default' DATATYPE  '{' styleProperty* widget? '}'
         ;
 
 styleProperty:  
@@ -24,8 +24,9 @@ styleProperty:
           | ('color:' '#'value=INTEGERLITERAL)  #Color
           ;
           
-widget: 'widget' (spinbox | radio | checkbox);
-
-spinbox: 'spinbox';
-checkbox: 'checkbox';
-radio: 'radio' '(' STRINGLITERAL (',' STRINGLITERAL)* ')';
+widget:   'widget' 'textfield'                                          #TextField
+        | 'widget' 'numberfield'                                        #NumberField
+        | 'widget' 'checkbox'                                           #CheckBox
+        | 'widget' 'radio' '(' STRINGLITERAL (',' STRINGLITERAL)* ')'   #Radio
+        ;
+        

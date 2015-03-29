@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
@@ -15,15 +9,11 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 {
     internal class ExpressionInterpreter : TopDownQuestionFormVisitor<Value>
     {
-        protected IDictionary<string, Value> Context
-        {
-            get;
-            private set;
-        }
+        private ValueTable _context;
 
-        internal ExpressionInterpreter(IDictionary<string, Value> context)
+        internal ExpressionInterpreter(ValueTable context)
         {
-            Context = context;
+            _context = context;
         }
 
         #region Visit Literals
@@ -54,9 +44,9 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 
         public override Value Visit(Identifier identifier)
         {
-            if (Context.ContainsKey(identifier.Name))
+            if (_context.HasValue(identifier.Name))
             {
-                return Context[identifier.Name];
+                return _context.Get(identifier.Name);
             }
             else
             {

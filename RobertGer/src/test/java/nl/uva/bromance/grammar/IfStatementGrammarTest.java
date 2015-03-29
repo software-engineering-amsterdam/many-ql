@@ -89,7 +89,7 @@ public class IfStatementGrammarTest extends GrammarTest {
     public void CalculationAsChild() throws IOException {
         CalculationAsChildSetup();
 
-        assertThat(listener.ifStatementCount).isEqualTo(2);
+        assertThat(listener.ifStatementCount).isEqualTo(1);
         assertThat(listener.calculationCount).isEqualTo(1);
     }
 

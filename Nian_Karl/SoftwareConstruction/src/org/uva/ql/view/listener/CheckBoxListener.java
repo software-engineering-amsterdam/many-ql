@@ -5,7 +5,7 @@ import java.awt.event.ItemListener;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.value.BoolValue;
-import org.uva.ql.view.widgit.CheckBox;
+import org.uva.ql.view.widget.CheckBox;
 
 public class CheckBoxListener implements ItemListener {
 
@@ -22,6 +22,7 @@ public class CheckBoxListener implements ItemListener {
 	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		System.out.println("Setting checkbox");
 		if (checkBox.getWidget().isSelected()) {
 			widgetListener.widgetValueChanged(identifier, new BoolValue(checkBox.getValue()));
 		} else {

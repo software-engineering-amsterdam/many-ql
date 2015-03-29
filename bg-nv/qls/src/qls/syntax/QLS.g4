@@ -2,13 +2,15 @@ grammar QLS;
 
 stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-page : 'page' Identifier '{' (statement)+ '}';
+page : 'page' String '{' (statement)+ '}';
 
-statement : section | question | defaultStmt;
+statement : section | questionWithRules | question | defaultStmt;
 
 section : 'section' String '{' (statement)+ '}';
 
-question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
+questionWithRules : 'question' Identifier '{' (stylesheetRule)+ '}';
+
+question : 'question' Identifier ;
 
 defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
 
@@ -16,7 +18,8 @@ stylesheetRule
     : label='width' ':' Integer
     | label='fontsize' ':' Integer
     | label='font' ':' String
-    | label='color' ':' Color
+    | label='forecolor' ':' Color
+    | label='backcolor' ':' Color
     | label='widget' widgetValue
     ;
 

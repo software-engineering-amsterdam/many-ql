@@ -14,7 +14,6 @@ public class Not extends UnaryExpression {
 	return "[un !]" + operand.getValue();
     }
 
-    @Override
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

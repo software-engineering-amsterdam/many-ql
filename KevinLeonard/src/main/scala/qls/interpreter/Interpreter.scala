@@ -1,10 +1,10 @@
 package qls.interpreter
 
 import ql.ast.Form
-import qls.gui.FormBuilder
 import ql.interpreter.{Interpreter => QLInterpreter}
 import ql.typechecker.Error
 import qls.ast.StyleSheet
+import qls.gui.{StyleCascading, FormBuilder}
 import qls.parser.Parser
 import qls.typechecker.{DuplicatePlacementChecker, QuestionPlacementChecker, ReferenceChecker, TypeChecker}
 import types.TypeEnvironment
@@ -22,12 +22,15 @@ object Interpreter {
 
     (optionalQlAst, optionalQlsAst) match {
       case (Some(qlAst), Some(qlsAst)) =>
-        val (qlTypeChecks, env) = QLInterpreter.checkTypes(qlAst)
-        val qlsTypeChecks = checkTypes(qlsAst, env)
+        val (qlErrors, qlWarnings, env) = QLInterpreter.checkTypes(qlAst)
+        val qlsErrors = checkTypes(qlsAst, env)
 
-        if (qlTypeChecks && qlsTypeChecks) {
-          //QLInterpreter.render(qlAst)
-          render(qlAst, qlsAst)
+        qlWarnings.foreach(println)
+        if (qlErrors.isEmpty && qlsErrors.isEmpty) {
+          render(qlAst, qlsAst, env)
+        } else {
+          qlErrors.foreach(println)
+          qlsErrors.foreach(println)
         }
       case _ => ()
     }
@@ -43,17 +46,13 @@ object Interpreter {
     }
   }
 
-  // TODO: Show errors in GUI instead of console? This function does now two things.
-  // TODO: 1) Checking for errors & 2) Printing errors.
-  def checkTypes(ast: StyleSheet, env: TypeEnvironment): Boolean = {
+  def checkTypes(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
     val referenceErrors = getReferenceErrors(ast, env)
     val placementErrors = getPlacementErrors(ast, env)
     val typeErrors = getTypeErrors(ast, env)
     val duplicatePlacementErrors = getDuplicatePlacementErrors(ast)
 
-    val errors = referenceErrors ++ placementErrors ++ typeErrors ++ duplicatePlacementErrors
-    errors.foreach(println)
-    errors.isEmpty
+    referenceErrors ++ placementErrors ++ typeErrors ++ duplicatePlacementErrors
   }
 
   def getReferenceErrors(ast: StyleSheet, env: TypeEnvironment): List[Error] = {
@@ -76,9 +75,10 @@ object Interpreter {
     duplicatePlacementChecker.check(ast)
   }
 
-  def render(ast: Form, stylesheet: StyleSheet): Unit = {
-    val formBuilder = new FormBuilder(stylesheet)
+  def render(qlAst: Form, qlsAst: StyleSheet, env: TypeEnvironment): Unit = {
+    val styleCascading = new StyleCascading
+    val formBuilder = new FormBuilder(styleCascading.cascadeStyles(s = qlsAst, typeEnv = env))
 
-    formBuilder.build(ast).main(Array())
+    formBuilder.build(qlAst).main(Array())
   }
 }

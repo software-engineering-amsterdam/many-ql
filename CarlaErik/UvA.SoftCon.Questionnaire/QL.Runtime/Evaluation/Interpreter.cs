@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UvA.SoftCon.Questionnaire.QL;
+﻿using System.Collections.Generic;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
@@ -9,20 +7,17 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 {
     internal class Interpreter : TopDownQuestionFormVisitor<object>
     {
-        private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
+        private ValueTable _context;
+        private ValueTable _results;
 
-        public IDictionary<string, Value> AvailableQuestions
+        public ValueTable Interpretet(QuestionForm form, ValueTable context)
         {
-            get;
-            private set;
-        }
-
-        public void Interpretet(QuestionForm form, IDictionary<string, Value> answers)
-        {
-            _variables = answers;
-            AvailableQuestions = new Dictionary<string, Value>();
+            _context = context;
+            _results = new ValueTable();
 
             Visit(form);
+
+            return _results;
         }
 
         public override object Visit(BooleanQuestion question)
@@ -47,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 
         public override object Visit(IfStatement ifStatement)
         {
-            Value result = ifStatement.If.Accept(new ExpressionInterpreter(_variables));
+            Value result = ifStatement.If.Accept(new ExpressionInterpreter(_context));
 
             if (!result.IsUndefined)
             {
@@ -75,10 +70,10 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation
 
             if (question.IsComputed)
             {
-                result = question.Expression.Accept(new ExpressionInterpreter(_variables));
+                result = question.Expression.Accept(new ExpressionInterpreter(_context));
             }
 
-            AvailableQuestions.Add(question.Id.Name, result);
+            _results.Add(question.Id.Name, result);
             return null;
         }
     }

@@ -1,0 +1,34 @@
+styleSheet(taxOfficeExample,
+    pages(
+        page(Housing,
+            section("Buying",
+                question(hasBoughtHouse, {widget: checkbox()})),
+            section("Loaning",
+                question(hasMaintLoan))
+        ), page("Selling",
+            sections(
+                section("Selling",
+                    fields(
+                        question(hasSoldHouse, {widget: radio("Yes", "No")})
+                    ), defaults({
+                        int: {
+                            width: 400,
+                            font: "Arial",
+                            fontSize: 14,
+                            color: #999999,
+                            widget: spinbox()
+                        }})
+                    ),
+                section("You sold a house",
+                    question(sellingPrice, {widget: spinbox()}),
+                    question(privateDebt, {widget: spinbox()}),
+                    computedValue(valueResidue))
+            ), defaults({
+                int: { widget: spinbox() }
+            })
+        )
+	), defaults({
+        boolean: { widget: combo("Yes", "No"), fontSize:18, color: #FF0000},
+	    int: { widget: slider(0, 100) }
+    })
+)

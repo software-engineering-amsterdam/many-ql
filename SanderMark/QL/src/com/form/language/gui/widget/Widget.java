@@ -3,7 +3,7 @@ package com.form.language.gui.widget;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.QuestionComponent;

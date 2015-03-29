@@ -11,46 +11,31 @@ namespace QLGui.FormObjects
     public class ConditionalObject : FormObject
     {
         private Conditional conditionalNode;
-        private SymbolTable symbolTable;
+        private SymbolTable symbolTable = new SymbolTable();
 
-        #region Constructors
         public ConditionalObject(Conditional node)
         {
             this.conditionalNode = node;
-            symbolTable = new SymbolTable();
         }
 
-        #endregion
-
-        #region IFormElement
-
-        public override UIElement ProcessFormObject(UIElement form)
+        public override StackPanel InsertInUIParent(StackPanel parent)
         {
-            Value value = new Evaluator(symbolTable).Evaluate(this.conditionalNode.Condition);
+            Value value = conditionalNode.Condition.Accept(new Evaluator(symbolTable));
 
-            StackPanel stackPanelWidget = new StackPanel();
+            StackPanel customStackPanel = value.Accept(new ValueToStackPanel());
 
-            UIElement customStackPanel = value.Accept(new ValueToStackPanel());
+            SubController conditionalController = new SubController(symbolTable, base.EventUpdateValue);
 
-            SubController conditionalBodyProcessor = new SubController(symbolTable);
-            conditionalBodyProcessor.EventUpdateValue += UpdateValue;
+            parent.Children.Add(
+                conditionalController.CreateUIBody(conditionalNode, customStackPanel));
 
-            return AddChild(conditionalBodyProcessor.ProcessBody(conditionalNode.GetBody(), customStackPanel), form);
+            return parent;
         }
 
-        #endregion
-
-
-        public override SymbolTable Register(SymbolTable symbolTable)
+        public override SymbolTable RegisterInSymbolTable(SymbolTable symbolTable)
         {
             this.symbolTable = symbolTable;
-
             return symbolTable;
-        }
-
-        private void UpdateValue(string id, Value value)
-        {
-            EventUpdateValue(id, value);
         }
     }
 }

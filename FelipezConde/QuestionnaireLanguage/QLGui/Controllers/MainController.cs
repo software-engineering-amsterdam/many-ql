@@ -6,66 +6,49 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace QLGui.Controllers
 {
     public class MainController
     {
-        private ASTResult astTree;
-        private MainWindow window;
-        private SymbolTable symbolTable;
-        public EventUpdateValue EventUpdateValue { get; set; }
+        private readonly ASTResult astTree;
+        private readonly MainWindow window;
+        private SymbolTable symbolTable = new SymbolTable();
 
         public MainController(MainWindow mainWindow, ASTResult ast)
         {
             window = mainWindow;
             astTree = ast;
-
-            symbolTable = new SymbolTable();
         }
 
-        public UIElement ProcessBody()
+        public void CreateMainUIBody()
         {
             if (!astTree.HasError())
             {
-                SubController nodeBodyProcessor = new SubController(symbolTable);
-                nodeBodyProcessor.EventUpdateValue += UpdateValue;
-
-                symbolTable = nodeBodyProcessor.Register(symbolTable);
-
-                return nodeBodyProcessor.ProcessBody(astTree.RootNode.GetBody(), window.GetRootElement());
+                SubController bodyController = new SubController(symbolTable, UpdateValue);
+                bodyController.CreateUIBody(astTree.RootNode, (StackPanel)window.GetRootElement()); //Defined in XML, so object has to be casted
+                symbolTable = bodyController.SymbolTable;
             }
             else
             {
-                
-                window.CreateAndShowErrors(GetNotificationMessages());
-                return null;
+                window.PrintErrorsInGui(astTree.NotificationManager);
             }
         }
 
-        private IList<string> GetNotificationMessages()
-        {
-            List<string> result = new List<string>();
-            foreach (Notifications.INotification notification in astTree.GetNotifications())
-            {
-                result.Add(notification.Message());
-            }
-            return result;
-        }
-
+        //this method is passed along as a delegate to the subcontroller
         private void UpdateValue(string id, Value value)
         {
             symbolTable.SetUpdateValue(new Id(id, new PositionInText()), value);
 
-            window.DeleteElements();
-
-            ProcessBody();
+            window.Invalidate();
+            CreateMainUIBody();
         }
 
         public void ExportAnswers()
         {
-            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
-            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
+            new ExportFormulaireController()
+                .ExportAnswers(astTree.RootNode, symbolTable);
         }
     }
 }

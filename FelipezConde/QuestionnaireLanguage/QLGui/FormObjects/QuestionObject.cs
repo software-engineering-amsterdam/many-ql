@@ -11,56 +11,38 @@ namespace QLGui.FormObjects
     public class QuestionObject : FormObject
     {
         private Question questionNode;
-        private SymbolTable symbolTable;
+        private SymbolTable symbolTable = new SymbolTable();
 
-        #region Constructors
         public QuestionObject(Question node)
         {
             this.questionNode = node;
-            symbolTable = new SymbolTable();
         }
-        #endregion
-
-        #region IFormObject
-        public override UIElement ProcessFormObject(UIElement form)
+        public override StackPanel InsertInUIParent(StackPanel parent)
         {
-            Label questionLabel = new Label() { Content = questionNode.Label.Value };
-            AddChild(questionLabel, form);
+            parent.Children.Add(
+                new Label() { Content = questionNode.Label.ToString() }
+                );
 
-            Value widgetValue = Evaluate();
+            Value widgetValue = this.Evaluate();
             
             ValueToUIElement valueToUIElement = new ValueToUIElement(questionNode.Identifier.Name, questionNode.Computation != null);
-            valueToUIElement.EventUpdateValue += UpdateValue;
+            valueToUIElement.EventUpdateValue += base.EventUpdateValue;
 
-            AddChild(widgetValue.Accept(valueToUIElement), form);
+            parent.Children.Add(widgetValue.Accept(valueToUIElement));
 
-            return form;
+            return parent;
         }
 
         public Value Evaluate()
         {
-            Value result;
-
             if (questionNode.Computation != null)
             {
-                result = new Evaluator(symbolTable).Evaluate(questionNode.Computation);
+                return questionNode.Computation.Accept(new Evaluator(symbolTable));
             }
-            else
-            {
-                result = symbolTable.GetValue(questionNode.Identifier);
-            }
-
-            return result;
+            return symbolTable.GetValue(questionNode.Identifier);
         }
 
-        #endregion
-
-        private void UpdateValue(string id, Value value)
-        {
-            EventUpdateValue(id, value);
-        }
-
-        public override SymbolTable Register(SymbolTable symbolTable)
+        public override SymbolTable RegisterInSymbolTable(SymbolTable symbolTable)
         {
             TypeToValue visitor = new TypeToValue();
             symbolTable.AddValue(questionNode.Identifier, questionNode.RetrieveType().Accept(new TypeToValue()));

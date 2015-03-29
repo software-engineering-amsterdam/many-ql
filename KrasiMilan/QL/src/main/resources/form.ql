@@ -9,7 +9,7 @@ form Box1HouseOwning {
 		valueResidue: "Value residue:" number(sellingPrice - privateDebt)
 	}
 
-	color: "Enter a color:" string
-	anotherColor: "Enter another color:" string
-	matchingColors: "Matching colors:" boolean(color == anotherColor)
+	//color: "Enter a color:" string
+	//anotherColor: "Enter another color:" string
+	//matchingColors: "Matching colors:" boolean(color == anotherColor)
 }

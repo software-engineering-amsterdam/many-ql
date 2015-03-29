@@ -7,6 +7,7 @@ class Widget:
         else:
             self.grid_remove()
 
+
 class Dropdown(tk.OptionMenu, Widget):
     def __init__(self, master, questionModel, callback):
         self._value = tk.StringVar()
@@ -20,6 +21,7 @@ class Dropdown(tk.OptionMenu, Widget):
             
     def value(self):
         return self._value.get() == "yes"
+
 
 class RadioButtons(tk.Frame, Widget):
     def __init__(self, master, questionModel, callback, trueText = "yes", falseText = "no"):
@@ -46,6 +48,7 @@ class RadioButtons(tk.Frame, Widget):
     def value(self):
         return bool(self._value.get())
 
+
 class CheckBox(tk.Checkbutton, Widget):
     def __init__(self, master, questionModel, callback):
         self._value = tk.IntVar()
@@ -64,6 +67,7 @@ class CheckBox(tk.Checkbutton, Widget):
     def value(self):
         return bool(self._value.get())
 
+
 class Slider(tk.Scale, Widget):
     def __init__(self, master, questionModel, callback, lowerBound = 0, upperBound = 1000, width = 400):
         tk.Scale.__init__(self, master, from_ = lowerBound, to = upperBound, length = width, orient = tk.HORIZONTAL)
@@ -78,11 +82,13 @@ class Slider(tk.Scale, Widget):
     def value(self):
         return int(self.get())
 
+
 class Spinbox(tk.Spinbox, Widget):
     def __init__(self, master, questionModel, callback, lowerBound = 0, upperBound = 1000, width = 80):
         tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, width = width, command = lambda : callback(self.value()))
         self._defaultValue = lowerBound
         self.bind("<FocusOut>", lambda event : callback(self.value()))
+        self.bind("<Return>", lambda event : callback(self.value()))
         self.update(questionModel)
         
     def update(self, questionModel):
@@ -96,12 +102,14 @@ class Spinbox(tk.Spinbox, Widget):
         self._gridIfVisible(questionModel)
 
     def value(self):
-        return int(self.get())
+        return self.get()
+
 
 class TextInput(tk.Entry, Widget):
     def __init__(self, master, questionModel, callback, width = 80):
         tk.Entry.__init__(self, master, width = width)
         self.bind("<FocusOut>", lambda event : callback(self.value()))
+        self.bind("<Return>", lambda event : callback(self.value()))
         self.update(questionModel)
 
     def update(self, questionModel):
@@ -117,6 +125,7 @@ class TextInput(tk.Entry, Widget):
 
     def value(self):
         return self.get()
+
 
 class Label(tk.Label, Widget):
     def __init__(self, master, questionModel, width = 80, height = 1):

@@ -2,20 +2,11 @@ form SalarySurvey{
 	age: "How old are you?" Int
 	num1: "Number1 is " Int
 	num2: "Number2 is " Int
-	sum: "Sum is " Int(num1+num2)
-	
-	isMarried: "Are you married?" Bool	
-	if(age == 25){
+	isMarried: "Are you married?" Bool ( age == 5 )
+	isMarried2: "Are you not married?" Bool ( num1 + num2 )
+	if(age == (num1 + num2)){
 		employeeNr1: "What is your employee number?" Int
 	}else{
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str
-		howAreYou: "How Are you ?" Str		
+		howAreYou: "How Are you ?" Str	
 	}
 }

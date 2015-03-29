@@ -20,12 +20,6 @@ public class Error extends Message
         return true;
     }
 
-    public static Error fileSaveFail(String errorMessage)
-    {
-        String m = String.format("QL Error: the file could not be saved. (%s)", errorMessage);
-        return new Error(m);
-    }
-
     public static Error typeMismatch(String id, String leftChildType, String rightChildType, int line)
     {
         String m = String.format("QL Error (Line %d): expression of type %s cannot have children of different type: %s and %s",
@@ -58,16 +52,9 @@ public class Error extends Message
 
     public static Error identifierAlreadyDeclared(String id, Collection<String> lines)
     {
-        String lineString = StringHelper.printStrValueList(lines);
+        String lineString = StringHelper.printStrValueList(lines, ", ");
         return new Error(String.format("QL Error : multiple declarations of identifier \"%s\" on lines: %s",
                 id, lineString));
-    }
-
-    public static Error identifierDeclaredOfDiffType(String id, int line1, int line2)
-    {
-        return new Error(String.format(
-                "QL Error (Line: %d): Question \"%s\" is declared twice with a different type on line %d and %d",
-                line1, id, line1, line2));
     }
 
     public static Error cyclicQuestions(String idList)

@@ -1,13 +1,8 @@
 package uva.sc.ql.evaluator;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
-import uva.sc.ql.ast.IQLFormNodeVisitor;
-import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.NumberAtom;
@@ -28,62 +23,32 @@ import uva.sc.ql.expression.binaryExpressions.Or;
 import uva.sc.ql.expression.binaryExpressions.Substraction;
 import uva.sc.ql.expression.unaryExpressions.Minus;
 import uva.sc.ql.expression.unaryExpressions.Not;
-import uva.sc.ql.form.Form;
-import uva.sc.ql.gui.helpers.DisplayData;
-import uva.sc.ql.statements.IfStatement;
-import uva.sc.ql.statements.Question;
-import uva.sc.ql.statements.Statement;
+import uva.sc.ql.gui.helpers.QuestionData;
 
+/**
+ * Evaluates expressions using a values table.
+ * 
+ * @author Pantelis & Satiago
+ */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class EvaluatorVisitor extends Observable implements
-	IQLFormNodeVisitor<Expression>, IQLStatementNodeVisitor<Expression>,
-	IQLExpressionNodeVisitor<Expression> {
+public class EvaluatorVisitor implements IQLExpressionNodeVisitor<Expression> {
 
-    Map<ID, DisplayData> valuesTable = new HashMap<ID, DisplayData>();
+    private Map<ID, QuestionData> valuesTable;
 
-    Expression currentIfCondition = null;
-
-    public Map<ID, DisplayData> getValuesTable() {
-	return valuesTable;
+    public EvaluatorVisitor(Map<ID, QuestionData> valuesTable) {
+	this.valuesTable = valuesTable;
     }
 
-    public void putToValuesTable(ID s, DisplayData d) {
-	valuesTable.put(s, d);
-	setChanged();
-	notifyObservers();
+    public Expression evaluateExpression(Expression expr) {
+	return (Expression) expr.accept(this);
     }
 
-    public Expression visit(Form questionnaire) {
-	List<Statement> statements = questionnaire.getStatements();
-	for (Statement statement : statements) {
-	    statement.accept(this);
-	}
-	return null;
-    }
-
-    public Expression visit(Question question) {
-	if (question.getExpr() != null) {
-	    putToValuesTable(question.getId(), new DisplayData(
-		    question.getExpr(), currentIfCondition, question.getType()));
-	} else {
-	    putToValuesTable(question.getId(), new DisplayData(null,
-		    currentIfCondition, question.getType()));
-	}
-	return null;
-    }
-
-    public Expression visit(IfStatement ifStatement) {
-	currentIfCondition = ifStatement.getExpr();
-	ifStatement.getExpr().accept(this);
-	List<Question> questions = ifStatement.getQuestions();
-	for (Question question : questions)
-	    question.accept(this);
-	currentIfCondition = null;
-	return null;
+    private QuestionData questionData(ID id) {
+	return valuesTable.get(id);
     }
 
     public Expression visit(ID id) {
-	return (Expression) valuesTable.get(id).getValue();
+	return questionData(id).getValue();
     }
 
     public NumberAtom visit(Addition addition) {
@@ -95,19 +60,19 @@ public class EvaluatorVisitor extends Observable implements
 		+ secondOperand.getValue());
     }
 
-    public NumberAtom visit(Substraction sub) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) sub
+    public NumberAtom visit(Substraction substraction) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) substraction
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) sub
+	NumberAtom secondOperand = getNumericOperandValue((Expression) substraction
 		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		- secondOperand.getValue());
     }
 
-    public NumberAtom visit(Multiplication mult) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) mult
+    public NumberAtom visit(Multiplication multiplication) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) multiplication
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) mult
+	NumberAtom secondOperand = getNumericOperandValue((Expression) multiplication
 		.getSecondOperand().accept(this));
 	return new NumberAtom(firstOperand.getValue()
 		* secondOperand.getValue());
@@ -127,13 +92,18 @@ public class EvaluatorVisitor extends Observable implements
 	return result;
     }
 
-    public NumberAtom visit(Modulus mod) {
-	NumberAtom firstOperand = getNumericOperandValue((Expression) mod
+    public NumberAtom visit(Modulus modulus) {
+	NumberAtom firstOperand = getNumericOperandValue((Expression) modulus
 		.getFirstOperand().accept(this));
-	NumberAtom secondOperand = getNumericOperandValue((Expression) mod
+	NumberAtom secondOperand = getNumericOperandValue((Expression) modulus
 		.getSecondOperand().accept(this));
-	return new NumberAtom(firstOperand.getValue()
-		% secondOperand.getValue());
+	NumberAtom result = new NumberAtom(0.);
+	try {
+	    result = new NumberAtom(firstOperand.getValue()
+		    % secondOperand.getValue());
+	} catch (ArithmeticException e) {
+	}
+	return result;
     }
 
     public BooleanAtom visit(And and) {
@@ -164,12 +134,13 @@ public class EvaluatorVisitor extends Observable implements
 	return result;
     }
 
-    public BooleanAtom visit(Equals eq) {
-	Expression firstOperand = (Expression) eq.getFirstOperand()
+    public BooleanAtom visit(Equals equals) {
+	Expression firstOperand = (Expression) equals.getFirstOperand()
 		.accept(this);
-	Expression secondOperand = (Expression) eq.getSecondOperand().accept(
+	Expression secondOperand = (Expression) equals.getSecondOperand().accept(
 		this);
-	return new BooleanAtom(firstOperand.equals(secondOperand));
+	return new BooleanAtom(firstOperand.getValue().equals(
+		secondOperand.getValue()));
     }
 
     public BooleanAtom visit(NotEquals notEquals) {
@@ -177,7 +148,8 @@ public class EvaluatorVisitor extends Observable implements
 		.accept(this);
 	Expression secondOperand = (Expression) notEquals.getSecondOperand()
 		.accept(this);
-	return new BooleanAtom(!firstOperand.equals(secondOperand));
+	return new BooleanAtom(!firstOperand.getValue().equals(
+		secondOperand.getValue()));
     }
 
     public BooleanAtom visit(GreaterThan greaterThan) {
@@ -250,4 +222,5 @@ public class EvaluatorVisitor extends Observable implements
 	}
 	return result;
     }
+
 }

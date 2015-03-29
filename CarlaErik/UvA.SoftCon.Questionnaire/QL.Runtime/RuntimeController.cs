@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Common.Validation;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation;
@@ -35,16 +32,14 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime
             return report;
         }
 
-        public IDictionary<string, Value> Interpretet(QuestionForm form, IDictionary<string, Value> context)
+        public ValueTable Interpretet(QuestionForm form, ValueTable context)
         {
             if (form == null) { throw new ArgumentNullException("form"); }
             if (context == null) { throw new ArgumentNullException("context"); }
 
             var interpreter = new Interpreter();
 
-            interpreter.Interpretet(form, context);
-
-            return interpreter.AvailableQuestions;
+            return interpreter.Interpretet(form, context);
         }
     }
 }

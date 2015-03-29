@@ -16,8 +16,8 @@ class BooleanIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -41,8 +41,8 @@ class BooleanConstant(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -60,8 +60,8 @@ class BooleanExpression(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(0, len(result.errors))
@@ -81,8 +81,8 @@ class NonBooleanIdentifier(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))
@@ -109,8 +109,8 @@ class NonBooleanConstant(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))
@@ -131,8 +131,8 @@ class NonBooleanExpression(unittest.TestCase):
     def test(self):
         result = Typechecking.check(
             self.questionnaire,
-            ErrorsWarningsResult.Factory(),
-            TestMessage.Factory(),
+            ErrorsWarningsResult.factory(),
+            TestMessage.factory(),
             [checkers.TypesOfExpressions]
         )
         self.assertEqual(1, len(result.errors))
