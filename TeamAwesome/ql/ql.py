@@ -11,6 +11,7 @@ from ql.typechecking import\
     Typechecking, OrderedErrorsWarningsResult, ConsoleMessage
 
 
+
 def main():
     if len(sys.argv) == 1:
     	print("Run as follows: python ql.py YOUR_SOURCECODE.ql")
@@ -36,6 +37,7 @@ def main():
     controller.run()
 
 
+
 def typecheck(parser):
     result = Typechecking.check(
         parser.questionnaire,
@@ -47,6 +49,7 @@ def typecheck(parser):
         print(message)
 
     return len(result.errors) == 0
+
 
 
 if __name__ == '__main__':
