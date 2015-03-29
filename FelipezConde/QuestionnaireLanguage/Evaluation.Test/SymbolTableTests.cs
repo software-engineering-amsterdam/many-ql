@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Evaluator.Test
+namespace Evaluation.Test
 {
     [TestClass]
     public class SymbolTableTests

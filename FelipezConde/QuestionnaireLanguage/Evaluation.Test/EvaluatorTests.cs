@@ -9,7 +9,7 @@ using Literals = AST.Nodes.Literals;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
 
-namespace Evaluator.Test
+namespace Evaluation.Test
 {
     [TestClass]
     public class EvaluatorTests
