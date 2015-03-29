@@ -10,9 +10,9 @@ import nl.uva.softwcons.qls.ast.segment.Page;
 import nl.uva.softwcons.qls.ast.segment.Question;
 import nl.uva.softwcons.qls.ast.segment.Section;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
-import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widgetstyle.StyledWidget;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.DropdownType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.RadioButtonType;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -40,7 +40,7 @@ public class ASTBuilderVisitorTest {
                 "page page1 { question q1 section \"s1\" { question q2 } }",
                 "page page2 { section \"s2\" { section \"s3\" { question q3 } } }"));
         withStyleForPage = build(TestHelper.buildStylesheet("s1",
-                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { width: 2 } }"));
+                "page p1 { question q1  default boolean widget dropdown(\"True\", \"False\") { \"width\": 2 } }"));
         withStylesForSection = build(TestHelper.buildStylesheet("withStylesForSection",
                 "page p1 { section \"s1\" { question q2 default boolean widget dropdown(\"True\", \"False\") } }"));
         withStylesForQuestions = build(TestHelper.buildStylesheet("withStylesForQuestions",

@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ast.widget.type;
+package nl.uva.softwcons.qls.ast.widgetstyle.type;
 
 import java.util.Arrays;
 import java.util.List;

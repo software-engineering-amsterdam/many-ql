@@ -1,14 +1,14 @@
-package nl.uva.softwcons.qls.ast.widget.type;
+package nl.uva.softwcons.qls.ast.widgetstyle.type;
 
 import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
 
-public class DropdownType extends WidgetType {
+public class RadioButtonType extends WidgetType {
     private final String yes;
     private final String no;
 
-    public DropdownType(final String yes, final String no, final LineInfo lineInfo) {
+    public RadioButtonType(final String yes, final String no, final LineInfo lineInfo) {
         super(lineInfo);
         this.yes = yes;
         this.no = no;

@@ -1,4 +1,4 @@
-package nl.uva.softwcons.qls.ui;
+package nl.uva.softwcons.qls.ui.widget;
 
 import static nl.uva.softwcons.qls.ui.widget.RawValueAndTypeToConverterMap.TABLE;
 
@@ -12,17 +12,15 @@ import nl.uva.softwcons.ql.ui.widget.Widget;
 import nl.uva.softwcons.ql.ui.widget.factory.DefaultWidgetFactory;
 import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
 import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
-import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
-import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
-import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
-import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.TextType;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
-import nl.uva.softwcons.qls.ast.widget.type.WidgetTypeVisitor;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.CheckboxType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.DropdownType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.RadioButtonType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.SliderType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.TextType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetType;
+import nl.uva.softwcons.qls.ast.widgetstyle.type.WidgetTypeVisitor;
 import nl.uva.softwcons.qls.ui.style.StyleBlock;
-import nl.uva.softwcons.qls.ui.widget.DropdownWidget;
-import nl.uva.softwcons.qls.ui.widget.RadioButtonWidget;
-import nl.uva.softwcons.qls.ui.widget.SliderWidget;
+import nl.uva.softwcons.qls.ui.style.StylesheetResolver;
 
 public class StyledWidgetFactory implements WidgetFactory, WidgetTypeVisitor<Widget> {
     private final StylesheetResolver resolver;

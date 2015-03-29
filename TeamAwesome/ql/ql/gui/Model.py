@@ -33,12 +33,11 @@ class QuestionModel(object):
         return qlVal.value
 
     def updateValue(self, value):
-        if value == "":
-            return True
-
         try:
             value = self.type(value)
-        except (ValueError, decimal.InvalidOperation): 
+        except (ValueError, decimal.InvalidOperation):
+            if value == "":
+                return True 
             return False
         
         self._evaluator.addValue(self._identifier, value)
