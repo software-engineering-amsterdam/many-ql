@@ -32,8 +32,7 @@ public class ShowButtonHandler implements EventHandler<ActionEvent> {
 		QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 		Questionnaire questionnaire = questionnaireCallback.getQuestionnaire();
 		List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
-		String questionnaireTitle = questionnaire.getName();
-		QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(questionnaireTitle);
+		QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane();
 		questionnaireGridPane.showQuestions(runtimeQuestions);
 		showResultCallback.showResult(questionnaireGridPane);
 	}
