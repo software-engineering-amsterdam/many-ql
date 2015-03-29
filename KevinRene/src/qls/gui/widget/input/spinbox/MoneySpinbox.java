@@ -2,6 +2,7 @@ package qls.gui.widget.input.spinbox;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
@@ -14,8 +15,9 @@ import qls.gui.widget.input.Spinbox;
 import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class MoneySpinbox extends Spinbox<MoneyValue> implements ChangeListener {
-	private NumberFormat decimalFormat = new DecimalFormat("#0.00");
-	        
+	private NumberFormat decimalFormat = 
+			NumberFormat.getCurrencyInstance(new Locale("NL", "nl"));
+	
 	public MoneySpinbox() {
 		super(new SpinnerNumberModel(
 					0.0, //initial value
