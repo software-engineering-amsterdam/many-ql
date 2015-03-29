@@ -25,4 +25,9 @@ public class RadioButtonType extends WidgetType {
         return type == BOOLEAN_TYPE;
     }
 
+    @Override
+    public <T> T accept(WidgetTypeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

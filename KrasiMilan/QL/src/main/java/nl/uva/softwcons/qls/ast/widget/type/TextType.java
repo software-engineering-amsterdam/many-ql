@@ -9,11 +9,16 @@ import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.Type;
 
 public class TextType extends WidgetType {
-    private static final List<Type> TEXT_WIDGET_COMPATIBLE_TYPES = Arrays.asList(NumberType.NUMBER_TYPE, StringType.STRING_TYPE,
-            DateType.DATE_TYPE);
+    private static final List<Type> TEXT_WIDGET_COMPATIBLE_TYPES = Arrays.asList(NumberType.NUMBER_TYPE,
+            StringType.STRING_TYPE, DateType.DATE_TYPE);
 
     @Override
     public boolean isCompatibleWith(final Type type) {
         return TEXT_WIDGET_COMPATIBLE_TYPES.contains(type);
+    }
+
+    @Override
+    public <T> T accept(WidgetTypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
