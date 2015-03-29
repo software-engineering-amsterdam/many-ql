@@ -2,15 +2,17 @@ package nl.uva.softwcons.qls.ui;
 
 import java.util.Optional;
 
+import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.Question;
-import nl.uva.softwcons.ql.ui.DefaultWidgetFactory;
 import nl.uva.softwcons.ql.ui.converter.BooleanToBooleanValueConverter;
-import nl.uva.softwcons.ql.ui.converter.StringToStringValueConverter;
+import nl.uva.softwcons.ql.ui.converter.StringToNumberValueConverter;
 import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
 import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
-import nl.uva.softwcons.ql.ui.widget.WidgetFactory;
+import nl.uva.softwcons.ql.ui.widget.factory.DefaultWidgetFactory;
+import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
 import nl.uva.softwcons.qls.ast.style.Style;
+import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
 import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
@@ -29,8 +31,8 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     private final StylesheetResolver resolver;
     private final WidgetFactory defaultFactory;
 
-    public StylizedWidgetFactory(StylesheetResolver resolver) {
-        this.resolver = resolver;
+    public StylizedWidgetFactory(final Form form, final Stylesheet stylesheet) {
+        this.resolver = new StylesheetResolver(stylesheet, form);
         this.defaultFactory = new DefaultWidgetFactory();
     }
 
@@ -42,10 +44,10 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
         final Widget widget;
         if (questionWidget.isPresent()) {
             widget = questionWidget.get().accept(this);
+            widget.getWidget().setStyle(questionStyle.toString()); // TODO
         } else {
             widget = defaultFactory.getWidget(question);
         }
-        widget.getWidget().setStyle(questionStyle.toString()); // TODO
 
         return widget;
     }
@@ -79,7 +81,7 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
 
     @Override
     public Widget visit(TextType type) {
-        return new TextFieldWidget(new StringToStringValueConverter());
+        return new TextFieldWidget(new StringToNumberValueConverter()); // TODO
     }
 
 }

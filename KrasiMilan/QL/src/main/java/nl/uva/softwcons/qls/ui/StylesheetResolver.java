@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.qls.ast.segment.Page;
 import nl.uva.softwcons.qls.ast.segment.Question;
@@ -18,18 +19,20 @@ import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 
 public class StylesheetResolver implements StylesheetVisitor<Void>,
         SegmentValueVisitor<Void, Map<Type, StylizedWidget>> {
-    private final Map<Identifier, Optional<WidgetType>> questionWidgetType;
+    private final Map<Identifier, WidgetType> questionWidgetType;
     private final Map<Identifier, Style> questionStyle;
     private final QuestionTypeCollector questionType;
 
-    public StylesheetResolver(QuestionTypeCollector questionTypeCollector) {
+    public StylesheetResolver(final Stylesheet stylesheet, final Form form) {
         this.questionStyle = new HashMap<>();
         this.questionWidgetType = new HashMap<>();
-        this.questionType = questionTypeCollector;
+        this.questionType = new QuestionTypeCollector(form);
+
+        stylesheet.accept(this);
     }
 
     public Optional<WidgetType> getWidgetType(final Identifier id) {
-        return questionWidgetType.get(id);
+        return Optional.ofNullable(questionWidgetType.get(id));
     }
 
     public Style getStyle(Identifier id) {
@@ -61,10 +64,12 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
 
         // TODO
         if (question.getStylizedWidget().getWidgetType().isPresent()) {
-            questionWidgetType.put(question.getId(), question.getStylizedWidget().getWidgetType());
-            questionStyle.put(question.getId(), style.inherit(styles.get(type).getWidgetStyle()));
+            questionWidgetType.put(question.getId(), question.getStylizedWidget().getWidgetType().get());
+
+            questionStyle.put(question.getId(),
+                    style.inherit(styles.getOrDefault(type, new StylizedWidget()).getWidgetStyle()));
         } else if (styles.containsKey(type)) {
-            questionWidgetType.put(question.getId(), styles.get(type).getWidgetType());
+            questionWidgetType.put(question.getId(), styles.get(type).getWidgetType().get());
             questionStyle.put(question.getId(), styles.get(type).getWidgetStyle());
         }
 
@@ -83,6 +88,7 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
     private Map<Type, StylizedWidget> inheritStyles(final Map<Type, StylizedWidget> styles,
             final Map<Type, StylizedWidget> parentStyles) {
         Map<Type, StylizedWidget> mergedStyles = new HashMap<>(styles);
+
         parentStyles.forEach((type, widget) -> {
             if (!mergedStyles.containsKey(type)) {
                 mergedStyles.put(type, widget);
@@ -97,6 +103,6 @@ public class StylesheetResolver implements StylesheetVisitor<Void>,
             }
         });
 
-        return null;
+        return mergedStyles;
     }
 }
