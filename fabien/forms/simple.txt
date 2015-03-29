@@ -1,7 +1,7 @@
 
 form taxOfficeExample {
   "Did you sell a house in 2010?"
-    hasSoldHouse: integer
+    hasSoldHouse: string
 
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean

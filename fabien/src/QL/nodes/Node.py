@@ -32,7 +32,7 @@ class Node(object):
     def __iter__(self):
         yield self
 
-        for child in chain(*imap(iter, self.children)):
+        for child in chain(*imap(iter, filter(None, self.children))):
             yield child
 
     @property

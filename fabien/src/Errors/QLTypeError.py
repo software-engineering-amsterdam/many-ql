@@ -1,5 +1,5 @@
 
-class QLTypeError:
+class QLTypeError(Exception):
     def __init__(self, Node=None, message=""):
         self.node = Node
         self.message = message
