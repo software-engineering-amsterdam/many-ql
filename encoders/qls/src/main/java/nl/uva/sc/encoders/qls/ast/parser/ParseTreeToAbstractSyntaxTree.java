@@ -5,12 +5,16 @@ import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.qls.EncodersQLSBaseVisitor;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.CheckBoxContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.DefaultStyleContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.NumberFieldContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.PageContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.QuestionContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.RadioContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.SectionContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylePropertyContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.StylesheetContext;
+import nl.uva.sc.encoders.qls.EncodersQLSParser.TextFieldContext;
 import nl.uva.sc.encoders.qls.EncodersQLSParser.WidgetContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.DefaultStyle;
@@ -18,7 +22,11 @@ import nl.uva.sc.encoders.qls.ast.DefaultStyleProperty;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.ast.Widget;
+import nl.uva.sc.encoders.qls.ast.widget.CheckBox;
+import nl.uva.sc.encoders.qls.ast.widget.NumberField;
+import nl.uva.sc.encoders.qls.ast.widget.Radio;
+import nl.uva.sc.encoders.qls.ast.widget.TextField;
+import nl.uva.sc.encoders.qls.ast.widget.Widget;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -78,8 +86,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 		TextLocation textLocation = getTextLocation(ctx);
 		String dataType = ctx.DATATYPE().getText();
 		WidgetContext widgetContext = ctx.widget();
-		String widgetDataType = widgetContext.getText();
-		Widget defaultStyleWidget = new Widget(textLocation, widgetDataType);
+		Widget defaultStyleWidget = (Widget) widgetContext.accept(this);
 		DefaultStyle defaultStyle = new DefaultStyle(textLocation, dataType, defaultStyleWidget);
 
 		for (StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
@@ -88,6 +95,30 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 			defaultStyle.addDefaultStyleProperty(defaultStyleProperty);
 		}
 		return defaultStyle;
+	}
+
+	@Override
+	public CheckBox visitCheckBox(CheckBoxContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		return new CheckBox(textLocation);
+	}
+
+	@Override
+	public Radio visitRadio(RadioContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		return new Radio(textLocation);
+	}
+
+	@Override
+	public NumberField visitNumberField(NumberFieldContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		return new NumberField(textLocation);
+	}
+
+	@Override
+	public TextField visitTextField(TextFieldContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		return new TextField(textLocation);
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
