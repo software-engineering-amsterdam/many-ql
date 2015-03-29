@@ -1,7 +1,6 @@
 package ql.gui
 
 import ql.ast._
-import ql.evaluator.Evaluator
 import ql.gui.widgets.{NumberQuestionWidget, BooleanQuestionWidget, StringQuestionWidget}
 import types.EvalEnvironment
 
@@ -9,9 +8,6 @@ import scalafx.collections.ObservableMap
 import scalafx.scene.layout.VBox
 
 class FormBuilder(env: EvalEnvironment = ObservableMap.empty) {
-
-  // TODO: Can't find any usages of evaluator? Remove this line?
-  val evaluator = new Evaluator()
 
   def build(f: Form): FormGUI = {
     new FormGUI(f.label, build(f.statements))
