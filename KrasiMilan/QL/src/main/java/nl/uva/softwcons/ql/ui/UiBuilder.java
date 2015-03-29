@@ -19,11 +19,14 @@ import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.Statement;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ql.eval.Evaluator;
-import nl.uva.softwcons.ql.ui.layout.QLRenderer;
 import nl.uva.softwcons.ql.ui.layout.QuestionLayout;
-import nl.uva.softwcons.ql.ui.layout.Renderer;
+import nl.uva.softwcons.ql.ui.renderer.Renderer;
 import nl.uva.softwcons.ql.ui.widget.Widget;
-import nl.uva.softwcons.ql.ui.widget.WidgetFactory;
+import nl.uva.softwcons.ql.ui.widget.factory.WidgetFactory;
+import nl.uva.softwcons.qls.StylesheetBuilder;
+import nl.uva.softwcons.qls.ast.stylesheet.Stylesheet;
+import nl.uva.softwcons.qls.ui.QLSRenderer;
+import nl.uva.softwcons.qls.ui.StylizedWidgetFactory;
 
 public class UiBuilder extends Application implements FormVisitor<Void>, StatementVisitor<List<QuestionLayout>> {
     private Evaluator evaluator;
@@ -39,19 +42,19 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
         this.renderer = renderer;
     }
 
-    public static Renderer buildFrom(final Form form, final Renderer renderer, final WidgetFactory widgetFactory) {
+    public static Node buildFrom(final Form form, final Renderer renderer, final WidgetFactory widgetFactory) {
         UiBuilder u = new UiBuilder(form, renderer, widgetFactory);
         form.accept(u);
 
-        return renderer;
+        return renderer.getLayout().getNode();
     }
 
     @Override
     public Void visit(final Form form) {
         form.getStatements().forEach(s -> s.accept(this));
 
-        visitAndFlatten(form.getStatements()).forEach(layout -> {
-            renderer.add(layout);
+        visitAndFlatten(form.getStatements()).forEach(l -> {
+            renderer.add(l);
         });
 
         return null;
@@ -60,7 +63,7 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
     @Override
     public List<QuestionLayout> visit(final ComputedQuestion question) {
         final Widget questionWidget = this.widgetFactory.getWidget(question);
-        final QuestionLayout layout = new QuestionLayout(question.getLabel(), questionWidget);
+        final QuestionLayout layout = new QuestionLayout(question.getId(), question.getLabel(), questionWidget);
         questionWidget.setEditable(false);
 
         questionWidget.setValue(evaluator.getValue(question.getId()));
@@ -74,7 +77,7 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
     @Override
     public List<QuestionLayout> visit(final Question question) {
         final Widget questionWidget = this.widgetFactory.getWidget(question);
-        final QuestionLayout layout = new QuestionLayout(question.getLabel(), questionWidget);
+        final QuestionLayout layout = new QuestionLayout(question.getId(), question.getLabel(), questionWidget);
 
         questionWidget.addListener((newValue) -> {
             evaluator.updateValue(question.getId(), newValue);
@@ -112,7 +115,9 @@ public class UiBuilder extends Application implements FormVisitor<Void>, Stateme
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final Form f = Questionnaire.build(UiBuilder.class.getResourceAsStream("/form.ql"));
-        final Node n = UiBuilder.buildFrom(f, new QLRenderer(), new DefaultWidgetFactory()).getNode();
+        final Stylesheet s = StylesheetBuilder.build(UiBuilder.class.getResourceAsStream("/form_stylesheet.qls"));
+
+        final Node n = UiBuilder.buildFrom(f, new QLSRenderer(s), new StylizedWidgetFactory(f, s));
 
         final StackPane root = new StackPane();
         root.getChildren().add(n);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QLS;
-using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
+﻿using UvA.SoftCon.Questionnaire.QLS.AST.Model.StyleAttributes;
 
 namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
 {

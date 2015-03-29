@@ -3,6 +3,7 @@ package nl.uva.softwcons.qls.ast.style;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.qls.ast.ASTNode;
 
 public class Style implements ASTNode {
@@ -32,5 +33,11 @@ public class Style implements ASTNode {
             }
         });
         return mergedStyle;
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

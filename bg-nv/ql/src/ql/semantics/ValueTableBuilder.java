@@ -9,7 +9,6 @@ import ql.semantics.values.*;
 /**
  * Created by Nik on 24-2-15.
  */
-// TODO: shouldn't this class be ValueTableBuilder?
 public class ValueTableBuilder implements FormVisitor<Void>, StatVisitor<Void>
 {
     private final ValueTable valueTable;

@@ -22,26 +22,52 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
 {
     private final Stylesheet stylesheet;
     private final QuestionStyles questionStyles;
+    private List<ql.gui.segment.Page> pages;
 
     public StyledModeler(CondQuestionTable condQuestionTable, Stylesheet stylesheet, QuestionStyles questionStyles)
     {
         super(condQuestionTable);
         this.stylesheet = stylesheet;
         this.questionStyles = questionStyles;
+
     }
 
     @Override
     public Canvas buildCanvas()
     {
-        List<ql.gui.segment.Page> pages = new ArrayList<>();
-        for (Page p : this.stylesheet.getBody())
+        this.pages = new ArrayList<>();
+        this.stylesheet.accept(this);
+        return new Canvas(this.getCondQuestionTable().getTitle(), this.pages);
+    }
+
+    @Override
+    public Segment visit(Stylesheet s)
+    {
+        for (Page p : s.getBody())
         {
-            //TODO: get rid of this cast if possible
-            ql.gui.segment.Page page = (ql.gui.segment.Page) p.accept(this);
-            pages.add(page);
+            p.accept(this);
         }
 
-        return new Canvas(getCondQuestionTable().getTitle(), pages);
+        return null;
+    }
+
+    @Override
+    public Segment visit(Page p)
+    {
+        List<Segment> segments = new ArrayList<>();
+
+        for (Statement stat : p.getBody())
+        {
+            if (stat.isRenderable())
+            {
+                Segment segment = stat.accept(this);
+                segments.add(segment);
+            }
+        }
+
+        this.pages.add(new ql.gui.segment.Page(segments, p.getName(), true));
+
+        return null;
     }
 
     @Override
@@ -69,7 +95,6 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     @Override
     public Segment visit(QuestionWithRules q)
     {
-
         return getConditional(q.getId());
     }
 
@@ -80,6 +105,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
         Rules rules = questionStyles.getStyleForQuestion(id);
         RowStyle style = RowStyleBuilder.build(rules);
         row.applyStyle(style);
+
         return row;
     }
 
@@ -87,29 +113,5 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
     public Segment visit(DefaultStat d)
     {
         throw new IllegalStateException("Visiting a default node is not allowed");
-    }
-
-    // TODO: why throw exception for the default stat but not for the stylesheet?
-    @Override
-    public Segment visit(Stylesheet s)
-    {
-        return null;
-    }
-
-    @Override
-    public Segment visit(Page p)
-    {
-        List<Segment> segments = new ArrayList<>();
-
-        for (Statement stat : p.getBody())
-        {
-            if (stat.isRenderable())
-            {
-                Segment segment = stat.accept(this);
-                segments.add(segment);
-            }
-        }
-
-        return new ql.gui.segment.Page(segments, p.getName(), true);
     }
 }

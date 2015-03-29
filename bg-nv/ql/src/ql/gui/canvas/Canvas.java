@@ -137,6 +137,4 @@ public class Canvas extends GuiElement
     {
         this.messages.clear();
     }
-
-
 }

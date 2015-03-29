@@ -1,4 +1,4 @@
-package nl.uva.softwcons.ql.ui;
+package nl.uva.softwcons.ql.ui.widget.factory;
 
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.type.BooleanType;
@@ -14,7 +14,6 @@ import nl.uva.softwcons.ql.ui.converter.StringToStringValueConverter;
 import nl.uva.softwcons.ql.ui.widget.CheckboxWidget;
 import nl.uva.softwcons.ql.ui.widget.TextFieldWidget;
 import nl.uva.softwcons.ql.ui.widget.Widget;
-import nl.uva.softwcons.ql.ui.widget.WidgetFactory;
 
 public class DefaultWidgetFactory implements TypeVisitor<Widget>, WidgetFactory {
 

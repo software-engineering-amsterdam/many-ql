@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.QL.AST.Model;
+﻿using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;

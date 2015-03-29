@@ -1,6 +1,5 @@
 package nl.uva.softwcons.qls.validation.widget;
 
-import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.type.Type;
 import nl.uva.softwcons.ql.validation.Checker;
 import nl.uva.softwcons.ql.validation.type.Environment;
@@ -61,7 +60,7 @@ public class WidgetTypeChecker extends Checker implements StylesheetVisitor<Void
 
     private void validateWidgetCompatability(final Type type, final StylizedWidget widget) {
         if (!widget.getWidgetType().get().isCompatibleWith(type)) {
-            addError(new IncompatibleWidget(new LineInfo(-1, -1))); // TODO
+            addError(new IncompatibleWidget(widget.getLineInfo()));
         }
     }
 

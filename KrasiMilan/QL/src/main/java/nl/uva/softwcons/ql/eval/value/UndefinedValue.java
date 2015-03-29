@@ -133,6 +133,10 @@ public final class UndefinedValue extends Value {
 
     @Override
     public Value orBoolean(final BooleanValue otherValue) {
+        if (otherValue.getBoolean()) {
+            return new BooleanValue(true);
+        }
+
         return UNDEFINED;
     }
 

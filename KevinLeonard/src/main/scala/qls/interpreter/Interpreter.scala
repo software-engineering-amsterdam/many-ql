@@ -26,7 +26,6 @@ object Interpreter {
         val qlsTypeChecks = checkTypes(qlsAst, env)
 
         if (qlTypeChecks && qlsTypeChecks) {
-          //QLInterpreter.render(qlAst)
           render(qlAst, qlsAst)
         }
       case _ => ()

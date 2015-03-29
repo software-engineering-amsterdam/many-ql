@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 using System.Text;
 using UvA.SoftCon.Questionnaire.Common.Validation;
-using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.Runtime.Validation;
 
 namespace UvA.SoftCon.Questionnaire.QL.Runtime.Test.Validation
