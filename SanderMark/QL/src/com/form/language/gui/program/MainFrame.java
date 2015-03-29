@@ -3,6 +3,7 @@ package com.form.language.gui.program;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -41,16 +42,17 @@ public class MainFrame {
     private void initialize() {
 	final Context context = new Context();
 	createFrame();		
-	createTextFields();
+	createTextFieldInput();
 	createButtonParse(context);
 	createButtonQuestionnaire(context);
+	createTextFieldOutput();
     }
 
     private void createButtonQuestionnaire(final Context context) {
 	button_createQuestionnaire = new JButton("Create Questionnaire");
 	button_createQuestionnaire.setEnabled(false);
-	button_createQuestionnaire.setBounds(216, 120, BUTTON_WEIGHT, BUTTON_HEIGHT);
-	frame.getContentPane().add(button_createQuestionnaire);				
+	button_createQuestionnaire.setSize(TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
+	frame.getContentPane().add(button_createQuestionnaire);		
 	button_createQuestionnaire.addMouseListener(buttonClickCreateQuestionnaire(context));
     }
 
@@ -66,7 +68,7 @@ public class MainFrame {
 
     private void createButtonParse(final Context context) {
 	button_parse = new JButton("Parse");
-	button_parse.setBounds(335, 120, BUTTON_WEIGHT, BUTTON_HEIGHT);
+	button_parse.setSize(TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
 	frame.getContentPane().add(button_parse);		
 	button_parse.addMouseListener(buttonClickParse(context));
     }
@@ -96,22 +98,26 @@ public class MainFrame {
 	    }
 	};
     }
+    
+	private void createTextFieldOutput() {
+		textArea_output = new JTextArea();
+		textArea_output.setSize(TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
+		frame.getContentPane().add(textArea_output);
+	}
 
-    private void createTextFields() {
-	textArea_input = new JTextArea();
-	textArea_input.setBounds(10, 11, TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
-	frame.getContentPane().add(textArea_input);
-
-	textArea_output = new JTextArea();
-	textArea_output.setBounds(10, 154, TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
-	frame.getContentPane().add(textArea_output);
-    }
+	private void createTextFieldInput() {
+		textArea_input = new JTextArea();
+		textArea_input.setSize(TEXTFIELD_WIDTH, TEXTFIELD_HEIGHT);
+		frame.getContentPane().add(textArea_input);
+	}
 
     private void createFrame() {
 	frame = new JFrame();
 	frame.setVisible(true);
 	frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.getContentPane().setLayout(null);
+	BoxLayout boxLayout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS); // top to bottom
+    frame.setLayout(boxLayout);
+	//frame.getContentPane().setLayout(null);
     }
 }
