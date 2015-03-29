@@ -80,8 +80,8 @@ class GUI:
         self.update(assignment, answer)
 
     def elements_recreate(self, qid):
-        statements_dict = self.__form.statement_map()
-        question = statements_dict[qid]
+        statements_map = self.__form.statement_map()
+        question = statements_map[qid]
 
         if isinstance(question, ast_assign.Assignment):
             self.update_assignment(question)
