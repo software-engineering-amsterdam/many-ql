@@ -21,7 +21,6 @@ import nl.uva.softwcons.generated.QLSParser.QuestionWithoutWidgetContext;
 import nl.uva.softwcons.generated.QLSParser.RadioContext;
 import nl.uva.softwcons.generated.QLSParser.SectionContext;
 import nl.uva.softwcons.generated.QLSParser.SliderContext;
-import nl.uva.softwcons.generated.QLSParser.SpinboxContext;
 import nl.uva.softwcons.generated.QLSParser.StyleContext;
 import nl.uva.softwcons.generated.QLSParser.StylePropertyContext;
 import nl.uva.softwcons.generated.QLSParser.StylesheetContext;
@@ -43,7 +42,6 @@ import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.SpinboxType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 
@@ -125,12 +123,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     public DropdownType visitDropdown(final DropdownContext ctx) {
         return new DropdownType(Utils.unquote(ctx.yes.getText()), Utils.unquote(ctx.no.getText()), extractLineInfo(ctx
                 .STRING().get(0).getSymbol()));
-    }
-
-    @Override
-    public SpinboxType visitSpinbox(final SpinboxContext ctx) {
-        return new SpinboxType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
-                Double.valueOf(ctx.step.getText()), extractLineInfo(ctx.SPINBOX().getSymbol()));
     }
 
     @Override

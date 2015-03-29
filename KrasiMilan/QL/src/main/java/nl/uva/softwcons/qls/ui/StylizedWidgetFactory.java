@@ -17,7 +17,6 @@ import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.SpinboxType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetTypeVisitor;
@@ -72,11 +71,6 @@ public class StylizedWidgetFactory implements WidgetFactory, WidgetTypeVisitor<W
     public Widget visit(final SliderType type) {
         return new SliderWidget(type.getStart(), type.getEnd(), type.getStep(), new NumberToNumberValueConverter(
                 type.getStart()));
-    }
-
-    @Override
-    public Widget visit(final SpinboxType type) {
-        return null; // TODO
     }
 
     @Override

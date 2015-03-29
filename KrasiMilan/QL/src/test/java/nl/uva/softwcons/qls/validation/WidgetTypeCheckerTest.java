@@ -140,7 +140,7 @@ public class WidgetTypeCheckerTest {
 
     @Test
     public void testNumberQuestionWithCorrectWidgetSpinbox() {
-        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget spinbox (10, 20, 1)} } ");
+        List<Error> errors = getWidgetTypeErrors("page page1 { section \"section\" { question q3 widget slider (10, 20, 1)} } ");
         assertThat(errors).hasSize(0);
     }
 
