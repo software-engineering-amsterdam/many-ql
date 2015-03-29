@@ -7,7 +7,6 @@ using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
-using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 using UvA.SoftCon.Questionnaire.WinForms.UIBuilding;
 
@@ -160,7 +159,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             try
             {
-                var runtimeController = new RuntimeController();
+                var runtimeController = new QL.Runtime.RuntimeController();
                 return runtimeController.Validate(form);
             }
             catch (Exception ex)
@@ -173,7 +172,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             try
             {
-                var runtimeController = new RuntimeController();
+                var runtimeController = new QLS.Runtime.RuntimeController();
                 return runtimeController.Validate(styleSheet, form);
             }
             catch (Exception ex)

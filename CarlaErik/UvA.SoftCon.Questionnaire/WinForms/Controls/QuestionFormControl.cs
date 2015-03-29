@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
-using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
@@ -61,7 +60,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         private void Interpretet()
         {
-            var runtimeController = new RuntimeController();
+            var runtimeController = new QL.Runtime.RuntimeController();
             var answers = CollectAnswers();
 
             try

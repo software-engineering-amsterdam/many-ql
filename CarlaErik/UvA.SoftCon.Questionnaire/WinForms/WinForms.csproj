@@ -184,6 +184,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QL.Runtime\QL.Runtime.csproj">
+      <Project>{c7ea29f7-cdad-4e65-b863-43403135b298}</Project>
+      <Name>QL.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QLS.Runtime\QLS.Runtime.csproj">
+      <Project>{7bf8b6fb-ec40-48da-a702-5d3a926a7e22}</Project>
+      <Name>QLS.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QLS\QLS.csproj">
       <Project>{affaeebf-af97-4c93-b471-f892de2e1325}</Project>
       <Name>QLS</Name>
@@ -191,10 +199,6 @@
     <ProjectReference Include="..\QL\QL.csproj">
       <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
       <Name>QL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Runtime\Runtime.csproj">
-      <Project>{e0c488e0-e95b-4d3f-b023-6397fa455d96}</Project>
-      <Name>Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
