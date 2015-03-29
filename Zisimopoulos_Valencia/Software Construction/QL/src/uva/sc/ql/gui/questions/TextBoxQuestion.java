@@ -12,44 +12,35 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.atom.ID;
-import uva.sc.ql.evaluator.EvaluatorVisitor;
-import uva.sc.ql.gui.helpers.DisplayData;
+import uva.sc.ql.evaluator.QuestionsPropertiesVisitor;
+import uva.sc.ql.gui.helpers.QuestionData;
 import uva.sc.ql.gui.listeners.CalculatorListener;
 
-@SuppressWarnings({ "unchecked", "serial" })
+@SuppressWarnings({ "serial" })
 public class TextBoxQuestion extends Question {
 
     Map<ID, List<ID>> patronElements;
-    EvaluatorVisitor evaluator;
+    QuestionsPropertiesVisitor questionsProperties;
     List<Component> componentList;
 
-    public TextBoxQuestion(Map<ID, List<ID>> d,
-	    EvaluatorVisitor evalVisitor, List<Component> componentList) {
-	this.patronElements = d;
-	this.evaluator = evalVisitor;
+    public TextBoxQuestion(Map<ID, List<ID>> patronElements, QuestionsPropertiesVisitor questionsProperties,
+	    List<Component> componentList) {
+	this.patronElements = patronElements;
+	this.questionsProperties = questionsProperties;
 	this.componentList = componentList;
     }
 
     public JPanel drawQuestion(ID id, String label, boolean isEditable) {
-	DisplayData data = evaluator.getValuesTable().get(id);
-	boolean visibility = true;
+	QuestionData data = questionsProperties.questionData(id);
+	boolean visibility = data.evaluateVisibility(questionsProperties.getValuesTable());
+	JTextField textField = createTextField(id);
+	return generatePanel(id, label, visibility, textField);
+    }
+
+    private JPanel generatePanel(ID id, String label, boolean visibility,
+	    JTextField textField) {
 	JPanel panel = new JPanel();
-
-	JTextField textField = new JTextField();
-	textField.setName(id.getValue());
-
-	addListeners(id, textField);
-
-	if (data != null) {
-	    if (data.getCondition() != null) {
-		BooleanAtom b = (BooleanAtom) data.getCondition().accept(
-			evaluator);
-		visibility = b.getValue();
-	    }
-	}
-
 	panel.setLayout(new GridLayout(2, 0));
 	panel.add(new JLabel(label));
 	panel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -57,6 +48,13 @@ public class TextBoxQuestion extends Question {
 	panel.setName(id.getValue());
 	panel.setVisible(visibility);
 	return panel;
+    }
+
+    private JTextField createTextField(ID id) {
+	JTextField textField = new JTextField();
+	textField.setName(id.getValue());
+	addListeners(id, textField);
+	return textField;
     }
 
     private void addListeners(ID id, JTextField textField) {
@@ -69,8 +67,8 @@ public class TextBoxQuestion extends Question {
 	    Entry<ID, List<ID>> entry) {
 	if (id.equals(entry.getKey())) {
 	    textField.getDocument().addDocumentListener(
-		(new CalculatorListener(patronElements, evaluator,
-			componentList, textField, id)));
+		    (new CalculatorListener(patronElements, questionsProperties,
+			    componentList, textField, id)));
 	}
     }
 
