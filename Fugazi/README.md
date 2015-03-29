@@ -9,6 +9,18 @@ UvA - Software Construction 2014-2015
 Usage
 ========
 
+###Build
+
+We use `ant` for build framework, the file `build.xml` describes the build script.
+By executing the following (in the project folder) run a full build of the project including the generation of executable:
+```
+ant all
+```
+
+The deployment of the jar file is located in `{project.dir}/out/artifacts/Fugazi_jar/Fugazi.jar`
+
+### Execute
+
 To run the application you need `java` installed o you machine, the usage is the following:
 ```
 java -jar Fugazi.jar qlfilename.ql [qlsfilename.qls]
@@ -16,7 +28,7 @@ java -jar Fugazi.jar qlfilename.ql [qlsfilename.qls]
 
 An example:
 ```
-java -jar <Fugazi Folder>/out/artifacts/Fugazi_jar/Fugazi.jar <Fugazi Folder>/test/input_forms/fugaziFormExample.ql <Fugazi Folder>/test/input_forms/fugaziStyleExample.qls
+java -jar {project.dir}/out/artifacts/Fugazi_jar/Fugazi.jar {project.dir}/test/input_forms/fugaziFormExample.ql {project.dir}/test/input_forms/fugaziStyleExample.qls
 ```
 
 Tools
