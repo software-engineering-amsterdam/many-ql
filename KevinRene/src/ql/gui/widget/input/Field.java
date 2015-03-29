@@ -42,6 +42,14 @@ public abstract class Field<T extends Value> extends DefaultComponent implements
     	panel.add(textField);
     	panel.add(errorLabel, "wrap");
 	}
+	
+	protected final T value() {
+		return value;
+	}
+	
+	protected final void value(T value) {
+		this.value = value;
+	}
 		
 	protected void setError(String text) {
 		textField.setBorder(BorderFactory.createLineBorder(Color.RED));
