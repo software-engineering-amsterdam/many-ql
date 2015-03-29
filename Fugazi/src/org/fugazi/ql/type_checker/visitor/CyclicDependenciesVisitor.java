@@ -6,7 +6,6 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.type_checker.dependency.DependencyManager;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.ql.type_checker.issue.error.CyclicDependenciesError;
 
 import java.util.ArrayList;

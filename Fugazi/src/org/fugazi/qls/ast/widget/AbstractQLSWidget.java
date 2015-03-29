@@ -9,10 +9,8 @@ import org.fugazi.ql.gui.widgets.WidgetsEventListener;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.*;
-import org.fugazi.qls.ast.style.style_property.Color;
-import org.fugazi.qls.ast.style.style_property.Font;
-import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
 import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
+import org.fugazi.qls.ast.widget.widget_types.UndefinedWidgetType;
 
 import javax.swing.*;
 import java.util.ArrayList;

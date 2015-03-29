@@ -4,7 +4,7 @@ import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.Question;
-import org.fugazi.ql.ast.type.*;
+import org.fugazi.ql.ast.type.Type;
 
 import java.util.HashMap;
 

@@ -3,14 +3,13 @@ package org.fugazi.ql.type_checker;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.type.Type;
-import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.ql.type_checker.issue.error.DuplicateQuestionError;
 import org.fugazi.ql.type_checker.issue.error.NonBoolConditionError;
 import org.fugazi.ql.type_checker.issue.error.TypeMismatchError;
@@ -18,7 +17,10 @@ import org.fugazi.ql.type_checker.visitor.CyclicDependenciesVisitor;
 import org.fugazi.ql.type_checker.visitor.TypeMismatchVisitor;
 import org.fugazi.ql.type_checker.visitor.UndefinedQuestionsVisitor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class QLTypeChecker {

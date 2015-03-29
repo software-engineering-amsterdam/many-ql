@@ -13,7 +13,9 @@ import org.fugazi.qls.ast.widget.widget_types.IWidgetType;
 import org.fugazi.qls.ast.widget.widget_types.WidgetTypeToWidgetVisitor;
 import org.fugazi.qls.type_checker.issue.ASTQlsNodeIssueType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class QLSTypeChecker {
     private QLFormDataStorage qlFormData;
