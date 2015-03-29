@@ -1,15 +1,11 @@
 ﻿using AST;
-using Nodes = AST.Nodes;
 using AST.Nodes.Expressions;
 using Evaluation;
 using Evaluation.Values;
-using QLGui.ValueVisitors;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows;
-using ASTFormObject = AST.Nodes.FormObjects;
-using AST.Nodes.Interfaces;
-using Types = AST.Types;
-using QLGui.FormObjects;
 
 namespace QLGui.Controllers
 {
@@ -41,7 +37,8 @@ namespace QLGui.Controllers
             }
             else
             {
-                //paint errors
+                window.CreateAndAddErrorList(astTree.GetNotifications());
+                return null;
             }
         }
 
@@ -52,6 +49,12 @@ namespace QLGui.Controllers
             window.DeleteElements();
 
             ProcessBody();
+        }
+
+        public void ExportAnswers()
+        {
+            ExportFormulaireController exportFormulaire = new ExportFormulaireController();
+            exportFormulaire.ExportAnswers(astTree.RootNode.GetBody(), symbolTable);
         }
     }
 }

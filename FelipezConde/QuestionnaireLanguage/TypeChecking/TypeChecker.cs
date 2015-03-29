@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AST;
+﻿using AST;
 using AST.Nodes;
 using AST.Nodes.Expressions;
 using Notifications;
+using System.Collections.Generic;
+using System.Linq;
 using TypeChecking.Collectors;
 using Types = AST.Types;
 
@@ -23,7 +23,8 @@ namespace TypeChecking
 
             ExpressionContainerChecker expressionContainerChecker = new ExpressionContainerChecker(GetIdentifierTypes(rootNode));
             notificationManager.Combine(expressionContainerChecker.AnalyzeAndReport(rootNode.GetBody()));
-            notificationManager.Combine(new CyclicDependencyChecker().AnalyzeAndReport(rootNode.GetBody()));
+            //notificationManager.Combine(new CyclicDependencyChecker().AnalyzeAndReport(rootNode.GetBody()));
+            notificationManager.Combine(new LabelChecker().AnalyzeAndReport(rootNode.GetBody()));
 
             astResult.NotificationManager.Combine(notificationManager);
 

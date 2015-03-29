@@ -2,11 +2,7 @@
 using AST.Nodes.FormObjects;
 using AST.VisitorInterfaces;
 using Notifications;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TypeChecking.Collectors;
 using TypeChecking.Notifications.Errors;
 

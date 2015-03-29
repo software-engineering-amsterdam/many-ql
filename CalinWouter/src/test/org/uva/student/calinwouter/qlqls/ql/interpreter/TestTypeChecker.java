@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.typechecker;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
@@ -36,8 +36,8 @@ public class TestTypeChecker {
     @Test
     public void testDuplicateQuestionDifferentTypes() throws ParserException,IOException, LexerException {
         TypeCheckResults typeCheckResults = InterpreterHelper
-                .typeCheckString(form("a: \"Question 1\": int\n" +
-                        "a: \"Question 1\": boolean"));
+                .typeCheckString(form("a: \"Question 1\" int\n" +
+                        "a: \"Question 1\" boolean"));
         assertTrue(typeCheckResults.getErrors().contains("Two questions with the same identifier and a different type were found for variable: a."));
     }
 
@@ -68,5 +68,5 @@ public class TestTypeChecker {
                 .typeCheckString(form("a: \"test\" boolean b: \"test\" boolean"));
         assertTrue(typeCheckResults.getWarnings().contains("Label test found twice."));
     }
-*/
+
 }

@@ -100,12 +100,10 @@ public class Canvas extends GuiElement
 
     private Node createTabsView()
     {
-
         List<Tab> tabs = new ArrayList<>();
-        int count = 1;
         for (Page page : this.pages)
         {
-            tabs.add(this.createTab(count++, page));
+            tabs.add(this.createTab(page));
         }
 
         //TODO: fix the CSS for the tabs header
@@ -115,9 +113,9 @@ public class Canvas extends GuiElement
         return pane;
     }
 
-    private Tab createTab(int count, Page page)
+    private Tab createTab(Page page)
     {
-        Tab tab = new Tab("Page " + (count++));
+        Tab tab = new Tab(page.getName());
         tab.setContent(page.getContainer());
         tab.setClosable(false);
         return tab;

@@ -15,12 +15,12 @@ import java.util.Set;
 /**
  * This type checker checks:
  *
- * reference to undefined questions
- * duplicate question declarations with different types
- * conditions that are not of the type boolean
- * operands of invalid type to operators
- * cyclic dependencies between questions
- * duplicate labels (warning)
+ * Reference to undefined questions
+ * Duplicate question declarations with different types
+ * Conditions that are not of the type boolean
+ * Operands of invalid type to operators
+ * Cyclic dependencies between questions
+ * Duplicate labels (warning)
  */
 public class QLTypeChecker {
     private final AForm aForm;

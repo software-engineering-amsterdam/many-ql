@@ -1,10 +1,9 @@
-﻿using AST.Nodes;
+﻿using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
-using Evaluation.Values;
-using AST.Nodes.Expressions;
-using Literals = AST.Nodes.Literals;
 using AST.VisitorInterfaces;
+using Evaluation.Values;
+using Literals = AST.Nodes.Literals;
 
 namespace Evaluation
 {

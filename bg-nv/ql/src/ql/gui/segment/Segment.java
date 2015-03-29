@@ -8,21 +8,21 @@ import java.util.List;
 /**
  * Created by Nik on 3-3-15.
  */
-//TODO: push down the subsegments
+//TODO: push down the subSegments
 public abstract class Segment<T extends Node> extends GuiElement
 {
-    private final List<Segment> subsegments;
+    private final List<Segment> subSegments;
     protected T container;
 
-    public Segment(T container, List<Segment> subsegments, Boolean visible)
+    public Segment(T container, List<Segment> subSegments, Boolean visible)
     {
         super(visible);
 
-        assert subsegments != null;
+        assert subSegments != null;
         assert container != null;
 
         this.container = container;
-        this.subsegments = subsegments;
+        this.subSegments = subSegments;
         this.setVisible(visible);
     }
     
@@ -34,9 +34,9 @@ public abstract class Segment<T extends Node> extends GuiElement
         this.container.setManaged(visible);
     }
 
-    public List<Segment> getSubsegments()
+    public List<Segment> getSubSegments()
     {
-        return this.subsegments;
+        return this.subSegments;
     }
 
     public T getContainer()

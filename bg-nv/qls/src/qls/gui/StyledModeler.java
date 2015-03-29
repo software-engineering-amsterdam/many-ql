@@ -41,7 +41,7 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
             pages.add(page);
         }
 
-        return new Canvas("Unicorn!", pages);
+        return new Canvas(getCondQuestionTable().getTitle(), pages);
     }
 
     @Override
@@ -110,6 +110,6 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
             }
         }
 
-        return new ql.gui.segment.Page(segments, true);
+        return new ql.gui.segment.Page(segments, p.getName(), true);
     }
 }

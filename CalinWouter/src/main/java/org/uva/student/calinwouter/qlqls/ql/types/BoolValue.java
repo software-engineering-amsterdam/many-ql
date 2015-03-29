@@ -41,17 +41,17 @@ public class BoolValue extends Value {
 
     @Override
     public Value or(Value value) {
-        return new BoolValue((Boolean) getInternalValue() || (Boolean) value.getInternalValue());
+        return new BoolValue((Boolean) toJavaObject() || (Boolean) value.toJavaObject());
     }
 
     @Override
     public Value and(Value value) {
-        return new BoolValue((Boolean) getInternalValue() && (Boolean) value.getInternalValue());
+        return new BoolValue((Boolean) toJavaObject() && (Boolean) value.toJavaObject());
     }
 
     @Override
     public BoolValue not() {
-        return new BoolValue(!(Boolean) getInternalValue());
+        return new BoolValue(!(Boolean) toJavaObject());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class BoolValue extends Value {
     }
 
     public boolean isTrue() {
-        return (Boolean) getInternalValue();
+        return (Boolean) toJavaObject();
     }
 
     public BoolValue(Boolean value) {

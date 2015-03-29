@@ -9,7 +9,7 @@ public class TestStringOperations {
 
     @Test
     public void testAdd() {
-        assertEquals("ab", new StringValue("a").add(new StringValue("b")).getInternalValue());
+        assertEquals("ab", new StringValue("a").add(new StringValue("b")).toJavaObject());
     }
 
 }

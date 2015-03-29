@@ -1,11 +1,9 @@
 ﻿using AST.Nodes.Expressions;
 using AST.Nodes.Expressions.Binaries;
 using AST.Nodes.Expressions.Unaries;
-using Notifications;
-using System.Collections.Generic;
-using TypeChecking.Notifications.Errors;
-using Types = AST.Types;
 using AST.VisitorInterfaces;
+using System.Collections.Generic;
+using Types = AST.Types;
 
 namespace TypeChecking.Collectors
 {

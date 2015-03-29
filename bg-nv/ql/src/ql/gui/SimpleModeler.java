@@ -21,6 +21,8 @@ import java.util.List;
  */
 public class SimpleModeler extends Modeler
 {
+    private final String defaultPageName = "Main";
+
     public SimpleModeler(CondQuestionTable condQuestionTable)
     {
         super(condQuestionTable);
@@ -36,9 +38,9 @@ public class SimpleModeler extends Modeler
             segments.add(segment);
         }
         List<Page> pages = new ArrayList<>();
-        pages.add(new Page(segments, true));
+        pages.add(new Page(segments, defaultPageName, true));
 
-        return new Canvas("Questionnaire", pages);
+        return new Canvas(this.getCondQuestionTable().getTitle(), pages);
     }
 
     @Override
@@ -64,6 +66,4 @@ public class SimpleModeler extends Modeler
     {
         return null;
     }
-
-
 }

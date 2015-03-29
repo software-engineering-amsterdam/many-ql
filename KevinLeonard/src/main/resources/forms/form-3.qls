@@ -1,0 +1,48 @@
+style PartyForm {
+
+    page Page1 {
+
+        section "Section" {
+            comesToParty dropdown {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+
+            reallySure radio {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+
+            numberOfFriends slider {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+
+            numberOfPresents text {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+                color: #999999
+            }
+
+            preferences text {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+            }
+
+            aLotOfPreferences textBlock {
+                width: 400
+                font: "Arial"
+                fontSize: 14
+            }
+        }
+    }
+
+}

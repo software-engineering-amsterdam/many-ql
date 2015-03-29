@@ -1,7 +1,5 @@
-﻿using AST.Nodes;
-using AST.Nodes.Expressions;
+﻿using AST.Nodes.Expressions;
 using AST.Nodes.FormObjects;
-using AST.Nodes.Interfaces;
 using Grammar;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +38,7 @@ namespace AST.ParseTreeVisitors
         private Label MakeLabel(QLMainParser.LabelContext context)
         {
             string labelText = context.STRINGLITERAL().GetText();
-            return new Label(labelText.Substring(1, labelText.Length - 2));
+            return new Label(labelText.Substring(1, labelText.Length - 2), new PositionInText(context));
         }
     }
 }

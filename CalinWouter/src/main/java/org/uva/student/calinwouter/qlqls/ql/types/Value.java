@@ -54,7 +54,7 @@ public abstract class Value {
         throw new UnsupportedValueOperationException();
     }
 
-    Object getInternalValue() {
+    public Object toJavaObject() {
         return internalValue;
     }
 
@@ -64,8 +64,8 @@ public abstract class Value {
     }
 
     public BoolValue eq(Value value) {
-        final Object otherInternalValue = value.getInternalValue();
-        final Object myInternalValue = getInternalValue();
+        final Object otherInternalValue = value.toJavaObject();
+        final Object myInternalValue = toJavaObject();
         final Boolean equality = otherInternalValue.equals(myInternalValue);
         return new BoolValue(equality);
     }
@@ -79,6 +79,6 @@ public abstract class Value {
 
     @Override
     public String toString() {
-        return "" + getInternalValue();
+        return "" + toJavaObject();
     }
 }

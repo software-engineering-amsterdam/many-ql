@@ -21,6 +21,7 @@ public class Rules implements Iterable<Rule>
         return this.rules.iterator();
     }
 
+    // TODO: why make new object
     public Rules addRules(Rules lowPr)
     {
         List<Rule> res = new ArrayList<>();
@@ -28,25 +29,12 @@ public class Rules implements Iterable<Rule>
 
         for (Rule l : lowPr)
         {
-            if (!(this.isRuleOverwritten(l, this)))
+            if (!(l.isRuleOverwritten(this)))
             {
                 res.add(l);
             }
         }
 
         return new Rules(res);
-    }
-
-    private boolean isRuleOverwritten(Rule r, Rules highPr)
-    {
-        for (Rule h : highPr)
-        {
-            if (r.isOverwrittenBy(h))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
