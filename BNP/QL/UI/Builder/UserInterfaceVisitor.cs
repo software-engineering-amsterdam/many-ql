@@ -11,7 +11,7 @@ using QL.UI.ControlWrappers;
 
 namespace QL.UI.Builder
 {
-    public class UserInterfaceVisitor : ISimpleVisitor
+    public class UserInterfaceVisitor : IVisitor
     {
         private readonly WidgetFactory _widgetFactory;
         private readonly IList<WidgetBase> _elementsToDisplay;
@@ -71,8 +71,7 @@ namespace QL.UI.Builder
 
         #region Unused Visit method overloads that are irrelevant for the GUI
         public void Visit(Expression node)
-        {
-        }
+        { }
 
         /// <summary>
         /// This method has a signature with the highest class in the hierarchy and will act as a fallback
@@ -80,6 +79,70 @@ namespace QL.UI.Builder
         public void Visit(ElementBase elementBase)
         {
             throw new NotImplementedException("GUI Visitor did not expect an ElementBase fallback");
+        }
+
+        public void Visit(Yesno node)
+        {
+        }
+
+        public void Visit(Number node)
+        {
+        }
+
+        public void Visit(Text node)
+        {
+        }
+
+        public void Visit(Identifier node)
+        {
+        }
+
+        public void Visit(EqualsOperator node)
+        {
+        }
+
+        public void Visit(NotEqualsOperator node)
+        {
+        }
+
+        public void Visit(GreaterThanOperator node)
+        {
+        }
+
+        public void Visit(GreaterThanEqualToOperator node)
+        {
+        }
+
+        public void Visit(LessThanOperator node)
+        {
+        }
+
+        public void Visit(LessThanEqualToOperator node)
+        {
+        }
+
+        public void Visit(MultiplicationOperator node)
+        {
+        }
+
+        public void Visit(DivisionOperator node)
+        {
+        }
+
+        public void Visit(PlusOperator node)
+        {
+        }
+
+        public void Visit(MinusOperator node)
+        {
+        }
+
+        public void Visit(AndOperator node)
+        {
+        }
+
+        public void Visit(OrOperator node)
+        {
         }
         #endregion
     }

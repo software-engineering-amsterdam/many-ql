@@ -54,7 +54,6 @@
     <Compile Include="AST\DataContext.cs" />
     <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
     <Compile Include="AST\ASTCreation\TypeFactory.cs" />
-    <Compile Include="AST\IExtendedVisitor.cs" />
     <Compile Include="DataHandlers\InputHandling\Initializer.cs" />
     <Compile Include="DataHandlers\IExecutableHandler.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
@@ -69,7 +68,7 @@
     <Compile Include="DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
     <Compile Include="DataHandlers\Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="AST\Nodes\Terminals\Wrappers\ITerminalWrapper.cs" />
-    <Compile Include="AST\ISimpleVisitor.cs" />
+    <Compile Include="AST\IVisitor.cs" />
     <Compile Include="DataHandlers\TypeChecking\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\Errors\QLError.cs" />
     <Compile Include="Exceptions\Warnings\RedeclaredVariableWarning.cs" />

@@ -12,7 +12,7 @@ using QL.Exceptions.Warnings;
 
 namespace QL.DataHandlers.TypeChecking
 {
-    public class TypeCheckerVisitor : IExtendedVisitor
+    public class TypeCheckerVisitor : IVisitor
     {
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }

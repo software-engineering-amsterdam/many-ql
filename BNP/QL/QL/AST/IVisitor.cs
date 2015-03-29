@@ -1,13 +1,27 @@
-﻿using QL.AST.Nodes.Branches.Operators;
+﻿using System.Collections.Generic;
+using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
+using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
+using QL.Exceptions;
 
 namespace QL.AST
 {
     /// <summary>
-    /// An extended AST visitor that also provides implementation contracts for Terminals and Operators
+    /// An AST visitor providing only the most elementary types that need be visited
     /// </summary>
-    public interface IExtendedVisitor : ISimpleVisitor
+    public interface IVisitor
     {
+        ReferenceTables ReferenceTables { get; }
+        IList<QLBaseException> Exceptions { get; }
+
+        void Visit(Form node);
+        void Visit(Block node);
+        void Visit(ControlUnit node);
+        void Visit(StatementUnit node);
+        void Visit(QuestionUnit node);
+        void Visit(Expression node);
+
         void Visit(Yesno node);
         void Visit(Number node);
         void Visit(Text node);
@@ -25,5 +39,8 @@ namespace QL.AST
         void Visit(MinusOperator node);
         void Visit(AndOperator node);
         void Visit(OrOperator node);
+
+        // Fallback visitor
+        void Visit(ElementBase elementBase);
     }
 }

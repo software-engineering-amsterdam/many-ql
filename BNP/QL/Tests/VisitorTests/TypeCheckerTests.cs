@@ -22,7 +22,7 @@ namespace Tests.VisitorTests
 
 
         [TestMethod]
-        public void TCCollectNothing()
+        public void CollectNothing()
         {
             Initialize(@"form ExampleBlock {
                 if (3==-11){}
@@ -39,7 +39,7 @@ namespace Tests.VisitorTests
         }
 
         [TestMethod]
-        public void TCCollectException()
+        public void CollectException()
         {
             Initialize(@"form ExampleBlock {
                 if (3==-11){}
@@ -54,7 +54,7 @@ namespace Tests.VisitorTests
             Assert.AreEqual(1, Builder.DataContext.ASTHandlerExceptions.Count);
         }
         [TestMethod]
-        public void TCCollectException2()
+        public void CollectException2()
         {
             Initialize(@"form ExampleBlock {
                 if (3==(4==(4>2))){}
@@ -70,7 +70,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCCollectNoExceptionCosParentheses()
+        public void CollectNoExceptionCosParentheses()
         {
             Initialize(@"form ExampleBlock {
                 if ((3+(4+(5+6)))==9){}
@@ -87,7 +87,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCReferencesTest()
+        public void ReferencesTest()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing (yesno, (3==4)) ""well"";
@@ -105,7 +105,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCMemoryBuildup()
+        public void MemoryBuildup()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing (yesno, (3==4)) ""well"";
@@ -132,7 +132,7 @@ namespace Tests.VisitorTests
 
         
         [TestMethod]
-        public void TCExpressionInsideStatementPass()
+        public void ExpressionInsideStatementPass()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing1 (yesno, ((""niet"">="" jaa"")==((5+2)<21))) ""well"";
@@ -148,7 +148,7 @@ namespace Tests.VisitorTests
         }
 
         [TestMethod]
-        public void TCStatementInsideExpressionFail()
+        public void StatementInsideExpressionFail()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing1 (number, (no==((5+2)<21))) ""well"";
@@ -164,7 +164,7 @@ namespace Tests.VisitorTests
         }
 
         [TestMethod]
-        public void TCReferenceToIdentifierPass()
+        public void ReferenceToIdentifierPass()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing1 (yesno, (yes)) ""well"";
@@ -184,7 +184,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCReferenceToIdentifierFailBecauseOfType()
+        public void ReferenceToIdentifierFailBecauseOfType()
         {
             Initialize(@"form ExampleBlock {
                 statement Smthing2 (number, (5+24124)) ""well"";
@@ -200,7 +200,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCReferenceToIdentifierFailBecauseOfNotDeclared()
+        public void ReferenceToIdentifierFailBecauseOfNotDeclared()
         {
             Initialize(@"form ExampleBlock {
             
@@ -216,7 +216,7 @@ namespace Tests.VisitorTests
 
         }
         [TestMethod]
-        public void TCCyclicReference()
+        public void CyclicReference()
         {
             Initialize(@"form ExampleBlock {
                    statement S1 (number, S3) ""blah"";
@@ -229,7 +229,7 @@ namespace Tests.VisitorTests
             Assert.IsFalse(Builder.RunTypeCheckers());
         }
         [TestMethod]
-        public void ReferenceFromAnotherBranch1()
+        public void ReferenceFromAnotherBranch()
         {
             Initialize(@"form ExampleBlock {
                 question Q1 (number) ""blah"";

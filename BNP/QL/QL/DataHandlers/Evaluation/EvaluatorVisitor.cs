@@ -12,7 +12,7 @@ using QL.Exceptions.Errors;
 
 namespace QL.DataHandlers.Evaluation
 {
-    public class EvaluatorVisitor : IExtendedVisitor
+    public class EvaluatorVisitor : IVisitor
     {
         private readonly EvaluationTerminalWrapperFactory _evaluationTerminalWrapperFactory;
 

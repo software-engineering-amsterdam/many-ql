@@ -55,7 +55,7 @@ namespace Tests.VisitorTests
                 }
             ");
             Assert.IsTrue(Builder.RunEvaluators());
-            TextWrapper tw = new TextWrapper("\"abc\"");
+            TextWrapper tw = new TextWrapper("abc");
             TextWrapper tw_from_code = Builder.DataContext.ValueReferenceTable.GetValueOrNull("S1") as TextWrapper;
             Assert.IsTrue((tw_from_code == tw).Value.Value);
 
