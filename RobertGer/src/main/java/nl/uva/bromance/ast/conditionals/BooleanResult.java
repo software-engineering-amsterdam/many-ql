@@ -3,32 +3,33 @@ package nl.uva.bromance.ast.conditionals;
 /**
  * Created by Ger on 24-2-2015.
  */
-public class BooleanResult extends Result{
+public class BooleanResult extends Result {
 
     private boolean result;
 
-    public BooleanResult(boolean result){
+    public BooleanResult(boolean result) {
         this.result = result;
     }
 
-    public boolean getResult(){
+    public boolean getResult() {
         return result;
     }
 
-    public Result flip(){
+    public Result flip() {
         return new BooleanResult(!result);
     }
 
-    public Result or(BooleanResult br){
+    public Result or(BooleanResult br) {
         return new BooleanResult((result || br.getResult()));
     }
-    public Result and(BooleanResult br){
+
+    public Result and(BooleanResult br) {
         return new BooleanResult((result && br.getResult()));
     }
 
     @Override
     public String toString() {
-        if(result){
+        if (result) {
             return "true";
         } else {
             return "false";

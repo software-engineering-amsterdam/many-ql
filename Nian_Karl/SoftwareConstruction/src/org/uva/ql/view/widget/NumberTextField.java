@@ -32,6 +32,8 @@ public class NumberTextField extends BaseTextField {
 	public void setWidgetValue(Value value) {
 		if (value.isDefined()) {			
 			textField.setText(value.toString());
+		}else{
+			textField.setText("");
 		}
 	}
 }

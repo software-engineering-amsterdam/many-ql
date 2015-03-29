@@ -2,10 +2,7 @@ package nl.uva.bromance;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -71,9 +68,11 @@ public class App extends Application {
         mainPane.getDividers();
 
         pages = new VBox();
+        ScrollPane pane = new ScrollPane();
         questions = new VBox();
+        pane.setContent(questions);
 
-        mainPane.getItems().addAll(pages, questions);
+        mainPane.getItems().addAll(pages, pane);
         return mainPane;
     }
 
@@ -97,23 +96,31 @@ public class App extends Application {
                 String qlPath = file.getAbsolutePath();
                 String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
 
-                AST<QLNode> qlAst = createQlAst(qlPath);
-                doQlSetup(qlAst);
-                Visualizer visualizer = new Visualizer();
-                if (qlAst != null) {
-                    AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
-                    if (qlsAst != null) {
-                        visualizer.setQlsAst(qlsAst);
+                try {
+                    AST<QLNode> qlAst = createQlAst(qlPath);
+                    Visualizer visualizer = new Visualizer();
+                    if (qlAst != null) {
+                        AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
+                        if (qlsAst != null) {
+                            visualizer.setQlsAst(qlsAst);
+                        }
+                        visualizer.render(qlAst, pages, questions);
                     }
-                    visualizer.render(qlAst, pages, questions);
+                } catch (GrammarErrorListener.SyntaxError se) {
+                    showSyntaxError(se.getMessage());
                 }
             }
         });
     }
 
-    private void doQlSetup(AST<QLNode> qlAst) {
+    private void showSyntaxError(String message) {
+        Stage stage = new Stage();
+        VBox root = new VBox();
+        root.getChildren().add(new Label(message));
 
-
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private AST<QLSNode> readQlsFile(String qlsPath, AST<QLNode> qlAst) throws IOException {

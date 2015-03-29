@@ -8,6 +8,7 @@ import org.uva.student.calinwouter.qlqls.ql.gui.widgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.QLInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.model.StateWrapper;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticQuestionField;
 
 /**
@@ -20,7 +21,7 @@ public class QLWidgetFetcher implements ITypeCallback {
     private IWidget widget;
 
     private void createLabelWithWidgetWidget(IWidget embeddedWidget) {
-        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), null, embeddedWidget, stateWrapper);
+        widget = new LabelWithWidgetWidget(staticQuestionField.getLabel(), staticQuestionField.getVariable(), embeddedWidget, stateWrapper);
     }
 
     public void createWidget(ITypeDescriptor typeDescriptor) {

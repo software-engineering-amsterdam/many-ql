@@ -21,7 +21,7 @@ public class IfQuestionPanel extends Panel {
 	public void evaluateAndShow(Evaluator evaluator) {
 		Value value = evaluator.evaluate(expr);
 		if (value.isDefined()) {
-			if ((boolean) value.value()) {
+			if ((boolean) value.value()) { 
 				toggleIfBlock(true);
 			} else {
 				toggleIfBlock(false);
