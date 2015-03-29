@@ -29,6 +29,14 @@ public class IssueObject {
 		return this.issueTypeWarning != null;
 	}
 	
+	public boolean isOfErrorType(IssueType.ERROR error){
+		if (error == null){
+			return false;
+		}
+		
+		return this.issueTypeError == error;
+	}
+	
 	@Override
 	public String toString(){
 		if (this.issueTypeError != null){
