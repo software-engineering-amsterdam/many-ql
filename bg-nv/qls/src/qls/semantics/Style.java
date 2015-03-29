@@ -28,13 +28,18 @@ public class Style
         return this.typeToRules.get(t);
     }
 
-    public void addStyle(Style lowPr)
+    public static Style mergeStyles(Style highPr, Style lowPr)
     {
+        Style result = new Style();
+        result.typeToRules.putAll(highPr.typeToRules);
+
         for (Type t : lowPr.typeToRules.keySet())
         {
-            Rules rs = this.getRulesForStyle(t, lowPr);
-            this.addRules(t, rs);
+            Rules rs = result.getRulesForStyle(t, lowPr);
+            result.addRules(t, rs);
         }
+
+        return result;
     }
 
     private Rules getRulesForStyle(Type t, Style s)

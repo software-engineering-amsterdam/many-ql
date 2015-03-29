@@ -1,4 +1,4 @@
-// Generated from D:/intellij_projects/many-ql/bg-nv/qls/src/qls/syntax\QLS.g4 by ANTLR 4.5
+// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/qls/src/qls/syntax/QLS.g4 by ANTLR 4.5
 package qls.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -153,7 +153,7 @@ public class QLSParser extends Parser {
 	}
 
 	public static class PageContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
+		public TerminalNode String() { return getToken(QLSParser.String, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
@@ -181,7 +181,7 @@ public class QLSParser extends Parser {
 			setState(26); 
 			match(T__3);
 			setState(27); 
-			match(Identifier);
+			match(String);
 			setState(28); 
 			match(T__1);
 			setState(30); 
@@ -725,11 +725,11 @@ public class QLSParser extends Parser {
 		"\2\2\2\4\34\3\2\2\2\6)\3\2\2\2\b+\3\2\2\2\n\65\3\2\2\2\fA\3\2\2\2\16\\"+
 		"\3\2\2\2\20|\3\2\2\2\22\23\7\3\2\2\23\24\7 \2\2\24\26\7\4\2\2\25\27\5"+
 		"\4\3\2\26\25\3\2\2\2\27\30\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\32\3"+
-		"\2\2\2\32\33\7\5\2\2\33\3\3\2\2\2\34\35\7\6\2\2\35\36\7 \2\2\36 \7\4\2"+
-		"\2\37!\5\6\4\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2"+
-		"$%\7\5\2\2%\5\3\2\2\2&*\5\b\5\2\'*\5\n\6\2(*\5\f\7\2)&\3\2\2\2)\'\3\2"+
-		"\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\7\2\2,-\7\37\2\2-/\7\4\2\2.\60\5\6\4\2/"+
-		".\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\64"+
+		"\2\2\2\32\33\7\5\2\2\33\3\3\2\2\2\34\35\7\6\2\2\35\36\7\37\2\2\36 \7\4"+
+		"\2\2\37!\5\6\4\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2"+
+		"\2$%\7\5\2\2%\5\3\2\2\2&*\5\b\5\2\'*\5\n\6\2(*\5\f\7\2)&\3\2\2\2)\'\3"+
+		"\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\7\2\2,-\7\37\2\2-/\7\4\2\2.\60\5\6\4\2"+
+		"/.\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\64"+
 		"\7\5\2\2\64\t\3\2\2\2\65\66\7\b\2\2\66?\7 \2\2\679\7\4\2\28:\5\16\b\2"+
 		"98\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\7\5\2\2>@\3\2\2\2"+
 		"?\67\3\2\2\2?@\3\2\2\2@\13\3\2\2\2AB\7\t\2\2BC\7\31\2\2CE\7\4\2\2DF\5"+
