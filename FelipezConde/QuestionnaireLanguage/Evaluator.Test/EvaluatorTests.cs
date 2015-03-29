@@ -17,7 +17,6 @@ namespace Evaluator.Test
         private Evaluation.Evaluator evaluator = new Evaluation.Evaluator(new SymbolTable());
         private PositionInText pos = new PositionInText();
         private Id id = new Id("1", new PositionInText());
-
         private Literals.Bool CreateBoolLiteral(bool value)
         {
             return new Literals.Bool(value, pos);
