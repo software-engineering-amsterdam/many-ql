@@ -19,16 +19,16 @@ class FormBuilder(stylesheet: StyleSheet, env: EvalEnvironment = ObservableMap.e
       case None => throw new AssertionError("All questions should be placed.")
       case Some(qs) => qs.widget match {
         case SpinBox(_) => throw new NotImplementedError("Spinner class not available.")
-        case Slider(styleProperties) => new SliderQuestionWidget(q, visibilityExpressions, env)
-        case Text(styleProperties) => q._type match {
-          case NumberType() => new NumberQuestionWidget(q, visibilityExpressions, env)
-          case StringType() => new StringQuestionWidget(q, visibilityExpressions, env)
+        case Slider(styles) => new SliderQuestionWidget(q, visibilityExpressions, env, styles)
+        case Text(styles) => q._type match {
+          case NumberType() => new NumberQuestionWidget(q, visibilityExpressions, env, styles)
+          case StringType() => new StringQuestionWidget(q, visibilityExpressions, env, styles)
           case BooleanType() => throw new AssertionError("Text widget not allowed for boolean questions.")
         }
-        case TextBlock(styleProperties) => new TextBlockQuestionWidget(q, visibilityExpressions, env)
-        case Radio(styleProperties) => new RadioQuestionWidget(q, visibilityExpressions, env)
-        case CheckBox(styleProperties) => new CheckBoxQuestionWidget(q, visibilityExpressions, env)
-        case DropDown(styleProperties) => new DropDownQuestionWidget(q, visibilityExpressions, env)
+        case TextBlock(styles) => new TextBlockQuestionWidget(q, visibilityExpressions, env, styles)
+        case Radio(styles) => new RadioQuestionWidget(q, visibilityExpressions, env, styles)
+        case CheckBox(styles) => new CheckBoxQuestionWidget(q, visibilityExpressions, env, styles)
+        case DropDown(styles) => new DropDownQuestionWidget(q, visibilityExpressions, env, styles)
       }
     }
   }

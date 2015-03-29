@@ -1,13 +1,13 @@
 package qls.gui.widgets
 
 import ql.ast.{Expression, Question, StringValue, Value}
-import ql.gui.widgets.QuestionWidget
-import types._
+import qls.ast.Style
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.TextArea
 
-class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment)
-  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment) {
+class TextBlockQuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style])
+  extends QuestionWidget(q: Question, visibilityExpressions: List[Expression], env: EvalEnvironment, styles: List[Style]) {
 
   // Initialize TextField
   val value = eval()
