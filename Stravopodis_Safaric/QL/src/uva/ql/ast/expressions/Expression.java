@@ -20,6 +20,9 @@ public abstract class Expression extends Node {
 	
 	public abstract CodeLines getLinesOfCode();
 	
+	public abstract boolean isLiteral();
+	public abstract boolean isBinaryExpression();
+	
 	public abstract <T> T accept(ExpressionVisitor<T> visitor);
 	
 	public Expression(){}

@@ -6,9 +6,9 @@ import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
 import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
 import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.generated.QLSBaseVisitor;
@@ -21,7 +21,6 @@ import nl.uva.softwcons.generated.QLSParser.QuestionWithoutWidgetContext;
 import nl.uva.softwcons.generated.QLSParser.RadioContext;
 import nl.uva.softwcons.generated.QLSParser.SectionContext;
 import nl.uva.softwcons.generated.QLSParser.SliderContext;
-import nl.uva.softwcons.generated.QLSParser.SpinboxContext;
 import nl.uva.softwcons.generated.QLSParser.StyleContext;
 import nl.uva.softwcons.generated.QLSParser.StylePropertyContext;
 import nl.uva.softwcons.generated.QLSParser.StylesheetContext;
@@ -43,7 +42,6 @@ import nl.uva.softwcons.qls.ast.widget.type.CheckboxType;
 import nl.uva.softwcons.qls.ast.widget.type.DropdownType;
 import nl.uva.softwcons.qls.ast.widget.type.RadioButtonType;
 import nl.uva.softwcons.qls.ast.widget.type.SliderType;
-import nl.uva.softwcons.qls.ast.widget.type.SpinboxType;
 import nl.uva.softwcons.qls.ast.widget.type.TextType;
 import nl.uva.softwcons.qls.ast.widget.type.WidgetType;
 
@@ -128,12 +126,6 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     @Override
-    public SpinboxType visitSpinbox(final SpinboxContext ctx) {
-        return new SpinboxType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
-                Double.valueOf(ctx.step.getText()), extractLineInfo(ctx.SPINBOX().getSymbol()));
-    }
-
-    @Override
     public SliderType visitSlider(final SliderContext ctx) {
         return new SliderType(Double.valueOf(ctx.start.getText()), Double.valueOf(ctx.end.getText()),
                 Double.valueOf(ctx.step.getText()), extractLineInfo(ctx.SLIDER().getSymbol()));
@@ -171,7 +163,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     private Map<Type, StylizedWidget> constructTypeWithWidgetMap(final List<DefaultStatementContext> ctx) {
-        final Map<Type, StylizedWidget> typeWithWidget = new HashMap<>();
+        final Map<Type, StylizedWidget> typeWithWidget = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
             final Type questionType = getType(c.type().getText());
@@ -184,7 +176,7 @@ public class ASTBuilderVisitor extends QLSBaseVisitor<ASTNode> {
     }
 
     private Map<String, String> constructStyleProperties(final List<StylePropertyContext> ctx) {
-        final Map<String, String> styleProperties = new HashMap<>();
+        final Map<String, String> styleProperties = new ConcurrentHashMap<>();
 
         ctx.forEach(c -> {
             final String key = c.key.getText();

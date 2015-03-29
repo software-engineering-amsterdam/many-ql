@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * Created by bore on 09/03/15.
  */
-public class Page extends Segment<GridPane>
+public class Page extends ParentSegment<GridPane>
 {
     private String name;
 
     public Page(List<Segment> subSegments, String name, Boolean visible)
     {
-        super(new GridPane(), subSegments, visible);
+        super(subSegments, new GridPane(), visible);
         this.name = name;
 
         this.container.setAlignment(Pos.CENTER);

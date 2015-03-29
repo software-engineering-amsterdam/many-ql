@@ -42,10 +42,10 @@ import uva.ql.ast.visitor.StatementVisitor;
 import uva.ql.ast.visitor.TypeVisitor;
 import uva.ql.interpreter.typecheck.depedency.DependencyExpressionVisitor;
 import uva.ql.interpreter.typecheck.depedency.DependencyHelper;
-import uva.ql.interpreter.typecheck.depedency.DependencyTable;
 import uva.ql.interpreter.typecheck.error.IssueList;
 import uva.ql.interpreter.typecheck.error.IssueObject;
 import uva.ql.interpreter.typecheck.error.IssueType;
+import uva.ql.interpreter.typecheck.table.DependencyTable;
 import uva.ql.interpreter.typecheck.table.LabelTable;
 import uva.ql.interpreter.typecheck.table.SymbolTable;
 
@@ -81,7 +81,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		String questionIdentifier = question.getQuestionIdentifier().evaluate().getValue();
 		Type questionType = question.getQuestionType();
 		
-		return this.symbolTable.valueEqualsTo(questionIdentifier, questionType);
+		return this.symbolTable.typeEqualsTo(questionIdentifier, questionType);
 	}
 	
 	private boolean isDuplicateQuestionDifferentType(Question question){
@@ -90,7 +90,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		Type questionType = question.getQuestionType();
 		
 		if (this.symbolTable.keyExists(questionIdentifier)){
-			return !this.symbolTable.retrieveValue(questionIdentifier).equals(questionType);
+			return !this.symbolTable.retrieveType(questionIdentifier).equals(questionType);
 		}
 		
 		return false;
@@ -198,7 +198,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 	public Void visitComputedQuestion(Question question) {
 		
 		dependencyVisitor.visitExpression(question.getQuestionExpression());
-		dependencyTable.putValue(question.getQuestionIdentifierValue(), dependencyVisitor.getIdentifierSet());
+		dependencyTable.putIdentifierSet(question.getQuestionIdentifierValue(), dependencyVisitor.getIdentifierSet());
 		
 		this.visitQuestion(question);
 		question.getQuestionExpression().accept(this);
@@ -297,7 +297,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 		
 		if (expression.isIdentifier()){
 			Identifier identifier = (Identifier)expression;
-			Type type = this.symbolTable.retrieveValue(identifier.getValue());
+			Type type = this.symbolTable.retrieveType(identifier.getValue());
 			
 			if (type != null){
 				if (!type.typeDoesConfirm(acceptedTypes)){
@@ -317,7 +317,7 @@ public class TypeCheckVisitor implements ExpressionVisitor<Expression>, Statemen
 			
 			Identifier identifier = (Identifier)expression;
 			
-			Type type = this.symbolTable.retrieveValue(identifier.getValue());
+			Type type = this.symbolTable.retrieveType(identifier.getValue());
 			return Arrays.asList(type);
 		}
 		

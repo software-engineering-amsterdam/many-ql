@@ -17,25 +17,20 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             Dock = DockStyle.Fill; // As it turns out, for user controls this property can not be set in the designer.
         }
 
-        public QuestionFormControl(QuestionForm form, IEnumerable<QuestionWidget> questionControls, OutputWindow outputWindow)
+        public QuestionFormControl(QuestionForm form, IEnumerable<QuestionWidget> questionWidgets, OutputWindow outputWindow)
             : this()
         {
             _questionForm = form;
             _outputWindow = outputWindow;
 
-            foreach (var questionControl in questionControls)
+            foreach (var questionControl in questionWidgets)
             {
                 questionControl.QuestionAnswered += QuestionWidget_QuestionAnswered;
 
-                AddControl(questionControl);
+                QuestionFlowLayout.Controls.Add(questionControl);
             }
 
             Interpretet();
-        }
-
-        protected void AddControl(Control control)
-        {
-            QuestionFlowLayout.Controls.Add(control);
         }
 
         private void QuestionWidget_QuestionAnswered(object sender, EventArgs e)

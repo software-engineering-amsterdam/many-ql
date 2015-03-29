@@ -12,5 +12,15 @@ public abstract class Literal extends Expression{
 	public Literal(CodeLines codeLines) {
 		super(codeLines);
 	}
+	
+	@Override
+	public boolean isLiteral(){
+		return true;
+	}
+	
+	@Override
+	public boolean isBinaryExpression(){
+		return false;
+	}
 }
 

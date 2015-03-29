@@ -24,7 +24,6 @@ stylesheet sample {
         question combinedName
         question age
         question beer
-
     }
     page second {
         question division

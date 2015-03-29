@@ -13,7 +13,7 @@ public class SliderWidget extends Widget {
     private final ValueConverter<Number> converter;
     private final Slider slider;
 
-    public SliderWidget(double start, double end, double step, ValueConverter<Number> converter) {
+    public SliderWidget(final double start, final double end, final double step, final ValueConverter<Number> converter) {
         this.converter = converter;
         this.slider = new Slider(start, end, start);
         slider.setBlockIncrement(step);
@@ -24,21 +24,21 @@ public class SliderWidget extends Widget {
     }
 
     @Override
-    public void addListener(ValueChangeListener<Value> listener) {
+    public void addListener(final ValueChangeListener<Value> listener) {
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
     }
 
     @Override
-    public void setValue(Value value) {
+    public void setValue(final Value value) {
         if (value != UNDEFINED) {
             slider.setValue(value.getNumber().doubleValue());
         }
     }
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(final boolean editable) {
         this.slider.setDisable(!editable);
     }
 
