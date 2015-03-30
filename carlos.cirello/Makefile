@@ -1,6 +1,7 @@
 all:
 	go generate ./...
 	go build -o ql
+	go build -tags json -o ql-json
 	echo "Build successful"
 	./ql -h || echo
 
@@ -8,20 +9,9 @@ test:
 	go generate ./...
 	go test -v ./...
 
-coverage:
-	bash ./coverage.sh
-
-todos:
-	grep -RHin "// todo" * | grep -iv "grep -RHIn"
-	grep -RHin "//todo" * | grep -iv "grep -RHIn"
-
 doc: .FORCE
 	godoc -http=:8080 &
 	sleep 2
 	open 'http://localhost:8080/pkg/github.com/software-engineering-amsterdam/many-ql/carlos.cirello/'
-
-lint:
-	clear
-	golint ./... | grep -iv parser.y | head -n 20
 
 .FORCE:
