@@ -1,5 +1,6 @@
 package nl.uva.sc.encoders.qls.ast;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,6 +44,24 @@ public class Section extends AstNode {
 		for (Section subSection : subSections) {
 			subSection.collectQuestions(questions);
 		}
+	}
+
+	public boolean containsQuestion(String name) {
+		List<String> questions = new ArrayList<>();
+		collectQuestions(questions);
+		return questions.stream().anyMatch(question -> question.equals(name));
+	}
+
+	public DefaultStyle getDefaultStyle(String questionName) {
+		for (Section subSection : subSections) {
+			if (subSection.containsQuestion(questionName)) {
+				return subSection.getDefaultStyle(questionName);
+			}
+		}
+		if (!sectionDefaultStyles.isEmpty()) {
+			return sectionDefaultStyles.get(0);
+		}
+		return null;
 	}
 
 	public <T> T accept(SectionVisitor<T> visitor) {

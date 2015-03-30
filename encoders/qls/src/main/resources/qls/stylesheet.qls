@@ -27,10 +27,9 @@ stylesheet taxOfficeExample
           widget numberfield
         question valueResidue
         default integer {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
+          color: #336699 
+          fontsize: 20 
+          font: "Arial Black" 
           widget numberfield
         }
       }

@@ -52,4 +52,12 @@ public class Page extends AstNode {
 		return questions.stream().anyMatch(question -> question.equals(name));
 	}
 
+	public DefaultStyle getDefaultStyle(String questionName) {
+		for (Section section : sections) {
+			if (section.containsQuestion(questionName)) {
+				return section.getDefaultStyle(questionName);
+			}
+		}
+		return null;
+	}
 }
