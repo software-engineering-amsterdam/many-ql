@@ -58,6 +58,7 @@
     <Compile Include="AST\DataContext.cs" />
     <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
     <Compile Include="AST\ASTCreation\TypeFactory.cs" />
+    <Compile Include="AST\Nodes\Terminals\ITerminal.cs" />
     <Compile Include="DataHandlers\ExportHandling\JsonExporter.cs" />
     <Compile Include="DataHandlers\ExportHandling\ExporterVisitor.cs" />
     <Compile Include="DataHandlers\InputHandling\Initializer.cs" />

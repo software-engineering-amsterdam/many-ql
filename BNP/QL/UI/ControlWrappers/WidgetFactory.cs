@@ -1,4 +1,5 @@
-﻿using QL.AST.Nodes.Branches;
+﻿using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
 using QL.UI.Controls;
@@ -12,9 +13,10 @@ namespace QL.UI.ControlWrappers
             return GetWidget(unit, unit.DataType as dynamic);
         }
 
-        public WidgetBase GetWidget(StatementUnit unit)
+        public WidgetBase GetWidget(StatementUnit unit, ITerminalWrapper expressionType)
         {
-            return new StatementWidget(unit, GetTypeWrapper(unit.DataType as dynamic));
+            //return new StatementWidget(unit, GetTypeWrapper(expressionType as dynamic));
+            return new StatementWidget(unit, expressionType);
         }
 
         #region Widget-wrapper creation methods

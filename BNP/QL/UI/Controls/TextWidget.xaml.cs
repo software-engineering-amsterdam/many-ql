@@ -8,8 +8,11 @@ namespace QL.UI.Controls
 {
     public partial class TextWidget
     {
+        private readonly TextWrapper _terminalWrapper;
+
         public TextWidget(UnitBase unit, TextWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
+            _terminalWrapper = terminalWrapper;
             InitializeComponent();
         }
     }

@@ -7,29 +7,29 @@ namespace QL.DataHandlers.Evaluation
 {
     public sealed class EvaluationTerminalWrapperFactory
     {
-        public ITerminalWrapper CreateWrapper(IStaticReturnType a)
+        public ITerminalWrapper CreateWrapper(IStaticReturnType terminal)
         {
-            return (ITerminalWrapper)CreateWrapperFor((dynamic)a);
+            return (ITerminalWrapper)CreateWrapperFor((dynamic)terminal);
         }
 
-        private NumberWrapper CreateWrapperFor(Number a)
+        private NumberWrapper CreateWrapperFor(Number terminal)
         {
-            return new NumberWrapper(a);
+            return new NumberWrapper(terminal);
         }
 
-        private YesnoWrapper CreateWrapperFor(Yesno a)
+        private YesnoWrapper CreateWrapperFor(Yesno terminal)
         {
-            return new YesnoWrapper(a);
+            return new YesnoWrapper(terminal);
         }
 
-        private TextWrapper CreateWrapperFor(Text a)
+        private TextWrapper CreateWrapperFor(Text terminal)
         {
-            return new TextWrapper(a);
+            return new TextWrapper(terminal);
         }
 
-        private ITerminalWrapper CreateWrapperFor(IStaticReturnType a)
+        private ITerminalWrapper CreateWrapperFor(IStaticReturnType terminal)
         {
-            throw new QLError("Unrecognised type: " + a.GetType());
+            throw new QLError("Unrecognised type: " + terminal.GetType());
         }
     }
 }

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
+using QL.DataHandlers.Evaluation;
 using QL.Exceptions;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
+using Expression = QL.AST.Nodes.Branches.Expression;
 
 namespace QL.UI.Builder
 {
@@ -16,6 +19,7 @@ namespace QL.UI.Builder
     {
         private readonly WidgetFactory _widgetFactory;
         private readonly IList<WidgetBase> _elementsToDisplay;
+        private bool _parentExpressionDidNotEvaluate = false;
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
@@ -43,16 +47,16 @@ namespace QL.UI.Builder
         
         public void Visit(ControlUnit node)
         {
-            // todo implement visibility logic here
-
             YesnoWrapper evaluatedResult = (YesnoWrapper)ReferenceTables.GetValueOrNull(node.Expression);
-            if (!evaluatedResult.ToBool()) return;
+            //if (!evaluatedResult.ToBool()) return; // todo temp disable
+            _parentExpressionDidNotEvaluate = !evaluatedResult.ToBool();
 
-            if (node.ConditionTrueBlock != null) //TODO if result is null Wrapped, do not do true nor false block
+            if (node.ConditionTrueBlock != null)
             {
                 node.ConditionTrueBlock.Accept(this);
             }
 
+            _parentExpressionDidNotEvaluate = false;
             if (node.ConditionFalseBlock != null)
             {
                 node.ConditionFalseBlock.Accept(this);
@@ -61,13 +65,20 @@ namespace QL.UI.Builder
         
         public void Visit(StatementUnit node)
         {
-            WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
+            ITerminalWrapper evaluatedResult = ReferenceTables.GetValueOrNull(node.Expression);
+            WidgetBase unitWrapper = _widgetFactory.GetWidget(node, evaluatedResult);
+
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Hidden : Visibility.Visible; // todo set to collapsed to remove space
+            
             _elementsToDisplay.Add(unitWrapper); // todo set identifier/do lookup
         }
 
         public void Visit(QuestionUnit node)
         {
             WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
+
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Hidden : Visibility.Visible;
+
             _elementsToDisplay.Add(unitWrapper); // todo idem ditto
         }
         #endregion

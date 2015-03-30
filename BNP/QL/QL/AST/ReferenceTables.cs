@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using QL.AST.Nodes;
+using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
+using QL.DataHandlers.Evaluation;
 using QL.Exceptions.Errors;
 
 namespace QL.AST
@@ -36,6 +38,17 @@ namespace QL.AST
             throw new QLError("Usage of variable " + key.Value + " before declaration");
         }
 
+        private ITerminalWrapper GetValue(Expression key)
+        {
+            if (key.Child is IStaticReturnType)
+            {
+                EvaluationTerminalWrapperFactory terminalWrapperFactory = new EvaluationTerminalWrapperFactory();
+                return terminalWrapperFactory.CreateWrapper(key.Child as IStaticReturnType);
+            }
+
+            return GetValue(key.Child);
+        }
+
         private ITerminalWrapper GetValue(IResolvable key)
         {
             if (_referenceLookupTable.ContainsKey(key))
@@ -43,13 +56,16 @@ namespace QL.AST
                 return _referenceLookupTable[key];
             }
 
+            if(key is Expression) return GetValue((Expression)key);
+
             throw new QLError("Reference not initialised");
         }
 
         public ITerminalWrapper GetValue(ElementBase key)
         {
-            if(key is IResolvable) return GetValue(key as IResolvable);
+            if (key is IResolvable) return GetValue(key as IResolvable);
             
+            // fallback in case we've requested the value of a variable directly
             return GetValue((Identifier)key);
         }
 
@@ -57,7 +73,7 @@ namespace QL.AST
         {
             try
             {
-                return GetValue((Identifier)(dynamic)key);
+                return GetValue(key);
             }
             catch (QLError)
             {
