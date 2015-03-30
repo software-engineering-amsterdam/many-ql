@@ -58,10 +58,7 @@
                     </avalonedit:TextEditor>
                     
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Style="{StaticResource ButtonBar}">
-                        <Button x:Name="ButtonParse" Click="ButtonParse_Click">Parse</Button>
-                        <Button x:Name="ButtonTypeCheck" Click="ButtonTypeCheck_Click">Check types</Button>
-                        <Button x:Name="ButtonEvaluate" Click="ButtonEvaluate_Click">Evaluate</Button>
-                        <Button x:Name="ButtonBuild" Click="ButtonBuild_Click">Build</Button>
+                        <Button x:Name="ButtonBuild" Click="ButtonBuild_Click">Build QL</Button>
                     </StackPanel>
 
                     <ListView Grid.Row="2" x:Name="ExceptionTable">

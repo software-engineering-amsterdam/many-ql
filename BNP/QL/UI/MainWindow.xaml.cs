@@ -25,9 +25,10 @@ namespace QL.UI
             _qlBuilder = new QLUIBuilder(inputData);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
             _qlBuilder.RegisterGenericAndUIDataHandlers();
+
             bool buildResult = _qlBuilder.RunAllHandlers();
             Debug.WriteLineIf(!buildResult, "Cannot proceed to build the UI as the handlers have failed");
-
+            
             WidgetsContainer.ItemsSource = _qlBuilder.ElementsToDisplay;
         }
 
@@ -154,31 +155,9 @@ namespace QL.UI
             PopulateExampleFileMenu();
         }
 
-        private void ButtonParse_Click(object sender, RoutedEventArgs e)
-        {
-            if (_qlBuilder == null) return;
-            _qlBuilder = new QLUIBuilder(InputFileSourceText.Text);
-            ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
-            _qlBuilder.RunInit();
-            _qlBuilder.RunASTBuilders();
-        }
-
-        private void ButtonTypeCheck_Click(object sender, RoutedEventArgs e)
-        {
-            if (_qlBuilder == null) return;
-            _qlBuilder.RunTypeCheckers();
-        }
-
-        private void ButtonEvaluate_Click(object sender, RoutedEventArgs e)
-        {
-            if (_qlBuilder == null) return;
-            _qlBuilder.RunEvaluators();
-        }
-
         private void ButtonBuild_Click(object sender, RoutedEventArgs e)
         {
-            if (_qlBuilder == null) return;
-            _qlBuilder.RunRenderers();
+            BuildQuestionnaire(InputFileSourceText.Text);
         }
 
         private void ExceptionTableItem_MouseClick(object sender, MouseButtonEventArgs e)
