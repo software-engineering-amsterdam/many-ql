@@ -13,7 +13,6 @@ namespace QL.AST.Nodes.Branches.Operators
 
         public GreaterThanEqualToOperator(SourceLocation sourceLocation)
         {
-            // TODO: Complete member initialization
             this.SourceLocation = sourceLocation;
         }
     }

@@ -9,10 +9,10 @@ class TypeChecker():
     def register(self, listener):
         self.listeners.add(listener)
 
-    def dispatch(self, function=None, *args):
+    def dispatch(self, function=None, *args, **kwargs):
         for listener in self.listeners:
             try:
-                getattr(listener, function)(*args)
+                getattr(listener, function)(*args, **kwargs)
             except AttributeError:
                 pass
             except:
@@ -20,16 +20,18 @@ class TypeChecker():
                 raise
 
     def check(self):
-        questionIDs = {}
+        questionIDs   = {}
+        questionTypes = {}
 
         # Obtain general question info
         for node in self.AST:
             if node.NodeType == "Question":
                 questionIDs[node.ID] = node
+                questionTypes[node.ID] = node.type
 
         # Reset listeners
         # -> Pass question info
-        self.dispatch("__init__", questionIDs)
+        self.dispatch("__init__", questionIDs, questionTypes)
 
         for node in self.AST:
             self.dispatch(node.NodeType, node)

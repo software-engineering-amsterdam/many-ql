@@ -8,6 +8,7 @@ from tkFileDialog import askopenfile
 import tkMessageBox
 
 import os
+import uuid
 
 class GUI(tk.Tk):
     def __init__(self, debug=False, *args, **kwargs):
@@ -18,6 +19,8 @@ class GUI(tk.Tk):
 
         self.buildWidgets()
         self.currentWidget = None
+
+        self.answers = {}
 
     def run(self):
         self.mainloop()
@@ -87,23 +90,41 @@ class GUI(tk.Tk):
         self._displayQuestion(widget)
 
     def _next(self):
-        widget = self.builder.nextQuestion()
-        self._displayQuestion(widget)
+        if self.currentWidget:
+            val = self.currentWidget.value()
+            self.answers.update(val)
+
+            self.builder.availableAnswers(self.answers)
+
+        try:
+            widget = self.builder.nextQuestion()
+            self._displayQuestion(widget)
+
+        except ValueError as err:
+            tkMessageBox.showerror(
+                "Input error",
+                "Your given answer is not a number"
+            )
+
 
     def _displayQuestion(self, questionWidget=None):
-        # Remove prev visible question
+        # Remove "previous" visible question
         if self.currentWidget:
             self.currentWidget.tearDown()
 
         if questionWidget:
             self.currentWidget = questionWidget
         else:
+            self._saveAnswers()
             self._reset()
 
+    def _saveAnswers(self):
+        if self.answers:
+            ID = uuid.uuid1()
+            # TODO Store/persist answers in database
 
-
+    # i.e. start state of file-select
     def _reset(self):
-        # Display fileSelect button
         self.fileSelect.pack()
 
         self.prevButton.pack_forget()

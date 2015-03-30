@@ -40,7 +40,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr4.Runtime.4.3.0\lib\net45\Antlr4.Runtime.net45.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,11 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hollywood\DataContext.cs" />
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\AstBuilder.cs" />
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\TypeFactory.cs" />
-    <Compile Include="Hollywood\DataHandlers\InputHandling\Initializer.cs" />
-    <Compile Include="Hollywood\DataHandlers\IExecutable.cs" />
+    <Compile Include="AST\DataContext.cs" />
+    <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
+    <Compile Include="AST\ASTCreation\TypeFactory.cs" />
+    <Compile Include="DataHandlers\ExportHandling\JsonExporter.cs" />
+    <Compile Include="DataHandlers\ExportHandling\ExporterVisitor.cs" />
+    <Compile Include="DataHandlers\InputHandling\Initializer.cs" />
+    <Compile Include="DataHandlers\IExecutableHandler.cs" />
     <Compile Include="Exceptions\Errors\EvaluationError.cs" />
     <Compile Include="Exceptions\Errors\DivisionByZeroError.cs" />
     <Compile Include="Exceptions\Errors\LexerError.cs" />
@@ -61,37 +69,37 @@
     <Compile Include="Exceptions\QLBaseException.cs" />
     <Compile Include="Exceptions\Warnings\QLWarning.cs" />
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
-    <Compile Include="Hollywood\DataHandlers\Evaluation\Evaluator.cs" />
-    <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeChecker.cs" />
-    <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
-    <Compile Include="Hollywood\DataHandlers\Evaluation\EvaluatorVisitor.cs" />
-    <Compile Include="AST\ValueWrappers\ITerminalWrapper.cs" />
+    <Compile Include="DataHandlers\Evaluation\Evaluator.cs" />
+    <Compile Include="DataHandlers\TypeChecking\TypeChecker.cs" />
+    <Compile Include="DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="DataHandlers\Evaluation\EvaluatorVisitor.cs" />
+    <Compile Include="AST\Nodes\Terminals\Wrappers\ITerminalWrapper.cs" />
     <Compile Include="AST\IVisitor.cs" />
-    <Compile Include="Hollywood\DataHandlers\TypeChecking\TypeCheckerVisitor.cs" />
+    <Compile Include="DataHandlers\TypeChecking\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\Errors\QLError.cs" />
     <Compile Include="Exceptions\Warnings\RedeclaredVariableWarning.cs" />
     <Compile Include="Exceptions\Errors\TypeCheckerError.cs" />
-    <Compile Include="AST\ValueWrappers\NumberWrapper.cs" />
-    <Compile Include="AST\ValueWrappers\YesnoWrapper.cs" />
-    <Compile Include="AST\ValueWrappers\TextWrapper.cs" />
+    <Compile Include="AST\Nodes\Terminals\Wrappers\NumberWrapper.cs" />
+    <Compile Include="AST\Nodes\Terminals\Wrappers\YesnoWrapper.cs" />
+    <Compile Include="AST\Nodes\Terminals\Wrappers\TextWrapper.cs" />
     <Compile Include="Grammar\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
     <Compile Include="Grammar\QL.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\QLListener.cs" />
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\ParserErrorHandler.cs" />
-    <Compile Include="Hollywood\DataHandlers\ASTCreation\LexerErrorHandler.cs" />
-    <Compile Include="Hollywood\QLBuilder.cs" />
+    <Compile Include="AST\ASTCreation\QLListener.cs" />
+    <Compile Include="AST\ASTCreation\ParserErrorHandler.cs" />
+    <Compile Include="AST\ASTCreation\LexerErrorHandler.cs" />
+    <Compile Include="AST\QLBuilder.cs" />
     <Compile Include="AST\Nodes\BinaryTreeElementBase.cs" />
     <Compile Include="AST\Nodes\ElementBase.cs" />
     <Compile Include="AST\Nodes\Branches\Block.cs" />
     <Compile Include="AST\Nodes\Branches\ControlUnit.cs" />
     <Compile Include="AST\Nodes\Branches\Expression.cs" />
     <Compile Include="AST\Nodes\Branches\Form.cs" />
-    <Compile Include="AST\Nodes\ITypeStatic.cs" />
-    <Compile Include="AST\Nodes\ITypeInferred.cs" />
+    <Compile Include="AST\Nodes\IStaticReturnType.cs" />
+    <Compile Include="AST\Nodes\IInferredReturnType.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\AndOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\DivisionOperator.cs" />
     <Compile Include="AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs" />
@@ -108,12 +116,13 @@
     <Compile Include="AST\SourceLocation.cs" />
     <Compile Include="AST\Nodes\Branches\StatementUnit.cs" />
     <Compile Include="AST\Nodes\Terminals\Identifier.cs" />
-    <Compile Include="AST\Nodes\ITypeResolvable.cs" />
+    <Compile Include="AST\Nodes\IResolvable.cs" />
     <Compile Include="AST\Nodes\Terminals\Number.cs" />
     <Compile Include="AST\Nodes\Terminals\Text.cs" />
     <Compile Include="AST\Nodes\Terminals\Yesno.cs" />
     <Compile Include="AST\Nodes\Branches\UnitBase.cs" />
-    <Compile Include="Hollywood\QLBuilderStateMachine.cs" />
+    <Compile Include="AST\QLBuilderStateMachine.cs" />
+    <Compile Include="AST\ReferenceTables.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />
@@ -121,6 +130,7 @@
     <Compile Include="obj\Debug\QLParser.cs" />
     <Compile Include="obj\Debug\QLVisitor.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\Warnings\TypeCheckerWarning.cs" />
   </ItemGroup>
@@ -152,9 +162,7 @@
     <Content Include="obj\Debug\QL.exe" />
     <Content Include="obj\Debug\QL.pdb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Hollywood\DataHandlers\ExportHandling\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

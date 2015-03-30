@@ -12,40 +12,48 @@ class FormBuilder():
         self._resetFormList()
         self.questionIndex = 0
 
+        self.answers = []
+
+    def availableAnswers(self, answers):
+        self.answers = answers
+
     def nextQuestion(self):
-      node = self._next()
-      self._incrementCounter()
+        node = self._next()
+        self._incrementCounter()
 
-      return self._handleNode(node, True)
-
+        return self._handleNode(node, True)
 
     def prevQuestion(self):
-      self._decrementCounter(2)
-      node = self._prev()
-      self._incrementCounter()
+        self._decrementCounter(2)
+        node = self._prev()
+        self._incrementCounter()
 
-      return self._handleNode(node, False)
+        return self._handleNode(node, False)
 
 
     def _handleNode(self, node=None, forward=True):
-      if not node:
-          return None
+        if not node:
+            return None
 
-      if node.NodeType == "Question":
-          # Type should be checked and safe to use
-          widgetName = node.type.capitalize()
-          return getattr(Widgets, widgetName)(self.Frame, node)
+        if node.NodeType == "Question":
+            # Type should be checked and safe to use
+            widgetName = node.type.capitalize()
+            return getattr(Widgets, widgetName)(self.Frame, node)
 
-      if node.NodeType == "Branch" and forward:
-          # Evaluate expression -> render either the "if" or "else" block
-          self._extendFormList(node.ifChildren)
-          return self.nextQuestion()
+        if node.NodeType == "Branch" and forward:
+            # Evaluate expression -> render either the "if" or "else" block
+            if node.expression.evaluate(self.answers):
+                self._extendFormList(node.ifChildren)
+            else:
+                self._extendFormList(node.elseChildren)
 
-      if node.NodeType == "Branch" and not forward:
-          self._resetFormList()
-          return self.prevQuestion()
+            return self.nextQuestion()
 
-      return None
+        if node.NodeType == "Branch" and not forward:
+            self._resetFormList()
+            return self.prevQuestion()
+
+        return None
 
     def _extendFormList(self, items):
         self.formList[self.questionIndex : len(items)] = items
@@ -61,10 +69,10 @@ class FormBuilder():
         self.questionIndex -= num
 
     def _next(self):
-      if self.formList and self.questionIndex < len(self.formList):
-        return self.formList[self.questionIndex]
+        if self.formList and self.questionIndex < len(self.formList):
+            return self.formList[self.questionIndex]
 
-      return None
+        return None
 
     def _prev(self):
         if self.formList and self.questionIndex >= 0:

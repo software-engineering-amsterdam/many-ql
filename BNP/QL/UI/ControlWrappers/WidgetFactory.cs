@@ -1,6 +1,6 @@
 ﻿using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
-using QL.AST.ValueWrappers;
+using QL.AST.Nodes.Terminals.Wrappers;
 using QL.UI.Controls;
 
 namespace QL.UI.ControlWrappers
