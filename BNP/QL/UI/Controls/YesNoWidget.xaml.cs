@@ -10,8 +10,11 @@ namespace QL.UI.Controls
 {
     public partial class YesNoWidget
     {
+        private readonly YesnoWrapper _terminalWrapper;
+
         public YesNoWidget(UnitBase unit, YesnoWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
+            _terminalWrapper = terminalWrapper;
             InitializeComponent();
         }
     }

@@ -5,6 +5,7 @@ using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes.Terminals.Wrappers;
 using QL.Exceptions;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
@@ -43,8 +44,10 @@ namespace QL.UI.Builder
         public void Visit(ControlUnit node)
         {
             // todo implement visibility logic here
-            //System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
-            
+
+            YesnoWrapper evaluatedResult = (YesnoWrapper)ReferenceTables.GetValueOrNull(node.Expression);
+            if (!evaluatedResult.ToBool()) return;
+
             if (node.ConditionTrueBlock != null) //TODO if result is null Wrapped, do not do true nor false block
             {
                 node.ConditionTrueBlock.Accept(this);

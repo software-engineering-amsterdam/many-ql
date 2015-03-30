@@ -10,8 +10,11 @@ namespace QL.UI.Controls
 {
     public partial class NumberWidget
     {
+        private readonly NumberWrapper _terminalWrapper;
+
         public NumberWidget(UnitBase unit, NumberWrapper terminalWrapper) : base(unit, terminalWrapper)
         {
+            _terminalWrapper = terminalWrapper;
             InitializeComponent();
         }
     }
