@@ -11,17 +11,9 @@ test:
 coverage:
 	bash ./coverage.sh
 
-todos:
-	grep -RHin "// todo" * | grep -iv "grep -RHIn"
-	grep -RHin "//todo" * | grep -iv "grep -RHIn"
-
 doc: .FORCE
 	godoc -http=:8080 &
 	sleep 2
 	open 'http://localhost:8080/pkg/github.com/software-engineering-amsterdam/many-ql/carlos.cirello/'
-
-lint:
-	clear
-	golint ./... | grep -iv parser.y | head -n 20
 
 .FORCE:
