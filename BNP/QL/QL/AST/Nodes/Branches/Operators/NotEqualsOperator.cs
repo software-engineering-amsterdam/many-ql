@@ -12,7 +12,6 @@ namespace QL.AST.Nodes.Branches.Operators
 
         public NotEqualsOperator(SourceLocation sourceLocation)
         {
-            // TODO: Complete member initialization
             this.SourceLocation = sourceLocation;
         }
     }

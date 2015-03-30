@@ -63,7 +63,7 @@
     <Compile Include="QLTests\SyntaxControlBlockComplianceTests.cs" />
     <Compile Include="QLTests\SyntaxUnitComplianceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AstBuilderTests\NodeMapperTests.cs" />
+    <Compile Include="ASTBuilderTests\NodeMapperTests.cs" />
     <Compile Include="VisitorTests\TypeCheckerTests.cs" />
     <Compile Include="VisitorTests\EvaluatorTests.cs" />
   </ItemGroup>

@@ -5,11 +5,7 @@ from Expression import Expression
 
 class BooleanExpression(Expression):
     def __init__(self, LexNode, operator=None, left=None, right=None):
-        Expression.__init__(self, LexNode, operator=None, left=None, right=None)
-
-        self.operator = operator
-        self.left  = left
-        self.right = right
+        Expression.__init__(self, LexNode, operator, left, right)
 
         self._setOperation(operator)
 
@@ -35,15 +31,11 @@ class BooleanExpression(Expression):
         except KeyError:
             raise Exception("Unimplemented operator %s" % operator)
 
-    @property
-    def Operation(self):
-        return self._operationFn
 
     def getType(self, IDs):
         if self.Operation.checkType(IDs):
             return "boolean"
 
-        # Found nested error -> should bubble up?
         return False
 
     def __repr__(self):

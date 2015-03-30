@@ -17,5 +17,8 @@ class Not:
 
         return False
 
+    def evaluate(self, answers):
+        return not self.value
+
     def __repr__(self):
         return "!%s" % (self.value)

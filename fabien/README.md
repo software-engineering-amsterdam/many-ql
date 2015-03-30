@@ -7,6 +7,7 @@ For questionanaires that need basic expressions for control flow. For instance, 
 
 * Python 2.7
 * `sudo pip install ply`
+* `sudo pip install sqlitedict`
 
 ## Usage
 

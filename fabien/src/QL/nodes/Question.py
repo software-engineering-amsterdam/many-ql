@@ -20,7 +20,7 @@ class Question(Node):
         return []
 
     def labelText(self):
-        return self.text[1: -1]
+        return self.text
 
     def __repr__(self, nested=0):
         return "Question (%s: %s)" % (self.type, self.text)

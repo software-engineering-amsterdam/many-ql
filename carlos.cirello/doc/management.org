@@ -20,10 +20,9 @@
       - [X] Gui
     - [X] data clumps
 
-* QL [7/8]
-  - [ ] Expansion [1/2]
+* QL [8/8]
+  - [X] Expansion [1/1]
     - [X] Support for date fields
-    - [ ] Support for currency fields (adding currency sign before)
   - [X] Refactor [4/4]
     - [X] Expand tests
     - [X] Extract question typing from AST

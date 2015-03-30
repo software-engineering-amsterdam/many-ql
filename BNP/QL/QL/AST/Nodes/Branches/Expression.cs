@@ -1,17 +1,19 @@
 ﻿namespace QL.AST.Nodes.Branches
 {
-    public class Expression : ElementBase, ITypeInferred
+    public class Expression : ElementBase, IInferredReturnType
     {
-        public ElementBase Child{get; private set;}
+        public ElementBase Child { get; private set; }
+
+        public Expression()
+        { }
         
-        
-        public Expression() { }
-        public Expression(ElementBase child) 
+        public Expression(ElementBase child)
         {
             Child = child;
         }
 
-        public Expression(ElementBase child, AST.SourceLocation sourceLocation):this(child)
+        public Expression(ElementBase child, SourceLocation sourceLocation)
+            : this(child)
         {
             SourceLocation = sourceLocation;
         }
@@ -20,6 +22,6 @@
         {
             return Child;
         }
-        
+
     }
 }

@@ -86,12 +86,16 @@ def p_function_expression(p):
 
 def p_leaf(p):
     '''
-    expr : ID
-         | NUMBER
+    expr : NUMBER
          | STRING
     '''
     p[0] = nodes.Leaf(p, p[1])
 
+def p_ID(p):
+    '''
+    expr : ID
+    '''
+    p[0] = nodes.ID(p, p[1])
 
 def p_function(p):
     '''
