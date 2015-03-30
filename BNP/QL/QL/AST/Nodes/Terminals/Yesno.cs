@@ -3,7 +3,7 @@ using System;
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Yesno : ElementBase, IStaticReturnType, ITerminal
+    public class Yesno : ElementBase, IStaticReturnType
     {
 
         public bool? Value { get; set; }

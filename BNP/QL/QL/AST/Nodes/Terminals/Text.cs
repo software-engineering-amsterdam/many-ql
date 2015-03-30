@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Terminals
 {
-    public class Text : ElementBase, IStaticReturnType, ITerminal
+    public class Text : ElementBase, IStaticReturnType
     {
         private string _value;
 
