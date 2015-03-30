@@ -4,9 +4,14 @@ namespace QL.AST.Nodes.Terminals
 {
     public class Identifier : ElementBase
     {
+        private string _value;
 
-        public string Value { get; private set; }
-        
+        public string Value
+        {
+            get { return _value; }
+            private set { _value = UnwrapQuotes(value); }
+        }
+
         public Identifier()
         { }
 
@@ -15,7 +20,8 @@ namespace QL.AST.Nodes.Terminals
             Value = value;
         }
 
-        public Identifier(string value, AST.SourceLocation sourceLocation):this(value)
+        public Identifier(string value, SourceLocation sourceLocation)
+            : this(value)
         {
             SourceLocation = sourceLocation;
         }
@@ -64,10 +70,10 @@ namespace QL.AST.Nodes.Terminals
         public override int GetHashCode()
         {
             string w = "identifier";
-            int i=13;
-            return new {i, w, Value}.GetHashCode();
+            int i = 13;
+            return new { i, w, Value }.GetHashCode();
         }
-        
+
 
         public override string ToString()
         {

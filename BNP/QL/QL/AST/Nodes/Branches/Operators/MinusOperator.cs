@@ -1,6 +1,6 @@
 ﻿namespace QL.AST.Nodes.Branches.Operators
 {
-    public class MinusOperator : BinaryTreeElementBase, ITypeInferred
+    public class MinusOperator : BinaryTreeElementBase, IInferredReturnType
     {
         public ElementBase GetTypeInferableChild()
         {

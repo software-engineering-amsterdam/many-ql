@@ -90,6 +90,7 @@ TestResult.xml
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+*.DotSettings
 
 # DotCover is a Code Coverage Tool
 *.dotCover

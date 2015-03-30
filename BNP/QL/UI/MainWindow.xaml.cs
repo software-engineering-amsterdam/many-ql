@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -10,7 +11,7 @@ using Microsoft.Win32;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
-using QL.Hollywood;
+using QL.UI.Builder;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
 
@@ -18,7 +19,7 @@ namespace QL.UI
 {
     public partial class MainWindow : Window
     {
-        private QLBuilder _qlBuilder = null;
+        private QLUIBuilder _qlBuilder = null;
 
         public MainWindow()
         {
@@ -28,10 +29,13 @@ namespace QL.UI
 
         private void BuildQuestionnaire(string inputData)
         {
-            _qlBuilder = new QLBuilder(inputData);
+            _qlBuilder = new QLUIBuilder(inputData);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
-            _qlBuilder.RegisterGenericDataHandlers();
-            _qlBuilder.RunAllHandlers();
+            _qlBuilder.RegisterGenericAndUIDataHandlers();
+            bool buildResult = _qlBuilder.RunAllHandlers();
+            Debug.WriteLineIf(!buildResult, "Cannot proceed to build the UI as the handlers have failed");
+
+            WidgetsContainer.ItemsSource = _qlBuilder.ElementsToDisplay;
         }
 
         private void LoadQuestionnaireFile(string inputFilePath)
@@ -55,6 +59,18 @@ namespace QL.UI
             catch (Exception ex)
             {
                 InputFileSourceText.Text = string.Format("An error has occurred whilst reading the input file{0}{1}", Environment.NewLine, ex.Message);
+            }
+        }
+
+        private void SaveQuestionnaireFile(string outputFilePath)
+        {
+            try
+            {
+                File.WriteAllText(outputFilePath, _qlBuilder.DataContext.ExportableRepresentation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to save file: " + ex.Message, "Save QL questionnaire", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -83,6 +99,26 @@ namespace QL.UI
             LoadQuestionnaireFile(menuItem.Tag.ToString());
         }
 
+        private void Command_SaveAs(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (_qlBuilder == null || !_qlBuilder.BuilderStateMachine.IsRendered)
+            {
+                MessageBox.Show("There is nothing to export", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _qlBuilder.RunExporter();
+            SaveFileDialog outputFilePicker = new SaveFileDialog
+                                              {
+                                                  Filter = "QL Questionnaires (json/xml)|*.json;*.xml|All files|*.*",
+                                                  InitialDirectory = Environment.CurrentDirectory
+                                              };
+
+            if (outputFilePicker.ShowDialog().GetValueOrDefault())
+            {
+                SaveQuestionnaireFile(outputFilePicker.FileName);
+            }
+        }
 
         private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
@@ -104,7 +140,7 @@ namespace QL.UI
         private void ButtonParse_Click(object sender, RoutedEventArgs e)
         {
             if (_qlBuilder == null) return;
-            _qlBuilder = new QLBuilder(InputFileSourceText.Text);
+            _qlBuilder = new QLUIBuilder(InputFileSourceText.Text);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
             _qlBuilder.RunInit();
             _qlBuilder.RunASTBuilders();
@@ -180,21 +216,19 @@ namespace QL.UI
             }
         }
 
-        public void BindTestData()
+        private void BindTestData()
         {
-            WidgetFactory factory = new WidgetFactory();
-            List<WidgetBase> renders = new List<WidgetBase>
-                                        {
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question1"),new Text(),  "What is your name?")),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
-                                            factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
-                                        };
+            _qlBuilder.ElementsToDisplay[0].Unit.Value = "Joe D.";
 
-            QuestionsPanel.Children.Clear();
-            foreach(var widget in renders)
-            {
-                QuestionsPanel.Children.Add(widget);
-            }
+            //WidgetFactory factory = new WidgetFactory();
+            //List<WidgetBase> renders = new List<WidgetBase>
+            //                            {
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text(), "What is your name?")),
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
+            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
+            //                            };
+
+            //WidgetsContainer.ItemsSource = renders;
         }
     }
 }

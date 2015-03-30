@@ -54,6 +54,9 @@ import org.antlr.v4.runtime.Token;
 
 public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode> {
 
+	private static final String ESCAPED_QUOTE = "\\\\\"";
+	private static final String UNESCAPED_QUOTE = "\\\"";
+
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
 		String name = ctx.name.getText();
@@ -105,7 +108,7 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLBaseVisitor<AstNode
 	}
 
 	private String unescapedString(String escapedString) {
-		return escapedString.replaceAll("\\\\\"", "\\\"");
+		return escapedString.replaceAll(ESCAPED_QUOTE, UNESCAPED_QUOTE);
 	}
 
 	@Override

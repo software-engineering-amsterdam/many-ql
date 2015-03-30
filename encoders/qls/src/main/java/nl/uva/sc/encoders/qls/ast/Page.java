@@ -40,16 +40,24 @@ public class Page extends AstNode {
 		return pageDefaultStyles;
 	}
 
-	public void collectQuestions(Collection<String> questions) {
+	public void collectQuestions(Collection<Question> questions) {
 		for (Section section : sections) {
 			section.collectQuestions(questions);
 		}
 	}
 
 	public boolean containsQuestion(String name) {
-		List<String> questions = new ArrayList<>();
+		List<Question> questions = new ArrayList<>();
 		collectQuestions(questions);
-		return questions.stream().anyMatch(question -> question.equals(name));
+		return questions.stream().anyMatch(question -> question.getName().equals(name));
 	}
 
+	public DefaultStyle getDefaultStyle(String questionName) {
+		for (Section section : sections) {
+			if (section.containsQuestion(questionName)) {
+				return section.getDefaultStyle(questionName);
+			}
+		}
+		return null;
+	}
 }

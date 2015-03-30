@@ -22,13 +22,11 @@ import nl.uva.sc.encoders.qlruntime.ui.control.ControlPropertyChangeWrapper;
 
 public class QuestionnaireGridPane extends GridPane {
 
-	public QuestionnaireGridPane(final List<RuntimeQuestion> allRuntimeQuestions, final List<RuntimeQuestion> runtimeQuestionsToShow) {
+	public QuestionnaireGridPane() {
 		setAlignment(Pos.CENTER);
 		setHgap(10);
 		setVgap(10);
 		setPadding(new Insets(25, 25, 25, 25));
-
-		showQuestions(allRuntimeQuestions, runtimeQuestionsToShow);
 	}
 
 	public void showQuestions(final List<RuntimeQuestion> allRuntimeQuestions, final List<RuntimeQuestion> runtimeQuestionsToShow) {
@@ -37,15 +35,12 @@ public class QuestionnaireGridPane extends GridPane {
 
 		for (RuntimeQuestion runtimeQuestion : runtimeQuestionsToShow) {
 			Question question = runtimeQuestion.getQuestion();
-
-			DataType dataType = question.getDataType();
 			Label label = new Label(question.getQuestionLabel());
 			add(label, 0, y);
 			Expression condition = runtimeQuestion.getCondition();
 			boolean visible = condition == null;
 			label.setVisible(visible);
-			ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
-			ControlPropertyChangeWrapper controlPropertyChangeWrapper = dataType.accept(controlGenerator);
+			ControlPropertyChangeWrapper controlPropertyChangeWrapper = generateControl(runtimeQuestion);
 			Control control = controlPropertyChangeWrapper.getControl();
 
 			control.setVisible(visible);
@@ -75,6 +70,13 @@ public class QuestionnaireGridPane extends GridPane {
 			add(control, 1, y);
 			y++;
 		}
+	}
+
+	protected ControlPropertyChangeWrapper generateControl(RuntimeQuestion runtimeQuestion) {
+		Question question = runtimeQuestion.getQuestion();
+		DataType dataType = question.getDataType();
+		ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
+		return dataType.accept(controlGenerator);
 	}
 
 	private void addChangeListeners(final List<RuntimeQuestion> allRuntimeQuestions, final RuntimeQuestion runtimeQuestion,

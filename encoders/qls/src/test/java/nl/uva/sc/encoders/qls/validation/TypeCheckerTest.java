@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qls.validation;
 
 import static nl.uva.sc.encoders.ql.ast.QuestionnaireBuilder.aQuestionnaire;
+import static nl.uva.sc.encoders.ql.ast.TextLocationBuilder.aTextLocation;
 import static nl.uva.sc.encoders.qls.ast.StylesheetBuilder.aStylesheet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -14,6 +15,7 @@ import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.ql.validation.ValidationMessage;
 import nl.uva.sc.encoders.qls.ast.Page;
 import nl.uva.sc.encoders.qls.ast.PageBuilder;
+import nl.uva.sc.encoders.qls.ast.Question;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.SectionBuilder;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
@@ -28,7 +30,8 @@ public class TypeCheckerTest {
 		Questionnaire questionnaire = aQuestionnaire().build();
 		List<Page> pages = new ArrayList<>();
 		List<Section> sections = new ArrayList<>();
-		List<String> questionNames = Arrays.asList(questionLabel);
+		Question question = new Question(aTextLocation().build(), questionLabel, null);
+		List<Question> questionNames = Arrays.asList(question);
 		sections.add(SectionBuilder.aSection().withQuestions(questionNames).build());
 		pages.add(PageBuilder.aPage().withSections(sections).build());
 		Stylesheet stylesheet = aStylesheet().withPages(pages).build();

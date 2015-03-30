@@ -2,7 +2,7 @@ grammar QL;
 
 // Definitions
 YESNO		: 'yes' | 'no';
-NUMBER		: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
+NUMBER		: [0-9]+; // note that this is only integer, does not include decimals
 TEXT		: '\"' .*? '\"';
 IDENTIFIER	: [a-zA-Z][a-zA-Z0-9]*;
 
@@ -58,7 +58,7 @@ type		: 'yesno'	# yesnoType
 			;
 
 yesno:		YESNO;
-number:		NUMBER;
+number:		'-' NUMBER | NUMBER;
 text:		TEXT;
 identifier:	IDENTIFIER;
 

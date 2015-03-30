@@ -134,7 +134,8 @@ public class Main extends Application {
 				Page page = pages.get(pageIndex);
 				List<RuntimeQuestion> questionsOnThisPage = runtimeQuestions.stream()
 						.filter(rq -> page.containsQuestion(rq.getQuestion().getName())).collect(Collectors.toList());
-				QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, questionsOnThisPage);
+				QuestionnaireGridPane questionnaireGridPane = new StyledQuestionnaireGridPane(page);
+				questionnaireGridPane.showQuestions(runtimeQuestions, questionsOnThisPage);
 				return new ScrollPane(questionnaireGridPane);
 			});
 			AnchorPane anchor = new AnchorPane();

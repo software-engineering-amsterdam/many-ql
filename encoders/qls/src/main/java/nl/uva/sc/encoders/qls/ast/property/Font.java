@@ -1,6 +1,7 @@
 package nl.uva.sc.encoders.qls.ast.property;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
+import nl.uva.sc.encoders.qls.visitor.DefaultPropertyVisitor;
 
 public class Font extends DefaultStyleProperty {
 
@@ -13,5 +14,10 @@ public class Font extends DefaultStyleProperty {
 
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	public <T> T accept(DefaultPropertyVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }

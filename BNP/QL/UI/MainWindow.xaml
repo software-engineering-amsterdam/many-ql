@@ -8,6 +8,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" Executed="Command_Open" />
+        <CommandBinding Command="SaveAs" Executed="Command_SaveAs" />
         <CommandBinding Command="Close" Executed="Command_Close" />
     </Window.CommandBindings>
 
@@ -16,6 +17,8 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_Open" Command="Open" />
                 <MenuItem Header="Open example..." x:Name="MenuItemExamples" />
+                <Separator />
+                <MenuItem Header="_Save as..." Command="SaveAs" />
                 <Separator />
                 <MenuItem Header="_Test" Click="TestMenuItem_OnClick" />
                 <Separator />
@@ -28,12 +31,17 @@
         
         <TabControl>
             <TabItem Header="Questionnaire">
-                <StackPanel Name="QuestionsPanel">
-                    <!--<controls:TextWidget Text="Question 1" Value="Hello World" x:Name="TextWidget" />
-                    <controls:NumberWidget Text="Question 2" Value="10" x:Name="NumberWidget" />
-                    <controls:YesNoWidget Text="Question 3" Value="False" x:Name="BoolWidget" />
-                    <controls:StatementWidget Text="Statement 1" Value="Displaying hello world text here" x:Name="StatementWidget" />-->
-                </StackPanel>
+                <ScrollViewer>
+                    <ItemsControl Name="WidgetsContainer">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <!-- Widgets are loaded here -->
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Input">
