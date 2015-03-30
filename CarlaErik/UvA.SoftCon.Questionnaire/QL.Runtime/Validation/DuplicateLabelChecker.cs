@@ -9,12 +9,7 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Validation
     /// </summary>
     public class DuplicateLabelChecker : ASTChecker
     {
-        private readonly ICollection<Question> _questions;
-
-        public DuplicateLabelChecker()
-        {
-            _questions = new List<Question>();
-        }
+        private readonly ICollection<Question> _questions = new List<Question>();
 
         public override object Visit(BooleanQuestion question)
         {

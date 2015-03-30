@@ -19,23 +19,14 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
         private QuestionStyleCollection _questionStyles;
         private QuestionForm _questionForm;
         private OutputWindow _outputWindow;
-
-        internal ICollection<QuestionWidget> QuestionWidgets
-        {
-            get;
-            private set;
-        }
-
-        internal StyleSheetUIBuilder()
-        {
-            QuestionWidgets = new List<QuestionWidget>();
-        }
+        private ICollection<QuestionWidget> _questionWidgets;
 
         public Control BuildUI(StyleSheet styleSheet, QuestionStyleCollection questionStyles, QuestionForm questionForm, OutputWindow outputWindow)
         {
             _questionStyles = questionStyles;
             _questionForm = questionForm;
             _outputWindow = outputWindow;
+            _questionWidgets = new List<QuestionWidget>();
 
             return VisitStyleSheet(styleSheet);
         }
@@ -49,7 +40,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
                 pageControls.Add((PageControl)page.Accept(this));
             }
 
-            return new StyledQuestionFormControl(_questionForm, pageControls, QuestionWidgets, _outputWindow);
+            return new StyledQuestionFormControl(_questionForm, pageControls, _questionWidgets, _outputWindow);
         }
 
         public override Control VisitPage(Page page)
@@ -89,13 +80,13 @@ namespace UvA.SoftCon.Questionnaire.WinForms.UIBuilding
 
                 questionWidget.ApplyStyles(questionStyles);
 
-                QuestionWidgets.Add(questionWidget);
+                _questionWidgets.Add(questionWidget);
 
                 return questionWidget;
             }
             else
             {
-                throw new ApplicationException("Question not found in the quesiotnnaire AST.");
+                throw new ApplicationException("Question not found in the questionnaire AST.");
             }
         }
     }

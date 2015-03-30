@@ -14,7 +14,10 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Evaluation.Types
 
         public override bool IsUndefined
         {
-            get { return true; }
+            get
+            {
+                return true;
+            }
         }
 
         public override Value Plus(Value value)

@@ -14,23 +14,22 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
     internal class WidgetTypeChecker : ASTChecker
     {
         private const string MessageFormat = "Widget '{0}' can not be applied to a question of type '{1}'.";
-        private readonly IEnumerable<Question> questions;
-        private DataType currentDataType = DataType.Undefined;
+        private readonly IEnumerable<Question> _questions;
+        private DataType _currentDataType = DataType.Undefined;
 
-        internal WidgetTypeChecker(IEnumerable<Question> qlQuestions)
+        internal WidgetTypeChecker(IEnumerable<Question> questions)
         {
-            questions = qlQuestions;
+            _questions = questions;
         }
-
 
         public override object VisitQuestionReference(QuestionReference questionRef)
         {
             // Look up the referred QL question.
-            var question = questions.Where(q => q.Name == questionRef.Name).SingleOrDefault();
+            var question = _questions.Where(q => q.Name == questionRef.Name).SingleOrDefault();
 
             if (question != null)
             {
-                currentDataType = question.DataType;
+                _currentDataType = question.DataType;
 
                 foreach (var styleAttr in questionRef.StyleAttributes)
                 {
@@ -42,7 +41,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
 
         public override object VisitDefaultStyle(DefaultStyle defaultStyle)
         {
-            currentDataType = defaultStyle.DataType;
+            _currentDataType = defaultStyle.DataType;
 
             foreach (var styleAttr in defaultStyle.StyleAttributes)
             {
@@ -54,54 +53,54 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
 
         public override object VisitDropDown(DropDown dropDown)
         {
-            if (!dropDown.SupportsDataType(currentDataType))
+            if (!dropDown.SupportsDataType(_currentDataType))
             {
-                Report.AddError(dropDown.Position, MessageFormat, "dropdown", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(dropDown.Position, MessageFormat, "dropdown", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }
 
         public override object VisitCalendar(Calendar calendar)
         {
-            if (!calendar.SupportsDataType(currentDataType))
+            if (!calendar.SupportsDataType(_currentDataType))
             {
-                Report.AddError(calendar.Position, MessageFormat, "calendar", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(calendar.Position, MessageFormat, "calendar", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }
 
         public override object VisitCheckBox(CheckBox checkBox)
         {
-            if (!checkBox.SupportsDataType(currentDataType))
+            if (!checkBox.SupportsDataType(_currentDataType))
             {
-                Report.AddError(checkBox.Position, MessageFormat, "checkbox", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(checkBox.Position, MessageFormat, "checkbox", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }
 
         public override object VisitRadioButtons(RadioButtons radioButtons)
         {
-            if (!radioButtons.SupportsDataType(currentDataType))
+            if (!radioButtons.SupportsDataType(_currentDataType))
             {
-                Report.AddError(radioButtons.Position, MessageFormat, "radiobuttons", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(radioButtons.Position, MessageFormat, "radiobuttons", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }
 
         public override object VisitSpinBox(SpinBox spinBox)
         {
-            if (!spinBox.SupportsDataType(currentDataType))
+            if (!spinBox.SupportsDataType(_currentDataType))
             {
-                Report.AddError(spinBox.Position, MessageFormat, "spinbox", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(spinBox.Position, MessageFormat, "spinbox", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }
 
         public override object VisitTextBox(TextBox textBox)
         {
-            if (!textBox.SupportsDataType(currentDataType))
+            if (!textBox.SupportsDataType(_currentDataType))
             {
-                Report.AddError(textBox.Position, MessageFormat, "textbox", StringEnum.GetStringValue(currentDataType));
+                Report.AddError(textBox.Position, MessageFormat, "textbox", StringEnum.GetStringValue(_currentDataType));
             }
             return null;
         }

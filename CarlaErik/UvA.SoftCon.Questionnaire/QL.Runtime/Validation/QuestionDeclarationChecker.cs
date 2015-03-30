@@ -12,9 +12,9 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Validation
     /// </summary>
     internal class QuestionDeclarationChecker : ASTChecker
     {
-        private ICollection<string> _declaredQuestions = new List<string>();
+        private readonly ICollection<string> _declaredQuestions = new List<string>();
 
-        public QuestionDeclarationChecker()
+        internal QuestionDeclarationChecker()
         {
         }
 

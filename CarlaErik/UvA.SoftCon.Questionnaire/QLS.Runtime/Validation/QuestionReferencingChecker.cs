@@ -12,20 +12,20 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
     /// </summary>
     internal class QuestionReferencingChecker : ASTChecker
     {
-        private ICollection<string> unrefferedQuestions = new List<string>();
-        private ICollection<string> referredQuestions = new List<string>();
+        private ICollection<string> _unrefferedQuestions = new List<string>();
+        private ICollection<string> _referredQuestions = new List<string>();
 
         internal QuestionReferencingChecker(IEnumerable<Question> qlQuestions)
         {
             // A question can be defined multiple times in the QL. We only need it once.
-            unrefferedQuestions = qlQuestions.Select(q => q.Name).Distinct().ToList();
+            _unrefferedQuestions = qlQuestions.Select(q => q.Name).Distinct().ToList();
         }
 
-        public override void Validate(StyleSheet styleSheet, ValidationReport report)
+        internal override void Validate(StyleSheet styleSheet, ValidationReport report)
         {
             base.Validate(styleSheet, report);
 
-            foreach (var unrefferedQuestion in unrefferedQuestions)
+            foreach (var unrefferedQuestion in _unrefferedQuestions)
             {
                 Report.AddError(TextPosition.None, "The QL question '{0}' is not referred in the QLS.", unrefferedQuestion);
             }
@@ -33,14 +33,14 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
 
         public override object VisitQuestionReference(QuestionReference questionRef)
         {
-            if (unrefferedQuestions.Contains(questionRef.Name))
+            if (_unrefferedQuestions.Contains(questionRef.Name))
             {
-                unrefferedQuestions.Remove(questionRef.Name);
-                referredQuestions.Add(questionRef.Name);
+                _unrefferedQuestions.Remove(questionRef.Name);
+                _referredQuestions.Add(questionRef.Name);
             }
             else
             {
-                if (referredQuestions.Contains(questionRef.Name))
+                if (_referredQuestions.Contains(questionRef.Name))
                 {
                     Report.AddError(questionRef.Position, "The style sheet already contains a reference to question '{0}'.", questionRef.Name);
                 }

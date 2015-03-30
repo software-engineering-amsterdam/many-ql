@@ -8,13 +8,13 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Validation
     /// </summary>
     public class LiteralChecker : ASTChecker
     {
-        private const string invalidLiteralMessage = "Invalid value '{0}' for literal of type '{1}'.";
+        private const string InvalidLiteralMessage = "Invalid value '{0}' for literal of type '{1}'.";
 
         public override object Visit(IntegerLiteral literal)
         {
             if (!literal.IsValid)
             {
-                Report.AddError(literal.Position, invalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
+                Report.AddError(literal.Position, InvalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
             }
             return null;
         }
@@ -23,7 +23,7 @@ namespace UvA.SoftCon.Questionnaire.QL.Runtime.Validation
         {
             if (!literal.IsValid)
             {
-                Report.AddError(literal.Position, invalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
+                Report.AddError(literal.Position, InvalidLiteralMessage, literal.Value, StringEnum.GetStringValue(literal.GetType(null)));
             }
             return null;
         }

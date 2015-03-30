@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.QLS.Runtime.Validation
             set;
         }
 
-        public virtual void Validate(StyleSheet styleSheet, ValidationReport report)
+        internal virtual void Validate(StyleSheet styleSheet, ValidationReport report)
         {
             Report = report;
             VisitStyleSheet(styleSheet);
