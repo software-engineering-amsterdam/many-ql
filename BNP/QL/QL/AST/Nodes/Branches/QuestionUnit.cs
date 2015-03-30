@@ -7,14 +7,6 @@ namespace QL.AST.Nodes.Branches
     {
         private ITerminalWrapper _value;
 
-        public QuestionUnit(Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)
-            : base(identifier, dataType, displayText, sourceLocation)
-        { }
-
-        public QuestionUnit(Identifier identifier, IStaticReturnType dataType, string displayText)
-            : base(identifier, dataType, displayText)
-        { }
-
         public override object Value
         {
             get { return _value; }
@@ -24,6 +16,14 @@ namespace QL.AST.Nodes.Branches
                 _value.SetValue(value);
             }
         }
+
+        public QuestionUnit(Identifier identifier, IStaticReturnType dataType, string displayText, SourceLocation sourceLocation)
+            : base(identifier, dataType, displayText, sourceLocation)
+        { }
+
+        public QuestionUnit(Identifier identifier, IStaticReturnType dataType, string displayText)
+            : base(identifier, dataType, displayText)
+        { }
 
         public void InitialiseValue(ITerminalWrapper value)
         {

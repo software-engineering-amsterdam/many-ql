@@ -48,7 +48,6 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
-                        <RowDefinition Height="3" />
                         <RowDefinition Height="25" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
@@ -57,18 +56,15 @@
                                            ShowLineNumbers="True" SyntaxHighlighting="JavaScript" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         No file loaded
                     </avalonedit:TextEditor>
-
-                    <GridSplitter ResizeDirection="Rows" Grid.Row="1" ResizeBehavior="PreviousAndNext"
-                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                     
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" Style="{StaticResource ButtonBar}">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Style="{StaticResource ButtonBar}">
                         <Button x:Name="ButtonParse" Click="ButtonParse_Click">Parse</Button>
                         <Button x:Name="ButtonTypeCheck" Click="ButtonTypeCheck_Click">Check types</Button>
                         <Button x:Name="ButtonEvaluate" Click="ButtonEvaluate_Click">Evaluate</Button>
                         <Button x:Name="ButtonBuild" Click="ButtonBuild_Click">Build</Button>
                     </StackPanel>
 
-                    <ListView Grid.Row="3" x:Name="ExceptionTable">
+                    <ListView Grid.Row="2" x:Name="ExceptionTable">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>

@@ -5,12 +5,10 @@ namespace QL.AST.Nodes.Terminals
 {
     public class Yesno : ElementBase, IStaticReturnType
     {
-
         public bool? Value { get; set; }
 
         public Yesno()
         { }
-
 
         public Yesno(string unparsedValue)
         {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QL.AST.ASTCreation;
 
-namespace Tests.ASTBuilderTests
+namespace Tests.AstBuilderTests
 {
     [TestClass]
     public class AstBuilderTests : QLTestBase
@@ -26,8 +26,6 @@ namespace Tests.ASTBuilderTests
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
             Assert.IsTrue(Listener.ASTExists);
-
         }
-       
     }
 }

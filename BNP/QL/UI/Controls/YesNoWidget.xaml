@@ -1,17 +1,17 @@
 ﻿<my:WidgetBase x:Class="QL.UI.Controls.YesNoWidget"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:QL.UI.Controls"
-             xmlns:ui="clr-namespace:QL.UI"
-             xmlns:my="clr-namespace:QL.UI.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="300">
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:my="clr-namespace:QL.UI.Controls"
+               xmlns:convert="clr-namespace:QL.UI.ValueConversion"
+               xmlns:ui="clr-namespace:QL.UI"
+               mc:Ignorable="d" 
+               d:DesignHeight="50" d:DesignWidth="300">
     
     <my:WidgetBase.Resources>
         <BooleanToVisibilityConverter x:Key="VisibilityConverter" />
-        <controls:BooleanYesNoConverter x:Key="BooleanConverter" />
+        <convert:BooleanYesNoConverter x:Key="BooleanConverter" />
     </my:WidgetBase.Resources>
 
     <Grid x:Name="ContentGrid">

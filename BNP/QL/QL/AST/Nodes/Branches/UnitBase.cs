@@ -14,9 +14,9 @@ namespace QL.AST.Nodes.Branches
     {
         private string _text;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        protected readonly TerminalWrapperFactory TerminalFactory = new TerminalWrapperFactory();
         
-        protected readonly EvaluationTerminalWrapperFactory TerminalFactory = new EvaluationTerminalWrapperFactory();
+        public event PropertyChangedEventHandler PropertyChanged;
         public IStaticReturnType DataType { get; set; }
         public Identifier Identifier { get; set; }
 

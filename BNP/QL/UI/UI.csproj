@@ -77,7 +77,6 @@
     </ApplicationDefinition>
     <Compile Include="Builder\QLUIBuilder.cs" />
     <Compile Include="Builder\Renderer.cs" />
-    <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="Controls\NumberWidget.xaml.cs">
       <DependentUpon>NumberWidget.xaml</DependentUpon>
     </Compile>
@@ -93,6 +92,8 @@
     <Compile Include="ControlWrappers\WidgetFactory.cs" />
     <Compile Include="Controls\WidgetBase.cs" />
     <Compile Include="Builder\UserInterfaceVisitor.cs" />
+    <Compile Include="ValueConversion\BooleanYesNoConverter.cs" />
+    <Compile Include="ValueConversion\NumberConverter.cs" />
     <Page Include="Assets\ApplicationResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Win32;
-using QL.AST.Nodes.Branches;
-using QL.AST.Nodes.Terminals;
 using QL.Exceptions;
 using QL.UI.Builder;
-using QL.UI.Controls;
-using QL.UI.ControlWrappers;
 
 namespace QL.UI
 {
     public partial class MainWindow : Window
     {
-        private QLUIBuilder _qlBuilder = null;
+        private QLUIBuilder _qlBuilder;
 
         public MainWindow()
         {
@@ -74,6 +67,29 @@ namespace QL.UI
             }
         }
 
+        private void PopulateExampleFileMenu()
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "examples");
+            if (!Directory.Exists(path)) return;
+
+            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
+
+            foreach (string file in files)
+            {
+                MenuItem menuItem = new MenuItem();
+                menuItem.Header = Path.GetFileNameWithoutExtension(file);
+                menuItem.Tag = file;
+                menuItem.Click += MenuItemOpenExample_Click;
+
+                MenuItemExamples.Items.Add(menuItem);
+            }
+
+            if (files.Length <= 0)
+            {
+                MenuItemExamples.Visibility = Visibility.Hidden;
+            }
+        }
+
         #region Menu event handlers
         private void Command_Open(object sender, ExecutedRoutedEventArgs e)
         {
@@ -122,7 +138,8 @@ namespace QL.UI
 
         private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
-            BindTestData();
+            _qlBuilder.RunEvaluators();
+            _qlBuilder.RunRenderers();
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)
@@ -188,51 +205,5 @@ namespace QL.UI
             set { SetValue(ShowIdentifiersProperty, value); }
         }
         #endregion
-
-        private void PopulateExampleFileMenu()
-        {
-            string path = Path.Combine(Environment.CurrentDirectory, "examples");
-            if (!Directory.Exists(path))
-            {
-                return;
-            }
-
-            string[] files = Directory.GetFiles(path, "*.ql", SearchOption.AllDirectories);
-
-            foreach (string file in files)
-            {
-                MenuItem menuItem = new MenuItem
-                {
-                    Header = Path.GetFileNameWithoutExtension(file),
-                    Tag = file
-                };
-                menuItem.Click += MenuItemOpenExample_Click;
-                MenuItemExamples.Items.Add(menuItem);
-            }
-
-            if (files.Length <= 0)
-            {
-                MenuItemExamples.Visibility = Visibility.Hidden;
-            }
-        }
-
-        private void BindTestData()
-        {
-            //_qlBuilder.ElementsToDisplay[0].Unit.Value = "Joe D.";
-            //if (!_qlBuilder.RunEvaluators()) MessageBox.Show("Evaluation failed");
-            //_qlBuilder.ElementsToDisplay[0] = new YesNoWidget(new QuestionUnit(new Identifier("Blah"), new Yesno(), "Hello world"));
-            _qlBuilder.RunEvaluators();
-            _qlBuilder.RunRenderers();
-
-            //WidgetFactory factory = new WidgetFactory();
-            //List<WidgetBase> renders = new List<WidgetBase>
-            //                            {
-            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question1"), new Text(), "What is your name?")),
-            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question2"), new Number(), "What is your age?")),
-            //                                factory.GetWidget(new QuestionUnit(new Identifier("Question3"), new Yesno(), "Are you studying?")),
-            //                            };
-
-            //WidgetsContainer.ItemsSource = renders;
-        }
     }
 }

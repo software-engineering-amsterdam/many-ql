@@ -97,6 +97,7 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             }
             return new NumberWrapper(a.Value.Value / b.Value.Value);
         }
+
         public static YesnoWrapper operator <(NumberWrapper a, NumberWrapper b)
         {
             return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value.Value < b.Value.Value);

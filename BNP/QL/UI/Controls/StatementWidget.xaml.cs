@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using QL.AST.Nodes.Branches;
-using QL.AST.Nodes.Terminals.Wrappers;
 
 namespace QL.UI.Controls
 {
@@ -10,10 +7,21 @@ namespace QL.UI.Controls
     {
         public StatementWidget(UnitBase unit) : base(unit)
         {
+            // Workaround that fixes WPF DataBinding problem where values are properly bound but not UI updated
+            SubscribeDataBinding();
+            
             InitializeComponent();
         }
 
-        protected override void UpdateValue()
+        private void SubscribeDataBinding()
+        {
+            if (Unit.Value is INotifyPropertyChanged)
+            {
+                (Unit.Value as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(UpdateValue);
+            }
+        }
+
+        private void UpdateValue(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             ValueTextBlock.Text = Unit.Value.ToString();
         }

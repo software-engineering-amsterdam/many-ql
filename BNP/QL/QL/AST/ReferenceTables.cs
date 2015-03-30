@@ -42,7 +42,7 @@ namespace QL.AST
         {
             if (key.Child is IStaticReturnType)
             {
-                EvaluationTerminalWrapperFactory terminalWrapperFactory = new EvaluationTerminalWrapperFactory();
+                TerminalWrapperFactory terminalWrapperFactory = new TerminalWrapperFactory();
                 return terminalWrapperFactory.CreateWrapper(key.Child as IStaticReturnType);
             }
 

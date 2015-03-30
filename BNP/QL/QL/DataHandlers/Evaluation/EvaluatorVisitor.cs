@@ -14,14 +14,14 @@ namespace QL.DataHandlers.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {
-        private readonly EvaluationTerminalWrapperFactory _evaluationTerminalWrapperFactory;
+        private readonly TerminalWrapperFactory _terminalWrapperFactory;
 
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
 
         public EvaluatorVisitor(ObservableCollection<QLBaseException> exceptions, ReferenceTables referenceTables)
         {
-            _evaluationTerminalWrapperFactory = new EvaluationTerminalWrapperFactory();
+            _terminalWrapperFactory = new TerminalWrapperFactory();
             Exceptions = exceptions;
             ReferenceTables = referenceTables;
         }
@@ -68,7 +68,7 @@ namespace QL.DataHandlers.Evaluation
 
             if (!ReferenceTables.ContainsReference(node.DataType))
             {
-                var wrapper = _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType);
+                var wrapper = _terminalWrapperFactory.CreateWrapper(node.DataType);
                 node.Value = wrapper;
                 ReferenceTables.SetValue(node.DataType, wrapper);
             }

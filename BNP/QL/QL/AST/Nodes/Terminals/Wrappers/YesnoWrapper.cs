@@ -62,7 +62,7 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool ToBool()//TODO change to (bool)
+        public bool ToBool()
         {
             return Value.GetValueOrDefault(false);
         }
@@ -113,6 +113,5 @@ namespace QL.AST.Nodes.Terminals.Wrappers
         {
             return ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value);
         }
-
     }
 }

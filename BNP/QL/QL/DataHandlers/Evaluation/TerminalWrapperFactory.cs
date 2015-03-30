@@ -5,7 +5,7 @@ using QL.Exceptions.Errors;
 
 namespace QL.DataHandlers.Evaluation
 {
-    public sealed class EvaluationTerminalWrapperFactory
+    public sealed class TerminalWrapperFactory
     {
         public ITerminalWrapper CreateWrapper(IStaticReturnType terminal)
         {

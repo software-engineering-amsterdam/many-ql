@@ -97,7 +97,6 @@ namespace QL.DataHandlers.TypeChecking
                 node.DataType.GetReturnType(), 
                 DetermineType(node.Expression))));
             }
-
         }
 
         public void Visit(QuestionUnit node)

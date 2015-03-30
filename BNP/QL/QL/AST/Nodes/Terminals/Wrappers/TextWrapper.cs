@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using QL.Annotations;
 
@@ -34,11 +33,6 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             }
         }
 
-        public TextWrapper(IStaticReturnType value)
-        {
-            throw new Exception("Resolution of this IResolvableTerminalType not implemented: " + value);
-        }
-
         public void SetValue(object value)
         {
             Value = value.ToString();
@@ -56,27 +50,26 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             if (ContainsNullValue(a, b))
             {
                 return new YesnoWrapper(null);
-            };
+            }
             return new YesnoWrapper(a.Value == b.Value);
-
         }
+
         public static YesnoWrapper operator !=(TextWrapper a, TextWrapper b)
         {
             if (ContainsNullValue(a, b))
             {
                 return new YesnoWrapper(null);
-            };
+            }
             return new YesnoWrapper(a.Value != b.Value);
-
         }
+
         public static TextWrapper operator +(TextWrapper a, TextWrapper b)
         {
             if (ContainsNullValue(a, b))
             {
                 return new TextWrapper((string)null);
-            };
+            }
             return new TextWrapper(a.Value + b.Value);
-
         }
 
         public override string ToString()

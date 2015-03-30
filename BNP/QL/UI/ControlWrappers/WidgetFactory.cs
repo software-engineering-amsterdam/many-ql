@@ -1,5 +1,4 @@
-﻿using QL.AST.Nodes;
-using QL.AST.Nodes.Branches;
+﻿using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
 using QL.UI.Controls;

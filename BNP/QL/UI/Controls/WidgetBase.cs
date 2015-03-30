@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using QL.AST.Nodes.Branches;
 
 namespace QL.UI.Controls
@@ -18,18 +17,6 @@ namespace QL.UI.Controls
             
             // by setting the widget's datacontext to the unit, we enable WPF's binding listeners
             DataContext = unit;
-            
-            SubscribeDataBinding();
         }
-
-        private void SubscribeDataBinding()
-        {
-            if (Unit.Value is INotifyPropertyChanged)
-            {
-                (Unit.Value as INotifyPropertyChanged).PropertyChanged += (sender, args) => UpdateValue();
-            }
-        }
-
-        protected abstract void UpdateValue();
     }
 }

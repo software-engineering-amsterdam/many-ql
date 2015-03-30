@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
-using QL.DataHandlers.Evaluation;
 using QL.Exceptions;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
@@ -22,7 +20,7 @@ namespace QL.UI.Builder
     {
         private readonly WidgetFactory _widgetFactory;
         private readonly ObservableCollection<WidgetBase> _elementsToDisplay;
-        private bool _parentExpressionDidNotEvaluate = false;
+        private bool _parentExpressionDidNotEvaluate;
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
@@ -51,7 +49,6 @@ namespace QL.UI.Builder
         public void Visit(ControlUnit node)
         {
             YesnoWrapper evaluatedResult = (YesnoWrapper)ReferenceTables.GetValueOrNull(node.Expression);
-            //if (!evaluatedResult.ToBool()) return; // todo temp disable
             _parentExpressionDidNotEvaluate = !evaluatedResult.ToBool();
 
             if (node.ConditionTrueBlock != null)
@@ -97,8 +94,6 @@ namespace QL.UI.Builder
             }
             else
             {
-                //unitWrapper.Unit.Value = uiQuestion.Unit.Value;
-                //(unitWrapper.Unit as QuestionUnit).InitialiseValue(_elementsToDisplay[index].Unit.Value as ITerminalWrapper);
                 _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
             }
         }
@@ -113,7 +108,7 @@ namespace QL.UI.Builder
         /// </summary>
         public void Visit(ElementBase elementBase)
         {
-            throw new NotImplementedException("GUI Visitor did not expect an ElementBase fallback");
+            Debug.Assert(false, "GUI Visitor did not expect an ElementBase fallback");
         }
 
         public void Visit(Yesno node)
