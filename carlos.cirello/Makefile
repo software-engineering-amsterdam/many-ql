@@ -8,9 +8,6 @@ test:
 	go generate ./...
 	go test -v ./...
 
-coverage:
-	bash ./coverage.sh
-
 doc: .FORCE
 	godoc -http=:8080 &
 	sleep 2
