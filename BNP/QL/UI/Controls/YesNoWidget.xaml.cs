@@ -22,7 +22,12 @@ namespace QL.UI.Controls
         {
             if (value == null || parameter == null || value.ToString() == string.Empty) return false;
 
-            return bool.Parse(value.ToString()) == bool.Parse(parameter.ToString());
+            bool desiredOutcome = bool.Parse(parameter.ToString());
+
+            if (value.ToString().ToLowerInvariant() == "yes") return desiredOutcome == true;
+            if (value.ToString().ToLowerInvariant() == "no") return desiredOutcome == false;
+
+            return bool.Parse(value.ToString()) == desiredOutcome;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

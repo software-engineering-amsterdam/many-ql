@@ -77,6 +77,7 @@
     </ApplicationDefinition>
     <Compile Include="Builder\QLUIBuilder.cs" />
     <Compile Include="Builder\Renderer.cs" />
+    <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="Controls\NumberWidget.xaml.cs">
       <DependentUpon>NumberWidget.xaml</DependentUpon>
     </Compile>

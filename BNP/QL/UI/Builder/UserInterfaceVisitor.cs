@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
@@ -18,12 +21,12 @@ namespace QL.UI.Builder
     public class UserInterfaceVisitor : IVisitor
     {
         private readonly WidgetFactory _widgetFactory;
-        private readonly IList<WidgetBase> _elementsToDisplay;
+        private readonly ObservableCollection<WidgetBase> _elementsToDisplay;
         private bool _parentExpressionDidNotEvaluate = false;
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
-        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, IList<WidgetBase> elementsToDisplay)
+        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, ObservableCollection<WidgetBase> elementsToDisplay)
         {
             _widgetFactory = new WidgetFactory();
             _elementsToDisplay = elementsToDisplay;
@@ -70,16 +73,35 @@ namespace QL.UI.Builder
 
             WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
             unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
-            
-            _elementsToDisplay.Add(unitWrapper);
+
+            int index = _elementsToDisplay.ToList().FindIndex(elem => elem.Unit.Identifier == unitWrapper.Unit.Identifier);
+            if (index < 0)
+            {
+                _elementsToDisplay.Add(unitWrapper);
+            }
+            else
+            {
+                _elementsToDisplay[index].GetBindingExpression(FrameworkElement.DataContextProperty).UpdateTarget();
+                _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
+            }
         }
 
         public void Visit(QuestionUnit node)
         {
-            WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
+            WidgetBase unitWrapper = _widgetFactory.GetWidget(node, ReferenceTables.GetValue(node.Identifier));
             unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
 
-            _elementsToDisplay.Add(unitWrapper);
+            int index = _elementsToDisplay.ToList().FindIndex(elem => elem.Unit.Identifier == unitWrapper.Unit.Identifier);
+            if (index < 0)
+            {
+                _elementsToDisplay.Add(unitWrapper);
+            }
+            else
+            {
+                //unitWrapper.Unit.Value = uiQuestion.Unit.Value;
+                //(unitWrapper.Unit as QuestionUnit).InitialiseValue(_elementsToDisplay[index].Unit.Value as ITerminalWrapper);
+                _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
+            }
         }
         #endregion
 

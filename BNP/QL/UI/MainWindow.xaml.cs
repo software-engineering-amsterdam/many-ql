@@ -219,7 +219,10 @@ namespace QL.UI
         private void BindTestData()
         {
             //_qlBuilder.ElementsToDisplay[0].Unit.Value = "Joe D.";
-            if (!_qlBuilder.RunEvaluators()) MessageBox.Show("Evaluation failed");
+            //if (!_qlBuilder.RunEvaluators()) MessageBox.Show("Evaluation failed");
+            //_qlBuilder.ElementsToDisplay[0] = new YesNoWidget(new QuestionUnit(new Identifier("Blah"), new Yesno(), "Hello world"));
+            _qlBuilder.RunEvaluators();
+            _qlBuilder.RunRenderers();
 
             //WidgetFactory factory = new WidgetFactory();
             //List<WidgetBase> renders = new List<WidgetBase>

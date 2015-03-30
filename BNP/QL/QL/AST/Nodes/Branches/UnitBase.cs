@@ -33,7 +33,7 @@ namespace QL.AST.Nodes.Branches
                 OnPropertyChanged();
             }
         }
-        public abstract ITerminalWrapper Value { get; set; }
+        public abstract object Value { get; set; }
         
         [Obsolete("Remove when possible")]
         public virtual ITerminalWrapper DataContext

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using QL.AST;
+using QL.AST.Nodes.Terminals;
 using QL.DataHandlers;
 using QL.Exceptions.Errors;
+using QL.UI.Collections;
 using QL.UI.Controls;
 
 namespace QL.UI.Builder
 {
     public class Renderer : IExecutableHandler
     {
-        public IList<WidgetBase> ElementsToDisplay { get; private set; }
+        public ObservableCollection<WidgetBase> ElementsToDisplay { get; private set; }
 
-        public Renderer(IList<WidgetBase> elementsToDisplay)
+        public Renderer(ObservableCollection<WidgetBase> elementsToDisplay)
         {
             ElementsToDisplay = elementsToDisplay;
         }

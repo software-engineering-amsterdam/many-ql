@@ -15,15 +15,20 @@ namespace QL.AST.Nodes.Branches
             : base(identifier, dataType, displayText)
         { }
 
-        public override ITerminalWrapper Value
+        public override object Value
         {
             get { return _value; }
             set
             {
-                if (value == _value) return;
-                _value = value;
+                if (_value == null || Equals(value, _value)) return;
+                _value.SetValue(value);
                 OnPropertyChanged();
             }
+        }
+
+        public void InitialiseValue(ITerminalWrapper value)
+        {
+            _value = value;
         }
     }
 }

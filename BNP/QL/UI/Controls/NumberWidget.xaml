@@ -11,6 +11,7 @@
     
     <my:WidgetBase.Resources>
         <BooleanToVisibilityConverter x:Key="visibilityConverter" />
+        <my:NumberConverter x:Key="NumberConverter" />
     </my:WidgetBase.Resources>
     
     <Grid x:Name="ContentGrid">
@@ -27,6 +28,6 @@
         <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{Binding Text}" />
         <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Identifier}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource visibilityConverter}}" />
 
-        <xctk:IntegerUpDown Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextAlignment="Left" ButtonSpinnerLocation="Left" Value="{Binding Value, Mode=TwoWay}" />
+        <xctk:IntegerUpDown Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextAlignment="Left" ButtonSpinnerLocation="Left" Value="{Binding Value, Mode=TwoWay, Converter={StaticResource NumberConverter}}" />
     </Grid>
 </my:WidgetBase>

@@ -19,8 +19,12 @@
 
         public void SetValue(object value)
         {
-            if (value is bool?) Value = value as bool?;
-
+            if (value is bool?)
+            {
+                Value = value as bool?;
+                return;
+            }
+            
             switch (value.ToString().ToLower())
             {
                 case "yes":
