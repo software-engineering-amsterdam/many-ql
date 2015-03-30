@@ -38,7 +38,7 @@ class FormBuilder():
         if node.NodeType == "Question":
             # Type should be checked and safe to use
             widgetName = node.type.capitalize()
-            return getattr(Widgets, widgetName)(self.Frame, node)
+            return getattr(Widgets, widgetName)(self.Frame, node, self.answers)
 
         if node.NodeType == "Branch" and forward:
             # Evaluate expression -> render either the "if" or "else" block

@@ -3,10 +3,13 @@ import Tkinter as tk
 from Base import Widget
 
 class Integer(Widget):
-    def __init__(self, Frame, node):
-        Widget.__init__(self, Frame, node)
+    def __init__(self, *args):
+        Widget.__init__(self, *args)
 
-        self._build()
+        if self.isReadOnly():
+            self._buildReadOnly()
+        else:
+            self._build()
 
     def _build(self):
         self.inputVar = tk.IntVar()

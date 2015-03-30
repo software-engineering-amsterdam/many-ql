@@ -3,13 +3,16 @@ import Tkinter as tk
 from Base import Widget
 
 class Boolean(Widget):
-    def __init__(self, Frame, node):
-        Widget.__init__(self, Frame, node)
+    def __init__(self, *args):
+        Widget.__init__(self, *args)
 
         self._build([
             ("Yes", 1),
             ("No",  0)
         ])
+
+        if self.isReadOnly:
+            self.choiceVar.set(self.readOnlyValue())
 
 
     def _build(self, choices):
