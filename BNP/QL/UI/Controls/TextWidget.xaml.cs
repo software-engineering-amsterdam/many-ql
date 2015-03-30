@@ -11,5 +11,10 @@ namespace QL.UI.Controls
         {
             InitializeComponent();
         }
+
+        protected override void UpdateValue()
+        {
+            
+        }
     }
 }

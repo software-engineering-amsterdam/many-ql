@@ -1,11 +1,26 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using QL.Annotations;
 using QL.Exceptions.Errors;
 
 namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class NumberWrapper : ITerminalWrapper
     {
-        public int? Value { get; set; }
+        private int? _value;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int? Value
+        {
+            get { return _value; }
+            set
+            {
+                if (value == _value) return;
+                _value = value;
+                OnPropertyChanged();
+            }
+        }
 
         public NumberWrapper(int value)
         {
@@ -36,6 +51,13 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             {
                 Value = null;
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public static YesnoWrapper operator ==(NumberWrapper a, NumberWrapper b)

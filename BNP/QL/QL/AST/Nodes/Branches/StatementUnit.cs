@@ -20,11 +20,9 @@ namespace QL.AST.Nodes.Branches
             get { return _value; }
             set
             {
+                if (Equals(value, _value)) return;
                 _value = value;
-                if (value is INotifyPropertyChanged)
-                {
-                    (value as INotifyPropertyChanged).PropertyChanged += (x,y) => System.Diagnostics.Debug.WriteLine(y.PropertyName);
-                }
+                OnPropertyChanged();
             }
         }
     }

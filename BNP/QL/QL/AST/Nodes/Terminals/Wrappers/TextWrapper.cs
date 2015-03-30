@@ -1,10 +1,25 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using QL.Annotations;
 
 namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class TextWrapper : ITerminalWrapper
     {
-        public string Value { get; set; }
+        private string _value;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Value
+        {
+            get { return _value; }
+            set
+            {
+                if (value == _value) return;
+                _value = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TextWrapper(string value)
         {
@@ -27,6 +42,13 @@ namespace QL.AST.Nodes.Terminals.Wrappers
         public void SetValue(object value)
         {
             Value = value.ToString();
+        }
+        
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public static YesnoWrapper operator ==(TextWrapper a, TextWrapper b)

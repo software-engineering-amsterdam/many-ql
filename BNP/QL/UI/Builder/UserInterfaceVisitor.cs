@@ -81,7 +81,6 @@ namespace QL.UI.Builder
             }
             else
             {
-                _elementsToDisplay[index].GetBindingExpression(FrameworkElement.DataContextProperty).UpdateTarget();
                 _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
             }
         }

@@ -1,8 +1,24 @@
-﻿namespace QL.AST.Nodes.Terminals.Wrappers
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using QL.Annotations;
+
+namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class YesnoWrapper : ITerminalWrapper
     {
-        public bool? Value { get; set; }
+        private bool? _value;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool? Value
+        {
+            get { return _value; }
+            set
+            {
+                if (value.Equals(_value)) return;
+                _value = value;
+                OnPropertyChanged();
+            }
+        }
 
         public YesnoWrapper(Yesno value)
         {
@@ -37,6 +53,13 @@
                     Value = null;
                     break;
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public bool ToBool()//TODO change to (bool)
@@ -90,5 +113,6 @@
         {
             return ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value);
         }
+
     }
 }

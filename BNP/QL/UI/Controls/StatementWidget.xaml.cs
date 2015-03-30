@@ -6,14 +6,16 @@ using QL.AST.Nodes.Terminals.Wrappers;
 
 namespace QL.UI.Controls
 {
-    /// <summary>
-    /// Interaction logic for TextWidget.xaml
-    /// </summary>
     public partial class StatementWidget
     {
         public StatementWidget(UnitBase unit) : base(unit)
         {
             InitializeComponent();
+        }
+
+        protected override void UpdateValue()
+        {
+            ValueTextBlock.Text = Unit.Value.ToString();
         }
     }
 }

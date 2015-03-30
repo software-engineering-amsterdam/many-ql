@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:ui="clr-namespace:QL.UI"
              xmlns:my="clr-namespace:QL.UI.Controls"
              mc:Ignorable="d" 
@@ -26,6 +27,6 @@
         <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{Binding Text}" />
         <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Identifier}"  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="ValueTextBlock" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}" />
     </Grid>
 </my:WidgetBase>

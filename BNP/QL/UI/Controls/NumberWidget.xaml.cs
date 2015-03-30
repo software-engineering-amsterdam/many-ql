@@ -16,6 +16,11 @@ namespace QL.UI.Controls
         {
             InitializeComponent();
         }
+
+        protected override void UpdateValue()
+        {
+            
+        }
     }
 
     public class NumberConverter : IValueConverter

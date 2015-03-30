@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using QL.Annotations;
 using QL.AST.Nodes.Terminals;
-using QL.AST.Nodes.Terminals.Wrappers;
 using QL.DataHandlers.Evaluation;
 
 namespace QL.AST.Nodes.Branches
@@ -15,7 +13,6 @@ namespace QL.AST.Nodes.Branches
     public abstract class UnitBase : ElementBase, INotifyPropertyChanged
     {
         private string _text;
-        private ITerminalWrapper _dataContext;
 
         public event PropertyChangedEventHandler PropertyChanged;
         
@@ -34,18 +31,6 @@ namespace QL.AST.Nodes.Branches
             }
         }
         public abstract object Value { get; set; }
-        
-        [Obsolete("Remove when possible")]
-        public virtual ITerminalWrapper DataContext
-        {
-            get { return _dataContext; }
-            set
-            {
-                if (Equals(value, _dataContext)) return;
-                _dataContext = value;
-                OnPropertyChanged();
-            }
-        }
 
         protected UnitBase()
         { }

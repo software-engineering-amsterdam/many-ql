@@ -22,7 +22,6 @@ namespace QL.AST.Nodes.Branches
             {
                 if (_value == null || Equals(value, _value)) return;
                 _value.SetValue(value);
-                OnPropertyChanged();
             }
         }
 
