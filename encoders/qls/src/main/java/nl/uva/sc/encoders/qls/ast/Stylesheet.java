@@ -17,11 +17,11 @@ public class Stylesheet extends AstNode {
 	}
 
 	public boolean containsQuestion(String name) {
-		return getAllQuestions().stream().anyMatch(question -> question.equals(name));
+		return getAllQuestions().stream().anyMatch(question -> question.getName().equals(name));
 	}
 
-	public List<String> getAllQuestions() {
-		List<String> result = new ArrayList<>();
+	public List<Question> getAllQuestions() {
+		List<Question> result = new ArrayList<>();
 		for (Page page : pages) {
 			page.collectQuestions(result);
 		}

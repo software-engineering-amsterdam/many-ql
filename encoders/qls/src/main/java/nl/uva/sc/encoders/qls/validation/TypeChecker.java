@@ -9,16 +9,15 @@ import nl.uva.sc.encoders.ql.ast.Questionnaire;
 import nl.uva.sc.encoders.ql.ast.TextLocation;
 import nl.uva.sc.encoders.ql.validation.TypeValidation;
 import nl.uva.sc.encoders.qls.ast.Page;
+import nl.uva.sc.encoders.qls.ast.Question;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
-import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
+import nl.uva.sc.encoders.qls.visitor.AstVisitor;
 
-public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
+public class TypeChecker implements AstVisitor<List<TypeValidation>> {
 
 	private final Stylesheet stylesheet;
 	private final Questionnaire questionnaire;
-
-	List<TypeValidation> validations = new ArrayList<>();
 
 	public TypeChecker(Stylesheet stylesheet, Questionnaire questionnaire) {
 		this.stylesheet = stylesheet;
@@ -26,6 +25,8 @@ public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 	}
 
 	public List<TypeValidation> checkTypes() {
+
+		List<TypeValidation> validations = new ArrayList<>();
 		List<Page> pages = stylesheet.getPages();
 		for (Page page : pages) {
 			List<Section> sections = page.getSections();
@@ -38,19 +39,26 @@ public class TypeChecker implements SectionVisitor<List<TypeValidation>> {
 
 	@Override
 	public List<TypeValidation> visit(Section section) {
-		List<String> questions = section.getQuestionNames();
-		for (String question : questions) {
-			if (!questionnaire.containsQuestion(question)) {
-				String validationMessage = "Question '" + question + "' does not exist in questionnaire";
-				TextLocation textLocation = section.getTextLocation();
-				validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
-			}
-		}
 		List<TypeValidation> validations = new ArrayList<>();
+		List<Question> questions = section.getQuestions();
+		for (Question question : questions) {
+			validations.addAll(question.accept(this));
+		}
 		List<Section> subSections = section.getSubSections();
 		for (Section subSection : subSections) {
 			List<TypeValidation> subSectionValidations = subSection.accept(this);
 			validations.addAll(subSectionValidations);
+		}
+		return validations;
+	}
+
+	@Override
+	public List<TypeValidation> visit(Question question) {
+		List<TypeValidation> validations = new ArrayList<>();
+		if (!questionnaire.containsQuestion(question.getName())) {
+			String validationMessage = "Question '" + question + "' does not exist in questionnaire";
+			TextLocation textLocation = question.getTextLocation();
+			validations.add(new TypeValidation(validationMessage, textLocation, ERROR));
 		}
 		return validations;
 	}

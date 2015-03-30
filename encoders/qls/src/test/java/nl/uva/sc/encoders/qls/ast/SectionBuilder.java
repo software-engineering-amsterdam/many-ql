@@ -11,7 +11,7 @@ public class SectionBuilder {
 
 	private TextLocation textLocation;
 	private String name;
-	private List<String> questionNames = new ArrayList<>();
+	private List<Question> questions = new ArrayList<>();
 	private List<Section> subSections = new ArrayList<>();
 	private List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
 
@@ -19,13 +19,13 @@ public class SectionBuilder {
 		SectionBuilder builder = new SectionBuilder();
 		builder.textLocation = aTextLocation().build();
 		builder.name = "Section with all kinds of Crap";
-		builder.questionNames.add("SomeQuestionA");
-		builder.questionNames.add("SomeQuestionB");
+		builder.questions.add(new Question(aTextLocation().build(), "SomeQuestionA", null));
+		builder.questions.add(new Question(aTextLocation().build(), "SomeQuestionB", null));
 		return builder;
 	}
 
 	public Section build() {
-		return new Section(textLocation, name, questionNames, subSections, sectionDefaultStyles);
+		return new Section(textLocation, name, questions, subSections, sectionDefaultStyles);
 	}
 
 	public SectionBuilder withName(String name) {
@@ -33,8 +33,8 @@ public class SectionBuilder {
 		return this;
 	}
 
-	public SectionBuilder withQuestions(List<String> questionNames) {
-		this.questionNames = questionNames;
+	public SectionBuilder withQuestions(List<Question> questions) {
+		this.questions = questions;
 		return this;
 	}
 
