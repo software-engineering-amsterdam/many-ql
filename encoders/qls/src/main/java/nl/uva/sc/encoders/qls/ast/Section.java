@@ -31,7 +31,7 @@ public class Section extends AstNode {
 		return questionNames;
 	}
 
-	public List<Section> getSectionNames() {
+	public List<Section> getSubSections() {
 		return subSections;
 	}
 
