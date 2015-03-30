@@ -2,6 +2,7 @@
 {
     public interface ITerminalWrapper
     {
+        void SetValue(object value);
     }
 
 }

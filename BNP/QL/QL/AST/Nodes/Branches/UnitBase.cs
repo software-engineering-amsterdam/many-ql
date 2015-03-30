@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using QL.Annotations;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
+using QL.DataHandlers.Evaluation;
 
 namespace QL.AST.Nodes.Branches
 {
@@ -18,6 +19,7 @@ namespace QL.AST.Nodes.Branches
 
         public event PropertyChangedEventHandler PropertyChanged;
         
+        protected readonly EvaluationTerminalWrapperFactory TerminalFactory = new EvaluationTerminalWrapperFactory();
         public IStaticReturnType DataType { get; set; }
         public Identifier Identifier { get; set; }
 
@@ -31,7 +33,7 @@ namespace QL.AST.Nodes.Branches
                 OnPropertyChanged();
             }
         }
-        public abstract object Value { get; set; }
+        public abstract ITerminalWrapper Value { get; set; }
         
         [Obsolete("Remove when possible")]
         public virtual ITerminalWrapper DataContext

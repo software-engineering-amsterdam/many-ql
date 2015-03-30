@@ -9,6 +9,8 @@ namespace QL.DataHandlers.Evaluation
     {
         public ITerminalWrapper CreateWrapper(IStaticReturnType terminal)
         {
+            if (terminal == null) return null;
+
             return (ITerminalWrapper)CreateWrapperFor((dynamic)terminal);
         }
 

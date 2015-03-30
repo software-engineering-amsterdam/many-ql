@@ -78,7 +78,7 @@
   <Class Name="QL.AST.Nodes.Branches.UnitBase" Collapsed="true">
     <Position X="3" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAIAAAAAIAAAAAAAgAAAQAAIAAAgSAAAAAA=</HashCode>
+      <HashCode>gAAAAAAAAAIAAAAAIAAAAAAAgAAAQAAIAAAgSAACAAA=</HashCode>
       <FileName>AST\Nodes\Branches\UnitBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -331,7 +331,7 @@
   <Class Name="QL.AST.Nodes.Terminals.Wrappers.NumberWrapper" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="50.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAE4AWAAgAAAAAAAIAAAAAgAAAAByA=</HashCode>
+      <HashCode>AAAABAAAAAAAAgAE4AWAAgAAAAAAAIAAAAAgAAAAByA=</HashCode>
       <FileName>AST\Nodes\Terminals\Wrappers\NumberWrapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -339,7 +339,7 @@
   <Class Name="QL.AST.Nodes.Terminals.Wrappers.TextWrapper" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="50.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAEwAAAAAAAAAAAAIAAAAAgAAAAAiA=</HashCode>
+      <HashCode>AAAABAAAAAAAAgAEwAAAAAAAAAAAAIAAAAAgAAAAAiA=</HashCode>
       <FileName>AST\Nodes\Terminals\Wrappers\TextWrapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -347,10 +347,9 @@
   <Class Name="QL.AST.Nodes.Terminals.Wrappers.YesnoWrapper" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="50.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAEgAACAAAAAAAAAoAAAAAgAAAAAiA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Nodes\Terminals\Wrappers\YesnoWrapper.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Struct Name="QL.AST.SourceLocation" Collapsed="true">
     <Position X="42.5" Y="7.25" Width="1.5" />
@@ -390,7 +389,7 @@
   <Interface Name="QL.AST.Nodes.Terminals.Wrappers.ITerminalWrapper" Collapsed="true">
     <Position X="50.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AST\Nodes\Terminals\Wrappers\ITerminalWrapper.cs</FileName>
     </TypeIdentifier>
   </Interface>

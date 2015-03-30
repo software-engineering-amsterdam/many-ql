@@ -17,6 +17,24 @@
             Value = value;
         }
 
+        public void SetValue(object value)
+        {
+            if (value is bool?) Value = value as bool?;
+
+            switch (value.ToString().ToLower())
+            {
+                case "yes":
+                    Value = true;
+                    break;
+                case "no":
+                    Value = false;
+                    break;
+                default:
+                    Value = null;
+                    break;
+            }
+        }
+
         public bool ToBool()//TODO change to (bool)
         {
             return Value.GetValueOrDefault(false);
@@ -44,7 +62,7 @@
 
         public override string ToString()
         {
-            return Value.HasValue ? (Value.Value ? "Yes" : "No") : "Unknown";
+            return Value.HasValue ? (Value.Value ? "Yes" : "No") : string.Empty;
         }
 
         public override int GetHashCode()

@@ -5,17 +5,13 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using QL.AST.Nodes.Branches;
-using QL.AST.Nodes.Terminals.Wrappers;
 
 namespace QL.UI.Controls
 {
     public partial class YesNoWidget
     {
-        private readonly YesnoWrapper _terminalWrapper;
-
-        public YesNoWidget(UnitBase unit, YesnoWrapper terminalWrapper) : base(unit, terminalWrapper)
+        public YesNoWidget(UnitBase unit) : base(unit)
         {
-            _terminalWrapper = terminalWrapper;
             InitializeComponent();
         }
     }
@@ -24,7 +20,7 @@ namespace QL.UI.Controls
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || parameter == null) return false;
+            if (value == null || parameter == null || value.ToString() == string.Empty) return false;
 
             return bool.Parse(value.ToString()) == bool.Parse(parameter.ToString());
         }

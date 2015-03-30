@@ -66,20 +66,20 @@ namespace QL.UI.Builder
         public void Visit(StatementUnit node)
         {
             ITerminalWrapper evaluatedResult = ReferenceTables.GetValueOrNull(node.Expression);
-            WidgetBase unitWrapper = _widgetFactory.GetWidget(node, evaluatedResult);
+            node.Value = evaluatedResult;
 
-            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Hidden : Visibility.Visible; // todo set to collapsed to remove space
+            WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
             
-            _elementsToDisplay.Add(unitWrapper); // todo set identifier/do lookup
+            _elementsToDisplay.Add(unitWrapper);
         }
 
         public void Visit(QuestionUnit node)
         {
             WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
 
-            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Hidden : Visibility.Visible;
-
-            _elementsToDisplay.Add(unitWrapper); // todo idem ditto
+            _elementsToDisplay.Add(unitWrapper);
         }
         #endregion
 

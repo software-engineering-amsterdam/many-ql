@@ -11,11 +11,8 @@ namespace QL.UI.Controls
     /// </summary>
     public partial class StatementWidget
     {
-        private readonly ITerminalWrapper _terminalWrapper;
-
-        public StatementWidget(UnitBase unit, ITerminalWrapper terminalWrapper) : base(unit, terminalWrapper)
+        public StatementWidget(UnitBase unit) : base(unit)
         {
-            _terminalWrapper = terminalWrapper;
             InitializeComponent();
         }
     }

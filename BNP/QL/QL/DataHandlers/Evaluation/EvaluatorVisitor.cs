@@ -68,7 +68,9 @@ namespace QL.DataHandlers.Evaluation
 
             if (!ReferenceTables.ContainsReference(node.DataType))
             {
-                ReferenceTables.SetValue(node.DataType, _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType));
+                var wrapper = _evaluationTerminalWrapperFactory.CreateWrapper(node.DataType);
+                node.Value = wrapper;
+                ReferenceTables.SetValue(node.DataType, wrapper);
             }
         }
 

@@ -13,26 +13,25 @@ namespace QL.UI.ControlWrappers
             return GetWidget(unit, unit.DataType as dynamic);
         }
 
-        public WidgetBase GetWidget(StatementUnit unit, ITerminalWrapper expressionType)
+        public WidgetBase GetWidget(StatementUnit unit)
         {
-            //return new StatementWidget(unit, GetTypeWrapper(expressionType as dynamic));
-            return new StatementWidget(unit, expressionType);
+            return new StatementWidget(unit);
         }
 
         #region Widget-wrapper creation methods
         private WidgetBase GetWidget(UnitBase unit, Yesno type)
         {
-            return new YesNoWidget(unit, GetTypeWrapper(type) as YesnoWrapper);
+            return new YesNoWidget(unit);
         }
 
         private WidgetBase GetWidget(UnitBase unit, Number type)
         {
-            return new NumberWidget(unit, GetTypeWrapper(type) as NumberWrapper);
+            return new NumberWidget(unit);
         }
 
         private WidgetBase GetWidget(UnitBase unit, Text type)
         {
-            return new TextWidget(unit, GetTypeWrapper(type) as TextWrapper);
+            return new TextWidget(unit);
         }
         #endregion
         

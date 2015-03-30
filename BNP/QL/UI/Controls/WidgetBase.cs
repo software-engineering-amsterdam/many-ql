@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using QL.AST.Nodes.Branches;
-using QL.AST.Nodes.Terminals.Wrappers;
 
 namespace QL.UI.Controls
 {
@@ -12,7 +11,7 @@ namespace QL.UI.Controls
     {
         protected internal UnitBase Unit { get; set; }
 
-        protected WidgetBase(UnitBase unit, ITerminalWrapper terminalWrapper)
+        protected WidgetBase(UnitBase unit)
         {
             Unit = unit;
             

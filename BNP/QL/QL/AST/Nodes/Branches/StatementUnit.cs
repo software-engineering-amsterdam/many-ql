@@ -1,4 +1,5 @@
 ﻿using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes.Terminals.Wrappers;
 
 namespace QL.AST.Nodes.Branches
 {
@@ -12,10 +13,10 @@ namespace QL.AST.Nodes.Branches
             Expression = expression;
         }
 
-        public override object Value
+        public override ITerminalWrapper Value
         {
-            get { return Expression.Child.ToString(); }
-            set { }
+            get;
+            set;
         }
     }
 }

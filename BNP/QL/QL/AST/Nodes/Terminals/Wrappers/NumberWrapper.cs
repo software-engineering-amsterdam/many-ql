@@ -25,6 +25,19 @@ namespace QL.AST.Nodes.Terminals.Wrappers
             throw new Exception("Resolution of this IResolvableTerminalType not implemented: " + value);
         }
 
+        public void SetValue(object value)
+        {
+            int result;
+            if (int.TryParse(value.ToString(), out result))
+            {
+                Value = result;
+            }
+            else
+            {
+                Value = null;
+            }
+        }
+
         public static YesnoWrapper operator ==(NumberWrapper a, NumberWrapper b)
         {
             return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value.Value == b.Value.Value);
