@@ -95,7 +95,8 @@ public class Main extends Application {
 		showButton.setOnAction(event -> {
 			QuestionnaireToRuntimeQuestions questionnaireToRuntimeQuestions = new QuestionnaireToRuntimeQuestions();
 			List<RuntimeQuestion> runtimeQuestions = questionnaireToRuntimeQuestions.createRuntimeQuestions(questionnaire);
-			QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane(runtimeQuestions, runtimeQuestions);
+			QuestionnaireGridPane questionnaireGridPane = new QuestionnaireGridPane();
+			questionnaireGridPane.showQuestions(runtimeQuestions, runtimeQuestions);
 			ScrollPane scrollPane = new ScrollPane(questionnaireGridPane);
 			showNode(stackPane, scrollPane);
 		});

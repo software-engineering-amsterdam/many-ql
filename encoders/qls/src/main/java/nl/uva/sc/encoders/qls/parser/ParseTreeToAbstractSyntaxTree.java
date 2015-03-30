@@ -23,6 +23,7 @@ import nl.uva.sc.encoders.qls.EncodersQLSParser.WidthContext;
 import nl.uva.sc.encoders.qls.ast.AstNode;
 import nl.uva.sc.encoders.qls.ast.DefaultStyle;
 import nl.uva.sc.encoders.qls.ast.Page;
+import nl.uva.sc.encoders.qls.ast.Question;
 import nl.uva.sc.encoders.qls.ast.Section;
 import nl.uva.sc.encoders.qls.ast.Stylesheet;
 import nl.uva.sc.encoders.qls.ast.property.Color;
@@ -75,12 +76,12 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 	public Section visitSection(SectionContext ctx) {
 		TextLocation textLocation = getTextLocation(ctx);
 		String name = ctx.name.getText();
-		List<String> questionNames = new ArrayList<>();
+		List<Question> questions = new ArrayList<>();
 		List<Section> subSections = new ArrayList<>();
 		List<DefaultStyle> sectionDefaultStyles = new ArrayList<>();
 		for (QuestionContext questionContext : ctx.question()) {
-			String questionName = questionContext.name.getText();
-			questionNames.add(questionName);
+			Question question = (Question) questionContext.accept(this);
+			questions.add(question);
 		}
 		for (SectionContext subSectionContext : ctx.section()) {
 			Section subSection = visitSection(subSectionContext);
@@ -90,7 +91,15 @@ public class ParseTreeToAbstractSyntaxTree extends EncodersQLSBaseVisitor<AstNod
 			DefaultStyle defaultStyle = (DefaultStyle) defaultStyleContext.accept(this);
 			sectionDefaultStyles.add(defaultStyle);
 		}
-		return new Section(textLocation, name, questionNames, subSections, sectionDefaultStyles);
+		return new Section(textLocation, name, questions, subSections, sectionDefaultStyles);
+	}
+
+	@Override
+	public Question visitQuestion(QuestionContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		String name = ctx.name.getText();
+		Widget widget = null;
+		return new Question(textLocation, name, widget);
 	}
 
 	@Override

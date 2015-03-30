@@ -5,20 +5,20 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.uva.sc.encoders.ql.ast.TextLocation;
-import nl.uva.sc.encoders.qls.visitor.SectionVisitor;
+import nl.uva.sc.encoders.qls.visitor.AstVisitor;
 
 public class Section extends AstNode {
 
 	private final String name;
-	private final List<String> questionNames;
+	private final List<Question> questions;
 	private final List<Section> subSections;
 	private final List<DefaultStyle> sectionDefaultStyles;
 
-	public Section(TextLocation textLocation, String name, List<String> questionNames, List<Section> subSections,
+	public Section(TextLocation textLocation, String name, List<Question> questions, List<Section> subSections,
 			List<DefaultStyle> sectionDefaultStyles) {
 		super(textLocation);
 		this.name = name;
-		this.questionNames = questionNames;
+		this.questions = questions;
 		this.subSections = subSections;
 		this.sectionDefaultStyles = sectionDefaultStyles;
 	}
@@ -27,8 +27,8 @@ public class Section extends AstNode {
 		return name;
 	}
 
-	public List<String> getQuestionNames() {
-		return questionNames;
+	public List<Question> getQuestions() {
+		return questions;
 	}
 
 	public List<Section> getSubSections() {
@@ -39,17 +39,17 @@ public class Section extends AstNode {
 		return sectionDefaultStyles;
 	}
 
-	public void collectQuestions(Collection<String> questions) {
-		questions.addAll(questionNames);
+	public void collectQuestions(Collection<Question> questions) {
+		questions.addAll(this.questions);
 		for (Section subSection : subSections) {
 			subSection.collectQuestions(questions);
 		}
 	}
 
 	public boolean containsQuestion(String name) {
-		List<String> questions = new ArrayList<>();
+		List<Question> questions = new ArrayList<>();
 		collectQuestions(questions);
-		return questions.stream().anyMatch(question -> question.equals(name));
+		return questions.stream().anyMatch(question -> question.getName().equals(name));
 	}
 
 	public DefaultStyle getDefaultStyle(String questionName) {
@@ -64,7 +64,7 @@ public class Section extends AstNode {
 		return null;
 	}
 
-	public <T> T accept(SectionVisitor<T> visitor) {
+	public <T> T accept(AstVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

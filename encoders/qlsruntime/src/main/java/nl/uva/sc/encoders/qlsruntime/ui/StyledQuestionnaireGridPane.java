@@ -17,9 +17,7 @@ public class StyledQuestionnaireGridPane extends QuestionnaireGridPane {
 
 	private final Page page;
 
-	public StyledQuestionnaireGridPane(List<RuntimeQuestion> allRuntimeQuestions, List<RuntimeQuestion> runtimeQuestionsToShow,
-			Page page) {
-		super(allRuntimeQuestions, runtimeQuestionsToShow);
+	public StyledQuestionnaireGridPane(Page page) {
 		this.page = page;
 	}
 
