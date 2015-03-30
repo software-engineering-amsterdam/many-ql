@@ -2,7 +2,7 @@
 
 namespace QL.AST.Nodes.Branches
 {
-    public class Block: ElementBase
+    public class Block : ElementBase
     {
         public IList<ElementBase> Children { get; set; }
 
@@ -10,18 +10,16 @@ namespace QL.AST.Nodes.Branches
         {
             Children = new List<ElementBase>();
         }
+
         public Block(IList<ElementBase> children)
         {
-            Children = children ;
+            Children = children;
         }
 
-
-
-        public Block(IList<ElementBase> children, AST.SourceLocation sourceLocation):this(children)
+        public Block(IList<ElementBase> children, AST.SourceLocation sourceLocation)
+            : this(children)
         {
             SourceLocation = sourceLocation;
         }
-
-
     }
 }

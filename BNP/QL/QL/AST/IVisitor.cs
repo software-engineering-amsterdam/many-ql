@@ -7,17 +7,24 @@ using QL.Exceptions;
 
 namespace QL.AST
 {
+    /// <summary>
+    /// An AST visitor providing types that can be visited with a fallback visit() of ElementBase.
+    /// The fallback should ideally not be implemented but throw an error instead.
+    /// </summary>
     public interface IVisitor
     {
-        IList<QLBaseException> Exceptions { get; }
-
         void Visit(Form node);
         void Visit(Block node);
         void Visit(ControlUnit node);
         void Visit(StatementUnit node);
         void Visit(QuestionUnit node);
         void Visit(Expression node);
-        
+
+        void Visit(Yesno node);
+        void Visit(Number node);
+        void Visit(Text node);
+        void Visit(Identifier node);
+
         void Visit(EqualsOperator node);
         void Visit(NotEqualsOperator node);
         void Visit(GreaterThanOperator node);
@@ -31,11 +38,6 @@ namespace QL.AST
         void Visit(AndOperator node);
         void Visit(OrOperator node);
 
-        void Visit(Yesno node);
-        void Visit(Number node);
-        void Visit(Text node);
-        void Visit(Identifier node);
-        
         // Fallback visitor
         void Visit(ElementBase elementBase);
     }

@@ -12,7 +12,6 @@ namespace QL.AST.Nodes.Branches.Operators
 
         public LessThanOperator(SourceLocation sourceLocation)
         {
-            // TODO: Complete member initialization
             this.SourceLocation = sourceLocation;
         }
     }

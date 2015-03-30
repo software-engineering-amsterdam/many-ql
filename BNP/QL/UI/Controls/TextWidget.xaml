@@ -11,7 +11,7 @@
     <my:WidgetBase.Resources>
         <BooleanToVisibilityConverter x:Key="VisibilityConverter" />
     </my:WidgetBase.Resources>
-    
+
     <Grid x:Name="ContentGrid">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -24,9 +24,9 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{Binding Text}" />
-        <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Name}"  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
+        <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Identifier}"  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
 
-        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Value}" />
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Value, Mode=TwoWay}" />
     </Grid>
 
 </my:WidgetBase>
