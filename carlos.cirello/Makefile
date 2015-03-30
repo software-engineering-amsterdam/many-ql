@@ -1,6 +1,7 @@
 all:
 	go generate ./...
 	go build -o ql
+	go build -tags json -o ql-json
 	echo "Build successful"
 	./ql -h || echo
 
