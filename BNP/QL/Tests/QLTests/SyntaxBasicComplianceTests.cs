@@ -33,5 +33,19 @@ namespace Tests.QLTests
             Assert.IsNull(unit.exception);
             Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
+
+        [TestMethod]
+        public void YesNoKeywordsAreReserved()
+        {
+            string input = @"form myForm {
+                                question yes (yesno) ""This should fail?""
+                                question no (yesno) ""That should fail!""
+                            }
+                            ";
+
+            Build(input);
+            Parser.formBlock();
+            Assert.IsTrue(Parser.NumberOfSyntaxErrors > 0);
+        }
     }
 }
