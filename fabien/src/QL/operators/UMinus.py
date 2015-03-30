@@ -19,7 +19,7 @@ class UMinus:
         return True
 
     def evaluate(self, answers):
-        return - self.value
+        return -1 * int(self.value)
 
     def __repr__(self):
         return "-%s" % (self.value)

@@ -6,13 +6,13 @@ class Boolean(Widget):
     def __init__(self, Frame, node):
         Widget.__init__(self, Frame, node)
 
-        self.addChoices([
+        self._build([
             ("Yes", 1),
             ("No",  0)
         ])
 
 
-    def addChoices(self, choices):
+    def _build(self, choices):
         # Initialization bug
         # http://stackoverflow.com/a/6447497/951517
         self.choiceVar = tk.BooleanVar()

@@ -3,8 +3,8 @@ from NumericOperand import NumericOperand
 
 class GreaterThan(NumericOperand):
     def evaluate(self, answers):
-        return self.left.evaluate(answers) > \
-               self.right.evaluate(answers)
+        return int(self.left.evaluate(answers)) > \
+               int(self.right.evaluate(answers))
 
     def getType(self, IDs=None):
         return "boolean"

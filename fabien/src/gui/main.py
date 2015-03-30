@@ -10,8 +10,6 @@ import tkMessageBox
 import os
 import uuid
 
-from sqlitedict import SqliteDict
-
 class GUI(tk.Tk):
     def __init__(self, debug=False, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -23,7 +21,6 @@ class GUI(tk.Tk):
         self.currentWidget = None
 
         self.answers = {}
-        self.answerStorage = SqliteDict('./answers.sqlite')
 
     def run(self):
         self.mainloop()
@@ -99,8 +96,16 @@ class GUI(tk.Tk):
 
             self.builder.availableAnswers(self.answers)
 
-        widget = self.builder.nextQuestion()
-        self._displayQuestion(widget)
+        try:
+            widget = self.builder.nextQuestion()
+            self._displayQuestion(widget)
+
+        except ValueError as err:
+            tkMessageBox.showerror(
+                "Input error",
+                "Your given answer is not a number"
+            )
+
 
     def _displayQuestion(self, questionWidget=None):
         # Remove "previous" visible question
@@ -116,9 +121,7 @@ class GUI(tk.Tk):
     def _saveAnswers(self):
         if self.answers:
             ID = uuid.uuid1()
-
-            #self.answerStorage[ID] = self.answers
-            #self.answerStorage.commit()
+            # TODO Store/persist answers in database
 
     # i.e. start state of file-select
     def _reset(self):
