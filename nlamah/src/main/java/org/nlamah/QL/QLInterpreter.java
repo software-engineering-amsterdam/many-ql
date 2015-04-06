@@ -10,9 +10,9 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
-import org.nlamah.QL.Form.Form;
-import org.nlamah.QL.Form.FormElement;
-import org.nlamah.QL.Form.Question;
+import org.nlamah.QL.FormModel.Form;
+import org.nlamah.QL.FormModel.FormElement;
+import org.nlamah.QL.FormModel.Question;
 
 public class QLInterpreter extends Thread
 {

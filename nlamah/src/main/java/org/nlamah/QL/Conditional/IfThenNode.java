@@ -3,7 +3,7 @@ package org.nlamah.QL.Conditional;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Expression.LogicalExpression;
-import org.nlamah.QL.Form.FormElement;
+import org.nlamah.QL.FormModel.FormElement;
 
 public class IfThenNode extends ConditionalBlockNode {
 
@@ -13,8 +13,8 @@ public class IfThenNode extends ConditionalBlockNode {
 	}
 
 	@Override
-	public String toParseTreeString() {
-		
+	public String toParseTreeString() 
+	{	
 		String stringToReturn = "(" + this.getIdentifier() + " ";
 		stringToReturn += "if ( " + this.logicalExpression.toParseTreeString() + " ) "; 
 		stringToReturn += this.formElementsToParseTreeString();

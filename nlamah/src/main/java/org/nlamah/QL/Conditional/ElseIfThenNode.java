@@ -3,7 +3,7 @@ package org.nlamah.QL.Conditional;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Expression.LogicalExpression;
-import org.nlamah.QL.Form.FormElement;
+import org.nlamah.QL.FormModel.FormElement;
 
 
 public class ElseIfThenNode extends ConditionalBlockNode {

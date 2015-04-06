@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import org.nlamah.QL.Form.Form;
+import org.nlamah.QL.FormModel.Form;
 
 @SuppressWarnings("serial")
 public class FormUI extends JFrame {
