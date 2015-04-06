@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
-
 //import org.nlamah.QL.Conditional.ConditionalBlock;
 //import org.nlamah.QL.Conditional.ElseIfThenNode;
 //import org.nlamah.QL.Conditional.ElseThenNode;
@@ -17,11 +20,7 @@ import org.apache.commons.io.IOUtils;
 //import org.nlamah.QL.Expression.LogicalExpression;
 import org.nlamah.QL.Form.Form;
 import org.nlamah.QL.Form.FormElement;
-import org.nlamah.QL.Question.Question;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.nlamah.QL.Form.Question;
 
 
 /**
@@ -75,7 +74,7 @@ public class QLTest
 		ANTLRInputStream input = null;
 		
 		try {
-			InputStream inputStream = Main.class.getResourceAsStream(filename + ".ql");
+			InputStream inputStream = QLInterpreter.class.getResourceAsStream(filename + ".ql");
 			String qlSourceCode = IOUtils.toString(inputStream, "UTF-8");
 			input = new ANTLRInputStream(qlSourceCode);
 			

@@ -1,12 +1,13 @@
 package org.nlamah.QL.Form;
 
-import org.nlamah.QL.Node;
-
-public abstract class FormElement extends Node {
-
-	public FormElement(String identifier) {
-		super(identifier);
-		// TODO Auto-generated constructor stub
+public abstract class FormElement 
+{
+	private String identifier;
+	
+	public String getIdentifier()
+	{
+		return this.identifier;
 	}
 	
+	abstract public String toParseTreeString();
 }

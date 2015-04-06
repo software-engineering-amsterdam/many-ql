@@ -2,24 +2,33 @@ package org.nlamah.QL.Form;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Node;
-
-public class Form extends Node {
+public class Form 
+{
+	private String title;
+	private ArrayList<FormElement> formElements;
 	
-	ArrayList<FormElement> formElements;
-	
-	public Form(String identifier, ArrayList<FormElement> formElements) {
-
-		super(identifier);
-	
+	public Form(String title, ArrayList<FormElement> formElements) 
+	{
+		this.title = title;
 		this.formElements = formElements;
+	}
+	
+	public String getTitle()
+	{
+		return this.title;
+	}
+	
+	public ArrayList<FormElement>getFormElements()
+	{
+		return this.formElements;
 	}
 	
 	public String toParseTreeString()
 	{	
-		String stringToReturn = "(form form " + this.getIdentifier() + " {";
+		String stringToReturn = "(form form " + this.title + " {";
 		
-		if (formElements != null){
+		if (formElements != null)
+		{
 			
 			for (int i = 0; i < formElements.size(); i++)
 			{

@@ -1,18 +1,20 @@
-package org.nlamah.QL.Conditional;
+package org.nlamah.QL.Form;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Form.FormElement;
+import org.nlamah.QL.Conditional.ElseIfThenNode;
+import org.nlamah.QL.Conditional.ElseThenNode;
+import org.nlamah.QL.Conditional.IfThenNode;
 
-public class ConditionalBlock extends FormElement {
-	
+public class ConditionalBlock extends FormElement 
+{	
 	IfThenNode ifThenNode;
 	ArrayList<ElseIfThenNode> elseIfThenNodes;
 	ElseThenNode elseThenNode;
 	
 	public ConditionalBlock(IfThenNode ifThenNode,
-			ArrayList<ElseIfThenNode> elseIfThenNodes, ElseThenNode elseThenNode) {
-		super("conditional_block");
+			ArrayList<ElseIfThenNode> elseIfThenNodes, ElseThenNode elseThenNode) 
+	{
 		this.ifThenNode = ifThenNode;
 		this.elseIfThenNodes = elseIfThenNodes;
 		this.elseThenNode = elseThenNode;
@@ -41,5 +43,4 @@ public class ConditionalBlock extends FormElement {
 		
 		return stringToReturn;
 	}
-
 }

@@ -60,12 +60,19 @@
               <goals>
                 <goal>antlr4</goal>
               </goals>
+              <configuration>
+                    <listener>true</listener>
+                    <visitor>true</visitor>
+                    <arguments>
+                        <argument>-package</argument>
+                    </arguments>
+                </configuration>
             </execution>
           </executions>
         </plugin>
         <!-- plugin to create a self-contained portable package
              This allows us to execute our application like this:
-             java -cp target/ql-project-1.0-jar-with-dependencies.jar QL.QLInterpreter
+             java -cp target/ql-project-1.0-jar-with-dependencies.jar org.nlamah.QL.QLInterpreter
            -->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>

@@ -14,7 +14,7 @@ ifthen : 'if' '(' logical_expression ')' '{' (question | conditional_block)* '}'
 elsifthen : 'elsif' '(' logical_expression ')' '{' (question | conditional_block)* '}' ;
 elsethen : 'else' '{' (question | conditional_block)* '}' ;
 
-logical_expression  : '(' ID ')';
+logical_expression  :  ID ;
 
 TYPE : 'boolean' | 'money' ;
 STRING : '"' .*? '"' ;
