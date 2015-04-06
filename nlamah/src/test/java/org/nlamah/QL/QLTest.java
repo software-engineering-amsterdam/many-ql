@@ -75,7 +75,7 @@ public class QLTest
 		ANTLRInputStream input = null;
 		
 		try {
-			InputStream inputStream = QLInterpreter.class.getResourceAsStream(filename + ".ql");
+			InputStream inputStream = Main.class.getResourceAsStream(filename + ".ql");
 			String qlSourceCode = IOUtils.toString(inputStream, "UTF-8");
 			input = new ANTLRInputStream(qlSourceCode);
 			

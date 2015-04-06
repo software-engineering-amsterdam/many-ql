@@ -12,14 +12,14 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.gui.TreeViewer;
 import org.apache.commons.io.IOUtils;
 
-public class QLInterpreter 
+public class Main 
 {
     public static void main( String[] args )
     {
 		ANTLRInputStream input = null;
 		
 		try {
-			InputStream inputStream = QLInterpreter.class.getResourceAsStream("source.ql");
+			InputStream inputStream = Main.class.getResourceAsStream("source.ql");
 			String tazQLSourceCode = IOUtils.toString(inputStream, "UTF-8");
 			input = new ANTLRInputStream(tazQLSourceCode);
 			
