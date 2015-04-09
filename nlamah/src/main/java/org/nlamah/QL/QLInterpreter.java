@@ -13,10 +13,12 @@ import org.apache.commons.io.IOUtils;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.Question;
+import org.nlamah.QL.FormViewControllers.FormViewController;
 
-public class QLInterpreter extends Thread
+public class QLInterpreter implements Runnable
 {
 	private String fileName;
+	private FormViewController formViewController;
 	
 	public QLInterpreter(String fileName)
 	{
@@ -34,8 +36,9 @@ public class QLInterpreter extends Thread
 	public void run()
 	{
 		Form form = this.interprete();
-    	FormUI formUI = new FormUI(form);
-    	formUI.setVisible(true);
+		
+    	this.formViewController = new FormViewController(form);
+    	this.formViewController.showForm();
 	}
 	
 	private Form interprete()
@@ -81,7 +84,6 @@ public class QLInterpreter extends Thread
     {
     	Question question1 = new Question("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
  		Question question2 = new Question("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
-
 
  		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);
  		questions.add(0, question1);
