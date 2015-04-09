@@ -7,25 +7,18 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import org.nlamah.QL.FormModel.ComputedQuestion;
-import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.BooleanQuestion;
-import org.nlamah.QL.FormModel.Question;
-
 @SuppressWarnings("serial")
 public class ContentView extends JPanel 
 {	
-	private ArrayList<FormElement> formElements;
-	
-	public ContentView(ArrayList<FormElement> formElements) 
+	private ArrayList<FormElementView> formElementViews;
+		
+	public ContentView(ArrayList<FormElementView> formElementViews) 
 	{
 		super();
 		
-		this.formElements = formElements;
+		this.formElementViews = formElementViews;
 		
 		layoutView();
-		
-		intitializeDummyFormElements();
 		
 		addComponentsToView();
 	}
@@ -37,44 +30,21 @@ public class ContentView extends JPanel
 		
 		setBackground(Color.gray);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 	}
-	
-	private void intitializeDummyFormElements()
-	{
-		formElements = new ArrayList<FormElement>(1000);
 		
-		Question question;
-		
-		for (int i = 0; i < 1000; i++)
-		{
-			if (i%2==0)
-			{
-				question = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");
-				
-			}
-			else
-			{
-				question = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
-	
-			}
-			
-			formElements.add(question);
-		}
-	}
-	
 	private void addComponentsToView()
 	{
 		double preferredHeight = 0;
 		
-		for (int i = 0; i < formElements.size(); i++)
+		for (int i = 0; i < formElementViews.size(); i++)
 		{
-			FormElementView elementView = formElements.get(i).createView();
+			FormElementView elementView = formElementViews.get(i);
+			
 			add(elementView);
+			
 			preferredHeight += elementView.getPreferredSize().getHeight();
 		}
 		
 		setPreferredSize(new Dimension(500, (int)preferredHeight));
-		validate();
 	}
 }

@@ -2,6 +2,8 @@ package org.nlamah.QL.FormViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,7 +13,7 @@ import javax.swing.JLabel;
 import org.nlamah.QL.FormModel.BooleanQuestion;
 
 @SuppressWarnings("serial")
-public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy 
+public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy, ItemListener
 {
 
 	private BooleanQuestion question;
@@ -36,6 +38,7 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 		typeLabel = new JLabel(question.type());
 		questionLabel = new JLabel(question.questionString());
 		checkBox = new JCheckBox("Yes");
+		checkBox.addItemListener(this);
 	}
 	
 	public void addComponentsToView()
@@ -58,5 +61,11 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 		setPreferredSize(new Dimension(600, 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) 
+	{
+		formElementViewListener.valueChanged(this);
 	}
 }

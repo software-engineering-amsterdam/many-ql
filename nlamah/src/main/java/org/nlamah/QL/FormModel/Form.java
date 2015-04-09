@@ -18,9 +18,14 @@ public class Form
 		return this.title;
 	}
 	
-	public ArrayList<FormElement>getFormElements()
+	public ArrayList<FormElement> formElements()
 	{
 		return this.formElements;
+	}
+	
+	public void setFormElements(ArrayList<FormElement> formElements)
+	{
+		this.formElements = formElements;
 	}
 	
 	public String toParseTreeString()
