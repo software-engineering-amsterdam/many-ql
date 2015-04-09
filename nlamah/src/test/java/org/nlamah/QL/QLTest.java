@@ -20,7 +20,7 @@ import org.apache.commons.io.IOUtils;
 //import org.nlamah.QL.Expression.LogicalExpression;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.Question;
+import org.nlamah.QL.FormModel.BooleanQuestion;
 
 
 /**
@@ -108,7 +108,7 @@ public class QLTest
 		parsedString = produceParseStringFromSourceFile("onequestion");
 		System.out.println(parsedString);
 		
-		Question question = new Question("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
+		BooleanQuestion question = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
 		ArrayList<FormElement> questions = new ArrayList<FormElement>(1);
 		questions.add(0, question);
 		
@@ -124,8 +124,8 @@ public class QLTest
  		parsedString = produceParseStringFromSourceFile("twoquestions");
  		System.out.println(parsedString);
 
- 		Question question1 = new Question("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
- 		Question question2 = new Question("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
+ 		BooleanQuestion question1 = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
+ 		BooleanQuestion question2 = new BooleanQuestion("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
 
 
  		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);

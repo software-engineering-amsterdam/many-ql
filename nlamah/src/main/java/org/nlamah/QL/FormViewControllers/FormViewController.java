@@ -1,7 +1,5 @@
 package org.nlamah.QL.FormViewControllers;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -18,6 +16,8 @@ public class FormViewController
 	private Form form;
 	
 	private JFrame frame;
+	private NavigationView navigationView;
+	private ContentView contentView;
 	
 	public FormViewController(Form form)
 	{
@@ -31,7 +31,7 @@ public class FormViewController
 	
 	public void showForm()
 	{
-		this.frame.setVisible(true);
+		frame.setVisible(true);
 	}
 	
 	private void loadFrame()
@@ -46,10 +46,10 @@ public class FormViewController
 	
 	private void addNavigationAndContentViews()
 	{
-		NavigationView navigationView = new NavigationView();
-        ContentView contentView = new ContentView();
+		navigationView = new NavigationView();
+        contentView = new ContentView(form.getFormElements());
         
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, contentView);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
         frame.setContentPane(splitPane);
 	}
 }

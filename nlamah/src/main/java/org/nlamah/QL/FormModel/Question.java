@@ -1,30 +1,46 @@
 package org.nlamah.QL.FormModel;
 
+import org.nlamah.QL.FormViews.FormElementView;
 
-public class Question extends FormElement 
+public abstract class Question extends FormElement 
 {
+	private String identifier;
 	private String type;
-	private String label;
-
-	public Question(String identifier, String type, String label) 
+	private String questionString;
+	
+	public Question(String identifier, String questionString, String type) 
 	{
+		this.identifier = identifier;
+		this.questionString = questionString;
 		this.type = type;
-		this.label = label;
 	}
 	
-	public String getType()
+	public String identifier()
 	{
-		return this.type;
+		return identifier;
 	}
 	
-	public String getLabel()
+	public String type()
 	{
-		return this.label;
+		return type;
+	}
+	
+	public String questionString()
+	{
+		return questionString;
 	}
 
-	public String toParseTreeString()
-	{	
-		return "(question " + this.getIdentifier() + " " + this.type + " \""+ this.label + "\"" + ")";
+	@Override
+	public FormElementView createView() 
+	{
+		return null;
 	}
-	
+
+	@Override
+	public String toParseTreeString() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.Question;
+import org.nlamah.QL.FormModel.BooleanQuestion;
 import org.nlamah.QL.FormViewControllers.FormViewController;
 
 public class QLInterpreter implements Runnable
@@ -82,8 +82,8 @@ public class QLInterpreter implements Runnable
     
     private Form createFormFromParseTree(ParseTree tree)
     {
-    	Question question1 = new Question("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
- 		Question question2 = new Question("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
+    	BooleanQuestion question1 = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
+ 		BooleanQuestion question2 = new BooleanQuestion("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
 
  		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);
  		questions.add(0, question1);

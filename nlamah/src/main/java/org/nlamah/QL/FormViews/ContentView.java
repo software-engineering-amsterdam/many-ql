@@ -1,58 +1,80 @@
 package org.nlamah.QL.FormViews;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.util.ArrayList;
 
-import javax.swing.JList;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
 
 import org.nlamah.QL.FormModel.ComputedQuestion;
+import org.nlamah.QL.FormModel.FormElement;
+import org.nlamah.QL.FormModel.BooleanQuestion;
 import org.nlamah.QL.FormModel.Question;
 
 @SuppressWarnings("serial")
 public class ContentView extends JPanel 
-{
-	private JPanel questionsView;
-	private JScrollPane scrollPane;
+{	
+	private ArrayList<FormElement> formElements;
 	
-	private JList<Question> questionsList;
-	
-	public ContentView() 
+	public ContentView(ArrayList<FormElement> formElements) 
 	{
 		super();
 		
+		this.formElements = formElements;
+		
+		layoutView();
+		
+		intitializeDummyFormElements();
+		
+		addComponentsToView();
+	}
+	
+	private void layoutView()
+	{
 		setMinimumSize(new Dimension(350,350));
 		setPreferredSize(new Dimension(350,700));
 		
 		setBackground(Color.gray);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+	}
+	
+	private void intitializeDummyFormElements()
+	{
+		formElements = new ArrayList<FormElement>(1000);
 		
-		setLayout(new GridLayout(0, 1));
-		
-		Question[] questions = new Question[1000];
+		Question question;
 		
 		for (int i = 0; i < 1000; i++)
 		{
 			if (i%2==0)
 			{
-				Question question = new Question(Integer.toString(i + 1) + ".", "BOOL", Integer.toString(i+1) + "th question");
-				questions[i] = question;
+				question = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");
+				
 			}
 			else
 			{
-				ComputedQuestion computedQuestion = new ComputedQuestion(Integer.toString(i+1) + ".", "Computed", Integer.toString(i+1) + "th question", Integer.toString(i * i));
-				questions[i] = computedQuestion;
+				question = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
+	
 			}
+			
+			formElements.add(question);
+		}
+	}
+	
+	private void addComponentsToView()
+	{
+		double preferredHeight = 0;
+		
+		for (int i = 0; i < formElements.size(); i++)
+		{
+			FormElementView elementView = formElements.get(i).createView();
+			add(elementView);
+			preferredHeight += elementView.getPreferredSize().getHeight();
 		}
 		
-		questionsList = new JList<Question>(questions);
-		questionsList.setCellRenderer(new QuestionView());
-		questionsList.setVisibleRowCount(4);
-	    JScrollPane pane = new JScrollPane(questionsList);
-	    add(pane);
+		setPreferredSize(new Dimension(500, (int)preferredHeight));
+		validate();
 	}
 }

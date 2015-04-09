@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.nlamah.QL.Conditional.ElseIfThenNode;
 import org.nlamah.QL.Conditional.ElseThenNode;
 import org.nlamah.QL.Conditional.IfThenNode;
+import org.nlamah.QL.FormViews.FormElementView;
 
 public class ConditionalBlock extends FormElement 
 {	
@@ -42,5 +43,11 @@ public class ConditionalBlock extends FormElement
 		stringToReturn += " endif)";
 		
 		return stringToReturn;
+	}
+
+	@Override
+	public FormElementView createView() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
