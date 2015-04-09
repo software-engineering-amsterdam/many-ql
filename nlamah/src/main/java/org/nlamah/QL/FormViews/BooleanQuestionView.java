@@ -15,7 +15,6 @@ import org.nlamah.QL.FormModel.BooleanQuestion;
 @SuppressWarnings("serial")
 public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy, ItemListener
 {
-
 	private BooleanQuestion question;
 	
 	private JLabel typeLabel;
@@ -66,6 +65,8 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{
-		formElementViewListener.valueChanged(this);
+		question.setChecked(checkBox.isSelected());
+		
+		formElementViewListener.modelStateChanged(question);
 	}
 }

@@ -1,7 +1,5 @@
 package org.nlamah.QL.FormModel;
 
-import org.nlamah.QL.FormViews.FormElementView;
-
 public abstract class Question extends FormElement 
 {
 	private String identifier;
@@ -28,12 +26,6 @@ public abstract class Question extends FormElement
 	public String questionString()
 	{
 		return questionString;
-	}
-
-	@Override
-	public FormElementView createView() 
-	{
-		return null;
 	}
 
 	@Override

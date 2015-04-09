@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.nlamah.QL.Conditional.ElseIfThenNode;
 import org.nlamah.QL.Conditional.ElseThenNode;
 import org.nlamah.QL.Conditional.IfThenNode;
-import org.nlamah.QL.FormViews.FormElementView;
+
+import org.nlamah.QL.FormViewControllers.ConditionalBlockViewController;
+import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
 public class ConditionalBlock extends FormElement 
 {	
@@ -46,8 +48,8 @@ public class ConditionalBlock extends FormElement
 	}
 
 	@Override
-	public FormElementView createView() {
-		// TODO Auto-generated method stub
-		return null;
+	public FormElementViewController createViewController() 
+	{
+		return new ConditionalBlockViewController(this);
 	}
 }

@@ -15,7 +15,7 @@ import org.nlamah.QL.FormViews.ContentView;
 import org.nlamah.QL.FormViews.FormElementView;
 import org.nlamah.QL.FormViews.NavigationView;
 
-public class FormViewController implements FormElementViewListener
+public class FormViewController extends FormElementViewController
 {
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
@@ -26,9 +26,8 @@ public class FormViewController implements FormElementViewListener
 	private NavigationView navigationView;
 	private ContentView contentView;
 	
+	private ArrayList<FormElementViewController> formElementViewControllers;
 	private ArrayList<FormElementView> formElementViews;
-	
-	private boolean toggle = true;
 	
 	public FormViewController(Form form)
 	{
@@ -37,6 +36,9 @@ public class FormViewController implements FormElementViewListener
 		this.form = form;
 		
 		form.setFormElements(createDummyFormElements());
+		
+		createFormElementViewControllers();
+		extractFormElementViews();
 		
 		loadFrame();
 		addNavigationAndContentViews();
@@ -61,7 +63,7 @@ public class FormViewController implements FormElementViewListener
 	private void addNavigationAndContentViews()
 	{
 		navigationView = new NavigationView();
-		createFormElementViews();
+		
         contentView = new ContentView(formElementViews);
         
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
@@ -91,7 +93,24 @@ public class FormViewController implements FormElementViewListener
 		return formElements;
 	}
 	
-	private void createFormElementViews()
+	private void createFormElementViewControllers()
+	{
+		int numberOfFormElements = form.formElements().size();
+		
+		ArrayList<FormElementViewController> formElementViewControllers= new ArrayList<FormElementViewController>(numberOfFormElements);
+		
+		for (int i = 0; i < numberOfFormElements; i++)
+		{
+			FormElement formElement = form.formElements().get(i);
+			FormElementViewController formElementViewController = formElement.createViewController();
+			formElementViewController.setParentViewController(this);
+			formElementViewControllers.add(formElementViewController);
+		}
+		
+		this.formElementViewControllers = formElementViewControllers;
+	}
+	
+	private void extractFormElementViews()
 	{
 		int numberOfFormElements = form.formElements().size();
 		
@@ -99,8 +118,8 @@ public class FormViewController implements FormElementViewListener
 		
 		for (int i = 0; i < numberOfFormElements; i++)
 		{
-			FormElementView formElementView = form.formElements().get(i).createView();
-			formElementView.setFormElementViewListener(this);
+			FormElementViewController formElementViewController = formElementViewControllers.get(i);
+			FormElementView formElementView = formElementViewController.view();
 			formElementViews.add(formElementView);
 		}
 		
@@ -108,9 +127,8 @@ public class FormViewController implements FormElementViewListener
 	}
 
 	@Override
-	public void valueChanged(FormElementView formElementView) 
+	public void modelStateChanged(FormElement formElement) 
 	{
-		toggle = !toggle;
-		formElementViews.get(1).setVisible(toggle);
+		System.out.println("test");
 	}
 }

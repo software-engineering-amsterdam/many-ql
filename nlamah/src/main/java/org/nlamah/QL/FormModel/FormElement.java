@@ -1,6 +1,6 @@
 package org.nlamah.QL.FormModel;
 
-import org.nlamah.QL.FormViews.VisibilityStrategy;
+import org.nlamah.QL.FormViewControllers.VisibilityStrategy;
 
 public abstract class FormElement implements VisibilityStrategy
 {
