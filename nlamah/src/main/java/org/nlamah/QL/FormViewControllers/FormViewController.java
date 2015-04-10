@@ -6,11 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.nlamah.QL.FormModel.BooleanQuestion;
-import org.nlamah.QL.FormModel.ComputedQuestion;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.Question;
 import org.nlamah.QL.FormViews.ContentView;
 import org.nlamah.QL.FormViews.FormElementView;
 import org.nlamah.QL.FormViews.NavigationView;
@@ -34,8 +31,6 @@ public class FormViewController extends FormElementViewController
 		super();
 		
 		this.form = form;
-		
-		form.setFormElements(createDummyFormElements());
 		
 		createFormElementViewControllers();
 		extractFormElementViews();
@@ -68,29 +63,6 @@ public class FormViewController extends FormElementViewController
         
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
         frame.setContentPane(splitPane);
-	}
-	
-	private ArrayList<FormElement> createDummyFormElements()
-	{
-		ArrayList<FormElement> formElements = new ArrayList<FormElement>(80);
-		
-		Question question;
-		
-		for (int i = 0; i < 80; i++)
-		{
-			if (i % 2 == 0)
-			{
-				question = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
-			}
-			else
-			{
-				question = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
-			}
-			
-			formElements.add(question);
-		}
-		
-		return formElements;
 	}
 	
 	private void createFormElementViewControllers()

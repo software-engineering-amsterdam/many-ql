@@ -2,44 +2,39 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Conditional.ElseIfThenNode;
-import org.nlamah.QL.Conditional.ElseThenNode;
-import org.nlamah.QL.Conditional.IfThenNode;
-
 import org.nlamah.QL.FormViewControllers.ConditionalBlockViewController;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
 public class ConditionalBlock extends FormElement 
 {	
-	IfThenNode ifThenNode;
-	ArrayList<ElseIfThenNode> elseIfThenNodes;
-	ElseThenNode elseThenNode;
+	private IfThenBlock ifThenBlock;
+	private ArrayList<ElseIfThenBlock> elseIfThenBlocks;
+	private ElseThenBlock elseThenBlock;
 	
-	public ConditionalBlock(IfThenNode ifThenNode,
-			ArrayList<ElseIfThenNode> elseIfThenNodes, ElseThenNode elseThenNode) 
+	public ConditionalBlock(IfThenBlock ifThenBlock, ArrayList<ElseIfThenBlock> elseIfThenBlocks, ElseThenBlock elseThenBlock) 
 	{
-		this.ifThenNode = ifThenNode;
-		this.elseIfThenNodes = elseIfThenNodes;
-		this.elseThenNode = elseThenNode;
+		this.ifThenBlock = ifThenBlock;
+		this.elseIfThenBlocks = elseIfThenBlocks;
+		this.elseThenBlock = elseThenBlock;
 	}
 
 	public String toParseTreeString()
 	{	
 		String stringToReturn = "(" + this.getIdentifier() + " ";
 		
-		stringToReturn += ifThenNode.toParseTreeString();
+		stringToReturn += ifThenBlock.toParseTreeString();
 		
-		if (elseIfThenNodes != null)
+		if (elseIfThenBlocks != null)
 		{
-			for (int i = 0; i < elseIfThenNodes.size(); i++)
+			for (int i = 0; i < elseIfThenBlocks.size(); i++)
 			{
-				stringToReturn += " " + elseIfThenNodes.get(i).toParseTreeString();
+				stringToReturn += " " + elseIfThenBlocks.get(i).toParseTreeString();
 			}
 		}
 		
-		if (elseThenNode != null)
+		if (elseThenBlock != null)
 		{
-			stringToReturn += " " + elseThenNode.toParseTreeString();
+			stringToReturn += " " + elseThenBlock.toParseTreeString();
 		}
 		
 		stringToReturn += " endif)";

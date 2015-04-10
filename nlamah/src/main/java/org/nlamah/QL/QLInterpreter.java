@@ -10,9 +10,11 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
+import org.nlamah.QL.FormModel.ComputedQuestion;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.BooleanQuestion;
+import org.nlamah.QL.FormModel.Question;
 import org.nlamah.QL.FormViewControllers.FormViewController;
 
 public class QLInterpreter implements Runnable
@@ -82,14 +84,32 @@ public class QLInterpreter implements Runnable
     
     private Form createFormFromParseTree(ParseTree tree)
     {
-    	BooleanQuestion question1 = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
- 		BooleanQuestion question2 = new BooleanQuestion("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
+//    	BooleanQuestion question1 = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
+// 		BooleanQuestion question2 = new BooleanQuestion("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
+//
+// 		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);
+// 		questions.add(0, question1);
+// 		questions.add(1, question2);
 
- 		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);
- 		questions.add(0, question1);
- 		questions.add(1, question2);
-
- 		Form form = new Form("test", questions);
+ 		ArrayList<FormElement> formElements = new ArrayList<FormElement>(80);
+		
+		Question question;
+		
+		for (int i = 0; i < 80; i++)
+		{
+			if (i % 2 == 0)
+			{
+				question = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
+			}
+			else
+			{
+				question = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
+			}
+			
+			formElements.add(question);
+		}
+ 		
+ 		Form form = new Form("test", formElements);
     	
     	return form;	
     }
