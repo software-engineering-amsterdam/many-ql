@@ -10,17 +10,16 @@ public class IfThenBlockViewController extends FormElementViewController
 	
 	public IfThenBlockViewController(IfThenBlock ifThenBlock) 
 	{
-		super();
+		super(ifThenBlock);
 		
 		this.ifThenBlock = ifThenBlock;
 		
-		view = new IfThenBlockView(ifThenBlock);
+		setView(new IfThenBlockView(ifThenBlock));
 	}
 
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 }

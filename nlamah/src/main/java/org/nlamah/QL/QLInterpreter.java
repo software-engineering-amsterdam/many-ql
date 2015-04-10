@@ -11,16 +11,19 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
 import org.nlamah.QL.FormModel.ComputedQuestion;
+import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.BooleanQuestion;
+import org.nlamah.QL.FormModel.IfThenBlock;
+import org.nlamah.QL.FormModel.LogicalExpressionStub;
 import org.nlamah.QL.FormModel.Question;
-import org.nlamah.QL.FormViewControllers.FormViewController;
+import org.nlamah.QL.FormViewControllers.FormRootViewController;
 
 public class QLInterpreter implements Runnable
 {
 	private String fileName;
-	private FormViewController formViewController;
+	private FormRootViewController formViewController;
 	
 	public QLInterpreter(String fileName)
 	{
@@ -39,7 +42,7 @@ public class QLInterpreter implements Runnable
 	{
 		Form form = this.interprete();
 		
-    	this.formViewController = new FormViewController(form);
+    	this.formViewController = new FormRootViewController(form);
     	this.formViewController.showForm();
 	}
 	
@@ -93,24 +96,45 @@ public class QLInterpreter implements Runnable
 
  		ArrayList<FormElement> formElements = new ArrayList<FormElement>(80);
 		
-		Question question;
+		FormElement formElement;
 		
 		for (int i = 0; i < 80; i++)
 		{
-			if (i % 2 == 0)
+			if (i % 3 == 0)
 			{
-				question = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
+				formElement = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
+			}
+			else if (i % 3 == 1)
+			{
+				formElement = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
 			}
 			else
 			{
-				question = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
+				IfThenBlock ifThenBlock = new IfThenBlock(new LogicalExpressionStub(), createConditionalDummyQuestions(i, "if then"));
+				
+				formElement = new ConditionalBlock(ifThenBlock, null, null);
 			}
 			
-			formElements.add(question);
+			formElements.add(formElement);
 		}
  		
  		Form form = new Form("test", formElements);
     	
     	return form;	
     }
+		
+	private ArrayList<FormElement> createConditionalDummyQuestions(int number, String type)
+	{
+		ArrayList<FormElement> conditionalQuestions = new ArrayList<FormElement>(3);
+			
+		for (int i = 0; i < conditionalQuestions.size(); i++)
+		{
+			BooleanQuestion question = new BooleanQuestion(number + "." + i, i + "th " + type + " quesiton", "boolean");
+			conditionalQuestions.add(question);
+		}
+			
+		return conditionalQuestions;
+	}
 }
+
+

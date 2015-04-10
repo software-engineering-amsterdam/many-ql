@@ -10,11 +10,11 @@ public class ElseIfThenBlockViewController extends FormElementViewController
 	
 	public ElseIfThenBlockViewController(ElseIfThenBlock elseIfThenBlock) 
 	{
-		super();
+		super(elseIfThenBlock);
 		
 		this.elseIfThenBlock = elseIfThenBlock;
 		
-		view = new ElseIfThenBlockView(elseIfThenBlock);
+		setView(new ElseIfThenBlockView(elseIfThenBlock));
 	}
 
 	@Override

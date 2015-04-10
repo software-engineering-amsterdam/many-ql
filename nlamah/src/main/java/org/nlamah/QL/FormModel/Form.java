@@ -2,7 +2,9 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
-public class Form 
+import org.nlamah.QL.FormViewControllers.FormElementViewController;
+
+public class Form extends FormElement
 {
 	private String title;
 	private ArrayList<FormElement> formElements;
@@ -46,5 +48,11 @@ public class Form
 		stringToReturn += " })";
 		
 		return  stringToReturn;
+	}
+
+	@Override
+	public FormElementViewController createViewController() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

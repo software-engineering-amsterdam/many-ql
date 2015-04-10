@@ -8,13 +8,15 @@ public class BooleanQuestionViewController extends QuestionViewController
 {	
 	public BooleanQuestionViewController(BooleanQuestion question)
 	{
-		view = new BooleanQuestionView(question);
-		view.setFormElementListener(this);
+		super(question);
+		
+		setView(new BooleanQuestionView(question));
+		view().setFormElementListener(this);
 	}
 
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
-		parentViewController.modelStateChanged(formElement);	
+		getParentViewController().modelStateChanged(formElement);	
 	}
 }

@@ -8,7 +8,9 @@ public class ComputedQuestionViewController extends FormElementViewController
 {
 	public ComputedQuestionViewController(ComputedQuestion question) 
 	{
-		view = new ComputedQuestionView(question);
+		super(question);
+		
+		setView(new ComputedQuestionView(question));
 	}
 
 	@Override

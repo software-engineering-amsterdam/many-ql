@@ -41,6 +41,21 @@ public class ConditionalBlock extends FormElement
 		
 		return stringToReturn;
 	}
+	
+	public IfThenBlock ifThenBlock()
+	{
+		return this.ifThenBlock;
+	}
+	
+	public ArrayList<ElseIfThenBlock> elseIfThenBlocks()
+	{
+		return this.elseIfThenBlocks;
+	}
+	
+	public ElseThenBlock elseThenBlock()
+	{
+		return this.elseThenBlock;
+	}
 
 	@Override
 	public FormElementViewController createViewController() 

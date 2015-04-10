@@ -1,7 +1,5 @@
 package org.nlamah.QL.FormViews;
 
-import java.util.ArrayList;
-
 import org.nlamah.QL.FormModel.ConditionalBlock;
 
 @SuppressWarnings("serial")
@@ -36,5 +34,4 @@ public class ConditionalBlockView extends FormElementView
 		// TODO Auto-generated method stub
 
 	}
-
 }

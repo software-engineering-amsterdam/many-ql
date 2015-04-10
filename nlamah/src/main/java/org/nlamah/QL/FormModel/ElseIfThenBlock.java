@@ -2,17 +2,15 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Expression.LogicalExpression;
 import org.nlamah.QL.FormViewControllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
-
 public class ElseIfThenBlock extends FormElement 
 {
-	private LogicalExpression logicalExpression;
+	private LogicalExpressionStub logicalExpression;
 	private ArrayList<FormElement> formElements;
 	
-	public ElseIfThenBlock(LogicalExpression logicalExpression, ArrayList<FormElement> formElements) 
+	public ElseIfThenBlock(LogicalExpressionStub logicalExpression, ArrayList<FormElement> formElements) 
 	{
 		super();
 		
