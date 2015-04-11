@@ -28,7 +28,7 @@ public class BooleanQuestion extends Question
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new BooleanQuestionViewController(this);
 	}

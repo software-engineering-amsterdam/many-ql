@@ -2,9 +2,8 @@ package org.nlamah.QL.FormModel;
 
 import org.nlamah.QL.FormViewControllers.ComputedQuestionViewController;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
-import org.nlamah.QL.FormViewControllers.VisibilityStrategy;
 
-public class ComputedQuestion extends Question implements VisibilityStrategy 
+public class ComputedQuestion extends Question 
 {
 	private String computationExpression;
 	
@@ -28,7 +27,7 @@ public class ComputedQuestion extends Question implements VisibilityStrategy
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new ComputedQuestionViewController(this);
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.FormElementView;
-import org.nlamah.QL.Helper.ArrayListHelper;
+import org.nlamah.QL.Helper.Helper;
 
 public abstract class FormElementViewController implements FormElementListener
 {
@@ -48,13 +48,15 @@ public abstract class FormElementViewController implements FormElementListener
 	
 	public ArrayList<FormElementViewController> childViewControllers()
 	{
-		if (ArrayListHelper.arrayExistsAndHasElements(modelElement.childElements()) && !ArrayListHelper.arrayExistsAndHasElements(childViewControllers))
+		if (Helper.arrayExistsAndHasElements(modelElement.childElements()) && !Helper.arrayExistsAndHasElements(childViewControllers))
 		{
 			createChildViewControllers();
 		}
 		
 		return this.childViewControllers;
 	}
+	
+	abstract int preferredViewHeight();
 	
 	private void createChildViewControllers()
 	{
@@ -65,7 +67,7 @@ public abstract class FormElementViewController implements FormElementListener
 		for (int i = 0; i < numberOfChildViewControllers; i++)
 		{
 			FormElement childElement = modelElement().childElements().get(i);
-			FormElementViewController childViewController = childElement.createViewController();
+			FormElementViewController childViewController = childElement.viewController();
 			childViewController.setParentViewController(this);
 			childViewControllers.add(childViewController);
 		}

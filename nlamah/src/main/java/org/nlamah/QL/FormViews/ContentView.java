@@ -2,50 +2,29 @@ package org.nlamah.QL.FormViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import org.nlamah.QL.Helper.Helper;
+
 @SuppressWarnings("serial")
 public class ContentView extends JPanel 
-{	
-	private ArrayList<FormElementView> formElementViews;
-		
-	public ContentView(ArrayList<FormElementView> formElementViews) 
+{		
+	public ContentView() 
 	{
 		super();
 		
-		this.formElementViews = formElementViews;
-		
 		layoutView();
-		
-		addComponentsToView();
 	}
 	
 	private void layoutView()
 	{
-		setMaximumSize(new Dimension(500, 700));
-		setMinimumSize(new Dimension(500,700));
-		setPreferredSize(new Dimension(500,700));
+		setMaximumSize(new Dimension(Helper.contentWidth(), 700));
+		setMinimumSize(new Dimension(Helper.contentWidth(),700));
+		setPreferredSize(new Dimension(Helper.contentWidth(),700));
 		
 		setBackground(Color.gray);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	}
-		
-	private void addComponentsToView()
-	{
-		double preferredHeight = 0;
-		
-		for (int i = 0; i < formElementViews.size(); i++)
-		{
-			FormElementView elementView = formElementViews.get(i);
-			
-			add(elementView);
-			
-			preferredHeight += elementView.getPreferredSize().getHeight();
-		}
-		
-		setPreferredSize(new Dimension(500, (int)preferredHeight));
 	}
 }

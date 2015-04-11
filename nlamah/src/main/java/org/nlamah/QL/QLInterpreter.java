@@ -9,7 +9,9 @@ import javax.swing.SwingUtilities;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+
 import org.apache.commons.io.IOUtils;
+
 import org.nlamah.QL.FormModel.ComputedQuestion;
 import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.Form;
@@ -17,13 +19,11 @@ import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.BooleanQuestion;
 import org.nlamah.QL.FormModel.IfThenBlock;
 import org.nlamah.QL.FormModel.LogicalExpressionStub;
-import org.nlamah.QL.FormModel.Question;
 import org.nlamah.QL.FormViewControllers.FormRootViewController;
 
 public class QLInterpreter implements Runnable
 {
 	private String fileName;
-	private FormRootViewController formViewController;
 	
 	public QLInterpreter(String fileName)
 	{
@@ -42,8 +42,7 @@ public class QLInterpreter implements Runnable
 	{
 		Form form = this.interprete();
 		
-    	this.formViewController = new FormRootViewController(form);
-    	this.formViewController.showForm();
+		((FormRootViewController)form.viewController()).showForm();
 	}
 	
 	private Form interprete()
@@ -87,18 +86,11 @@ public class QLInterpreter implements Runnable
     
     private Form createFormFromParseTree(ParseTree tree)
     {
-//    	BooleanQuestion question1 = new BooleanQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
-// 		BooleanQuestion question2 = new BooleanQuestion("hasMaintLoan", "boolean", "Did you enter a loan for maintenance/reconstruction?");
-//
-// 		ArrayList<FormElement> questions = new ArrayList<FormElement>(2);
-// 		questions.add(0, question1);
-// 		questions.add(1, question2);
-
- 		ArrayList<FormElement> formElements = new ArrayList<FormElement>(80);
+ 		ArrayList<FormElement> formElements = new ArrayList<FormElement>(10);
 		
 		FormElement formElement;
 		
-		for (int i = 0; i < 80; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			if (i % 3 == 0)
 			{
@@ -112,17 +104,17 @@ public class QLInterpreter implements Runnable
 			{
 				LogicalExpressionStub logicalExpression = new LogicalExpressionStub();
 				
-				logicalExpression.addRelatedNode(formElements.get(i - 2));
-				
 				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
 				
 				IfThenBlock ifThenBlock = new IfThenBlock(logicalExpression, dummyQuestions);
 				
-				ifThenBlock.addRelatedNode(formElements.get(i - 2));
+				ifThenBlock.addRelatedElement(formElements.get(i - 2));
 				
 				ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, null, null);
 	
-				conditionalBlock.addRelatedNode(formElements.get(i - 2));
+				formElements.get(i - 2).addRelatedElement(conditionalBlock);
+				
+				conditionalBlock.addRelatedElement(formElements.get(i - 2));
 				
 				formElement = conditionalBlock;
 			}

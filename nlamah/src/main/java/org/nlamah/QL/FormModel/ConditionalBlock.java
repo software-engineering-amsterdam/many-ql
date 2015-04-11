@@ -60,7 +60,7 @@ public class ConditionalBlock extends FormElement
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new ConditionalBlockViewController(this);
 	}

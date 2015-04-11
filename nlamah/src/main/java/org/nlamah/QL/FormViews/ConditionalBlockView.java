@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 
 import org.nlamah.QL.FormViewControllers.ConditionalBlockViewController;
-import org.nlamah.QL.Helper.ArrayListHelper;
+import org.nlamah.QL.Helper.Helper;
 
 @SuppressWarnings("serial")
 public class ConditionalBlockView extends FormElementView 
@@ -22,7 +22,7 @@ public class ConditionalBlockView extends FormElementView
 		setBackground(Color.green);
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
-		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
+		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize()); 
 	}

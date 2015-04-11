@@ -29,7 +29,7 @@ public class ElseThenBlock extends FormElement
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new ElseThenBlockViewController(this);
 	}

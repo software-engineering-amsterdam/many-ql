@@ -18,6 +18,11 @@ public class ElseIfThenBlock extends FormElement
 		this.formElements = formElements;
 	}
 	
+	public boolean isSatisfied()
+	{
+		return false;
+	}
+	
 	@Override
 	public String toParseTreeString() 
 	{
@@ -30,7 +35,7 @@ public class ElseIfThenBlock extends FormElement
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new ElseIfThenBlockViewController(this);
 	}

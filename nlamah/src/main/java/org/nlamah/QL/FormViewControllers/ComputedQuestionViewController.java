@@ -14,6 +14,7 @@ public class ComputedQuestionViewController extends FormElementViewController
 		super(question);
 		
 		questionView = new ComputedQuestionView(this);
+		
 		questionView.fillInType(questionType());
 		questionView.fillInQuestionString(questionString());
 		
@@ -35,5 +36,11 @@ public class ComputedQuestionViewController extends FormElementViewController
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	int preferredViewHeight() 
+	{
+		return view().getPreferredSize().height;
 	}
 }

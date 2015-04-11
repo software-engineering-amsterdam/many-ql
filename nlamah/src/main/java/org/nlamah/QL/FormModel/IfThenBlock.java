@@ -18,6 +18,11 @@ public class IfThenBlock extends FormElement
 		setChildElements(childElements);
 	}
 	
+	public boolean isSatisfied()
+	{
+		return logicalExpression.evaluate(relatedElements());
+	}
+	
 	@Override
 	public String toParseTreeString() 
 	{			
@@ -25,7 +30,7 @@ public class IfThenBlock extends FormElement
 	}
 
 	@Override
-	public FormElementViewController createViewController() 
+	protected FormElementViewController createViewController() 
 	{
 		return new IfThenBlockViewController(this);
 	}

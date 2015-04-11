@@ -7,6 +7,7 @@ import org.nlamah.QL.FormModel.Question;
 import org.nlamah.QL.FormModel.BooleanQuestion;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.BooleanQuestionView;
+import org.nlamah.QL.Helper.Helper;
 
 public class BooleanQuestionViewController extends QuestionViewController implements ItemListener
 {	
@@ -17,6 +18,7 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 		super(question);
 		
 		questionView = new BooleanQuestionView(this);
+		
 		questionView.fillInType(questionType());
 		questionView.fillInQuestionString(questionString());
 		
@@ -45,12 +47,29 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 			default: break;
 		}
 		
-		getParentViewController().modelStateChanged(modelElement());
+		notifyRelatedViewControllers();
+	}
+	
+	private void notifyRelatedViewControllers()
+	{
+		if (Helper.arrayExistsAndHasElements(modelElement().relatedElements()))
+		{
+			for (FormElement relatedElement : modelElement().relatedElements())
+			{
+				relatedElement.viewController().modelStateChanged(modelElement());
+			}
+		}
 	}
 
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	int preferredViewHeight() 
+	{
+		return view().getPreferredSize().height;
 	}
 }

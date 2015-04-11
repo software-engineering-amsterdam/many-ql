@@ -9,7 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import org.nlamah.QL.FormViewControllers.BooleanQuestionViewController;
-import org.nlamah.QL.Helper.ArrayListHelper;
+import org.nlamah.QL.Helper.Helper;
 
 @SuppressWarnings("serial")
 public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy
@@ -58,7 +58,7 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.white);
 		
-		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
+		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

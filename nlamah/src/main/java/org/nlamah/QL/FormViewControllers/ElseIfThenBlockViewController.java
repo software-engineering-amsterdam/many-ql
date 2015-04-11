@@ -8,6 +8,8 @@ public class ElseIfThenBlockViewController extends FormElementViewController
 {
 	private ElseIfThenBlockView elseIfThenBlockView;
 	
+	private int preferredViewHeight;
+	
 	public ElseIfThenBlockViewController(ElseIfThenBlock elseIfThenBlock) 
 	{
 		super(elseIfThenBlock);
@@ -16,11 +18,22 @@ public class ElseIfThenBlockViewController extends FormElementViewController
 		
 		setView(elseIfThenBlockView);
 	}
+	
+	public boolean viewShouldBeVisisble()
+	{
+		return false;
+	}
 
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	int preferredViewHeight() 
+	{
+		return preferredViewHeight;
 	}
 
 }

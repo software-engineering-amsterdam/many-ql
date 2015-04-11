@@ -2,6 +2,7 @@ package org.nlamah.QL.FormViewControllers;
 
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -9,9 +10,7 @@ import javax.swing.JSplitPane;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.ContentView;
-import org.nlamah.QL.FormViews.FormElementView;
 import org.nlamah.QL.FormViews.NavigationView;
-import org.nlamah.QL.Helper.ArrayListHelper;
 
 public class FormRootViewController extends FormElementViewController
 {
@@ -27,6 +26,9 @@ public class FormRootViewController extends FormElementViewController
 		super(form);
 		
 		loadFrame();
+		
+		loadNavigationAndContentView();
+		
 		addNavigationAndContentViews();
 	}
 	
@@ -45,14 +47,24 @@ public class FormRootViewController extends FormElementViewController
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void addNavigationAndContentViews()
+	private void loadNavigationAndContentView()
 	{
 		navigationView = new NavigationView();
 		
-		ArrayList<FormElementView> formElementViews = ArrayListHelper.createViewFromViewControllers(childViewControllers());
+		contentView = new ContentView();
 		
-        contentView = new ContentView(formElementViews);
-        
+		ArrayList<FormElementViewController> childViewControllers = childViewControllers();
+		
+		for (int i = 0; i < childViewControllers.size(); i++)
+		{
+			contentView.add(Box.createVerticalGlue());
+			
+			contentView.add(childViewControllers.get(i).view());
+		}
+	}
+	
+	private void addNavigationAndContentViews()
+	{	
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
         frame.setContentPane(splitPane);
 	}
@@ -62,5 +74,12 @@ public class FormRootViewController extends FormElementViewController
 	public void modelStateChanged(FormElement formElement) 
 	{
 		System.out.println("test");
+	}
+
+	@Override
+	int preferredViewHeight() 
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

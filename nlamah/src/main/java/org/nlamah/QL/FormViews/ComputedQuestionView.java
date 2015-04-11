@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import org.nlamah.QL.FormViewControllers.ComputedQuestionViewController;
-import org.nlamah.QL.Helper.ArrayListHelper;
+import org.nlamah.QL.Helper.Helper;
 
 @SuppressWarnings("serial")
 public class ComputedQuestionView extends FormElementView implements ViewLoadingStrategy
@@ -56,7 +56,7 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.lightGray);
 		
-		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
+		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

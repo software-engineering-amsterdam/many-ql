@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.IfThenBlock;
 import org.nlamah.QL.FormViews.IfThenBlockView;
-import org.nlamah.QL.Helper.ArrayListHelper;
+import org.nlamah.QL.Helper.Helper;
 
 public class IfThenBlockViewController extends FormElementViewController 
 {
 	private IfThenBlockView ifThenBlockView;
+	
+	private int preferredViewHeight;
 	
 	public IfThenBlockViewController(IfThenBlock ifThenBlock) 
 	{
@@ -17,17 +19,24 @@ public class IfThenBlockViewController extends FormElementViewController
 		
 		ifThenBlockView = new IfThenBlockView(this);
 		
-		if (ArrayListHelper.arrayExistsAndHasElements(childViewControllers()))
+		setView(ifThenBlockView);
+		
+		if (Helper.arrayExistsAndHasElements(childViewControllers()))
 		{
+			System.out.println("the if then block view controller has " + childViewControllers().size() + " elements");
+			
 			addChildComponents();
 		}
-		
-		setView(ifThenBlockView);
+	}
+	
+	public boolean viewShouldBeVisisble()
+	{
+		return ((IfThenBlock)modelElement()).isSatisfied();
 	}
 	
 	private void addChildComponents()
 	{
-		int preferredHeight = 0;
+		preferredViewHeight = 0;
 		
 		for (int i = 0; i < childViewControllers().size(); i++)
 		{
@@ -35,16 +44,23 @@ public class IfThenBlockViewController extends FormElementViewController
 			
 			ifThenBlockView.add(childViewController.view());
 			
-			preferredHeight += childViewController.view().getPreferredSize().height;
+			preferredViewHeight += childViewController.preferredViewHeight();
 		}
 		
-		ifThenBlockView.setPreferredSize(new Dimension(500, preferredHeight));
+		System.out.println("preferredHeight: " + preferredViewHeight);
 		
+		view().setPreferredSize(new Dimension(Helper.contentWidth(), preferredViewHeight));
 	}
 
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	int preferredViewHeight() 
+	{
+		return preferredViewHeight;
 	}
 }
