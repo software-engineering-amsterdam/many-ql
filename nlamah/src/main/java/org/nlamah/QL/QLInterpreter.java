@@ -2,6 +2,7 @@ package org.nlamah.QL;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -19,6 +20,7 @@ import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.BooleanQuestion;
 import org.nlamah.QL.FormModel.IfThenBlock;
 import org.nlamah.QL.FormModel.LogicalExpressionStub;
+
 import org.nlamah.QL.FormViewControllers.FormRootViewController;
 
 public class QLInterpreter implements Runnable
@@ -51,7 +53,8 @@ public class QLInterpreter implements Runnable
 		
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
 		
-		return this.createFormFromParseTree(tree);
+		//return this.createFormFromParseTree(tree);
+		return buildForm(tree);
 	}
 	
 	private String getSourceCode()
@@ -82,6 +85,11 @@ public class QLInterpreter implements Runnable
 		QLParser parser = new QLParser(tokens);
 		
     	return parser.form();
+    }
+    
+    private Form buildForm(ParseTree tree)
+    {
+    	return (Form)tree.accept(new MyQLVisitor());
     }
     
     private Form createFormFromParseTree(ParseTree tree)

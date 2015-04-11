@@ -14,7 +14,7 @@ public abstract class FormElement extends ASTNode
 	{
 		super();
 		
-		relatedElements = new ArrayList<FormElement>(100);
+		relatedElements = new ArrayList<FormElement>();
 	}
 	
 	public ArrayList<FormElement>childElements()

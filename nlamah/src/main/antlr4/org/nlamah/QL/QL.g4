@@ -1,6 +1,7 @@
 grammar QL;
 
-form : 'form' ID '{' (question | conditional_block)* '}' ;
+form : 'form' ID '{' (formElement)* '}' ;
+formElement : question | conditionalBlock ; 
 question : ID TYPE STRING ;
 
 // if ( s ) { t } endif
@@ -9,12 +10,12 @@ question : ID TYPE STRING ;
 // if ( s ) { t } elsif ( s ) { t } else { e } endif
 // ifthen + elif* + else* + endif
 
-conditional_block : ifthen elsifthen* elsethen? 'endif';
-ifthen : 'if' '(' logical_expression ')' '{' (question | conditional_block)* '}' ;
-elsifthen : 'elsif' '(' logical_expression ')' '{' (question | conditional_block)* '}' ;
-elsethen : 'else' '{' (question | conditional_block)* '}' ;
+conditionalBlock : ifthen elsifthen* elsethen? 'endif';
+ifthen : 'if' '(' logicalExpression ')' '{' (formElement)* '}' ;
+elsifthen : 'elsif' '(' logicalExpression ')' '{' (formElement)* '}' ;
+elsethen : 'else' '{' (formElement)* '}' ;
 
-logical_expression  :  ID ;
+logicalExpression  :  ID ;
 
 TYPE : 'boolean' | 'money' ;
 STRING : '"' .*? '"' ;
