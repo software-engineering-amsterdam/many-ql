@@ -13,6 +13,8 @@ public class ConditionalBlock extends FormElement
 	
 	public ConditionalBlock(IfThenBlock ifThenBlock, ArrayList<ElseIfThenBlock> elseIfThenBlocks, ElseThenBlock elseThenBlock) 
 	{
+		super();
+		
 		this.ifThenBlock = ifThenBlock;
 		this.elseIfThenBlocks = elseIfThenBlocks;
 		this.elseThenBlock = elseThenBlock;
@@ -20,7 +22,7 @@ public class ConditionalBlock extends FormElement
 
 	public String toParseTreeString()
 	{	
-		String stringToReturn = "(" + this.getIdentifier() + " ";
+		String stringToReturn = "(" + "identifier" + " ";
 		
 		stringToReturn += ifThenBlock.toParseTreeString();
 		

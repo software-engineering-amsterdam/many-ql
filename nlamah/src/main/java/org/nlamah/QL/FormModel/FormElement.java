@@ -5,19 +5,17 @@ import java.util.ArrayList;
 import org.nlamah.QL.FormViewControllers.VisibilityStrategy;
 
 public abstract class FormElement implements VisibilityStrategy
-{
-	private String identifier;
+{	
+	private ArrayList<FormElement> childElements;
 	
-	private ArrayList<FormElement> formElements;
-	
-	public String getIdentifier()
+	public ArrayList<FormElement>childElements()
 	{
-		return this.identifier;
+		return this.childElements;
 	}
 	
-	public ArrayList<FormElement>formElements()
+	public void setChildElements(ArrayList<FormElement>childElements)
 	{
-		return this.formElements;
+		this.childElements = childElements;
 	}
 	
 	abstract public String toParseTreeString();

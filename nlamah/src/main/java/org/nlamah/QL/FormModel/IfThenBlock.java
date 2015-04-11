@@ -8,14 +8,19 @@ import org.nlamah.QL.FormViewControllers.IfThenBlockViewController;
 public class IfThenBlock extends FormElement 
 {
 	private LogicalExpressionStub logicalExpression;
-	private ArrayList<FormElement> formElements;
 	
-	public IfThenBlock(LogicalExpressionStub logicalExpression, ArrayList<FormElement> formElements) 
+	public IfThenBlock(LogicalExpressionStub logicalExpression, ArrayList<FormElement> childElements) 
 	{	
 		super();
 		
 		this.logicalExpression = logicalExpression;
-		this.formElements = formElements;
+		
+		setChildElements(childElements);
+	}
+	
+	public LogicalExpressionStub logicalExpression()
+	{
+		return this.logicalExpression;
 	}
 
 	@Override

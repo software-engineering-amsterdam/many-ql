@@ -8,6 +8,8 @@ public abstract class Question extends FormElement
 	
 	public Question(String identifier, String questionString, String type) 
 	{
+		super();
+		
 		this.identifier = identifier;
 		this.questionString = questionString;
 		this.type = type;

@@ -1,5 +1,7 @@
 package org.nlamah.QL.FormViewControllers;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -7,7 +9,9 @@ import javax.swing.JSplitPane;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.ContentView;
+import org.nlamah.QL.FormViews.FormElementView;
 import org.nlamah.QL.FormViews.NavigationView;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 public class FormRootViewController extends FormElementViewController
 {
@@ -45,7 +49,9 @@ public class FormRootViewController extends FormElementViewController
 	{
 		navigationView = new NavigationView();
 		
-        contentView = new ContentView(this.formElementViews());
+		ArrayList<FormElementView> formElementViews = ArrayListHelper.createViewFromViewControllers(childViewControllers());
+		
+        contentView = new ContentView(formElementViews);
         
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
         frame.setContentPane(splitPane);

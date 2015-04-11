@@ -21,7 +21,8 @@ public class ComputedQuestion extends Question implements VisibilityStrategy
 	}
 
 	@Override
-	public String toParseTreeString() {
+	public String toParseTreeString() 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

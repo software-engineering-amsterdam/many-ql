@@ -11,6 +11,8 @@ import org.nlamah.QL.FormViews.FormElementView;
 public class ConditionalBlockViewController extends FormElementViewController 
 {
 	private ConditionalBlock conditionalBlock;
+	private ConditionalBlockView conditionalBlockView;
+	
 	private FormElementViewController ifThenBlockViewController;
 	private ArrayList<FormElementViewController> elseIfThenBlockViewControllers;
 	private FormElementViewController elseThenBlockViewController;
@@ -24,13 +26,14 @@ public class ConditionalBlockViewController extends FormElementViewController
 		super(conditionalBlock);
 		
 		this.conditionalBlock = conditionalBlock;
-		
-		setView(new ConditionalBlockView(conditionalBlock));
+		conditionalBlockView = new ConditionalBlockView(conditionalBlock);
 		
 		createChildViewControllers();
 		createChildViews();
 		
 		addChildViewsToView();
+		
+		setView(conditionalBlockView);
 	}
 
 	private void createChildViewControllers()
@@ -77,7 +80,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 		
 		if (ifThenBlockView != null)
 		{
-			view().add(ifThenBlockView);
+			conditionalBlockView.add(ifThenBlockView);
 			preferredHeight += ifThenBlockView.getPreferredSize().height;
 		}
 		
@@ -87,18 +90,18 @@ public class ConditionalBlockViewController extends FormElementViewController
 			{
 				FormElementView formElementView = elseIfThenBlockViews.get(i);
 				
-				view().add(formElementView);			
+				conditionalBlockView.add(formElementView);			
 				preferredHeight += formElementView.getPreferredSize().height;
 			}
 		}
 		
 		if (elseThenBlockView != null)
 		{
-			view().add(elseThenBlockView);
+			conditionalBlockView.add(elseThenBlockView);
 			preferredHeight += elseThenBlockView.getPreferredSize().height;
 		}
 		
-		view().setPreferredSize(new Dimension(500, preferredHeight));
+		conditionalBlockView.setPreferredSize(new Dimension(500, preferredHeight));
 	}
 	
 	@Override

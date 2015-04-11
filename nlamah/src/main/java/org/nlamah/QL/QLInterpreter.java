@@ -110,7 +110,10 @@ public class QLInterpreter implements Runnable
 			}
 			else
 			{
-				IfThenBlock ifThenBlock = new IfThenBlock(new LogicalExpressionStub(), createConditionalDummyQuestions(i, "if then"));
+				
+				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
+				
+				IfThenBlock ifThenBlock = new IfThenBlock(new LogicalExpressionStub(), dummyQuestions);
 				
 				formElement = new ConditionalBlock(ifThenBlock, null, null);
 			}
@@ -126,11 +129,10 @@ public class QLInterpreter implements Runnable
 	private ArrayList<FormElement> createConditionalDummyQuestions(int number, String type)
 	{
 		ArrayList<FormElement> conditionalQuestions = new ArrayList<FormElement>(3);
-			
-		for (int i = 0; i < conditionalQuestions.size(); i++)
+		
+		for (int i = 0; i < 3; i++)
 		{
-			BooleanQuestion question = new BooleanQuestion(number + "." + i, i + "th " + type + " quesiton", "boolean");
-			conditionalQuestions.add(question);
+			conditionalQuestions.add(new BooleanQuestion(number + "." + i, i + "th " + type + " quesiton", "boolean"));
 		}
 			
 		return conditionalQuestions;

@@ -5,9 +5,6 @@ import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
 public class BooleanQuestion extends Question 
 {
-	private String type;
-	private String label;
-
 	private boolean checked;
 	
 	public BooleanQuestion(String identifier, String questionString, String type) 
@@ -17,7 +14,7 @@ public class BooleanQuestion extends Question
 
 	public String toParseTreeString()
 	{	
-		return "(question " + this.getIdentifier() + " " + this.type + " \""+ this.label + "\"" + ")";
+		return "(question " + identifier() + " " + type() + " \""+ questionString() + "\"" + ")";
 	}
 	
 	public boolean isChecked()

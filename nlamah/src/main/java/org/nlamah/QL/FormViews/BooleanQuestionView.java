@@ -54,7 +54,6 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 	@Override
 	public void layoutView() 
 	{	
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.white);
 		
 		setPreferredSize(new Dimension(600, 100));

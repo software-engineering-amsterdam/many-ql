@@ -7,12 +7,11 @@ import org.nlamah.QL.FormViewControllers.FormElementViewController;
 public class Form extends FormElement
 {
 	private String title;
-	private ArrayList<FormElement> formElements;
 	
 	public Form(String title, ArrayList<FormElement> formElements) 
 	{
 		this.title = title;
-		this.formElements = formElements;
+		setChildElements(formElements);
 	}
 	
 	public String getTitle()
@@ -20,28 +19,17 @@ public class Form extends FormElement
 		return this.title;
 	}
 	
-	public ArrayList<FormElement> formElements()
-	{
-		return this.formElements;
-	}
-	
-	public void setFormElements(ArrayList<FormElement> formElements)
-	{
-		this.formElements = formElements;
-	}
-	
 	public String toParseTreeString()
 	{	
 		String stringToReturn = "(form form " + this.title + " {";
 		
-		if (formElements != null)
+		if (childElements() != null && childElements().size() > 0)
 		{
-			
-			for (int i = 0; i < formElements.size(); i++)
+			for (int i = 0; i < childElements().size(); i++)
 			{
 				stringToReturn += " ";
 				
-				stringToReturn += formElements.get(i).toParseTreeString();
+				stringToReturn += childElements().get(i).toParseTreeString();
 			}
 		}
 		

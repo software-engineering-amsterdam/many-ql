@@ -2,9 +2,9 @@ package org.nlamah.QL.FormViewControllers;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.FormElementView;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 public abstract class FormElementViewController implements FormElementListener
 {
@@ -12,22 +12,15 @@ public abstract class FormElementViewController implements FormElementListener
 	private FormElementView view;
 	private FormElementViewController parentViewController;
 	
-	private ArrayList<FormElementViewController> formElementViewControllers;
-	private ArrayList<FormElementView> formElementViews;
+	private ArrayList<FormElementViewController> childViewControllers;
 	
 	public FormElementViewController(FormElement formElement)
 	{
 		super();
 		
 		this.formElement = formElement;
-		
-		if (formElement.formElements() != null && formElement.formElements().size() > 0)
-		{
-			createFormElementViewControllers();
-			extractFormElementViews();
-		}
 	}
-	
+
 	public FormElement formElement()
 	{
 		return this.formElement;
@@ -53,41 +46,30 @@ public abstract class FormElementViewController implements FormElementListener
 		this.parentViewController = parentViewController;
 	}
 	
-	public ArrayList<FormElementView> formElementViews()
+	public ArrayList<FormElementViewController> childViewControllers()
 	{
-		return this.formElementViews;
-	}
-	
-	private void createFormElementViewControllers()
-	{
-		int numberOfFormElements = formElement.formElements().size();
-		
-		ArrayList<FormElementViewController> formElementViewControllers= new ArrayList<FormElementViewController>(numberOfFormElements);
-		
-		for (int i = 0; i < numberOfFormElements; i++)
+		if (ArrayListHelper.arrayExistsAndHasElements(formElement.childElements()) && !ArrayListHelper.arrayExistsAndHasElements(childViewControllers))
 		{
-			FormElement formElement = ((Form)formElement()).formElements().get(i);
-			FormElementViewController formElementViewController = formElement.createViewController();
-			formElementViewController.setParentViewController(this);
-			formElementViewControllers.add(formElementViewController);
+			createChildViewControllers();
 		}
 		
-		this.formElementViewControllers = formElementViewControllers;
+		return this.childViewControllers;
 	}
 	
-	private void extractFormElementViews()
+	private void createChildViewControllers()
 	{
-		int numberOfFormElements = ((Form)formElement()).formElements().size();
+		int numberOfChildViewControllers = formElement.childElements().size();
 		
-		ArrayList<FormElementView> formElementViews = new ArrayList<FormElementView>(numberOfFormElements);
+		ArrayList<FormElementViewController> childViewControllers= new ArrayList<FormElementViewController>(numberOfChildViewControllers);
 		
-		for (int i = 0; i < numberOfFormElements; i++)
+		for (int i = 0; i < numberOfChildViewControllers; i++)
 		{
-			FormElementViewController formElementViewController = formElementViewControllers.get(i);
-			FormElementView formElementView = formElementViewController.view();
-			formElementViews.add(formElementView);
+			FormElement childElement = formElement().childElements().get(i);
+			FormElementViewController childViewController = childElement.createViewController();
+			childViewController.setParentViewController(this);
+			childViewControllers.add(childViewController);
 		}
 		
-		this.formElementViews = formElementViews;
+		this.childViewControllers = childViewControllers;
 	}
 }
