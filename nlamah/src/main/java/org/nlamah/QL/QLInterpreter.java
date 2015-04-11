@@ -111,13 +111,20 @@ public class QLInterpreter implements Runnable
 			else
 			{
 				LogicalExpressionStub logicalExpression = new LogicalExpressionStub();
-				logicalExpression.relatedFormElement = formElements.get(i - 2);
+				
+				logicalExpression.addRelatedNode(formElements.get(i - 2));
 				
 				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
 				
-				IfThenBlock ifThenBlock = new IfThenBlock(new LogicalExpressionStub(), dummyQuestions);
+				IfThenBlock ifThenBlock = new IfThenBlock(logicalExpression, dummyQuestions);
 				
-				formElement = new ConditionalBlock(ifThenBlock, null, null);
+				ifThenBlock.addRelatedNode(formElements.get(i - 2));
+				
+				ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, null, null);
+	
+				conditionalBlock.addRelatedNode(formElements.get(i - 2));
+				
+				formElement = conditionalBlock;
 			}
 			
 			formElements.add(formElement);

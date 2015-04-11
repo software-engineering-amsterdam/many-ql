@@ -1,7 +1,8 @@
 package org.nlamah.QL.Expression;
 import org.nlamah.QL.Expression.Expression;
 
-public class LogicalExpression extends Expression {
+public class LogicalExpression extends Expression 
+{
 	
 	public LogicalExpression(Expression expression){
 		
@@ -11,7 +12,7 @@ public class LogicalExpression extends Expression {
 	@Override
 	public String toParseTreeString() {
 		
-		String stringToReturn = "(" + this.getIdentifier() + " ";
+		String stringToReturn = "(" + identifier() + " ";
 		stringToReturn += this.expressionString;
 		stringToReturn += ")";
 		return stringToReturn;

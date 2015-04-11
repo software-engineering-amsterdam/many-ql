@@ -34,12 +34,6 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	}
 	
 	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{
-		getParentViewController().modelStateChanged(formElement);	
-	}
-
-	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{
 		switch (e.getStateChange())
@@ -50,5 +44,13 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 			break;
 			default: break;
 		}
+		
+		getParentViewController().modelStateChanged(modelElement());
+	}
+
+	@Override
+	public void modelStateChanged(FormElement formElement) 
+	{
+		// TODO Auto-generated method stub
 	}
 }

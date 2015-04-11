@@ -1,14 +1,23 @@
 package org.nlamah.QL.Expression;
 
-import org.nlamah.QL.Node;
+import org.nlamah.QL.FormModel.ASTNode;
 
-public class Expression extends Node{
+public class Expression extends ASTNode{
 
+	protected String identifier;
 	protected String expressionString;
 	
-	public Expression(String identifier, String expressionString) {
-		super(identifier);
+	public Expression(String identifier, String expressionString) 
+	{
+		super();
+		
+		this.identifier = identifier;
 		this.expressionString = expressionString;
+	}
+	
+	public String identifier()
+	{
+		return this.identifier;
 	}
 
 	@Override

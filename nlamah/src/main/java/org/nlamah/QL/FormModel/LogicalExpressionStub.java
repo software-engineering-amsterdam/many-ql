@@ -1,11 +1,16 @@
 package org.nlamah.QL.FormModel;
 
-public class LogicalExpressionStub 
+public class LogicalExpressionStub extends ASTNode 
 {
-	public FormElement relatedFormElement;
-	
-	public boolean isSatisfied()
+	public LogicalExpressionStub()
 	{
-		return ((BooleanQuestion)relatedFormElement).isChecked();
+		super();
+	}
+	
+	@Override
+	public String toParseTreeString() 
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -18,16 +18,6 @@ public class IfThenBlock extends FormElement
 		setChildElements(childElements);
 	}
 	
-	public LogicalExpressionStub logicalExpression()
-	{
-		return this.logicalExpression;
-	}
-	
-	public boolean isSatisfied()
-	{
-		return logicalExpression.isSatisfied();
-	}
-
 	@Override
 	public String toParseTreeString() 
 	{			

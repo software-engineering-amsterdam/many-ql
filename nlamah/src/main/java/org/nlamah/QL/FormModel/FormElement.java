@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.FormViewControllers.VisibilityStrategy;
 
-public abstract class FormElement implements VisibilityStrategy
+public abstract class FormElement extends ASTNode implements VisibilityStrategy
 {	
 	private ArrayList<FormElement> childElements;
+	
+	public FormElement()
+	{
+		super();
+	}
 	
 	public ArrayList<FormElement>childElements()
 	{
@@ -17,6 +22,4 @@ public abstract class FormElement implements VisibilityStrategy
 	{
 		this.childElements = childElements;
 	}
-	
-	abstract public String toParseTreeString();
 }
