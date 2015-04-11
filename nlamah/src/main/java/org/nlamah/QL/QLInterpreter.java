@@ -110,6 +110,8 @@ public class QLInterpreter implements Runnable
 			}
 			else
 			{
+				LogicalExpressionStub logicalExpression = new LogicalExpressionStub();
+				logicalExpression.relatedFormElement = formElements.get(i - 2);
 				
 				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
 				
@@ -132,7 +134,7 @@ public class QLInterpreter implements Runnable
 		
 		for (int i = 0; i < 3; i++)
 		{
-			conditionalQuestions.add(new BooleanQuestion(number + "." + i, i + "th " + type + " quesiton", "boolean"));
+			conditionalQuestions.add(new BooleanQuestion(number + "." + i, (i + 1) + "th " + type + " question", "BOOL"));
 		}
 			
 		return conditionalQuestions;

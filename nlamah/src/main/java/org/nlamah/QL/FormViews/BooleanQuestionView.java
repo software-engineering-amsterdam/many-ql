@@ -2,42 +2,43 @@ package org.nlamah.QL.FormViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import org.nlamah.QL.FormModel.BooleanQuestion;
+import org.nlamah.QL.FormViewControllers.BooleanQuestionViewController;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 @SuppressWarnings("serial")
-public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy, ItemListener
-{
-	private BooleanQuestion question;
-	
+public class BooleanQuestionView extends FormElementView implements ViewLoadingStrategy
+{	
 	private JLabel typeLabel;
 	private JLabel questionLabel;
 	private JCheckBox checkBox;
 	
-	public BooleanQuestionView(BooleanQuestion question) 
+	public BooleanQuestionView(BooleanQuestionViewController viewController) 
 	{
-		super();
-		
-		this.question = question;
-		
-		layoutView();
-		initializeComponents();
-		addComponentsToView();
+		super(viewController);
+	}
+	
+	public void fillInType(String type)
+	{
+		typeLabel.setText(type);
+	}
+	
+	public void fillInQuestionString(String questionString)
+	{
+		questionLabel.setText(questionString);
 	}
 
 	public void initializeComponents()
 	{
-		typeLabel = new JLabel(question.type());
-		questionLabel = new JLabel(question.questionString());
+		typeLabel = new JLabel();
+		questionLabel = new JLabel();
 		checkBox = new JCheckBox("Yes");
-		checkBox.addItemListener(this);
+		checkBox.addItemListener((BooleanQuestionViewController)viewController());
 	}
 	
 	public void addComponentsToView()
@@ -54,18 +55,11 @@ public class BooleanQuestionView extends FormElementView implements ViewLoadingS
 	@Override
 	public void layoutView() 
 	{	
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.white);
 		
-		setPreferredSize(new Dimension(600, 100));
+		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) 
-	{
-		question.setChecked(checkBox.isSelected());
-		
-		formElementViewListener.modelStateChanged(question);
 	}
 }

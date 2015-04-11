@@ -1,17 +1,13 @@
 package org.nlamah.QL.FormViews;
 
-import org.nlamah.QL.FormModel.ElseIfThenBlock;
+import org.nlamah.QL.FormViewControllers.ElseIfThenBlockViewController;
 
 @SuppressWarnings("serial")
 public class ElseIfThenBlockView extends FormElementView 
-{
-	private ElseIfThenBlock elseIfThenBlock;
-	
-	public ElseIfThenBlockView(ElseIfThenBlock elseIfThenBlock) 
+{	
+	public ElseIfThenBlockView(ElseIfThenBlockViewController viewController) 
 	{
-		super();
-		
-		this.elseIfThenBlock = elseIfThenBlock;
+		super(viewController);
 	}
 
 	@Override

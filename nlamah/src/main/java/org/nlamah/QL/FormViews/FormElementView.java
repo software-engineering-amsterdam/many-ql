@@ -2,18 +2,29 @@ package org.nlamah.QL.FormViews;
 
 import javax.swing.JPanel;
 
-import org.nlamah.QL.FormViewControllers.FormElementListener;
+import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
 @SuppressWarnings("serial")
 public abstract class FormElementView extends JPanel implements ViewLoadingStrategy
 {
-	protected FormElementListener formElementViewListener;
+	private FormElementViewController viewController;
 	
 	abstract public void initializeComponents();
 	abstract public void addComponentsToView(); 
 	
-	public void setFormElementListener(FormElementListener formElementViewListener)
+	public FormElementView(FormElementViewController viewController)
 	{
-		this.formElementViewListener = formElementViewListener;
+		super();
+		
+		this.viewController = viewController;
+		
+		layoutView();
+		initializeComponents();
+		addComponentsToView();
+	}
+	
+	public FormElementViewController viewController()
+	{
+		return this.viewController;
 	}
 }

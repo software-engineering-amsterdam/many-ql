@@ -39,7 +39,7 @@ public class FormRootViewController extends FormElementViewController
 	{
 		frame = new JFrame();
 		
-		frame.setTitle(((Form)formElement()).getTitle());
+		frame.setTitle(((Form)modelElement()).getTitle());
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

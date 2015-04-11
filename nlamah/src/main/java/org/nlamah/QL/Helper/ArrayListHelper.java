@@ -23,6 +23,12 @@ public class ArrayListHelper
 		
 		return formElementViews;
 	}
+	
+	static public int contentWidth()
+	{
+		return 600;
+	}
+	
 }
 
 

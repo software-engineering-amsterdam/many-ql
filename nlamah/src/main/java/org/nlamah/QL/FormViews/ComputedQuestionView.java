@@ -1,6 +1,5 @@
 package org.nlamah.QL.FormViews;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -8,42 +7,47 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
-import org.nlamah.QL.FormModel.ComputedQuestion;
+import org.nlamah.QL.FormViewControllers.ComputedQuestionViewController;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 @SuppressWarnings("serial")
 public class ComputedQuestionView extends FormElementView implements ViewLoadingStrategy
-{
-	private ComputedQuestion question;
-	
+{	
 	private JLabel typeLabel;
 	private JLabel questionLabel;
 	
-	
-	public ComputedQuestionView(ComputedQuestion question) 
+	public ComputedQuestionView(ComputedQuestionViewController viewController) 
 	{
-		super();
-		
-		this.question = question;
-		
+		super(viewController);
+
 		layoutView();
 		initializeComponents();
 		addComponentsToView();
 	}
 
+	public void fillInType(String type)
+	{
+		typeLabel.setText(type);
+	}
+	
+	public void fillInQuestionString(String quesitonString)
+	{
+		questionLabel.setText(quesitonString);
+	}
+	
 	@Override
 	public void addComponentsToView() 
 	{
+		add(typeLabel);
 		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(typeLabel, BorderLayout.NORTH);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(questionLabel, BorderLayout.SOUTH);
+		add(questionLabel);
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
-		typeLabel = new JLabel(question.type());
-		questionLabel = new JLabel(question.questionString());
+		typeLabel = new JLabel();
+		questionLabel = new JLabel();
 	}
 
 	@Override
@@ -52,7 +56,7 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.lightGray);
 		
-		setPreferredSize(new Dimension(600, 100));
+		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

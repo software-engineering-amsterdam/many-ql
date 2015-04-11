@@ -1,31 +1,36 @@
 package org.nlamah.QL.FormViews;
 
-import org.nlamah.QL.FormModel.ConditionalBlock;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+
+import org.nlamah.QL.FormViewControllers.ConditionalBlockViewController;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 @SuppressWarnings("serial")
 public class ConditionalBlockView extends FormElementView 
 {
-	private ConditionalBlock conditionalBlock;
-	
-	public ConditionalBlockView(ConditionalBlock conditionalBlock) 
+	public ConditionalBlockView(ConditionalBlockViewController viewController) 
 	{
-		super();
-		
-		this.conditionalBlock = conditionalBlock;
+		super(viewController);
 	}
 
 	@Override
 	public void layoutView() 
 	{
-		// TODO Auto-generated method stub
-
+		setBackground(Color.green);
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		
+		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
+        setMaximumSize(getPreferredSize()); 
+        setMinimumSize(getPreferredSize()); 
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -25,8 +25,9 @@ public class ContentView extends JPanel
 	
 	private void layoutView()
 	{
-		setMinimumSize(new Dimension(350,350));
-		setPreferredSize(new Dimension(350,700));
+		setMaximumSize(new Dimension(500, 700));
+		setMinimumSize(new Dimension(500,700));
+		setPreferredSize(new Dimension(500,700));
 		
 		setBackground(Color.gray);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

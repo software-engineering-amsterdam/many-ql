@@ -1,24 +1,19 @@
 package org.nlamah.QL.FormViews;
 
-import org.nlamah.QL.FormModel.ElseThenBlock;
+import org.nlamah.QL.FormViewControllers.ElseThenBlockViewController;
 
 @SuppressWarnings("serial")
 public class ElseThenBlockView extends FormElementView 
-{
-	private ElseThenBlock elseThenBlock;
-	
-	public ElseThenBlockView(ElseThenBlock elseThenBlock) 
+{	
+	public ElseThenBlockView(ElseThenBlockViewController viewController) 
 	{
-		super();
-		
-		this.elseThenBlock = elseThenBlock;
+		super(viewController);
 	}
 
 	@Override
 	public void layoutView() 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

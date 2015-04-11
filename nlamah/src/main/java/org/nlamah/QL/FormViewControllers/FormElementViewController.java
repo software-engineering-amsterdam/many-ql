@@ -8,22 +8,22 @@ import org.nlamah.QL.Helper.ArrayListHelper;
 
 public abstract class FormElementViewController implements FormElementListener
 {
-	private FormElement formElement;
+	private FormElement modelElement;
 	private FormElementView view;
 	private FormElementViewController parentViewController;
 	
 	private ArrayList<FormElementViewController> childViewControllers;
 	
-	public FormElementViewController(FormElement formElement)
+	public FormElementViewController(FormElement modelElement)
 	{
 		super();
 		
-		this.formElement = formElement;
+		this.modelElement = modelElement;
 	}
 
-	public FormElement formElement()
+	public FormElement modelElement()
 	{
-		return this.formElement;
+		return this.modelElement;
 	}
 	
 	public FormElementView view()
@@ -48,7 +48,7 @@ public abstract class FormElementViewController implements FormElementListener
 	
 	public ArrayList<FormElementViewController> childViewControllers()
 	{
-		if (ArrayListHelper.arrayExistsAndHasElements(formElement.childElements()) && !ArrayListHelper.arrayExistsAndHasElements(childViewControllers))
+		if (ArrayListHelper.arrayExistsAndHasElements(modelElement.childElements()) && !ArrayListHelper.arrayExistsAndHasElements(childViewControllers))
 		{
 			createChildViewControllers();
 		}
@@ -58,13 +58,13 @@ public abstract class FormElementViewController implements FormElementListener
 	
 	private void createChildViewControllers()
 	{
-		int numberOfChildViewControllers = formElement.childElements().size();
+		int numberOfChildViewControllers = modelElement.childElements().size();
 		
 		ArrayList<FormElementViewController> childViewControllers= new ArrayList<FormElementViewController>(numberOfChildViewControllers);
 		
 		for (int i = 0; i < numberOfChildViewControllers; i++)
 		{
-			FormElement childElement = formElement().childElements().get(i);
+			FormElement childElement = modelElement().childElements().get(i);
 			FormElementViewController childViewController = childElement.createViewController();
 			childViewController.setParentViewController(this);
 			childViewControllers.add(childViewController);

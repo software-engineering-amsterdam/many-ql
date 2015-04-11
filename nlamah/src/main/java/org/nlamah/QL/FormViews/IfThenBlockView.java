@@ -1,23 +1,30 @@
 package org.nlamah.QL.FormViews;
 
-import org.nlamah.QL.FormModel.IfThenBlock;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+
+import org.nlamah.QL.FormViewControllers.IfThenBlockViewController;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 @SuppressWarnings("serial")
 public class IfThenBlockView extends FormElementView 
-{
-	private IfThenBlock ifThenBlock;
-	
-	public IfThenBlockView(IfThenBlock ifThenBlock)
+{	
+	public IfThenBlockView(IfThenBlockViewController viewController)
 	{
-		super();
-		
-		this.ifThenBlock = ifThenBlock;
+		super(viewController);
 	}
 
 	@Override
 	public void layoutView() 
 	{
-		// TODO Auto-generated method stub
+		setBackground(Color.red);
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		
+		setPreferredSize(new Dimension(ArrayListHelper.contentWidth(), 100));
+        setMaximumSize(getPreferredSize()); 
+        setMinimumSize(getPreferredSize());
 	}
 
 	@Override
@@ -31,5 +38,4 @@ public class IfThenBlockView extends FormElementView
 	{
 		// TODO Auto-generated method stub
 	}
-
 }

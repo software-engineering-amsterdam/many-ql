@@ -3,6 +3,7 @@ package org.nlamah.QL.FormModel;
 import java.util.ArrayList;
 
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 public class Form extends FormElement
 {
@@ -23,7 +24,7 @@ public class Form extends FormElement
 	{	
 		String stringToReturn = "(form form " + this.title + " {";
 		
-		if (childElements() != null && childElements().size() > 0)
+		if (ArrayListHelper.arrayExistsAndHasElements(childElements()))
 		{
 			for (int i = 0; i < childElements().size(); i++)
 			{

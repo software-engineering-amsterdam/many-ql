@@ -6,15 +6,15 @@ import org.nlamah.QL.FormViews.ElseThenBlockView;
 
 public class ElseThenBlockViewController extends FormElementViewController 
 {
-	private ElseThenBlock elseThenBlock;
+	private ElseThenBlockView elseThenBlockView;
 	
 	public ElseThenBlockViewController(ElseThenBlock elseThenBlock) 
 	{
 		super(elseThenBlock);
 		
-		this.elseThenBlock = elseThenBlock;
+		elseThenBlockView  = new ElseThenBlockView(this);
 		
-		setView(new ElseThenBlockView(elseThenBlock));
+		setView(elseThenBlockView);
 	}
 
 	@Override

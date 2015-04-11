@@ -6,27 +6,31 @@ import java.util.ArrayList;
 import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.ConditionalBlockView;
+import org.nlamah.QL.FormViews.ElseIfThenBlockView;
+import org.nlamah.QL.FormViews.ElseThenBlockView;
 import org.nlamah.QL.FormViews.FormElementView;
+import org.nlamah.QL.FormViews.IfThenBlockView;
+import org.nlamah.QL.Helper.ArrayListHelper;
 
 public class ConditionalBlockViewController extends FormElementViewController 
 {
 	private ConditionalBlock conditionalBlock;
 	private ConditionalBlockView conditionalBlockView;
 	
-	private FormElementViewController ifThenBlockViewController;
-	private ArrayList<FormElementViewController> elseIfThenBlockViewControllers;
-	private FormElementViewController elseThenBlockViewController;
+	private IfThenBlockViewController ifThenBlockViewController;
+	private ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers;
+	private ElseThenBlockViewController elseThenBlockViewController;
 
-	private FormElementView ifThenBlockView;
-	private ArrayList<FormElementView> elseIfThenBlockViews;
-	private FormElementView elseThenBlockView;
+	private IfThenBlockView ifThenBlockView;
+	private ArrayList<ElseIfThenBlockView> elseIfThenBlockViews;
+	private ElseThenBlockView elseThenBlockView;
 	
 	public ConditionalBlockViewController(ConditionalBlock conditionalBlock)
 	{
 		super(conditionalBlock);
 		
 		this.conditionalBlock = conditionalBlock;
-		conditionalBlockView = new ConditionalBlockView(conditionalBlock);
+		conditionalBlockView = new ConditionalBlockView(this);
 		
 		createChildViewControllers();
 		createChildViews();
@@ -38,40 +42,40 @@ public class ConditionalBlockViewController extends FormElementViewController
 
 	private void createChildViewControllers()
 	{
-		ifThenBlockViewController = conditionalBlock.ifThenBlock() != null ? conditionalBlock.ifThenBlock().createViewController() : null;
+		ifThenBlockViewController = (IfThenBlockViewController) (conditionalBlock.ifThenBlock() != null ? conditionalBlock.ifThenBlock().createViewController() : null);
 		
-		if (conditionalBlock.elseIfThenBlocks() != null && conditionalBlock.elseIfThenBlocks().size() > 0)
+		if (ArrayListHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			int numberOfElseIfThenViewControllers = conditionalBlock.elseIfThenBlocks().size();
 			
-			elseIfThenBlockViewControllers = new ArrayList<FormElementViewController>(numberOfElseIfThenViewControllers);
+			elseIfThenBlockViewControllers = new ArrayList<ElseIfThenBlockViewController>(numberOfElseIfThenViewControllers);
 			
 			for (int i = 0; i < numberOfElseIfThenViewControllers; i++)
 			{
-				elseIfThenBlockViewControllers.add(conditionalBlock.elseIfThenBlocks().get(i).createViewController());
+				elseIfThenBlockViewControllers.add((ElseIfThenBlockViewController) conditionalBlock.elseIfThenBlocks().get(i).createViewController());
 			}
 		}
 		
-		elseThenBlockViewController = conditionalBlock.elseThenBlock() != null ? conditionalBlock.elseThenBlock().createViewController() : null;
+		elseThenBlockViewController = (ElseThenBlockViewController) (conditionalBlock.elseThenBlock() != null ? conditionalBlock.elseThenBlock().createViewController() : null);
 	}
 	
 	private void createChildViews()
 	{
-		ifThenBlockView = ifThenBlockViewController != null ? ifThenBlockViewController.view() : null;
+		ifThenBlockView = (IfThenBlockView) (ifThenBlockViewController != null ? ifThenBlockViewController.view() : null);
 
-		if (conditionalBlock.elseIfThenBlocks() != null && conditionalBlock.elseIfThenBlocks().size() > 0)
+		if (ArrayListHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			int numberOfElseIfThenViews = conditionalBlock.elseIfThenBlocks().size();
 			
-			elseIfThenBlockViews = new ArrayList<FormElementView>(numberOfElseIfThenViews);
+			elseIfThenBlockViews = new ArrayList<ElseIfThenBlockView>(numberOfElseIfThenViews);
 			
 			for (int i = 0; i < numberOfElseIfThenViews; i++)
 			{
-				elseIfThenBlockViews.add(elseIfThenBlockViewControllers.get(i).view());
+				elseIfThenBlockViews.add((ElseIfThenBlockView) elseIfThenBlockViewControllers.get(i).view());
 			}
 		}
 		
-		elseThenBlockView = elseThenBlockViewController != null ? elseThenBlockViewController.view() : null;
+		elseThenBlockView = (ElseThenBlockView) (elseThenBlockViewController != null ? elseThenBlockViewController.view() : null);
 	}
 	
 	private void addChildViewsToView()
@@ -84,7 +88,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 			preferredHeight += ifThenBlockView.getPreferredSize().height;
 		}
 		
-		if (elseIfThenBlockViews != null && elseIfThenBlockViews.size() > 0)
+		if (ArrayListHelper.arrayExistsAndHasElements(elseIfThenBlockViews))
 		{
 			for (int i = 0; i < elseIfThenBlockViews.size(); i++)
 			{
@@ -106,8 +110,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 	
 	@Override
 	public void modelStateChanged(FormElement formElement) 
-	{
-		// TODO Auto-generated method stub
-		
+	{		
+		// TODO Auto-generated method stub	
 	}
 }

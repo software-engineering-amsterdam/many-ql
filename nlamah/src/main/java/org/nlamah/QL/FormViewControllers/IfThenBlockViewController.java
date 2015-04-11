@@ -15,7 +15,7 @@ public class IfThenBlockViewController extends FormElementViewController
 	{
 		super(ifThenBlock);
 		
-		ifThenBlockView = new IfThenBlockView(ifThenBlock);
+		ifThenBlockView = new IfThenBlockView(this);
 		
 		if (ArrayListHelper.arrayExistsAndHasElements(childViewControllers()))
 		{

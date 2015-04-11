@@ -22,6 +22,11 @@ public class IfThenBlock extends FormElement
 	{
 		return this.logicalExpression;
 	}
+	
+	public boolean isSatisfied()
+	{
+		return logicalExpression.isSatisfied();
+	}
 
 	@Override
 	public String toParseTreeString() 

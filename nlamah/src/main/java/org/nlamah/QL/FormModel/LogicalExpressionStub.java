@@ -2,14 +2,10 @@ package org.nlamah.QL.FormModel;
 
 public class LogicalExpressionStub 
 {
-	public LogicalExpressionStub()
-	{
-		super();
-		
-	}
+	public FormElement relatedFormElement;
 	
 	public boolean isSatisfied()
 	{
-		return true;
+		return ((BooleanQuestion)relatedFormElement).isChecked();
 	}
 }
