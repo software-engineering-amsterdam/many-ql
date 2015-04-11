@@ -13,7 +13,6 @@ public class Helper
 	{
 		return 600;
 	}
-	
 }
 
 

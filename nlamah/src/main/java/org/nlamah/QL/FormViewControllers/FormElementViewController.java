@@ -36,7 +36,7 @@ public abstract class FormElementViewController implements FormElementListener
 		this.view = view;
 	}
 	
-	public FormElementViewController getParentViewController() 
+	public FormElementViewController parentViewController() 
 	{
 		return parentViewController;
 	}
@@ -56,7 +56,7 @@ public abstract class FormElementViewController implements FormElementListener
 		return this.childViewControllers;
 	}
 	
-	abstract int preferredViewHeight();
+	abstract public int preferredViewHeight();
 	
 	private void createChildViewControllers()
 	{

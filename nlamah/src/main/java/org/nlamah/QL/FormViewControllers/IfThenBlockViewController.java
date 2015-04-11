@@ -22,9 +22,7 @@ public class IfThenBlockViewController extends FormElementViewController
 		setView(ifThenBlockView);
 		
 		if (Helper.arrayExistsAndHasElements(childViewControllers()))
-		{
-			System.out.println("the if then block view controller has " + childViewControllers().size() + " elements");
-			
+		{	
 			addChildComponents();
 		}
 	}
@@ -47,8 +45,6 @@ public class IfThenBlockViewController extends FormElementViewController
 			preferredViewHeight += childViewController.preferredViewHeight();
 		}
 		
-		System.out.println("preferredHeight: " + preferredViewHeight);
-		
 		view().setPreferredSize(new Dimension(Helper.contentWidth(), preferredViewHeight));
 	}
 
@@ -59,8 +55,23 @@ public class IfThenBlockViewController extends FormElementViewController
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
+		preferredViewHeight = 0;
+		
+		for (int i = 0; i < childViewControllers().size(); i++)
+		{
+			FormElementViewController childViewController = childViewControllers().get(i);
+			
+			preferredViewHeight += childViewController.preferredViewHeight();
+		}
+		
 		return preferredViewHeight;
+	}
+
+	@Override
+	public void viewNeedsUpdate() 
+	{
+		// TODO Auto-generated method stub
 	}
 }

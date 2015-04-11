@@ -39,8 +39,14 @@ public class ComputedQuestionViewController extends FormElementViewController
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
 		return view().getPreferredSize().height;
+	}
+
+	@Override
+	public void viewNeedsUpdate() {
+		// TODO Auto-generated method stub
+		
 	}
 }

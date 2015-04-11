@@ -91,7 +91,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 		if (ifThenBlockView != null)
 		{
 			conditionalBlockView.add(ifThenBlockView);
-			preferredHeight += ifThenBlockView.getPreferredSize().height;
+			preferredHeight += ifThenBlockViewController.preferredViewHeight();
 		}
 		
 		if (Helper.arrayExistsAndHasElements(elseIfThenBlockViews))
@@ -100,15 +100,16 @@ public class ConditionalBlockViewController extends FormElementViewController
 			{
 				FormElementView formElementView = elseIfThenBlockViews.get(i);
 				
-				conditionalBlockView.add(formElementView);			
-				preferredHeight += formElementView.getPreferredSize().height;
+				conditionalBlockView.add(formElementView);	
+				FormElementViewController formElementViewController = elseIfThenBlockViewControllers.get(i);
+				preferredHeight += formElementViewController.preferredViewHeight();
 			}
 		}
 		
 		if (elseThenBlockView != null)
 		{
 			conditionalBlockView.add(elseThenBlockView);
-			preferredHeight += elseThenBlockView.getPreferredSize().height;
+			preferredHeight += elseThenBlockViewController.preferredViewHeight();
 		}
 		
 		conditionalBlockView.setPreferredSize(new Dimension(Helper.contentWidth(), preferredHeight));
@@ -131,7 +132,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 		{
 			ifThenBlockView.setVisible(true);
 			
-			setViewHeight(ifThenBlockView.getPreferredSize().height);
+			setViewHeight(ifThenBlockViewController.preferredViewHeight());
 			
 			return;
 		}
@@ -148,7 +149,9 @@ public class ConditionalBlockViewController extends FormElementViewController
 					
 					blockView.setVisible(true);
 					
-					setViewHeight(blockView.getPreferredSize().height);
+					ElseIfThenBlockViewController blockViewController = elseIfThenBlockViewControllers.get(i);
+					
+					setViewHeight(blockViewController.preferredViewHeight());
 					
 					return;
 				}
@@ -159,7 +162,7 @@ public class ConditionalBlockViewController extends FormElementViewController
 		{
 			elseThenBlockView.setVisible(true);
 			
-			setViewHeight(elseThenBlockView.getPreferredSize().height);
+			setViewHeight(elseThenBlockViewController.preferredViewHeight());
 		}
 		else
 		{
@@ -199,8 +202,15 @@ public class ConditionalBlockViewController extends FormElementViewController
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
 		return preferredViewHeight;
+	}
+
+	@Override
+	public void viewNeedsUpdate() 
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

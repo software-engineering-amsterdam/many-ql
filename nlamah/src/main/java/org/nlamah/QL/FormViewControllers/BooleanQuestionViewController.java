@@ -42,12 +42,15 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 		{
 			case ItemEvent.SELECTED: ((BooleanQuestion)modelElement()).setChecked(true);
 			break;
+			
 			case ItemEvent.DESELECTED: ((BooleanQuestion)modelElement()).setChecked(false);
 			break;
+			
 			default: break;
 		}
 		
 		notifyRelatedViewControllers();
+		viewNeedsUpdate();
 	}
 	
 	private void notifyRelatedViewControllers()
@@ -60,7 +63,7 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 			}
 		}
 	}
-
+	
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{
@@ -68,8 +71,17 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
 		return view().getPreferredSize().height;
+	}
+
+	@Override
+	public void viewNeedsUpdate() 
+	{
+		if(parentViewController() != null)
+		{
+			parentViewController().viewNeedsUpdate();
+		}
 	}
 }

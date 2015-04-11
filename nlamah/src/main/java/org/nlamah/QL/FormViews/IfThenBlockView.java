@@ -20,9 +20,9 @@ public class IfThenBlockView extends FormElementView
 	public void layoutView() 
 	{
 		setBackground(Color.red);
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 300));
+		setPreferredSize(new Dimension(Helper.contentWidth(), Integer.MAX_VALUE));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

@@ -1,5 +1,6 @@
 package org.nlamah.QL.FormViewControllers;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -11,6 +12,7 @@ import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.ContentView;
 import org.nlamah.QL.FormViews.NavigationView;
+import org.nlamah.QL.Helper.Helper;
 
 public class FormRootViewController extends FormElementViewController
 {
@@ -20,6 +22,8 @@ public class FormRootViewController extends FormElementViewController
 	private JFrame frame;
 	private NavigationView navigationView;
 	private ContentView contentView;
+	
+	private int preferredViewHeight;
 	
 	public FormRootViewController(Form form)
 	{
@@ -61,6 +65,13 @@ public class FormRootViewController extends FormElementViewController
 			
 			contentView.add(childViewControllers.get(i).view());
 		}
+		
+		adjustContentViewToProperHeight();
+	}
+	
+	private void adjustContentViewToProperHeight()
+	{
+		contentView.setPreferredSize(new Dimension(Helper.contentWidth(), preferredViewHeight()));
 	}
 	
 	private void addNavigationAndContentViews()
@@ -77,9 +88,23 @@ public class FormRootViewController extends FormElementViewController
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		int preferredSize = 0;
+		
+		for (int i = 0; i < childViewControllers().size(); i++)
+		{
+			preferredSize += childViewControllers().get(i).preferredViewHeight();
+		}
+		
+		this.preferredViewHeight = preferredSize;
+		
+		return preferredViewHeight;
+	}
+
+	@Override
+	public void viewNeedsUpdate() 
+	{
+		adjustContentViewToProperHeight();
 	}
 }

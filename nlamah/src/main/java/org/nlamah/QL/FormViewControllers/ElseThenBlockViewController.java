@@ -27,9 +27,15 @@ public class ElseThenBlockViewController extends FormElementViewController
 	}
 
 	@Override
-	int preferredViewHeight() 
+	public int preferredViewHeight() 
 	{
 		return preferredViewHeight;
+	}
+
+	@Override
+	public void viewNeedsUpdate() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
