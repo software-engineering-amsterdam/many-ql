@@ -55,8 +55,8 @@ public class QLTest
         assertTrue( true );
     }
 	
-	String parsedString;
-	String referenceString;
+	private String parsedString;
+	private String referenceString;
 	
 	String produceParseStringFromSource(String source)
 	{
@@ -73,12 +73,14 @@ public class QLTest
 	{
 		ANTLRInputStream input = null;
 		
-		try {
+		try 
+		{
 			InputStream inputStream = QLInterpreter.class.getResourceAsStream(filename + ".ql");
 			String qlSourceCode = IOUtils.toString(inputStream, "UTF-8");
 			input = new ANTLRInputStream(qlSourceCode);
-			
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 		
@@ -91,7 +93,8 @@ public class QLTest
 		
 	}
 	
-	public void testEmptyForm() {	
+	public void testEmptyForm() 
+	{	
 
 		parsedString = produceParseStringFromSourceFile("emptyform");
 		
@@ -103,24 +106,24 @@ public class QLTest
 	    
 	}
 	
-	public void testOneQuestion() {
-	
+	public void testOneQuestion() 
+	{
 		parsedString = produceParseStringFromSourceFile("onequestion");
 		System.out.println(parsedString);
 		
-		InputQuestion question = new InputQuestion("hasSoldHouse", "boolean", "Did you sell a house in 2010?");
+		InputQuestion question = new InputQuestion("hasSoldHouse", "Did you sell a house in 2010?", "boolean");
 		ArrayList<FormElement> questions = new ArrayList<FormElement>(1);
 		questions.add(0, question);
 		
 		Form form = new Form("test", questions);
 		
 		referenceString = form.toParseTreeString();
-		System.out.println("one question:" + referenceString + "||" + parsedString);
+		System.out.println("one question:" + referenceString + "||\n\t\t" + parsedString);
 	    assertEquals( parsedString, referenceString );
 	}
 	
-	 public void testTwoQuestions() {
-
+	 public void testTwoQuestions() 
+	 {
  		parsedString = produceParseStringFromSourceFile("twoquestions");
  		System.out.println(parsedString);
 

@@ -72,7 +72,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	@Override
 	public ASTNode visitIfThenBlock(QLParser.IfThenBlockContext ctx)
 	{
-		LogicalExpressionStub logicalExpression = (LogicalExpressionStub) ctx.logicalExpression().accept(this);
+		LogicalExpressionStub logicalExpression = (LogicalExpressionStub) ctx.expression().accept(this);
 		
 		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
 		
@@ -89,7 +89,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	public ASTNode visitElseIfThenBlock(QLParser.ElseIfThenBlockContext ctx)
 	{
 		
-		LogicalExpressionStub logicalExpression = (LogicalExpressionStub) ctx.logicalExpression().accept(this);
+		LogicalExpressionStub logicalExpression = (LogicalExpressionStub) ctx.expression().accept(this);
 		
 		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
 		
@@ -117,7 +117,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override
-	public ASTNode visitLogicalExpression(QLParser.LogicalExpressionContext ctx)
+	public ASTNode visitIdExpression(QLParser.IdExpressionContext ctx)
 	{
 		return new LogicalExpressionStub();
 	}

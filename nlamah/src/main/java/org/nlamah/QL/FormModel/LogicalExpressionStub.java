@@ -17,6 +17,10 @@ public class LogicalExpressionStub extends ASTNode
 		{
 			return ((InputQuestion) relatedElements.get(0)).isChecked();
 		}
+		else
+		{
+			//TODO error feedback
+		}
 		
 		return true;
 	}
