@@ -5,7 +5,6 @@ namespace QL.AST.Nodes.Branches.Operators
 {
     public class LessThanEqualToOperator : BinaryTreeElementBase, IStaticReturnType
     {
-
         public  Type GetReturnType()
         {
             return (new Yesno()).GetReturnType();

@@ -6,9 +6,6 @@ namespace QL.DataHandlers.TypeChecking
 {
     public class TypeChecker : IExecutableHandler
     {
-        public TypeChecker()
-        { }
-
         public bool Execute(DataContext context)
         {
             try

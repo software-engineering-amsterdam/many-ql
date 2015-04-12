@@ -5,7 +5,7 @@ using QL.Grammar;
 
 namespace QL.AST.ASTCreation
 {
-    public sealed class TypeFactory
+    public sealed class TerminalTypeFactory
     {
         public IStaticReturnType GetTypeInstance(QLParser.TypeContext typeContext)
         {

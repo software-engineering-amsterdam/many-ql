@@ -1,10 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QL;
 using QL.AST;
 using QL.AST.Nodes.Terminals;
 using QL.AST.Nodes.Terminals.Wrappers;
-using QL.Grammar;
 using QL.Exceptions.Errors;
 
 namespace Tests.VisitorTests

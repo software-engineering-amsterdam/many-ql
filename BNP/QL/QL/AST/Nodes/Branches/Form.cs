@@ -6,7 +6,8 @@ namespace QL.AST.Nodes.Branches
     public class Form : ElementBase
     {
         public Identifier Identifier { get; set; }
-        public Block Block;
+        public Block Block { get; set; }
+
         public Form()
         { }
 
@@ -15,16 +16,16 @@ namespace QL.AST.Nodes.Branches
             Identifier = identifier;
             Block = block;
         }
+
         public Form(Identifier identifier, ElementBase block)
         {
-            throw new Exception(identifier+": "+block.ToString()+" is not a block");
-            
+            throw new Exception(identifier + ": " + block + " is not a block");
         }
 
-        public Form(Terminals.Identifier identifier, Block block, SourceLocation sourceLocation):this(identifier, block)
+        public Form(Identifier identifier, Block block, SourceLocation sourceLocation)
+            : this(identifier, block)
         {
             SourceLocation = sourceLocation;
         }
-
     }
 }

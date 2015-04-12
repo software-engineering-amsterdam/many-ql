@@ -11,8 +11,8 @@
             : base(message)
         {
         }
+
         public DivisionByZeroError()
-            : base()
         {
         }
     }

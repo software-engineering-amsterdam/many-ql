@@ -6,7 +6,7 @@
 
         public Expression()
         { }
-        
+
         public Expression(ElementBase child)
         {
             Child = child;
@@ -22,6 +22,5 @@
         {
             return Child;
         }
-
     }
 }

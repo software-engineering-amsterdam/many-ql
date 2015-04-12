@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="AST\DataContext.cs" />
     <Compile Include="AST\ASTCreation\ASTBuilder.cs" />
-    <Compile Include="AST\ASTCreation\TypeFactory.cs" />
+    <Compile Include="AST\ASTCreation\TerminalTypeFactory.cs" />
     <Compile Include="DataHandlers\ExportHandling\JsonExporter.cs" />
     <Compile Include="DataHandlers\ExportHandling\ExporterVisitor.cs" />
     <Compile Include="DataHandlers\InputHandling\Initializer.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Exceptions\Warnings\EvaluationWarning.cs" />
     <Compile Include="DataHandlers\Evaluation\Evaluator.cs" />
     <Compile Include="DataHandlers\TypeChecking\TypeChecker.cs" />
-    <Compile Include="DataHandlers\Evaluation\EvaluationTerminalWrapperFactory.cs" />
+    <Compile Include="DataHandlers\Evaluation\TerminalWrapperFactory.cs" />
     <Compile Include="DataHandlers\Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="AST\Nodes\Terminals\Wrappers\ITerminalWrapper.cs" />
     <Compile Include="AST\IVisitor.cs" />

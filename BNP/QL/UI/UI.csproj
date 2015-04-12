@@ -92,6 +92,8 @@
     <Compile Include="ControlWrappers\WidgetFactory.cs" />
     <Compile Include="Controls\WidgetBase.cs" />
     <Compile Include="Builder\UserInterfaceVisitor.cs" />
+    <Compile Include="ValueConversion\BooleanYesNoConverter.cs" />
+    <Compile Include="ValueConversion\NumberConverter.cs" />
     <Page Include="Assets\ApplicationResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

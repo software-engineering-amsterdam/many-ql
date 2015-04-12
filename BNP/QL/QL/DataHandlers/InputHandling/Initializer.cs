@@ -7,9 +7,6 @@ namespace QL.DataHandlers.InputHandling
 {
     public class Initializer : IExecutableHandler
     {
-        public Initializer()
-        { }
-
         public bool Execute(DataContext context)
         {
             if (context.Input != null)
