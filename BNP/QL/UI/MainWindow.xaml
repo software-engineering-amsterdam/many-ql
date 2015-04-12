@@ -20,8 +20,6 @@
                 <Separator />
                 <MenuItem Header="_Save as..." Command="SaveAs" />
                 <Separator />
-                <MenuItem Header="_Test" Click="TestMenuItem_OnClick" />
-                <Separator />
                 <MenuItem Header="E_xit" Command="Close" />
             </MenuItem>
             <MenuItem Header="_View">

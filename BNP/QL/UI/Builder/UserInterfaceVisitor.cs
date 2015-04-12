@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -20,14 +22,16 @@ namespace QL.UI.Builder
     {
         private readonly WidgetFactory _widgetFactory;
         private readonly ObservableCollection<WidgetBase> _elementsToDisplay;
+        private readonly Action _rebuildMethod;
         private bool _parentExpressionDidNotEvaluate;
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
-        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, ObservableCollection<WidgetBase> elementsToDisplay)
+        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, ObservableCollection<WidgetBase> elementsToDisplay, Action rebuildMethod)
         {
             _widgetFactory = new WidgetFactory();
             _elementsToDisplay = elementsToDisplay;
+            _rebuildMethod = rebuildMethod;
             ReferenceTables = referenceTables;
             Exceptions = exceptions;
         }
@@ -90,6 +94,12 @@ namespace QL.UI.Builder
             int index = _elementsToDisplay.ToList().FindIndex(elem => elem.Unit.Identifier == unitWrapper.Unit.Identifier);
             if (index < 0)
             {
+                INotifyPropertyChanged nodeValue = node.Value as INotifyPropertyChanged;
+                if (nodeValue != null)
+                {
+                    nodeValue.PropertyChanged += (sender, args) => _rebuildMethod();
+                }
+
                 _elementsToDisplay.Add(unitWrapper);
             }
             else

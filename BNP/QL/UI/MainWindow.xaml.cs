@@ -24,12 +24,18 @@ namespace QL.UI
         {
             _qlBuilder = new QLUIBuilder(inputData);
             ExceptionTable.ItemsSource = _qlBuilder.QLExceptions;
-            _qlBuilder.RegisterGenericAndUIDataHandlers();
+            _qlBuilder.RegisterGenericAndUIDataHandlers(RebuildQuestionnaire);
 
             bool buildResult = _qlBuilder.RunAllHandlers();
             Debug.WriteLineIf(!buildResult, "Cannot proceed to build the UI as the handlers have failed");
             
             WidgetsContainer.ItemsSource = _qlBuilder.ElementsToDisplay;
+        }
+
+        private void RebuildQuestionnaire()
+        {
+            _qlBuilder.RunEvaluators();
+            _qlBuilder.RunRenderers();
         }
 
         private void LoadQuestionnaireFile(string inputFilePath)
@@ -135,12 +141,6 @@ namespace QL.UI
             {
                 SaveQuestionnaireFile(outputFilePicker.FileName);
             }
-        }
-
-        private void TestMenuItem_OnClick(object sender, RoutedEventArgs e)
-        {
-            _qlBuilder.RunEvaluators();
-            _qlBuilder.RunRenderers();
         }
 
         private void Command_Close(object sender, ExecutedRoutedEventArgs e)

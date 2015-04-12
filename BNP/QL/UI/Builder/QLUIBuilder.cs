@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using QL.AST;
 using QL.UI.Controls;
@@ -19,10 +20,10 @@ namespace QL.UI.Builder
             ElementsToDisplay = new ObservableCollection<WidgetBase>();
         }
 
-        public void RegisterGenericAndUIDataHandlers()
+        public void RegisterGenericAndUIDataHandlers(Action rebuildMethod)
         {
             RegisterGenericDataHandlers();
-            RegisterRenderer(new Renderer(ElementsToDisplay));       
+            RegisterRenderer(new Renderer(ElementsToDisplay, rebuildMethod));
         }
     }
 }
