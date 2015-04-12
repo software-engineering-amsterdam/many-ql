@@ -4,7 +4,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import org.nlamah.QL.FormModel.Question;
-import org.nlamah.QL.FormModel.BooleanQuestion;
+import org.nlamah.QL.FormModel.InputQuestion;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormViews.BooleanQuestionView;
 import org.nlamah.QL.Helper.Helper;
@@ -13,7 +13,7 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 {	
 	private BooleanQuestionView questionView;
 	
-	public BooleanQuestionViewController(BooleanQuestion question)
+	public BooleanQuestionViewController(InputQuestion question)
 	{
 		super(question);
 		
@@ -40,10 +40,10 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	{
 		switch (e.getStateChange())
 		{
-			case ItemEvent.SELECTED: ((BooleanQuestion)modelElement()).setChecked(true);
+			case ItemEvent.SELECTED: ((InputQuestion)modelElement()).setChecked(true);
 			break;
 			
-			case ItemEvent.DESELECTED: ((BooleanQuestion)modelElement()).setChecked(false);
+			case ItemEvent.DESELECTED: ((InputQuestion)modelElement()).setChecked(false);
 			break;
 			
 			default: break;

@@ -2,6 +2,8 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Helper.Helper;
+
 public class LogicalExpressionStub extends ASTNode 
 {
 	public LogicalExpressionStub()
@@ -11,7 +13,12 @@ public class LogicalExpressionStub extends ASTNode
 	
 	public boolean evaluate(ArrayList<FormElement> relatedElements)
 	{
-		return ((BooleanQuestion) relatedElements.get(0)).isChecked();
+		if (Helper.arrayExistsAndHasElements(relatedElements))
+		{
+			return ((InputQuestion) relatedElements.get(0)).isChecked();
+		}
+		
+		return true;
 	}
 	
 	@Override

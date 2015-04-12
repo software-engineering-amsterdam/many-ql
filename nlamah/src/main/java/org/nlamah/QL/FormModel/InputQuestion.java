@@ -3,11 +3,11 @@ package org.nlamah.QL.FormModel;
 import org.nlamah.QL.FormViewControllers.BooleanQuestionViewController;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
-public class BooleanQuestion extends Question 
+public class InputQuestion extends Question 
 {
 	private boolean checked;
 	
-	public BooleanQuestion(String identifier, String questionString, String type) 
+	public InputQuestion(String identifier, String questionString, String type) 
 	{
 		super(identifier, questionString, type);
 	}

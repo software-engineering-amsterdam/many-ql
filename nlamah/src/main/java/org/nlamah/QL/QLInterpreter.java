@@ -17,7 +17,7 @@ import org.nlamah.QL.FormModel.ComputedQuestion;
 import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.BooleanQuestion;
+import org.nlamah.QL.FormModel.InputQuestion;
 import org.nlamah.QL.FormModel.IfThenBlock;
 import org.nlamah.QL.FormModel.LogicalExpressionStub;
 
@@ -102,7 +102,7 @@ public class QLInterpreter implements Runnable
 		{
 			if (i % 3 == 0)
 			{
-				formElement = new BooleanQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
+				formElement = new InputQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
 			}
 			else if (i % 3 == 1)
 			{
@@ -141,7 +141,7 @@ public class QLInterpreter implements Runnable
 		
 		for (int i = 0; i < 3; i++)
 		{
-			conditionalQuestions.add(new BooleanQuestion(number + "." + i, (i + 1) + "th " + type + " question", "BOOL"));
+			conditionalQuestions.add(new InputQuestion(number + "." + i, (i + 1) + "th " + type + " question", "BOOL"));
 		}
 			
 		return conditionalQuestions;

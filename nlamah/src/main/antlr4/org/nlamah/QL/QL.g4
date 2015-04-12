@@ -2,18 +2,20 @@ grammar QL;
 
 form : 'form' ID '{' (formElement)* '}' ;
 formElement : question | conditionalBlock ; 
-question : ID TYPE STRING ;
 
+question : ID TYPE questionString ;
+
+questionString : STRING ;
 // if ( s ) { t } endif
 // if ( s ) { t } else { e } endif
 // if ( s ) { t } elsif ( s ) { t } endif
 // if ( s ) { t } elsif ( s ) { t } else { e } endif
 // ifthen + elif* + else* + endif
 
-conditionalBlock : ifthen elsifthen* elsethen? 'endif';
-ifthen : 'if' '(' logicalExpression ')' '{' (formElement)* '}' ;
-elsifthen : 'elsif' '(' logicalExpression ')' '{' (formElement)* '}' ;
-elsethen : 'else' '{' (formElement)* '}' ;
+conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? 'endif';
+ifThenBlock : 'if' '(' logicalExpression ')' '{' (formElement)* '}' ;
+elseIfThenBlock : 'elseif' '(' logicalExpression ')' '{' (formElement)* '}' ;
+elseThenBlock : 'else' '{' (formElement)* '}' ;
 
 logicalExpression  :  ID ;
 
