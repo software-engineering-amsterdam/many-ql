@@ -19,6 +19,7 @@ public class Context {
     private QuestionReferences questionReferences;
     private QuestionLabels questionLabels;
     private QuestionValues questionValues;
+    private ComputedQuestionValues computedQuestionValues;
     private IfDependencies ifConditions;
     private IssueCollector errors;
     private IssueCollector warnings;
@@ -31,6 +32,7 @@ public class Context {
 	this.errors = new IssueCollector();
 	this.warnings = new IssueCollector();
 	this.questionLabels = new QuestionLabels();
+	this.computedQuestionValues = new ComputedQuestionValues();
     }
 
     public void addDependantQuestion(Expression condition, QuestionComponent question) {
@@ -48,10 +50,19 @@ public class Context {
     public List<Expression> getReferencingExpressions(String id) {
 	return questionReferences.get(id);
     }
+    
+    public List<Expression> getReferencingComputedExpressions(String id)
+    {
+    	return computedQuestionValues.get(id);
+    }
 
     public void setValue(String key, GenericValue value) {
 	questionValues.put(key, value);
     }
+    
+    public void setComputedValue(String key, Expression value) {
+    computedQuestionValues.put(key, value);	
+	}
 
     public GenericValue getValue(String s) {
 	return questionValues.get(s);

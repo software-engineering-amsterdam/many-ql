@@ -36,6 +36,7 @@ public class IntegerTextField extends Widget {
 	public void actionPerformed(DocumentEvent e) {
 	    tryParse(textfield.getText(),textfield);
 	    checkDependencyVisibility();
+	    checkComputedQuestion();
 	}
 
 	@Override

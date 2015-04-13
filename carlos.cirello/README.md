@@ -34,13 +34,6 @@ To access the inline documentation, execute:
 $ make doc
 ```
 
-## TODO
-
-This toy project is an ongoing effort. Therefore, it is expected to have lots of things to do. In order to extract the inline "to do" tasks, execute:
-```
-$ make todo
-```
-
 # Development Cycle
 
 ## Tests
@@ -50,16 +43,6 @@ Ideally, all relevant code should be tested. This project uses the native test s
 If you want to run tests only:
 ```
 $ make test
-```
-
-If you want to run tests with code coverage (incomplete):
-```
-$ make coverage
-```
-
-If you want it to detect changes, and automatically execute the tests (Red-Green-Refactor cycle):
-```
-$ make autotest
 ```
 
 * Relevant Content
