@@ -19,14 +19,14 @@ public class QuestionnaireFrame {
     }
 
     private void createFormComponent(final Form form, Context context) {
-	FormComponent formComponent = new FormComponent(form, this.frame, context);
+	FormComponent formComponent = new FormComponent(form, frame, context);
 	formComponent.createGUIComponents();
     }
 
     private void createFrame() {
-	this.frame = new JFrame();
-	this.frame.setSize(WIDTH, HEIGHT);
-	this.frame.setLocationRelativeTo(null);
-	this.frame.setVisible(true);
+	frame = new JFrame();
+	frame.setSize(WIDTH, HEIGHT);
+	frame.setLocationRelativeTo(null);
+	frame.setVisible(true);
     }
 }

@@ -20,9 +20,9 @@ public class QuestionComponent {
     protected JPanel panel;
     protected Widget widget;
 
-    public QuestionComponent(Question question, Context rm, Expression ifCondition) {
+    public QuestionComponent(Question question, Context context, Expression ifCondition) {
 	this.question = question;
-	this.context = rm;
+	this.context = context;
 	this.panel = new JPanel();
 
 	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.X_AXIS));
@@ -31,11 +31,11 @@ public class QuestionComponent {
 
 	if (ifCondition != null) {
 	    this.panel.setVisible(false);
-	    rm.addDependantQuestion(ifCondition, this);
+	    context.addDependantQuestion(ifCondition, this);
 
 	    ReferenceCollection referenceCollection = new ReferenceCollection();
 	    ifCondition.collectIds(referenceCollection);
-	    rm.addReference(referenceCollection, ifCondition);
+	    context.addReference(referenceCollection, ifCondition);
 	}
 	createQuestionType();
     }

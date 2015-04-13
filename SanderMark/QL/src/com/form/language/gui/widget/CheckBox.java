@@ -42,8 +42,4 @@ public class CheckBox extends Widget {
 	checkbox.setSelected(computedValue);
 	checkbox.setEnabled(false);
     }
-    
-    public String toString(){
-	return "Checkbox: " + checkbox.isSelected();
-    }
 }

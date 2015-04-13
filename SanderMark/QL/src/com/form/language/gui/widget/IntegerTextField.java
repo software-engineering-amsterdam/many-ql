@@ -69,8 +69,4 @@ public class IntegerTextField extends Widget {
 	    JOptionPane.showMessageDialog(textfield, "Invalid value");
 	}
     }
-    
-    public String toString(){
-	return "IntegerTextField: " + textfield.getText();
-    }
 }

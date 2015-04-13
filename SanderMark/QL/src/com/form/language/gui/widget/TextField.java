@@ -57,8 +57,4 @@ public class TextField extends Widget {
 	textfield.setText(value.toString());
 	textfield.setEnabled(false);
     }
-    
-    public String toString(){
-	return "IntegerTextField: " + textfield.getText();
-    }
 }
