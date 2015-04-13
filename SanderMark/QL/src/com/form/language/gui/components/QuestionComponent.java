@@ -44,15 +44,15 @@ public class QuestionComponent {
     //increase the responsibilty of the Type.
     private void createQuestionType() {
 	if (question.getType(context).isBoolType()) {
-	    CheckBox checkbox = new CheckBox(question, this, context);
+	    CheckBox checkbox = new CheckBox(question, context);
 	    panel.add(checkbox.getCheckBox());
 	    widget = checkbox;
 	} else if (question.getType(context).isStringType()) {
-	    TextField textfield = new TextField(question, this, context);
+	    TextField textfield = new TextField(question, context);
 	    panel.add(textfield.getTextField());
 	    widget = textfield;
 	} else {
-	    IntegerTextField textfield = new IntegerTextField(question, this, context);
+	    IntegerTextField textfield = new IntegerTextField(question, context);
 	    panel.add(textfield.getTextField());
 	    widget = textfield;
 	}

@@ -14,7 +14,7 @@ import com.form.language.memory.Context;
 public class CheckBox extends Widget {
     private JCheckBox checkbox;
 
-    public CheckBox(Question question, QuestionComponent questionComponent, Context context) {
+    public CheckBox(Question question, Context context) {
 	super(question,context);
 	this.checkbox = new JCheckBox();
 

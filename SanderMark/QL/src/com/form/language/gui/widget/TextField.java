@@ -16,7 +16,7 @@ public class TextField extends Widget {
     private JTextField textfield;
 
     //TODO: Waarom hier ook nog eens een Question terwel questioncomponent al een question heeft?
-    public TextField(Question question, QuestionComponent questionComponent, Context context) {
+    public TextField(Question question, Context context) {
 	super(question,context);
 	this.textfield = new JTextField();	
 
@@ -45,13 +45,11 @@ public class TextField extends Widget {
 	}
 
 	@Override
-	public void removeUpdate(DocumentEvent e) {
-	    actionPerformed(e);			
+	public void removeUpdate(DocumentEvent e) { 		
 	}
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
-	    actionPerformed(e);			
 	}
     }
 

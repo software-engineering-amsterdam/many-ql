@@ -18,7 +18,7 @@ public class IntegerTextField extends Widget {
 
     private JTextField textfield;
 
-    public IntegerTextField(Question question, QuestionComponent questionComponent, Context context) {
+    public IntegerTextField(Question question, Context context) {
 	super(question,context);
 	this.textfield = new JTextField();
 
@@ -49,12 +49,10 @@ public class IntegerTextField extends Widget {
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-	    actionPerformed(e);			
 	}
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
-	    actionPerformed(e);			
 	}
     }
     
