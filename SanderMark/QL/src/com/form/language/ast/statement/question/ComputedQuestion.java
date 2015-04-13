@@ -31,7 +31,7 @@ public class ComputedQuestion extends Question {
 	
 	@Override
     public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
-		guiBuilder.createGUIQuestion(this, panel, context);
+		guiBuilder.createGUIComputedQuestion(this, panel, context);
     }
 
 }
