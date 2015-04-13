@@ -29,7 +29,7 @@ public class ComputedQuestion extends Question {
 	}
 	
 	@Override
-    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
-		guiBuilder.createGUIComputedQuestion(this, panel, context);
+    public void createGUIComponent(FormComponent formComponent, JPanel panel, Context context) {
+		formComponent.createGUIComputedQuestion(this, panel, context);
     }
 }

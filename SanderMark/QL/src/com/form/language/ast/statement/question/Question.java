@@ -49,7 +49,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
-	guiBuilder.createGUIQuestion(this, panel, context);
+    public void createGUIComponent(FormComponent formComponent, JPanel panel, Context context) {
+    formComponent.createGUIQuestion(this, panel, context);
     }
 }
