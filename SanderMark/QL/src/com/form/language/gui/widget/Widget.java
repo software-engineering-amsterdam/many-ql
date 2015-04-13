@@ -44,13 +44,4 @@ public abstract class Widget {
 			question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
 		}
 	}
-
-	public void updateValue(Expression exp, List<QuestionComponent> q){
-		for (QuestionComponent question : q) {
-			//question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
-			System.out.println(question.getQuestion().getText());
-		}
-
-	}
-
 }

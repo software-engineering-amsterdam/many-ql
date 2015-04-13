@@ -5,6 +5,8 @@ import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.ast.statement.question.ComputedQuestion;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.gui.widget.TextField;
+import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 
 public class ComputedQuestionComponent extends QuestionComponent {
@@ -24,9 +26,13 @@ public class ComputedQuestionComponent extends QuestionComponent {
 	
 	public void updateAndRedraw(Context context){	
 		context.setValue(question.getId(), question.getValue(context));
-		//Set value van zijn widget, of widget vraagt of die zichzelf update (widget/checkbox class) 
-		question.getWidget.setValue(question.getValue(context));
-		redraw();
+		
+		Widget w = getWidget();
+		if(w instanceof TextField)
+		{
+			System.out.println(	((TextField) w).getTextField().getText());	
+			((TextField) w).getTextField().setText(question.getValue(context).toString());
+		}	
 	}
 
 }

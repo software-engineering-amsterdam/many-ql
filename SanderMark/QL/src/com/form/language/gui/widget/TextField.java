@@ -14,6 +14,7 @@ import com.form.language.memory.Context;
 public class TextField extends Widget { 
     private JTextField textfield;
 
+    //TODO: Waarom hier ook nog eens een Question terwel questioncomponent al een question heeft?
     public TextField(Question question, QuestionComponent questionComponent, Context context) {
 	super(question,context);
 	this.textfield = new JTextField();	

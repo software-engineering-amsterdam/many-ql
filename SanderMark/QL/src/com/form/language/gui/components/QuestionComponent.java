@@ -10,6 +10,7 @@ import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.IntegerTextField;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
+import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 
 public class QuestionComponent {
@@ -17,6 +18,7 @@ public class QuestionComponent {
     private Question question;
     private Context context;
     private JPanel panel;
+    private Widget widget;
 
     public QuestionComponent(Question question, Context rm, Expression ifCondition) {
 	this.question = question;
@@ -44,17 +46,24 @@ public class QuestionComponent {
 	if (question.getType(context).isBoolType()) {
 	    CheckBox checkbox = new CheckBox(question, this, context);
 	    panel.add(checkbox.getCheckBox());
+	    widget = checkbox;
 	} else if (question.getType(context).isStringType()) {
 	    TextField textfield = new TextField(question, this, context);
 	    panel.add(textfield.getTextField());
+	    widget = textfield;
 	} else {
 	    IntegerTextField textfield = new IntegerTextField(question, this, context);
 	    panel.add(textfield.getTextField());
+	    widget = textfield;
 	}
     }
 
     public Question getQuestion() {
 	return question;
+    }
+    public Widget getWidget()
+    {
+    	return widget;
     }
 
     public JPanel getPanel()
