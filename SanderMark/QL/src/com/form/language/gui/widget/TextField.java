@@ -7,6 +7,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.form.language.ast.statement.question.Question;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
@@ -52,5 +53,15 @@ public class TextField extends Widget {
 	public void changedUpdate(DocumentEvent e) {
 	    actionPerformed(e);			
 	}
+    }
+
+    @Override
+    public void displayComputedValue(GenericValue value) {
+	textfield.setText(value.toString());
+	textfield.setEnabled(false);
+    }
+    
+    public String toString(){
+	return "IntegerTextField: " + textfield.getText();
     }
 }

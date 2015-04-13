@@ -15,10 +15,10 @@ import com.form.language.memory.Context;
 
 public class QuestionComponent {
 
-    private Question question;
-    private Context context;
-    private JPanel panel;
-    private Widget widget;
+    protected Question question;
+    protected Context context;
+    protected JPanel panel;
+    protected Widget widget;
 
     public QuestionComponent(Question question, Context rm, Expression ifCondition) {
 	this.question = question;

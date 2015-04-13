@@ -7,6 +7,7 @@ import javax.swing.JCheckBox;
 
 import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
@@ -34,5 +35,16 @@ public class CheckBox extends Widget {
 	    checkComputedQuestion();
 	    checkDependencyVisibility();
 	}
+    }
+    
+    @Override
+    public void displayComputedValue(GenericValue value) {
+	boolean computedValue = ((BoolValue) value).getValue();
+	checkbox.setSelected(computedValue);
+	checkbox.setEnabled(false);
+    }
+    
+    public String toString(){
+	return "Checkbox: " + checkbox.isSelected();
     }
 }

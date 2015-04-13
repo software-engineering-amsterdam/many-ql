@@ -14,6 +14,8 @@ public abstract class Widget {
 
 	private Question question;
 	private Context context;
+	
+	public abstract void displayComputedValue(GenericValue value);
 
 	public Widget(Question question,Context context)
 	{
@@ -44,4 +46,5 @@ public abstract class Widget {
 			question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
 		}
 	}
+
 }
