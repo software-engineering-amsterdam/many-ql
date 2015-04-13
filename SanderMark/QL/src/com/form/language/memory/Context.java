@@ -120,9 +120,4 @@ public class Context {
 	return warnings.toString();
     }
 
-    //@TODO: remove before grading
-    public void printDependentComputations(){
-    	System.out.println(computedDependencies);
-    }
-    
 }

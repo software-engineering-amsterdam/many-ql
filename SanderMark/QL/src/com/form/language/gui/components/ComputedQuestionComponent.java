@@ -7,7 +7,7 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.memory.Context;
 
 public class ComputedQuestionComponent extends QuestionComponent {
-	ComputedQuestion question;
+	private ComputedQuestion question;
 	
 	public ComputedQuestionComponent(ComputedQuestion question, Context context, Expression ifCondition) {
 		super(question, context, ifCondition);
@@ -24,7 +24,6 @@ public class ComputedQuestionComponent extends QuestionComponent {
 	public void updateAndRedraw(Context context){
 	    	GenericValue computedValue = question.getValue(context);
 		context.setValue(question.getId(), computedValue);
-		System.out.println(widget);
 		widget.displayComputedValue(computedValue);
 	}
 }

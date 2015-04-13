@@ -11,27 +11,25 @@ import com.form.language.memory.Context;
 
 public class ComputedQuestion extends Question {
 	
-	private Expression _expression;
+	private Expression computation;
 
 	public ComputedQuestion(String label, String id, Type questionType, Expression expression, QLToken tokenInfo) {
 		super(label, id, questionType, tokenInfo);
-		// TODO Auto-generated constructor stub
-		_expression = expression;
+		computation = expression;
 	}
 	
 	//Typechecker?
 	
 	public GenericValue getValue(Context context){
-		return _expression.evaluate(context);
+		return computation.evaluate(context);
 	}
 	
 	public Expression getExpression(){
-		return _expression;
+		return computation;
 	}
 	
 	@Override
     public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
 		guiBuilder.createGUIComputedQuestion(this, panel, context);
     }
-
 }
