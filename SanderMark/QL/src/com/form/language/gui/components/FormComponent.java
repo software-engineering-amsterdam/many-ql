@@ -43,7 +43,7 @@ public class FormComponent {
     }
 
     public void createGUIComputedQuestion(ComputedQuestion question, JPanel panel, Context context) {
-	QuestionComponent questionCompondent = new QuestionComponent(question, context, ifCondition);
+	QuestionComponent questionCompondent = new ComputedQuestionComponent(question, context, ifCondition);
 	panel.add(questionCompondent.getPanel());
     }
     

@@ -35,7 +35,7 @@ public abstract class Widget {
 	public void checkComputedQuestion() {
 		for (ComputedQuestionComponent computed : context.getReferencingComputedExpressions(question.getId())){
 			computed.updateAndRedraw(context);
-		}    	
+		}    
 	}    
 
 	public void checkVisibilities(Expression exp, List<QuestionComponent> q) {

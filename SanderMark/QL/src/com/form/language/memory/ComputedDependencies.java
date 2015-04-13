@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.form.language.ast.statement.question.Question;
 import com.form.language.gui.components.ComputedQuestionComponent;
 
 public class ComputedDependencies {
@@ -26,5 +28,21 @@ public class ComputedDependencies {
 		List<ComputedQuestionComponent> tempList = get(key);
 		tempList.add(value);
 		dependingQuestions.put(key, tempList);
+    }
+    
+    @Override
+    public String toString(){
+		String result = "";
+		Set<String> keys = dependingQuestions.keySet();
+		for(String id: keys){
+			result += id + ": ";
+			List<ComputedQuestionComponent> dependencies = dependingQuestions.get(id);
+			for(ComputedQuestionComponent c: dependencies){
+				Question referencedQuestion = c.getQuestion();
+				result += referencedQuestion.getId();
+			}
+			result += "\n";
+		}
+		return result;
     }
 }

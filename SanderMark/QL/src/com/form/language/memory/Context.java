@@ -64,7 +64,7 @@ public class Context {
     // Gets all of the ComputedQuestionComponents depending on this question
     public List<ComputedQuestionComponent> getReferencingComputedExpressions(String id)
     {
-    	return computedDependencies.get(id);        
+    	return computedDependencies.get(id);
     }
 
     public void setValue(String string, GenericValue value) {
@@ -120,6 +120,9 @@ public class Context {
 	return warnings.toString();
     }
 
-
-
+    //@TODO: remove before grading
+    public void printDependentComputations(){
+    	System.out.println(computedDependencies);
+    }
+    
 }
