@@ -3,11 +3,16 @@ package com.form.language.ast.values;
 
 public class IntValue extends GenericValue {
     private final Integer value;
+    private final static Integer DEFAULT = 0;
 
     public IntValue(int value) {
 	this.value = value;
     }
 
+    public IntValue() {
+	this.value = DEFAULT;
+    }
+    
     public int getValue() {
 	return value;
     }

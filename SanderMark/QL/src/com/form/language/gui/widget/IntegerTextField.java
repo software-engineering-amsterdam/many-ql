@@ -25,6 +25,8 @@ public class IntegerTextField extends Widget {
 	this.textfield.setMaximumSize(new Dimension(200, 20));
 	TextFieldListener textfieldListener = new TextFieldListener();
 	this.textfield.getDocument().addDocumentListener(textfieldListener);
+	setContextValue(new IntValue());
+
     }
 
     public JTextField getTextField()
@@ -35,8 +37,8 @@ public class IntegerTextField extends Widget {
     private class TextFieldListener implements DocumentListener {
 	public void actionPerformed(DocumentEvent e) {
 	    tryParse(textfield.getText(),textfield);
-	    checkDependencyVisibility();
 	    checkComputedQuestion();
+	    checkDependencyVisibility();
 	}
 
 	@Override

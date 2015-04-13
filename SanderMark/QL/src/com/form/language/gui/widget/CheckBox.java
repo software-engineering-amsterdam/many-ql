@@ -20,6 +20,7 @@ public class CheckBox extends Widget {
 	this.checkbox.setName(question.getId());
 	CheckBoxListener checkboxListener = new CheckBoxListener();
 	this.checkbox.addItemListener((ItemListener) checkboxListener);
+	setContextValue(new BoolValue());
     }
 
     public JCheckBox getCheckBox()
@@ -30,9 +31,8 @@ public class CheckBox extends Widget {
     private class CheckBoxListener implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 	    setContextValue(new BoolValue(checkbox.isSelected()));
-	    checkDependencyVisibility();
-	    //hier iets van checkmemory? /evaluate de expression
 	    checkComputedQuestion();
+	    checkDependencyVisibility();
 	}
     }
 }

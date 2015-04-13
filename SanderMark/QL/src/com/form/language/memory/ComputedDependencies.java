@@ -32,8 +32,9 @@ public class ComputedDependencies {
     
     @Override
     public String toString(){
-		String result = "";
 		Set<String> keys = dependingQuestions.keySet();
+		String result = "Size: " + keys.size();
+
 		for(String id: keys){
 			result += id + ": ";
 			List<ComputedQuestionComponent> dependencies = dependingQuestions.get(id);

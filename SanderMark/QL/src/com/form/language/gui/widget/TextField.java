@@ -22,6 +22,7 @@ public class TextField extends Widget {
 	this.textfield.setMaximumSize(new Dimension(200, 20));		
 	TextFieldListener textfieldListener = new TextFieldListener();
 	this.textfield.getDocument().addDocumentListener(textfieldListener);
+	setContextValue(new StringValue());
     }
 
     public JTextField getTextField()
@@ -32,6 +33,7 @@ public class TextField extends Widget {
     private class TextFieldListener implements DocumentListener {
 	public void actionPerformed(DocumentEvent e) {
 	    setContextValue(new StringValue(textfield.getText()));
+	    checkComputedQuestion();
 	    checkDependencyVisibility();
 	}
 
