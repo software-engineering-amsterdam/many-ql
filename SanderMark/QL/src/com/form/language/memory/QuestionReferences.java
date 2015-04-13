@@ -28,6 +28,7 @@ public class QuestionReferences {
 	referenceMap.put(idName, dependencies);
     }
 
+    // Adds the dependency of value on the given keys to all of the keys
     public void putAll(ReferenceCollection keyCollection, Expression value) {
 	for(Reference l : keyCollection){
 

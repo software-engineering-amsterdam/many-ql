@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.Type;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.gui.components.FormComponent;
 import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
@@ -20,11 +21,12 @@ public class ComputedQuestion extends Question {
 	
 	//Typechecker?
 	
+	public GenericValue getValue(Context context){
+		return _expression.evaluate(context);
+	}
 	
-	@Override
-	public void initMemory(Context context) 
-	{
-		context.setComputedValue(getId(), _expression);
+	public Expression getExpression(){
+		return _expression;
 	}
 	
 	@Override

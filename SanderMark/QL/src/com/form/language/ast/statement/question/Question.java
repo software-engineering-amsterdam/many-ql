@@ -9,9 +9,9 @@ import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Question extends Statement {
-    private QuestionId id;
-    private QuestionLabel label;
-    private Type questionType;
+    protected QuestionId id;
+    protected QuestionLabel label;
+    protected Type questionType;
 
     public Question(String label, String id, Type questionType, QLToken tokenInfo) {
 	super(tokenInfo);

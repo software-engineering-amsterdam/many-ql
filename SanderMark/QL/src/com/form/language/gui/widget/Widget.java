@@ -6,6 +6,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.gui.components.ComputedQuestionComponent;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
@@ -32,9 +33,8 @@ public abstract class Widget {
 	}
 
 	public void checkComputedQuestion() {
-		for (Expression exp : context.getReferencingExpressions(question.getId())){
-			List<QuestionComponent> q = context.getDependantQuestions(exp);
-			updateValue(exp, q);
+		for (ComputedQuestionComponent computed : context.getReferencingComputedExpressions(question.getId())){
+			computed.updateAndRedraw(context);
 		}    	
 	}    
 

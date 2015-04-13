@@ -9,6 +9,7 @@ import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.gui.components.ComputedQuestionComponent;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.issue.Error;
 import com.form.language.issue.IssueCollector;
@@ -19,10 +20,10 @@ public class Context {
     private QuestionReferences questionReferences;
     private QuestionLabels questionLabels;
     private QuestionValues questionValues;
-    private ComputedQuestionValues computedQuestionValues;
     private IfDependencies ifConditions;
     private IssueCollector errors;
     private IssueCollector warnings;
+    private ComputedDependencies computedDependencies;
 
     public Context() {
 	this.questionValues = new QuestionValues();
@@ -32,9 +33,10 @@ public class Context {
 	this.errors = new IssueCollector();
 	this.warnings = new IssueCollector();
 	this.questionLabels = new QuestionLabels();
-	this.computedQuestionValues = new ComputedQuestionValues();
+	this.computedDependencies = new ComputedDependencies();
     }
 
+    // The questions that depend on the expression in an if-condition
     public void addDependantQuestion(Expression condition, QuestionComponent question) {
 	ifConditions.add(condition, question);
     }
@@ -43,27 +45,32 @@ public class Context {
 	return ifConditions.get(exp);
     }
 
+    // A collection of references used in a given expression
     public void addReference(ReferenceCollection references, Expression value) {
 	questionReferences.putAll(references, value);
     }
 
+    // All expressions that use the given question ID
     public List<Expression> getReferencingExpressions(String id) {
 	return questionReferences.get(id);
     }
     
-    public List<Expression> getReferencingComputedExpressions(String id)
+    //Adds a callback from reference to computedQuestion for all references in the ReferenceCollection
+	public void addComputationCallbacks(ReferenceCollection references, ComputedQuestionComponent computedQuestion) {
+		for(Reference r: references){
+			computedDependencies.add(r.getName(), computedQuestion);
+		}
+	}
+    // Gets all of the ComputedQuestionComponents depending on this question
+    public List<ComputedQuestionComponent> getReferencingComputedExpressions(String id)
     {
-    	return computedQuestionValues.get(id);
+    	return computedDependencies.get(id);        
     }
 
-    public void setValue(String key, GenericValue value) {
-	questionValues.put(key, value);
+    public void setValue(String string, GenericValue value) {
+	questionValues.put(string, value);
     }
     
-    public void setComputedValue(String key, Expression value) {
-    computedQuestionValues.put(key, value);	
-	}
-
     public GenericValue getValue(String s) {
 	return questionValues.get(s);
     }
@@ -112,4 +119,7 @@ public class Context {
     public String getWarnings() {
 	return warnings.toString();
     }
+
+
+
 }

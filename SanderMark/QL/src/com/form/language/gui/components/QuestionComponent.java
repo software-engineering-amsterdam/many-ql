@@ -65,4 +65,8 @@ public class QuestionComponent {
     public void checkVisibility(boolean visible) {
 	this.panel.setVisible(visible);
     }
+    
+    public void redraw(){
+    	panel.repaint();
+    }
 }
