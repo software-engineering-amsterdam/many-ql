@@ -14,7 +14,7 @@ public class Listener<T> {
 		this.med = med;
 	}
 
-	public ChangeListener<T> addListener(BaseQuestion<T> question, Validator validator) {
+	public ChangeListener<T> addListener(final BaseQuestion<T> question, final Validator validator) {
 		return new ChangeListener<T>() {
 
 			@Override
