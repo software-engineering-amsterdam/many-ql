@@ -3,6 +3,7 @@ package com.form.language.gui.components;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.ast.statement.question.ComputedQuestion;
+import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.memory.Context;
 
@@ -21,16 +22,11 @@ public class ComputedQuestionComponent extends QuestionComponent {
 		context.addComputationCallbacks(references, this);
 	}
 	
-	public void updateAndRedraw(Context context){
-		GenericValue oldValue = context.getValue(question.getId());
-		GenericValue newValue = question.getValue(context);
-		
-		//Only update and redraw if the value is changed
-		if(!oldValue.equals(newValue)){
-			context.setValue(question.getId(), question.getValue(context));
-			redraw();
-		}
-		
+	public void updateAndRedraw(Context context){	
+		context.setValue(question.getId(), question.getValue(context));
+		//Set value van zijn widget, of widget vraagt of die zichzelf update (widget/checkbox class) 
+		question.getWidget.setValue(question.getValue(context));
+		redraw();
 	}
 
 }
