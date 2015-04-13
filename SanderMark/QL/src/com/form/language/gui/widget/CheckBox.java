@@ -8,7 +8,6 @@ import javax.swing.JCheckBox;
 import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
 public class CheckBox extends Widget {

@@ -35,7 +35,6 @@ public abstract class Widget {
 	}
 
 	public void checkComputedQuestion() {
-		context.printDependentComputations();
 		for (ComputedQuestionComponent computed : context.getReferencingComputedExpressions(question.getId())){
 			computed.updateAndRedraw(context);
 		}    
