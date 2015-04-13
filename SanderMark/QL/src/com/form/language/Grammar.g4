@@ -34,6 +34,7 @@ statement returns [Statement result]
 
 question returns [Question result]
 	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, new QLToken($ID.line,$ID.pos));}
+	| 'question' STRING ID ':' type '=' expression {$result = new ComputedQuestion($STRING.text, $ID.text, $type.result, $expression.result, new QLToken($ID.line,$ID.pos));}
 	;
 	
 ifStatement returns [Statement result]

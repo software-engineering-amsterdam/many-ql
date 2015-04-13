@@ -31,5 +31,7 @@ form taxOfficeExample {
   question "Did you sell a house in 2010?" hasSoldHouse : Boolean
   question "Did you buy a house in 2010?"  hasBoughtHouse : Boolean
   question "Did you enter a loan?" hasMaintLoan : Boolean
-  if hasSoldHouse == true && hasBoughtHouse == true then question "Test?" hasTest : Boolean end
+  if hasSoldHouse == true then question "What was the selling price?" sellingPrice: Number 
+  question "Private debts for the sold house:" privateDebt: Number 
+  question "Value residue:" valueResidue: Number = (sellingPrice - privateDebt) end
 }
