@@ -32,6 +32,7 @@ public class CheckBox extends Widget {
 	    setContextValue(new BoolValue(checkbox.isSelected()));
 	    checkDependencyVisibility();
 	    //hier iets van checkmemory? /evaluate de expression
+	    checkComputedQuestion();
 	}
     }
 }
