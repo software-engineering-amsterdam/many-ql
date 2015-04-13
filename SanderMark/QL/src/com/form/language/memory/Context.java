@@ -50,6 +50,11 @@ public class Context {
     public List<Expression> getReferencingExpressions(String id) {
 	return questionReferences.get(id);
     }
+    
+    public List<Expression> getReferencingComputedExpressions(String id)
+    {
+    	return computedQuestionValues.get(id);
+    }
 
     public void setValue(String key, GenericValue value) {
 	questionValues.put(key, value);

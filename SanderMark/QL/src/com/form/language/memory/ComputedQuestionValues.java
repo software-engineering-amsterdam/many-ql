@@ -13,6 +13,13 @@ public class ComputedQuestionValues {
 	this.values = new HashMap<String, Expression>();
     }
 
+    public Expression get(String key) {
+    	if (values.containsKey(key)) {
+    		return values.get(key);
+    	}
+    	return null;
+    }
+    
     public void put(String idName, Expression value) {
 	values.put(idName, value);
     }
@@ -24,9 +31,4 @@ public class ComputedQuestionValues {
 	}
 	return result;
     }
-
-    public Expression get(String idName) {
-	return values.get(idName);
-    }
-
 }

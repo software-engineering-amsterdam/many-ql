@@ -11,30 +11,45 @@ import com.form.language.memory.Context;
 
 public abstract class Widget {
 
-    private Question question;
-    private Context context;
+	private Question question;
+	private Context context;
 
-    public Widget(Question question,Context context)
-    {
-	this.question = question;	
-	this.context = context;
-    }
-
-    public void setContextValue(GenericValue value) {
-	context.setValue(question.getId(),value);
-    }
-
-    public void checkDependencyVisibility() {
-	for (Expression exp : context.getReferencingExpressions(question.getId())){
-	    List<QuestionComponent> q = context.getDependantQuestions(exp);
-	    checkVisibilities(exp, q);
+	public Widget(Question question,Context context)
+	{
+		this.question = question;	
+		this.context = context;
 	}
-    }
 
-    public void checkVisibilities(Expression exp, List<QuestionComponent> q) {
-	for (QuestionComponent question : q) {
-	    question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
+	public void setContextValue(GenericValue value) {
+		context.setValue(question.getId(),value);
 	}
-    }
+
+	public void checkDependencyVisibility() {
+		for (Expression exp : context.getReferencingExpressions(question.getId())){
+			List<QuestionComponent> q = context.getDependantQuestions(exp);
+			checkVisibilities(exp, q);
+		}
+	}
+
+	public void checkComputedQuestion() {
+		for (Expression exp : context.getReferencingExpressions(question.getId())){
+			List<QuestionComponent> q = context.getDependantQuestions(exp);
+			updateValue(exp, q);
+		}    	
+	}    
+
+	public void checkVisibilities(Expression exp, List<QuestionComponent> q) {
+		for (QuestionComponent question : q) {
+			question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
+		}
+	}
+
+	public void updateValue(Expression exp, List<QuestionComponent> q){
+		for (QuestionComponent question : q) {
+			//question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
+			System.out.println(question.getQuestion().getText());
+		}
+
+	}
 
 }
