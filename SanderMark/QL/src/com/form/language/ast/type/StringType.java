@@ -1,13 +1,7 @@
 package com.form.language.ast.type;
 
-import javax.swing.JPanel;
-
-import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.StringValue;
-import com.form.language.gui.widget.TextField;
-import com.form.language.gui.widget.Widget;
-import com.form.language.memory.Context;
 
 public final class StringType extends Type {
 
@@ -37,11 +31,9 @@ public final class StringType extends Type {
 	return 0;
     }
     
-    @Override
-	public Widget createWidget(Question question, Context context, JPanel panel) {		
-	    TextField textfield = new TextField(question, context);
-	    panel.add(textfield.getTextField());
-	    return textfield;
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitStringType(this);
 	}
     
 }

@@ -22,7 +22,7 @@ public class CheckBox extends Widget {
 	this.checkbox.addItemListener((ItemListener) checkboxListener);
 	setContextValue(new BoolValue());
     }
-
+    
     public JCheckBox getCheckBox()
     {
 	return checkbox;
@@ -39,7 +39,7 @@ public class CheckBox extends Widget {
     @Override
     public void displayComputedValue(GenericValue value) {
 	boolean computedValue = ((BoolValue) value).getValue();
-	checkbox.setSelected(computedValue);
-	checkbox.setEnabled(false);
+	this.checkbox.setEnabled(false);
+	this.checkbox.setSelected(computedValue);
     }
 }

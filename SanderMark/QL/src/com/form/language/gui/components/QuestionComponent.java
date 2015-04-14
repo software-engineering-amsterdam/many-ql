@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.ast.statement.question.Question;
-import com.form.language.ast.type.Type;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.Widget;
+import com.form.language.gui.widget.WidgetFactory;
 import com.form.language.memory.Context;
 
 public class QuestionComponent {
@@ -40,8 +40,8 @@ public class QuestionComponent {
     
     //Increases responsibility of type (by letting it create its widget) which is a trade off to a if/instance of case / maintainability
     private void createQuestionType() {    
-    Type questionType = question.getType(context);
-    widget = questionType.createWidget(question,context,panel);   
+	    WidgetFactory w = new WidgetFactory();
+	    widget = w.createWidget(question,context,panel);   
     }
 
     public Question getQuestion() {
@@ -62,6 +62,6 @@ public class QuestionComponent {
     }
     
     public void redraw(){
-    	panel.repaint();
+    	this.panel.repaint();
     }
 }

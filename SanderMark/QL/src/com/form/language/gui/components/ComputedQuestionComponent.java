@@ -22,8 +22,9 @@ public class ComputedQuestionComponent extends QuestionComponent {
 	}
 	
 	public void updateAndRedraw(Context context){
-	    	GenericValue computedValue = question.getValue(context);
+	    GenericValue computedValue = question.getValue(context);
 		context.setValue(question.getId(), computedValue);
 		widget.displayComputedValue(computedValue);
+		redraw();
 	}
 }
