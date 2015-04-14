@@ -1,7 +1,13 @@
 package com.form.language.ast.type;
 
+import javax.swing.JPanel;
+
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.gui.widget.IntegerTextField;
+import com.form.language.gui.widget.Widget;
+import com.form.language.memory.Context;
 
 public final class IntType extends Type {
 
@@ -30,4 +36,11 @@ public final class IntType extends Type {
     public int hashCode() {
 	return 1;
     }
+    
+	@Override
+	public Widget createWidget(Question question, Context context, JPanel panel) {
+	    IntegerTextField textfield = new IntegerTextField(question, context);
+	    panel.add(textfield.getTextField());
+	    return textfield;
+	}
 }

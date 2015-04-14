@@ -6,10 +6,8 @@ import javax.swing.JPanel;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.variable.ReferenceCollection;
 import com.form.language.ast.statement.question.Question;
-import com.form.language.gui.widget.CheckBox;
-import com.form.language.gui.widget.IntegerTextField;
+import com.form.language.ast.type.Type;
 import com.form.language.gui.widget.Label;
-import com.form.language.gui.widget.TextField;
 import com.form.language.gui.widget.Widget;
 import com.form.language.memory.Context;
 
@@ -39,23 +37,11 @@ public class QuestionComponent {
 	}
 	createQuestionType();
     }
-
-    //Polymorphism  could be used within type to ask which widget (type) the question is but this would, 
-    //increase the responsibilty of the Type.
-    private void createQuestionType() {
-	if (question.getType(context).isBoolType()) {
-	    CheckBox checkbox = new CheckBox(question, context);
-	    panel.add(checkbox.getCheckBox());
-	    widget = checkbox;
-	} else if (question.getType(context).isStringType()) {
-	    TextField textfield = new TextField(question, context);
-	    panel.add(textfield.getTextField());
-	    widget = textfield;
-	} else {
-	    IntegerTextField textfield = new IntegerTextField(question, context);
-	    panel.add(textfield.getTextField());
-	    widget = textfield;
-	}
+    
+    //Increases responsibility of type (by letting it create its widget) but on the other hand here would be a if/instance of case
+    private void createQuestionType() {    
+    Type questionType = question.getType(context);
+    widget = questionType.createWidget(question,context,panel);   
     }
 
     public Question getQuestion() {
