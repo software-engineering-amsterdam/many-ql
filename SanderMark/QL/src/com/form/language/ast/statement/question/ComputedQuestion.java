@@ -18,8 +18,6 @@ public class ComputedQuestion extends Question {
 		computation = expression;
 	}
 	
-	//Typechecker?
-	
 	public GenericValue getValue(Context context){
 		return computation.evaluate(context);
 	}

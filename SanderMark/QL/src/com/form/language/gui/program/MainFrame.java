@@ -83,7 +83,7 @@ public class MainFrame {
 		if(form == null){
 		    textArea_output.setText("Cannot parse input");
 		} else {
-		    form.getTypes(context);
+		    form.checkTypes(context);
 		    handleIssues(context);
 		}
 	    }

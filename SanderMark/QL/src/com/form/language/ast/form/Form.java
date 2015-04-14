@@ -19,8 +19,8 @@ public class Form {
 	this.statementList = new FormStatementCollection(statementList);
     }
 
-    public void getTypes(Context context) {
-	statementList.getTypes(context);
+    public void checkTypes(Context context) {
+	statementList.checkTypes(context);
     }
 
     public Context initMemory(Context context) {

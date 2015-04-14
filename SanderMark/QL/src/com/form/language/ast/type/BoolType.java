@@ -39,7 +39,6 @@ public final class BoolType extends Type {
     
     @Override
 	public Widget createWidget(Question question, Context context, JPanel panel) {
-		//BoolType questionType = ((BoolType) type);
 		CheckBox checkbox = new CheckBox(question, context);
 		panel.add(checkbox.getCheckBox());
 		return checkbox;

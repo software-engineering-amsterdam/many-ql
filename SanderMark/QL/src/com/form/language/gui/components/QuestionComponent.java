@@ -38,7 +38,7 @@ public class QuestionComponent {
 	createQuestionType();
     }
     
-    //Increases responsibility of type (by letting it create its widget) but on the other hand here would be a if/instance of case
+    //Increases responsibility of type (by letting it create its widget) which is a trade off to a if/instance of case / maintainability
     private void createQuestionType() {    
     Type questionType = question.getType(context);
     widget = questionType.createWidget(question,context,panel);   
