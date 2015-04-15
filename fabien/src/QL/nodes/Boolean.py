@@ -1,18 +1,17 @@
 
 from Leaf import Leaf
 
-class ID(Leaf):
+class Boolean(Leaf):
     def __init__(self, LexNode, value=None):
         Leaf.__init__(self, LexNode)
 
         self.leafValue = value
 
     def evaluate(self, answers):
-        for answer in answers:
-            if self.ID == answer.ID:
-                return answers[answer]
+        if self.leafValue in [True, 1, '1', 'true']:
+            return True
 
-        return None
+        return False
 
     def __repr__(self):
-        return "ID %s" % self.leafValue
+        return "Boolean %s" % self.leafValue

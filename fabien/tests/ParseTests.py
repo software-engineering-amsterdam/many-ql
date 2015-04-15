@@ -15,7 +15,7 @@ class ParseTests(unittest.TestCase):
         formText = "   \t   \r\n   \n \n "
         parsed = self.parser.parse(formText)
 
-        self.assertEquals(parsed, [])
+        self.assertEquals(parsed, None)
 
     def testEmptyForm(self):
         formText = "form taxOfficeExample {}"
@@ -26,12 +26,16 @@ class ParseTests(unittest.TestCase):
 
     def testNonClosingForm(self):
         formText = "form taxOfficeExample {"
-        self.assertRaises(ParseError, self.parser.parse, formText)
+        parsed = self.parser.parse(formText)
+
+        self.assertEquals(True, self.parser.hasErrors)
 
     # Parser does not accept multiple forms in single file
     def testMultipleForms(self):
         formText = "form taxOfficeExample {} form taxExampleB {}"
-        self.assertRaises(ParseError, self.parser.parse, formText)
+        parsed = self.parser.parse(formText)
+
+        self.assertEquals(True, self.parser.hasErrors)
 
     def testSimpleForm(self):
         with open(lib.formFilePath("simple.txt"), "r") as file:
@@ -60,13 +64,12 @@ class ParseTests(unittest.TestCase):
 
             file.close()
 
-
     def testUndefinedType(self):
         with open(lib.formFilePath("undefinedType.txt"), "r") as file:
-            self.assertRaises(ParseError, self.parser.parse, file.read())
+            parsed = self.parser.parse(file.read())
+            self.assertEquals(True, self.parser.hasErrors)
 
             file.close()
-
 
     def testIfBlocks(self):
         with open(lib.formFilePath("simpleIf.txt"), "r") as file:
@@ -97,7 +100,6 @@ class ParseTests(unittest.TestCase):
             self.assertEquals(len(parsed.block[0].ifChildren), 2)
 
             file.close()
-
 
     def testExpressions(self):
         with open(lib.formFilePath("expressions.txt"), "r") as file:

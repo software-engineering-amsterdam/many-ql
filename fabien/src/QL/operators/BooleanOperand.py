@@ -14,5 +14,4 @@ class BooleanOperand:
         rightType = self.right.getType(IDs)
 
         return leftType == rightType or \
-               leftType in numberTypes() and \
-               rightType in numberTypes()
+              (leftType in numberTypes() and rightType in numberTypes())

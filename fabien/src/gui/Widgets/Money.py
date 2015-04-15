@@ -1,20 +1,28 @@
 import Tkinter as tk
 
-from Base import Widget
+from LabelWidget import LabelWidget
 
-class Money(Widget):
+class Money(LabelWidget):
     def __init__(self, *args):
-        Widget.__init__(self, *args)
+        LabelWidget.__init__(self, *args)
 
-        if self.isReadOnly():
-            self._buildReadOnly()
-        else:
-            self._build()
+        self._build()
 
     def _build(self):
-        self.entry = tk.Entry()
-        self.entry.grid(in_=self.Frame, sticky="ew")
+        self.inputVar = tk.DoubleVar()
+        self.inputVar.trace("w", self._onChange)
+
+        self.entry = tk.Entry(textvariable=self.inputVar)
         self.addElement(self.entry)
 
+    # tkInter 'trace' is not a real event
+    def _onChange(self, ID=None, callback=None, mode=None):
+        self.onChange(None)
+
     def value(self):
-        return { self.node.ID : self.entry.get() }
+        try:
+            val = self.inputVar.get()
+            return val
+        except ValueError:
+            self.setInvalid()
+            return 0

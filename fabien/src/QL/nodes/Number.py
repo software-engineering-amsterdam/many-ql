@@ -1,18 +1,17 @@
 
 from Leaf import Leaf
 
-class ID(Leaf):
+class Number(Leaf):
     def __init__(self, LexNode, value=None):
         Leaf.__init__(self, LexNode)
 
         self.leafValue = value
 
     def evaluate(self, answers):
-        for answer in answers:
-            if self.ID == answer.ID:
-                return answers[answer]
+        if "." in self.leafValue:
+            return float(self.leafValue)
 
-        return None
+        return int(self.leafValue)
 
     def __repr__(self):
-        return "ID %s" % self.leafValue
+        return "Number %s" % self.leafValue

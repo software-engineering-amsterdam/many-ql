@@ -1,131 +1,197 @@
 
 from src.QL.parser import Parser
 from src.Typechecker import QLTypeChecker
-from FormBuilder import FormBuilder
 
+from collections import OrderedDict
 import Tkinter as tk
 from tkFileDialog import askopenfile
 import tkMessageBox
 
-import os
+import FormElements as myTk
+import Widgets
+
 import uuid
 
 class GUI(tk.Tk):
-    def __init__(self, debug=False, *args, **kwargs):
+    def __init__(self, debug=False, storage=None, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+
+        self.storageDirectory = storage
         self.title('Questionnaire Language (QL)')
+        self.buildWidgets()
 
         self.parser = Parser(debug=debug)
 
-        self.buildWidgets()
-        self.currentWidget = None
+        # To keep output in order
+        self.widgets = OrderedDict()
+        self.answers = OrderedDict()
 
-        self.answers = {}
+        self.questions = []
+        self.branches  = []
+
 
     def run(self):
         self.mainloop()
 
+
     def buildWidgets(self):
         self.frame = tk.Frame()
-        self.frame.pack(side="top", fill="both", expand=True)
-        self.frame.grid_columnconfigure(0, weight=1)
+        self.frame.pack(
+            side="top",
+            fill="both",
+            expand=True,
+            pady=10,
+            padx=10
+        )
 
-        self.fileSelect = tk.Button(text="Select file", command=self.loadFile)
-        self.fileSelect.pack()
+        self.buttonBarRight = tk.Frame(padx=10, pady=10)
+        self.buttonBarRight.pack(side="right", anchor="e")
 
-    def loadFile(self):
-        try:
-            with askopenfile(mode='r') as file:
-                self._parseContents(file.read())
-                file.close()
-        except AttributeError:
-            # User cancels file selection
-            pass
-        except Exception as p:
-            print p
+        self.buttonBarLeft = tk.Frame(pady=10)
+        self.buttonBarLeft.pack(side="left", anchor="w")
 
-    def _parseContents(self, contents="", callback=None):
-        try:
-            parsed = self.parser.parse(contents)
-        except Exception as parseError:
-            return tkMessageBox.showerror(
+        self.fileSelect = myTk.FileDialog(
+            master=self.frame,
+            onFileSelected=self._parseContents
+        )
+
+        self.saveButton = tk.Button(
+            self.buttonBarRight,
+            text="Save form",
+            command=self._save,
+            bg='#CBE86B',
+            cursor="hand2"
+        )
+
+        self.resetButton = tk.Button(
+            self.buttonBarLeft,
+            text="Reset",
+            command=self._reset
+        )
+
+        self.cancelButton = tk.Button(
+            self.buttonBarLeft,
+            text="Cancel",
+            command=self._cancel
+        )
+
+
+    def _parseContents(self, contents=""):
+        self._parsed = self.parser.parse(contents)
+
+        if self.parser.hasErrors:
+            errors = self.parser.getErrorMessages()
+            tkMessageBox.showerror(
                 "Parsing file",
-                "Cannot parse file `%s`\n\n%s" % (self.fileName, parseError)
+                "\n\n".join(errors)
             )
+            return None
 
-        self._typeCheck(parsed)
+        self._typeChecking(self._parsed)
 
-    def _typeCheck(self, parsed):
+
+    def _typeChecking(self, parsed):
         checker = QLTypeChecker(parsed)
 
         if checker.hasErrors:
             errors = checker.getErrorMessages()
-
             tkMessageBox.showerror(
                 "Typechecking",
                 "\n\n".join(errors)
             )
+            return None
 
-        else:
-            self._buildForm(parsed)
+        self._buildForm(parsed)
+
 
     def _buildForm(self, parsed):
-        # Hide file select
-        self.fileSelect.pack_forget()
+        self.widgets = OrderedDict()
+        self.answers = OrderedDict()
+        self.questions = parsed.findAll("Question")
+        self.branches  = parsed.findAll("Branch")
 
-        # Display buttons for progress
-        self.prevButton = tk.Button(text="Back", command=self._prev)
-        self.prevButton.pack()
+        self.fileSelect.hide()
+        self.cancelButton.pack(side="left", padx=5)
+        self.resetButton.pack(side="right")
+        self.saveButton.pack(side="right")
 
-        self.nextButton = tk.Button(text="Next question", command=self._next)
-        self.nextButton.pack()
+        rowCount = 0
+        for node in self.questions:
+            try:
+                nodeWidget = getattr(Widgets, node.widgetName())(self.frame, node, self.onChange, rowCount)
+                self.widgets[node] = nodeWidget
+                rowCount += nodeWidget.rowCount
+            except Exception as err:
+                print err
 
-        # Start initial question
-        self.builder = FormBuilder(self.frame, parsed)
-        self._next()
+        # Display top-level questions
+        for node in parsed.findChildren("Question"):
+            self.widgets[node].show()
 
-
-    def _prev(self):
-        widget = self.builder.prevQuestion()
-        self._displayQuestion(widget)
-
-    def _next(self):
-        if self.currentWidget:
-            val = self.currentWidget.value()
-            self.answers.update(val)
-
-            self.builder.availableAnswers(self.answers)
-
-        try:
-            widget = self.builder.nextQuestion()
-            self._displayQuestion(widget)
-
-        except ValueError as err:
-            tkMessageBox.showerror(
-                "Input error",
-                "Your given answer is not a number"
-            )
+        self.onChange()
 
 
-    def _displayQuestion(self, questionWidget=None):
-        # Remove "previous" visible question
-        if self.currentWidget:
-            self.currentWidget.tearDown()
+    def onChange(self, event=None):
+        for node, widget in self.widgets.iteritems():
+            widget.setValid()
 
-        if questionWidget:
-            self.currentWidget = questionWidget
-        else:
-            self._saveAnswers()
-            self._reset()
+            if widget.visible:
+                self.answers[node] = widget.value()
 
-    def _saveAnswers(self):
-        if self.answers:
-            ID = uuid.uuid1()
-            # TODO Store/persist answers in database
+        # Compute & display readOnly values
+        for widget in self.widgets.values():
+            if widget.isReadOnly():
+                widget.setValue(self.answers)
 
-    # i.e. start state of file-select
+        # Evaluate branches and display children-widgets accordingly
+        for node in self.branches:
+            if node.evaluate(self.answers):
+                toShow = node.ifChildren
+                toHide = node.elseChildren
+            else:
+                toShow = node.elseChildren
+                toHide = node.ifChildren
+
+            for child in toShow:
+                if child in self.widgets:
+                    self.widgets[child].show()
+
+            for child in toHide:
+                if child in self.widgets:
+                    self.widgets[child].hide()
+
+
+    def _save(self):
+        userId   = uuid.uuid4()
+        userFile = "%s/%s.txt" % (self.storageDirectory, userId)
+
+        with open(userFile,'w') as f:
+            for question, answer in self.answers.iteritems():
+                f.write(question.labelText())
+                f.write("\n")
+                f.write("Answer: %s" % answer)
+                f.write("\n-------------------\n")
+
+            f.close()
+
+        self._cancel()
+
+    def _cancel(self):
+        # Remove current widgets
+        for node, widget in self.widgets.iteritems():
+            widget.tearDown()
+
+        self.saveButton.pack_forget()
+        self.resetButton.pack_forget()
+        self.cancelButton.pack_forget()
+
+        self.fileSelect.show()
+
+
     def _reset(self):
-        self.fileSelect.pack()
+        # Remove current form widgets
+        for node, widget in self.widgets.iteritems():
+            widget.tearDown()
 
-        self.prevButton.pack_forget()
-        self.nextButton.pack_forget()
+        # Rebuild form
+        self._buildForm(self._parsed)

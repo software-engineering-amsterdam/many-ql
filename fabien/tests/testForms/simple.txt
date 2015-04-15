@@ -18,6 +18,6 @@ form taxOfficeExample {
 
     "Value residue:"
       valueResidue: money =
-        (sellingPrice - privateDebt)
+        (sellingPrice / privateDebt)
   }
 }

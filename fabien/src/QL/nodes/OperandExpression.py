@@ -6,7 +6,6 @@ from Expression import Expression
 class OperandExpression(Expression):
     def __init__(self, LexNode, operator=None, left=None, right=None):
         Expression.__init__(self, LexNode, operator, left, right)
-
         self._setOperation(operator)
 
     def _setOperation(self, operator):
@@ -25,7 +24,6 @@ class OperandExpression(Expression):
     def getType(self, IDs):
         if self.Operation.checkType(IDs):
             return "number"
-
         return False
 
     def __repr__(self):
