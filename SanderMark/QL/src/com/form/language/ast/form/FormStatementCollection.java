@@ -19,7 +19,7 @@ public class FormStatementCollection {
 	this.statementList = statementList;
     }
 
-    public void getTypes(Context context) {
+    public void checkTypes(Context context) {
 	for (Statement s : statementList) {
 	    s.checkType(context);
 	}

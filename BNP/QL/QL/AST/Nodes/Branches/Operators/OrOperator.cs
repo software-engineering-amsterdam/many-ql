@@ -12,7 +12,6 @@ namespace QL.AST.Nodes.Branches.Operators
 
         public OrOperator(SourceLocation sourceLocation)
         {
-            
             this.SourceLocation = sourceLocation;
         }
     }

@@ -30,4 +30,9 @@ public final class ErrorType extends Type {
     public int hashCode() {
 	return 2;
     }
+    
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitErrorType(this);
+	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using QL.AST;
 using QL.DataHandlers;
 using QL.Exceptions.Errors;
@@ -11,10 +10,12 @@ namespace QL.UI.Builder
 {
     public class Renderer : IExecutableHandler
     {
-        public IList<WidgetBase> ElementsToDisplay { get; private set; }
+        private readonly Action _rebuildMethod;
+        public ObservableCollection<WidgetBase> ElementsToDisplay { get; private set; }
 
-        public Renderer(IList<WidgetBase> elementsToDisplay)
+        public Renderer(ObservableCollection<WidgetBase> elementsToDisplay, Action rebuildMethod)
         {
+            _rebuildMethod = rebuildMethod;
             ElementsToDisplay = elementsToDisplay;
         }
 
@@ -22,7 +23,7 @@ namespace QL.UI.Builder
         {
             try
             {
-                UserInterfaceVisitor visitor = new UserInterfaceVisitor(context.ValueReferenceTable, context.ASTHandlerExceptions, ElementsToDisplay);
+                UserInterfaceVisitor visitor = new UserInterfaceVisitor(context.ValueReferenceTable, context.ASTHandlerExceptions, ElementsToDisplay, _rebuildMethod);
                 context.RootNode.Accept(visitor);
             }
             catch (QLError ex)

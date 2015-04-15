@@ -6,9 +6,6 @@ namespace QL.DataHandlers.Evaluation
 {
     public class Evaluator : IExecutableHandler
     {
-        public Evaluator()
-        { }
-
         public bool Execute(DataContext context)
         {
             context.ASTHandlerExceptions.Clear();

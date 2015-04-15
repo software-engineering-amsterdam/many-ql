@@ -1,27 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
 using QL.AST;
 using QL.AST.Nodes;
 using QL.AST.Nodes.Branches;
 using QL.AST.Nodes.Branches.Operators;
 using QL.AST.Nodes.Terminals;
+using QL.AST.Nodes.Terminals.Wrappers;
 using QL.Exceptions;
 using QL.UI.Controls;
 using QL.UI.ControlWrappers;
+using Expression = QL.AST.Nodes.Branches.Expression;
 
 namespace QL.UI.Builder
 {
     public class UserInterfaceVisitor : IVisitor
     {
         private readonly WidgetFactory _widgetFactory;
-        private readonly IList<WidgetBase> _elementsToDisplay;
+        private readonly ObservableCollection<WidgetBase> _elementsToDisplay;
+        private readonly Action _rebuildMethod;
+        private bool _parentExpressionDidNotEvaluate;
         public ReferenceTables ReferenceTables { get; private set; }
         public IList<QLBaseException> Exceptions { get; private set; }
         
-        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, IList<WidgetBase> elementsToDisplay)
+        public UserInterfaceVisitor(ReferenceTables referenceTables, IList<QLBaseException> exceptions, ObservableCollection<WidgetBase> elementsToDisplay, Action rebuildMethod)
         {
             _widgetFactory = new WidgetFactory();
             _elementsToDisplay = elementsToDisplay;
+            _rebuildMethod = rebuildMethod;
             ReferenceTables = referenceTables;
             Exceptions = exceptions;
         }
@@ -42,14 +52,15 @@ namespace QL.UI.Builder
         
         public void Visit(ControlUnit node)
         {
-            // todo implement visibility logic here
-            //System.Diagnostics.Contracts.Contract.Assert(((_referenceLookupTable[node.Expression] as YesnoWrapper) != null).ToBool());
-            
-            if (node.ConditionTrueBlock != null) //TODO if result is null Wrapped, do not do true nor false block
+            YesnoWrapper evaluatedResult = (YesnoWrapper)ReferenceTables.GetValueOrNull(node.Expression);
+            _parentExpressionDidNotEvaluate = !evaluatedResult.ToBool();
+
+            if (node.ConditionTrueBlock != null)
             {
                 node.ConditionTrueBlock.Accept(this);
             }
 
+            _parentExpressionDidNotEvaluate = false;
             if (node.ConditionFalseBlock != null)
             {
                 node.ConditionFalseBlock.Accept(this);
@@ -58,14 +69,43 @@ namespace QL.UI.Builder
         
         public void Visit(StatementUnit node)
         {
+            ITerminalWrapper evaluatedResult = ReferenceTables.GetValueOrNull(node.Expression);
+            node.Value = evaluatedResult;
+
             WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
-            _elementsToDisplay.Add(unitWrapper); // todo set identifier/do lookup
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
+
+            int index = _elementsToDisplay.ToList().FindIndex(elem => elem.Unit.Identifier == unitWrapper.Unit.Identifier);
+            if (index < 0)
+            {
+                _elementsToDisplay.Add(unitWrapper);
+            }
+            else
+            {
+                _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
+            }
         }
 
         public void Visit(QuestionUnit node)
         {
-            WidgetBase unitWrapper = _widgetFactory.GetWidget(node);
-            _elementsToDisplay.Add(unitWrapper); // todo idem ditto
+            WidgetBase unitWrapper = _widgetFactory.GetWidget(node, ReferenceTables.GetValue(node.Identifier));
+            unitWrapper.Visibility = _parentExpressionDidNotEvaluate ? Visibility.Collapsed : Visibility.Visible;
+
+            int index = _elementsToDisplay.ToList().FindIndex(elem => elem.Unit.Identifier == unitWrapper.Unit.Identifier);
+            if (index < 0)
+            {
+                INotifyPropertyChanged nodeValue = node.Value as INotifyPropertyChanged;
+                if (nodeValue != null)
+                {
+                    nodeValue.PropertyChanged += (sender, args) => _rebuildMethod();
+                }
+
+                _elementsToDisplay.Add(unitWrapper);
+            }
+            else
+            {
+                _elementsToDisplay[index].Visibility = unitWrapper.Visibility;
+            }
         }
         #endregion
 
@@ -78,7 +118,7 @@ namespace QL.UI.Builder
         /// </summary>
         public void Visit(ElementBase elementBase)
         {
-            throw new NotImplementedException("GUI Visitor did not expect an ElementBase fallback");
+            Debug.Assert(false, "GUI Visitor did not expect an ElementBase fallback");
         }
 
         public void Visit(Yesno node)

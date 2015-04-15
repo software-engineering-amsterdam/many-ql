@@ -7,9 +7,6 @@ namespace QL.AST.ASTCreation
 {
     public class ASTBuilder : IExecutableHandler
     {
-        public ASTBuilder()
-        { }
-
         public bool Execute(DataContext context)
         {
             QLLexer lexer = new QLLexer(context.AntlrInput);

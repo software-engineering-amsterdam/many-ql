@@ -5,6 +5,7 @@
 	question MyQuestion3 (number) "How old are you?";
 
 	if(MyQuestion2 == yes) {
+		statement MyStatement10 (text, MyQuestion1) "319 Please?";
 		statement MyStatement99 (text, "-> Welcome to the dawn.") "319 Please?";
 	};
 }

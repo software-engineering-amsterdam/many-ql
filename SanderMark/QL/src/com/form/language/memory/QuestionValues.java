@@ -12,8 +12,8 @@ public class QuestionValues {
 	this.values = new HashMap<String, GenericValue>();
     }
 
-    public void put(String idName, GenericValue value) {
-	values.put(idName, value);
+    public void put(String string, GenericValue value) {
+	values.put(string, value);
     }
 
     public String toString() {

@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
 using QL.AST;
-using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Grammar;
-
 
 namespace QL
 {
@@ -34,6 +22,7 @@ namespace QL
                 ast.RunASTBuilders();
                 ast.RunTypeCheckers();
                 ast.RunEvaluators();
+
                 foreach (Exception e in ast.UnhandledExceptions){
                     Console.WriteLine(e.ToString());
                 }

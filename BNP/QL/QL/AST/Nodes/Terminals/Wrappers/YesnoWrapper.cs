@@ -1,82 +1,97 @@
-﻿namespace QL.AST.Nodes.Terminals.Wrappers
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using QL.Annotations;
+
+namespace QL.AST.Nodes.Terminals.Wrappers
 {
     public class YesnoWrapper : ITerminalWrapper
     {
+        private bool? _value;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool? Value;
-        IStaticReturnType _node;
-
-
-
-
-        public YesnoWrapper(Yesno a)
+        public bool? Value
         {
-            if (a != null)
+            get { return _value; }
+            set
             {
-
-                Value = a.Value;
+                if (value.Equals(_value)) return;
+                _value = value;
+                OnPropertyChanged();
             }
-            _node = (IStaticReturnType)a;
-
-
-        }
-        public YesnoWrapper(bool a)
-        {
-
-            Value = a;
         }
 
-        public bool ToBool()//TODO change to (bool)
+        public YesnoWrapper(Yesno value)
         {
-            return Value.Value ? true : false;
+            if (value != null)
+            {
+                Value = value.Value;
+            }
+        }
+
+        public YesnoWrapper(bool value)
+        {
+            Value = value;
+        }
+
+        public void SetValue(object value)
+        {
+            if (value is bool?)
+            {
+                Value = value as bool?;
+                return;
+            }
+            
+            switch (value.ToString().ToLower())
+            {
+                case "yes":
+                    Value = true;
+                    break;
+                case "no":
+                    Value = false;
+                    break;
+                default:
+                    Value = null;
+                    break;
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged == null) return;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool ToBool()
+        {
+            return Value.GetValueOrDefault(false);
+        }
+
+        public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
+        {
+            return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value == b.Value);
+        }
+
+        public static YesnoWrapper operator !=(YesnoWrapper a, YesnoWrapper b)
+        {
+            return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value.Value != b.Value.Value);
+        }
+        
+        public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
+        {
+            return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value.Value & b.Value.Value);
+        }
+
+        public static YesnoWrapper operator |(YesnoWrapper a, YesnoWrapper b)
+        {
+            return ContainsNullValue(a, b) ? new YesnoWrapper(null) : new YesnoWrapper(a.Value.Value | b.Value.Value);
         }
 
         public override string ToString()
         {
-            return Value.HasValue ? (Value.Value ? "Yes" : "No") : "Unknown";
+            return Value.HasValue ? (Value.Value ? "Yes" : "No") : string.Empty;
         }
 
-        
-        public static YesnoWrapper operator ==(YesnoWrapper a, YesnoWrapper b)
-        {
-            if (ContainsNullValue(a, b))
-            {
-                return new YesnoWrapper(null);
-            }
-            else
-            {
-
-                return new YesnoWrapper(a.Value==b.Value);
-            }
-        }
-        public static YesnoWrapper operator !=(YesnoWrapper a, YesnoWrapper b)
-        {
-            if (ContainsNullValue(a, b)){ 
-                return new YesnoWrapper(null); 
-            };
-            
-            return new YesnoWrapper(a.Value.Value != b.Value.Value);
-        }
-
-
-        public static YesnoWrapper operator &(YesnoWrapper a, YesnoWrapper b)
-        {
-            if (ContainsNullValue(a, b))
-            {
-                return new YesnoWrapper(null);
-            };
-
-            return new YesnoWrapper(a.Value.Value & b.Value.Value);
-          
-        }
-        public static YesnoWrapper operator | (YesnoWrapper a, YesnoWrapper b)        {
-            if (ContainsNullValue(a, b))
-            {
-                return new YesnoWrapper(null);
-            };
-            
-            return new YesnoWrapper(a.Value.Value | b.Value.Value);
-        }
         public override int GetHashCode()
         {
             string w = "yesnowrapper";
@@ -87,21 +102,16 @@
         {
             return Value == obj.Value;
         }
+
         public override bool Equals(object obj)
         {
             if (obj is YesnoWrapper) return Equals(obj as YesnoWrapper);
             return false;
         }
+
         protected static bool ContainsNullValue(YesnoWrapper a, YesnoWrapper b)
         {
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ReferenceEquals(a, null) || ReferenceEquals(b, null) || ReferenceEquals(null, a.Value) || ReferenceEquals(null, b.Value);
         }
     }
 }

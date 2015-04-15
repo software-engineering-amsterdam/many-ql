@@ -3,7 +3,7 @@ package com.form.language.ast.type;
 import com.form.language.ast.values.GenericValue;
 
 public abstract class Type {
-
+	
     public boolean isBoolType() {
 	return false;
     }
@@ -22,7 +22,8 @@ public abstract class Type {
 
     public abstract GenericValue defaultValue();
     
-    
+    public abstract <T> T accept(TypeVisitor<T> visitor);
+
     @Override
     public abstract boolean equals(Object o);
     

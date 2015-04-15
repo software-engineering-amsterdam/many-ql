@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.form.Form;
 import com.form.language.ast.statement.Statement;
+import com.form.language.ast.statement.question.ComputedQuestion;
 import com.form.language.ast.statement.question.Question;
 import com.form.language.memory.Context;
 
@@ -41,6 +42,11 @@ public class FormComponent {
 	panel.add(questionCompondent.getPanel());
     }
 
+    public void createGUIComputedQuestion(ComputedQuestion question, JPanel panel, Context context) {
+	QuestionComponent questionCompondent = new ComputedQuestionComponent(question, context, ifCondition);
+	panel.add(questionCompondent.getPanel());
+    }
+    
     public void setIfCondition(Expression condition) {
 	ifCondition = condition;
     }

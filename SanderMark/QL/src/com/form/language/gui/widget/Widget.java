@@ -6,35 +6,44 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.gui.components.ComputedQuestionComponent;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.Context;
 
 public abstract class Widget {
 
-    private Question question;
-    private Context context;
+	private Question question;
+	private Context context;
+	
+	public abstract void displayComputedValue(GenericValue value);
 
-    public Widget(Question question,Context context)
-    {
-	this.question = question;	
-	this.context = context;
-    }
-
-    public void setContextValue(GenericValue value) {
-	context.setValue(question.getId(),value);
-    }
-
-    public void checkDependencyVisibility() {
-	for (Expression exp : context.getReferencingExpressions(question.getId())){
-	    List<QuestionComponent> q = context.getDependantQuestions(exp);
-	    checkVisibilities(exp, q);
+	public Widget(Question question,Context context)
+	{
+		this.question = question;	
+		this.context = context;
 	}
-    }
 
-    public void checkVisibilities(Expression exp, List<QuestionComponent> q) {
-	for (QuestionComponent question : q) {
-	    question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
+	public void setContextValue(GenericValue value) {
+		context.setValue(question.getId(),value);
 	}
-    }
+
+	public void checkDependencyVisibility() {
+		for (Expression exp : context.getReferencingExpressions(question.getId())){
+			List<QuestionComponent> q = context.getDependantQuestions(exp);
+			checkVisibilities(exp, q);
+		}
+	}
+
+	public void checkComputedQuestion() {
+		for (ComputedQuestionComponent computed : context.getReferencingComputedExpressions(question.getId())){
+			computed.updateAndRedraw(context);
+		}    
+	}    
+
+	public void checkVisibilities(Expression exp, List<QuestionComponent> q) {
+		for (QuestionComponent question : q) {
+			question.checkVisibility(((BoolValue) exp.evaluate(context)).getValue());
+		}
+	}
 
 }

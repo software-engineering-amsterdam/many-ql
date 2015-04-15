@@ -8,7 +8,7 @@ import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public abstract class Statement extends ASTNode {
-    public abstract void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context);
+    public abstract void createGUIComponent(FormComponent formComponent, JPanel panel, Context context);
     public abstract void initMemory(Context context);
     public abstract boolean checkType(Context context);
 

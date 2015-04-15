@@ -9,9 +9,9 @@ import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Question extends Statement {
-    private QuestionId id;
-    private QuestionLabel label;
-    private Type questionType;
+    protected QuestionId id;
+    protected QuestionLabel label;
+    protected Type questionType;
 
     public Question(String label, String id, Type questionType, QLToken tokenInfo) {
 	super(tokenInfo);
@@ -49,7 +49,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public void createGUIComponent(FormComponent guiBuilder, JPanel panel, Context context) {
-	guiBuilder.createGUIQuestion(this, panel, context);
+    public void createGUIComponent(FormComponent formComponent, JPanel panel, Context context) {
+    formComponent.createGUIQuestion(this, panel, context);
     }
 }
