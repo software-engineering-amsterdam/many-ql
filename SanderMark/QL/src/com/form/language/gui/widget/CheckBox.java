@@ -11,35 +11,34 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.memory.Context;
 
 public class CheckBox extends Widget {
-    private JCheckBox checkbox;
+	private JCheckBox checkbox;
 
-    public CheckBox(Question question, Context context) {
-	super(question,context);
-	this.checkbox = new JCheckBox();
+	public CheckBox(Question question, Context context) {
+		super(question, context);
+		this.checkbox = new JCheckBox();
 
-	this.checkbox.setName(question.getId());
-	CheckBoxListener checkboxListener = new CheckBoxListener();
-	this.checkbox.addItemListener((ItemListener) checkboxListener);
-	setContextValue(new BoolValue());
-    }
-    
-    public JCheckBox getCheckBox()
-    {
-	return checkbox;
-    }
-
-    private class CheckBoxListener implements ItemListener {
-	public void itemStateChanged(ItemEvent e) {
-	    setContextValue(new BoolValue(checkbox.isSelected()));
-	    checkComputedQuestion();
-	    checkDependencyVisibility();
+		this.checkbox.setName(question.getId());
+		CheckBoxListener checkboxListener = new CheckBoxListener();
+		this.checkbox.addItemListener((ItemListener) checkboxListener);
+		setContextValue(new BoolValue());
 	}
-    }
-    
-    @Override
-    public void displayComputedValue(GenericValue value) {
-	boolean computedValue = ((BoolValue) value).getValue();
-	this.checkbox.setEnabled(false);
-	this.checkbox.setSelected(computedValue);
-    }
+
+	public JCheckBox getCheckBox() {
+		return checkbox;
+	}
+
+	private class CheckBoxListener implements ItemListener {
+		public void itemStateChanged(ItemEvent e) {
+			setContextValue(new BoolValue(checkbox.isSelected()));
+			checkComputedQuestion();
+			checkDependencyVisibility();
+		}
+	}
+
+	@Override
+	public void displayComputedValue(GenericValue value) {
+		boolean computedValue = ((BoolValue) value).getValue();
+		this.checkbox.setEnabled(false);
+		this.checkbox.setSelected(computedValue);
+	}
 }

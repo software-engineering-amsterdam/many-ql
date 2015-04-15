@@ -9,47 +9,55 @@ import com.form.language.issue.QLToken;
 import com.form.language.memory.Context;
 
 public class Question extends Statement {
-    protected QuestionId id;
-    protected QuestionLabel label;
-    protected Type questionType;
+	protected QuestionId id;
+	protected QuestionLabel label;
+	protected Type questionType;
 
-    public Question(String label, String id, Type questionType, QLToken tokenInfo) {
-	super(tokenInfo);
-	this.id = new QuestionId(id);
-	this.label = new QuestionLabel(label);
-	this.questionType = questionType;
-    }
+	public Question(String label, String id, Type questionType,
+			QLToken tokenInfo) {
+		super(tokenInfo);
+		this.id = new QuestionId(id);
+		this.label = new QuestionLabel(label);
+		this.questionType = questionType;
+	}
 
-    public Type getType(Context context) {
-	return questionType;
-    }
+	public Type getType(Context context) {
+		return questionType;
+	}
 
-    public String getText() {
-	return label.getValue();
-    }
+	public String getText() {
+		return label.getValue();
+	}
 
-    public String getId() {
-	return id.getValue();
-    }
+	public String getId() {
+		return id.getValue();
+	}
 
-    public void initMemory(Context context) {
-	context.setValue(getId(), questionType.defaultValue());
-    }
-    
-    @Override
-    public boolean checkType(Context context) {
-	context.addQuestion(this);
-	checkExistingLabels(context);
-	context.addLabel(getText());
-	return true;
-    }
+	public void initMemory(Context context) {
+		context.setValue(getId(), questionType.defaultValue());
+	}
 
-    private void checkExistingLabels(Context context) {
-    label.checkExistingLabels(context, tokenInfo);
-    }
+	@Override
+	public boolean checkType(Context context) {
+		context.addQuestion(this);
+		checkExistingLabels(context);
+		context.addLabel(getText());
+		return true;
+	}
 
-    @Override
-    public void createGUIComponent(FormComponent formComponent, JPanel panel, Context context) {
-    formComponent.createGUIQuestion(this, panel, context);
-    }
+	private void checkExistingLabels(Context context) {
+		label.checkExistingLabels(context, tokenInfo);
+	}
+
+	//Render of gui here, so add of panel etc seperate
+/*	public void render(JPanel panel) {
+		panel.add(new JLabel());
+		questionType.addWidget(panel);
+	}*/
+	
+	@Override
+	public void createGUIComponent(FormComponent formComponent, JPanel panel,
+			Context context) {
+		formComponent.createGUIQuestion(this, panel, context);
+	}
 }

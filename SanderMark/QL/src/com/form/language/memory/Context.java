@@ -16,108 +16,113 @@ import com.form.language.issue.IssueCollector;
 import com.form.language.issue.Warning;
 
 public class Context {
-    private QuestionDeclarations questionDeclarations;
-    private QuestionReferences questionReferences;
-    private QuestionLabels questionLabels;
-    private QuestionValues questionValues;
-    private IfDependencies ifConditions;
-    private IssueCollector errors;
-    private IssueCollector warnings;
-    private ComputedDependencies computedDependencies;
+	private QuestionDeclarations questionDeclarations;
+	private QuestionReferences questionReferences;
+	private QuestionLabels questionLabels;
+	private QuestionValues questionValues;
+	private IfDependencies ifConditions;
+	private IssueCollector errors;
+	private IssueCollector warnings;
+	private ComputedDependencies computedDependencies;
 
-    public Context() {
-	this.questionValues = new QuestionValues();
-	this.ifConditions = new IfDependencies();
-	this.questionReferences = new QuestionReferences();
-	this.questionDeclarations = new QuestionDeclarations();
-	this.errors = new IssueCollector();
-	this.warnings = new IssueCollector();
-	this.questionLabels = new QuestionLabels();
-	this.computedDependencies = new ComputedDependencies();
-    }
+	public Context() {
+		this.questionValues = new QuestionValues();
+		this.ifConditions = new IfDependencies();
+		this.questionReferences = new QuestionReferences();
+		this.questionDeclarations = new QuestionDeclarations();
+		this.errors = new IssueCollector();
+		this.warnings = new IssueCollector();
+		this.questionLabels = new QuestionLabels();
+		this.computedDependencies = new ComputedDependencies();
+	}
 
-    // The questions that depend on the expression in an if-condition
-    public void addDependantQuestion(Expression condition, QuestionComponent question) {
-	ifConditions.add(condition, question);
-    }
+	// The questions that depend on the expression in an if-condition
+	public void addDependantQuestion(Expression condition,
+			QuestionComponent question) {
+		ifConditions.add(condition, question);
+	}
 
-    public List<QuestionComponent> getDependantQuestions(Expression exp) {
-	return ifConditions.get(exp);
-    }
+	public List<QuestionComponent> getDependantQuestions(Expression exp) {
+		return ifConditions.get(exp);
+	}
 
-    // A collection of references used in a given expression
-    public void addReference(ReferenceCollection references, Expression value) {
-	questionReferences.putAll(references, value);
-    }
+	// A collection of references used in a given expression
+	public void addReference(ReferenceCollection references, Expression value) {
+		questionReferences.putAll(references, value);
+	}
 
-    // All expressions that use the given question ID
-    public List<Expression> getReferencingExpressions(String id) {
-	return questionReferences.get(id);
-    }
-    
-    //Adds a callback from reference to computedQuestion for all references in the ReferenceCollection
-	public void addComputationCallbacks(ReferenceCollection references, ComputedQuestionComponent computedQuestion) {
-		for(Reference r: references){
+	// All expressions that use the given question ID
+	public List<Expression> getReferencingExpressions(String id) {
+		return questionReferences.get(id);
+	}
+
+	// Adds a callback from reference to computedQuestion for all references in
+	// the ReferenceCollection
+	public void addComputationCallbacks(ReferenceCollection references,
+			ComputedQuestionComponent computedQuestion) {
+		for (Reference r : references) {
 			computedDependencies.add(r.getName(), computedQuestion);
 		}
 	}
-    // Gets all of the ComputedQuestionComponents depending on this question
-    public List<ComputedQuestionComponent> getReferencingComputedExpressions(String id)
-    {
-    	return computedDependencies.get(id);
-    }
 
-    public void setValue(String string, GenericValue value) {
-	questionValues.put(string, value);
-    }
-    
-    public GenericValue getValue(String s) {
-	return questionValues.get(s);
-    }
-
-    public void addQuestion(Question question) {
-	questionDeclarations.put(question.getId(),question);
-    }
-
-    public void addLabel(String s) {
-	questionLabels.add(s);
-    }
-    
-    public boolean containsLabel(String s){
-	return questionLabels.contains(s);
-    }
-    
-    public Type getIdType(Reference id) {
-	Question declaration = questionDeclarations.get(id.getName());
-	if (declaration == null) {
-	    this.addError(new Error(id.getTokenInfo(), "Undeclared variable reference"));
-	    return new ErrorType();
+	// Gets all of the ComputedQuestionComponents depending on this question
+	public List<ComputedQuestionComponent> getReferencingComputedExpressions(
+			String id) {
+		return computedDependencies.get(id);
 	}
-	return declaration.getType(this);
-    }
 
-    public boolean hasErrors() {
-	return !errors.isEmpty();
-    }
-    
-    public boolean hasWarnings() {
-	return !warnings.isEmpty();
-    }
-    
-    public void addError(Error e) {
-	errors.add(e);
-    }
+	public void setValue(String string, GenericValue value) {
+		questionValues.put(string, value);
+	}
 
-    public String getErrors() {
-	return errors.toString();
-    }
-    
-    public void addWarning(Warning e) {
-	warnings.add(e);
-    }
+	public GenericValue getValue(String s) {
+		return questionValues.get(s);
+	}
 
-    public String getWarnings() {
-	return warnings.toString();
-    }
+	public void addQuestion(Question question) {
+		questionDeclarations.put(question.getId(), question);
+	}
+
+	public void addLabel(String s) {
+		questionLabels.add(s);
+	}
+
+	public boolean containsLabel(String s) {
+		return questionLabels.contains(s);
+	}
+
+	public Type getIdType(Reference id) {
+		Question declaration = questionDeclarations.get(id.getName());
+		if (declaration == null) {
+			this.addError(new Error(id.getTokenInfo(),
+					"Undeclared variable reference"));
+			return new ErrorType();
+		}
+		return declaration.getType(this);
+	}
+
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+
+	public boolean hasWarnings() {
+		return !warnings.isEmpty();
+	}
+
+	public void addError(Error e) {
+		errors.add(e);
+	}
+
+	public String getErrors() {
+		return errors.toString();
+	}
+
+	public void addWarning(Warning e) {
+		warnings.add(e);
+	}
+
+	public String getWarnings() {
+		return warnings.toString();
+	}
 
 }

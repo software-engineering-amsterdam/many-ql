@@ -13,41 +13,45 @@ import com.form.language.memory.Context;
 
 public class FormComponent {
 
-    private Expression ifCondition;
+	private Expression ifCondition;
 
-    private Form form;
-    private JFrame frame;
-    private JPanel panel;
-    private Context context;
+	private Form form;
+	private JFrame frame;
+	private JPanel panel;
+	private Context context;
 
-    public FormComponent(Form form, JFrame frame, Context context) {
-	this.form = form;
-	this.frame = frame;
-	this.context = context;
+	public FormComponent(Form form, JFrame frame, Context context) {
+		this.form = form;
+		this.frame = frame;
+		this.context = context;
 
-	this.panel = new JPanel();
-	this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-	this.frame.add(this.panel);
-    }
-
-    public void createGUIComponents()
-    {	
-	for(Statement s : form.getStatements()){
-	    s.createGUIComponent(this, panel, context);
+		this.panel = new JPanel();
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+		this.frame.add(this.panel);
 	}
-    }	
 
-    public void createGUIQuestion(Question question, JPanel panel, Context context) {
-	QuestionComponent questionCompondent = new QuestionComponent(question, context, ifCondition);
-	panel.add(questionCompondent.getPanel());
-    }
+	public void createGUIComponents() {
+		//form.createGUI(this, panel, context)
+		for (Statement s : form.getStatements()) {
+			s.createGUIComponent(this, panel, context);
+		}
+	}
 
-    public void createGUIComputedQuestion(ComputedQuestion question, JPanel panel, Context context) {
-	QuestionComponent questionCompondent = new ComputedQuestionComponent(question, context, ifCondition);
-	panel.add(questionCompondent.getPanel());
-    }
-    
-    public void setIfCondition(Expression condition) {
-	ifCondition = condition;
-    }
+	public void createGUIQuestion(Question question, JPanel panel,
+			Context context) {
+		QuestionComponent questionCompondent = new QuestionComponent(question,
+				context, ifCondition);
+		panel.add(questionCompondent.getPanel());
+	}
+
+	public void createGUIComputedQuestion(ComputedQuestion question,
+			JPanel panel, Context context) {
+		QuestionComponent questionCompondent = new ComputedQuestionComponent(
+				question, context, ifCondition);
+		panel.add(questionCompondent.getPanel());
+	}
+
+	public void setIfCondition(Expression condition) {
+		ifCondition = condition;
+	}
 }
