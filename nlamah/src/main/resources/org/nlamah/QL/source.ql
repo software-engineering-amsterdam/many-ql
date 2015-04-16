@@ -4,7 +4,7 @@ form Box1HouseOwning
 	hasBoughtHouse boolean "Did you by a house in 2010?"
 	hasMaintLoan boolean "Did you enter a loan for maintenance/reconstruction?"
 	
-	houseValue int "What is the value of your house?"
+	houseValue number "What is the value of your house?"
 	
 	if (houseValue) 
 	{
@@ -20,7 +20,7 @@ form Box1HouseOwning
 		
 		if (houseValue2) 
 		{
-			houseValue3 int "nested in second if: What was the value of your garage in 2010?"
+			houseValue3 number "nested in second if: What was the value of your garage in 2010?"
 		} 
 		endif
 		

@@ -17,18 +17,6 @@ public class ElseThenBlock extends FormElement
 	}
 
 	@Override
-	public String toParseTreeString() 
-	{
-		
-//		String stringToReturn = "(" + this.getIdentifier() + " ";
-//		stringToReturn += "else ";
-//		stringToReturn += this.formElementsToParseTreeString();
-//		stringToReturn += ")";
-//		return stringToReturn;
-		return "";
-	}
-
-	@Override
 	protected FormElementViewController createViewController() 
 	{
 		return new ElseThenBlockViewController(this);

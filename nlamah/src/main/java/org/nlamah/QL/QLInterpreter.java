@@ -2,7 +2,6 @@ package org.nlamah.QL;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -10,18 +9,15 @@ import javax.swing.SwingUtilities;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-
 import org.apache.commons.io.IOUtils;
-
 import org.nlamah.QL.FormModel.ComputedQuestion;
 import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.Form;
 import org.nlamah.QL.FormModel.FormElement;
 import org.nlamah.QL.FormModel.InputQuestion;
 import org.nlamah.QL.FormModel.IfThenBlock;
-import org.nlamah.QL.FormModel.LogicalExpressionStub;
-
 import org.nlamah.QL.FormViewControllers.FormRootViewController;
+import org.nlamah.QL.Literal.BooleanLiteral;
 
 public class QLInterpreter implements Runnable
 {
@@ -110,11 +106,11 @@ public class QLInterpreter implements Runnable
 			}
 			else
 			{
-				LogicalExpressionStub logicalExpression = new LogicalExpressionStub();
+				BooleanLiteral booleanLiteral = new BooleanLiteral("true");
 				
 				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
 				
-				IfThenBlock ifThenBlock = new IfThenBlock(logicalExpression, dummyQuestions);
+				IfThenBlock ifThenBlock = new IfThenBlock(booleanLiteral, dummyQuestions);
 				
 				ifThenBlock.addRelatedElement(formElements.get(i - 2));
 				

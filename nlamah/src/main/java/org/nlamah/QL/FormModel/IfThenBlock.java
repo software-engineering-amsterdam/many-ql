@@ -2,33 +2,29 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Expression.Expression;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 import org.nlamah.QL.FormViewControllers.IfThenBlockViewController;
 
 public class IfThenBlock extends FormElement 
 {
-	private LogicalExpressionStub logicalExpression;
+	private Expression expression;
 	
-	public IfThenBlock(LogicalExpressionStub logicalExpression, ArrayList<FormElement> childElements) 
+	public IfThenBlock(Expression expression, ArrayList<FormElement> childElements) 
 	{	
 		super();
 		
-		this.logicalExpression = logicalExpression;
+		this.expression = expression;
 		
 		setChildElements(childElements);
 	}
 	
 	public boolean isSatisfied()
 	{
-		return logicalExpression.evaluate(relatedElements());
+		return false;
+		//return expression.evaluate(relatedElements());
 	}
 	
-	@Override
-	public String toParseTreeString() 
-	{			
-		return "";
-	}
-
 	@Override
 	protected FormElementViewController createViewController() 
 	{

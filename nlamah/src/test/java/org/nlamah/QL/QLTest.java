@@ -100,7 +100,7 @@ public class QLTest
 		
 		Form form = new Form("test", null);
 		
-		referenceString = form.toParseTreeString();
+		//referenceString = form.toParseTreeString();
 		System.out.println("empty from:" + referenceString + "||" + parsedString);
 	    assertEquals( parsedString, referenceString );  
 	    
@@ -117,7 +117,7 @@ public class QLTest
 		
 		Form form = new Form("test", questions);
 		
-		referenceString = form.toParseTreeString();
+		//referenceString = form.toParseTreeString();
 		System.out.println("one question:" + referenceString + "||\n\t\t" + parsedString);
 	    assertEquals( parsedString, referenceString );
 	}
@@ -137,7 +137,7 @@ public class QLTest
 
  		Form form = new Form("test", questions);
 
- 		referenceString = form.toParseTreeString();
+ 		//referenceString = form.toParseTreeString();
  		System.out.println("two questions:" + referenceString + "||" + parsedString);
  	    assertEquals( parsedString, referenceString );
  	}

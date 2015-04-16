@@ -19,30 +19,6 @@ public class ConditionalBlock extends FormElement
 		this.elseIfThenBlocks = elseIfThenBlocks;
 		this.elseThenBlock = elseThenBlock;
 	}
-
-	public String toParseTreeString()
-	{	
-		String stringToReturn = "(" + "identifier" + " ";
-		
-		stringToReturn += ifThenBlock.toParseTreeString();
-		
-		if (elseIfThenBlocks != null)
-		{
-			for (int i = 0; i < elseIfThenBlocks.size(); i++)
-			{
-				stringToReturn += " " + elseIfThenBlocks.get(i).toParseTreeString();
-			}
-		}
-		
-		if (elseThenBlock != null)
-		{
-			stringToReturn += " " + elseThenBlock.toParseTreeString();
-		}
-		
-		stringToReturn += " endif)";
-		
-		return stringToReturn;
-	}
 	
 	public IfThenBlock ifThenBlock()
 	{

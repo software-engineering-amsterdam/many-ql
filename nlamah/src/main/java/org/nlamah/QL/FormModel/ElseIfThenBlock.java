@@ -2,19 +2,20 @@ package org.nlamah.QL.FormModel;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Expression.Expression;
 import org.nlamah.QL.FormViewControllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 
 public class ElseIfThenBlock extends FormElement 
 {
-	private LogicalExpressionStub logicalExpression;
+	private Expression expression;
 	private ArrayList<FormElement> formElements;
 	
-	public ElseIfThenBlock(LogicalExpressionStub logicalExpression, ArrayList<FormElement> formElements) 
+	public ElseIfThenBlock(Expression expression, ArrayList<FormElement> formElements) 
 	{
 		super();
 		
-		this.logicalExpression = logicalExpression;
+		this.expression = expression;
 		this.formElements = formElements;
 	}
 	
@@ -23,17 +24,6 @@ public class ElseIfThenBlock extends FormElement
 		return false;
 	}
 	
-	@Override
-	public String toParseTreeString() 
-	{
-		
-//		String stringToReturn = "(" + this.getIdentifier() + " ";
-//		stringToReturn += "elsif ( " + this.logicalExpression.toParseTreeString() + " ) ";
-//		stringToReturn += this.formElementsToParseTreeString();
-//		stringToReturn += ")";
-		return "";
-	}
-
 	@Override
 	protected FormElementViewController createViewController() 
 	{

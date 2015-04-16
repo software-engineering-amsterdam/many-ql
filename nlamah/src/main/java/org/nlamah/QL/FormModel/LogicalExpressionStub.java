@@ -24,11 +24,4 @@ public class LogicalExpressionStub extends ASTNode
 		
 		return true;
 	}
-	
-	@Override
-	public String toParseTreeString() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

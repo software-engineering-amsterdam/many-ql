@@ -22,24 +22,6 @@ public class Form extends FormElement
 		return this.title;
 	}
 	
-	public String toParseTreeString()
-	{	
-		String stringToReturn = "(form form " + this.title + " {";
-		
-		if (Helper.arrayExistsAndHasElements(childElements()))
-		{
-			for (int i = 0; i < childElements().size(); i++)
-			{
-				stringToReturn += " ";
-				
-				stringToReturn += childElements().get(i).toParseTreeString();
-			}
-		}
-		
-		stringToReturn += " })";
-		
-		return  stringToReturn;
-	}
 
 	@Override
 	protected FormElementViewController createViewController() 

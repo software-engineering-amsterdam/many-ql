@@ -20,13 +20,6 @@ public class ComputedQuestion extends Question
 	}
 
 	@Override
-	public String toParseTreeString() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected FormElementViewController createViewController() 
 	{
 		return new ComputedQuestionViewController(this);

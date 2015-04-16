@@ -1,44 +1,48 @@
 grammar QL;
 
-form : 'form' ID '{' formElement* '}' ;
+form : 'form' Identifier '{' formElement* '}' ;
 formElement : question | conditionalBlock ; 
 
-question : ID TYPE questionString possibleAnswers?;
-questionString : STRING ;
-possibleAnswers : '[' answer+=STRING (',' answer+=STRING)* ']' ;
-// if ( s ) { t } endif
-// if ( s ) { t } else { e } endif
-// if ( s ) { t } elsif ( s ) { t } endif
-// if ( s ) { t } elsif ( s ) { t } else { e } endif
-// ifthen + elif* + else* + endif
+question : Identifier Type questionString possibleAnswers?;
+questionString : Text ;
+possibleAnswers : '[' answer+=Text (',' answer+=Text)* ']' ;
 
 conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? 'endif';
 ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;
 elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
 elseThenBlock : 'else' '{' formElement* '}' ;
 
-expression		:  '(' expression ')' 							# parenthesesExpression
-				| op=('!'|'+'|'-') expression 					# unaryExpression
-				| expression op=('*'| '/') expression 			# multiplyExpression
-				| expression op=('+'| '-') expression 			# additionExpression
-				| expression op=('>'|'>='|'<'|'<=') expression 	# comparisonExpression
-				| expression op=('=='|'!=') expression 			# equationExpression
-				| expression '&&' expression 					# andExpression
-				| expression '||' expression 					# orExpression
-				| BOOLEAN 										# booleanExpression
-				| ID 											# idExpression
-				| STRING 										# stringExpression
-				| NUMBER 										# numberExpression
-				;
+expression : UnaryOperator expression					# UnaryExpression
+			| expression MultiplyOperator expression	# MultiplyExpression
+			| expression AdditionOperator expression	# AdditionExpression
+			| expression ComparisonOperator expression	# ComparisonExpression
+			| expression EqualityOperator expression	# EqualityExpression
+			| expression AndOperator expression			# AndExpression
+			| expression OrOperator expression			# OrExpression
+			| '(' expression ')'						# ParenthesesExpression
+			| Boolean									# BooleanLiteral
+			| Identifier								# IdentifierLiteral
+			| Text										# TextLiteral
+			| Number									# NumberLiteral
+			;
 
-TYPE : 'boolean' | 'int' ;
-BOOLEAN : 'yes' | 'no';
-STRING : '"' .*? '"' ;
-ID : LETTER (LETTER | DIGIT)* ;
-NUMBER : DIGIT+ ;
+UnaryOperator : '!' | '+' '-';
+MultiplyOperator : '*' | '/' ;
+AdditionOperator : '+' | '-' ;
+ComparisonOperator : '>' | '>=' | '<' | '<=' ;
+EqualityOperator : '==' | '!=' ;
+AndOperator : '&&' ;
+OrOperator : '||' ;
 
-WS : [ \t\r\n]+ -> skip ;
-COMMENT : '#' ~[\r\n]* '\r'? '\n' -> skip ;
+Type : 'boolean' | 'number' | 'text' ;
 
-fragment DIGIT : [0-9] ;
-fragment LETTER : [a-zA-Z] ;
+Boolean : 'yes' | 'no';
+Text : '"' .*? '"' ;
+Identifier : Letter (Letter | Digit)* ;
+Number : Digit+ ;
+
+Whitespace : [ \t\r\n]+ -> skip ;
+Comment : '#' ~[\r\n]* '\r'? '\n' -> skip ;
+
+fragment Digit : [0-9] ;
+fragment Letter : [a-zA-Z] ;

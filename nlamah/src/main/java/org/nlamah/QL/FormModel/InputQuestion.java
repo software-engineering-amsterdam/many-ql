@@ -12,11 +12,6 @@ public class InputQuestion extends Question
 		super(identifier, questionString, type);
 	}
 
-	public String toParseTreeString()
-	{	
-		return "(question " + identifier() + " " + type() + " \""+ questionString() + "\"" + ")";
-	}
-	
 	public boolean isChecked()
 	{
 		return checked;

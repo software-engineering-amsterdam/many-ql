@@ -29,12 +29,4 @@ public abstract class Question extends FormElement
 	{
 		return questionString;
 	}
-
-	@Override
-	public String toParseTreeString() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
