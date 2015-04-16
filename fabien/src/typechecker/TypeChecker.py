@@ -13,24 +13,22 @@ class TypeChecker():
         for listener in self.listeners:
             try:
                 getattr(listener, function)(*args, **kwargs)
-            except AttributeError:
+            except AttributeError as err:
                 pass
-            except:
-                print("Unexpected error:", sys.exc_info()[0])
+            except Exception as err:
+                print "Unexpected error: %s" % err
                 raise
 
     def check(self):
+        # Obtain general question info
         questionIDs   = {}
         questionTypes = {}
 
-        # Obtain general question info
-        for node in self.AST:
-            if node.NodeType == "Question":
-                questionIDs[node.ID] = node
-                questionTypes[node.ID] = node.type
+        for node in self.AST.findAll("Question"):
+            questionIDs[node.ID]   = node
+            questionTypes[node.ID] = node.type
 
-        # Reset listeners
-        # -> Pass question info
+        # Pass question info
         self.dispatch("__init__", questionIDs, questionTypes)
 
         for node in self.AST:
@@ -49,6 +47,8 @@ class TypeChecker():
             if listener.errors:
                 return True
                 break
+
+        return False
 
     def getErrorMessages(self):
         errors = []

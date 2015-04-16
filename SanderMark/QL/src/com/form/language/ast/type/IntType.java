@@ -30,4 +30,9 @@ public final class IntType extends Type {
     public int hashCode() {
 	return 1;
     }
+    
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitIntType(this);
+	}
 }

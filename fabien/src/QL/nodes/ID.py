@@ -8,8 +8,11 @@ class ID(Leaf):
         self.leafValue = value
 
     def evaluate(self, answers):
-        if self.ID in answers:
-            return answers[self.ID]
+        for answer in answers:
+            if self.ID == answer.ID:
+                return answers[answer]
+
+        return None
 
     def __repr__(self):
         return "ID %s" % self.leafValue

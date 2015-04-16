@@ -8,7 +8,5 @@
     {
         public ElementBase Left { get; set; }
         public ElementBase Right { get; set; }
-
-        protected BinaryTreeElementBase() { }
     }
 }

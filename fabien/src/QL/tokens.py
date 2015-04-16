@@ -14,7 +14,14 @@ reserved = {
   "integer" : "TYPE",
   "boolean" : "TYPE",
   "string"  : "TYPE",
-  "money"   : "TYPE"
+  "money"   : "TYPE",
+
+  "text"    : "WIDGET",
+  "gender"  : "WIDGET",
+  "email"   : "WIDGET",
+
+  "true"    : "BOOL",
+  "false"   : "BOOL"
 }
 
 tokens = [
@@ -36,10 +43,7 @@ t_GT_EQ  = r'>='
 t_OR     = r'\|\||or'
 t_AND    = r'&&|and'
 
-
 t_NUMBER = r'[0-9]*\.?[0-9]+'
-t_TYPE   = r'integer|boolean|string|money'
-
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'

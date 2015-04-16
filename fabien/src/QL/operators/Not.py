@@ -12,13 +12,14 @@ class Not:
             boolTypes = ["boolean"]
 
             return valueType in boolTypes
-        except:
-            pass
+        except Exception as err:
+            return True
 
-        return False
+        return True
 
     def evaluate(self, answers):
-        return not self.value
+        print self.value
+        return not self.value.evaluate(answers)
 
     def __repr__(self):
         return "!%s" % (self.value)

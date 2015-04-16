@@ -7,30 +7,56 @@ namespace QL.UI.ControlWrappers
 {
     public sealed class WidgetFactory
     {
+        public WidgetBase GetWidget(StatementUnit unit)
+        {
+            return new StatementWidget(unit);
+        }
+
         public WidgetBase GetWidget(QuestionUnit unit)
         {
             return GetWidget(unit, unit.DataType as dynamic);
         }
 
-        public WidgetBase GetWidget(StatementUnit unit)
+        public WidgetBase GetWidget(QuestionUnit unit, ITerminalWrapper typeWrapper)
         {
-            return new StatementWidget(unit, GetTypeWrapper(unit.DataType as dynamic));
+            return GetWidget(unit, typeWrapper as dynamic);
+        }
+
+        public WidgetBase GetWidget(QuestionUnit unit, YesnoWrapper typeWrapper)
+        {
+            unit.InitialiseValue(typeWrapper);
+            return new YesNoWidget(unit);
+        }
+
+        public WidgetBase GetWidget(QuestionUnit unit, NumberWrapper typeWrapper)
+        {
+            unit.InitialiseValue(typeWrapper);
+            return new NumberWidget(unit);
+        }
+
+        public WidgetBase GetWidget(QuestionUnit unit, TextWrapper typeWrapper)
+        {
+            unit.InitialiseValue(typeWrapper);
+            return new TextWidget(unit);
         }
 
         #region Widget-wrapper creation methods
-        private WidgetBase GetWidget(UnitBase unit, Yesno type)
+        private WidgetBase GetWidget(QuestionUnit unit, Yesno type)
         {
-            return new YesNoWidget(unit, GetTypeWrapper(type) as YesnoWrapper);
+            unit.InitialiseValue(GetTypeWrapper(type));
+            return new YesNoWidget(unit);
         }
 
-        private WidgetBase GetWidget(UnitBase unit, Number type)
+        private WidgetBase GetWidget(QuestionUnit unit, Number type)
         {
-            return new NumberWidget(unit, GetTypeWrapper(type) as NumberWrapper);
+            unit.InitialiseValue(GetTypeWrapper(type));
+            return new NumberWidget(unit);
         }
 
-        private WidgetBase GetWidget(UnitBase unit, Text type)
+        private WidgetBase GetWidget(QuestionUnit unit, Text type)
         {
-            return new TextWidget(unit, GetTypeWrapper(type) as TextWrapper);
+            unit.InitialiseValue(GetTypeWrapper(type));
+            return new TextWidget(unit);
         }
         #endregion
         

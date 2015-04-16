@@ -6,8 +6,7 @@
         {
             return Left;
         }
-
-
+        
         public DivisionOperator(SourceLocation sourceLocation)
         {
             this.SourceLocation = sourceLocation;

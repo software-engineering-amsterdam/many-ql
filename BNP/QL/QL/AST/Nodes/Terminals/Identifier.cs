@@ -43,30 +43,35 @@ namespace QL.AST.Nodes.Terminals
             {
                 return false;
             }
-            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            
+            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
             {
                 return true;
             }
-            else
-            {
-                return a.Value == b.Value;
-            }
+            
+            return a.Value == b.Value;
         }
+
         public static bool operator !=(Identifier a, Identifier b)
         {
             if (ReferenceEquals(a, null) ^ ReferenceEquals(b, null))
             {
                 return true;
             }
-            else if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            
+            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
             {
                 return false;
             }
-            else
-            {
-                return a.Value != b.Value;
-            }
+            
+            return a.Value != b.Value;
         }
+
+        public Type GetReturnType()
+        {
+            return GetType();
+        }
+
         public override int GetHashCode()
         {
             string w = "identifier";
@@ -74,14 +79,9 @@ namespace QL.AST.Nodes.Terminals
             return new { i, w, Value }.GetHashCode();
         }
 
-
         public override string ToString()
         {
             return string.IsNullOrWhiteSpace(Value) ? "undefined" : Value;
-        }
-        public Type GetReturnType()
-        {
-            return GetType();
         }
     }
 }

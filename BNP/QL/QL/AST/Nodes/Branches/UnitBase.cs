@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using QL.Annotations;
 using QL.AST.Nodes.Terminals;
+using QL.DataHandlers.Evaluation;
 
 namespace QL.AST.Nodes.Branches
 {
@@ -13,8 +14,9 @@ namespace QL.AST.Nodes.Branches
     {
         private string _text;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        protected readonly TerminalWrapperFactory TerminalFactory = new TerminalWrapperFactory();
         
+        public event PropertyChangedEventHandler PropertyChanged;
         public IStaticReturnType DataType { get; set; }
         public Identifier Identifier { get; set; }
 

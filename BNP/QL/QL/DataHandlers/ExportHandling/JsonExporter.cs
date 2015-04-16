@@ -8,9 +8,6 @@ namespace QL.DataHandlers.ExportHandling
 {
     public class JsonExporter : IExecutableHandler
     {
-        public JsonExporter()
-        { }
-
         public bool Execute(DataContext context)
         {
             context.ASTHandlerExceptions.Clear();

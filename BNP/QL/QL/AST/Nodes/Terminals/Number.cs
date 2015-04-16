@@ -14,7 +14,7 @@ namespace QL.AST.Nodes.Terminals
             Value = Int32.Parse(unparsedValue);
         }
 
-        public Number(string unparsedValue, AST.SourceLocation sourceLocation):this(unparsedValue)
+        public Number(string unparsedValue, SourceLocation sourceLocation):this(unparsedValue)
         {
             SourceLocation = sourceLocation;
         }

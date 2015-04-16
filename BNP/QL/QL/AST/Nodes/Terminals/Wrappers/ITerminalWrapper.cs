@@ -1,7 +1,10 @@
-﻿namespace QL.AST.Nodes.Terminals.Wrappers
+﻿using System.ComponentModel;
+
+namespace QL.AST.Nodes.Terminals.Wrappers
 {
-    public interface ITerminalWrapper
+    public interface ITerminalWrapper : INotifyPropertyChanged
     {
+        void SetValue(object value);
     }
 
 }

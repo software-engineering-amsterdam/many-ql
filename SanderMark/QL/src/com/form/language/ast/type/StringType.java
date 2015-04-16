@@ -31,4 +31,9 @@ public final class StringType extends Type {
 	return 0;
     }
     
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitStringType(this);
+	}
+    
 }

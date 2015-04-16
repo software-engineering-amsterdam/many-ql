@@ -30,4 +30,9 @@ public final class BoolType extends Type {
     public int hashCode() {
 	return 3;
     }
+    
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitBoolType(this);
+	}
 }

@@ -1,25 +1,28 @@
 import Tkinter as tk
 
-from Base import Widget
+from LabelWidget import LabelWidget
 
-class Integer(Widget):
+class Integer(LabelWidget):
     def __init__(self, *args):
-        Widget.__init__(self, *args)
+        LabelWidget.__init__(self, *args)
 
-        if self.isReadOnly():
-            self._buildReadOnly()
-        else:
-            self._build()
+        self._build()
 
     def _build(self):
         self.inputVar = tk.IntVar()
         self.inputVar.set(0)
+        self.inputVar.trace("w", self._onChange)
 
         self.entry = tk.Entry(textvariable=self.inputVar)
-        self.entry.grid(in_=self.Frame, sticky="ew")
-
         self.addElement(self.entry)
 
+    def _onChange(self, ID=None, callback=None, mode=None):
+        self.onChange(None)
 
     def value(self):
-        return { self.node.ID : self.entry.get() }
+        try:
+            val = self.inputVar.get()
+            return val
+        except ValueError:
+            self.setInvalid()
+            return 0

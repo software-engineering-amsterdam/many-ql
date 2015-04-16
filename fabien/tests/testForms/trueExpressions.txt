@@ -1,0 +1,40 @@
+
+form taxOfficeExample {
+  "Ten"
+    ten: integer = (10)
+
+  "Hello"
+    hello: money = (10)
+
+  "String"
+    str: string = ("String")
+
+  "String"
+    ascii: string = ("ää")
+
+  "World"
+    world: money = (50)
+
+  "AAAAA"
+    a: boolean = (true)
+
+  "BBBB"
+    b: boolean = (true)
+
+  if (4*10 > (8 + 2 - 3)*5) {}
+  if (-10 * 2 < 0)  {}
+
+  if (5 == 5)  {}
+  if ("test" == "test") {}
+  if ("tëst" == "tëst") {}
+
+  if ("String" == str) {}
+  if ("string" != str) {}
+  if ("ää" == ascii) {}
+
+  if (a && b)  {}
+  if (10)  {}
+  if (10 && 11)  {}
+
+  if (world == 5*hello) {}
+}

@@ -9,7 +9,6 @@
 
         public MinusOperator(SourceLocation sourceLocation)
         {
-            // TODO: Complete member initialization
             this.SourceLocation = sourceLocation;
         }
     }

@@ -3,11 +3,15 @@ package com.form.language.ast.values;
 
 public class StringValue extends GenericValue {
     private final String value;
+    private final static String DEFAULT = "";
 
     public StringValue(String value) {
 	this.value = value;
     }
 
+    public StringValue() {
+	this.value = DEFAULT;
+}
     public String getValue() {
 	return value;
     }
