@@ -3,8 +3,9 @@ package org.nlamah.QL.FormModel;
 import java.util.ArrayList;
 
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
+import org.nlamah.QL.QLASTNode.QLASTNode;
 
-public abstract class FormElement extends ASTNode
+public abstract class FormElement extends QLASTNode
 {	
 	private FormElementViewController viewController;
 	private ArrayList<FormElement> childElements;

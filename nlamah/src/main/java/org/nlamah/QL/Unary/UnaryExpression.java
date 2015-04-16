@@ -10,4 +10,9 @@ public abstract class UnaryExpression extends Expression
 	{
 		this.expression = expression;
 	}
+	
+	public Expression expression()
+	{
+		return this.expression;
+	}
 }

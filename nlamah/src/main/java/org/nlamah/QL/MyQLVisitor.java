@@ -14,7 +14,6 @@ import org.nlamah.QL.Binary.SmallerThanEqualExpression;
 import org.nlamah.QL.Binary.SmallerThanExpression;
 import org.nlamah.QL.Binary.UnEqualExpression;
 import org.nlamah.QL.Expression.Expression;
-import org.nlamah.QL.FormModel.ASTNode;
 import org.nlamah.QL.FormModel.ConditionalBlock;
 import org.nlamah.QL.FormModel.ElseIfThenBlock;
 import org.nlamah.QL.FormModel.ElseThenBlock;
@@ -27,14 +26,15 @@ import org.nlamah.QL.Literal.BooleanLiteral;
 import org.nlamah.QL.Literal.IdentifierLiteral;
 import org.nlamah.QL.Literal.NumberLiteral;
 import org.nlamah.QL.Literal.TextLiteral;
+import org.nlamah.QL.QLASTNode.QLASTNode;
 import org.nlamah.QL.Unary.MinusExpression;
 import org.nlamah.QL.Unary.NotExpression;
 import org.nlamah.QL.Unary.PlusExpression;
 
-public class MyQLVisitor extends QLBaseVisitor<ASTNode> 
+public class MyQLVisitor extends QLBaseVisitor<QLASTNode> 
 {
 	@Override
-	public ASTNode visitForm(QLParser.FormContext ctx)
+	public QLASTNode visitForm(QLParser.FormContext ctx)
 	{
 		String formName = ctx.Identifier().getText();
 		
@@ -52,7 +52,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitQuestion(QLParser.QuestionContext ctx) 
+	public QLASTNode visitQuestion(QLParser.QuestionContext ctx) 
 	{ 
 		 String identifier = ctx.Identifier().getText();
 		 String type = ctx.Type().getText();
@@ -64,7 +64,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override
-	public ASTNode visitConditionalBlock(QLParser.ConditionalBlockContext ctx)
+	public QLASTNode visitConditionalBlock(QLParser.ConditionalBlockContext ctx)
 	{
 		IfThenBlock ifThenBlock = (IfThenBlock)ctx.ifThenBlock().accept(this);
 		
@@ -88,7 +88,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override
-	public ASTNode visitIfThenBlock(QLParser.IfThenBlockContext ctx)
+	public QLASTNode visitIfThenBlock(QLParser.IfThenBlockContext ctx)
 	{
 		Expression logicalExpression = (Expression) ctx.expression().accept(this);
 		
@@ -104,7 +104,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override
-	public ASTNode visitElseIfThenBlock(QLParser.ElseIfThenBlockContext ctx)
+	public QLASTNode visitElseIfThenBlock(QLParser.ElseIfThenBlockContext ctx)
 	{
 		Expression expression = (Expression) ctx.expression().accept(this);
 		
@@ -120,7 +120,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitElseThenBlock(QLParser.ElseThenBlockContext ctx)
+	public QLASTNode visitElseThenBlock(QLParser.ElseThenBlockContext ctx)
 	{
 		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
 		
@@ -140,7 +140,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 //	}
 	
 	@Override 
-	public ASTNode visitOrExpression(QLParser.OrExpressionContext ctx) 
+	public QLASTNode visitOrExpression(QLParser.OrExpressionContext ctx) 
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -149,7 +149,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitMultiplyExpression(QLParser.MultiplyExpressionContext ctx)
+	public QLASTNode visitMultiplyExpression(QLParser.MultiplyExpressionContext ctx)
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -168,7 +168,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 
 	@Override 
-	public ASTNode visitAndExpression(QLParser.AndExpressionContext ctx) 
+	public QLASTNode visitAndExpression(QLParser.AndExpressionContext ctx) 
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -177,14 +177,14 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx) 
+	public QLASTNode visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx) 
 	{ 
 		return new IdentifierLiteral(ctx.Identifier().getText());
 	}
 
 	
 	@Override 
-	public ASTNode visitComparisonExpression(QLParser.ComparisonExpressionContext ctx) 
+	public QLASTNode visitComparisonExpression(QLParser.ComparisonExpressionContext ctx) 
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -213,7 +213,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitAdditionExpression(QLParser.AdditionExpressionContext ctx) 
+	public QLASTNode visitAdditionExpression(QLParser.AdditionExpressionContext ctx) 
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -222,13 +222,13 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitTextLiteral(QLParser.TextLiteralContext ctx) 
+	public QLASTNode visitTextLiteral(QLParser.TextLiteralContext ctx) 
 	{ 
 		return new TextLiteral(ctx.Text().getText());
 	}
 	
 	@Override 
-	public ASTNode visitEqualityExpression(QLParser.EqualityExpressionContext ctx) 
+	public QLASTNode visitEqualityExpression(QLParser.EqualityExpressionContext ctx) 
 	{ 
 		Expression leftHandExpression = (Expression) ctx.expression(0).accept(this);
         Expression rightHandExpression = (Expression) ctx.expression(1).accept(this);
@@ -247,13 +247,13 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitNumberLiteral(QLParser.NumberLiteralContext ctx) 
+	public QLASTNode visitNumberLiteral(QLParser.NumberLiteralContext ctx) 
 	{ 
 		return new NumberLiteral(ctx.Number().getText());
 	}
 	
 	@Override 
-	public ASTNode visitUnaryExpression(QLParser.UnaryExpressionContext ctx) 
+	public QLASTNode visitUnaryExpression(QLParser.UnaryExpressionContext ctx) 
 	{ 
 		Expression expression = (Expression) ctx.expression().accept(this);
 		
@@ -277,7 +277,7 @@ public class MyQLVisitor extends QLBaseVisitor<ASTNode>
 	}
 	
 	@Override 
-	public ASTNode visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) 
+	public QLASTNode visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) 
 	{ 
 		return new BooleanLiteral(ctx.Boolean().getText());
 	}

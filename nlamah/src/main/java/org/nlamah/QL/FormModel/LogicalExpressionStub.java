@@ -3,8 +3,9 @@ package org.nlamah.QL.FormModel;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.QLASTNode.QLASTNode;
 
-public class LogicalExpressionStub extends ASTNode 
+public class LogicalExpressionStub extends QLASTNode 
 {
 	public LogicalExpressionStub()
 	{

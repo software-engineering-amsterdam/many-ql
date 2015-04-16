@@ -6,7 +6,7 @@ form Box1HouseOwning
 	
 	houseValue number "What is the value of your house?"
 	
-	if (houseValue) 
+	if ((1+2)!=3) 
 	{
 		houseValue2 boolean "in if: Did you have a garage in 2010?" ["yes", "no"]
 	} 
@@ -14,11 +14,11 @@ form Box1HouseOwning
 	
 	houseValue2 boolean "Did you have a garage in 2010?"
 	
-	if (houseValue) 
+	if ((1+2)!=3) 
 	{
 		houseValue2 boolean "in second if: Did you have a garage in 2010?"
 		
-		if (houseValue2) 
+		if ((1+2)!=3) 
 		{
 			houseValue3 number "nested in second if: What was the value of your garage in 2010?"
 		} 

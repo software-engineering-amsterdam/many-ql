@@ -13,20 +13,20 @@ elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
 elseThenBlock : 'else' '{' formElement* '}' ;
 
 expression : UnaryOperator expression					# UnaryExpression
+			| '(' expression ')'						# ParenthesesExpression
 			| expression MultiplyOperator expression	# MultiplyExpression
 			| expression AdditionOperator expression	# AdditionExpression
 			| expression ComparisonOperator expression	# ComparisonExpression
 			| expression EqualityOperator expression	# EqualityExpression
 			| expression AndOperator expression			# AndExpression
 			| expression OrOperator expression			# OrExpression
-			| '(' expression ')'						# ParenthesesExpression
 			| Boolean									# BooleanLiteral
 			| Identifier								# IdentifierLiteral
 			| Text										# TextLiteral
 			| Number									# NumberLiteral
 			;
 
-UnaryOperator : '!' | '+' '-';
+UnaryOperator : '!' | '+' | '-';
 MultiplyOperator : '*' | '/' ;
 AdditionOperator : '+' | '-' ;
 ComparisonOperator : '>' | '>=' | '<' | '<=' ;

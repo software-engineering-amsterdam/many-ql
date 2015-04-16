@@ -3,8 +3,10 @@ package org.nlamah.QL.FormModel;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Expression.Expression;
+import org.nlamah.QL.Expression.ExpressionVisitor;
 import org.nlamah.QL.FormViewControllers.FormElementViewController;
 import org.nlamah.QL.FormViewControllers.IfThenBlockViewController;
+import org.nlamah.QL.Literal.BooleanLiteral;
 
 public class IfThenBlock extends FormElement 
 {
@@ -21,8 +23,9 @@ public class IfThenBlock extends FormElement
 	
 	public boolean isSatisfied()
 	{
-		return false;
-		//return expression.evaluate(relatedElements());
+		BooleanLiteral booleanLiteral = (BooleanLiteral)expression.accept(new ExpressionVisitor());
+		
+		return booleanLiteral.value();
 	}
 	
 	@Override

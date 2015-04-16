@@ -12,4 +12,14 @@ public abstract class BinaryExpression extends Expression
 		this.leftHandExpression = leftHandExpression;
 		this.rightHandExpression = rightHandExpression;
 	}
+	
+	public Expression leftHandExpression()
+	{
+		return this.leftHandExpression;
+	}
+	
+	public Expression rightHandExpression()
+	{
+		return this.rightHandExpression;
+	}
 }
