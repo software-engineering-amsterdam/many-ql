@@ -10,14 +10,12 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
-import org.nlamah.QL.FormModel.ComputedQuestion;
-import org.nlamah.QL.FormModel.ConditionalBlock;
-import org.nlamah.QL.FormModel.Form;
-import org.nlamah.QL.FormModel.FormElement;
-import org.nlamah.QL.FormModel.InputQuestion;
-import org.nlamah.QL.FormModel.IfThenBlock;
-import org.nlamah.QL.FormViewControllers.FormRootViewController;
-import org.nlamah.QL.Literal.BooleanLiteral;
+import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
+import org.nlamah.QL.Model.Form.Form;
+import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
+import org.nlamah.QL.Visitors.ConnectRelatedNodesVisitor;
+import org.nlamah.QL.Visitors.MyQLVisitor;
 
 public class QLInterpreter implements Runnable
 {
@@ -49,7 +47,6 @@ public class QLInterpreter implements Runnable
 		
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
 		
-		//return this.createFormFromParseTree(tree);
 		return buildForm(tree);
 	}
 	
@@ -85,63 +82,23 @@ public class QLInterpreter implements Runnable
     
     private Form buildForm(ParseTree tree)
     {
-    	return (Form)tree.accept(new MyQLVisitor());
-    }
-    
-    private Form createFormFromParseTree(ParseTree tree)
-    {
- 		ArrayList<FormElement> formElements = new ArrayList<FormElement>(10);
-		
-		FormElement formElement;
-		
-		for (int i = 0; i < 10; i++)
-		{
-			if (i % 3 == 0)
-			{
-				formElement = new InputQuestion(Integer.toString(i + 1) + ".", Integer.toString(i+1) + "th question", "BOOL");	
-			}
-			else if (i % 3 == 1)
-			{
-				formElement = new ComputedQuestion(Integer.toString(i+1) + ".", Integer.toString(i+1) + "th question", "Computed", Integer.toString(i * i));
-			}
-			else
-			{
-				BooleanLiteral booleanLiteral = new BooleanLiteral("true");
-				
-				ArrayList<FormElement> dummyQuestions = createConditionalDummyQuestions(i, "if then");
-				
-				IfThenBlock ifThenBlock = new IfThenBlock(booleanLiteral, dummyQuestions);
-				
-				ifThenBlock.addRelatedElement(formElements.get(i - 2));
-				
-				ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, null, null);
-	
-				formElements.get(i - 2).addRelatedElement(conditionalBlock);
-				
-				conditionalBlock.addRelatedElement(formElements.get(i - 2));
-				
-				formElement = conditionalBlock;
-			}
-			
-			formElements.add(formElement);
-		}
- 		
- 		Form form = new Form("test", formElements);
+    	MyQLVisitor myQLVisitor = new MyQLVisitor();
     	
-    	return form;	
-    }
-		
-	private ArrayList<FormElement> createConditionalDummyQuestions(int number, String type)
-	{
-		ArrayList<FormElement> conditionalQuestions = new ArrayList<FormElement>(3);
-		
-		for (int i = 0; i < 3; i++)
-		{
-			conditionalQuestions.add(new InputQuestion(number + "." + i, (i + 1) + "th " + type + " question", "BOOL"));
-		}
-			
-		return conditionalQuestions;
-	}
+    	Form form = (Form)tree.accept(myQLVisitor);
+    	
+    	ArrayList<IdentifierLiteral> identifiers = myQLVisitor.referencedIdentifiers();
+    	
+    	if (Helper.arrayExistsAndHasElements(identifiers))
+    	{
+    		for (IdentifierLiteral identifier : identifiers)
+        	{
+        		identifier.accept(new ConnectRelatedNodesVisitor());
+        		System.out.println("identifier: " + identifier.value());
+        	}
+    	}
+    	
+    	return form;
+    }   
 }
 
 

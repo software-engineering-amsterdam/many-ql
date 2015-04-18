@@ -1,26 +1,26 @@
 form Box1HouseOwning
 { 
-	hasSoldHouse boolean "Did you sell a house in 2010?"
+	hasSoldHouse number "Did you sell a house in 2010?"
 	hasBoughtHouse boolean "Did you by a house in 2010?"
-	hasMaintLoan boolean "Did you enter a loan for maintenance/reconstruction?"
+	hasMaintLoan text "Did you enter a loan for maintenance/reconstruction? Did you enter a loan for maintenance/reconstruction?"
+	houseValue text "What is the value of your house?"
 	
-	houseValue number "What is the value of your house?"
 	
-	if ((1+2)!=3) 
+	if (hasSoldHouse <= 0) 
 	{
-		houseValue2 boolean "in if: Did you have a garage in 2010?" ["yes", "no"]
+		houseValue2 boolean "in if: Did you have a garage in 2010?"
 	} 
 	endif
 	
 	houseValue2 boolean "Did you have a garage in 2010?"
 	
-	if ((1+2)!=3) 
+	if (hasBoughtHouse) 
 	{
 		houseValue2 boolean "in second if: Did you have a garage in 2010?"
 		
-		if ((1+2)!=3) 
+		if ( ( 1 / 2 ) != 3) 
 		{
-			houseValue3 number "nested in second if: What was the value of your garage in 2010?"
+			houseValue3 boolean "nested in second if: What was the value of your garage in 2010?"
 		} 
 		endif
 		

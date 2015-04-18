@@ -1,0 +1,70 @@
+package org.nlamah.QL.Model.Form;
+
+import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
+import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
+import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
+import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
+import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
+import org.nlamah.QL.Visitors.QLNodeVisitor;
+
+public class BooleanQuestion extends InputQuestion 
+{
+	private BooleanLiteral checked;
+	
+	public BooleanQuestion(IdentifierLiteral identifier, TextLiteral questionText) 
+	{
+		super(identifier, questionText, QuestionReturnType.BOOLEAN);
+		
+		checked = new BooleanLiteral("no");
+	}
+	
+	public void setChecked(BooleanLiteral checked)
+	{
+		this.checked = checked;
+	}
+	
+	@Override
+	protected FormElementViewController createViewController() 
+	{
+		return new BooleanQuestionViewController(this);
+	}
+	
+	@Override
+	public QLNode accept(QLNodeVisitor visitor) 
+	{
+		return visitor.visit(this);
+	}
+	
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		if (!super.equals(object))
+		 {
+			 return false;
+		 }
+		 
+		 if (!(object instanceof BooleanQuestion))
+		 {
+			 return false;
+		 }
+		 
+		 BooleanQuestion value = (BooleanQuestion)object;
+		 
+		 if (this.checked != value.checked)
+		 {
+			 return false;
+		 }
+		 
+		 return true;
+	 }
+
+	@Override
+	public ValueExpression value() 
+	{
+		return checked;
+	}
+}

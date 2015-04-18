@@ -13,6 +13,11 @@ public class Helper
 	{
 		return 600;
 	}
+	
+	static public String surroundStringWithHtmlTags(String string)
+	{
+		return "<html>" + string + "</html>";
+	}
 }
 
 
