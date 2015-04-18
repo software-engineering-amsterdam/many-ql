@@ -1,7 +1,7 @@
 form Box1HouseOwning
 { 
-	hasSoldHouse number "Did you sell a house in 2010?"
-	hasBoughtHouse boolean "Did you by a house in 2010?"
+	hasSoldHouse boolean "Did you sell a house in 2010?"
+	hasBoughtHouse number "Did you by a house in 2010?"
 	hasMaintLoan text "Did you enter a loan for maintenance/reconstruction? Did you enter a loan for maintenance/reconstruction?"
 	houseValue text "What is the value of your house?"
 	

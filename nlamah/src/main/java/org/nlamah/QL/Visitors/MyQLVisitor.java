@@ -40,21 +40,16 @@ import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
 
 public class MyQLVisitor extends QLBaseVisitor<QLNode> 
 {
-	private ArrayList<IdentifierLiteral> referencedIdentifiers;
+	private ArrayList<IdentifierLiteral> referencedQuestions;
 	
-	public ArrayList<IdentifierLiteral> referencedIdentifiers()
+	private void addReferencedQuestion(IdentifierLiteral identifier)
 	{
-		return this.referencedIdentifiers;
-	}	
-	
-	private void addReferencedIdentifier(IdentifierLiteral identifier)
-	{
-		if (!Helper.arrayExistsAndHasElements(referencedIdentifiers))
+		if (!Helper.arrayExistsAndHasElements(referencedQuestions))
 		{
-			referencedIdentifiers = new ArrayList<IdentifierLiteral>();
+			referencedQuestions = new ArrayList<IdentifierLiteral>();
 		}
 		
-		referencedIdentifiers.add(identifier);
+		referencedQuestions.add(identifier);
 	}
 	
 	private String removeSurroundingCharacters(String string) 
@@ -74,8 +69,12 @@ public class MyQLVisitor extends QLBaseVisitor<QLNode>
 	        FormElement formElement = (FormElement) contextualFormElement.accept(this);
 	        formElements.add(formElement);
 	    }
+	    
+	    Form form = new Form(formName, formElements);
 	
-	    return new Form(formName, formElements);
+	    form.referencedQuestions = this.referencedQuestions;
+	    
+	    return form; 
 	}
 	
 	@Override 
@@ -300,7 +299,7 @@ public class MyQLVisitor extends QLBaseVisitor<QLNode>
 	public QLNode visitIdentifierLiteral(QLParser.IdentifierLiteralContext ctx)
 	{ 		
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
-		addReferencedIdentifier(identifier);
+		addReferencedQuestion(identifier);
 		
 		return identifier;
 	}

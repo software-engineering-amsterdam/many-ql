@@ -2,7 +2,6 @@ package org.nlamah.QL;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
@@ -10,11 +9,10 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
+import org.nlamah.QL.Error.QLErrorViewController;
 import org.nlamah.QL.Helper.Helper;
-import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.Visitors.ConnectRelatedNodesVisitor;
 import org.nlamah.QL.Visitors.MyQLVisitor;
 
 public class QLInterpreter implements Runnable
@@ -38,7 +36,18 @@ public class QLInterpreter implements Runnable
 	{
 		Form form = this.interprete();
 		
-		((FormRootViewController)form.viewController()).showForm();
+		if (Helper.arrayExistsAndHasElements(form.errors()))
+		{
+			QLErrorViewController errorViewController = new QLErrorViewController(form.errors());
+			errorViewController.showErrors();
+		}
+		else
+		{
+			FormRootViewController rootViewController = new FormRootViewController(form);
+			rootViewController.showForm();
+			
+//			((FormRootViewController)form.viewController()).showForm();
+		}
 	}
 	
 	private Form interprete()
@@ -81,21 +90,10 @@ public class QLInterpreter implements Runnable
     }
     
     private Form buildForm(ParseTree tree)
-    {
-    	MyQLVisitor myQLVisitor = new MyQLVisitor();
+    {  	
+    	Form form = (Form)tree.accept(new MyQLVisitor());
     	
-    	Form form = (Form)tree.accept(myQLVisitor);
-    	
-    	ArrayList<IdentifierLiteral> identifiers = myQLVisitor.referencedIdentifiers();
-    	
-    	if (Helper.arrayExistsAndHasElements(identifiers))
-    	{
-    		for (IdentifierLiteral identifier : identifiers)
-        	{
-        		identifier.accept(new ConnectRelatedNodesVisitor());
-        		System.out.println("identifier: " + identifier.value());
-        	}
-    	}
+    	form  = QLTypeChecker.check(form);
     	
     	return form;
     }   

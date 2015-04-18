@@ -2,6 +2,10 @@ package org.nlamah.QL.Visitors;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Error.DoubleDeclarationError;
+import org.nlamah.QL.Error.InterconnectionError;
+import org.nlamah.QL.Error.QLError;
+import org.nlamah.QL.Error.TypeMismatchError;
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Model.Expression.Abstract.ComposedExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
@@ -43,9 +47,9 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	private IdentifierLiteral identifierLiteral;
 	private Expression lastVisitedExpression;
 	
-	private ArrayList<String> errors = new ArrayList<String>();
+	private ArrayList<QLError> errors = new ArrayList<QLError>();
 	
-	public ArrayList<String> getErrors()
+	public ArrayList<QLError> getErrors()
 	{
 		return errors;
 	}
@@ -77,19 +81,19 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 								
 								if (computedQuestion.returnType() != declaredQuestion.returnType())
 								{
-									errors.add("1. there is a type mismatch");
+									errors.add(new TypeMismatchError());
 								}
 							}
 							else if ((identifierLiteral.parentFormElement() instanceof IfThenBlock) || (identifierLiteral.parentFormElement() instanceof ElseIfThenBlock))
 							{
 								if (declaredQuestion.returnType() != QuestionReturnType.BOOLEAN)
 								{
-									errors.add("2. there is a type mismatch");
+									errors.add(new TypeMismatchError());
 								}
 							}
 							else
 							{
-								errors.add("1. the connection between nodes made a mistake");
+								errors.add(new InterconnectionError());
 							}
 						}
 						else
@@ -100,12 +104,12 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 								
 								if (!parentExpression.isSafeForType(declaredQuestion.returnType()))
 								{
-									errors.add("3. there is a type mismatch");
+									errors.add(new TypeMismatchError());
 								}
 							}
 							else
 							{
-								errors.add("2. the connection between nodes made a mistake");
+								errors.add(new InterconnectionError());
 							}
 						}
 						
@@ -122,7 +126,7 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 		if (numberOfDeclaredItemsWithTheSameIdentifierInTheSameScope > 1)
 		{
 			//TODO throw error;
-			errors.add("multiple declaration");
+			errors.add(new DoubleDeclarationError());
 		}
 		
 		return declaredQuestion;
