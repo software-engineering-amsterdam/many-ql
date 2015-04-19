@@ -41,7 +41,23 @@ public class ConditionalBlockViewController extends FormElementViewController
 		
 		redrawChildViews();
 	}
+	
+	
 
+	public void setIfThenBlockViewController(IfThenBlockViewController ifThenBlockViewController) 
+	{
+		this.ifThenBlockViewController = ifThenBlockViewController;
+	}
+
+	public void setElseIfThenBlockViewControllers(ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers)
+	{
+		this.elseIfThenBlockViewControllers = elseIfThenBlockViewControllers;
+	}
+
+	public void setElseThenBlockViewController(ElseThenBlockViewController elseThenBlockViewController)
+	{
+		this.elseThenBlockViewController = elseThenBlockViewController;
+	}
 
 	
 	private void collectChildViews()

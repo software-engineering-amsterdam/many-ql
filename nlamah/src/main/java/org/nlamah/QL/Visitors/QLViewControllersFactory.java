@@ -47,7 +47,7 @@ import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 
 public class QLViewControllersFactory implements QLNodeVisitor 
 {	
-	FormElementViewController cc;
+	FormElementViewController currentlyCreatedViewController;
 	
 	public QLViewControllersFactory()
 	{
@@ -66,11 +66,69 @@ public class QLViewControllersFactory implements QLNodeVisitor
 			{
 				formElement.accept(this);
 				
-				childViewControllers.add(cc);
+				childViewControllers.add(currentlyCreatedViewController);
 			}
 		}
 		
 		return childViewControllers;
+	}
+	
+	private ConditionalBlockViewController createIfThenBlockViewController(ConditionalBlockViewController conditionalBlockViewController, IfThenBlock ifThenBlock)
+	{
+		IfThenBlockViewController ifThenBlockViewController = null;
+		
+		if (ifThenBlock != null)
+		{
+			ifThenBlockViewController = new IfThenBlockViewController(ifThenBlock);
+			ifThenBlockViewController.setChildViewControllers(childViewControllers(ifThenBlock));
+		}
+		
+		conditionalBlockViewController.setIfThenBlockViewController(ifThenBlockViewController);
+		
+		return conditionalBlockViewController;
+	}
+	
+	private ConditionalBlockViewController createElseIfThenBlockViewControllers(ConditionalBlockViewController conditionalBlockViewController, ArrayList<ElseIfThenBlock> elseIfThenBlocks)
+	{
+		ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
+		
+		if (Helper.arrayExistsAndHasElements(elseIfThenBlocks))
+		{
+			int numberOfElseIfThenViewControllers = elseIfThenBlocks.size();
+			
+			elseIfThenBlockViewControllers = new ArrayList<ElseIfThenBlockViewController>(numberOfElseIfThenViewControllers);
+			
+			for (int i = 0; i < numberOfElseIfThenViewControllers; i++)
+			{
+				ElseIfThenBlock elseIfThenBlock = elseIfThenBlocks.get(i);
+				
+				ElseIfThenBlockViewController viewController = new ElseIfThenBlockViewController(elseIfThenBlock);
+				
+				viewController.setChildViewControllers(childViewControllers(elseIfThenBlock));
+				
+				elseIfThenBlockViewControllers.add(viewController);
+			}
+		}
+		
+		conditionalBlockViewController.setElseIfThenBlockViewControllers(elseIfThenBlockViewControllers);
+		
+		return conditionalBlockViewController;
+	}
+	
+	private ConditionalBlockViewController createElseThenBlockViewController(ConditionalBlockViewController conditionalBlockViewController, ElseThenBlock elseThenBlock)
+	{		
+		ElseThenBlockViewController elseThenBlockViewController = null;
+		
+		if (elseThenBlock != null)
+		{
+			elseThenBlockViewController = new ElseThenBlockViewController(elseThenBlock);
+			
+			elseThenBlockViewController.setChildViewControllers(childViewControllers(elseThenBlock));
+		}
+		
+		conditionalBlockViewController.setElseThenBlockViewController(elseThenBlockViewController);
+		
+		return conditionalBlockViewController;
 	}
 	
 
@@ -210,7 +268,7 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(BooleanQuestion booleanQuestion) 
 	{
-		cc = new BooleanQuestionViewController(booleanQuestion);
+		currentlyCreatedViewController = new BooleanQuestionViewController(booleanQuestion);
 		
 		return null;
 	}
@@ -218,7 +276,7 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{
-		cc = new ComputedQuestionViewController(computedQuestion);
+		currentlyCreatedViewController = new ComputedQuestionViewController(computedQuestion);
 		
 		return null;
 	}
@@ -226,7 +284,13 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
-		cc = new ConditionalBlockViewController(conditionalBlock);
+		ConditionalBlockViewController conditionalBlockViewController = new ConditionalBlockViewController(conditionalBlock);
+		
+		conditionalBlockViewController = createIfThenBlockViewController(conditionalBlockViewController, conditionalBlock.ifThenBlock());
+		conditionalBlockViewController = createElseIfThenBlockViewControllers(conditionalBlockViewController, conditionalBlock.elseIfThenBlocks());
+		conditionalBlockViewController = createElseThenBlockViewController(conditionalBlockViewController, conditionalBlock.elseThenBlock());
+		
+		currentlyCreatedViewController = conditionalBlockViewController;
 		
 		return null;
 	}
@@ -234,11 +298,11 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{	
-		DeclaringFormElementViewController dvc = new ElseIfThenBlockViewController(elseIfThenBlock);
+		DeclaringFormElementViewController declaringFormElementViewController = new ElseIfThenBlockViewController(elseIfThenBlock);
 		
-		dvc.setChildViewControllers(childViewControllers(elseIfThenBlock));
+		declaringFormElementViewController.setChildViewControllers(childViewControllers(elseIfThenBlock));
 		
-		cc = dvc;
+		currentlyCreatedViewController = declaringFormElementViewController;
 		
 		return null;
 	}
@@ -246,11 +310,11 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(ElseThenBlock elseThenBlock) 
 	{
-		DeclaringFormElementViewController dvc = new ElseThenBlockViewController(elseThenBlock);
+		DeclaringFormElementViewController declaringFormElementViewController = new ElseThenBlockViewController(elseThenBlock);
 		
-		dvc.setChildViewControllers(childViewControllers(elseThenBlock));
+		declaringFormElementViewController.setChildViewControllers(childViewControllers(elseThenBlock));
 		
-		cc = dvc;
+		currentlyCreatedViewController = declaringFormElementViewController;
 		
 		return null;
 	}
@@ -266,11 +330,11 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
-		DeclaringFormElementViewController dvc = new IfThenBlockViewController(ifThenBlock);
+		DeclaringFormElementViewController declaringFormElementViewController = new IfThenBlockViewController(ifThenBlock);
 		
-		dvc.setChildViewControllers(childViewControllers(ifThenBlock));
+		declaringFormElementViewController.setChildViewControllers(childViewControllers(ifThenBlock));
 		
-		cc = dvc;
+		currentlyCreatedViewController = declaringFormElementViewController;
 		
 		return null;
 	}
@@ -278,7 +342,7 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	@Override
 	public QLNode visit(NumberQuestion numberQuestion) 
 	{
-		cc = new NumberQuestionViewController(numberQuestion);
+		currentlyCreatedViewController = new NumberQuestionViewController(numberQuestion);
 		
 		return null;
 	}
@@ -287,7 +351,7 @@ public class QLViewControllersFactory implements QLNodeVisitor
 	public QLNode visit(TextQuestion textQuestion) 
 	{
 		
-		cc = new TextQuestionViewController(textQuestion);
+		currentlyCreatedViewController = new TextQuestionViewController(textQuestion);
 		
 		return null;
 	}
