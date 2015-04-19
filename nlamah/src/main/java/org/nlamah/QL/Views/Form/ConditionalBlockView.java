@@ -1,11 +1,8 @@
 package org.nlamah.QL.Views.Form;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
-
-import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
@@ -21,11 +18,7 @@ public class ConditionalBlockView extends FormElementView
 	public void layoutView() 
 	{
 		setBackground(Color.green);
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
-        setMaximumSize(getPreferredSize()); 
-        setMinimumSize(getPreferredSize()); 
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 	}
 
 	@Override

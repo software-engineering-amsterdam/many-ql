@@ -113,7 +113,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		{
 			elseThenBlockViewController.accept(this);
 			conditionalBlockViewController.setElseThenBlockView((ElseThenBlockView) currentlyCreatedView);
-			//conditionalBlockView.add(currentlyCreatedView);
+			conditionalBlockView.add(currentlyCreatedView);
 		}
 		
 		return conditionalBlockViewController;
