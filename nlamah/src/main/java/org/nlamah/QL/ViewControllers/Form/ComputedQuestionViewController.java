@@ -40,4 +40,10 @@ public class ComputedQuestionViewController extends QuestionViewController
 	{
 		visitor.visit(this);
 	}
+	
+	@Override
+	public int neededViewHeight() 
+	{
+		return view.getPreferredSize().height;
+	}
 }

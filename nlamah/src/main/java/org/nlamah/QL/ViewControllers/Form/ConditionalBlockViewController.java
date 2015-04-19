@@ -1,12 +1,13 @@
 package org.nlamah.QL.ViewControllers.Form;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
+import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-
 import org.nlamah.QL.Views.Form.ConditionalBlockView;
 import org.nlamah.QL.Views.Form.ElseIfThenBlockView;
 import org.nlamah.QL.Views.Form.ElseThenBlockView;
@@ -79,144 +80,11 @@ public class ConditionalBlockViewController extends FormElementViewController
 	{
 		this.elseThenBlockView = elseThenBlockView;
 	}
-
-
-//	private void collectChildViews()
-//	{
-//		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
-//		
-//		ifThenBlockView = (IfThenBlockView) (ifThenBlockViewController != null ? ifThenBlockViewController.view() : null);
-//
-//		if (Helper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
-//		{
-//			int numberOfElseIfThenViews = conditionalBlock.elseIfThenBlocks().size();
-//			
-//			elseIfThenBlockViews = new ArrayList<ElseIfThenBlockView>(numberOfElseIfThenViews);
-//			
-//			for (int i = 0; i < numberOfElseIfThenViews; i++)
-//			{
-//				elseIfThenBlockViews.add((ElseIfThenBlockView) elseIfThenBlockViewControllers.get(i).view());
-//			}
-//		}
-//		
-//		elseThenBlockView = (ElseThenBlockView) (elseThenBlockViewController != null ? elseThenBlockViewController.view() : null);
-//	}
-	
-//	private void addChildViewsToView()
-//	{
-//		int preferredHeight = 0;
-//		
-//		if (ifThenBlockView != null)
-//		{
-//			conditionalBlockView.add(ifThenBlockView);
-//			preferredHeight += ifThenBlockViewController.preferredViewHeight();
-//		}
-//		
-//		if (Helper.arrayExistsAndHasElements(elseIfThenBlockViews))
-//		{
-//			for (int i = 0; i < elseIfThenBlockViews.size(); i++)
-//			{
-//				FormElementView formElementView = elseIfThenBlockViews.get(i);
-//				
-//				conditionalBlockView.add(formElementView);	
-//				FormElementViewController formElementViewController = elseIfThenBlockViewControllers.get(i);
-//				preferredHeight += formElementViewController.preferredViewHeight();
-//			}
-//		}
-//		
-//		if (elseThenBlockView != null)
-//		{
-//			conditionalBlockView.add(elseThenBlockView);
-//			preferredHeight += elseThenBlockViewController.preferredViewHeight();
-//		}
-//		
-//		conditionalBlockView.setPreferredSize(new Dimension(Helper.contentWidth(), preferredHeight));
-//	}
-	
-//	private void setViewHeight(int preferredViewHeight)
-//	{
-//		this.preferredViewHeight = preferredViewHeight;
-//		
-//		view.setVisible(true);
-//		
-//		view.setPreferredSize(new Dimension(Helper.contentWidth(), preferredViewHeight));
-//	}
-	
-//	private void redrawChildViews()
-//	{
-//		makeAllViewsInvisible();
-//		
-//		if (ifThenBlockViewController != null && ifThenBlockViewController.viewShouldBeVisisble())
-//		{
-//			ifThenBlockView.setVisible(true);
-//			
-//			setViewHeight(ifThenBlockViewController.preferredViewHeight());
-//			
-//			return;
-//		}
-//		
-//		if (Helper.arrayExistsAndHasElements(elseIfThenBlockViewControllers))
-//		{
-//			for (int i = 0; i < elseIfThenBlockViewControllers.size(); i++)
-//			{
-//				ElseIfThenBlockViewController viewController = elseIfThenBlockViewControllers.get(i);
-//				
-//				if (viewController.viewShouldBeVisisble())
-//				{
-//					ElseIfThenBlockView blockView = elseIfThenBlockViews.get(i);
-//					
-//					blockView.setVisible(true);
-//					
-//					ElseIfThenBlockViewController blockViewController = elseIfThenBlockViewControllers.get(i);
-//					
-//					setViewHeight(blockViewController.preferredViewHeight());
-//					
-//					return;
-//				}
-//			}
-//		}
-//		
-//		if (elseThenBlockViewController != null)
-//		{
-//			elseThenBlockView.setVisible(true);
-//			
-//			setViewHeight(elseThenBlockViewController.preferredViewHeight());
-//		}
-//		else
-//		{
-//			view.setVisible(false);
-//			
-//			setViewHeight(0);
-//		}
-//	}
-	
-//	private void makeAllViewsInvisible()
-//	{
-//		view.setVisible(false);
-//		
-//		if (ifThenBlockView != null)
-//		{
-//			ifThenBlockView.setVisible(false);
-//		}
-//		
-//		if (Helper.arrayExistsAndHasElements(elseIfThenBlockViews))
-//		{
-//			for (ElseIfThenBlockView blockView : elseIfThenBlockViews)
-//			{
-//				blockView.setVisible(false);
-//			}
-//		}
-//		
-//		if (elseThenBlockView != null)
-//		{
-//			elseThenBlockView.setVisible(false);
-//		}
-//	}
 	
 	@Override
 	public void modelStateChanged(FormElement formElement) 
 	{		
-		//redrawChildViews();	
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -229,5 +97,203 @@ public class ConditionalBlockViewController extends FormElementViewController
 	public void accept(QLFormElementViewControllerVisitor visitor) 
 	{
 		visitor.visit(this);
+	}
+	
+	private boolean ifThenBlockExists()
+	{
+		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
+		
+		return conditionalBlock.ifThenBlock() != null;
+	}
+	
+	private boolean elseIfThenBlocksExist()
+	{
+		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
+		
+		return Helper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks());
+	}
+	
+	private boolean elseThenBlockExists()
+	{
+		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
+		
+		return conditionalBlock.elseThenBlock() != null;
+	}
+	
+	private void makeAllViewsInvisible()
+	{
+		if (ifThenBlockExists())
+		{
+			ifThenBlockView.setVisible(false);
+		}
+		
+		if (elseIfThenBlocksExist())
+		{
+			for (ElseIfThenBlockView elseIfThenBlockView : elseIfThenBlockViews)
+			{
+				elseIfThenBlockView.setVisible(false);
+			}
+		}
+		
+		if (elseThenBlockExists())
+		{
+			elseThenBlockView.setVisible(false);
+		}
+	}
+	
+	public void adjustViewHeightToNeededHeight(int neededHeight)
+	{
+		conditionalBlockView.setPreferredSize(new Dimension(Helper.contentWidth(), neededHeight));
+	}
+
+	@Override
+	public int neededViewHeight() 
+	{	
+		makeAllViewsInvisible();
+
+		
+		if (ifThenBlockExists() && elseIfThenBlocksExist() && elseThenBlockExists())
+		{
+			if (ifThenBlockViewController.viewShouldBeVisible())
+			{
+				ifThenBlockView.setVisible(true);
+				
+				int neededHeight = ifThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+			else
+			{
+				for (ElseIfThenBlockViewController elseIfThenBlockViewController : elseIfThenBlockViewControllers)
+				{
+					if (elseIfThenBlockViewController.shouldBeVisisble())
+					{
+						int index = elseIfThenBlockViewControllers.indexOf(elseIfThenBlockViewController);
+						
+						ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews.get(index);
+						
+						elseIfThenBlockView.setVisible(true);
+						
+						int neededHeight = elseIfThenBlockViewController.neededViewHeight();
+						
+						adjustViewHeightToNeededHeight(neededHeight);
+						
+						return neededHeight;
+					}
+				}
+				
+				elseThenBlockView.setVisible(true);
+				
+				int neededHeight = elseThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+		}
+		
+		if (ifThenBlockExists() && !elseIfThenBlocksExist() && elseThenBlockExists())
+		{
+			if (ifThenBlockViewController.viewShouldBeVisible())
+			{
+				ifThenBlockView.setVisible(true);
+				
+				int neededHeight = ifThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+			else
+			{
+				elseThenBlockView.setVisible(true);
+				
+				int neededHeight = elseThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+		}
+		
+		if (ifThenBlockExists() && elseIfThenBlocksExist() && !elseThenBlockExists())
+		{
+			if (ifThenBlockViewController.viewShouldBeVisible())
+			{
+				ifThenBlockView.setVisible(true);
+				
+				int neededHeight = ifThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+			else
+			{
+				for (ElseIfThenBlockViewController elseIfThenBlockViewController : elseIfThenBlockViewControllers)
+				{
+					if (elseIfThenBlockViewController.shouldBeVisisble())
+					{
+						int index = elseIfThenBlockViewControllers.indexOf(elseIfThenBlockViewController);
+						
+						ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews.get(index);
+						
+						elseIfThenBlockView.setVisible(true);
+						
+						int neededHeight = elseIfThenBlockViewController.neededViewHeight();
+						
+						adjustViewHeightToNeededHeight(neededHeight);
+						
+						return neededHeight;
+					}
+				}
+				
+				int neededHeight = 0;
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+		}
+		
+		if (ifThenBlockExists() && !elseIfThenBlocksExist() && !elseThenBlockExists())
+		{
+			if (ifThenBlockViewController.viewShouldBeVisible())
+			{
+				ifThenBlockView.setVisible(true);
+				
+				int neededHeight = ifThenBlockViewController.neededViewHeight();
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+			else
+			{
+				int neededHeight = 0;
+				
+				adjustViewHeightToNeededHeight(neededHeight);
+				
+				return neededHeight;
+			}
+		}
+		
+		if (!ifThenBlockExists() && !elseIfThenBlocksExist() && !elseThenBlockExists())
+		{
+			assert false;
+		}
+		
+		if (!ifThenBlockExists() && (elseIfThenBlocksExist() || elseThenBlockExists()))
+		{
+			assert false;
+		}
+		
+		int neededHeight = 0;
+		
+		adjustViewHeightToNeededHeight(neededHeight);
+		
+		return neededHeight;
 	}
 }

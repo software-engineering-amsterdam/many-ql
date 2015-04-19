@@ -53,4 +53,10 @@ public class TextQuestionViewController extends QuestionViewController implement
 	{
 		visitor.visit(this);
 	}
+	
+	@Override
+	public int neededViewHeight() 
+	{
+		return view.getPreferredSize().height;
+	}
 }

@@ -60,4 +60,10 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	{
 		visitor.visit(this);
 	}
+
+	@Override
+	public int neededViewHeight() 
+	{
+		return view.getPreferredSize().height;
+	}
 }

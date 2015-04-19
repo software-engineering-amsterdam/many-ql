@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
+import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QL.Visitors.ExpressionVisitor;
 
 public class ElseIfThenBlock extends DeclaringFormElement 
 {
@@ -24,7 +26,9 @@ public class ElseIfThenBlock extends DeclaringFormElement
 	
 	public boolean isSatisfied()
 	{
-		return false;
+		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionVisitor());
+		
+		return booleanLiteral.primitiveValue();
 	}
 	
 	@Override 

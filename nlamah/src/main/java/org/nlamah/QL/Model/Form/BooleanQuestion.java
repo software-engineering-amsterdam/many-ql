@@ -45,7 +45,7 @@ public class BooleanQuestion extends InputQuestion
 		 
 		 BooleanQuestion value = (BooleanQuestion)object;
 		 
-		 if (this.checked != value.checked)
+		 if (!this.checked.equals(value.checked))
 		 {
 			 return false;
 		 }

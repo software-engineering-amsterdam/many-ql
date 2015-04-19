@@ -209,6 +209,23 @@ public class QLLogicalExpressionTest extends TestCase
 		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
 	}
 	
+	public void testGreaterThanOperation3()
+	{
+		Expression parsedExpression = QLTest.produceExpressionFromString("1+2 > 3");
+		
+		NumberLiteral numberLiteral1 = new NumberLiteral("1");
+		NumberLiteral numberLiteral2 = new NumberLiteral("2");
+		NumberLiteral numberLiteral3 = new NumberLiteral("3");
+		
+		AddExpression addExpression = new AddExpression(numberLiteral1, numberLiteral2);
+		
+		Expression referenceExpression = new GreaterThanExpression(addExpression, numberLiteral3);
+		
+		assertEquals(parsedExpression, referenceExpression);
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+	}
+	
 	public void testGreaterThanEqualOperation1()
 	{
 		Expression parsedExpression = QLTest.produceExpressionFromString("1 >= 1");
@@ -263,6 +280,40 @@ public class QLLogicalExpressionTest extends TestCase
 		assertEquals(parsedExpression, referenceExpression);
 		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
 		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+	}
+	
+	public void testEqualOperation3()
+	{
+		Expression parsedExpression = QLTest.produceExpressionFromString("1+2 == 3");
+		
+		NumberLiteral numberLiteral1 = new NumberLiteral("1");
+		NumberLiteral numberLiteral2 = new NumberLiteral("2");
+		NumberLiteral numberLiteral3 = new NumberLiteral("3");
+		
+		AddExpression addExpression = new AddExpression(numberLiteral1, numberLiteral2);
+		
+		Expression referenceExpression = new EqualExpression(addExpression, numberLiteral3);
+		
+		assertEquals(parsedExpression, referenceExpression);
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+	}
+	
+	public void testEqualOperation4()
+	{
+		Expression parsedExpression = QLTest.produceExpressionFromString("3 == 1 + 2");
+		
+		NumberLiteral numberLiteral1 = new NumberLiteral("3");
+		NumberLiteral numberLiteral2 = new NumberLiteral("1");
+		NumberLiteral numberLiteral3 = new NumberLiteral("2");
+		
+		AddExpression addExpression = new AddExpression(numberLiteral2, numberLiteral3);
+		
+		Expression referenceExpression = new EqualExpression(numberLiteral1, addExpression);
+		
+		assertEquals(parsedExpression, referenceExpression);
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
+		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
 	}
 	
 	public void testUnequalOperation1()

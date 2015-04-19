@@ -53,4 +53,10 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 	{
 		visitor.visit(this);
 	}
+	
+	@Override
+	public int neededViewHeight() 
+	{
+		return view.getPreferredSize().height;
+	}
 }

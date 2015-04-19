@@ -1,11 +1,9 @@
 package org.nlamah.QL.Views.Form;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 
-import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
@@ -20,12 +18,9 @@ public class IfThenBlockView extends FormElementView
 	@Override
 	public void layoutView() 
 	{
-		setBackground(Color.red);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), Integer.MAX_VALUE));
-        setMaximumSize(getPreferredSize()); 
-        setMinimumSize(getPreferredSize());
+		setBackground(Color.blue);
 	}
 
 	@Override

@@ -27,4 +27,6 @@ public abstract class FormElementViewController implements FormElementListener, 
 	{
 		return this.view;
 	}
+	
+	abstract public int neededViewHeight();
 }

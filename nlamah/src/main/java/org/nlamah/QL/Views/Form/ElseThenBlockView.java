@@ -1,5 +1,9 @@
 package org.nlamah.QL.Views.Form;
 
+import java.awt.Color;
+
+import javax.swing.BoxLayout;
+
 import org.nlamah.QL.ViewControllers.Form.ElseThenBlockViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
@@ -14,7 +18,9 @@ public class ElseThenBlockView extends FormElementView
 	@Override
 	public void layoutView() 
 	{
-		// TODO Auto-generated method stub
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		setBackground(Color.blue);
 	}
 
 	@Override

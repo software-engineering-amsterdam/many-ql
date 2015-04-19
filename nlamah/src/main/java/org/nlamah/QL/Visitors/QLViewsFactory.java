@@ -2,6 +2,8 @@ package org.nlamah.QL.Visitors;
 
 import java.util.ArrayList;
 
+import javax.swing.Box;
+
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
@@ -70,9 +72,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		if (ifThenBlockViewController != null)
 		{
 			ifThenBlockViewController.accept(this);
-			
-			conditionalBlockViewController.setIfThenBlockView((IfThenBlockView) currentlyCreatedView);
-			
+			conditionalBlockViewController.setIfThenBlockView((IfThenBlockView) currentlyCreatedView);	
 			conditionalBlockView.add(currentlyCreatedView);
 		}
 		
@@ -112,10 +112,8 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		if (elseThenBlockViewController != null)
 		{
 			elseThenBlockViewController.accept(this);
-			
 			conditionalBlockViewController.setElseThenBlockView((ElseThenBlockView) currentlyCreatedView);
-			
-			conditionalBlockView.add(currentlyCreatedView);
+			//conditionalBlockView.add(currentlyCreatedView);
 		}
 		
 		return conditionalBlockViewController;
@@ -177,5 +175,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		conditionalBlockViewController = addElseIfThenBlockViews(conditionalBlockViewController);
 		
 		conditionalBlockViewController = addElseThenBlockView(conditionalBlockViewController);
+		
+		currentlyCreatedView = conditionalBlockViewController.view();
 	}
 }
