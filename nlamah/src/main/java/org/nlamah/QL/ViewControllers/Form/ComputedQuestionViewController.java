@@ -1,5 +1,6 @@
 package org.nlamah.QL.ViewControllers.Form;
 
+import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
@@ -17,6 +18,7 @@ public class ComputedQuestionViewController extends QuestionViewController
 		
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());
+		questionView.fillInComputedValueLabel(question.computedValue().toString());
 		
 		view = questionView;
 	}
@@ -28,14 +30,14 @@ public class ComputedQuestionViewController extends QuestionViewController
 	}
 
 	@Override
-	public int preferredViewHeight() 
+	public void viewNeedsUpdate() 
 	{
-		return view.getPreferredSize().height;
+		// TODO Auto-generated method stub	
 	}
-
+	
 	@Override
-	public void viewNeedsUpdate() {
-		// TODO Auto-generated method stub
-		
+	public void accept(QLFormElementViewControllerVisitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }

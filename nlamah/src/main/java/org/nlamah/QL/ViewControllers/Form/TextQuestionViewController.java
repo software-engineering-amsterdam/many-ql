@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
+import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
@@ -22,6 +23,7 @@ public class TextQuestionViewController extends QuestionViewController implement
 		questionView = new TextQuestionView(this);
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());
+		questionView.fillInTextField(question.insertedText().toString());
 		
 		view = questionView;
 	}
@@ -39,17 +41,16 @@ public class TextQuestionViewController extends QuestionViewController implement
 	}
 
 	@Override
-	public int preferredViewHeight() 
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		String insertedTextString = ((JTextField) e.getSource()).getText();
 		
 		((TextQuestion) modelElement).setInsertedText(new TextLiteral(insertedTextString));
+	}
+	
+	@Override
+	public void accept(QLFormElementViewControllerVisitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }

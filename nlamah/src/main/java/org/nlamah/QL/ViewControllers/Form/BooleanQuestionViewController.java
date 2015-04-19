@@ -3,6 +3,7 @@ package org.nlamah.QL.ViewControllers.Form;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
@@ -21,6 +22,7 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 		
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());
+		questionView.fillInCheckbox(question.checked().primitiveValue());
 		
 		view = questionView;
 	}
@@ -49,17 +51,13 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	}
 
 	@Override
-	public int preferredViewHeight() 
+	public void viewNeedsUpdate() 
 	{
-		return view.getPreferredSize().height;
 	}
 
 	@Override
-	public void viewNeedsUpdate() 
+	public void accept(QLFormElementViewControllerVisitor visitor) 
 	{
-		if(parentViewController != null)
-		{
-			parentViewController.viewNeedsUpdate();
-		}
+		visitor.visit(this);
 	}
 }

@@ -1,5 +1,6 @@
 package org.nlamah.QL.ViewControllers.Form;
 
+import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
@@ -8,8 +9,6 @@ import org.nlamah.QL.Views.Form.ElseThenBlockView;
 public class ElseThenBlockViewController extends DeclaringFormElementViewController 
 {
 	private ElseThenBlockView elseThenBlockView;
-	
-	private int preferredViewHeight;
 	
 	public ElseThenBlockViewController(ElseThenBlock elseThenBlock) 
 	{
@@ -24,19 +23,19 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 	public void modelStateChanged(FormElement formElement) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public int preferredViewHeight() 
+	public void viewNeedsUpdate() 
 	{
-		return preferredViewHeight;
-	}
-
-	@Override
-	public void viewNeedsUpdate() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void accept(QLFormElementViewControllerVisitor visitor) 
+	{
+		visitor.visit(this);
 	}
 
 }

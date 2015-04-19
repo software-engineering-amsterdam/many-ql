@@ -2,10 +2,10 @@ package org.nlamah.QL.Model.Form.Abstract;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Interfaces.Visible;
+import org.nlamah.QL.Interfaces.Controllable;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
-public abstract class FormElement extends QLNode implements Visible
+public abstract class FormElement extends QLNode implements Controllable
 {	
 	private IdentifierLiteral identifier;
 

@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class TextQuestionView extends FormElementView 
@@ -32,6 +33,11 @@ public class TextQuestionView extends FormElementView
 	public void fillInQuestionString(String questionString)
 	{
 		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
+	}
+	
+	public void fillInTextField(String text)
+	{
+		textField.setText(text);
 	}
 	
 	@Override

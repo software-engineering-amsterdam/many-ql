@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
+import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
@@ -23,6 +24,7 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 		
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());
+		questionView.fillInNumberField(question.insertedNumber().toString());
 		
 		view = questionView;
 	}
@@ -36,16 +38,6 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 	@Override
 	public void viewNeedsUpdate() 
 	{
-		if(parentViewController != null)
-		{
-			parentViewController.viewNeedsUpdate();
-		}
-	}
-
-	@Override
-	public int preferredViewHeight() 
-	{
-		return view.getPreferredSize().height;
 	}
 
 	@Override
@@ -54,5 +46,11 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 		String insertedNumberString = ((JTextField) e.getSource()).getText();
 		
 		((NumberQuestion) modelElement).setInsertedNumber(new NumberLiteral(insertedNumberString));
+	}
+	
+	@Override
+	public void accept(QLFormElementViewControllerVisitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }

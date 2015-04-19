@@ -1,6 +1,6 @@
 package org.nlamah.QL.Interfaces;
 
-public interface Visible 
+public interface Controllable 
 {
 	public void accept(QLFormElementVisitor visitor);
 }

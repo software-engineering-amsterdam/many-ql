@@ -50,7 +50,7 @@ public class ExpressionVisitor implements QLNodeVisitor
 		BooleanLiteral leftHandLiteral = (BooleanLiteral)expression.leftHandExpression().accept(this);
 		BooleanLiteral rightHandLiteral = (BooleanLiteral)expression.rightHandExpression().accept(this);
 		
-		boolean andOperation = leftHandLiteral.value() && rightHandLiteral.value();
+		boolean andOperation = leftHandLiteral.primitiveValue() && rightHandLiteral.primitiveValue();
 		
 		return new BooleanLiteral(andOperation ? "yes" : "no");
 	}
@@ -117,7 +117,7 @@ public class ExpressionVisitor implements QLNodeVisitor
 		BooleanLiteral leftHandLiteral = (BooleanLiteral)expression.leftHandExpression().accept(this);
 		BooleanLiteral rightHandLiteral = (BooleanLiteral)expression.rightHandExpression().accept(this);
 		
-		boolean orOperation = leftHandLiteral.value() || rightHandLiteral.value();
+		boolean orOperation = leftHandLiteral.primitiveValue() || rightHandLiteral.primitiveValue();
 		
 		return new BooleanLiteral(orOperation ? "yes" : "no");
 	}
@@ -180,7 +180,7 @@ public class ExpressionVisitor implements QLNodeVisitor
 	{
 		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.expression().accept(this);
 		
-		boolean notBoolean = !booleanLiteral.value();
+		boolean notBoolean = !booleanLiteral.primitiveValue();
 		
 		return new BooleanLiteral(notBoolean ? "yes" : "no");
 	}
@@ -218,13 +218,13 @@ public class ExpressionVisitor implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(BooleanQuestion booleanQuestion) 
 	{
-		return booleanQuestion.value();
+		return booleanQuestion.checked();
 	}
 
 	@Override
 	public ValueExpression visit(ComputedQuestion computedQuestion) 
 	{
-		return computedQuestion.value();
+		return computedQuestion.computedValue();
 	}
 
 	@Override
@@ -282,6 +282,6 @@ public class ExpressionVisitor implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(TextQuestion textQuestion) 
 	{
-		return textQuestion.value();
+		return textQuestion.insertedText();
 	}
 }

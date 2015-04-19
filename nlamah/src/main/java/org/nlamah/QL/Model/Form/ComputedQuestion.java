@@ -14,6 +14,8 @@ public class ComputedQuestion extends Question
 {
 	private Expression expression;
 	
+	private ValueExpression computedValueLiteral;
+	
 	public ComputedQuestion(IdentifierLiteral identifier, TextLiteral questionText, QuestionReturnType type, Expression expression) 
 	{
 		super(identifier, questionText, type);
@@ -21,10 +23,9 @@ public class ComputedQuestion extends Question
 		this.expression = expression;
 	}
 	
-	@Override
-	public ValueExpression value() 
+	public ValueExpression computedValue() 
 	{
-		return null;
+		return computedValueLiteral;
 	}
 	
 	@Override 
@@ -49,8 +50,6 @@ public class ComputedQuestion extends Question
 		 
 		 return true;
 	 }
-	
-	
 	
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 

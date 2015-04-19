@@ -1,6 +1,5 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
-import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
@@ -36,8 +35,6 @@ public abstract class Question extends FormElement
 	{
 		return questionText;
 	}
-	
-	abstract public ValueExpression value();
 	
 	@Override 
 	 public boolean equals(Object object) 

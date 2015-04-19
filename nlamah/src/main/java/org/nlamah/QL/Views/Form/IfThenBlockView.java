@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class IfThenBlockView extends FormElementView 

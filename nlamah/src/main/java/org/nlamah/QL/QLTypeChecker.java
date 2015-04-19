@@ -24,7 +24,7 @@ public class QLTypeChecker
     			ConnectRelatedNodesVisitor visitor = new ConnectRelatedNodesVisitor();
     			
         		identifier.accept(visitor);
-        		System.out.println("identifier: " + identifier.value());
+        		System.out.println("identifier: " + identifier.toString());
         		System.out.println("errors:");
         		
         		if (Helper.arrayExistsAndHasElements(visitor.getErrors()))

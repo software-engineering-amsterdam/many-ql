@@ -1,4 +1,4 @@
-package org.nlamah.QL.Views.Form;
+package org.nlamah.QL.Views.Abstract;
 
 import javax.swing.JPanel;
 

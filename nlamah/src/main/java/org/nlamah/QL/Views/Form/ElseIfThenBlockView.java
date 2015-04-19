@@ -1,6 +1,7 @@
 package org.nlamah.QL.Views.Form;
 
 import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class ElseIfThenBlockView extends FormElementView 

@@ -12,7 +12,7 @@ public class BooleanLiteral extends ValueExpression
 		super(booleanValueString, QuestionReturnType.BOOLEAN);	
 	}
 	
-	public boolean value()
+	public boolean primitiveValue()
 	{
 		return valueString.equals("yes") ? true : false; 
 	}

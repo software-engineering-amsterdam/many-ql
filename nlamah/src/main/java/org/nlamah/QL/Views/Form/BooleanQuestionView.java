@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class BooleanQuestionView extends FormElementView 
@@ -31,6 +32,11 @@ public class BooleanQuestionView extends FormElementView
 	public void fillInQuestionString(String questionString)
 	{
 		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
+	}
+	
+	public void fillInCheckbox(boolean isChecked)
+	{
+		checkBox.setSelected(isChecked);
 	}
 
 	public void initializeComponents()

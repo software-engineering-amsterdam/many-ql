@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class NumberQuestionView extends FormElementView
@@ -33,6 +34,11 @@ public class NumberQuestionView extends FormElementView
 	{
 		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
 	}
+	
+	public void fillInNumberField(String number)
+	{
+		textField.setText(number);
+	}
 
 	@Override
 	public void initializeComponents()
@@ -40,7 +46,6 @@ public class NumberQuestionView extends FormElementView
 		typeLabel = new JLabel();
 		questionLabel = new JLabel();
 		textField = new JFormattedTextField(NumberFormat.getNumberInstance());
-//		textField.setColumns(10);
 		textField.addActionListener((NumberQuestionViewController) viewController);
 	}
 	

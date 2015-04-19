@@ -1,14 +1,15 @@
 package org.nlamah.QL.ViewControllers.Form.Abstract;
 
 import org.nlamah.QL.Interfaces.FormElementListener;
+import org.nlamah.QL.Interfaces.Showable;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Views.Form.FormElementView;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
-public abstract class FormElementViewController implements FormElementListener
+public abstract class FormElementViewController implements FormElementListener, Showable
 {
 	protected FormElement modelElement;
 	protected FormElementView view;
-	protected FormElementViewController parentViewController;
+	private FormElementViewController rootViewController;
 	
 	public FormElementViewController(FormElement modelElement)
 	{
@@ -16,17 +17,14 @@ public abstract class FormElementViewController implements FormElementListener
 		
 		this.modelElement = modelElement;
 	}
-//TODO decide of the modelElemet should be reacheable
-//	public FormElement modelElement()
-//	{
-//		return this.modelElement;
-//	}
-//	
+
+	public void setRootViewController(FormElementViewController rootViewController) 
+	{
+		this.rootViewController = rootViewController;
+	}
+	
 	public FormElementView view()
 	{
 		return this.view;
-		//TODO make this method not public.
 	}
-	
-	abstract public int preferredViewHeight();
 }

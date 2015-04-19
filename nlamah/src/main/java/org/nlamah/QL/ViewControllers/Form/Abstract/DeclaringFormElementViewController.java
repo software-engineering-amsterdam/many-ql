@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
+import org.nlamah.QL.Views.Abstract.FormElementView;
 
 public abstract class DeclaringFormElementViewController extends FormElementViewController 
 {
 	private ArrayList<FormElementViewController> childViewControllers;
+	private ArrayList<FormElementView> childViews;
 	
 	public DeclaringFormElementViewController(DeclaringFormElement modelElement) 
 	{
@@ -27,21 +29,9 @@ public abstract class DeclaringFormElementViewController extends FormElementView
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public int preferredViewHeight() 
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	public ArrayList<FormElementViewController> childViewControllers()
-	{
-//		if (Helper.arrayExistsAndHasElements(((DeclaringFormElement) modelElement).childElements()) && !Helper.arrayExistsAndHasElements(childViewControllers))
-//		{
-//			createChildViewControllers();
-//		}
-		
+	{		
 		return childViewControllers;
 	}
 	
@@ -49,21 +39,15 @@ public abstract class DeclaringFormElementViewController extends FormElementView
 	{
 		this.childViewControllers = childViewControllers;
 	}
-	
-//	private void createChildViewControllers()
-//	{
-//		int numberOfChildViewControllers = ((DeclaringFormElement) modelElement).childElements().size();
-//		
-//		ArrayList<FormElementViewController> childViewControllers= new ArrayList<FormElementViewController>(numberOfChildViewControllers);
-//		
-//		for (int i = 0; i < numberOfChildViewControllers; i++)
-//		{
-//			FormElement childElement = ((DeclaringFormElement) modelElement).childElements().get(i);
-//			FormElementViewController childViewController = childElement.viewController();
-//			childViewController.parentViewController = this;
-//			childViewControllers.add(childViewController);
-//		}
-//		
-//		this.childViewControllers = childViewControllers;
-//	}
+
+	public ArrayList<FormElementView> childViews() 
+	{
+		return childViews;
+	}
+
+	public void setChildViews(ArrayList<FormElementView> childViews)
+	{
+		this.childViews = childViews;
+	}
+
 }

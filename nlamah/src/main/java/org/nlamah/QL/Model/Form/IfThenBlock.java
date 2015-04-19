@@ -28,7 +28,7 @@ public class IfThenBlock extends DeclaringFormElement
 	{
 		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionVisitor());
 		
-		return booleanLiteral.value();
+		return booleanLiteral.primitiveValue();
 	}
 	
 	@Override 

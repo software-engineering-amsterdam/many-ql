@@ -32,4 +32,10 @@ public abstract class ValueExpression extends Expression
 		 
 		 return value.valueString.equals(valueString) && value.type == type;
 	 }
+	 
+	@Override
+	public String toString()
+	{
+		return valueString;
+	}
 }

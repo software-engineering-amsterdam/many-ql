@@ -2,7 +2,6 @@ package org.nlamah.QL.Model.Form;
 
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
-import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -21,12 +20,15 @@ public class BooleanQuestion extends InputQuestion
 		checked = new BooleanLiteral("no");
 	}
 	
+	public BooleanLiteral checked() 
+	{
+		return checked;
+	}
+	
 	public void setChecked(BooleanLiteral checked)
 	{
 		this.checked = checked;
 	}
-	
-	
 	
 	@Override 
 	 public boolean equals(Object object) 
@@ -50,12 +52,6 @@ public class BooleanQuestion extends InputQuestion
 		 
 		 return true;
 	 }
-
-	@Override
-	public ValueExpression value() 
-	{
-		return checked;
-	}
 	
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
