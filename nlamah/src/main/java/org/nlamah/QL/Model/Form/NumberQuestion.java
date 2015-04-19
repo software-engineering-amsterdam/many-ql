@@ -1,5 +1,7 @@
 package org.nlamah.QL.Model.Form;
 
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
@@ -7,7 +9,6 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
-import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class NumberQuestion extends InputQuestion 
 {
@@ -30,15 +31,44 @@ public class NumberQuestion extends InputQuestion
 		this.insertedNumber = insertedNumber;
 	}
 	
-	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
-	{
-		return visitor.visit(this);
-	}
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		if (!super.equals(object))
+		 {
+			 return false;
+		 }
+		 
+		 if (!(object instanceof NumberQuestion))
+		 {
+			 return false;
+		 }
+		 
+		 NumberQuestion value = (NumberQuestion)object;
+		 
+		 if (this.insertedNumber != value.insertedNumber)
+		 {
+			 return false;
+		 }
+		 
+		 return true;
+	 }
 
 	@Override
 	public ValueExpression value() 
 	{
 		return insertedNumber;
+	}
+	
+	@Override
+	public QLNode accept(QLNodeVisitor visitor) 
+	{
+		return visitor.visit(this);
+	}
+	
+	@Override
+	public void accept(QLFormElementVisitor visitor) 
+	{
+		visitor.visit(this);	
 	}
 }

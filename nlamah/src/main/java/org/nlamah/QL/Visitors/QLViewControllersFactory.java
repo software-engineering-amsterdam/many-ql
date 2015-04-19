@@ -3,25 +3,7 @@ package org.nlamah.QL.Visitors;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Helper.Helper;
-import org.nlamah.QL.Model.Expression.Binary.AddExpression;
-import org.nlamah.QL.Model.Expression.Binary.AndExpression;
-import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
-import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
-import org.nlamah.QL.Model.Expression.Binary.GreaterThanEqualExpression;
-import org.nlamah.QL.Model.Expression.Binary.GreaterThanExpression;
-import org.nlamah.QL.Model.Expression.Binary.MultiplyExpression;
-import org.nlamah.QL.Model.Expression.Binary.OrExpression;
-import org.nlamah.QL.Model.Expression.Binary.SmallerThanEqualExpression;
-import org.nlamah.QL.Model.Expression.Binary.SmallerThanExpression;
-import org.nlamah.QL.Model.Expression.Binary.SubtractExpression;
-import org.nlamah.QL.Model.Expression.Binary.UnEqualExpression;
-import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
-import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
-import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
-import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
-import org.nlamah.QL.Model.Expression.Unary.NotExpression;
-import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
@@ -33,7 +15,6 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
@@ -45,7 +26,7 @@ import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 
-public class QLViewControllersFactory implements QLNodeVisitor 
+public class QLViewControllersFactory implements QLFormElementVisitor
 {	
 	FormElementViewController currentlyCreatedViewController;
 	
@@ -130,159 +111,22 @@ public class QLViewControllersFactory implements QLNodeVisitor
 		
 		return conditionalBlockViewController;
 	}
-	
+
 
 	@Override
-	public QLNode visit(AddExpression addExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(AndExpression andExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(DivideExpression divideExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(EqualExpression equalExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(GreaterThanExpression greaterThanExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(GreaterThanEqualExpression greaterThanEqualExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(MultiplyExpression multiplyExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(OrExpression orExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(SmallerThanExpression smallerThanExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(SmallerThanEqualExpression smallerThanEqualExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(SubtractExpression subtractExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(UnEqualExpression unEqualExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(BooleanLiteral booleanLiteral) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(IdentifierLiteral identifierLiteral) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(NumberLiteral numberLiteral) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(TextLiteral textLiteral) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(MinusExpression minusExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(NotExpression notExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(PlusExpression plusExpression) 
-	{
-		assert false;
-		return null;
-	}
-
-	@Override
-	public QLNode visit(BooleanQuestion booleanQuestion) 
+	public void visit(BooleanQuestion booleanQuestion) 
 	{
 		currentlyCreatedViewController = new BooleanQuestionViewController(booleanQuestion);
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(ComputedQuestion computedQuestion) 
+	public void visit(ComputedQuestion computedQuestion) 
 	{
 		currentlyCreatedViewController = new ComputedQuestionViewController(computedQuestion);
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(ConditionalBlock conditionalBlock) 
+	public void visit(ConditionalBlock conditionalBlock) 
 	{
 		ConditionalBlockViewController conditionalBlockViewController = new ConditionalBlockViewController(conditionalBlock);
 		
@@ -291,69 +135,53 @@ public class QLViewControllersFactory implements QLNodeVisitor
 		conditionalBlockViewController = createElseThenBlockViewController(conditionalBlockViewController, conditionalBlock.elseThenBlock());
 		
 		currentlyCreatedViewController = conditionalBlockViewController;
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
+	public void visit(ElseIfThenBlock elseIfThenBlock) 
 	{	
 		DeclaringFormElementViewController declaringFormElementViewController = new ElseIfThenBlockViewController(elseIfThenBlock);
 		
 		declaringFormElementViewController.setChildViewControllers(childViewControllers(elseIfThenBlock));
 		
 		currentlyCreatedViewController = declaringFormElementViewController;
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(ElseThenBlock elseThenBlock) 
+	public void visit(ElseThenBlock elseThenBlock) 
 	{
 		DeclaringFormElementViewController declaringFormElementViewController = new ElseThenBlockViewController(elseThenBlock);
 		
 		declaringFormElementViewController.setChildViewControllers(childViewControllers(elseThenBlock));
 		
 		currentlyCreatedViewController = declaringFormElementViewController;
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(Form form) 
+	public void visit(Form form) 
 	{
 		assert false;
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(IfThenBlock ifThenBlock) 
+	public void visit(IfThenBlock ifThenBlock) 
 	{
 		DeclaringFormElementViewController declaringFormElementViewController = new IfThenBlockViewController(ifThenBlock);
 		
 		declaringFormElementViewController.setChildViewControllers(childViewControllers(ifThenBlock));
 		
 		currentlyCreatedViewController = declaringFormElementViewController;
-		
-		return null;
 	}
 
 	@Override
-	public QLNode visit(NumberQuestion numberQuestion) 
+	public void visit(NumberQuestion numberQuestion) 
 	{
-		currentlyCreatedViewController = new NumberQuestionViewController(numberQuestion);
-		
-		return null;
+		currentlyCreatedViewController = new NumberQuestionViewController(numberQuestion);	
 	}
 
 	@Override
-	public QLNode visit(TextQuestion textQuestion) 
+	public void visit(TextQuestion textQuestion) 
 	{
-		
 		currentlyCreatedViewController = new TextQuestionViewController(textQuestion);
-		
-		return null;
 	}
-
 }

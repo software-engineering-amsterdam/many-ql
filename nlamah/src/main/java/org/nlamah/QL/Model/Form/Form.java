@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.Error.QLError;
 import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class Form extends DeclaringFormElement
 {
@@ -44,12 +45,6 @@ public class Form extends DeclaringFormElement
 		return errors;
 	}
 	
-	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
-	{
-		return visitor.visit(this);
-	}
-	
 	 @Override 
 	 public boolean equals(Object object) 
 	 {
@@ -72,4 +67,16 @@ public class Form extends DeclaringFormElement
 		 
 		 return true;
 	 }
+	 
+	 @Override
+		public QLNode accept(QLNodeVisitor visitor) 
+		{
+			return visitor.visit(this);
+		}
+	 
+	 @Override
+		public void accept(QLFormElementVisitor visitor) 
+		{
+			visitor.visit(this);
+		}
 }

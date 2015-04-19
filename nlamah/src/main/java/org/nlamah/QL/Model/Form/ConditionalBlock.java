@@ -3,9 +3,10 @@ package org.nlamah.QL.Model.Form;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class ConditionalBlock extends FormElement 
 {	
@@ -60,12 +61,6 @@ public class ConditionalBlock extends FormElement
 		return this.elseThenBlock;
 	}
 	
-	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
-	{
-		return visitor.visit(this);
-	}
-	
 	@Override 
 	 public boolean equals(Object object) 
 	 {
@@ -104,4 +99,16 @@ public class ConditionalBlock extends FormElement
 		 
 		 return true;
 	 }
+	
+	@Override
+	public QLNode accept(QLNodeVisitor visitor) 
+	{
+		return visitor.visit(this);
+	}
+	
+	@Override
+	public void accept(QLFormElementVisitor visitor) 
+	{
+		visitor.visit(this);	
+	}
 }

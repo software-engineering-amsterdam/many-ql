@@ -7,6 +7,7 @@ import org.nlamah.QL.Error.InterconnectionError;
 import org.nlamah.QL.Error.QLError;
 import org.nlamah.QL.Error.TypeMismatchError;
 import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ComposedExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;

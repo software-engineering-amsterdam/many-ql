@@ -1,12 +1,13 @@
 package org.nlamah.QL.Model.Form;
 
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
-import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class TextQuestion extends InputQuestion 
 {
@@ -23,6 +24,35 @@ public class TextQuestion extends InputQuestion
 	{
 		this.insertedText = insertedText;
 	}
+
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		if (!super.equals(object))
+		 {
+			 return false;
+		 }
+		 
+		 if (!(object instanceof TextQuestion))
+		 {
+			 return false;
+		 }
+		 
+		 TextQuestion value = (TextQuestion)object;
+		 
+		 if (this.insertedText != value.insertedText)
+		 {
+			 return false;
+		 }
+		 
+		 return true;
+	 }
+	
+	@Override
+	public ValueExpression value() 
+	{
+		return insertedText;
+	}
 	
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
@@ -31,8 +61,8 @@ public class TextQuestion extends InputQuestion
 	}
 
 	@Override
-	public ValueExpression value() 
+	public void accept(QLFormElementVisitor visitor) 
 	{
-		return insertedText;
+		visitor.visit(this);
 	}
 }

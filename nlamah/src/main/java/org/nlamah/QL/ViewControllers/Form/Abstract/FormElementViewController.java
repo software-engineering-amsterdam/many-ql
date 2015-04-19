@@ -16,7 +16,7 @@ public abstract class FormElementViewController implements FormElementListener
 		
 		this.modelElement = modelElement;
 	}
-//TODO decide of the modelElemet shoudl be reacheable
+//TODO decide of the modelElemet should be reacheable
 //	public FormElement modelElement()
 //	{
 //		return this.modelElement;

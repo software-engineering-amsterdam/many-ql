@@ -1,4 +1,4 @@
-package org.nlamah.QL.Visitors;
+package org.nlamah.QL.Interfaces;
 
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;

@@ -2,11 +2,12 @@ package org.nlamah.QL.Model.Form;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Interfaces.QLFormElementVisitor;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class ElseIfThenBlock extends DeclaringFormElement 
 {
@@ -24,12 +25,6 @@ public class ElseIfThenBlock extends DeclaringFormElement
 	public boolean isSatisfied()
 	{
 		return false;
-	}
-	
-	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
-	{
-		return visitor.visit(this);
 	}
 	
 	@Override 
@@ -54,4 +49,16 @@ public class ElseIfThenBlock extends DeclaringFormElement
 		 
 		 return true;
 	 }
+	
+	@Override
+	public QLNode accept(QLNodeVisitor visitor) 
+	{
+		return visitor.visit(this);
+	}
+
+	@Override
+	public void accept(QLFormElementVisitor visitor) 
+	{
+		visitor.visit(this);
+	}
 }
