@@ -7,8 +7,6 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.ExpressionVisitor;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
@@ -30,12 +28,6 @@ public class IfThenBlock extends DeclaringFormElement
 		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionVisitor());
 		
 		return booleanLiteral.value();
-	}
-	
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new IfThenBlockViewController(this);
 	}
 	
 	@Override

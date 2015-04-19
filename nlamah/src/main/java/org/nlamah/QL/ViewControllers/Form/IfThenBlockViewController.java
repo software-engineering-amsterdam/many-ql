@@ -6,10 +6,10 @@ import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.ParentingFormElementViewController;
+import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.Views.Form.IfThenBlockView;
 
-public class IfThenBlockViewController extends ParentingFormElementViewController 
+public class IfThenBlockViewController extends DeclaringFormElementViewController 
 {
 	private IfThenBlockView ifThenBlockView;
 	
@@ -57,11 +57,14 @@ public class IfThenBlockViewController extends ParentingFormElementViewControlle
 	{
 		preferredViewHeight = 0;
 		
-		for (int i = 0; i < childViewControllers().size(); i++)
+		if (Helper.arrayExistsAndHasElements(childViewControllers()))
 		{
-			FormElementViewController childViewController = childViewControllers().get(i);
-			
-			preferredViewHeight += childViewController.preferredViewHeight();
+			for (int i = 0; i < childViewControllers().size(); i++)
+			{
+				FormElementViewController childViewController = childViewControllers().get(i);
+				
+				preferredViewHeight += childViewController.preferredViewHeight();
+			}
 		}
 		
 		return preferredViewHeight;

@@ -6,8 +6,6 @@ import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class ElseIfThenBlock extends DeclaringFormElement 
@@ -26,12 +24,6 @@ public class ElseIfThenBlock extends DeclaringFormElement
 	public boolean isSatisfied()
 	{
 		return false;
-	}
-	
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new ElseIfThenBlockViewController(this);
 	}
 	
 	@Override

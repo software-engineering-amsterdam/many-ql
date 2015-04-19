@@ -7,8 +7,6 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
-import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class NumberQuestion extends InputQuestion 
@@ -30,12 +28,6 @@ public class NumberQuestion extends InputQuestion
 	public void setInsertedNumber(NumberLiteral insertedNumber)
 	{
 		this.insertedNumber = insertedNumber;
-	}
-	
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new NumberQuestionViewController(this);
 	}
 	
 	@Override

@@ -167,7 +167,7 @@ public class ExpressionVisitor implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(MinusExpression expression)
 	{
-		NumberLiteral numberLiteral = (NumberLiteral) expression.accept(this);
+		NumberLiteral numberLiteral = (NumberLiteral) expression.expression().accept(this);
 		
 		int minusNumber = -1 * numberLiteral.value();
 		
@@ -177,7 +177,7 @@ public class ExpressionVisitor implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(NotExpression expression)
 	{
-		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(this);
+		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.expression().accept(this);
 		
 		boolean notBoolean = !booleanLiteral.value();
 		

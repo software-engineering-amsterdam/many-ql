@@ -39,7 +39,6 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 			default: break;
 		}
 		
-		notifyRelatedViewControllers();
 		viewNeedsUpdate();
 	}
 		

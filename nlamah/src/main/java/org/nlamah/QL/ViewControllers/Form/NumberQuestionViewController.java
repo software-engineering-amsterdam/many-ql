@@ -54,8 +54,5 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 		String insertedNumberString = ((JTextField) e.getSource()).getText();
 		
 		((NumberQuestion) modelElement).setInsertedNumber(new NumberLiteral(insertedNumberString));
-			
-		notifyRelatedViewControllers();
-		// TODO Auto-generated method stub
 	}
 }

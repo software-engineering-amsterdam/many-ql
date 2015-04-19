@@ -8,8 +8,6 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class Form extends DeclaringFormElement
@@ -44,13 +42,6 @@ public class Form extends DeclaringFormElement
 	public ArrayList<QLError> errors()
 	{
 		return errors;
-	}
-	
-
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new FormRootViewController(this);
 	}
 	
 	@Override

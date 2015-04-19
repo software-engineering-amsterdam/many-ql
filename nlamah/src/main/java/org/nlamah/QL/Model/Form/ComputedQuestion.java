@@ -7,8 +7,6 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
-import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class ComputedQuestion extends Question 
@@ -26,12 +24,6 @@ public class ComputedQuestion extends Question
 	public ValueExpression value() 
 	{
 		return null;
-	}
-
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new ComputedQuestionViewController(this);
 	}
 	
 	@Override

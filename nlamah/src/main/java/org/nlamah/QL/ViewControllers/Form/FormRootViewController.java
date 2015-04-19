@@ -12,11 +12,12 @@ import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.ParentingFormElementViewController;
+import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.Views.Form.ContentView;
 import org.nlamah.QL.Views.Form.NavigationView;
+import org.nlamah.QL.Visitors.QLViewControllersFactory;
 
-public class FormRootViewController extends ParentingFormElementViewController
+public class FormRootViewController extends DeclaringFormElementViewController
 {
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
@@ -30,6 +31,10 @@ public class FormRootViewController extends ParentingFormElementViewController
 	public FormRootViewController(Form form)
 	{
 		super(form);
+		
+		QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory();
+		
+		setChildViewControllers(viewControllersFactory.childViewControllers(form));
 		
 		loadFrame();
 		

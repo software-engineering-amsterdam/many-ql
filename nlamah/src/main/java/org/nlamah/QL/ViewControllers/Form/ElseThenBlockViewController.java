@@ -2,10 +2,10 @@ package org.nlamah.QL.ViewControllers.Form;
 
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.ViewControllers.Form.Abstract.ParentingFormElementViewController;
+import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.Views.Form.ElseThenBlockView;
 
-public class ElseThenBlockViewController extends ParentingFormElementViewController 
+public class ElseThenBlockViewController extends DeclaringFormElementViewController 
 {
 	private ElseThenBlockView elseThenBlockView;
 	

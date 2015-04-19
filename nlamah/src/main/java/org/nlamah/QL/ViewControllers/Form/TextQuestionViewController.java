@@ -51,7 +51,5 @@ public class TextQuestionViewController extends QuestionViewController implement
 		String insertedTextString = ((JTextField) e.getSource()).getText();
 		
 		((TextQuestion) modelElement).setInsertedText(new TextLiteral(insertedTextString));
-			
-		notifyRelatedViewControllers();
 	}
 }

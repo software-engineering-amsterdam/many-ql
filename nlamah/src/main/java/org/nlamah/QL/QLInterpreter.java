@@ -39,14 +39,14 @@ public class QLInterpreter implements Runnable
 		if (Helper.arrayExistsAndHasElements(form.errors()))
 		{
 			QLErrorViewController errorViewController = new QLErrorViewController(form.errors());
+			
 			errorViewController.showErrors();
 		}
 		else
 		{
 			FormRootViewController rootViewController = new FormRootViewController(form);
-			rootViewController.showForm();
 			
-//			((FormRootViewController)form.viewController()).showForm();
+			rootViewController.showForm();
 		}
 	}
 	

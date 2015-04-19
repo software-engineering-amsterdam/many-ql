@@ -32,9 +32,8 @@ public class ConditionalBlockViewController extends FormElementViewController
 		super(conditionalBlock);
 		
 		conditionalBlockView = new ConditionalBlockView(this);
-		
-		createChildViewControllers();
-		createChildViews();
+
+		collectChildViews();
 		
 		addChildViewsToView();
 		
@@ -43,28 +42,9 @@ public class ConditionalBlockViewController extends FormElementViewController
 		redrawChildViews();
 	}
 
-	private void createChildViewControllers()
-	{
-		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
-		
-		ifThenBlockViewController = (IfThenBlockViewController) (conditionalBlock.ifThenBlock() != null ? conditionalBlock.ifThenBlock().viewController() : null);
-		
-		if (Helper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
-		{
-			int numberOfElseIfThenViewControllers = conditionalBlock.elseIfThenBlocks().size();
-			
-			elseIfThenBlockViewControllers = new ArrayList<ElseIfThenBlockViewController>(numberOfElseIfThenViewControllers);
-			
-			for (int i = 0; i < numberOfElseIfThenViewControllers; i++)
-			{
-				elseIfThenBlockViewControllers.add((ElseIfThenBlockViewController) conditionalBlock.elseIfThenBlocks().get(i).viewController());
-			}
-		}
-		
-		elseThenBlockViewController = (ElseThenBlockViewController) (conditionalBlock.elseThenBlock() != null ? conditionalBlock.elseThenBlock().viewController() : null);
-	}
+
 	
-	private void createChildViews()
+	private void collectChildViews()
 	{
 		ConditionalBlock conditionalBlock = (ConditionalBlock) modelElement;
 		

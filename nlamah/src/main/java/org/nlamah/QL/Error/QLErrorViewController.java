@@ -1,10 +1,8 @@
 package org.nlamah.QL.Error;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class QLErrorViewController 
 {

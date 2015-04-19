@@ -7,8 +7,6 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
-import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class BooleanQuestion extends InputQuestion 
@@ -25,12 +23,6 @@ public class BooleanQuestion extends InputQuestion
 	public void setChecked(BooleanLiteral checked)
 	{
 		this.checked = checked;
-	}
-	
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new BooleanQuestionViewController(this);
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ form Box1HouseOwning
 	houseValue text "What is the value of your house?"
 	
 	
-	if (hasSoldHouse <= 0) 
+	if (-3 <= 0) 
 	{
 		houseValue2 boolean "in if: Did you have a garage in 2010?"
 	} 
@@ -14,7 +14,7 @@ form Box1HouseOwning
 	
 	houseValue2 boolean "Did you have a garage in 2010?"
 	
-	if (hasBoughtHouse) 
+	if (1 + 2 > 0) 
 	{
 		houseValue2 boolean "in second if: Did you have a garage in 2010?"
 		

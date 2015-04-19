@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Visitors.QLNodeVisitor;
 
 public class ConditionalBlock extends FormElement 
@@ -60,12 +58,6 @@ public class ConditionalBlock extends FormElement
 	public ElseThenBlock elseThenBlock()
 	{
 		return this.elseThenBlock;
-	}
-
-	@Override
-	protected FormElementViewController createViewController() 
-	{
-		return new ConditionalBlockViewController(this);
 	}
 	
 	@Override

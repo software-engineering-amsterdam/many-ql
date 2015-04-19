@@ -3,12 +3,10 @@ package org.nlamah.QL.Model.Form.Abstract;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 
 public abstract class FormElement extends QLNode
 {	
 	private IdentifierLiteral identifier;
-	private FormElementViewController viewController;
 
 	private ArrayList<FormElement> relatedElements;
 	
@@ -39,18 +37,6 @@ public abstract class FormElement extends QLNode
 	public void addRelatedElement(FormElement relatedElement)
 	{
 		relatedElements.add(relatedElement);
-	}
-	
-	protected abstract FormElementViewController createViewController();
-	
-	public FormElementViewController viewController()
-	{
-		if (viewController == null)
-		{
-			viewController = createViewController();
-		}
-		
-		return viewController;
 	}
 	
 	@Override 
