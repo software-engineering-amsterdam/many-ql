@@ -2,8 +2,6 @@ package org.nlamah.QL.Visitors;
 
 import java.util.ArrayList;
 
-import javax.swing.Box;
-
 import org.nlamah.QL.Helper.Helper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;

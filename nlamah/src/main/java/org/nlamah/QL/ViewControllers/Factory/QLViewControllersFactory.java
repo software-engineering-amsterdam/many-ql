@@ -1,4 +1,4 @@
-package org.nlamah.QL.Visitors;
+package org.nlamah.QL.ViewControllers.Factory;
 
 import java.util.ArrayList;
 
@@ -25,6 +25,7 @@ import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
+import org.nlamah.QL.Views.Form.ElseIfThenBlockView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
@@ -144,7 +145,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(ConditionalBlock conditionalBlock) 
 	{
-		ConditionalBlockViewController conditionalBlockViewController = new ConditionalBlockViewController(conditionalBlock);
+		ConditionalBlockViewController conditionalBlockViewController = ConditionalBlockViewControllerFactory.createConditionalBlockViewController(conditionalBlock);
 		
 		conditionalBlockViewController = createIfThenBlockViewController(conditionalBlockViewController, conditionalBlock.ifThenBlock());
 		conditionalBlockViewController = createElseIfThenBlockViewControllers(conditionalBlockViewController, conditionalBlock.elseIfThenBlocks());

@@ -30,14 +30,7 @@ form Box1HouseOwning
 				test number "this is a test question?"
 			}
 			endif
-			
-			
-			elseif(houseValue2)
-			{
-			}
-			else
-			{
-			}
+
 		}
 		elseif (1+2 > 3)
 		{
@@ -53,5 +46,4 @@ form Box1HouseOwning
 	endif
 	
 	houseSatisfaction boolean "Were you happy in hour house in 2010?"
-
 }

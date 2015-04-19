@@ -9,6 +9,7 @@ public abstract class FormElementViewController implements FormElementListener, 
 {
 	protected FormElement modelElement;
 	protected FormElementView view;
+	
 	private FormElementViewController rootViewController;
 	
 	public FormElementViewController(FormElement modelElement)
