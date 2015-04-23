@@ -1,6 +1,6 @@
-package org.nlamah.QL.ViewControllers.Factory;
+package org.nlamah.QL.Views.Builders;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.ViewControllers.Form.ConditionalBlockAllViewController;
 import org.nlamah.QL.ViewControllers.Form.ConditionalBlockIfElseIfViewController;
@@ -56,7 +56,7 @@ public class ConditionalBlockViewControllerFactory
 	
 	static private boolean elseIfThenBlocksExist(ConditionalBlock conditionalBlock)
 	{
-		return Helper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks());
+		return QLHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks());
 	}
 	
 	static private boolean elseThenBlockExists(ConditionalBlock conditionalBlock)

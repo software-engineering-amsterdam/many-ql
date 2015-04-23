@@ -1,4 +1,4 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QL.Views.Error;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,37 +7,47 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 
 @SuppressWarnings("serial")
 public class QLErrorView extends JPanel
 {
 	private JLabel errorLabel;
-	
+	private JLabel warningLabel;
+
 	public QLErrorView() 
 	{
 		super();
-		
+
 		errorLabel = new JLabel();
 		errorLabel.setForeground(Color.red);
-				
+
+		warningLabel = new JLabel();
+		warningLabel.setForeground(Color.orange);
+
+		add(errorLabel);
+		add(warningLabel);
+
 		layoutView();
 	}
-	
+
 	public void fillInErrorString(String errorString)
 	{
 		errorLabel.setText(errorString);
 	}
-	
+
+	public void fillInWarningString(String warningString)
+	{
+		warningLabel.setText(warningString);
+	}
+
 	private void layoutView()
 	{
 		setBackground(Color.white);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		setMaximumSize(new Dimension(Helper.contentWidth(), 700));
-		setMinimumSize(new Dimension(Helper.contentWidth(),700));
-		setPreferredSize(new Dimension(Helper.contentWidth(),700));
-		
-		add(errorLabel);
+
+		setMaximumSize(new Dimension(QLHelper.contentWidth(), 700));
+		setMinimumSize(new Dimension(QLHelper.contentWidth(),700));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(),700));
 	}
 }

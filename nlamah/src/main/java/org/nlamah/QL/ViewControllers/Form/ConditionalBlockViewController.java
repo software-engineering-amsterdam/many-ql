@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Views.Form.ConditionalBlockView;
 import org.nlamah.QL.Views.Form.ElseIfThenBlockView;
@@ -76,18 +75,6 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	public void setElseThenBlockView(ElseThenBlockView elseThenBlockView) 
 	{
 		this.elseThenBlockView = elseThenBlockView;
-	}
-	
-	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{		
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void viewNeedsUpdate() 
-	{
-		// TODO Auto-generated method stub
 	}
 	
 	@Override

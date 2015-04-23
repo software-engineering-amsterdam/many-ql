@@ -1,4 +1,4 @@
-package org.nlamah.QL.Visitors;
+package org.nlamah.QL.Model.Expression.Evalutation;
 
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
@@ -31,7 +31,7 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 
-public class ExpressionVisitor implements QLNodeVisitor
+public class ExpressionEvaluation implements QLNodeVisitor
 {
 	@Override
 	public ValueExpression visit(AddExpression expression)

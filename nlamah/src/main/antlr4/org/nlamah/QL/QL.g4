@@ -46,7 +46,7 @@ Identifier : Letter (Letter | Digit)* ;
 Number : (Digit)+ ;
 
 Whitespace : [ \t\r\n]+ -> skip ;
-Comment : '#' ~[\r\n]* '\r'? '\n' -> skip ;
+Comment : '//' ~[\r\n]* '\r'? '\n' -> skip ;
 
 fragment Digit : [0-9] ;
 fragment Letter : [a-zA-Z] ;

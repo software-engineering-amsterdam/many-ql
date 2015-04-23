@@ -6,7 +6,7 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
 public abstract class InputQuestion extends Question 
 {
-	public InputQuestion(IdentifierLiteral identifier, TextLiteral questionText, QuestionReturnType type) 
+	public InputQuestion(IdentifierLiteral identifier, TextLiteral questionText, LiteralType type) 
 	{
 		super(identifier, questionText, type);
 	}

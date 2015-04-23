@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
@@ -32,7 +32,7 @@ public class TextQuestionView extends FormElementView
 	
 	public void fillInQuestionString(String questionString)
 	{
-		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
+		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 	}
 	
 	public void fillInTextField(String text)
@@ -50,7 +50,7 @@ public class TextQuestionView extends FormElementView
 		textField.setMaximumSize(new Dimension(200, 24));
 		textField.setMinimumSize(new Dimension(200, 24));
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

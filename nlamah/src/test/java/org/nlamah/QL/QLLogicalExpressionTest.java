@@ -11,9 +11,9 @@ import org.nlamah.QL.Model.Expression.Binary.SmallerThanEqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.SmallerThanExpression;
 import org.nlamah.QL.Model.Expression.Binary.SubtractExpression;
 import org.nlamah.QL.Model.Expression.Binary.UnEqualExpression;
+import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluation;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
-import org.nlamah.QL.Visitors.ExpressionVisitor;
 
 import junit.framework.TestCase;
 
@@ -26,8 +26,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new BooleanLiteral("yes");
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testBoolenLiteral2()
@@ -37,8 +37,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new BooleanLiteral("no");
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testAndOperation1()
@@ -51,8 +51,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new AndExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));	
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));	
 	}
 	
 	public void testAndOperation2()
@@ -65,8 +65,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new AndExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testAndOperation3()
@@ -79,8 +79,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new AndExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testOrOperation1()
@@ -93,8 +93,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testOrOperation2()
@@ -107,8 +107,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testOrOperation3()
@@ -121,8 +121,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testSmallerThanOperation1()
@@ -135,8 +135,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new SmallerThanExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testSmallerThanOperation2()
@@ -149,8 +149,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new SmallerThanExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testSmallerThanEqualOperation1()
@@ -163,8 +163,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new SmallerThanEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testSmallerThanEqualOperation2()
@@ -177,8 +177,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new SmallerThanEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testGreaterThanOperation1()
@@ -191,8 +191,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new GreaterThanExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testGreaterThanOperation2()
@@ -205,8 +205,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new GreaterThanExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testGreaterThanOperation3()
@@ -222,8 +222,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new GreaterThanExpression(addExpression, numberLiteral3);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testGreaterThanEqualOperation1()
@@ -236,8 +236,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new GreaterThanEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testGreaterThanEqualOperation2()
@@ -250,8 +250,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new GreaterThanEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testEqualOperation1()
@@ -264,8 +264,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new EqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testEqualOperation2()
@@ -278,8 +278,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new EqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testEqualOperation3()
@@ -295,8 +295,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new EqualExpression(addExpression, numberLiteral3);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testEqualOperation4()
@@ -312,8 +312,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new EqualExpression(numberLiteral1, addExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testUnequalOperation1()
@@ -326,8 +326,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new UnEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testUnequalOperation2()
@@ -340,8 +340,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new UnEqualExpression(numberLiteral1, numberLiteral2);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 	
 	public void testComplexLogicalExpression1()
@@ -367,8 +367,8 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new OrExpression(greaterThanExpression, greaterThanEqualExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("yes"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("yes"));
 	}
 	
 	public void testComplexLogicalExpression2()
@@ -394,7 +394,7 @@ public class QLLogicalExpressionTest extends TestCase
 		Expression referenceExpression = new OrExpression(smallerThanExpression, smallerThanEqualExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new BooleanLiteral("no"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new BooleanLiteral("no"));
 	}
 }

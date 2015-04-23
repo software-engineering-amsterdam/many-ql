@@ -6,6 +6,11 @@ public abstract class QLNode implements Visitable
 {	
 	private QLNode parentNode;
 	
+	public int startsOnLine;
+	public int startsAtCharacterPosition;
+	public String nodeString;
+	public int endsOnLine;
+	
 	public QLNode()
 	{
 		super();

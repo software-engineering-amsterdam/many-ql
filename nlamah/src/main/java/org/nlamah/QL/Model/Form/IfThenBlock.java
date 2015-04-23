@@ -5,30 +5,17 @@ import java.util.ArrayList;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
-import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
+import org.nlamah.QL.Model.Form.Abstract.ConditionalBlockChildWithExpression;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Visitors.ExpressionVisitor;
 
-public class IfThenBlock extends DeclaringFormElement 
-{
-	private Expression expression;
-	
+public class IfThenBlock extends ConditionalBlockChildWithExpression
+{	
 	public IfThenBlock(Expression expression, ArrayList<FormElement> childElements) 
 	{	
-		super(childElements);
-		
-		this.expression = expression;
+		super(expression, childElements);
 		
 		expression.setParentNode(this);
-	}
-	
-	public boolean isSatisfied()
-	{
-		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionVisitor());
-		
-		return booleanLiteral.primitiveValue();
 	}
 	
 	@Override 
@@ -40,13 +27,6 @@ public class IfThenBlock extends DeclaringFormElement
 		 }
 		 
 		 if (!(object instanceof IfThenBlock))
-		 {
-			 return false;
-		 }
-		 
-		 IfThenBlock value = (IfThenBlock)object;
-		 
-		 if (!(this.expression.equals(value.expression)))
 		 {
 			 return false;
 		 }

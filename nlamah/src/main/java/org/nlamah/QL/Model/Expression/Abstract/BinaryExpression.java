@@ -1,14 +1,16 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
+import org.nlamah.QL.Model.Form.Abstract.LiteralType;
+
 
 public abstract class BinaryExpression extends ComposedExpression 
 {
 	private Expression leftHandExpression;
 	private Expression rightHandExpression;
 	
-	public BinaryExpression(Expression leftHandExpression, Expression rightHandExpression)
+	public BinaryExpression(Expression leftHandExpression, Expression rightHandExpression, LiteralType type)
 	{
-		super();
+		super(type);
 		
 		this.leftHandExpression = leftHandExpression;
 		this.rightHandExpression = rightHandExpression;

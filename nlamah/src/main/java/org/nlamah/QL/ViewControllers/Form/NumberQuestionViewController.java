@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.NumberQuestionView;
 
@@ -30,22 +29,17 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 	}
 
 	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void viewNeedsUpdate() 
-	{
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		String insertedNumberString = ((JTextField) e.getSource()).getText();
 		
+		int value = Integer.valueOf(insertedNumberString);
+		
+		System.out.println("insertedNumber:" + insertedNumberString + ": " + Integer.toString(value));
+		
 		((NumberQuestion) modelElement).setInsertedNumber(new NumberLiteral(insertedNumberString));
+		
+		rootViewController.modelStateChanged();
 	}
 	
 	@Override

@@ -2,21 +2,23 @@ package org.nlamah.QL.Model.Form;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Error.QLError;
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.TypeChecker.GatherDeclaredQuestions;
+import org.nlamah.QL.TypeChecker.GatherReferencedQuestions;
 
 public class Form extends DeclaringFormElement
 {
-	public ArrayList<IdentifierLiteral> referencedQuestions;
+	private ArrayList<Question> declaredQuestions;
+	private ArrayList<IdentifierLiteral> referencedQuestions;
 	
 	private String title;
-	private ArrayList<QLError> errors;
 	
 	public Form(String title, ArrayList<FormElement> formElements) 
 	{
@@ -30,21 +32,26 @@ public class Form extends DeclaringFormElement
 		return this.title;
 	}
 	
-	public void addError(QLError error)
+	public ArrayList<Question> declaredQuestions()
 	{
-		if (!Helper.arrayExistsAndHasElements(errors))
+		if (!QLHelper.arrayExistsAndHasElements(declaredQuestions))
 		{
-			errors = new ArrayList<QLError>();
+			declaredQuestions = new GatherDeclaredQuestions(this).declaredQuestions();
 		}
 		
-		errors.add(error);
+		return declaredQuestions;
 	}
 	
-	public ArrayList<QLError> errors()
+	public ArrayList<IdentifierLiteral> referencedQuestions()
 	{
-		return errors;
+		if (!QLHelper.arrayExistsAndHasElements(referencedQuestions))
+		{
+			referencedQuestions = new GatherReferencedQuestions(this).referencedQuestions();
+		}
+		
+		return referencedQuestions;
 	}
-	
+
 	 @Override 
 	 public boolean equals(Object object) 
 	 {

@@ -1,15 +1,12 @@
-package org.nlamah.QL.Visitors;
+package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Error.DoubleDeclarationError;
-import org.nlamah.QL.Error.InterconnectionError;
-import org.nlamah.QL.Error.QLError;
-import org.nlamah.QL.Error.TypeMismatchError;
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Error.CyclicDependencyError;
+import org.nlamah.QL.Error.OutOfScopeDeclarationError;
+import org.nlamah.QL.Error.Abstract.QLError;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
-import org.nlamah.QL.Model.Expression.Abstract.ComposedExpression;
-import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -41,93 +38,49 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
 
-public class ConnectRelatedNodesVisitor implements QLNodeVisitor 
+public class OutOfScopeDeclarationChecker implements QLNodeVisitor 
 {
-	private IdentifierLiteral identifierLiteral;
-	private Expression lastVisitedExpression;
+	private IdentifierLiteral identifier;
 	
-	private ArrayList<QLError> errors = new ArrayList<QLError>();
+	private ArrayList<QLError> errors;
 	
-	public ArrayList<QLError> getErrors()
+	public OutOfScopeDeclarationChecker(IdentifierLiteral identifier)
 	{
-		return errors;
+		super();
+		
+		this.identifier = identifier;
+		
+		errors = new ArrayList<QLError>();
+		
+		identifier.accept(this);
+	}
+	
+	public ArrayList<QLError> errors()
+	{
+		return this.errors;
 	}
 	
 	private Question IsIdentifierDeclaredHere(ArrayList<FormElement> childElements) 
 	{	
-		int numberOfDeclaredItemsWithTheSameIdentifierInTheSameScope = 0;
 		Question declaredQuestion = null;
 		
-		if (Helper.arrayExistsAndHasElements(childElements))
+		if (QLHelper.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
 			{
 				if (childElement.identifier() != null)
 				{
-					if (childElement.identifier().equals(identifierLiteral))
-					{
+					if (childElement.identifier().equals(identifier))
+					{		
+						assert childElement instanceof Question;
+						
 						declaredQuestion =  (Question)childElement;
 						
-						//TODO if childElement isn't of class Question, then there is a mistake
-						
-						identifierLiteral.setCorrespondingQuestion(declaredQuestion);
-						
-						if (identifierLiteral.parentFormElement() != null)
-						{
-							if (identifierLiteral.parentFormElement() instanceof ComputedQuestion)
-							{
-								ComputedQuestion computedQuestion = (ComputedQuestion) identifierLiteral.parentFormElement();								
-								
-								if (computedQuestion.returnType() != declaredQuestion.returnType())
-								{
-									errors.add(new TypeMismatchError());
-								}
-							}
-							else if ((identifierLiteral.parentFormElement() instanceof IfThenBlock) || (identifierLiteral.parentFormElement() instanceof ElseIfThenBlock))
-							{
-								if (declaredQuestion.returnType() != QuestionReturnType.BOOLEAN)
-								{
-									errors.add(new TypeMismatchError());
-								}
-							}
-							else
-							{
-								errors.add(new InterconnectionError());
-							}
-						}
-						else
-						{
-							if (identifierLiteral.parentNode() != null)
-							{
-								ComposedExpression parentExpression = (ComposedExpression)identifierLiteral.parentNode();
-								
-								if (!parentExpression.isSafeForType(declaredQuestion.returnType()))
-								{
-									errors.add(new TypeMismatchError());
-								}
-							}
-							else
-							{
-								errors.add(new InterconnectionError());
-							}
-						}
-						
-						
-						
-						
-						
-						numberOfDeclaredItemsWithTheSameIdentifierInTheSameScope++;
+						identifier.setCorrespondingQuestion(declaredQuestion);
 					}
 				}
 			}
-		}
-		
-		if (numberOfDeclaredItemsWithTheSameIdentifierInTheSameScope > 1)
-		{
-			//TODO throw error;
-			errors.add(new DoubleDeclarationError());
 		}
 		
 		return declaredQuestion;
@@ -136,96 +89,72 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	@Override
 	public QLNode visit(AddExpression addExpression) 
 	{
-		lastVisitedExpression = addExpression;
-		
 		return addExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(AndExpression andExpression) 
 	{
-		lastVisitedExpression = andExpression;
-		
 		return andExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(DivideExpression divideExpression) 
 	{
-		lastVisitedExpression = divideExpression;
-		
 		return divideExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(EqualExpression equalExpression) 
 	{
-		lastVisitedExpression = equalExpression;
-		
 		return equalExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(GreaterThanExpression greaterThanExpression) 
 	{
-		lastVisitedExpression = greaterThanExpression;
-		
 		return greaterThanExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(GreaterThanEqualExpression greaterThanEqualExpression) 
 	{
-		lastVisitedExpression = greaterThanEqualExpression;
-		
 		return greaterThanEqualExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(MultiplyExpression multiplyExpression) 
 	{
-		lastVisitedExpression = multiplyExpression;
-		
 		return multiplyExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(OrExpression orExpression) 
 	{
-		lastVisitedExpression = orExpression;
-		
 		return orExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(SmallerThanExpression smallerThanExpression) 
 	{
-		lastVisitedExpression = smallerThanExpression;
-		
 		return smallerThanExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(SmallerThanEqualExpression smallerThanEqualExpression) 
 	{
-		lastVisitedExpression = smallerThanEqualExpression;
-		
 		return smallerThanEqualExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(SubtractExpression subtractExpression) 
 	{
-		lastVisitedExpression = subtractExpression;
-		
 		return subtractExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(UnEqualExpression unEqualExpression) 
 	{
-		lastVisitedExpression = unEqualExpression;
-		
 		return unEqualExpression.parentNode().accept(this);
 	}
 
@@ -240,10 +169,7 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 
 	@Override
 	public QLNode visit(IdentifierLiteral identifierLiteral) 
-	{
-		this.identifierLiteral = identifierLiteral;
-		lastVisitedExpression = identifierLiteral;
-		
+	{		
 		return identifierLiteral.parentNode().accept(this);
 	}
 
@@ -268,24 +194,18 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	@Override
 	public QLNode visit(MinusExpression minusExpression) 
 	{
-		lastVisitedExpression = minusExpression;
-		
 		return minusExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(NotExpression notExpression) 
 	{
-		lastVisitedExpression = notExpression;
-		
 		return notExpression.parentNode().accept(this);
 	}
 
 	@Override
 	public QLNode visit(PlusExpression plusExpression) 
 	{
-		lastVisitedExpression = plusExpression;
-		
 		return plusExpression.parentNode().accept(this);
 	}
 
@@ -301,7 +221,10 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{	
-		lastVisitedExpression.setParentFormElement(computedQuestion);
+		if (computedQuestion.identifier().equals(identifier))
+		{
+			errors.add(new CyclicDependencyError(identifier, computedQuestion));
+		}
 		
 		return computedQuestion.parentNode().accept(this);
 	}
@@ -315,8 +238,6 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	@Override
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{
-		lastVisitedExpression.setParentFormElement(elseIfThenBlock);
-		
 		Question declaredQuestion = IsIdentifierDeclaredHere(elseIfThenBlock.childElements());
 		
 		if (declaredQuestion != null)
@@ -343,14 +264,23 @@ public class ConnectRelatedNodesVisitor implements QLNodeVisitor
 	@Override
 	public QLNode visit(Form form) 
 	{
-		return IsIdentifierDeclaredHere(form.childElements());
+		Question declaredQuestion =  IsIdentifierDeclaredHere(form.childElements());
+		
+		if (declaredQuestion == null)
+		{
+			Question outOfScopeQuestion = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), this.identifier);
+			
+			assert(outOfScopeQuestion != null);
+			
+			errors.add(new OutOfScopeDeclarationError(this.identifier, outOfScopeQuestion));
+		}
+		
+		return declaredQuestion;
 	}
 
 	@Override
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
-		lastVisitedExpression.setParentFormElement(ifThenBlock);
-		
 		Question declaredQuestion = IsIdentifierDeclaredHere(ifThenBlock.childElements());
 		
 		if (declaredQuestion != null)

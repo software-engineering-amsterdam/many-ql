@@ -6,7 +6,6 @@ import java.awt.event.ItemListener;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.BooleanQuestionView;
 
@@ -35,24 +34,13 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 			case ItemEvent.SELECTED: ((BooleanQuestion) modelElement).setChecked(new BooleanLiteral("yes"));
 			break;
 			
-			case ItemEvent.DESELECTED: ((BooleanQuestion) modelElement).setChecked(new BooleanLiteral("yes"));
+			case ItemEvent.DESELECTED: ((BooleanQuestion) modelElement).setChecked(new BooleanLiteral("no"));
 			break;
 			
 			default: break;
 		}
 		
-		viewNeedsUpdate();
-	}
-		
-	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void viewNeedsUpdate() 
-	{
+		rootViewController.modelStateChanged();
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
@@ -32,7 +32,7 @@ public class NumberQuestionView extends FormElementView
 	
 	public void fillInQuestionString(String questionString)
 	{
-		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
+		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 	}
 	
 	public void fillInNumberField(String number)
@@ -71,7 +71,7 @@ public class NumberQuestionView extends FormElementView
 		textField.setMaximumSize(new Dimension(200, 24));
 		textField.setMinimumSize(new Dimension(200, 24));
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

@@ -1,16 +1,16 @@
 package org.nlamah.QL.ViewControllers.Form.Abstract;
 
-import org.nlamah.QL.Interfaces.FormElementListener;
 import org.nlamah.QL.Interfaces.Showable;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
+import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
-public abstract class FormElementViewController implements FormElementListener, Showable
+public abstract class FormElementViewController implements Showable
 {
 	protected FormElement modelElement;
 	protected FormElementView view;
 	
-	private FormElementViewController rootViewController;
+	protected FormRootViewController rootViewController;
 	
 	public FormElementViewController(FormElement modelElement)
 	{
@@ -19,7 +19,7 @@ public abstract class FormElementViewController implements FormElementListener, 
 		this.modelElement = modelElement;
 	}
 
-	public void setRootViewController(FormElementViewController rootViewController) 
+	public void setRootViewController(FormRootViewController rootViewController) 
 	{
 		this.rootViewController = rootViewController;
 	}

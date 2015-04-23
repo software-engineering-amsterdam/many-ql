@@ -1,4 +1,4 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QL.Error.Abstract;
 
 public abstract class QLError 
 {

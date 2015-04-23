@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
 
@@ -31,7 +31,7 @@ public class BooleanQuestionView extends FormElementView
 	
 	public void fillInQuestionString(String questionString)
 	{
-		questionLabel.setText(Helper.surroundStringWithHtmlTags(questionString));
+		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 	}
 	
 	public void fillInCheckbox(boolean isChecked)
@@ -64,7 +64,7 @@ public class BooleanQuestionView extends FormElementView
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		setBackground(Color.white);
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

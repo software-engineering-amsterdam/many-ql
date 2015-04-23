@@ -2,7 +2,7 @@ package org.nlamah.QL.Model.Form;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
@@ -32,7 +32,7 @@ public class ConditionalBlock extends FormElement
 			ifThenBlock.setParentNode(this);
 		}
 		
-		if (Helper.arrayExistsAndHasElements(elseIfThenBlocks))
+		if (QLHelper.arrayExistsAndHasElements(elseIfThenBlocks))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : elseIfThenBlocks)
 			{

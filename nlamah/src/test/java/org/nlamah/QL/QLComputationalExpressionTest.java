@@ -5,8 +5,8 @@ import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
 import org.nlamah.QL.Model.Expression.Binary.MultiplyExpression;
 import org.nlamah.QL.Model.Expression.Binary.SubtractExpression;
+import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluation;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
-import org.nlamah.QL.Visitors.ExpressionVisitor;
 
 import junit.framework.TestCase;
 
@@ -19,8 +19,8 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new NumberLiteral("1");
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("1"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("1"));
 	}
 	
 	public void testAddition()
@@ -33,8 +33,8 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new AddExpression(leftHandExpression, rightHandExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("3"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("3"));
 	}
 	
 	public void testSubtraction()
@@ -47,8 +47,8 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new SubtractExpression(leftHandExpression, rightHandExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("43"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("43"));
 	}
 	
 	public void testMultiplication()
@@ -61,8 +61,8 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new MultiplyExpression(leftHandExpression, rightHandExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("20000"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("20000"));
 	}
 	
 	public void testDivision()
@@ -75,9 +75,9 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new DivideExpression(leftHandExpression, rightHandExpression);
 		
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
 		
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("1"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("1"));
 	}
 	
 	public void testSimpleParentheses()
@@ -87,8 +87,8 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new NumberLiteral("1");
 	
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("1"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("1"));
 	}
 	
 	public void testComplexParenthese()
@@ -113,7 +113,7 @@ public class QLComputationalExpressionTest extends TestCase
 		Expression referenceExpression = new AddExpression(expression3, expression5);
 	
 		assertEquals(parsedExpression, referenceExpression);
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), referenceExpression.accept(new ExpressionVisitor()));
-		assertEquals(parsedExpression.accept(new ExpressionVisitor()), new NumberLiteral("47"));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), referenceExpression.accept(new ExpressionEvaluation()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluation()), new NumberLiteral("47"));
 	}
 }

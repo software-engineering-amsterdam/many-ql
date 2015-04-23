@@ -6,9 +6,9 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 public abstract class Question extends FormElement 
 {
 	private TextLiteral questionText;
-	private QuestionReturnType type;
+	private LiteralType type;
 	
-	public Question(IdentifierLiteral identifier, TextLiteral questionString, QuestionReturnType type) 
+	public Question(IdentifierLiteral identifier, TextLiteral questionString, LiteralType type) 
 	{
 		super(identifier);
 		
@@ -26,7 +26,7 @@ public abstract class Question extends FormElement
 		}
 	}
 	
-	public QuestionReturnType returnType()
+	public LiteralType returnType()
 	{
 		return type;
 	}

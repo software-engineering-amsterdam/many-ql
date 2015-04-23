@@ -6,7 +6,7 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
+import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class TextQuestion extends InputQuestion 
 {
@@ -14,7 +14,7 @@ public class TextQuestion extends InputQuestion
 	
 	public TextQuestion(IdentifierLiteral identifier, TextLiteral questionText) 
 	{
-		super(identifier, questionText, QuestionReturnType.TEXT);
+		super(identifier, questionText, LiteralType.TEXT);
 		
 		insertedText = new TextLiteral("");
 	}

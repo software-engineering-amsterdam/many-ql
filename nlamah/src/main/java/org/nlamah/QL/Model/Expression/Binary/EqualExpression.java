@@ -4,7 +4,7 @@ import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryLogicalExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
+import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class EqualExpression extends BinaryLogicalExpression 
 {
@@ -36,7 +36,7 @@ public class EqualExpression extends BinaryLogicalExpression
 	 }
 	
 	@Override
-	public boolean isSafeForType(QuestionReturnType type) 
+	public boolean isSafeForType(LiteralType type) 
 	{
 		switch(type)
 		{

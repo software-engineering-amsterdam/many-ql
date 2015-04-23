@@ -2,7 +2,7 @@ package org.nlamah.QL.ViewControllers.Form;
 
 import java.awt.Dimension;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 
 public class ConditionalBlockIfElseViewController extends ConditionalBlockViewController 
@@ -49,6 +49,6 @@ public class ConditionalBlockIfElseViewController extends ConditionalBlockViewCo
 
 	private void adjustViewHeightToNeededHeight(int neededHeight)
 	{
-		conditionalBlockView.setPreferredSize(new Dimension(Helper.contentWidth(), neededHeight));
+		conditionalBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 }

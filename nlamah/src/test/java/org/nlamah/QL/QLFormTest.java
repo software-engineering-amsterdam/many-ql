@@ -1,13 +1,6 @@
 package org.nlamah.QL;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.io.IOUtils;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.GreaterThanExpression;
@@ -26,7 +19,6 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
-import org.nlamah.QL.Visitors.MyQLVisitor;
 
 import junit.framework.TestCase;
 
@@ -35,46 +27,18 @@ public class QLFormTest extends TestCase
 	private Form parsedForm;
 	private Form referenceForm;
 
-	Form produceFormFromSourceFile(String filename)
-	{
-		ANTLRInputStream input = null;
-		
-		try 
-		{
-			InputStream inputStream = QLInterpreter.class.getResourceAsStream("form/" + filename + ".ql");
-			String qlSourceCode = IOUtils.toString(inputStream, "UTF-8");
-			input = new ANTLRInputStream(qlSourceCode);
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		QLLexer lexer = new QLLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);
-		ParseTree tree = parser.form();
-		
-		System.out.println(tree.toStringTree(parser));
-		
-		parsedForm = (Form)tree.accept(new MyQLVisitor());
-		
-		return  parsedForm;
-	}
-	
 	public void testEmptyForm() 
 	{	
-		parsedForm = produceFormFromSourceFile("emptyform");
+		parsedForm = QLTest.produceFormFromSourceFile("form", "emptyform");
 		
 		referenceForm = new Form("test", new ArrayList<FormElement>());
 		
 	    assertEquals(parsedForm, referenceForm);  
-	    
 	}
 	
 	public void testOneQuestion() 
 	{
-		parsedForm = produceFormFromSourceFile("onequestion");
+		parsedForm = QLTest.produceFormFromSourceFile("form", "onequestion");
 		
 		InputQuestion question = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
 		ArrayList<FormElement> questions = new ArrayList<FormElement>();
@@ -87,7 +51,7 @@ public class QLFormTest extends TestCase
 	
 	 public void testTwoQuestions() 
 	 {
- 		parsedForm = produceFormFromSourceFile("twoquestions");
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "twoquestions");
 
  		InputQuestion question1 = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
  		InputQuestion question2 = new BooleanQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"));
@@ -103,7 +67,7 @@ public class QLFormTest extends TestCase
 
  	public void testSimpleIfStatement() 
  	{
- 		parsedForm = produceFormFromSourceFile("simpleifstatement");
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifstatement");
 
  		NumberLiteral leftHandLiteral = new NumberLiteral("1");
  		NumberLiteral rightHandLiteral = new NumberLiteral("2");
@@ -125,7 +89,7 @@ public class QLFormTest extends TestCase
 
  	public void testSimpleIfElseStatement() 
  	{
- 		parsedForm = produceFormFromSourceFile("simpleifelsestatement");
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsestatement");
  		
  		NumberLiteral leftHandLiteral = new NumberLiteral("1");
  		NumberLiteral rightHandLiteral = new NumberLiteral("2");
@@ -146,7 +110,7 @@ public class QLFormTest extends TestCase
 
  	public void testSimpleIfElsifElseStatement() 
  	{
- 		parsedForm = produceFormFromSourceFile("simpleifelsifelsestatement");
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsifelsestatement");
 
  		NumberLiteral numberLiteral1 = new NumberLiteral("1");
  		NumberLiteral numberLiteral2 = new NumberLiteral("2");
@@ -190,7 +154,7 @@ public class QLFormTest extends TestCase
 
  	public void testNestedIfElsifElseStatement() 
  	{
- 		parsedForm = produceFormFromSourceFile("nestedifelsestatement");
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
  		
  		
  		BooleanLiteral booleanLiteral1 = new BooleanLiteral("yes");

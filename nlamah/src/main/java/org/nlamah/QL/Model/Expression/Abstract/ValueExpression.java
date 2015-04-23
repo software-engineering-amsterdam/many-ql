@@ -1,17 +1,15 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QL.Model.Form.Abstract.QuestionReturnType;
+import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public abstract class ValueExpression extends Expression 
 {
-	protected QuestionReturnType type;
 	protected String valueString;
 	
-	public ValueExpression(String valueString, QuestionReturnType type)
+	public ValueExpression(String valueString, LiteralType type)
 	{
-		super();
+		super(type);
 		
-		this.type = type;
 		this.valueString = valueString;
 	}
 	
@@ -30,7 +28,7 @@ public abstract class ValueExpression extends Expression
 		 
 		 ValueExpression value = (ValueExpression) object;
 		 
-		 return value.valueString.equals(valueString) && value.type == type;
+		 return value.valueString.equals(valueString);
 	 }
 	 
 	@Override

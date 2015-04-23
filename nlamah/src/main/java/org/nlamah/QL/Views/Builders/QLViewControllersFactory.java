@@ -1,8 +1,8 @@
-package org.nlamah.QL.ViewControllers.Factory;
+package org.nlamah.QL.Views.Builders;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
@@ -20,19 +20,19 @@ import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
 import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
 import org.nlamah.QL.ViewControllers.Form.ElseThenBlockViewController;
+import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
 import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
 import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-import org.nlamah.QL.Views.Form.ElseIfThenBlockView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
-	FormElementViewController rootViewController;
+	FormRootViewController rootViewController;
 	FormElementViewController currentlyCreatedViewController;
 	
-	public QLViewControllersFactory(FormElementViewController rootViewController)
+	public QLViewControllersFactory(FormRootViewController rootViewController)
 	{
 		super();	
 		
@@ -43,7 +43,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	{
 		ArrayList<FormElementViewController> childViewControllers = null;
 		
-		if (Helper.arrayExistsAndHasElements(declaringFormElement.childElements()))
+		if (QLHelper.arrayExistsAndHasElements(declaringFormElement.childElements()))
 		{
 			childViewControllers = new ArrayList<FormElementViewController>();
 			
@@ -86,16 +86,14 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	{
 		ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
 		
-		if (Helper.arrayExistsAndHasElements(elseIfThenBlocks))
+		if (QLHelper.arrayExistsAndHasElements(elseIfThenBlocks))
 		{
 			int numberOfElseIfThenViewControllers = elseIfThenBlocks.size();
 			
 			elseIfThenBlockViewControllers = new ArrayList<ElseIfThenBlockViewController>(numberOfElseIfThenViewControllers);
 			
-			for (int i = 0; i < numberOfElseIfThenViewControllers; i++)
+			for (ElseIfThenBlock elseIfThenBlock : elseIfThenBlocks)
 			{
-				ElseIfThenBlock elseIfThenBlock = elseIfThenBlocks.get(i);
-				
 				ElseIfThenBlockViewController viewController = new ElseIfThenBlockViewController(elseIfThenBlock);
 				
 				viewController.setChildViewControllers(createChildViewControllers(elseIfThenBlock));

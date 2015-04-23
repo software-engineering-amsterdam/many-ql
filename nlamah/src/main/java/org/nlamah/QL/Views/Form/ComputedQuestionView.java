@@ -7,7 +7,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.ViewLoadingStrategy;
 import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
@@ -22,10 +22,6 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 	public ComputedQuestionView(ComputedQuestionViewController viewController) 
 	{
 		super(viewController);
-
-		layoutView();
-		initializeComponents();
-		addComponentsToView();
 	}
 
 	public void fillInType(String type)
@@ -46,6 +42,7 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 	@Override
 	public void addComponentsToView() 
 	{
+		add(Box.createRigidArea(new Dimension(10, 0)));
 		add(typeLabel);
 		add(Box.createRigidArea(new Dimension(10, 0)));
 		add(questionLabel);
@@ -66,9 +63,9 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 	public void layoutView() 
 	{	
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		setBackground(Color.lightGray);
+		setBackground(Color.white);
 		
-		setPreferredSize(new Dimension(Helper.contentWidth(), 100));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), 100));
         setMaximumSize(getPreferredSize()); 
         setMinimumSize(getPreferredSize());
 	}

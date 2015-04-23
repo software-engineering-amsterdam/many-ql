@@ -7,17 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.ViewControllers.Factory.QLViewControllersFactory;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Builders.FormHeightAdjuster;
+import org.nlamah.QL.Views.Builders.QLViewControllersFactory;
+import org.nlamah.QL.Views.Builders.QLViewsFactory;
 import org.nlamah.QL.Views.Form.ContentView;
 import org.nlamah.QL.Views.Form.NavigationView;
-import org.nlamah.QL.Visitors.FormHeightAdjuster;
-import org.nlamah.QL.Visitors.QLViewsFactory;
 
 public class FormRootViewController extends DeclaringFormElementViewController
 {
@@ -78,22 +77,14 @@ public class FormRootViewController extends DeclaringFormElementViewController
 	{	
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, navigationView, new JScrollPane(contentView));
         
-        contentView.setPreferredSize(new Dimension(Helper.contentWidth(), neededViewHeight()));
+        contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededViewHeight()));
         
         frame.setContentPane(splitPane);
 	}
 
-
-	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{
-		System.out.println("test");
-	}
-
-	@Override
-	public void viewNeedsUpdate() 
-	{
-		
+	public void modelStateChanged() 
+	{	
+		contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededViewHeight()));
 	}
 	
 	@Override

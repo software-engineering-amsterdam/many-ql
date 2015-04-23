@@ -2,13 +2,12 @@ package org.nlamah.QL.ViewControllers.Form;
 
 import java.awt.Dimension;
 
-import org.nlamah.QL.Helper.Helper;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
+import org.nlamah.QL.Views.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Views.Form.ElseThenBlockView;
-import org.nlamah.QL.Visitors.FormHeightAdjuster;
 
 public class ElseThenBlockViewController extends DeclaringFormElementViewController 
 {
@@ -24,19 +23,6 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 	}
 	
 	@Override
-	public void modelStateChanged(FormElement formElement) 
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void viewNeedsUpdate() 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void accept(QLFormElementViewControllerVisitor visitor) 
 	{
 		visitor.visit(this);
@@ -49,7 +35,7 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 		
 		int neededHeight = heightCalculator.getPreferredHeight(childViewControllers());
 		
-		elseThenBlockView.setPreferredSize(new Dimension(Helper.contentWidth(), neededHeight));
+		elseThenBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 		
 		return neededHeight;
 	}
