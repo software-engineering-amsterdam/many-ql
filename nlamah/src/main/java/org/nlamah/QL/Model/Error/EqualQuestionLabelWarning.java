@@ -1,9 +1,9 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QL.Model.Error;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.nlamah.QL.Error.Abstract.QLWarning;
+import org.nlamah.QL.Model.Error.Abstract.QLWarning;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
 public class EqualQuestionLabelWarning extends QLWarning 

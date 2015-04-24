@@ -8,5 +8,5 @@ form test
 	}
 	endif
 	
-	question3 boolean "test2" question2 + 200
+	question3 boolean "test2" = question2 + 200
 }

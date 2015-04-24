@@ -31,7 +31,7 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 
-public class ExpressionEvaluation implements QLNodeVisitor
+public class ExpressionEvaluator implements QLNodeVisitor
 {
 	@Override
 	public ValueExpression visit(AddExpression expression)

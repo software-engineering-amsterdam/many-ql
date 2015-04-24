@@ -1,13 +1,10 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public abstract class Expression extends QLNode
-{	
-	private FormElement parentFormElement;
-	
+{		
 	private LiteralType type;
 	
 	public Expression(LiteralType type)
@@ -15,16 +12,6 @@ public abstract class Expression extends QLNode
 		super();
 		
 		this.type = type;
-	}
-	
-	public FormElement parentFormElement() 
-	{
-		return parentFormElement;
-	}
-
-	public void setParentFormElement(FormElement parentFormElement) 
-	{
-		this.parentFormElement = parentFormElement;
 	}
 	
 	public LiteralType type()
@@ -54,7 +41,6 @@ public abstract class Expression extends QLNode
 		 
 		 return true;
 	 }
-	
 }
 
 

@@ -1,6 +1,6 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QL.Model.Error;
 
-import org.nlamah.QL.Error.Abstract.QLError;
+import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 
 public class ExpressionTypeMismatchError extends QLError 

@@ -3,7 +3,7 @@ package org.nlamah.QL.Model.Form.Abstract;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
-import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluation;
+import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 
 public abstract class ConditionalBlockChildWithExpression extends DeclaringFormElement
@@ -26,7 +26,7 @@ public abstract class ConditionalBlockChildWithExpression extends DeclaringFormE
 	
 	public boolean isSatisfied()
 	{
-		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionEvaluation());
+		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.accept(new ExpressionEvaluator());
 		
 		return booleanLiteral.primitiveValue();
 	}

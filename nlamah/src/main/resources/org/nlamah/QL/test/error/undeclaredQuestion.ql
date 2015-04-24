@@ -5,5 +5,5 @@ form test
 	}
 	endif
 	
-	question3 number "test" question2
+	question3 number "test" = question2
 }

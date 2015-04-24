@@ -3,6 +3,7 @@ package org.nlamah.QL.Model.Expression.Literal;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
+import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
@@ -11,7 +12,6 @@ import org.nlamah.QL.Model.Form.Abstract.Question;
 
 public class IdentifierLiteral extends ValueExpression 
 {
-	//TODO isn't this provoking unnecessary entanglement?
 	private Question correspondingQuestion;
 	
 	public IdentifierLiteral(String identifierValueString)
@@ -42,6 +42,13 @@ public class IdentifierLiteral extends ValueExpression
 	
 	public ValueExpression representedValue()
 	{
+		if (correspondingQuestion instanceof ComputedQuestion)
+		{
+			ComputedQuestion question = (ComputedQuestion) correspondingQuestion;
+			
+			return question.computedValue();
+		}
+		
 		switch (correspondingQuestion.returnType())
 		{
 			case BOOLEAN: return ((BooleanQuestion) correspondingQuestion).checked();

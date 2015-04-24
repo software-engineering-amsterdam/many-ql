@@ -33,10 +33,6 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 	{
 		String insertedNumberString = ((JTextField) e.getSource()).getText();
 		
-		int value = Integer.valueOf(insertedNumberString);
-		
-		System.out.println("insertedNumber:" + insertedNumberString + ": " + Integer.toString(value));
-		
 		((NumberQuestion) modelElement).setInsertedNumber(new NumberLiteral(insertedNumberString));
 		
 		rootViewController.modelStateChanged();

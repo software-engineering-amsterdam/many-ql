@@ -3,8 +3,11 @@ package org.nlamah.QL;
 import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
+import org.nlamah.QL.Model.Error.Abstract.ParsingError;
+import org.nlamah.QL.Model.Error.Parsing.EnumRecognitionError;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -39,11 +42,29 @@ import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
-public class RawFormTreeBuilder extends QLBaseVisitor<QLNode> 
+public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	public RawFormTreeBuilder()
+	private ParseTree tree;
+	
+	private ArrayList<ParsingError> errors;
+	
+	public RawFormBuilder(ParseTree tree)
 	{
 		super();
+		
+		this.tree = tree;
+		
+		errors = new ArrayList<ParsingError>();
+	}
+	
+	public Form rawForm()
+	{
+		return (Form) tree.accept(this);
+	}
+	
+	public ArrayList<ParsingError> errors()
+	{
+		return this.errors;
 	}
 
 	private String removeSurroundingCharacters(String string) 
@@ -85,20 +106,20 @@ public class RawFormTreeBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.questionString().getText()));
+		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		String type = ctx.type.getText().toUpperCase();
 
-		LiteralType returnType = LiteralType.NUMBER;
+		LiteralType returnType = null;
 
 		try 
 		{
 			returnType = LiteralType.valueOf(type);
 		} 
-		catch(IllegalArgumentException ex) 
+		catch(Exception ex) 
 		{
-			//TODO
+			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
 
 		Expression expression = (Expression)ctx.expression().accept(this);
@@ -116,7 +137,7 @@ public class RawFormTreeBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.questionString().getText()));
+		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new BooleanQuestion(identifier, questionText);
@@ -132,7 +153,7 @@ public class RawFormTreeBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.questionString().getText()));
+		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new NumberQuestion(identifier, questionText);
@@ -148,7 +169,7 @@ public class RawFormTreeBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.questionString().getText()));
+		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new TextQuestion(identifier, questionText);

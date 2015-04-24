@@ -1,0 +1,10 @@
+stylesheet test 
+
+	page Page1 {
+		section "Housing"
+			question question1
+				widget checkbox
+	}
+	page Page2 {
+		
+	}

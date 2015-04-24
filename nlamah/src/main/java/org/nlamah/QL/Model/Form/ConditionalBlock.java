@@ -90,7 +90,6 @@ public class ConditionalBlock extends FormElement
 		 {
 			 return true;
 		 }
-		 //TODO what when the are not both of them equal
 		 
 		 if (!(this.elseThenBlock.equals(value.elseThenBlock)))
 		 {

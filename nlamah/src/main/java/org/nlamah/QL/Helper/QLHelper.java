@@ -12,11 +12,6 @@ public class QLHelper
 		return arrayList != null && arrayList.size() > 0;
 	}
 	
-	static public int contentWidth()
-	{
-		return 600;
-	}
-	
 	static public String surroundStringWithHtmlTags(String string)
 	{
 		return "<html>" + string + "</html>";
@@ -48,6 +43,41 @@ public class QLHelper
 		}
 		
 		return foundQuestions;
+	}
+	
+	
+	static public int contentWidth()
+	{
+		return 700;
+	}
+	
+	static public int labelLeftMargin()
+	{
+		return 30;
+	}
+	
+	static public int labelRightMargin()
+	{
+		return 15;
+	}
+	
+	static public int widgetWidth()
+	{
+		return 250;
+	}
+	
+	static public int labelTopMargin()
+	{
+		return 15;
+	}
+	
+	static public int labelBottomMargin()
+	{
+		return 15;
+	}
+	static public int defaultQuestionHeight()
+	{
+		return 50;
 	}
 }
 

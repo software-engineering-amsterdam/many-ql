@@ -18,7 +18,7 @@ import org.nlamah.QL.Views.Builders.QLViewsFactory;
 import org.nlamah.QL.Views.Form.ContentView;
 import org.nlamah.QL.Views.Form.NavigationView;
 
-public class FormRootViewController extends DeclaringFormElementViewController
+public class FormRootViewController extends DeclaringFormElementViewController implements Runnable
 {
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
@@ -42,7 +42,13 @@ public class FormRootViewController extends DeclaringFormElementViewController
 		addNavigationAndContentViews();
 	}
 	
-	public void showForm()
+	@Override
+	public void run() 
+	{
+		showForm();
+	}
+	
+	private void showForm()
 	{
 		frame.setVisible(true);
 	}
@@ -66,10 +72,12 @@ public class FormRootViewController extends DeclaringFormElementViewController
 		QLViewsFactory viewsFactory = new QLViewsFactory();
 		
 		ArrayList<FormElementView> childViews = viewsFactory.gatherChildViews(this);
-		
-		for (FormElementView childView : childViews)
-		{	
-			contentView.add(childView);
+		if (QLHelper.arrayExistsAndHasElements(childViews))
+		{
+			for (FormElementView childView : childViews)
+			{	
+				contentView.add(childView);
+			}
 		}
 	}
 	

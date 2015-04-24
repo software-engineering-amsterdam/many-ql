@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import org.nlamah.QL.Error.Abstract.QLError;
-import org.nlamah.QL.Error.Abstract.QLWarning;
 import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QL.Model.Error.Abstract.QLWarning;
 
-public class QLErrorViewController 
+public class QLErrorViewController implements Runnable
 {
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
@@ -29,7 +29,13 @@ public class QLErrorViewController
 		loadFrame();
 	}
 
-	public void showErrors()
+	@Override
+	public void run() 
+	{
+		showErrors();
+	}
+	
+	private void showErrors()
 	{
 		errorView.fillInErrorString(produceErrorString());
 		errorView.fillInWarningString(produceWarningString());
@@ -80,4 +86,6 @@ public class QLErrorViewController
 
 		return "<html>" + warningString + "</html>";
 	}
+
+	
 }

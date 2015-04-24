@@ -3,17 +3,11 @@ grammar QL;
 form : 'form' Identifier '{' formElement* '}' ;
 formElement : question | conditionalBlock ; 
 
-//question : Identifier Type questionString possibleAnswers?;
-//questionString : Text ;
-//possibleAnswers : '[' answer+=Text (',' answer+=Text)* ']' ;
-
-question : Identifier type=('boolean' | 'number' | 'text') questionString expression	#ComputedQuestion
-		| Identifier 'boolean' questionString 											#BooleanQuestion	
-		| Identifier 'number' questionString											#NumberQuestion
-		| Identifier 'text' questionString												#TextQuestion
+question : Identifier type=('boolean' | 'number' | 'text') Text '=' expression		#ComputedQuestion
+		| Identifier 'boolean' Text 												#BooleanQuestion	
+		| Identifier 'number' Text													#NumberQuestion
+		| Identifier 'text' Text													#TextQuestion
 		;
-		
-questionString : Text ;
 
 conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? 'endif';
 ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;

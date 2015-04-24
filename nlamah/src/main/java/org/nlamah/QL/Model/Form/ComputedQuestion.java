@@ -4,6 +4,7 @@ import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
@@ -13,8 +14,6 @@ import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 public class ComputedQuestion extends Question 
 {
 	private Expression expression;
-	
-	private ValueExpression computedValueLiteral;
 	
 	public ComputedQuestion(IdentifierLiteral identifier, TextLiteral questionText, LiteralType type, Expression expression) 
 	{
@@ -32,7 +31,9 @@ public class ComputedQuestion extends Question
 	
 	public ValueExpression computedValue() 
 	{
-		return computedValueLiteral;
+		ExpressionEvaluator evalution = new ExpressionEvaluator();
+		
+		return (ValueExpression) expression.accept(evalution);
 	}
 	
 	@Override 

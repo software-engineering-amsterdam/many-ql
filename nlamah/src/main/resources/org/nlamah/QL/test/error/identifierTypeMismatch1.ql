@@ -9,5 +9,5 @@ form test
 	
 	question2 boolean "test2"
 	
-	question3 number "test3" question2
+	question3 number "test3" = question2
 }

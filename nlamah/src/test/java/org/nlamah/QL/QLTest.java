@@ -37,9 +37,7 @@ public class QLTest extends TestCase
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.expression();
 		
-		System.out.println(tree.toStringTree(parser));
-		
-		Expression expression = (Expression)tree.accept(new RawFormTreeBuilder());
+		Expression expression = (Expression)tree.accept(new RawFormBuilder(tree));
 		
 		return  expression;
 	}
@@ -64,9 +62,7 @@ public class QLTest extends TestCase
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.form();
 		
-		System.out.println(tree.toStringTree(parser));
-		
-		Form parsedForm = (Form)tree.accept(new RawFormTreeBuilder());
+		Form parsedForm = (Form)tree.accept(new RawFormBuilder(tree));
 		
 		return  parsedForm;
 	}

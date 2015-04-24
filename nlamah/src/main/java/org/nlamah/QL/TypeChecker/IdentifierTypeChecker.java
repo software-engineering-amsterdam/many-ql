@@ -2,9 +2,9 @@ package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Error.IdentifierTypeMismatchError;
-import org.nlamah.QL.Error.Abstract.QLError;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
+import org.nlamah.QL.Model.Error.IdentifierTypeMismatchError;
+import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -101,7 +101,6 @@ public class IdentifierTypeChecker implements QLNodeVisitor
 			expectedIdentifierType = expression.leftHandExpression().type();
 		}
 		
-		//TODO test the case that both left and right are identifierLiterals
 		return null;
 	}
 

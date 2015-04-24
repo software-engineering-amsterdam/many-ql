@@ -1,6 +1,6 @@
-package org.nlamah.QL.Error.Parsing;
+package org.nlamah.QL.Model.Error.Parsing;
 
-import org.nlamah.QL.Error.Abstract.ParsingError;
+import org.nlamah.QL.Model.Error.Abstract.ParsingError;
 
 public class AttemptingFullContextError extends ParsingError 
 {

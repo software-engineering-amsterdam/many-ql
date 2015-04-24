@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nlamah.QL.Model.Error.DoubleDeclarationError;
+import org.nlamah.QL.Model.Error.EqualQuestionLabelWarning;
+import org.nlamah.QL.Model.Error.QLException;
+import org.nlamah.QL.Model.Error.TooLateDeclaredQuestionError;
+import org.nlamah.QL.Model.Error.UndeclaredQuestionError;
+import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QL.Model.Error.Abstract.QLWarning;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 import org.nlamah.QL.TypeChecker.ExpressionTypeChecker;
 import org.nlamah.QL.TypeChecker.IdentifierTypeChecker;
 import org.nlamah.QL.TypeChecker.OutOfScopeDeclarationChecker;
-import org.nlamah.QL.Error.DoubleDeclarationError;
-import org.nlamah.QL.Error.EqualQuestionLabelWarning;
-import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
-import org.nlamah.QL.Error.UndeclaredQuestionError;
-import org.nlamah.QL.Error.Abstract.QLError;
-import org.nlamah.QL.Error.Abstract.QLWarning;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 
@@ -27,15 +28,13 @@ public class QLTypeChecker
 
 	private Map<IdentifierLiteral, ArrayList<Question>> doubleDeclaratedQuestions;
 
-	public QLTypeChecker(Form form)
+	public QLTypeChecker()
 	{
 		errors = new ArrayList<QLError>();
 		warnings = new ArrayList<QLWarning>();
-
-		check(form);
 	}
 
-	public void check(Form form)
+	public void check(Form form) throws QLException
 	{		
 		this.form = form;
 
@@ -47,13 +46,19 @@ public class QLTypeChecker
 		}
 
 		checkForDuplicateQuestionLabels(form);
+		
+		if (errors.size() > 0)
+		{
+			throw new QLException(errors);
+		}
 	}
 
+	
 	public ArrayList<QLError> errors()
 	{
-		return errors;
+		return this.errors;
 	}
-
+	
 	public ArrayList<QLWarning> warnings()
 	{
 		return warnings;
