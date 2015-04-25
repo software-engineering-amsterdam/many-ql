@@ -49,14 +49,14 @@ public class QLTypeChecker
 		
 		if (errors.size() > 0)
 		{
-			throw new QBaseException(errors);
+			throw new QBaseException(warnings, errors);
 		}
 	}
 
 	
 	public ArrayList<QBaseError> errors()
 	{
-		return this.errors;
+		return errors;
 	}
 	
 	public ArrayList<QBaseWarning> warnings()

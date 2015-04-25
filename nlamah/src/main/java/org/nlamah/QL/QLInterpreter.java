@@ -1,6 +1,5 @@
 package org.nlamah.QL;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.BitSet;
 
@@ -13,70 +12,75 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.io.IOUtils;
+import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.QBaseException;
+import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QL.Model.Error.QLException;
 import org.nlamah.QL.Model.Error.Parsing.AmbiguityError;
 import org.nlamah.QL.Model.Error.Parsing.AttemptingFullContextError;
 import org.nlamah.QL.Model.Error.Parsing.ContextSensitivityError;
-import org.nlamah.QL.Model.Error.Parsing.FileReadError;
 import org.nlamah.QL.Model.Error.Parsing.SyntaxError;
 import org.nlamah.QL.Model.Form.Form;
 
 public class QLInterpreter implements ANTLRErrorListener 
-{
-	private String qlFileName;
+{	
+	private Form form;
 	
-	private ArrayList<QBaseError> parsingErrors;
+	private ArrayList<QBaseWarning> warnings;
+	private ArrayList<QBaseError> errors;
 	
 	public QLInterpreter()
 	{
 		super();
 		
-		parsingErrors = new ArrayList<QBaseError>();
+		warnings = new ArrayList<QBaseWarning>();
+		errors = new ArrayList<QBaseError>();
 	}
 	
-	public Form interprete(String qlFileName) throws QLException
-	{
-		this.qlFileName = qlFileName;
+	public Form interprete(String qlFileName) throws FileReadException, QLException
+	{		
+		String sourceCode;
 		
-		String sourceCode = this.getSourceCode();
+		sourceCode = QBaseHelper.getSourceCode(qlFileName);
 		
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
 		
 		RawFormBuilder rawFormBuilder = new RawFormBuilder(tree);
+				
+		form = rawFormBuilder.build();
 		
-		Form form = null;
+		errors.addAll(rawFormBuilder.errors());
 		
-		form = rawFormBuilder.rawForm();
-		
-		parsingErrors.addAll(rawFormBuilder.errors());
-		
-		if (parsingErrors.size() > 0)
+		if (errors.size() > 0)
 		{
-			throw new QLException(parsingErrors);
+			throw new QLException(null, errors);
+		}
+		
+		QLTypeChecker typeChecker = new QLTypeChecker();
+		
+		try 
+		{
+			typeChecker.check(form);
+		} 
+		catch (QBaseException e) 
+		{
+			throw new QLException(typeChecker.warnings(), typeChecker.errors());
+		}
+		finally
+		{
+			warnings.addAll(typeChecker.warnings());
 		}
 			
 		return form;
 	}
 	
-	private String getSourceCode() throws QLException
-    {
-		String qlSourceCode = "";
-		
-		try 
-		{
-			InputStream fileInputStream = QLInterpreter.class.getResourceAsStream(qlFileName);
-			qlSourceCode = IOUtils.toString(fileInputStream, "UTF-8");
-		} 
-		catch (Exception e) 
-		{	
-			parsingErrors.add(new FileReadError(qlFileName));
-		}
-		
-		return qlSourceCode;
-    }
-    
+	public ArrayList<QBaseWarning> warnings()
+	{
+		return warnings;
+	}
+
     private ParseTree createParseTreeFromSourceCode(String sourceCode)
     {
     	ANTLRInputStream input = new ANTLRInputStream(sourceCode);
@@ -95,24 +99,24 @@ public class QLInterpreter implements ANTLRErrorListener
 	@Override
 	public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) 
 	{
-		parsingErrors.add(new SyntaxError(line, charPositionInLine, msg));
+		errors.add(new SyntaxError(line, charPositionInLine, msg));
 	}
 
 	@Override
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) 
 	{
-		parsingErrors.add(new AmbiguityError(startIndex, stopIndex));
+		errors.add(new AmbiguityError(startIndex, stopIndex));
 	}
 
 	@Override
 	public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) 
 	{
-		parsingErrors.add(new AttemptingFullContextError(startIndex, stopIndex));
+		errors.add(new AttemptingFullContextError(startIndex, stopIndex));
 	}
 
 	@Override
 	public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) 
 	{
-		parsingErrors.add(new ContextSensitivityError(startIndex, stopIndex));
+		errors.add(new ContextSensitivityError(startIndex, stopIndex));
 	}   
 }

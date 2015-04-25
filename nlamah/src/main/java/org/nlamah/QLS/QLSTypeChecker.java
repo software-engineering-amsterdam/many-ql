@@ -13,7 +13,7 @@ public class QLSTypeChecker
 	{
 		if (form == null)
 		{
-			throw new QLSException(null);
+			throw new QLSException(null, null);
 		}
 	}
 }

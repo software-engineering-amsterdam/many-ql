@@ -57,7 +57,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		errors = new ArrayList<ParsingError>();
 	}
 	
-	public Form rawForm()
+	public Form build()
 	{
 		return (Form) tree.accept(this);
 	}

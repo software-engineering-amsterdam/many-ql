@@ -18,23 +18,18 @@ public class QBaseErrorViewController implements Runnable
 	private JFrame frame;
 	private QBaseErrorView errorView;
 
-	public QBaseErrorViewController(ArrayList<? extends QBaseError> errors, ArrayList<QBaseWarning> warnings)
+	public QBaseErrorViewController( ArrayList<QBaseWarning> warnings, ArrayList<QBaseError> errors)
 	{
 		super();
-
-		this.errors = errors;
+		
 		this.warnings = warnings;
-
+		this.errors = errors;
+	
 		loadFrame();
 	}
 
 	@Override
 	public void run() 
-	{
-		showErrors();
-	}
-	
-	private void showErrors()
 	{
 		errorView.fillInErrorString(produceErrorString());
 		errorView.fillInWarningString(produceWarningString());
@@ -67,7 +62,7 @@ public class QBaseErrorViewController implements Runnable
 			}
 		}
 
-		return "<html>" + errorString + "</html>";
+		return QLHelper.surroundStringWithHtmlTags(errorString);
 
 	}
 
@@ -83,8 +78,6 @@ public class QBaseErrorViewController implements Runnable
 			}
 		}
 
-		return "<html>" + warningString + "</html>";
+		return QLHelper.surroundStringWithHtmlTags(warningString);
 	}
-
-	
 }
