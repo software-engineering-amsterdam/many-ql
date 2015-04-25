@@ -1,9 +1,9 @@
 package org.nlamah.QL.Model.Error;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
-public class IdentifierTypeMismatchError extends QLError 
+public class IdentifierTypeMismatchError extends QBaseError 
 {
 	private IdentifierLiteral identifier;
 

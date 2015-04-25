@@ -1,25 +1,24 @@
-package org.nlamah.QL.Views.Error;
+package org.nlamah.QBase;
 
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
-import org.nlamah.QL.Model.Error.Abstract.QLWarning;
 
-public class QLErrorViewController implements Runnable
+public class QBaseErrorViewController implements Runnable
 {
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
 
-	private ArrayList<QLWarning> warnings;
-	private ArrayList<QLError> errors;
+	private ArrayList<QBaseWarning> warnings;
+	private ArrayList<? extends QBaseError> errors;
 
 	private JFrame frame;
-	private QLErrorView errorView;
+	private QBaseErrorView errorView;
 
-	public QLErrorViewController(ArrayList<QLError> errors, ArrayList<QLWarning> warnings)
+	public QBaseErrorViewController(ArrayList<? extends QBaseError> errors, ArrayList<QBaseWarning> warnings)
 	{
 		super();
 
@@ -52,7 +51,7 @@ public class QLErrorViewController implements Runnable
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		errorView = new QLErrorView();
+		errorView = new QBaseErrorView();
 
 		frame.setContentPane(errorView);
 	}
@@ -62,7 +61,7 @@ public class QLErrorViewController implements Runnable
 		String errorString = "";
 		if (QLHelper.arrayExistsAndHasElements(errors))
 		{
-			for (QLError error : errors)
+			for (QBaseError error : errors)
 			{
 				errorString += "<p>" + error.description() + "</p>";
 			}
@@ -78,7 +77,7 @@ public class QLErrorViewController implements Runnable
 
 		if (QLHelper.arrayExistsAndHasElements(warnings))
 		{
-			for (QLWarning warning : warnings)
+			for (QBaseWarning warning : warnings)
 			{
 				warningString += "<p>" + warning.description() + "</p>";
 			}

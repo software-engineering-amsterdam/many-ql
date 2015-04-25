@@ -3,10 +3,10 @@ package org.nlamah.QL.Model.Error;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.nlamah.QL.Model.Error.Abstract.QLWarning;
+import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
-public class EqualQuestionLabelWarning extends QLWarning 
+public class EqualQuestionLabelWarning extends QBaseWarning 
 {
 	private ArrayList<Question> questions;
 

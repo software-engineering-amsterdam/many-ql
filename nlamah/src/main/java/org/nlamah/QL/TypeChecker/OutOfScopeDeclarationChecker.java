@@ -6,7 +6,6 @@ import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.CyclicDependencyError;
 import org.nlamah.QL.Model.Error.OutOfScopeDeclarationError;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -39,11 +38,9 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
-public class OutOfScopeDeclarationChecker implements QLNodeVisitor 
+public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract implements QLNodeVisitor 
 {
 	private IdentifierLiteral identifier;
-	
-	private ArrayList<QLError> errors;
 	
 	public OutOfScopeDeclarationChecker(IdentifierLiteral identifier)
 	{
@@ -51,14 +48,7 @@ public class OutOfScopeDeclarationChecker implements QLNodeVisitor
 		
 		this.identifier = identifier;
 		
-		errors = new ArrayList<QLError>();
-		
 		identifier.accept(this);
-	}
-	
-	public ArrayList<QLError> errors()
-	{
-		return this.errors;
 	}
 	
 	private Question IsIdentifierDeclaredHere(ArrayList<FormElement> childElements) 

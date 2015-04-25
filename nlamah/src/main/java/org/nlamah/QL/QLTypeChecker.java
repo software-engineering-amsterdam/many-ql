@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.QBaseException;
+import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QL.Model.Error.DoubleDeclarationError;
 import org.nlamah.QL.Model.Error.EqualQuestionLabelWarning;
-import org.nlamah.QL.Model.Error.QLException;
 import org.nlamah.QL.Model.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Model.Error.UndeclaredQuestionError;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
-import org.nlamah.QL.Model.Error.Abstract.QLWarning;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.Question;
@@ -21,8 +21,8 @@ import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 
 {
-	private ArrayList<QLError> errors;
-	private ArrayList<QLWarning> warnings;
+	private ArrayList<QBaseError> errors;
+	private ArrayList<QBaseWarning> warnings;
 
 	private Form form;
 
@@ -30,11 +30,11 @@ public class QLTypeChecker
 
 	public QLTypeChecker()
 	{
-		errors = new ArrayList<QLError>();
-		warnings = new ArrayList<QLWarning>();
+		errors = new ArrayList<QBaseError>();
+		warnings = new ArrayList<QBaseWarning>();
 	}
 
-	public void check(Form form) throws QLException
+	public void check(Form form) throws QBaseException
 	{		
 		this.form = form;
 
@@ -49,17 +49,17 @@ public class QLTypeChecker
 		
 		if (errors.size() > 0)
 		{
-			throw new QLException(errors);
+			throw new QBaseException(errors);
 		}
 	}
 
 	
-	public ArrayList<QLError> errors()
+	public ArrayList<QBaseError> errors()
 	{
 		return this.errors;
 	}
 	
-	public ArrayList<QLWarning> warnings()
+	public ArrayList<QBaseWarning> warnings()
 	{
 		return warnings;
 	}
@@ -180,7 +180,7 @@ public class QLTypeChecker
 
 	private void checkForTypeMismatchErrors(Form form)
 	{
-		ArrayList<QLError> identifierErrors = new ArrayList<QLError>();
+		ArrayList<QBaseError> identifierErrors = new ArrayList<QBaseError>();
 		
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{

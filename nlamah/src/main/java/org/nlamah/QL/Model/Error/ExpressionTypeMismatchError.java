@@ -1,9 +1,9 @@
 package org.nlamah.QL.Model.Error;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 
-public class ExpressionTypeMismatchError extends QLError 
+public class ExpressionTypeMismatchError extends QBaseError 
 {
 	private Expression expression;
 

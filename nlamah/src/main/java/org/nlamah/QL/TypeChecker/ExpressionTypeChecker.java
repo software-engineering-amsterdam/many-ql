@@ -1,11 +1,8 @@
 package org.nlamah.QL.TypeChecker;
 
-import java.util.ArrayList;
-
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.ExpressionTypeMismatchError;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.UnaryExpression;
@@ -41,20 +38,13 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
-public class ExpressionTypeChecker implements QLNodeVisitor 
+public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNodeVisitor 
 {
-	private ArrayList<QLError > errors;
-	
 	public ExpressionTypeChecker(Form form)
 	{
-		errors = new ArrayList<QLError>();
+		super();
 		
 		form.accept(this);
-	}
-	
-	public ArrayList<QLError> errors()
-	{
-		return errors;
 	}
 
 	private void checkForErrorInBinaryExpression(BinaryExpression expression, LiteralType type)

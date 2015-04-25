@@ -1,10 +1,7 @@
 package org.nlamah.QL.TypeChecker;
 
-import java.util.ArrayList;
-
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.IdentifierTypeMismatchError;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -36,25 +33,18 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
-public class IdentifierTypeChecker implements QLNodeVisitor 
+public class IdentifierTypeChecker extends TypeCheckerAbstract implements QLNodeVisitor 
 {
-	private ArrayList<QLError > errors;
-	
 	private LiteralType expectedIdentifierType;
 	private IdentifierLiteral identifier;
 	
 	public IdentifierTypeChecker(IdentifierLiteral identifier)
 	{
-		errors = new ArrayList<QLError>();
+		super();
 		
 		this.identifier = identifier;
 		
 		identifier.accept(this);
-	}
-	
-	public ArrayList<QLError> errors()
-	{
-		return errors;
 	}
 
 	@Override

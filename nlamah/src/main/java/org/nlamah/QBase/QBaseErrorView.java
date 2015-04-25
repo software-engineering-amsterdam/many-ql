@@ -1,4 +1,4 @@
-package org.nlamah.QL.Views.Error;
+package org.nlamah.QBase;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import org.nlamah.QL.Helper.QLHelper;
 
 @SuppressWarnings("serial")
-public class QLErrorView extends JPanel
+public class QBaseErrorView extends JPanel
 {
 	private JLabel errorLabel;
 	private JLabel warningLabel;
 
-	public QLErrorView() 
+	public QBaseErrorView() 
 	{
 		super();
 

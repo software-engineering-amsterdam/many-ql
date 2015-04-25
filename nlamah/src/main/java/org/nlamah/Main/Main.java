@@ -2,12 +2,12 @@ package org.nlamah.Main;
 
 import javax.swing.SwingUtilities;
 
+import org.nlamah.QBase.QBaseErrorViewController;
+import org.nlamah.QBase.QBaseException;
 import org.nlamah.QL.QLInterpreter;
 import org.nlamah.QL.QLTypeChecker;
-import org.nlamah.QL.Model.Error.QLException;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.Views.Error.QLErrorViewController;
 import org.nlamah.QLS.QLSInterpreter;
 import org.nlamah.QLS.QLSTypeChecker;
 import org.nlamah.QLS.QLStylesheet;
@@ -38,9 +38,9 @@ public class Main
 			qlsTypeChecker.check(form, stylesheet);
 			
 		}
-		catch(QLException exception)
+		catch(QBaseException exception)
 		{	
-			SwingUtilities.invokeLater(new QLErrorViewController(exception.errors(), null));
+			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.errors(), null));
 		}
 
 		SwingUtilities.invokeLater(new FormRootViewController(form));

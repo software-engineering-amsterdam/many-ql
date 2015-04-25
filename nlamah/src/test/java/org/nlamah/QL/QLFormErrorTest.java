@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.QBaseException;
 import org.nlamah.QL.Model.Error.CyclicDependencyError;
 import org.nlamah.QL.Model.Error.DoubleDeclarationError;
 import org.nlamah.QL.Model.Error.EqualQuestionLabelWarning;
 import org.nlamah.QL.Model.Error.ExpressionTypeMismatchError;
 import org.nlamah.QL.Model.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Model.Error.OutOfScopeDeclarationError;
-import org.nlamah.QL.Model.Error.QLException;
 import org.nlamah.QL.Model.Error.UndeclaredQuestionError;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -35,19 +35,17 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question1");
 			Question question = new ComputedQuestion(identifier1, new TextLiteral("test question"), LiteralType.BOOLEAN, identifier2);
-			QLError error = new CyclicDependencyError(identifier1, question);
+			QBaseError error = new CyclicDependencyError(identifier1, question);
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testDoubleDeclaration() 
@@ -60,10 +58,10 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			ArrayList<Question> declaredQuestions = new ArrayList<Question>();
 
@@ -75,13 +73,11 @@ public class QLFormErrorTest extends TestCase
 			Question question2 = new BooleanQuestion(identifier2, new TextLiteral("test2"));
 			declaredQuestions.add(question2);
 
-			QLError error = new DoubleDeclarationError(identifier1, declaredQuestions);
+			QBaseError error = new DoubleDeclarationError(identifier1, declaredQuestions);
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testEqualTextLabel() 
@@ -94,10 +90,10 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			ArrayList<Question> declaredQuestions = new ArrayList<Question>();
 
@@ -109,13 +105,11 @@ public class QLFormErrorTest extends TestCase
 			Question question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
 			declaredQuestions.add(question2);
 
-			QLError error = new EqualQuestionLabelWarning(declaredQuestions);
+			QBaseError error = new EqualQuestionLabelWarning(declaredQuestions);
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.warnings(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testExpressionTypeMismatch() 
@@ -128,18 +122,16 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QLError error = new ExpressionTypeMismatchError(new BooleanLiteral("yes"));
+			QBaseError error = new ExpressionTypeMismatchError(new BooleanLiteral("yes"));
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testIdentifierTypeMismatch1() 
@@ -152,20 +144,18 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QLError error1 = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
+			QBaseError error1 = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
 			referenceErrors.add(error1);
-			QLError error2 = new IdentifierTypeMismatchError(new IdentifierLiteral("question2"));
+			QBaseError error2 = new IdentifierTypeMismatchError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error2);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testIdentifierTypeMismatch2() 
@@ -178,18 +168,16 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QLError error = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
+			QBaseError error = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testOutOfScopeDeclaration() 
@@ -202,19 +190,17 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			Question question = new NumberQuestion(new IdentifierLiteral("question2"), new TextLiteral("test2"));
-			QLError error = new OutOfScopeDeclarationError(new IdentifierLiteral("question2"), question);
+			QBaseError error = new OutOfScopeDeclarationError(new IdentifierLiteral("question2"), question);
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 
 	public void testUndeclaredQuestion() 
@@ -227,20 +213,18 @@ public class QLFormErrorTest extends TestCase
 		{
 			typeChecker.check(parsedForm);
 		} 
-		catch (QLException e) 
+		catch (QBaseException e) 
 		{
 
-			ArrayList<QLError> referenceErrors = new ArrayList<QLError>();
+			ArrayList<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QLError error1 = new UndeclaredQuestionError(new IdentifierLiteral("question1"));
+			QBaseError error1 = new UndeclaredQuestionError(new IdentifierLiteral("question1"));
 			referenceErrors.add(error1);
 
-			QLError error2 = new UndeclaredQuestionError(new IdentifierLiteral("question2"));
+			QBaseError error2 = new UndeclaredQuestionError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error2);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
-
-		assert(false);
 	}
 }

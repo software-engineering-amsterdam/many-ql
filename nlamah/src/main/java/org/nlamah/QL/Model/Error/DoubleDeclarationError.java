@@ -2,11 +2,11 @@ package org.nlamah.QL.Model.Error;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
-public class DoubleDeclarationError extends QLError
+public class DoubleDeclarationError extends QBaseError
 {
 	IdentifierLiteral identifier;
 	ArrayList<Question> questions;

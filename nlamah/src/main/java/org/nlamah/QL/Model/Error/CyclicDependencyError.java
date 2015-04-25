@@ -1,10 +1,10 @@
 package org.nlamah.QL.Model.Error;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
-public class CyclicDependencyError extends QLError 
+public class CyclicDependencyError extends QBaseError 
 {
 	private IdentifierLiteral identifier;
 	private Question question;

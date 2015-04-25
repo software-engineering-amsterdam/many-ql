@@ -1,9 +1,9 @@
 package org.nlamah.QL.Model.Error;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
-public class UndeclaredQuestionError extends QLError 
+public class UndeclaredQuestionError extends QBaseError 
 {
 	IdentifierLiteral identifier;
 

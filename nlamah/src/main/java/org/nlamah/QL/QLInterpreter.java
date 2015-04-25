@@ -14,8 +14,8 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.io.IOUtils;
-import org.nlamah.QL.Model.Error.ParseTreeException;
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
+import org.nlamah.QL.Model.Error.QLException;
 import org.nlamah.QL.Model.Error.Parsing.AmbiguityError;
 import org.nlamah.QL.Model.Error.Parsing.AttemptingFullContextError;
 import org.nlamah.QL.Model.Error.Parsing.ContextSensitivityError;
@@ -27,16 +27,16 @@ public class QLInterpreter implements ANTLRErrorListener
 {
 	private String qlFileName;
 	
-	private ArrayList<QLError> parsingErrors;
+	private ArrayList<QBaseError> parsingErrors;
 	
 	public QLInterpreter()
 	{
 		super();
 		
-		parsingErrors = new ArrayList<QLError>();
+		parsingErrors = new ArrayList<QBaseError>();
 	}
 	
-	public Form interprete(String qlFileName) throws ParseTreeException
+	public Form interprete(String qlFileName) throws QLException
 	{
 		this.qlFileName = qlFileName;
 		
@@ -54,13 +54,13 @@ public class QLInterpreter implements ANTLRErrorListener
 		
 		if (parsingErrors.size() > 0)
 		{
-			throw new ParseTreeException(parsingErrors);
+			throw new QLException(parsingErrors);
 		}
 			
 		return form;
 	}
 	
-	private String getSourceCode() throws ParseTreeException
+	private String getSourceCode() throws QLException
     {
 		String qlSourceCode = "";
 		

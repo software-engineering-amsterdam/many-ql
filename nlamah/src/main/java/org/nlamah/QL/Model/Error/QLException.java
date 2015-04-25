@@ -2,20 +2,14 @@ package org.nlamah.QL.Model.Error;
 
 import java.util.ArrayList;
 
-import org.nlamah.QL.Model.Error.Abstract.QLError;
+import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.QBaseException;
 
 @SuppressWarnings("serial")
-public class QLException extends Exception 
+public class QLException extends QBaseException 
 {
-	private ArrayList<QLError> errors;
-	
-	public QLException(ArrayList<QLError> errors)
+	public QLException(ArrayList<QBaseError> errors) 
 	{
-		this.errors = errors;
-	}
-	
-	public ArrayList<QLError> errors()
-	{
-		return this.errors;
+		super(errors);
 	}
 }
