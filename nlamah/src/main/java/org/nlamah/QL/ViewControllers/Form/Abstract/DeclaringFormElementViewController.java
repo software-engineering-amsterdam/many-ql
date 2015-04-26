@@ -3,7 +3,7 @@ package org.nlamah.QL.ViewControllers.Form.Abstract;
 import java.util.ArrayList;
 
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 public abstract class DeclaringFormElementViewController extends FormElementViewController 
 {

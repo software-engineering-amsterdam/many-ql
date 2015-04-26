@@ -26,7 +26,7 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	{
 		super(conditionalBlock);
 		
-		conditionalBlockView = new ConditionalBlockView(this);
+		conditionalBlockView = new ConditionalBlockView();
 		
 		view = conditionalBlockView;
 	}

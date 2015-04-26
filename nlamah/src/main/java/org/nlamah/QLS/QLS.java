@@ -36,8 +36,6 @@ public class QLS
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
 		}
 		
-		
-
 		SwingUtilities.invokeLater(rootViewController);
 	}
 }

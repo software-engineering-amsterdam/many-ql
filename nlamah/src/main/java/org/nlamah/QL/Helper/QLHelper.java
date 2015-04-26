@@ -66,6 +66,11 @@ public class QLHelper
 		return 250;
 	}
 	
+	static public int widgetRightMargin()
+	{
+		return 15;
+	}
+	
 	static public int labelTopMargin()
 	{
 		return 15;
@@ -78,6 +83,11 @@ public class QLHelper
 	static public int defaultQuestionHeight()
 	{
 		return 50;
+	}
+	
+	static public int maximumTextFieldHeight()
+	{
+		return 30;
 	}
 }
 

@@ -17,7 +17,7 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 	{
 		super(elseThenBlock);
 		
-		elseThenBlockView  = new ElseThenBlockView(this);
+		elseThenBlockView  = new ElseThenBlockView();
 		
 		view = elseThenBlockView;
 	}

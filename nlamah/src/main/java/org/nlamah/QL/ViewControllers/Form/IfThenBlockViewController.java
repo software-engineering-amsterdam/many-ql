@@ -17,7 +17,7 @@ public class IfThenBlockViewController extends DeclaringFormElementViewControlle
 	{
 		super(ifThenBlock);
 		
-		ifThenBlockView = new IfThenBlockView(this);
+		ifThenBlockView = new IfThenBlockView();
 		
 		view = ifThenBlockView;
 	}

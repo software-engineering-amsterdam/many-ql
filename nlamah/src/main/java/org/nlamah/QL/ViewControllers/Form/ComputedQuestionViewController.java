@@ -13,7 +13,7 @@ public class ComputedQuestionViewController extends QuestionViewController
 	{
 		super(question);
 		
-		questionView = new ComputedQuestionView(this);
+		questionView = new ComputedQuestionView();
 		
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());

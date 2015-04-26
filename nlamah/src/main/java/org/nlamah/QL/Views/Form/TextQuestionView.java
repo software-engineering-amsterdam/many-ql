@@ -9,9 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class TextQuestionView extends FormElementView 
@@ -20,9 +18,9 @@ public class TextQuestionView extends FormElementView
 	private JLabel questionLabel;
 	private JTextField textField;
 	
-	public TextQuestionView(FormElementViewController viewController) 
+	public TextQuestionView() 
 	{
-		super(viewController);
+		super();
 	}
 
 	public void fillInType(String type)
@@ -62,7 +60,7 @@ public class TextQuestionView extends FormElementView
 		questionLabel = new JLabel();
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.addActionListener((TextQuestionViewController) viewController);
+		textField.addActionListener(null);
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package org.nlamah.QL.ViewControllers.Form.Abstract;
 import org.nlamah.QL.Interfaces.Showable;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 public abstract class FormElementViewController implements Showable
 {

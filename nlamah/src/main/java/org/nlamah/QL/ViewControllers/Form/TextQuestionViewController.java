@@ -19,7 +19,7 @@ public class TextQuestionViewController extends QuestionViewController implement
 	{
 		super(question);
 		
-		questionView = new TextQuestionView(this);
+		questionView = new TextQuestionView();
 		questionView.fillInType(questionReturnType().name());
 		questionView.fillInQuestionString(questionString());
 		questionView.fillInTextField(question.insertedText().toString());

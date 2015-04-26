@@ -10,6 +10,7 @@ import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.NumberQuestionView;
+import org.nlamah.QL.Views.Form.Widgets.NumberWidget;
 
 public class NumberQuestionViewController extends QuestionViewController implements ActionListener
 {
@@ -19,11 +20,12 @@ public class NumberQuestionViewController extends QuestionViewController impleme
 	{
 		super(question);
 		
-		questionView = new NumberQuestionView(this);
+		NumberWidget widget = new NumberWidget(this);
+		widget.fillInNumberField(question.insertedNumber().toString());
 		
-		questionView.fillInType(questionReturnType().name());
+		questionView = new NumberQuestionView(widget);
+		
 		questionView.fillInQuestionString(questionString());
-		questionView.fillInNumberField(question.insertedNumber().toString());
 		
 		view = questionView;
 	}

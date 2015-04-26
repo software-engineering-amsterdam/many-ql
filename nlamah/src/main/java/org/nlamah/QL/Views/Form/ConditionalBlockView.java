@@ -3,15 +3,15 @@ package org.nlamah.QL.Views.Form;
 import java.awt.Color;
 
 import javax.swing.BoxLayout;
-import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class ConditionalBlockView extends FormElementView 
 {
-	public ConditionalBlockView(ConditionalBlockViewController viewController) 
+	public ConditionalBlockView() 
 	{
-		super(viewController);
+		super();
 	}
 
 	@Override

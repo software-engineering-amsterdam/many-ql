@@ -8,6 +8,7 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.BooleanQuestionView;
+import org.nlamah.QL.Views.Form.Widgets.CheckboxWidget;
 
 public class BooleanQuestionViewController extends QuestionViewController implements ItemListener
 {	
@@ -17,9 +18,10 @@ public class BooleanQuestionViewController extends QuestionViewController implem
 	{
 		super(question);
 		
-		questionView = new BooleanQuestionView(this);
+		CheckboxWidget widget = new CheckboxWidget(this);
 		
-		questionView.fillInType(questionReturnType().name());
+		questionView = new BooleanQuestionView(widget);
+		
 		questionView.fillInQuestionString(questionString());
 		questionView.fillInCheckbox(question.checked().primitiveValue());
 		

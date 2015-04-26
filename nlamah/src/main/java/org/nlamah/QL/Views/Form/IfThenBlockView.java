@@ -1,26 +1,21 @@
 package org.nlamah.QL.Views.Form;
 
-import java.awt.Color;
-
 import javax.swing.BoxLayout;
 
-import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class IfThenBlockView extends FormElementView 
 {	
-	public IfThenBlockView(IfThenBlockViewController viewController)
+	public IfThenBlockView()
 	{
-		super(viewController);
+		super();
 	}
 
 	@Override
 	public void layoutView() 
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		setBackground(Color.blue);
 	}
 
 	@Override

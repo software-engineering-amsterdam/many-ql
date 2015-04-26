@@ -1,7 +1,7 @@
 form test
 {
 	question1 number "test1" = 2 + 3
-	question5 boolean "test very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very"
+	question5 boolean "test"
 	
 	if (question1 > 3)
 	{

@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.ViewLoadingStrategy;
-import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class ComputedQuestionView extends FormElementView implements ViewLoadingStrategy
@@ -19,9 +18,9 @@ public class ComputedQuestionView extends FormElementView implements ViewLoading
 	private JLabel questionLabel;
 	private JLabel computedValueLabel;
 	
-	public ComputedQuestionView(ComputedQuestionViewController viewController) 
+	public ComputedQuestionView() 
 	{
-		super(viewController);
+		super();
 	}
 
 	public void fillInType(String type)

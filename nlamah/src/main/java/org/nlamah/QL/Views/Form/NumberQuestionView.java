@@ -1,78 +1,35 @@
 package org.nlamah.QL.Views.Form;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.text.NumberFormat;
+import javax.swing.JTextField;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-
-import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
-import org.nlamah.QL.Views.Abstract.FormElementView;
+import org.nlamah.QL.Views.Form.Abstract.QuestionView;
+import org.nlamah.QL.Views.Form.Abstract.QuestionWidget;
 
 @SuppressWarnings("serial")
-public class NumberQuestionView extends FormElementView
-{
-	private JLabel typeLabel;
-	private JLabel questionLabel;
-	private JFormattedTextField textField;
+public class NumberQuestionView extends QuestionView
+{	
+	JTextField textField;
 	
-	public NumberQuestionView(NumberQuestionViewController viewController) 
+	public NumberQuestionView(QuestionWidget widget) 
 	{
-		super(viewController);
-	}
-	
-	public void fillInType(String type)
-	{
-		typeLabel.setText(type);
-	}
-	
-	public void fillInQuestionString(String questionString)
-	{
-		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
-	}
-	
-	public void fillInNumberField(String number)
-	{
-		textField.setText(number);
+		super(widget);
 	}
 
 	@Override
-	public void initializeComponents()
-	{
-		typeLabel = new JLabel();
-		questionLabel = new JLabel();
-		textField = new JFormattedTextField(NumberFormat.getNumberInstance());
-		textField.addActionListener((NumberQuestionViewController) viewController);
-	}
-	
-	@Override
-	public void addComponentsToView()
-	{	
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(typeLabel);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(questionLabel);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(textField);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-	}
-	
-	@Override
-	public void layoutView() 
-	{
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		setBackground(Color.white);
+	public void layoutView() {
+		// TODO Auto-generated method stub
 		
-		textField.setPreferredSize(new Dimension(200, 24));
-		textField.setMaximumSize(new Dimension(200, 24));
-		textField.setMinimumSize(new Dimension(200, 24));
+	}
+
+	@Override
+	public void initializeComponents() {
+		// TODO Auto-generated method stub
 		
-		setPreferredSize(new Dimension(QLHelper.contentWidth(), 100));
-        setMaximumSize(getPreferredSize()); 
-        setMinimumSize(getPreferredSize());
+	}
+
+	@Override
+	public void addComponentsToView() {
+		// TODO Auto-generated method stub
+		
 	}
 }
