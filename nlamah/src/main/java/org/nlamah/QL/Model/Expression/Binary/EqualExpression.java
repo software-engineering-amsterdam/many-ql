@@ -10,7 +10,7 @@ public class EqualExpression extends EqualityExpression
 {
 	public EqualExpression(Expression leftHandExpression, Expression rightHandExpression) 
 	{
-		super(leftHandExpression, rightHandExpression, LiteralType.BOOLEAN);
+		super(leftHandExpression, rightHandExpression);
 	}
 	
 	@Override
