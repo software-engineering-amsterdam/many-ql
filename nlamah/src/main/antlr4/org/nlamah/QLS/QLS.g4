@@ -2,21 +2,26 @@ grammar QLS;
 
 stylesheet: 'stylesheet' Identifier  page* ;
 page: 'page' Identifier ('{' section '}')*;
-section : Text sectionContent ;
-sectionContent : section | question widgetSection? | defaultSection ;
+section : Text sectionElement* ;
+sectionElement : section 												#sectionDeclaration
+				| 'question' Identifier widgetDeclaration?				#questionDeclaration				
+				| 'default' QuestionType '{' (styleDeclaration)+ '}' 	#defaultDeclaration
+				;
 
-question : 'question' Identifier ;
-widgetSection : 'widget' widgetType ;
-widgetType : 'checkbox' | 'spinbox' | 'radio('answer+=Text (',' answer+=Text)* ')';
-
-defaultSection : 'default' QuestionType '{' (defaultDeclaration)+ '}';
-defaultDeclaration : widthDeclaration | fontDeclaration | fontSizeDeclaration | colorDeclaration | widgetSection ;
+styleDeclaration : widthDeclaration	
+				| fontDeclaration
+				| fontSizeDeclaration
+				| colorDeclaration
+				| widgetDeclaration
+				;
 
 widthDeclaration : 'width:' Number ;
 fontDeclaration : 'font:"' Identifier '"' ;
 fontSizeDeclaration : 'fontsize:' Number ;
 colorDeclaration : 'color:' HexNumber;
 
+widgetDeclaration : 'widget' widgetType ;
+widgetType : 'checkbox' | 'spinbox' | 'radio('answer+=Text (',' answer+=Text)* ')';
 
 QuestionType : 'boolean' | 'number' | 'text' ;
 Text : '"' .*? '"' ;
