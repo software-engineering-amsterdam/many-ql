@@ -1,18 +1,18 @@
 form test
 {
-	question1 number "test1" = 2 + 3
-	question5 boolean "test"
+	question6 number "Is this a text question?"
 	
-	if (question1 > 3)
+	if (question6 == "hello")
 	{
-		question2 number "test2"
-	
-		if (question2 + 3 > 5)
-		{
-			question4 boolean "test test"
-		}
-		endif
-	
+		question7 boolean "this is a question with a boolean"
 	}
 	endif
+	
+	question11 text "Is this a text question1?"
+	
+	question8 text "Is this a text question2?"
+	
+	question9 text "Is this a text question3?"
+	
+	question10 text "Is this a text question4?"
 }

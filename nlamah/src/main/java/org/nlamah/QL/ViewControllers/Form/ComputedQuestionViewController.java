@@ -4,6 +4,7 @@ import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.ComputedQuestionView;
+import org.nlamah.QL.Views.Form.Widgets.ComputedValueWidget;
 
 public class ComputedQuestionViewController extends QuestionViewController 
 {
@@ -13,17 +14,16 @@ public class ComputedQuestionViewController extends QuestionViewController
 	{
 		super(question);
 		
-		questionView = new ComputedQuestionView();
+		ComputedValueWidget widget = new ComputedValueWidget();
 		
-		questionView.fillInType(questionReturnType().name());
-		questionView.fillInQuestionString(questionString());
+		questionView = new ComputedQuestionView(widget);
 		
 		if (question.computedValue() != null)
 		{
 			questionView.fillInComputedValueLabel(question.computedValue().toString());
 		}
 		
-		questionView.fillInComputedValueLabel("test");
+		questionView.fillInQuestionString(questionString());
 		
 		view = questionView;
 	}

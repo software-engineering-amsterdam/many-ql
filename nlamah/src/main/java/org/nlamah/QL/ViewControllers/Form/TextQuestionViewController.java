@@ -10,6 +10,7 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.ViewControllers.Form.Abstract.QuestionViewController;
 import org.nlamah.QL.Views.Form.TextQuestionView;
+import org.nlamah.QL.Views.Form.Widgets.TextFieldWidget;
 
 public class TextQuestionViewController extends QuestionViewController implements ActionListener
 {
@@ -19,8 +20,9 @@ public class TextQuestionViewController extends QuestionViewController implement
 	{
 		super(question);
 		
-		questionView = new TextQuestionView();
-		questionView.fillInType(questionReturnType().name());
+		TextFieldWidget widget = new TextFieldWidget(this);
+		
+		questionView = new TextQuestionView(widget);
 		questionView.fillInQuestionString(questionString());
 		questionView.fillInTextField(question.insertedText().toString());
 		

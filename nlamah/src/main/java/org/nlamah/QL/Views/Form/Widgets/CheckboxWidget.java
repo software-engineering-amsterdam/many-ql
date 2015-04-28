@@ -8,7 +8,6 @@ import org.nlamah.QL.Views.Form.Abstract.QuestionWidget;
 @SuppressWarnings("serial")
 public class CheckboxWidget extends QuestionWidget 
 {
-
 	private JCheckBox checkbox;
 	
 	public CheckboxWidget(ItemListener itemListener) 
@@ -19,5 +18,10 @@ public class CheckboxWidget extends QuestionWidget
 		checkbox.addItemListener(itemListener);
 
 		add(checkbox);
+	}
+
+	public void setChecked(boolean checked) 
+	{
+		checkbox.setSelected(checked);
 	}
 }

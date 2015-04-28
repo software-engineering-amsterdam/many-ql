@@ -4,6 +4,7 @@ import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.ExpressionTypeMismatchError;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryExpression;
+import org.nlamah.QL.Model.Expression.Abstract.EqualityExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.UnaryExpression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
@@ -47,11 +48,22 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 		form.accept(this);
 	}
 
+	private void checkForErrorInEqualityExpression(EqualityExpression expression)
+	{
+		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
+		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
+		
+		if ( ! (leftHandExpression.type().equals(rightHandExpression.type())))
+		{
+			errors.add(new ExpressionTypeMismatchError(expression));
+		}
+	}
+	
 	private void checkForErrorInBinaryExpression(BinaryExpression expression, LiteralType type)
 	{
 		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
 		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
-
+		
 		checkIfResultExpressionIsOfType(leftHandExpression, type);
 		checkIfResultExpressionIsOfType(rightHandExpression, type);
 	}
@@ -104,7 +116,6 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(AddExpression expression)
 	{
-		
 		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
 
 		return expression;
@@ -129,7 +140,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(EqualExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.BOOLEAN);
+		checkForErrorInEqualityExpression(expression);
 
 		return expression;
 	}
@@ -192,7 +203,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(UnEqualExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.BOOLEAN);
+		checkForErrorInEqualityExpression(expression);
 
 		return expression;
 	}

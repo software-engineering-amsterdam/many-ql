@@ -30,12 +30,12 @@ public class QLS
 			
 			QLStylesheetAdapter adapter = new QLStylesheetAdapter();
 			adapter.adapt(form, stylesheet);
+			
+			SwingUtilities.invokeLater(rootViewController);
 		}
 		catch(QBaseException exception)
 		{	
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
 		}
-		
-		SwingUtilities.invokeLater(rootViewController);
 	}
 }

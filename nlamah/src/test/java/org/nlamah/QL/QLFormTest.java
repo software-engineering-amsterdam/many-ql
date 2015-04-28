@@ -156,7 +156,6 @@ public class QLFormTest extends TestCase
  	{
  		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
  		
- 		
  		BooleanLiteral booleanLiteral1 = new BooleanLiteral("yes");
  		BooleanLiteral booleanLiteral2 = new BooleanLiteral("no");
  		OrExpression orExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
@@ -205,5 +204,10 @@ public class QLFormTest extends TestCase
  		referenceForm = new Form("test", formElements);
  		
  		assertEquals(parsedForm, referenceForm);
+ 	}
+ 	
+ 	public void testTextualComparison()
+ 	{
+ 		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
  	}
 }

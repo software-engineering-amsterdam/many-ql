@@ -19,18 +19,18 @@ public class QL
 		
 		try
 		{
-			form = qlInterpreter.interprete(qlFileName);			
+			form = qlInterpreter.interprete(qlFileName);	
+			
+			if (qlInterpreter.warnings().size() > 0)
+			{
+				SwingUtilities.invokeLater(new QBaseErrorViewController(qlInterpreter.warnings(), null));
+			}
+			
+			SwingUtilities.invokeLater(new FormRootViewController(form));
 		}
 		catch(QBaseException exception)
 		{	
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
 		}
-		
-		if (qlInterpreter.warnings().size() > 0)
-		{
-			SwingUtilities.invokeLater(new QBaseErrorViewController(qlInterpreter.warnings(), null));
-		}
-		
-		SwingUtilities.invokeLater(new FormRootViewController(form));	
 	}
 }

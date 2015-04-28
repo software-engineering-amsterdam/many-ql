@@ -14,6 +14,7 @@ import org.nlamah.QL.Model.Expression.Binary.UnEqualExpression;
 import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
 import junit.framework.TestCase;
 
@@ -316,6 +317,20 @@ public class QLLogicalExpressionTest extends TestCase
 		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), new BooleanLiteral("yes"));
 	}
 	
+	public void testEqualOperation5()
+	{
+		Expression parsedExpression = QLTest.produceExpressionFromString("\"hello\" == \"hello\"");
+		
+		TextLiteral textLiteral1 = new TextLiteral("hello");
+		TextLiteral textLiteral2 = new TextLiteral("hello");
+		
+		Expression referenceExpression = new EqualExpression(textLiteral1, textLiteral2);
+		
+		assertEquals(parsedExpression, referenceExpression);
+		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), referenceExpression.accept(new ExpressionEvaluator()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), new BooleanLiteral("yes"));
+	}
+	
 	public void testUnequalOperation1()
 	{
 		Expression parsedExpression = QLTest.produceExpressionFromString("1 != 2");
@@ -342,6 +357,20 @@ public class QLLogicalExpressionTest extends TestCase
 		assertEquals(parsedExpression, referenceExpression);
 		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), referenceExpression.accept(new ExpressionEvaluator()));
 		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), new BooleanLiteral("no"));
+	}
+	
+	public void testUnEqualOperation3()
+	{
+		Expression parsedExpression = QLTest.produceExpressionFromString("\"hello\" != \"world\"");
+		
+		TextLiteral textLiteral1 = new TextLiteral("hello");
+		TextLiteral textLiteral2 = new TextLiteral("world");
+		
+		Expression referenceExpression = new UnEqualExpression(textLiteral1, textLiteral2);
+		
+		assertEquals(parsedExpression, referenceExpression);
+		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), referenceExpression.accept(new ExpressionEvaluator()));
+		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), new BooleanLiteral("yes"));
 	}
 	
 	public void testComplexLogicalExpression1()

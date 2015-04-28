@@ -1,16 +1,16 @@
 package org.nlamah.QL.Model.Expression.Binary;
 
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
-import org.nlamah.QL.Model.Expression.Abstract.BinaryLogicalExpression;
+import org.nlamah.QL.Model.Expression.Abstract.EqualityExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
-public class UnEqualExpression extends BinaryLogicalExpression 
+public class UnEqualExpression extends EqualityExpression 
 {
 	public UnEqualExpression(Expression leftHandExpression, Expression rightHandExpression) 
 	{
-		super(leftHandExpression, rightHandExpression);
+		super(leftHandExpression, rightHandExpression, LiteralType.BOOLEAN);
 	}
 	
 	@Override
