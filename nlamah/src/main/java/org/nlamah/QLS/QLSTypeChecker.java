@@ -1,6 +1,7 @@
 package org.nlamah.QLS;
 
 import org.nlamah.QL.Model.Form.Form;
+import org.nlamah.QLS.Model.QLStylesheet;
 
 public class QLSTypeChecker 
 {

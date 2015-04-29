@@ -1,30 +1,30 @@
 package org.nlamah.QLS.Model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
 public class Page extends QLSNode 
 {
-	private String identifier;
-	private ArrayList<SectionElement> sectionItems;
+	private IdentifierValue identifier;
+	private List<Section> sections;
 	
-	public Page(String identifier, ArrayList<SectionElement> sectionItems) 
+	public Page(IdentifierValue identifier, List<Section> sections) 
 	{
 		super();
 		
 		this.identifier = identifier;
-		this.sectionItems = sectionItems;
+		this.sections = sections;
 	}
 	
-	public String identifier()
+	public IdentifierValue identifier()
 	{
 		return identifier;
 	}
 	
-	public ArrayList<SectionElement> sectionItems()
+	public List<Section> sectionItems()
 	{
-		return sectionItems;
+		return sections;
 	}
 
 	@Override

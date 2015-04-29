@@ -1,15 +1,15 @@
 package org.nlamah.QLS.Model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class QLStyleSheet extends QLSNode 
+public class QLStylesheet extends QLSNode 
 {
-	private String identifier;
-	private ArrayList<Page> pages;
+	private IdentifierValue identifier;
+	private List<Page> pages;
 	
-	public QLStyleSheet(String identifier, ArrayList<Page>pages)
+	public QLStylesheet(IdentifierValue identifier, List<Page> pages)
 	{
 		super();
 		
@@ -17,12 +17,12 @@ public class QLStyleSheet extends QLSNode
 		this.pages = pages;
 	}
 	
-	public String identifier()
+	public IdentifierValue identifier()
 	{
 		return identifier;
 	}
 
-	public ArrayList<Page> pages() 
+	public List<Page> pages() 
 	{
 		return pages;
 	}

@@ -15,6 +15,8 @@ import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.QLLexer;
 import org.nlamah.QL.Model.Form.Form;
+import org.nlamah.QLS.Builders.RawStyleSheetBuilder;
+import org.nlamah.QLS.Model.QLStylesheet;
 
 public class QLSInterpreter implements ANTLRErrorListener 
 {
@@ -26,7 +28,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 		
-		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
+		RawStyleSheetBuilder rawStylesheetBuilder = new RawStyleSheetBuilder();
 		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
 		if (qlsFileName.equals(""))
