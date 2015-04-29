@@ -1,7 +1,6 @@
 package org.nlamah.QLS.Model;
 
-import org.nlamah.QL.Interfaces.QLNodeVisitor;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
 public class QuestionDeclaration extends SectionElement 
 {
@@ -27,10 +26,8 @@ public class QuestionDeclaration extends SectionElement
 	}
 	
 	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
+	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return visitor.visit(this);
 	}
-
 }

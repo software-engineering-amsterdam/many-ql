@@ -2,11 +2,11 @@ package org.nlamah.QL.ViewControllers.Form;
 
 import java.awt.Dimension;
 
+import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
-import org.nlamah.QL.Views.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Views.Form.ElseThenBlockView;
 
 public class ElseThenBlockViewController extends DeclaringFormElementViewController 

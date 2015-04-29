@@ -1,12 +1,12 @@
 package org.nlamah.QL.Model.Form;
 
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class BooleanQuestion extends InputQuestion 

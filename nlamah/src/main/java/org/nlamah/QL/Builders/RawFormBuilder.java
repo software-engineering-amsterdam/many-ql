@@ -1,4 +1,4 @@
-package org.nlamah.QL;
+package org.nlamah.QL.Builders;
 
 import java.util.ArrayList;
 

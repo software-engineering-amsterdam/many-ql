@@ -1,8 +1,8 @@
 package org.nlamah.QL.Model.Expression.Literal;
 
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class TextLiteral extends ValueExpression 

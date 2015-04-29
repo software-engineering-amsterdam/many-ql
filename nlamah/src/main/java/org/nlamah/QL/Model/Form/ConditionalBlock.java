@@ -2,11 +2,11 @@ package org.nlamah.QL.Model.Form;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public class ConditionalBlock extends FormElement 
 {	

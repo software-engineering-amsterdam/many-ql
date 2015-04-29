@@ -22,6 +22,7 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
 public class QLFormErrorTest extends TestCase
 {

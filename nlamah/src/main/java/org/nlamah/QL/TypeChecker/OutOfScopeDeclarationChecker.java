@@ -2,8 +2,8 @@ package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.CyclicDependencyError;
 import org.nlamah.QL.Model.Error.OutOfScopeDeclarationError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
@@ -35,10 +35,9 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
-public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract implements QLNodeVisitor 
+public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract  
 {
 	private IdentifierLiteral identifier;
 	

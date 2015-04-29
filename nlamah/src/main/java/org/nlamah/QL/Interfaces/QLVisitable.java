@@ -1,9 +1,8 @@
-package org.nlamah.QBase;
+package org.nlamah.QL.Interfaces;
 
-import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
-public interface Visitable
+public interface QLVisitable
 {
 	public QLNode accept(QLNodeVisitor visitor);
 }

@@ -1,4 +1,4 @@
-package org.nlamah.QL;
+package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +14,6 @@ import org.nlamah.QL.Model.Error.UndeclaredQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.TypeChecker.ExpressionTypeChecker;
-import org.nlamah.QL.TypeChecker.IdentifierTypeChecker;
-import org.nlamah.QL.TypeChecker.OutOfScopeDeclarationChecker;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 

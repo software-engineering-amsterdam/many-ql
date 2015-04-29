@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
 public class DefaultDeclaration extends SectionElement 
 {
@@ -17,12 +18,17 @@ public class DefaultDeclaration extends SectionElement
 		this.type = type;
 		this.styleDeclarations = styleDeclarations;
 	}
+
+	@Override
+	public QLSNode accept(QLSNodeVisitor visitor) 
+	{
+		return visitor.visit(this);
+	}
 	
 	@Override
-	public QLNode accept(QLNodeVisitor visitor) 
+	public String toString()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		//TODO
+		return type;
 	}
-
 }
