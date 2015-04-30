@@ -23,7 +23,7 @@ public class QLS
 		
 		try
 		{
-			form = qlInterpreter.interprete(qlFileName);
+		//	form = qlInterpreter.interprete(qlFileName);
 			
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
 			

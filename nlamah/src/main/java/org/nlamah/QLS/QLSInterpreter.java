@@ -31,11 +31,6 @@ public class QLSInterpreter implements ANTLRErrorListener
 		RawStyleSheetBuilder rawStylesheetBuilder = new RawStyleSheetBuilder();
 		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
-		if (qlsFileName.equals(""))
-		{
-			throw new QLSException(null, null);
-		}
-
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 		qlsTypeChecker.check(form, stylesheet);
 
@@ -58,32 +53,26 @@ public class QLSInterpreter implements ANTLRErrorListener
 	}
 
 	@Override
-	public void syntaxError(Recognizer<?, ?> recognizer,
-			Object offendingSymbol, int line, int charPositionInLine,
-			String msg, RecognitionException e) {
-		// TODO Auto-generated method stub
-		
+	public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) 
+	{
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
-	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex,
-			int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
+	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) 
+	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void reportAttemptingFullContext(Parser recognizer, DFA dfa,
-			int startIndex, int stopIndex, BitSet conflictingAlts,
-			ATNConfigSet configs) {
+	public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) 
+	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void reportContextSensitivity(Parser recognizer, DFA dfa,
-			int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-		// TODO Auto-generated method stub
-		
+	public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) 
+	{
+		// TODO Auto-generated method stub	
 	}
 }

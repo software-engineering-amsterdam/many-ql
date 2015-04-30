@@ -1,11 +1,11 @@
 grammar QLS;
 
-stylesheet: 'stylesheet' Identifier  page* ;
-page: 'page' Identifier ('{' section '}')*;
-section : Text sectionElement* ;
+stylesheet: 'stylesheet' Identifier  '{' page* '}';
+page: 'page' Identifier '{' section* '}';
+section : Text '{' sectionElement* '}' ;
 sectionElement : section 												#sectionDeclaration
 				| 'question' Identifier widgetDeclaration?				#questionDeclaration				
-				| 'default' QuestionType '{' (styleDeclaration)+ '}' 	#defaultDeclaration
+				| 'default' QuestionType '{' styleDeclaration* '}' 	#defaultDeclaration
 				;
 
 styleDeclaration : widthDeclaration	
@@ -21,7 +21,10 @@ fontSizeDeclaration : 'fontsize:' Number ;
 colorDeclaration : 'color:' HexNumber;
 
 widgetDeclaration : 'widget' widgetType ;
-widgetType : 'checkbox' | 'spinbox' | 'radio('answer+=Text (',' answer+=Text)* ')';
+widgetType : 'checkbox' 									#checkBoxType
+			| 'spinbox' 									#spinBoxType
+			| 'radio('answer+=Text (',' answer+=Text)* ')'	#radioType
+			;
 
 QuestionType : 'boolean' | 'number' | 'text' ;
 Text : '"' .*? '"' ;

@@ -11,13 +11,29 @@ import org.nlamah.QLS.QLSParser;
 import org.nlamah.QLS.QLSParser.PageContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.SectionElementContext;
+import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
+import org.nlamah.QLS.Model.CheckBoxWidgetType;
+import org.nlamah.QLS.Model.ColorDeclaration;
+import org.nlamah.QLS.Model.DefaultDeclaration;
+import org.nlamah.QLS.Model.FontDeclaration;
+import org.nlamah.QLS.Model.FontSizeDeclaration;
+import org.nlamah.QLS.Model.HexNumberValue;
 import org.nlamah.QLS.Model.IdentifierValue;
+import org.nlamah.QLS.Model.NumberValue;
 import org.nlamah.QLS.Model.Page;
 import org.nlamah.QLS.Model.QLSNode;
 import org.nlamah.QLS.Model.QLStylesheet;
+import org.nlamah.QLS.Model.QuestionDeclaration;
+import org.nlamah.QLS.Model.QuestionType;
+import org.nlamah.QLS.Model.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Section;
 import org.nlamah.QLS.Model.SectionElement;
+import org.nlamah.QLS.Model.SpinBoxWidgetType;
+import org.nlamah.QLS.Model.StyleDeclaration;
 import org.nlamah.QLS.Model.TextValue;
+import org.nlamah.QLS.Model.WidgetDeclaration;
+import org.nlamah.QLS.Model.WidgetType;
+import org.nlamah.QLS.Model.WidthDeclaration;
 
 public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode> 
 {
@@ -103,62 +119,146 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	}
 	
 	@Override 
-	public QLSNode visitSectionDeclaration(QLSParser.SectionDeclarationContext ctx) 
-	{ 
-		return visitChildren(ctx); 
-	}
-	
-	@Override 
 	public QLSNode visitQuestionDeclaration(QLSParser.QuestionDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
+		
+		WidgetDeclaration widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
+		
+		QuestionDeclaration questionDeclaration = new QuestionDeclaration(identifier, widgetDeclaration);
+		
+		addSourceCodePosition(questionDeclaration, ctx);
+		
+		return questionDeclaration; 
 	}
 	
 	@Override 
 	public QLSNode visitDefaultDeclaration(QLSParser.DefaultDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
-	}
-	
-	@Override 
-	public QLSNode visitStyleDeclaration(QLSParser.StyleDeclarationContext ctx) 
-	{ 
-		return visitChildren(ctx); 
+		String questionTypeString = ctx.QuestionType().getText();
+		
+		QuestionType questionType = null;
+		
+		try 
+		{
+			questionType = QuestionType.valueOf(questionTypeString);
+		} 
+		catch(Exception ex) 
+		{
+			//TODO
+//			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
+		}
+		
+		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+		
+		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
+		{
+			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
+			styleDeclarations.add(styleDeclaration);
+		}
+		
+		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(questionType, styleDeclarations);
+		
+		addSourceCodePosition(defaultDeclaration, ctx);
+		
+		return defaultDeclaration; 
 	}
 	
 	@Override 
 	public QLSNode visitWidthDeclaration(QLSParser.WidthDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		NumberValue numberValue = new NumberValue(ctx.Number().getText());
+		
+		WidthDeclaration widthDeclaration = new WidthDeclaration(numberValue);
+		
+		addSourceCodePosition(widthDeclaration, ctx);
+		
+		return widthDeclaration; 
 	}
 	
 	@Override 
 	public QLSNode visitFontDeclaration(QLSParser.FontDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		IdentifierValue fontValue = new IdentifierValue(ctx.Identifier().getText());
+		
+		FontDeclaration fontDeclaration = new FontDeclaration(fontValue);
+		
+		addSourceCodePosition(fontDeclaration, ctx);
+		
+		return fontDeclaration; 
 	}
 	
 	@Override 
 	public QLSNode visitFontSizeDeclaration(QLSParser.FontSizeDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		NumberValue numberValue = new NumberValue(ctx.Number().getText());
+		
+		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(numberValue);
+		
+		addSourceCodePosition(fontSizeDeclaration, ctx);
+		
+		return fontSizeDeclaration;
 	}
 	
 	@Override 
 	public QLSNode visitColorDeclaration(QLSParser.ColorDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		HexNumberValue hexNumberValue = new HexNumberValue(ctx.HexNumber().getText());
+		
+		ColorDeclaration colorDeclaration = new ColorDeclaration(hexNumberValue);
+		
+		addSourceCodePosition(colorDeclaration, ctx);
+		
+		return colorDeclaration;
 	}
 	
 	@Override 
 	public QLSNode visitWidgetDeclaration(QLSParser.WidgetDeclarationContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		WidgetType widgetType = (WidgetType) ctx.widgetType().accept(this);
+		
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(widgetType);
+		
+		addSourceCodePosition(widgetDeclaration, ctx);
+		
+		return widgetDeclaration;
 	}
 	
 	@Override 
-	public QLSNode visitWidgetType(QLSParser.WidgetTypeContext ctx) 
+	public QLSNode visitCheckBoxType(QLSParser.CheckBoxTypeContext ctx) 
+	{ 		
+		CheckBoxWidgetType checkBoxWidgetType = new CheckBoxWidgetType();
+		
+		addSourceCodePosition(checkBoxWidgetType, ctx);
+		
+		return checkBoxWidgetType; 
+	}
+	
+	@Override 
+	public QLSNode visitSpinBoxType(QLSParser.SpinBoxTypeContext ctx) 
+	{
+		SpinBoxWidgetType spinBoxWidgetType = new SpinBoxWidgetType();
+		
+		addSourceCodePosition(spinBoxWidgetType, ctx);
+		
+		return spinBoxWidgetType; 
+	}
+	
+	@Override 
+	public QLSNode visitRadioType(QLSParser.RadioTypeContext ctx) 
 	{ 
-		return visitChildren(ctx); 
+		List<TextValue> answers = new ArrayList<TextValue>();
+		
+		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
+		{
+			TextValue answer = new TextValue(contextualTextValue.getText());
+			answers.add(answer);
+		}
+		
+		RadioButtonWidgetType radioButtonWidgetType = new RadioButtonWidgetType(answers);
+		
+		addSourceCodePosition(radioButtonWidgetType, ctx);
+		
+		return radioButtonWidgetType; 
 	}
 }

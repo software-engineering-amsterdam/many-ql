@@ -4,10 +4,10 @@ import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
 public class QuestionDeclaration extends SectionElement 
 {
-	private String identifier;
+	private IdentifierValue identifier;
 	private WidgetDeclaration widgetDeclaration;
 	
-	public QuestionDeclaration(String identifier, WidgetDeclaration widgetDeclaration)
+	public QuestionDeclaration(IdentifierValue identifier, WidgetDeclaration widgetDeclaration)
 	{
 		super();
 		
@@ -15,7 +15,7 @@ public class QuestionDeclaration extends SectionElement
 		this.widgetDeclaration = widgetDeclaration;
 	}
 	
-	public String identifier()
+	public IdentifierValue identifier()
 	{
 		return identifier;
 	}

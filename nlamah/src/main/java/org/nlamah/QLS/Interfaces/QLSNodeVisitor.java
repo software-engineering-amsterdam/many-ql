@@ -1,7 +1,10 @@
 package org.nlamah.QLS.Interfaces;
 
 import org.nlamah.QLS.Model.CheckBoxWidgetType;
+import org.nlamah.QLS.Model.ColorDeclaration;
 import org.nlamah.QLS.Model.DefaultDeclaration;
+import org.nlamah.QLS.Model.FontDeclaration;
+import org.nlamah.QLS.Model.FontSizeDeclaration;
 import org.nlamah.QLS.Model.HexNumberValue;
 import org.nlamah.QLS.Model.IdentifierValue;
 import org.nlamah.QLS.Model.NumberValue;
@@ -15,6 +18,7 @@ import org.nlamah.QLS.Model.SpinBoxWidgetType;
 import org.nlamah.QLS.Model.TextValue;
 import org.nlamah.QLS.Model.TypeValue;
 import org.nlamah.QLS.Model.WidgetDeclaration;
+import org.nlamah.QLS.Model.WidthDeclaration;
 
 public interface QLSNodeVisitor 
 {
@@ -35,4 +39,9 @@ public interface QLSNodeVisitor
 	public QLSNode visit(HexNumberValue hexNumberValue);
 	public QLSNode visit(IdentifierValue identifierValue);
 	public QLSNode visit(NumberValue numberValue);
+	
+	public QLSNode visit(ColorDeclaration colorDeclaration);
+	public QLSNode visit(FontDeclaration fontDeclaration);
+	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration);
+	public QLSNode visit(WidthDeclaration widthDeclaration);
 }

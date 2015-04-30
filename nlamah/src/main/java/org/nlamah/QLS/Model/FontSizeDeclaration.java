@@ -2,11 +2,11 @@ package org.nlamah.QLS.Model;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class WidgetDeclaration extends StyleDeclaration 
+public class FontSizeDeclaration extends StyleDeclaration 
 {
-	public WidgetDeclaration(WidgetType widgetType) 
+	public FontSizeDeclaration(DeclarationValue value) 
 	{
-		super(widgetType);
+		super(value);
 	}
 
 	@Override

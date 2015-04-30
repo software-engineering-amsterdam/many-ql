@@ -1,21 +1,19 @@
 package org.nlamah.QLS.Model;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.nlamah.QL.Interfaces.QLNodeVisitor;
-import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
 public class DefaultDeclaration extends SectionElement 
 {
-	private String type;
-	private ArrayList<StyleDeclaration> styleDeclarations;
+	private QuestionType questionType;
+	private List<StyleDeclaration> styleDeclarations;
 	
-	public DefaultDeclaration(String type, ArrayList<StyleDeclaration> styleDeclarations)
+	public DefaultDeclaration(QuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
 		super();
 		
-		this.type = type;
+		this.questionType = questionType;
 		this.styleDeclarations = styleDeclarations;
 	}
 
@@ -29,6 +27,6 @@ public class DefaultDeclaration extends SectionElement
 	public String toString()
 	{
 		//TODO
-		return type;
+		return questionType.toString();
 	}
 }
