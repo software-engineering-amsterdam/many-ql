@@ -27,7 +27,7 @@ public class QLS
 			
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
 			
-			stylesheet = qlsInterpreter.interprete(qlsFileName, form);
+			stylesheet = qlsInterpreter.interprete("QLS/" + qlsFileName, form);
 			
 			QLStylesheetAdapter adapter = new QLStylesheetAdapter();
 			adapter.adapt(form, stylesheet);

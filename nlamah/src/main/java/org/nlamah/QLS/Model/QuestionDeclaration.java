@@ -2,7 +2,7 @@ package org.nlamah.QLS.Model;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class QuestionDeclaration extends SectionElement 
+public class QuestionDeclaration extends QLSNode
 {
 	private IdentifierValue identifier;
 	private WidgetDeclaration widgetDeclaration;

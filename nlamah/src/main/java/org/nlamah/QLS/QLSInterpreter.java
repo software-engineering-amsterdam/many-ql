@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
-import org.nlamah.QL.QLLexer;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.RawStyleSheetBuilder;
 import org.nlamah.QLS.Model.QLStylesheet;
@@ -41,7 +40,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 	{
 		ANTLRInputStream input = new ANTLRInputStream(sourceCode);
 
-		QLLexer lexer = new QLLexer(input);
+		QLSLexer lexer = new QLSLexer(input);
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 

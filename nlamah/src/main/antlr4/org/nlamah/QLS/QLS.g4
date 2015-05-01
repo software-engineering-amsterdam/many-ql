@@ -1,12 +1,17 @@
 grammar QLS;
 
-stylesheet: 'stylesheet' Identifier  '{' page* '}';
-page: 'page' Identifier '{' section* '}';
-section : Text '{' sectionElement* '}' ;
-sectionElement : section 												#sectionDeclaration
-				| 'question' Identifier widgetDeclaration?				#questionDeclaration				
-				| 'default' QuestionType '{' styleDeclaration* '}' 	#defaultDeclaration
-				;
+stylesheet: 'stylesheet' Identifier  '{' (page | defaultDeclaration)* '}' ;
+
+page: 'page' Identifier '{' (section| defaultDeclaration)* '}' ;
+
+section : 'section' Text '{' (section | questionDeclaration | defaultDeclaration)* '}' ;
+pageDefaultDeclaration : 'default' QuestionType widgetType ;
+
+questionDeclaration : 'question' Identifier widgetDeclaration? ;
+
+defaultDeclaration : 'default' QuestionType '{' styleDeclaration* '}' 	#defaultDeclarationBlock
+					| 'default' QuestionType styleDeclaration			#defaultDeclarationSingleStatement
+					;
 
 styleDeclaration : widthDeclaration	
 				| fontDeclaration
@@ -16,14 +21,14 @@ styleDeclaration : widthDeclaration
 				;
 
 widthDeclaration : 'width:' Number ;
-fontDeclaration : 'font:"' Identifier '"' ;
+fontDeclaration : 'font:' Identifier ;
 fontSizeDeclaration : 'fontsize:' Number ;
 colorDeclaration : 'color:' HexNumber;
 
 widgetDeclaration : 'widget' widgetType ;
 widgetType : 'checkbox' 									#checkBoxType
 			| 'spinbox' 									#spinBoxType
-			| 'radio('answer+=Text (',' answer+=Text)* ')'	#radioType
+			| 'radio('answer+=Text (',' answer+=Text)* ')'	#radioButtonType
 			;
 
 QuestionType : 'boolean' | 'number' | 'text' ;

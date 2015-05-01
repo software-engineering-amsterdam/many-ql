@@ -4,27 +4,11 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class QLStylesheet extends QLSNode 
+public class QLStylesheet extends QLStylesheetBlock 
 {
-	private IdentifierValue identifier;
-	private List<Page> pages;
-	
-	public QLStylesheet(IdentifierValue identifier, List<Page> pages)
+	public QLStylesheet(IdentifierValue identifier, List<Page> pages, List<DefaultDeclaration> defaultDeclarations)
 	{
-		super();
-		
-		this.identifier = identifier;
-		this.pages = pages;
-	}
-	
-	public IdentifierValue identifier()
-	{
-		return identifier;
-	}
-
-	public List<Page> pages() 
-	{
-		return pages;
+		super(identifier, pages, defaultDeclarations);
 	}
 	
 	@Override

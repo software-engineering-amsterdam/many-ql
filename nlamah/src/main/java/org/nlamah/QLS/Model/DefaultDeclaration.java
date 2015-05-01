@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class DefaultDeclaration extends SectionElement 
+public class DefaultDeclaration extends QLSNode
 {
 	private QuestionType questionType;
 	private List<StyleDeclaration> styleDeclarations;

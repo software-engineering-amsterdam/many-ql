@@ -19,7 +19,7 @@ public class QL
 		
 		try
 		{
-			form = qlInterpreter.interprete(qlFileName);	
+			form = qlInterpreter.interprete("QL/" + qlFileName);	
 			
 			if (qlInterpreter.warnings().size() > 0)
 			{

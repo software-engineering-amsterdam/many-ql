@@ -8,9 +8,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSException;
 import org.nlamah.QLS.QLSParser;
+import org.nlamah.QLS.QLSParser.DefaultDeclarationContext;
+import org.nlamah.QLS.QLSParser.DefaultDeclarationSingleStatementContext;
 import org.nlamah.QLS.QLSParser.PageContext;
+import org.nlamah.QLS.QLSParser.QuestionDeclarationContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
-import org.nlamah.QLS.QLSParser.SectionElementContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
 import org.nlamah.QLS.Model.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.ColorDeclaration;
@@ -27,7 +29,6 @@ import org.nlamah.QLS.Model.QuestionDeclaration;
 import org.nlamah.QLS.Model.QuestionType;
 import org.nlamah.QLS.Model.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Section;
-import org.nlamah.QLS.Model.SectionElement;
 import org.nlamah.QLS.Model.SpinBoxWidgetType;
 import org.nlamah.QLS.Model.StyleDeclaration;
 import org.nlamah.QLS.Model.TextValue;
@@ -71,7 +72,15 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 			pages.add(page);
 		}
 		
-		QLStylesheet stylesheet = new QLStylesheet(identifier, pages);
+		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		
+		for (DefaultDeclarationContext contextualDefaulDeclaration : ctx.defaultDeclaration())
+		{
+			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaulDeclaration.accept(this);
+			defaultDeclarations.add(defaultDeclaration);
+		}
+		
+		QLStylesheet stylesheet = new QLStylesheet(identifier, pages, defaultDeclarations);
 		
 		addSourceCodePosition(stylesheet, ctx);
 		
@@ -91,7 +100,15 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 			sections.add(sectionDeclaration);
 		}
 		
-		Page page = new Page(identifier, sections);
+		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		
+		for (DefaultDeclarationContext contextualDefaulDeclaration : ctx.defaultDeclaration())
+		{
+			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaulDeclaration.accept(this);
+			defaultDeclarations.add(defaultDeclaration);
+		}
+		
+		Page page = new Page(identifier, sections, defaultDeclarations);
 		
 		addSourceCodePosition(page, ctx);
 		
@@ -103,15 +120,31 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		TextValue titleValue = new TextValue(ctx.Text().getText());
 		
-		List<SectionElement> sectionElements = new ArrayList<SectionElement>();
+		List<Section> sections = new ArrayList<Section>();
 		
-		for (SectionElementContext contextualSectionElement : ctx.sectionElement())
+		for (SectionContext contextualSection : ctx.section())
 		{
-			SectionElement sectionElement = (SectionElement) contextualSectionElement.accept(this);
-			sectionElements.add(sectionElement);
+			Section section = (Section) contextualSection.accept(this);
+			sections.add(section);
 		}
 		
-		Section section = new Section(titleValue, sectionElements);
+		List<QuestionDeclaration> questionDeclarations = new ArrayList<QuestionDeclaration>();
+		
+		for (QuestionDeclarationContext contextualQuestionDeclaration : ctx.questionDeclaration())
+		{
+			QuestionDeclaration questionDeclaration = (QuestionDeclaration) contextualQuestionDeclaration.accept(this);
+			questionDeclarations.add(questionDeclaration);
+		}
+		
+		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		
+		for (DefaultDeclarationContext contextualDefaultDeclaration : ctx.defaultDeclaration())
+		{
+			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaultDeclaration.accept(this);
+			defaultDeclarations.add(defaultDeclaration);
+		}
+		
+		Section section = new Section(titleValue, sections, questionDeclarations, defaultDeclarations);
 		
 		addSourceCodePosition(section, ctx);
 		
@@ -123,7 +156,12 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		
-		WidgetDeclaration widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
+		WidgetDeclaration widgetDeclaration = null;
+		
+		if (ctx.widgetDeclaration() != null)
+		{
+			widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
+		}
 		
 		QuestionDeclaration questionDeclaration = new QuestionDeclaration(identifier, widgetDeclaration);
 		
@@ -133,7 +171,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	}
 	
 	@Override 
-	public QLSNode visitDefaultDeclaration(QLSParser.DefaultDeclarationContext ctx) 
+	public QLSNode visitDefaultDeclarationBlock(QLSParser.DefaultDeclarationBlockContext ctx) 
 	{ 
 		String questionTypeString = ctx.QuestionType().getText();
 		
@@ -156,6 +194,35 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
 			styleDeclarations.add(styleDeclaration);
 		}
+		
+		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(questionType, styleDeclarations);
+		
+		addSourceCodePosition(defaultDeclaration, ctx);
+		
+		return defaultDeclaration; 
+	}
+	
+	@Override 
+	public QLSNode visitDefaultDeclarationSingleStatement(DefaultDeclarationSingleStatementContext ctx) 
+	{ 
+		String questionTypeString = ctx.QuestionType().getText();
+		
+		QuestionType questionType = null;
+		
+		try 
+		{
+			questionType = QuestionType.valueOf(questionTypeString);
+		} 
+		catch(Exception ex) 
+		{
+			//TODO
+//			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
+		}
+		
+		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+		
+		StyleDeclaration styleDeclaration = (StyleDeclaration)ctx.styleDeclaration().accept(this);
+		styleDeclarations.add(styleDeclaration);
 		
 		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(questionType, styleDeclarations);
 		
@@ -245,7 +312,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	}
 	
 	@Override 
-	public QLSNode visitRadioType(QLSParser.RadioTypeContext ctx) 
+	public QLSNode visitRadioButtonType(QLSParser.RadioButtonTypeContext ctx) 
 	{ 
 		List<TextValue> answers = new ArrayList<TextValue>();
 		

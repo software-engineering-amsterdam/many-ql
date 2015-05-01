@@ -4,27 +4,20 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 
-public class Section extends SectionElement 
+public class Section extends QLStylesheetBlock
 {
-	private TextValue titleValue;
-	private List<SectionElement> sectionElements;
-
-	public Section(TextValue titleValue, List<SectionElement> sectionElements)
-	{
-		super();
+	private List<QuestionDeclaration> questionDeclarations;
 		
-		this.titleValue = titleValue;
-		this.sectionElements = sectionElements;
-	}
-		
-	public TextValue description() 
+	public Section(TextValue titleValue, List<Section> sections, List<QuestionDeclaration> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
 	{
-		return titleValue;
+		super(titleValue, sections, defaultDeclarations);
+	
+		this.questionDeclarations = questionDeclarations;
 	}
-
-	public List<SectionElement> sectionItems() 
+	
+	public List<QuestionDeclaration> questionDeclarations()
 	{
-		return sectionElements;
+		return questionDeclarations;
 	}
 
 	@Override
