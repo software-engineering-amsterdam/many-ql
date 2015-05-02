@@ -16,4 +16,20 @@ public class CheckBoxWidgetType extends WidgetType
 	{
 		return visitor.visit(this);
 	}
+	
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		 
+		 if (!(object instanceof CheckBoxWidgetType))
+		 {
+			 return false;
+		 }
+
+		 return true;
+	 }
 }

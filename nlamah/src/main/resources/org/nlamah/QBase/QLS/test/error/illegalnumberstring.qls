@@ -2,6 +2,6 @@ stylesheet test
 {
 	page test
 	{
-		default text width: t
+		default text color: #GGGGGG
 	}
 }

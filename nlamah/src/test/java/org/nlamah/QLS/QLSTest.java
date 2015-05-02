@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
-import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 
 import junit.framework.Test;
@@ -19,18 +18,18 @@ public class QLSTest extends TestCase
 	{
 		final TestSuite suite = new TestSuite("QLSTestSuite");
 
-		//suite.addTestSuite(QLStylesheetTest.class);
+		suite.addTestSuite(QLStylesheetTest.class);
 		suite.addTestSuite(QLStylesheetErrorTest.class);
 
 		return suite;
 	}
-	
+
 	protected static ParseTree produceParseTreeFromSourceFile(String folder, String filename)
 	{
 		try 
 		{
 			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QLS/test/" + folder + "/" + filename + ".qls");
-			
+
 			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
 
 			QLSLexer lexer = new QLSLexer(input);
@@ -43,28 +42,18 @@ public class QLSTest extends TestCase
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	protected static QLStylesheet produceStylesheetFromSourceFile(String folder, String filename)
 	{		
-		try 
-		{
-			ParseTree tree = produceParseTreeFromSourceFile(folder, filename);
-			
-			RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
-			
-			QLStylesheet parsedStylesheet = stylesheetBuilder.build(tree);
+		ParseTree tree = produceParseTreeFromSourceFile(folder, filename);
 
-			return  parsedStylesheet;
-		} 
-		catch (QLSException e)
-		{
-			// TODO
-			e.printStackTrace();
-		} 
+		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
-		return null;
+		QLStylesheet parsedStylesheet = stylesheetBuilder.build(tree);
+
+		return  parsedStylesheet;
 	}
 }

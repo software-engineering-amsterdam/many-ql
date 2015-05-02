@@ -1,6 +1,8 @@
 package org.nlamah.QLS.Builders;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -12,15 +14,30 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
+import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Error.AmbiguityError;
+import org.nlamah.QBase.Error.AttemptingFullContextError;
+import org.nlamah.QBase.Error.ContextSensitivityError;
+import org.nlamah.QBase.Error.SyntaxError;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.QLSLexer;
 import org.nlamah.QLS.QLSParser;
 import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
 public class QLSInterpreter implements ANTLRErrorListener 
 {
+	private List<QBaseError> errors;
+	
+	public QLSInterpreter()
+	{
+		super();
+		
+		errors = new ArrayList<QBaseError>();
+	}
+	
 	public QLStylesheet interprete(String qlsFileName, Form form) throws FileReadException, QLSException
 	{
 		String qlsSourceCode;
@@ -32,8 +49,15 @@ public class QLSInterpreter implements ANTLRErrorListener
 		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
 		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
-		//QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-		//qlsTypeChecker.check(form, stylesheet);
+		errors.addAll(rawStylesheetBuilder.errors());
+		
+		if (errors.size() > 0)
+		{
+			throw new QLSException(null, errors);
+		}
+		
+		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+		qlsTypeChecker.check(form, stylesheet);
 
 		return stylesheet;
 	}
@@ -56,24 +80,24 @@ public class QLSInterpreter implements ANTLRErrorListener
 	@Override
 	public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) 
 	{
-		// TODO Auto-generated method stub	
+		errors.add(new SyntaxError(line, charPositionInLine, msg));
 	}
 
 	@Override
 	public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) 
 	{
-		// TODO Auto-generated method stub
+		errors.add(new AmbiguityError(startIndex, stopIndex));
 	}
 
 	@Override
 	public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) 
 	{
-		// TODO Auto-generated method stub
+		errors.add(new AttemptingFullContextError(startIndex, stopIndex));
 	}
 
 	@Override
 	public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) 
 	{
-		// TODO Auto-generated method stub	
+		errors.add(new ContextSensitivityError(startIndex, stopIndex));
 	}
 }

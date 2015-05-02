@@ -18,7 +18,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
-import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
@@ -148,7 +148,7 @@ public class GatherValues implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(HexNumberValue hexNumberValue) 
+	public QLSNode visit(ColorValue hexNumberValue) 
 	{
 		// TODO Auto-generated method stub
 		return null;

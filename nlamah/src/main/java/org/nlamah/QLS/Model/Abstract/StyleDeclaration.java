@@ -23,6 +23,13 @@ public abstract class StyleDeclaration extends QLSNode
 		 {
 			 return false;
 		 }
+		 
+		 StyleDeclaration styleDeclaration = (StyleDeclaration) object;
+		 
+		 if (!(value.equals(styleDeclaration.value)))
+		 {
+			 return false;
+		 }
 
 		 return true;
 	 }

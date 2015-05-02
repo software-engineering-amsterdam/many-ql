@@ -42,4 +42,27 @@ public class RadioButtonWidgetType extends WidgetType
 		
 		return returnValue;
 	}
+	
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		 
+		 if (!(object instanceof RadioButtonWidgetType))
+		 {
+			 return false;
+		 }
+		 
+		 RadioButtonWidgetType widgetType = (RadioButtonWidgetType) object;
+		 
+		 if (!(values.equals(widgetType.values)))
+		 {
+			 return false;
+		 }
+
+		 return true;
+	 }
 }

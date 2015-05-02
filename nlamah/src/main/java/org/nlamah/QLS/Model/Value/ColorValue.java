@@ -1,18 +1,25 @@
 package org.nlamah.QLS.Model.Value;
 
+import java.awt.Color;
+
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 
-public class HexNumberValue extends DeclarationValue 
+public class ColorValue extends DeclarationValue 
 {
-	private String hexNumber;
+	private Color color;
 	
-	public HexNumberValue(String hexNumber)
+	public ColorValue(Color color) 
 	{
 		super();
 		
-		this.hexNumber = hexNumber;
+		this.color = color;
+	}
+
+	public Color color()
+	{
+		return color;
 	}
 	
 	@Override
@@ -24,7 +31,7 @@ public class HexNumberValue extends DeclarationValue
 	@Override
 	public String toString()
 	{
-		return hexNumber;
+		return color.toString();
 	}	
 	
 	@Override 
@@ -35,15 +42,14 @@ public class HexNumberValue extends DeclarationValue
 			return false;
 		}
 		 
-		 if (!(object instanceof HexNumberValue))
+		 if (!(object instanceof ColorValue))
 		 {
 			 return false;
 		 }
 		 
-		 HexNumberValue value = (HexNumberValue) object;
+		 ColorValue value = (ColorValue) object;
 
-		 
-		 if (!(this.hexNumber.equals(value.hexNumber)))
+		 if (!(this.color.equals(value.color)))
 		 {
 			 return false;
 		 }

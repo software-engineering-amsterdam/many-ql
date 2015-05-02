@@ -1,5 +1,6 @@
 package org.nlamah.QLS;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
-import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
@@ -256,7 +257,7 @@ public class QLStylesheetTest extends TestCase
 		styleDeclarations.add(new WidthDeclaration(new NumberValue(400)));
 		styleDeclarations.add(new FontDeclaration(new TextValue("Arial")));
 		styleDeclarations.add(new FontSizeDeclaration(new NumberValue(14)));
-		styleDeclarations.add(new ColorDeclaration(new HexNumberValue("#999999")));
+		styleDeclarations.add(new ColorDeclaration(new ColorValue(Color.decode("#999999"))));
 		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidgetType()));
 		
 		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations);

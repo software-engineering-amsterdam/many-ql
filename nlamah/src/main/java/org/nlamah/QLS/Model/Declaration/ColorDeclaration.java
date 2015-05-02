@@ -3,11 +3,11 @@ package org.nlamah.QLS.Model.Declaration;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.ColorValue;
 
 public class ColorDeclaration extends StyleDeclaration 
 {
-	public ColorDeclaration(HexNumberValue value) 
+	public ColorDeclaration(ColorValue value) 
 	{
 		super(value);
 	}

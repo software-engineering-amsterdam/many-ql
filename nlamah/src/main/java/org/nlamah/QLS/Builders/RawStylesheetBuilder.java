@@ -11,8 +11,6 @@ import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.FontRecognitionError;
-import org.nlamah.QBase.Error.HexNumberRecognitionError;
-import org.nlamah.QBase.Error.IllegalNumberError;
 import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSParser;
@@ -22,7 +20,6 @@ import org.nlamah.QLS.QLSParser.PageContext;
 import org.nlamah.QLS.QLSParser.QuestionDeclarationContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
-import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
@@ -37,7 +34,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
-import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
@@ -61,11 +58,10 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		return this.errors;
 	}
 
-	public QLStylesheet build(ParseTree tree) throws QLSException
+	public QLStylesheet build(ParseTree tree)
 	{
 		return (QLStylesheet) tree.accept(this);
 	}
-
 
 	private void addSourceCodePosition(QLSNode node, ParserRuleContext ctx)
 	{
@@ -252,22 +248,8 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String numberValueString = ctx.Number().getText();
 
-		int numberValue = 0;
-
-		try
-		{
-			numberValue = Integer.parseInt(numberValueString); 
-		}
-		catch (Exception ex)
-		{
-			errors.add(new IllegalNumberError(numberValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
-		
-		if (numberValue < 0)
-		{
-			errors.add(new IllegalNumberError(numberValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
-
+		int numberValue = Integer.parseInt(numberValueString); 
+	
 		WidthDeclaration widthDeclaration = new WidthDeclaration(new NumberValue(numberValue));
 
 		addSourceCodePosition(widthDeclaration, ctx);
@@ -299,22 +281,8 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String numberValueString = ctx.Number().getText();
 
-		int numberValue = 0;
-
-		try
-		{
-			numberValue = Integer.parseInt(numberValueString); 
-		}
-		catch (Exception ex)
-		{
-			errors.add(new IllegalNumberError(numberValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
+		int numberValue = Integer.parseInt(numberValueString); 
 		
-		if (numberValue < 0)
-		{
-			errors.add(new IllegalNumberError(numberValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
-
 		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(new NumberValue(numberValue));
 
 		addSourceCodePosition(fontSizeDeclaration, ctx);
@@ -326,19 +294,10 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitColorDeclaration(QLSParser.ColorDeclarationContext ctx) 
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
+		
+		Color color = Color.decode(hexNumberValueString);
 
-		try
-		{
-			Color.decode(hexNumberValueString);
-		}
-		catch (Exception ex)
-		{
-			errors.add(new HexNumberRecognitionError(hexNumberValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
-
-		HexNumberValue hexNumberValue = new HexNumberValue(ctx.HexNumber().getText());
-
-		ColorDeclaration colorDeclaration = new ColorDeclaration(hexNumberValue);
+		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(color));
 
 		addSourceCodePosition(colorDeclaration, ctx);
 
