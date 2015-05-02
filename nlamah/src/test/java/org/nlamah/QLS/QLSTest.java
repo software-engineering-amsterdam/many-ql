@@ -27,7 +27,7 @@ public class QLSTest extends TestCase
 	{		
 		try 
 		{
-			String qlSourceCode = QBaseHelper.getSourceCode("QLS/test/" + folder + "/" + filename + ".qls");
+			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QLS/test/" + folder + "/" + filename + ".qls");
 			
 			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
 
@@ -50,7 +50,7 @@ public class QLSTest extends TestCase
 		{
 			// TODO
 			e.printStackTrace();
-		}
+		} 
 
 		return null;
 	}

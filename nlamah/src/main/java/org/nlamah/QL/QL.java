@@ -11,15 +11,18 @@ public class QL
 {
 	public static void main(String[] args) 
 	{
-		String qlFileName = args.length > 0 ? args[0] : "source.ql";
-		
-		QLInterpreter qlInterpreter = new QLInterpreter();
-		
-		Form form = null;
-		
 		try
 		{
-			form = qlInterpreter.interprete("QL/" + qlFileName);	
+			String sourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QL/source.ql";
+			
+			if (args.length > 0)
+			{
+				sourceCodePath = System.getProperty("user.dir") + "/" + args[0];
+			}
+			
+			QLInterpreter qlInterpreter = new QLInterpreter();
+			
+			Form form = qlInterpreter.interprete(sourceCodePath);	
 			
 			if (qlInterpreter.warnings().size() > 0)
 			{
@@ -31,6 +34,6 @@ public class QL
 		catch(QBaseException exception)
 		{	
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
-		}
+		} 
 	}
 }

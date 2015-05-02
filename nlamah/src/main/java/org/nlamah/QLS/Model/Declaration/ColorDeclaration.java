@@ -3,7 +3,6 @@ package org.nlamah.QLS.Model.Declaration;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.HexNumberValue;
 
 public class ColorDeclaration extends StyleDeclaration 

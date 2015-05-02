@@ -3,7 +3,6 @@ package org.nlamah.QLS.Model.Value;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.QLStylesheetBlock;
 
 public class HexNumberValue extends DeclarationValue 
 {

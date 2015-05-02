@@ -28,7 +28,6 @@ import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public class QLStylesheetTest extends TestCase
 {
-
 	private QLStylesheet parsedStylesheet;
 	private QLStylesheet referenceStylesheet;
 

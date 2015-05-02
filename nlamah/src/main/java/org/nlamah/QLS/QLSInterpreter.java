@@ -30,8 +30,8 @@ public class QLSInterpreter implements ANTLRErrorListener
 		RawStyleSheetBuilder rawStylesheetBuilder = new RawStyleSheetBuilder();
 		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-		qlsTypeChecker.check(form, stylesheet);
+		//QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+		//qlsTypeChecker.check(form, stylesheet);
 
 		return stylesheet;
 	}

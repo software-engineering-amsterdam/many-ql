@@ -12,31 +12,55 @@ public class QLS
 {
 	public static void main(String[] args) 
 	{
-		String qlFileName = args.length > 0 ? args[0] : "source.ql";
-		String qlsFileName = args.length > 1 ? args[1] : "stylesheet.qls";
-		
-		QLInterpreter qlInterpreter = new QLInterpreter();
-		
-		Form form = null;
-		QLStylesheet stylesheet = null;
-		RootFormViewControllerStyled rootViewController = null;
-		
 		try
-		{
-		//	form = qlInterpreter.interprete(qlFileName);
+		{	
+			String qlSourceCodePath = getQLSourceCodePath(args);
+			String qlsSourceCodePath = getQLSSourceCodePath(args);
+			
+			QLInterpreter qlInterpreter = new QLInterpreter();
+			
+			Form form = null;
+			QLStylesheet stylesheet = null;
+	
+			form = qlInterpreter.interprete(qlSourceCodePath);
 			
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
 			
-			stylesheet = qlsInterpreter.interprete("QLS/" + qlsFileName, form);
+			stylesheet = qlsInterpreter.interprete(qlsSourceCodePath, form);
 			
 			QLStylesheetAdapter adapter = new QLStylesheetAdapter();
 			adapter.adapt(form, stylesheet);
 			
-			SwingUtilities.invokeLater(rootViewController);
+//			RootFormViewControllerStyled rootViewController = null;
+//			SwingUtilities.invokeLater();
 		}
 		catch(QBaseException exception)
 		{	
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
+		} 
+	}
+	
+	private static String getQLSourceCodePath(String[] args)
+	{
+		String qlSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QL/source.ql";
+		
+		if (args.length > 0)
+		{
+			qlSourceCodePath = System.getProperty("user.dir") + "/" + args[0];
 		}
+		
+		return qlSourceCodePath;
+	}
+	
+	private static String getQLSSourceCodePath(String[] args)
+	{
+		String qlsSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QLS/stylesheet.qls";
+		
+		if (args.length > 1)
+		{
+			qlsSourceCodePath = System.getProperty("user.dir") + "/" + args[1];
+		}
+		
+		return qlsSourceCodePath;
 	}
 }

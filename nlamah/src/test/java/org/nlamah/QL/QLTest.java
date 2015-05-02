@@ -45,7 +45,7 @@ public class QLTest extends TestCase
 	{		
 		try 
 		{
-			String qlSourceCode = QBaseHelper.getSourceCode("QL/test/" + folder + "/" + filename + ".ql");
+			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QL/test/" + folder + "/" + filename + ".ql");
 			
 			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
 
@@ -62,7 +62,7 @@ public class QLTest extends TestCase
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
 		return null;
 	}

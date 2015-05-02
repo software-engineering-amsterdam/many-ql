@@ -42,11 +42,11 @@ public class QLInterpreter implements ANTLRErrorListener
 		errors = new ArrayList<QBaseError>();
 	}
 	
-	public Form interprete(String qlFileName) throws FileReadException, QLException
+	public Form interprete(String sourceCodePath) throws FileReadException, QLException
 	{		
 		String sourceCode;
 		
-		sourceCode = QBaseHelper.getSourceCode(qlFileName);
+		sourceCode = QBaseHelper.getSourceCode(sourceCodePath);
 		
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
 		
