@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
@@ -8,7 +8,7 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 
 public abstract class ConditionalBlockChildWithExpression extends DeclaringFormElement
 {
-	public ConditionalBlockChildWithExpression(Expression expression, ArrayList<FormElement> childElements) 
+	public ConditionalBlockChildWithExpression(Expression expression, List<FormElement> childElements) 
 	{
 		super(childElements);
 		

@@ -1,5 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
@@ -7,7 +8,6 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class NumberQuestion extends InputQuestion 
 {
@@ -15,7 +15,7 @@ public class NumberQuestion extends InputQuestion
 	
 	public NumberQuestion(IdentifierLiteral identifier, TextLiteral questionText)
 	{
-		super(identifier, questionText, LiteralType.NUMBER);
+		super(identifier, questionText, QBaseQuestionType.NUMBER);
 		
 		insertedNumber = new NumberLiteral("0");
 	}

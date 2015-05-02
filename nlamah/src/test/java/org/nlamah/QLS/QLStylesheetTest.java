@@ -5,6 +5,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
@@ -120,15 +122,13 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "sheetdefaultdeclaration");
 		
-		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
 		
-		List<Page> pages = new ArrayList<Page>();
-		pages.add(page);
+		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		defaultDeclarations.add(defaultDeclaration);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
-	
-	
 }

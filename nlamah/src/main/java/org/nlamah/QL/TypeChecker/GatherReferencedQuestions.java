@@ -1,6 +1,7 @@
 package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
@@ -37,7 +38,7 @@ import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public class GatherReferencedQuestions implements QLNodeVisitor 
 {
-	private ArrayList<IdentifierLiteral> referencedQuestions;
+	private List<IdentifierLiteral> referencedQuestions;
 	
 	public GatherReferencedQuestions(Form form)
 	{
@@ -46,7 +47,7 @@ public class GatherReferencedQuestions implements QLNodeVisitor
 		form.accept(this);
 	}
 	
-	public ArrayList<IdentifierLiteral> referencedQuestions()
+	public List<IdentifierLiteral> referencedQuestions()
 	{
 		return this.referencedQuestions;
 	}

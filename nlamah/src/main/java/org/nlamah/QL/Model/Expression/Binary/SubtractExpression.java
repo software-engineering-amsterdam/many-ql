@@ -1,10 +1,10 @@
 package org.nlamah.QL.Model.Expression.Binary;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryComputationalExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class SubtractExpression extends BinaryComputationalExpression 
 {
@@ -36,7 +36,7 @@ public class SubtractExpression extends BinaryComputationalExpression
 	 }
 	
 	@Override
-	public boolean isSafeForType(LiteralType type) 
+	public boolean isSafeForType(QBaseQuestionType type) 
 	{
 		switch(type)
 		{

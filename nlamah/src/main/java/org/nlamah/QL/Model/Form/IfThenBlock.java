@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -11,7 +11,7 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 
 public class IfThenBlock extends ConditionalBlockChildWithExpression
 {	
-	public IfThenBlock(Expression expression, ArrayList<FormElement> childElements) 
+	public IfThenBlock(Expression expression, List<FormElement> childElements) 
 	{	
 		super(expression, childElements);
 		

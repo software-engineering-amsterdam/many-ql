@@ -1,6 +1,7 @@
 package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -18,7 +19,7 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 
 public class GatherDeclaredQuestions implements QLFormElementVisitor 
 {
-	private ArrayList<Question> declaredQuestions;
+	private List<Question> declaredQuestions;
 	
 	public GatherDeclaredQuestions(Form form)
 	{
@@ -27,7 +28,7 @@ public class GatherDeclaredQuestions implements QLFormElementVisitor
 		form.accept(this);
 	}
 	
-	public ArrayList<Question> declaredQuestions()
+	public List<Question> declaredQuestions()
 	{
 		return declaredQuestions;
 	}

@@ -1,6 +1,6 @@
 package org.nlamah.QL.ViewControllers.Form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
@@ -15,11 +15,11 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	protected ConditionalBlockView conditionalBlockView;
 	
 	protected IfThenBlockViewController ifThenBlockViewController;
-	protected ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers;
+	protected List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers;
 	protected ElseThenBlockViewController elseThenBlockViewController;
 
 	protected IfThenBlockView ifThenBlockView;
-	protected ArrayList<ElseIfThenBlockView> elseIfThenBlockViews;
+	protected List<ElseIfThenBlockView> elseIfThenBlockViews;
 	protected ElseThenBlockView elseThenBlockView;
 
 	public ConditionalBlockViewController(ConditionalBlock conditionalBlock)
@@ -41,12 +41,12 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 		this.ifThenBlockViewController = ifThenBlockViewController;
 	}
 
-	public ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers() 
+	public List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers() 
 	{
 		return elseIfThenBlockViewControllers;
 	}
 
-	public void setElseIfThenBlockViewControllers(ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers) 
+	public void setElseIfThenBlockViewControllers(List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers) 
 	{
 		this.elseIfThenBlockViewControllers = elseIfThenBlockViewControllers;
 	}
@@ -67,7 +67,7 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 		this.ifThenBlockView = ifThenBlockView;
 	}
 	
-	public void setElseIfThenBlockViews(ArrayList<ElseIfThenBlockView> elseIfThenBlockViews) 
+	public void setElseIfThenBlockViews(List<ElseIfThenBlockView> elseIfThenBlockViews) 
 	{
 		this.elseIfThenBlockViews = elseIfThenBlockViews;
 	}

@@ -1,11 +1,11 @@
 package org.nlamah.QBase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class FileReadException extends QBaseException 
 {
-	public FileReadException(ArrayList<QBaseWarning> warnings, ArrayList<QBaseError> errors) 
+	public FileReadException(List<QBaseWarning> warnings, List<QBaseError> errors) 
 	{
 		super(warnings, errors);
 	}

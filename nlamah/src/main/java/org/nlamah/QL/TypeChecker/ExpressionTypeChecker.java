@@ -1,5 +1,6 @@
 package org.nlamah.QL.TypeChecker;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Error.ExpressionTypeMismatchError;
@@ -37,7 +38,6 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNodeVisitor 
 {
@@ -59,7 +59,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 		}
 	}
 	
-	private void checkForErrorInBinaryExpression(BinaryExpression expression, LiteralType type)
+	private void checkForErrorInBinaryExpression(BinaryExpression expression, QBaseQuestionType type)
 	{
 		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
 		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
@@ -68,20 +68,20 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 		checkIfResultExpressionIsOfType(rightHandExpression, type);
 	}
 	
-	private void checkForErrorInUnaryExpression(UnaryExpression expression, LiteralType type)
+	private void checkForErrorInUnaryExpression(UnaryExpression expression, QBaseQuestionType type)
 	{
 		Expression visitedExpression = (Expression) expression.expression().accept(this);
 
 		checkIfResultExpressionIsOfType(visitedExpression, type);
 	}
 	
-	private void checkIfResultExpressionIsOfType(Expression expression, LiteralType type)
+	private void checkIfResultExpressionIsOfType(Expression expression, QBaseQuestionType type)
 	{		
 		switch (expression.type())
 		{
 		case BOOLEAN:
 		{
-			if (type != LiteralType.BOOLEAN)
+			if (type != QBaseQuestionType.BOOLEAN)
 			{
 				errors.add(new ExpressionTypeMismatchError(expression));
 			}
@@ -90,7 +90,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 		}
 		case NUMBER:
 		{
-			if (type != LiteralType.NUMBER)
+			if (type != QBaseQuestionType.NUMBER)
 			{
 				errors.add(new ExpressionTypeMismatchError(expression));
 			}
@@ -99,7 +99,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 		}
 		case TEXT:
 		{
-			if (type != LiteralType.TEXT)
+			if (type != QBaseQuestionType.TEXT)
 			{
 				errors.add(new ExpressionTypeMismatchError(expression));
 			}
@@ -116,7 +116,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(AddExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -124,7 +124,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(AndExpression expression)
 	{		
-		checkForErrorInBinaryExpression(expression, LiteralType.BOOLEAN);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.BOOLEAN);
 
 		return expression;
 	}
@@ -132,7 +132,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(DivideExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -148,7 +148,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(GreaterThanExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -156,7 +156,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(GreaterThanEqualExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -164,7 +164,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(MultiplyExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -172,14 +172,14 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(OrExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.BOOLEAN);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.BOOLEAN);
 
 		return expression;
 	}
 
 	public QLNode visit(SmallerThanEqualExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -187,7 +187,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(SmallerThanExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -195,7 +195,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(SubtractExpression expression)
 	{
-		checkForErrorInBinaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInBinaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -211,7 +211,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(MinusExpression expression)
 	{
-		checkForErrorInUnaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInUnaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -219,7 +219,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(NotExpression expression)
 	{
-		checkForErrorInUnaryExpression(expression, LiteralType.BOOLEAN);
+		checkForErrorInUnaryExpression(expression, QBaseQuestionType.BOOLEAN);
 
 		return expression;
 	}
@@ -227,7 +227,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	@Override
 	public QLNode visit(PlusExpression expression)
 	{
-		checkForErrorInUnaryExpression(expression, LiteralType.NUMBER);
+		checkForErrorInUnaryExpression(expression, QBaseQuestionType.NUMBER);
 
 		return expression;
 	}
@@ -304,7 +304,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	{	
 		Expression expression = (Expression) elseIfThenBlock.expression().accept(this);
 		
-		if (expression.type() != LiteralType.BOOLEAN)
+		if (expression.type() != QBaseQuestionType.BOOLEAN)
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
@@ -347,7 +347,7 @@ public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNode
 	{
 		Expression expression = (Expression) ifThenBlock.expression().accept(this);
 		
-		if (expression.type() != LiteralType.BOOLEAN)
+		if (expression.type() != QBaseQuestionType.BOOLEAN)
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}

@@ -1,14 +1,15 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
 public abstract class Question extends FormElement 
 {
 	private TextLiteral questionText;
-	private LiteralType type;
+	private QBaseQuestionType type;
 	
-	public Question(IdentifierLiteral identifier, TextLiteral questionString, LiteralType type) 
+	public Question(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
 	{
 		super(identifier);
 		
@@ -26,7 +27,7 @@ public abstract class Question extends FormElement
 		}
 	}
 	
-	public LiteralType returnType()
+	public QBaseQuestionType returnType()
 	{
 		return type;
 	}

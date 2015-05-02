@@ -1,6 +1,6 @@
 package org.nlamah.QBase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -12,13 +12,13 @@ public class QBaseErrorViewController implements Runnable
 	private final static int FRAME_WIDTH = 900;
 	private final static int FRAME_HEIGHT = 600;
 
-	private ArrayList<QBaseWarning> warnings;
-	private ArrayList<? extends QBaseError> errors;
+	private List<QBaseWarning> warnings;
+	private List<? extends QBaseError> errors;
 
 	private JFrame frame;
 	private QBaseErrorView errorView;
 
-	public QBaseErrorViewController( ArrayList<QBaseWarning> warnings, ArrayList<QBaseError> errors)
+	public QBaseErrorViewController( List<QBaseWarning> warnings, List<QBaseError> errors)
 	{
 		super();
 		

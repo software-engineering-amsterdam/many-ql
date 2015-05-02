@@ -1,10 +1,12 @@
 package org.nlamah.QL.Builders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Model.Error.Abstract.ParsingError;
@@ -41,11 +43,10 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	private ArrayList<ParsingError> errors;
+	private List<ParsingError> errors;
 	
 	public RawFormBuilder()
 	{
@@ -59,7 +60,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		return (Form) tree.accept(this);
 	}
 	
-	public ArrayList<ParsingError> errors()
+	public List<ParsingError> errors()
 	{
 		return this.errors;
 	}
@@ -77,7 +78,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		String formName = ctx.Identifier().getText();
 
-		ArrayList<FormElement> formElements = new ArrayList<>();
+		List<FormElement> formElements = new ArrayList<>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{
@@ -103,11 +104,11 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		String type = ctx.type.getText().toUpperCase();
 
-		LiteralType returnType = null;
+		QBaseQuestionType returnType = null;
 
 		try 
 		{
-			returnType = LiteralType.valueOf(type);
+			returnType = QBaseQuestionType.valueOf(type);
 		} 
 		catch(Exception ex) 
 		{
@@ -176,7 +177,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		IfThenBlock ifThenBlock = (IfThenBlock)ctx.ifThenBlock().accept(this);
 
-		ArrayList<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
+		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
 
 		for (QLParser.ElseIfThenBlockContext elseIfThenBlockContext : ctx.elseIfThenBlock())
 		{
@@ -204,7 +205,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		Expression logicalExpression = (Expression) ctx.expression().accept(this);
 
-		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
+		List<FormElement> formElements = new ArrayList<FormElement>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{
@@ -224,7 +225,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		Expression expression = (Expression) ctx.expression().accept(this);
 
-		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
+		List<FormElement> formElements = new ArrayList<FormElement>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{
@@ -242,7 +243,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override 
 	public QLNode visitElseThenBlock(QLParser.ElseThenBlockContext ctx)
 	{
-		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
+		List<FormElement> formElements = new ArrayList<FormElement>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{

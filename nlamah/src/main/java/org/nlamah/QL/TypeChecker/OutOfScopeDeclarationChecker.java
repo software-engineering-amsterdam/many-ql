@@ -1,6 +1,6 @@
 package org.nlamah.QL.TypeChecker;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Helper.QLHelper;
@@ -50,7 +50,7 @@ public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract
 		identifier.accept(this);
 	}
 	
-	private Question IsIdentifierDeclaredHere(ArrayList<FormElement> childElements) 
+	private Question IsIdentifierDeclaredHere(List<FormElement> childElements) 
 	{	
 		Question declaredQuestion = null;
 		

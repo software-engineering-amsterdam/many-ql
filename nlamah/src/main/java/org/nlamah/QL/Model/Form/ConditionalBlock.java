@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Helper.QLHelper;
@@ -11,10 +11,10 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 public class ConditionalBlock extends FormElement 
 {	
 	private IfThenBlock ifThenBlock;
-	private ArrayList<ElseIfThenBlock> elseIfThenBlocks;
+	private List<ElseIfThenBlock> elseIfThenBlocks;
 	private ElseThenBlock elseThenBlock;
 	
-	public ConditionalBlock(IfThenBlock ifThenBlock, ArrayList<ElseIfThenBlock> elseIfThenBlocks, ElseThenBlock elseThenBlock) 
+	public ConditionalBlock(IfThenBlock ifThenBlock, List<ElseIfThenBlock> elseIfThenBlocks, ElseThenBlock elseThenBlock) 
 	{
 		super(null);
 		
@@ -51,7 +51,7 @@ public class ConditionalBlock extends FormElement
 		return this.ifThenBlock;
 	}
 	
-	public ArrayList<ElseIfThenBlock> elseIfThenBlocks()
+	public List<ElseIfThenBlock> elseIfThenBlocks()
 	{
 		return this.elseIfThenBlocks;
 	}

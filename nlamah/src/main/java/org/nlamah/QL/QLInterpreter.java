@@ -1,6 +1,7 @@
 package org.nlamah.QL;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.BitSet;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
@@ -30,8 +31,8 @@ public class QLInterpreter implements ANTLRErrorListener
 {	
 	private Form form;
 	
-	private ArrayList<QBaseWarning> warnings;
-	private ArrayList<QBaseError> errors;
+	private List<QBaseWarning> warnings;
+	private List<QBaseError> errors;
 	
 	public QLInterpreter()
 	{
@@ -78,7 +79,7 @@ public class QLInterpreter implements ANTLRErrorListener
 		return form;
 	}
 	
-	public ArrayList<QBaseWarning> warnings()
+	public List<QBaseWarning> warnings()
 	{
 		return warnings;
 	}

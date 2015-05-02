@@ -1,25 +1,25 @@
 package org.nlamah.QBase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class QBaseException extends Exception 
 {
-	private ArrayList<QBaseWarning> warnings;
-	private ArrayList<QBaseError> errors;
+	private List<QBaseWarning> warnings;
+	private List<QBaseError> errors;
 
-	public QBaseException(ArrayList<QBaseWarning> warnings, ArrayList<QBaseError> errors)
+	public QBaseException(List<QBaseWarning> warnings, List<QBaseError> errors)
 	{
 		this.warnings = warnings;
 		this.errors = errors;
 	}
 	
-	public ArrayList<QBaseWarning> warnings()
+	public List<QBaseWarning> warnings()
 	{
 		return warnings;
 	}
 	
-	public ArrayList<QBaseError> errors()
+	public List<QBaseError> errors()
 	{
 		return errors;
 	}

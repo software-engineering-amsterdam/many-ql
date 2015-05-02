@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Error;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
@@ -9,9 +9,9 @@ import org.nlamah.QL.Model.Form.Abstract.Question;
 public class DoubleDeclarationError extends QBaseError
 {
 	IdentifierLiteral identifier;
-	ArrayList<Question> questions;
+	List<Question> questions;
 
-	public DoubleDeclarationError(IdentifierLiteral identifier, ArrayList<Question> declaredQuestions)
+	public DoubleDeclarationError(IdentifierLiteral identifier, List<Question> declaredQuestions)
 	{
 		super();
 

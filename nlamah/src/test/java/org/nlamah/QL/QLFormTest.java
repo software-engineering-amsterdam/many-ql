@@ -1,6 +1,8 @@
 package org.nlamah.QL;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.GreaterThanExpression;
@@ -41,7 +43,7 @@ public class QLFormTest extends TestCase
 		parsedForm = QLTest.produceFormFromSourceFile("form", "onequestion");
 		
 		InputQuestion question = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
-		ArrayList<FormElement> questions = new ArrayList<FormElement>();
+		List<FormElement> questions = new ArrayList<FormElement>();
 		questions.add(question);
 		
 		referenceForm = new Form("test", questions);
@@ -56,7 +58,7 @@ public class QLFormTest extends TestCase
  		InputQuestion question1 = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
  		InputQuestion question2 = new BooleanQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"));
 
- 		ArrayList<FormElement> questions = new ArrayList<FormElement>();
+ 		List<FormElement> questions = new ArrayList<FormElement>();
  		questions.add(question1);
  		questions.add(question2);
 
@@ -78,7 +80,7 @@ public class QLFormTest extends TestCase
  		
  		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), null);
  		
- 		ArrayList<FormElement> conditionalBlocks = new ArrayList<FormElement>();
+ 		List<FormElement> conditionalBlocks = new ArrayList<FormElement>();
  		
  		conditionalBlocks.add(conditionalBlock);
 
@@ -100,7 +102,7 @@ public class QLFormTest extends TestCase
  		ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
  		
  		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), elseThenBlock);
- 		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
+ 		List<FormElement> formElements = new ArrayList<FormElement>();
  		formElements.add(conditionalBlock);
 
  		referenceForm = new Form("test", formElements);
@@ -136,7 +138,7 @@ public class QLFormTest extends TestCase
  		
  		ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(greaterThanExpression, new ArrayList<FormElement>());
  		
- 		ArrayList<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
+ 		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
  		elseIfThenBlocks.add(elseIfThen1);
  		elseIfThenBlocks.add(elseIfThen2);
 
@@ -144,7 +146,7 @@ public class QLFormTest extends TestCase
  		
  		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
  		
- 		ArrayList<FormElement> formElements = new ArrayList<FormElement>(1);
+ 		List<FormElement> formElements = new ArrayList<FormElement>(1);
  		formElements.add(conditionalBlock);
 
  		referenceForm = new Form("test", formElements);
@@ -173,7 +175,7 @@ public class QLFormTest extends TestCase
  		
  		ConditionalBlock nestedConditionBlock = new ConditionalBlock(nestedIfThenBlock, new ArrayList<ElseIfThenBlock>(), nestedElseThenBlock);
  		
- 		ArrayList<FormElement>nestedFormElements = new ArrayList<FormElement>();
+ 		List<FormElement>nestedFormElements = new ArrayList<FormElement>();
  		nestedFormElements.add(nestedConditionBlock);
 
  		
@@ -189,7 +191,7 @@ public class QLFormTest extends TestCase
  		
  		ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
  		
- 		ArrayList<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
+ 		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
  		elseIfThenBlocks.add(elseIfThen1);
  		elseIfThenBlocks.add(elseIfThen2);
 
@@ -198,7 +200,7 @@ public class QLFormTest extends TestCase
  		
  		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
  		
- 		ArrayList<FormElement> formElements = new ArrayList<FormElement>();
+ 		List<FormElement> formElements = new ArrayList<FormElement>();
  		formElements.add(conditionalBlock);
 
  		referenceForm = new Form("test", formElements);

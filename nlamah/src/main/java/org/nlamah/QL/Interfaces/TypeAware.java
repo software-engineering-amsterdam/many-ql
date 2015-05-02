@@ -1,8 +1,8 @@
 package org.nlamah.QL.Interfaces;
 
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
+import org.nlamah.QBase.QBaseQuestionType;
 
 public interface TypeAware 
 {
-	public boolean isSafeForType(LiteralType type);
+	public boolean isSafeForType(QBaseQuestionType type);
 }

@@ -2,17 +2,17 @@ package org.nlamah.QLS.Model.Declaration;
 
 import java.util.List;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Value.QuestionType;
 
 public class DefaultDeclaration extends QLSNode
 {
-	private QuestionType questionType;
+	private QBaseQuestionType questionType;
 	private List<StyleDeclaration> styleDeclarations;
 	
-	public DefaultDeclaration(QuestionType questionType, List<StyleDeclaration> styleDeclarations)
+	public DefaultDeclaration(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
 		super();
 		
@@ -36,11 +36,6 @@ public class DefaultDeclaration extends QLSNode
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!super.equals(object))
-		{
-			return false;
-		}
-
 		if (!(object instanceof DefaultDeclaration))
 		{
 			return false;

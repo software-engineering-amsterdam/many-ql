@@ -1,5 +1,6 @@
 package org.nlamah.QL.TypeChecker;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
@@ -30,11 +31,10 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class IdentifierTypeChecker extends TypeCheckerAbstract
 {
-	private LiteralType expectedIdentifierType;
+	private QBaseQuestionType expectedIdentifierType;
 	private IdentifierLiteral identifier;
 	
 	public IdentifierTypeChecker(IdentifierLiteral identifier)
@@ -49,7 +49,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(AddExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 	
 		return null;
 	}
@@ -57,7 +57,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(AndExpression expression)
 	{	
-		expectedIdentifierType = LiteralType.BOOLEAN;
+		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
 		
 		return null;
 	}
@@ -65,7 +65,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(DivideExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -96,7 +96,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(GreaterThanExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -104,7 +104,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(GreaterThanEqualExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -112,7 +112,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(MultiplyExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -120,7 +120,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(OrExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -128,7 +128,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(SmallerThanEqualExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -136,7 +136,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(SmallerThanExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -144,7 +144,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(SubtractExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -175,7 +175,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(MinusExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -183,7 +183,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(NotExpression expression)
 	{
-		expectedIdentifierType = LiteralType.BOOLEAN;
+		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
 		
 		return null;
 	}
@@ -191,7 +191,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(PlusExpression expression)
 	{
-		expectedIdentifierType = LiteralType.NUMBER;
+		expectedIdentifierType = QBaseQuestionType.NUMBER;
 		
 		return null;
 	}
@@ -262,7 +262,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{			
-		expectedIdentifierType = LiteralType.BOOLEAN;
+		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
 
 		return null;
 	}
@@ -286,7 +286,7 @@ public class IdentifierTypeChecker extends TypeCheckerAbstract
 	@Override
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{		
-		expectedIdentifierType = LiteralType.BOOLEAN;
+		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
 
 		return null;	
 	}

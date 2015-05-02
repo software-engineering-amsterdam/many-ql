@@ -1,6 +1,7 @@
 package org.nlamah.QL.Builders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -39,9 +40,9 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		this.rootViewController = rootViewController;
 	}
 	
-	public ArrayList<FormElementViewController> createChildViewControllers(DeclaringFormElement declaringFormElement)
+	public List<FormElementViewController> createChildViewControllers(DeclaringFormElement declaringFormElement)
 	{
-		ArrayList<FormElementViewController> childViewControllers = null;
+		List<FormElementViewController> childViewControllers = null;
 		
 		if (QLHelper.arrayExistsAndHasElements(declaringFormElement.childElements()))
 		{
@@ -82,9 +83,9 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		return conditionalBlockViewController;
 	}
 	
-	private ConditionalBlockViewController createElseIfThenBlockViewControllers(ConditionalBlockViewController conditionalBlockViewController, ArrayList<ElseIfThenBlock> elseIfThenBlocks)
+	private ConditionalBlockViewController createElseIfThenBlockViewControllers(ConditionalBlockViewController conditionalBlockViewController, List<ElseIfThenBlock> elseIfThenBlocks)
 	{
-		ArrayList<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
+		List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
 		
 		if (QLHelper.arrayExistsAndHasElements(elseIfThenBlocks))
 		{

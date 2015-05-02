@@ -1,20 +1,20 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public abstract class Expression extends QLNode
 {		
-	private LiteralType type;
+	private QBaseQuestionType type;
 	
-	public Expression(LiteralType type)
+	public Expression(QBaseQuestionType type)
 	{
 		super();
 		
 		this.type = type;
 	}
 	
-	public LiteralType type()
+	public QBaseQuestionType type()
 	{
 		return type;
 	}

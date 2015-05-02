@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -10,7 +10,7 @@ import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 
 public class ElseThenBlock extends DeclaringFormElement 
 {		
-	public ElseThenBlock(ArrayList<FormElement> childElements) 
+	public ElseThenBlock(List<FormElement> childElements) 
 	{
 		super(childElements);	
 	}

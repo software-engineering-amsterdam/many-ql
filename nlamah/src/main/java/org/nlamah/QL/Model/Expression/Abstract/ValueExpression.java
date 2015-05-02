@@ -1,12 +1,12 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
+import org.nlamah.QBase.QBaseQuestionType;
 
 public abstract class ValueExpression extends Expression 
 {
 	protected String valueString;
 	
-	public ValueExpression(String valueString, LiteralType type)
+	public ValueExpression(String valueString, QBaseQuestionType type)
 	{
 		super(type);
 		

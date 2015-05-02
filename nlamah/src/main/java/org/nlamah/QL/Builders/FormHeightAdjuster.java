@@ -1,6 +1,6 @@
 package org.nlamah.QL.Builders;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
@@ -20,7 +20,7 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	private int preferredHeight;
 	private int currentlyCalculatedHeight;
 	
-	public int getPreferredHeight(ArrayList<FormElementViewController> formElementViewControllers)
+	public int getPreferredHeight(List<FormElementViewController> formElementViewControllers)
 	{
 		preferredHeight = 0;
 		

@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Helper.QLHelper;
@@ -15,12 +15,12 @@ import org.nlamah.QL.TypeChecker.GatherReferencedQuestions;
 
 public class Form extends DeclaringFormElement
 {
-	private ArrayList<Question> declaredQuestions;
-	private ArrayList<IdentifierLiteral> referencedQuestions;
+	private List<Question> declaredQuestions;
+	private List<IdentifierLiteral> referencedQuestions;
 
 	private String title;
 
-	public Form(String title, ArrayList<FormElement> formElements) 
+	public Form(String title, List<FormElement> formElements) 
 	{
 		super(formElements);
 
@@ -32,7 +32,7 @@ public class Form extends DeclaringFormElement
 		return this.title;
 	}
 
-	public ArrayList<Question> declaredQuestions()
+	public List<Question> declaredQuestions()
 	{
 		if (!QLHelper.arrayExistsAndHasElements(declaredQuestions))
 		{
@@ -42,7 +42,7 @@ public class Form extends DeclaringFormElement
 		return declaredQuestions;
 	}
 
-	public ArrayList<IdentifierLiteral> referencedQuestions()
+	public List<IdentifierLiteral> referencedQuestions()
 	{
 		if (!QLHelper.arrayExistsAndHasElements(referencedQuestions))
 		{

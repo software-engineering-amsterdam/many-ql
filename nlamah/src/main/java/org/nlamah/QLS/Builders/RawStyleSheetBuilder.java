@@ -6,6 +6,7 @@ import java.util.List;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSException;
 import org.nlamah.QLS.QLSParser;
@@ -31,7 +32,6 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.HexNumberValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
-import org.nlamah.QLS.Model.Value.QuestionType;
 import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
@@ -174,16 +174,16 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitDefaultDeclarationBlock(QLSParser.DefaultDeclarationBlockContext ctx) 
 	{ 
-		String questionTypeString = ctx.QuestionType().getText();
+		String questionTypeString = ctx.QuestionType().getText().toUpperCase();;
 		
-		QuestionType questionType = null;
+		QBaseQuestionType questionType = null;
 		
 		try 
 		{
-			questionType = QuestionType.valueOf(questionTypeString);
+			questionType = QBaseQuestionType.valueOf(questionTypeString);
 		} 
 		catch(Exception ex) 
-		{
+		{	
 			//TODO
 //			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
@@ -208,11 +208,11 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String questionTypeString = ctx.QuestionType().getText();
 		
-		QuestionType questionType = null;
+		QBaseQuestionType questionType = null;
 		
 		try 
 		{
-			questionType = QuestionType.valueOf(questionTypeString);
+			questionType = QBaseQuestionType.valueOf(questionTypeString);
 		} 
 		catch(Exception ex) 
 		{

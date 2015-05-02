@@ -1,6 +1,7 @@
 package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +19,12 @@ import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 
 {
-	private ArrayList<QBaseError> errors;
-	private ArrayList<QBaseWarning> warnings;
+	private List<QBaseError> errors;
+	private List<QBaseWarning> warnings;
 
 	private Form form;
 
-	private Map<IdentifierLiteral, ArrayList<Question>> doubleDeclaratedQuestions;
+	private Map<IdentifierLiteral, List<Question>> doubleDeclaratedQuestions;
 
 	public QLTypeChecker()
 	{
@@ -51,12 +52,12 @@ public class QLTypeChecker
 	}
 
 	
-	public ArrayList<QBaseError> errors()
+	public List<QBaseError> errors()
 	{
 		return errors;
 	}
 	
-	public ArrayList<QBaseWarning> warnings()
+	public List<QBaseWarning> warnings()
 	{
 		return warnings;
 	}
@@ -97,7 +98,7 @@ public class QLTypeChecker
 
 	private boolean questionIsDeclaredOnlyOnce(IdentifierLiteral identifier)
 	{
-		ArrayList<Question> questions = doubleDeclaratedQuestions.get(identifier.toString());
+		List<Question> questions = doubleDeclaratedQuestions.get(identifier.toString());
 		
 		if (QLHelper.arrayExistsAndHasElements(questions))
 		{
@@ -109,13 +110,13 @@ public class QLTypeChecker
 
 	private void createDoubleDeclaredList()
 	{
-		doubleDeclaratedQuestions = new HashMap<IdentifierLiteral, ArrayList<Question>>();
+		doubleDeclaratedQuestions = new HashMap<IdentifierLiteral, List<Question>>();
 
 		for (Question question : form.declaredQuestions())
 		{
 			IdentifierLiteral key = question.identifier();
 
-			ArrayList<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
+			List<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
 
 			if (!QLHelper.arrayExistsAndHasElements(questionsWithTheSameIdentifier))
 			{
@@ -132,7 +133,7 @@ public class QLTypeChecker
 		{
 			for (IdentifierLiteral key : doubleDeclaratedQuestions.keySet())
 			{
-				ArrayList<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
+				List<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
 
 				if (questionsWithTheSameIdentifier.size() > 1)
 				{
@@ -177,7 +178,7 @@ public class QLTypeChecker
 
 	private void checkForTypeMismatchErrors(Form form)
 	{
-		ArrayList<QBaseError> identifierErrors = new ArrayList<QBaseError>();
+		List<QBaseError> identifierErrors = new ArrayList<QBaseError>();
 		
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{
@@ -198,13 +199,13 @@ public class QLTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Map<String, ArrayList<Question>> questionLabels = new HashMap<String, ArrayList<Question>>();
+		Map<String, List<Question>> questionLabels = new HashMap<String, List<Question>>();
 
 		for (Question question : form.declaredQuestions())
 		{
 			String labelKey = question.questionText().toString();
 
-			ArrayList<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
+			List<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
 
 			if (!QLHelper.arrayExistsAndHasElements(questionsWithTheSameLabel))
 			{
@@ -221,7 +222,7 @@ public class QLTypeChecker
 		{
 			for (String labelKey : questionLabels.keySet())
 			{
-				ArrayList<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
+				List<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
 
 				if (questionsWithTheSameLabel.size() > 1)
 				{

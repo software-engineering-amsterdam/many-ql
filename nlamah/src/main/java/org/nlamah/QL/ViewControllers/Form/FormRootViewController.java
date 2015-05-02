@@ -1,7 +1,7 @@
 package org.nlamah.QL.ViewControllers.Form;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -71,7 +71,7 @@ public class FormRootViewController extends DeclaringFormElementViewController i
 		
 		QLViewsFactory viewsFactory = new QLViewsFactory();
 		
-		ArrayList<FormElementView> childViews = viewsFactory.gatherChildViews(this);
+		List<FormElementView> childViews = viewsFactory.gatherChildViews(this);
 		if (QLHelper.arrayExistsAndHasElements(childViews))
 		{
 			for (FormElementView childView : childViews)

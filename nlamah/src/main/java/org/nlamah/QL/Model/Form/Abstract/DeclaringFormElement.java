@@ -1,14 +1,14 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Helper.QLHelper;
 
 public abstract class DeclaringFormElement extends FormElement
 {
-	private ArrayList<FormElement> childElements;
+	private List<FormElement> childElements;
 	
-	public DeclaringFormElement(ArrayList<FormElement> childElements)
+	public DeclaringFormElement(List<FormElement> childElements)
 	{
 		super(null);
 		
@@ -23,7 +23,7 @@ public abstract class DeclaringFormElement extends FormElement
 		}
 	}
 	
-	public ArrayList<FormElement>childElements()
+	public List<FormElement>childElements()
 	{
 		return this.childElements;
 	}

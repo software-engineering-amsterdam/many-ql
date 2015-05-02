@@ -1,5 +1,6 @@
 package org.nlamah.QL.Model.Expression.Literal;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
@@ -7,7 +8,6 @@ import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 import org.nlamah.QL.Model.Form.Abstract.Question;
 
 public class IdentifierLiteral extends ValueExpression 
@@ -30,7 +30,7 @@ public class IdentifierLiteral extends ValueExpression
 	}
 	
 	@Override
-	public LiteralType type()
+	public QBaseQuestionType type()
 	{
 		if (correspondingQuestion == null)
 		{

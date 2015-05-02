@@ -1,7 +1,7 @@
 package org.nlamah.QL.ViewControllers.Form.Abstract;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public abstract class QuestionViewController extends FormElementViewController 
 {
@@ -10,7 +10,7 @@ public abstract class QuestionViewController extends FormElementViewController
 		super(question);
 	}
 	
-	public LiteralType questionReturnType()
+	public QBaseQuestionType questionReturnType()
 	{
 		return ((Question) modelElement).returnType();
 	}

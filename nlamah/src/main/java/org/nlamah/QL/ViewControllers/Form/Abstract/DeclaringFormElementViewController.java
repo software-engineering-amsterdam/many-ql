@@ -1,36 +1,36 @@
 package org.nlamah.QL.ViewControllers.Form.Abstract;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 public abstract class DeclaringFormElementViewController extends FormElementViewController 
 {
-	private ArrayList<FormElementViewController> childViewControllers;
-	private ArrayList<FormElementView> childViews;
+	private List<FormElementViewController> childViewControllers;
+	private List<FormElementView> childViews;
 	
 	public DeclaringFormElementViewController(DeclaringFormElement modelElement) 
 	{
 		super(modelElement);
 	}
 	
-	public ArrayList<FormElementViewController> childViewControllers()
+	public List<FormElementViewController> childViewControllers()
 	{		
 		return childViewControllers;
 	}
 	
-	public void setChildViewControllers(ArrayList<FormElementViewController> childViewControllers)
+	public void setChildViewControllers(List<FormElementViewController> childViewControllers)
 	{
 		this.childViewControllers = childViewControllers;
 	}
 
-	public ArrayList<FormElementView> childViews() 
+	public List<FormElementView> childViews() 
 	{
 		return childViews;
 	}
 
-	public void setChildViews(ArrayList<FormElementView> childViews)
+	public void setChildViews(List<FormElementView> childViews)
 	{
 		this.childViews = childViews;
 	}

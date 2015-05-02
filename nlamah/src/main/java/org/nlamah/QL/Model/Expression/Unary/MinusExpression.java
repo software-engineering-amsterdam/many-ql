@@ -1,10 +1,10 @@
 package org.nlamah.QL.Model.Expression.Unary;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.UnaryComputationalExpression;
-import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class MinusExpression extends UnaryComputationalExpression 
 {
@@ -36,7 +36,7 @@ public class MinusExpression extends UnaryComputationalExpression
 	 }
 	
 	@Override
-	public boolean isSafeForType(LiteralType type) 
+	public boolean isSafeForType(QBaseQuestionType type) 
 	{
 		switch(type)
 		{

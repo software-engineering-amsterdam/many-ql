@@ -2,6 +2,7 @@ package org.nlamah.QBase;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
@@ -18,7 +19,7 @@ public class QBaseHelper
 		} 
 		catch (Exception e) 
 		{	
-			ArrayList<QBaseError> errors = new ArrayList<QBaseError>();
+			List<QBaseError> errors = new ArrayList<QBaseError>();
 			
 			throw new FileReadException(null, errors);
 		}

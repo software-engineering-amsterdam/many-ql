@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Error;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 import org.nlamah.QBase.QBaseWarning;
@@ -8,9 +8,9 @@ import org.nlamah.QL.Model.Form.Abstract.Question;
 
 public class EqualQuestionLabelWarning extends QBaseWarning 
 {
-	private ArrayList<Question> questions;
+	private List<Question> questions;
 
-	public EqualQuestionLabelWarning(ArrayList<Question> questions)
+	public EqualQuestionLabelWarning(List<Question> questions)
 	{
 		this.questions = questions;
 	}
