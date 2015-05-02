@@ -1,0 +1,12 @@
+stylesheet test
+{
+	page testpage
+	{
+		section "testsection"
+		{
+			default number
+			{
+			}
+		}
+	}
+}

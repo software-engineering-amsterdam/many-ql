@@ -21,7 +21,7 @@ styleDeclaration : widthDeclaration
 				;
 
 widthDeclaration : 'width:' Number ;
-fontDeclaration : 'font:' Identifier ;
+fontDeclaration : 'font:' Text ;
 fontSizeDeclaration : 'fontsize:' Number ;
 colorDeclaration : 'color:' HexNumber;
 

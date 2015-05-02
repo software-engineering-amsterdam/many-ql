@@ -206,7 +206,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitDefaultDeclarationSingleStatement(DefaultDeclarationSingleStatementContext ctx) 
 	{ 
-		String questionTypeString = ctx.QuestionType().getText();
+		String questionTypeString = ctx.QuestionType().getText().toUpperCase();
 		
 		QBaseQuestionType questionType = null;
 		
@@ -247,7 +247,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitFontDeclaration(QLSParser.FontDeclarationContext ctx) 
 	{ 
-		IdentifierValue fontValue = new IdentifierValue(ctx.Identifier().getText());
+		IdentifierValue fontValue = new IdentifierValue(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		
 		FontDeclaration fontDeclaration = new FontDeclaration(fontValue);
 		

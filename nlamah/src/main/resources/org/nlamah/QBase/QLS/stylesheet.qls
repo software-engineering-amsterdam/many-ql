@@ -27,7 +27,7 @@ stylesheet taxOfficeExample
         		default number 
         		{
 		        	width: 400
-		          	font: Arial 
+		          	font: "Arial" 
 		          	fontsize: 14
 		          	color: #999999
 		          	widget spinbox
