@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSException;
 import org.nlamah.QLS.QLSParser;
@@ -14,27 +15,27 @@ import org.nlamah.QLS.QLSParser.PageContext;
 import org.nlamah.QLS.QLSParser.QuestionDeclarationContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
-import org.nlamah.QLS.Model.CheckBoxWidgetType;
-import org.nlamah.QLS.Model.ColorDeclaration;
-import org.nlamah.QLS.Model.DefaultDeclaration;
-import org.nlamah.QLS.Model.FontDeclaration;
-import org.nlamah.QLS.Model.FontSizeDeclaration;
-import org.nlamah.QLS.Model.HexNumberValue;
-import org.nlamah.QLS.Model.IdentifierValue;
-import org.nlamah.QLS.Model.NumberValue;
-import org.nlamah.QLS.Model.Page;
-import org.nlamah.QLS.Model.QLSNode;
-import org.nlamah.QLS.Model.QLStylesheet;
-import org.nlamah.QLS.Model.QuestionDeclaration;
-import org.nlamah.QLS.Model.QuestionType;
-import org.nlamah.QLS.Model.RadioButtonWidgetType;
-import org.nlamah.QLS.Model.Section;
-import org.nlamah.QLS.Model.SpinBoxWidgetType;
-import org.nlamah.QLS.Model.StyleDeclaration;
-import org.nlamah.QLS.Model.TextValue;
-import org.nlamah.QLS.Model.WidgetDeclaration;
-import org.nlamah.QLS.Model.WidgetType;
-import org.nlamah.QLS.Model.WidthDeclaration;
+import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
+import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
+import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
+import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.Model.Value.NumberValue;
+import org.nlamah.QLS.Model.Value.QuestionType;
+import org.nlamah.QLS.Model.Value.TextValue;
+import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode> 
 {
@@ -118,7 +119,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitSection(QLSParser.SectionContext ctx) 
 	{ 
-		TextValue titleValue = new TextValue(ctx.Text().getText());
+		TextValue titleValue = new TextValue(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		
 		List<Section> sections = new ArrayList<Section>();
 		
@@ -318,7 +319,7 @@ public class RawStyleSheetBuilder extends QLSBaseVisitor<QLSNode>
 		
 		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
 		{
-			TextValue answer = new TextValue(contextualTextValue.getText());
+			TextValue answer = new TextValue(QBaseHelper.removeSurroundingQuotes(contextualTextValue.getText()));
 			answers.add(answer);
 		}
 		

@@ -1,6 +1,8 @@
-package org.nlamah.QLS.Model;
+package org.nlamah.QLS.Model.Declaration;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
+import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class QuestionDeclaration extends QLSNode
 {
@@ -29,5 +31,33 @@ public class QuestionDeclaration extends QLSNode
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
+	}
+	
+	@Override 
+	public boolean equals(Object object) 
+	{
+		if (!(object instanceof QuestionDeclaration))
+		{
+			return false;
+		}
+		
+		QuestionDeclaration value = (QuestionDeclaration) object;
+		
+		if (!this.identifier.equals(value.identifier))
+		{
+			return false;
+		}
+		
+		if (widgetDeclaration == null && value.widgetDeclaration == null)
+		{
+			return true;
+		}
+		
+		if (!widgetDeclaration.equals(value.widgetDeclaration))
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

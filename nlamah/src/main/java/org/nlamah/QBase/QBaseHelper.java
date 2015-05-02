@@ -25,4 +25,9 @@ public class QBaseHelper
 		
 		return qlSourceCode;
     }
+	
+	static public String removeSurroundingQuotes(String string) 
+	{
+		return string.substring(1, string.length() - 1);
+	}
 }

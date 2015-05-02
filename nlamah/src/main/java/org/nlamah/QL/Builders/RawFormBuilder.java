@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Model.Error.Abstract.ParsingError;
@@ -44,20 +45,16 @@ import org.nlamah.QL.Model.Form.Abstract.LiteralType;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	private ParseTree tree;
-	
 	private ArrayList<ParsingError> errors;
 	
-	public RawFormBuilder(ParseTree tree)
+	public RawFormBuilder()
 	{
 		super();
-		
-		this.tree = tree;
 		
 		errors = new ArrayList<ParsingError>();
 	}
 	
-	public Form build()
+	public Form buildForm(ParseTree tree)
 	{
 		return (Form) tree.accept(this);
 	}
@@ -65,11 +62,6 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	public ArrayList<ParsingError> errors()
 	{
 		return this.errors;
-	}
-
-	private String removeSurroundingCharacters(String string) 
-	{
-		return string.substring(1, string.length() - 1);
 	}
 
 	private void addSourceCodePosition(QLNode node, ParserRuleContext ctx)
@@ -106,7 +98,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
+		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		String type = ctx.type.getText().toUpperCase();
@@ -137,7 +129,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
+		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new BooleanQuestion(identifier, questionText);
@@ -153,7 +145,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
+		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new NumberQuestion(identifier, questionText);
@@ -169,7 +161,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		addSourceCodePosition(identifier, ctx);
 		
-		TextLiteral questionText = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
+		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
 		Question question = new TextQuestion(identifier, questionText);
@@ -399,7 +391,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override 
 	public QLNode visitTextLiteral(QLParser.TextLiteralContext ctx) 
 	{ 
-		TextLiteral literal = new TextLiteral(removeSurroundingCharacters(ctx.Text().getText()));
+		TextLiteral literal = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 
 		addSourceCodePosition(literal, ctx);
 

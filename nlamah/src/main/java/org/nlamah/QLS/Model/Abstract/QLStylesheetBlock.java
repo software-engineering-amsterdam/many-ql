@@ -1,6 +1,8 @@
-package org.nlamah.QLS.Model;
+package org.nlamah.QLS.Model.Abstract;
 
 import java.util.List;
+
+import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 
 public abstract class QLStylesheetBlock extends QLSNode 
 {
@@ -28,4 +30,42 @@ public abstract class QLStylesheetBlock extends QLSNode
 			defaultDeclaration.setParentNode(this);
 		}
 	}
+	
+	@Override 
+	 public boolean equals(Object object) 
+	 {
+		 if (this == object)
+		 {
+			 return true;
+		 }
+		 
+		 if (!(object instanceof QLStylesheetBlock))
+		 {
+			 return false;
+		 }
+		 
+		 QLStylesheetBlock value = (QLStylesheetBlock) object;
+		 
+		 if (this.title == null && value.title == null)
+		 {
+			 return true;
+		 }
+		 
+		 if (!(this.title.equals(value.title)))
+		 {
+			 return false;
+		 }
+		 
+		 if (!(this.childBlocks.equals(value.childBlocks)))
+		 {
+			 return false;
+		 } 
+		 
+		 if (!(this.defaultDeclarations.equals(value.defaultDeclarations)))
+		 {
+			 return false;
+		 }
+
+		 return true;
+	 }
 }

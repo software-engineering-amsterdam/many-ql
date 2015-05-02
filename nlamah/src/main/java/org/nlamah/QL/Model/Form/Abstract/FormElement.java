@@ -1,15 +1,11 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
-import java.util.ArrayList;
-
 import org.nlamah.QL.Interfaces.Controllable;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
 public abstract class FormElement extends QLNode implements Controllable
 {	
 	private IdentifierLiteral identifier;
-
-	private ArrayList<FormElement> relatedElements;
 	
 	public FormElement(IdentifierLiteral identifier)
 	{
@@ -21,23 +17,11 @@ public abstract class FormElement extends QLNode implements Controllable
 		{
 			identifier.setParentNode(this);
 		}
-		
-		relatedElements = new ArrayList<FormElement>();
 	}
 	
 	public IdentifierLiteral identifier()
 	{
 		return this.identifier;
-	}
-	
-	public ArrayList<FormElement> relatedElements()
-	{
-		return this.relatedElements;
-	}
-	
-	public void addRelatedElement(FormElement relatedElement)
-	{
-		relatedElements.add(relatedElement);
 	}
 	
 	@Override 
@@ -58,11 +42,6 @@ public abstract class FormElement extends QLNode implements Controllable
 		 if (this.identifier == null && value.identifier == null)
 		 {
 			 return true;
-		 }
-		 
-		 if (this.identifier == null && value.identifier == null)
-		 {
-			 return false;
 		 }
 		 
 		 if (!(this.identifier.equals(value.identifier)))

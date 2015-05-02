@@ -15,7 +15,7 @@ import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.RawStyleSheetBuilder;
-import org.nlamah.QLS.Model.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 
 public class QLSInterpreter implements ANTLRErrorListener 
 {

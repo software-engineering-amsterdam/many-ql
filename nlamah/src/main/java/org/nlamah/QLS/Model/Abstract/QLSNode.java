@@ -1,4 +1,4 @@
-package org.nlamah.QLS.Model;
+package org.nlamah.QLS.Model.Abstract;
 
 import org.nlamah.QLS.Interfaces.QLSVisitable;
 

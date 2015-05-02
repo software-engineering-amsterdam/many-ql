@@ -49,9 +49,9 @@ public class QLInterpreter implements ANTLRErrorListener
 		
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
 		
-		RawFormBuilder rawFormBuilder = new RawFormBuilder(tree);
+		RawFormBuilder rawFormBuilder = new RawFormBuilder();
 				
-		form = rawFormBuilder.build();
+		form = rawFormBuilder.buildForm(tree);
 		
 		errors.addAll(rawFormBuilder.errors());
 		

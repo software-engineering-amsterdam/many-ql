@@ -1,6 +1,6 @@
 package org.nlamah.QLS.Interfaces;
 
-import org.nlamah.QLS.Model.QLSNode;
+import org.nlamah.QLS.Model.Abstract.QLSNode;
 
 public interface QLSVisitable 
 {

@@ -1,12 +1,10 @@
 package org.nlamah.QL;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.io.IOUtils;
+import org.nlamah.QBase.FileReadException;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Builders.RawFormBuilder;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Form;
@@ -17,54 +15,55 @@ import junit.framework.TestSuite;
 
 public class QLTest extends TestCase
 {
-    public static Test suite()
-    {
-    	final TestSuite suite = new TestSuite("QLTestSuite");
-    	
-    	suite.addTestSuite(QLFormTest.class);
-    	suite.addTestSuite(QLComputationalExpressionTest.class);
-    	suite.addTestSuite(QLLogicalExpressionTest.class);
-    	suite.addTestSuite(QLFormErrorTest.class);
-    	
-        return suite;
-    }
-    
-    protected static Expression produceExpressionFromString(String string)
+	public static Test suite()
+	{
+		final TestSuite suite = new TestSuite("QLTestSuite");
+
+		suite.addTestSuite(QLFormTest.class);
+		suite.addTestSuite(QLComputationalExpressionTest.class);
+		suite.addTestSuite(QLLogicalExpressionTest.class);
+		suite.addTestSuite(QLFormErrorTest.class);
+
+		return suite;
+	}
+
+	protected static Expression produceExpressionFromString(String string)
 	{
 		ANTLRInputStream input = new ANTLRInputStream(string);
-		
+
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.expression();
-		
-		Expression expression = (Expression)tree.accept(new RawFormBuilder(tree));
-		
+		RawFormBuilder formBuilder = new RawFormBuilder();
+		Expression expression = (Expression)formBuilder.visit(tree);
+
 		return  expression;
 	}
-    
-    protected static Form produceFormFromSourceFile(String folder, String filename)
-	{
-		ANTLRInputStream input = null;
-		
+
+	protected static Form produceFormFromSourceFile(String folder, String filename)
+	{		
 		try 
 		{
-			InputStream inputStream = QLInterpreter.class.getResourceAsStream("test/" + folder + "/" + filename + ".ql");
-			String qlSourceCode = IOUtils.toString(inputStream, "UTF-8");
-			input = new ANTLRInputStream(qlSourceCode);
+			String qlSourceCode = QBaseHelper.getSourceCode("QL/test/" + folder + "/" + filename + ".ql");
+			
+			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
+
+			QLLexer lexer = new QLLexer(input);
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			QLParser parser = new QLParser(tokens);
+			ParseTree tree = parser.form();
+			RawFormBuilder formBuilder = new RawFormBuilder();
+			Form parsedForm = formBuilder.buildForm(tree);
+
+			return  parsedForm;
 		} 
-		catch (IOException e) 
+		catch (FileReadException e) 
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		QLLexer lexer = new QLLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);
-		ParseTree tree = parser.form();
-		
-		Form parsedForm = (Form)tree.accept(new RawFormBuilder(tree));
-		
-		return  parsedForm;
+
+		return null;
 	}
 }

@@ -1,24 +1,24 @@
 package org.nlamah.QLS.Interfaces;
 
-import org.nlamah.QLS.Model.CheckBoxWidgetType;
-import org.nlamah.QLS.Model.ColorDeclaration;
-import org.nlamah.QLS.Model.DefaultDeclaration;
-import org.nlamah.QLS.Model.FontDeclaration;
-import org.nlamah.QLS.Model.FontSizeDeclaration;
-import org.nlamah.QLS.Model.HexNumberValue;
-import org.nlamah.QLS.Model.IdentifierValue;
-import org.nlamah.QLS.Model.NumberValue;
-import org.nlamah.QLS.Model.Page;
-import org.nlamah.QLS.Model.QLSNode;
-import org.nlamah.QLS.Model.QLStylesheet;
-import org.nlamah.QLS.Model.QuestionDeclaration;
-import org.nlamah.QLS.Model.RadioButtonWidgetType;
-import org.nlamah.QLS.Model.Section;
-import org.nlamah.QLS.Model.SpinBoxWidgetType;
-import org.nlamah.QLS.Model.TextValue;
-import org.nlamah.QLS.Model.TypeValue;
-import org.nlamah.QLS.Model.WidgetDeclaration;
-import org.nlamah.QLS.Model.WidthDeclaration;
+import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
+import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
+import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Value.HexNumberValue;
+import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.Model.Value.NumberValue;
+import org.nlamah.QLS.Model.Value.TextValue;
+import org.nlamah.QLS.Model.Value.TypeValue;
+import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public interface QLSNodeVisitor 
 {
