@@ -1,4 +1,4 @@
-package org.nlamah.QL.Model.Error;
+package org.nlamah.QL.Error;
 
 import java.util.List;
 

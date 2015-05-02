@@ -3,9 +3,9 @@ package org.nlamah.QL.TypeChecker;
 import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
+import org.nlamah.QL.Error.CyclicDependencyError;
+import org.nlamah.QL.Error.OutOfScopeDeclarationError;
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.Model.Error.CyclicDependencyError;
-import org.nlamah.QL.Model.Error.OutOfScopeDeclarationError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;

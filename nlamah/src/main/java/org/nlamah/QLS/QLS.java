@@ -4,8 +4,10 @@ import javax.swing.SwingUtilities;
 
 import org.nlamah.QBase.QBaseErrorViewController;
 import org.nlamah.QBase.QBaseException;
-import org.nlamah.QL.QLInterpreter;
+import org.nlamah.QL.Builders.QLInterpreter;
 import org.nlamah.QL.Model.Form.Form;
+import org.nlamah.QLS.Builders.QLSInterpreter;
+import org.nlamah.QLS.Builders.QLStylesheetAdapter;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 
 public class QLS 

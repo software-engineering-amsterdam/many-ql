@@ -1,4 +1,4 @@
-package org.nlamah.QL.Model.Error;
+package org.nlamah.QL.Error;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;

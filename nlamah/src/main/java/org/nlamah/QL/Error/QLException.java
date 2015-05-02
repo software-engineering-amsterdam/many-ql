@@ -1,4 +1,4 @@
-package org.nlamah.QLS;
+package org.nlamah.QL.Error;
 
 import java.util.List;
 
@@ -7,11 +7,10 @@ import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseWarning;
 
 @SuppressWarnings("serial")
-public class QLSException extends QBaseException 
+public class QLException extends QBaseException 
 {
-	public QLSException(List<QBaseWarning> warnings, List<QBaseError> errors) 
+	public QLException(List<QBaseWarning> warnings, List<QBaseError> errors) 
 	{
 		super(warnings, errors);
-	}	
-
+	}
 }

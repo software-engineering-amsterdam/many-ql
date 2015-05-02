@@ -1,4 +1,4 @@
-package org.nlamah.QLS;
+package org.nlamah.QLS.Builders;
 
 import java.util.BitSet;
 
@@ -14,7 +14,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QLS.Builders.RawStyleSheetBuilder;
+import org.nlamah.QLS.QLSLexer;
+import org.nlamah.QLS.QLSParser;
+import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 
 public class QLSInterpreter implements ANTLRErrorListener 
@@ -27,7 +29,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 		
-		RawStyleSheetBuilder rawStylesheetBuilder = new RawStyleSheetBuilder();
+		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
 		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
 		//QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();

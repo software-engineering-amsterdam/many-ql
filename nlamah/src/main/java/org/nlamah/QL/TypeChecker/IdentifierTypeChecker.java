@@ -1,8 +1,8 @@
 package org.nlamah.QL.TypeChecker;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QL.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Model.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;

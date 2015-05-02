@@ -8,21 +8,19 @@ import java.util.Map;
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseWarning;
-import org.nlamah.QL.Model.Error.DoubleDeclarationError;
-import org.nlamah.QL.Model.Error.EqualQuestionLabelWarning;
-import org.nlamah.QL.Model.Error.TooLateDeclaredQuestionError;
-import org.nlamah.QL.Model.Error.UndeclaredQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Error.DoubleDeclarationError;
+import org.nlamah.QL.Error.EqualQuestionLabelWarning;
+import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
+import org.nlamah.QL.Error.UndeclaredQuestionError;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 
 {
 	private List<QBaseError> errors;
 	private List<QBaseWarning> warnings;
-
-	private Form form;
 
 	private Map<IdentifierLiteral, List<Question>> doubleDeclaratedQuestions;
 
@@ -34,9 +32,7 @@ public class QLTypeChecker
 
 	public void check(Form form) throws QBaseException
 	{		
-		this.form = form;
-
-		checkQuestionDeclaration(form);
+		checkValidityQuestionDeclarations(form);
 		
 		if (errors.size() == 0)
 		{
@@ -62,28 +58,28 @@ public class QLTypeChecker
 		return warnings;
 	}
 
-	private void checkQuestionDeclaration(Form form)
+	private void checkValidityQuestionDeclarations(Form form)
 	{
-		createDoubleDeclaredList();
+		createDoubleDeclaredQuestionList(form);
 
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{
-			if (questionIsDeclared(identifier) && questionIsDeclaredOnlyOnce(identifier) && questionIsDeclaredBeforeReferedTo(identifier))
+			if (questionIsDeclared(identifier, form) && questionIsDeclaredOnlyOnce(identifier) && questionIsDeclaredBeforeReferredTo(identifier, form))
 			{
 				if (questionIsDeclaredInRightScopeWithNoCyclicDependency(identifier))
 				{
-					interconnectReferenceWithDeclaration(identifier);
+					interconnectReferenceWithDeclaration(identifier, form);
 				}
 			};
 		}
 	}
 	
-	private void interconnectReferenceWithDeclaration(IdentifierLiteral identifier)
+	private void interconnectReferenceWithDeclaration(IdentifierLiteral identifier, Form form)
 	{
 		identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier));
 	}
 
-	private boolean questionIsDeclared(IdentifierLiteral identifier)
+	private boolean questionIsDeclared(IdentifierLiteral identifier, Form form)
 	{
 		if (QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), identifier).size() == 0)
 		{
@@ -108,7 +104,7 @@ public class QLTypeChecker
 		return true;
 	}
 
-	private void createDoubleDeclaredList()
+	private void createDoubleDeclaredQuestionList(Form form)
 	{
 		doubleDeclaratedQuestions = new HashMap<IdentifierLiteral, List<Question>>();
 
@@ -152,9 +148,9 @@ public class QLTypeChecker
 		return !QLHelper.arrayExistsAndHasElements(outOfScopeChecker.errors());
 	}
 
-	private boolean questionIsDeclaredBeforeReferedTo(IdentifierLiteral identifier)
+	private boolean questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form)
 	{
-		Question foundDeclaration = QLHelper.getQuestionWithIdentifier(this.form.declaredQuestions(), identifier);
+		Question foundDeclaration = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier);
 
 		if (identifier.startsOnLine < foundDeclaration.startsOnLine)
 		{

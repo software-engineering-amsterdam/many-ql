@@ -1,4 +1,4 @@
-package org.nlamah.QL;
+package org.nlamah.QL.Builders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,13 @@ import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseWarning;
-import org.nlamah.QL.Builders.RawFormBuilder;
-import org.nlamah.QL.Model.Error.QLException;
-import org.nlamah.QL.Model.Error.Parsing.AmbiguityError;
-import org.nlamah.QL.Model.Error.Parsing.AttemptingFullContextError;
-import org.nlamah.QL.Model.Error.Parsing.ContextSensitivityError;
-import org.nlamah.QL.Model.Error.Parsing.SyntaxError;
+import org.nlamah.QBase.Error.AmbiguityError;
+import org.nlamah.QBase.Error.AttemptingFullContextError;
+import org.nlamah.QBase.Error.ContextSensitivityError;
+import org.nlamah.QBase.Error.SyntaxError;
+import org.nlamah.QL.QLLexer;
+import org.nlamah.QL.QLParser;
+import org.nlamah.QL.Error.QLException;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 

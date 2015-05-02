@@ -1,13 +1,13 @@
-package org.nlamah.QL.Model.Error;
+package org.nlamah.QL.Error;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
-public class IdentifierTypeMismatchError extends QBaseError 
+public class UndeclaredQuestionError extends QBaseError 
 {
-	private IdentifierLiteral identifier;
+	IdentifierLiteral identifier;
 
-	public IdentifierTypeMismatchError(IdentifierLiteral identifier)
+	public UndeclaredQuestionError(IdentifierLiteral identifier)
 	{
 		super();
 
@@ -19,7 +19,7 @@ public class IdentifierTypeMismatchError extends QBaseError
 	{
 		String errorString =  "ERROR: Line " + identifier.startsOnLine + ":"  + identifier.startsAtCharacterPosition;
 
-		errorString += " There is a type mismatch regarding identifier: " + identifier.nodeString;
+		errorString += " The question with Identifier \"" + identifier.toString() + "\" isn't declared";
 
 		return errorString;
 	}
@@ -27,12 +27,12 @@ public class IdentifierTypeMismatchError extends QBaseError
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof IdentifierTypeMismatchError))
+		if (!(object instanceof UndeclaredQuestionError))
 		{
 			return false;
 		}
 
-		IdentifierTypeMismatchError value = (IdentifierTypeMismatchError)object;
+		UndeclaredQuestionError value = (UndeclaredQuestionError)object;
 
 		if (!this.identifier.equals(value.identifier))
 		{

@@ -7,10 +7,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Error.EnumRecognitionError;
+import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
-import org.nlamah.QL.Model.Error.Abstract.ParsingError;
-import org.nlamah.QL.Model.Error.Parsing.EnumRecognitionError;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -46,13 +46,13 @@ import org.nlamah.QL.Model.Form.Abstract.Question;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	private List<ParsingError> errors;
+	private List<QBaseParsingError> errors;
 	
 	public RawFormBuilder()
 	{
 		super();
 		
-		errors = new ArrayList<ParsingError>();
+		errors = new ArrayList<QBaseParsingError>();
 	}
 	
 	public Form buildForm(ParseTree tree)
@@ -60,7 +60,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		return (Form) tree.accept(this);
 	}
 	
-	public List<ParsingError> errors()
+	public List<QBaseParsingError> errors()
 	{
 		return this.errors;
 	}

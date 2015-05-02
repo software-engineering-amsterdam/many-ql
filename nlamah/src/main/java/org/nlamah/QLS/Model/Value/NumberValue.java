@@ -4,15 +4,20 @@ import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 
-public class NumberValue extends DeclarationValue {
-
-	private String number;
+public class NumberValue extends DeclarationValue 
+{
+	private int number;
 	
-	public NumberValue(String number)
+	public NumberValue(int number)
 	{
 		super();
 		
 		this.number = number;
+	}
+	
+	public int number()
+	{
+		return number;
 	}
 	
 	@Override
@@ -24,7 +29,7 @@ public class NumberValue extends DeclarationValue {
 	@Override
 	public String toString()
 	{
-		return number;
+		return Integer.toString(number);
 	}
 	
 	@Override 
@@ -43,7 +48,7 @@ public class NumberValue extends DeclarationValue {
 		 NumberValue value = (NumberValue) object;
 
 		 
-		 if (!(this.number.equals(value.number)))
+		 if (this.number != value.number)
 		 {
 			 return false;
 		 }

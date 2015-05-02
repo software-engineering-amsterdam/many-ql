@@ -10,11 +10,20 @@ import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class Page extends QLStylesheetBlock 
 {
+	List<Section> sections;
+	
 	public Page(IdentifierValue identifier, List<Section> sections, List<DefaultDeclaration> defaultDeclarations) 
 	{
-		super(identifier, sections, defaultDeclarations);
+		super(identifier, defaultDeclarations);
+		
+		this.sections = sections;
 	}
 
+	public List<Section> sections()
+	{
+		return sections;
+	}
+	
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
@@ -30,6 +39,13 @@ public class Page extends QLStylesheetBlock
 		}
 
 		if (!(object instanceof Page))
+		{
+			return false;
+		}
+		
+		Page value = (Page) object;
+		
+		if (!(sections.equals(value.sections)))
 		{
 			return false;
 		}

@@ -11,6 +11,7 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.HexNumberValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
@@ -39,6 +40,7 @@ public interface QLSNodeVisitor
 	public QLSNode visit(HexNumberValue hexNumberValue);
 	public QLSNode visit(IdentifierValue identifierValue);
 	public QLSNode visit(NumberValue numberValue);
+	public QLSNode visit(FontValue fontValue);
 	
 	public QLSNode visit(ColorDeclaration colorDeclaration);
 	public QLSNode visit(FontDeclaration fontDeclaration);

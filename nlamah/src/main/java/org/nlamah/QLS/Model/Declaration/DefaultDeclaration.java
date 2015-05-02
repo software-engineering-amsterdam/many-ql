@@ -19,6 +19,16 @@ public class DefaultDeclaration extends QLSNode
 		this.questionType = questionType;
 		this.styleDeclarations = styleDeclarations;
 	}
+	
+	public QBaseQuestionType questionType()
+	{
+		return questionType;
+	}
+	
+	public List<StyleDeclaration> styleDeclarations()
+	{
+		return styleDeclarations;
+	}
 
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 

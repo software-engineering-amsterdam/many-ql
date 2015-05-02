@@ -5,7 +5,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
-import org.nlamah.QLS.Builders.RawStyleSheetBuilder;
+import org.nlamah.QLS.Builders.RawStylesheetBuilder;
+import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
 
 import junit.framework.Test;
@@ -18,13 +19,14 @@ public class QLSTest extends TestCase
 	{
 		final TestSuite suite = new TestSuite("QLSTestSuite");
 
-		suite.addTestSuite(QLStylesheetTest.class);
+		//suite.addTestSuite(QLStylesheetTest.class);
+		suite.addTestSuite(QLStylesheetErrorTest.class);
 
 		return suite;
 	}
-
-	protected static QLStylesheet produceStylesheetFromSourceFile(String folder, String filename)
-	{		
+	
+	protected static ParseTree produceParseTreeFromSourceFile(String folder, String filename)
+	{
 		try 
 		{
 			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QLS/test/" + folder + "/" + filename + ".qls");
@@ -34,18 +36,29 @@ public class QLSTest extends TestCase
 			QLSLexer lexer = new QLSLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			QLSParser parser = new QLSParser(tokens);
-			ParseTree tree = parser.stylesheet();
-			RawStyleSheetBuilder stylesheetBuilder = new RawStyleSheetBuilder();
-			
-			QLStylesheet parsedStylesheet = stylesheetBuilder.build(tree);
-
-			return  parsedStylesheet;
+			return  parser.stylesheet();
 		} 
 		catch (FileReadException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return null;
+	}
+	
+	protected static QLStylesheet produceStylesheetFromSourceFile(String folder, String filename)
+	{		
+		try 
+		{
+			ParseTree tree = produceParseTreeFromSourceFile(folder, filename);
+			
+			RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
+			
+			QLStylesheet parsedStylesheet = stylesheetBuilder.build(tree);
+
+			return  parsedStylesheet;
+		} 
 		catch (QLSException e)
 		{
 			// TODO

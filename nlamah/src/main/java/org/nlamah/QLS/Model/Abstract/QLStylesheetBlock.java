@@ -7,28 +7,27 @@ import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 public abstract class QLStylesheetBlock extends QLSNode 
 {
 	protected DeclarationValue title;
-	protected List<? extends QLStylesheetBlock> childBlocks;
 	protected List<DefaultDeclaration> defaultDeclarations;
 	
-	public QLStylesheetBlock(DeclarationValue title, List<? extends QLStylesheetBlock> childBlocks, List<DefaultDeclaration> defaultDeclarations)
+	public QLStylesheetBlock(DeclarationValue title, List<DefaultDeclaration> defaultDeclarations)
 	{
 		super();
 		
 		this.title = title;
-		this.childBlocks = childBlocks;
 		this.defaultDeclarations = defaultDeclarations;
 		
 		title.setParentNode(this);
-		
-		for (QLStylesheetBlock childBlock : childBlocks)
-		{
-			childBlock.setParentNode(this);
-		}
+
 		
 		for (DefaultDeclaration defaultDeclaration : defaultDeclarations)
 		{
 			defaultDeclaration.setParentNode(this);
 		}
+	}
+	
+	public List<DefaultDeclaration> defaultDeclarations()
+	{
+		return defaultDeclarations;
 	}
 	
 	@Override 
@@ -55,11 +54,6 @@ public abstract class QLStylesheetBlock extends QLSNode
 		 {
 			 return false;
 		 }
-		 
-		 if (!(this.childBlocks.equals(value.childBlocks)))
-		 {
-			 return false;
-		 } 
 		 
 		 if (!(this.defaultDeclarations.equals(value.defaultDeclarations)))
 		 {

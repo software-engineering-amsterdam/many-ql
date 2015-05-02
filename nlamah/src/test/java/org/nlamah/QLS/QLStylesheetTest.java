@@ -253,9 +253,9 @@ public class QLStylesheetTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		styleDeclarations.add(new WidthDeclaration(new NumberValue("400")));
+		styleDeclarations.add(new WidthDeclaration(new NumberValue(400)));
 		styleDeclarations.add(new FontDeclaration(new TextValue("Arial")));
-		styleDeclarations.add(new FontSizeDeclaration(new NumberValue("14")));
+		styleDeclarations.add(new FontSizeDeclaration(new NumberValue(14)));
 		styleDeclarations.add(new ColorDeclaration(new HexNumberValue("#999999")));
 		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidgetType()));
 		
