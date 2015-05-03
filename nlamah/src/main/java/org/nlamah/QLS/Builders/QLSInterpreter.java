@@ -54,7 +54,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		
 		if (errors.size() > 0)
 		{
-			throw new QLSException(null, errors);
+			throw new QLSException(errors);
 		}
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
@@ -65,7 +65,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		} 
 		catch (QBaseException e) 
 		{
-			throw new QLSException(null, qlsTypeChecker.errors());
+			throw new QLSException(qlsTypeChecker.errors());
 		}
 
 		return stylesheet;
