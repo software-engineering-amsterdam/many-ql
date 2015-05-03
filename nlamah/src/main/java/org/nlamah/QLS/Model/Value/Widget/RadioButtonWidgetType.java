@@ -3,6 +3,7 @@ package org.nlamah.QLS.Model.Value.Widget;
 import java.util.Iterator;
 import java.util.List;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
@@ -14,7 +15,7 @@ public class RadioButtonWidgetType extends WidgetType
 	
 	public RadioButtonWidgetType(List<TextValue> values)
 	{
-		super();
+		super(QBaseQuestionType.TEXT);
 		
 		this.values = values;
 	}

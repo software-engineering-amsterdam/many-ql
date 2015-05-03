@@ -7,7 +7,6 @@ import org.nlamah.QLS.Model.Value.NumberValue;
 
 public class WidthDeclaration extends StyleDeclaration 
 {
-
 	public WidthDeclaration(NumberValue numberValue) 
 	{
 		super(numberValue);

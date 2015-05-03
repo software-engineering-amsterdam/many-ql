@@ -16,7 +16,6 @@ import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.TypeValue;
 import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
@@ -36,7 +35,6 @@ public interface QLSNodeVisitor
 	public QLSNode visit(SpinBoxWidgetType spinBoxWidgetType);
 	
 	public QLSNode visit(TextValue textValue);
-	public QLSNode visit(TypeValue typeValue);
 	public QLSNode visit(ColorValue hexNumberValue);
 	public QLSNode visit(IdentifierValue identifierValue);
 	public QLSNode visit(NumberValue numberValue);

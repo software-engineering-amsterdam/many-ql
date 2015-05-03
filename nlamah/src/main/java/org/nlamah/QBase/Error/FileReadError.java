@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Error;
 
-import org.nlamah.QBase.QBaseError;
 
 public class FileReadError extends QBaseError 
 {

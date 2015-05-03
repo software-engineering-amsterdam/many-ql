@@ -1,5 +1,6 @@
 package org.nlamah.QLS.Model.Declaration;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -10,6 +11,11 @@ public class WidgetDeclaration extends StyleDeclaration
 	public WidgetDeclaration(WidgetType widgetType) 
 	{
 		super(widgetType);
+	}
+	
+	public QBaseQuestionType returnType()
+	{
+		return ((WidgetType) value).type();
 	}
 
 	@Override

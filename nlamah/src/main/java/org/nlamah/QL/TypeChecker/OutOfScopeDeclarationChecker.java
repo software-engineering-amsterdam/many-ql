@@ -6,7 +6,9 @@ import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Error.CyclicDependencyError;
 import org.nlamah.QL.Error.OutOfScopeDeclarationError;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -38,7 +40,7 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
-public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract  
+public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker implements QLNodeVisitor 
 {
 	private IdentifierLiteral identifier;
 	
@@ -258,7 +260,7 @@ public class OutOfScopeDeclarationChecker extends TypeCheckerAbstract
 		
 		if (declaredQuestion == null)
 		{
-			FormQuestion outOfScopeQuestion = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), this.identifier);
+			FormQuestion outOfScopeQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), this.identifier);
 			
 			assert(outOfScopeQuestion != null);
 			

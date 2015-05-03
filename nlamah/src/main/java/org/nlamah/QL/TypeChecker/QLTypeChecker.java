@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseWarning;
+import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.Error.QLDoubleDeclarationError;
-import org.nlamah.QL.Error.EqualQuestionLabelWarning;
+import org.nlamah.QL.Error.DoubleQuestionLabelWarning;
 import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.Helper.QLHelper;
 
-public class QLTypeChecker 
+public class QLTypeChecker extends QBaseAbstractTypeChecker 
 {
-	private List<QBaseError> errors;
 	private List<QBaseWarning> warnings;
 
 	public QLTypeChecker()
 	{
-		errors = new ArrayList<QBaseError>();
 		warnings = new ArrayList<QBaseWarning>();
 	}
 
@@ -74,12 +73,12 @@ public class QLTypeChecker
 	
 	private void interconnectReferenceWithDeclaration(IdentifierLiteral identifier, Form form)
 	{
-		identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier));
+		identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.questions(), identifier));
 	}
 
 	private boolean questionIsDeclared(IdentifierLiteral identifier, Form form)
 	{
-		if (QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), identifier).size() == 0)
+		if (QLHelper.getQuestionsWithIdentifier(form.questions(), identifier).size() == 0)
 		{
 			errors.add(new UndeclaredFormQuestionError(identifier));
 
@@ -92,13 +91,13 @@ public class QLTypeChecker
 
 	private boolean questionsAreNotDeclaredMoreThanOnce(Form form)
 	{
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.declaredQuestions());
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions());
 		
 		if (set.size() > 0)
 		{
 			for (FormQuestion duplicateQuestion : set)
 			{
-				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), duplicateQuestion.identifier())));
+				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.questions(), duplicateQuestion.identifier())));
 			}
 			
 			return false;
@@ -118,7 +117,7 @@ public class QLTypeChecker
 
 	private boolean questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form)
 	{
-		FormQuestion foundDeclaration = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier);
+		FormQuestion foundDeclaration = QLHelper.getQuestionWithIdentifier(form.questions(), identifier);
 
 		if (identifier.startsOnLine < foundDeclaration.startsOnLine)
 		{
@@ -162,22 +161,22 @@ public class QLTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		for (FormQuestion formQuestion : form.declaredQuestions())
+		for (FormQuestion formQuestion : form.questions())
 		{
 			formQuestion.compareOnlyQuestionText = true;
 		}
 		
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.declaredQuestions());
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions());
 		
 		if (set.size() > 0)
 		{
 			for (FormQuestion question : set)
 			{
-				warnings.add(new EqualQuestionLabelWarning(QLHelper.getQuestionsWithQuestionText(form.declaredQuestions(), question.questionText())));
+				warnings.add(new DoubleQuestionLabelWarning(QLHelper.getQuestionsWithQuestionText(form.questions(), question.questionText())));
 			}
 		}
 		
-		for (FormQuestion formQuestion : form.declaredQuestions())
+		for (FormQuestion formQuestion : form.questions())
 		{
 			formQuestion.compareOnlyQuestionText = false;
 		}

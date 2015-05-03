@@ -2,13 +2,15 @@ package org.nlamah.QLS.Model.Abstract;
 
 public abstract class StyleDeclaration extends QLSNode 
 {
-	private DeclarationValue value;
+	protected DeclarationValue value;
 	
 	public StyleDeclaration(DeclarationValue value)
 	{
 		super();
 		
 		this.value = value;
+		
+		value.setParentNode(this);
 	}
 	
 	@Override 

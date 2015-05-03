@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
 import org.nlamah.QLS.Error.FontRecognitionError;
 

@@ -18,7 +18,6 @@ public abstract class QLStylesheetBlock extends QLSNode
 		
 		title.setParentNode(this);
 
-		
 		for (DefaultDeclaration defaultDeclaration : defaultDeclarations)
 		{
 			defaultDeclaration.setParentNode(this);

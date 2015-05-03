@@ -2,7 +2,7 @@ package org.nlamah.QL.Error;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 

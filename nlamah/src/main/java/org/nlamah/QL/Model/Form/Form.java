@@ -10,12 +10,12 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
-import org.nlamah.QL.TypeChecker.DeclaredFormQuestionsCollector;
+import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
 import org.nlamah.QL.TypeChecker.ReferencedQuestionsCollector;
 
 public class Form extends DeclaringFormElement
 {
-	private List<FormQuestion> declaredQuestions;
+	private List<FormQuestion> questions;
 	private List<IdentifierLiteral> referencedQuestions;
 
 	private String title;
@@ -32,14 +32,14 @@ public class Form extends DeclaringFormElement
 		return this.title;
 	}
 
-	public List<FormQuestion> declaredQuestions()
+	public List<FormQuestion> questions()
 	{
-		if (!QBaseHelper.arrayExistsAndHasElements(declaredQuestions))
+		if (!QBaseHelper.arrayExistsAndHasElements(questions))
 		{
-			declaredQuestions = new DeclaredFormQuestionsCollector(this).questions();
+			questions = new FormQuestionsCollector(this).questions();
 		}
 
-		return declaredQuestions;
+		return questions;
 	}
 
 	public List<IdentifierLiteral> referencedQuestions()

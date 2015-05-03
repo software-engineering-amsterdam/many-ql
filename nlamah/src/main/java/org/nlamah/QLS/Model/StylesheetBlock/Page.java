@@ -17,6 +17,11 @@ public class Page extends QLStylesheetBlock
 		super(identifier, defaultDeclarations);
 		
 		this.sections = sections;
+		
+		for (Section section : sections)
+		{
+			section.setParentNode(this);
+		}
 	}
 
 	public List<Section> sections()

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.nlamah.QBase.Error.QBaseError;
 
 public class QBaseHelper 
 {

@@ -15,6 +15,11 @@ public class StyledQuestion extends QLSNode
 		
 		this.identifier = identifier;
 		this.widgetDeclaration = widgetDeclaration;
+		
+		if (widgetDeclaration != null)
+		{
+			widgetDeclaration.setParentNode(this);
+		}
 	}
 	
 	public IdentifierValue identifier()

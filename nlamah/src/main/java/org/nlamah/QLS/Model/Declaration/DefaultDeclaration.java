@@ -17,7 +17,13 @@ public class DefaultDeclaration extends QLSNode
 		super();
 		
 		this.questionType = questionType;
+		
 		this.styleDeclarations = styleDeclarations;
+		
+		for (StyleDeclaration styleDeclaration : styleDeclarations)
+		{
+			styleDeclaration.setParentNode(this);
+		}
 	}
 	
 	public QBaseQuestionType questionType()

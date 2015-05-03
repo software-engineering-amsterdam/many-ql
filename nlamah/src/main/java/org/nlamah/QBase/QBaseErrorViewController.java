@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QBaseErrorViewController implements Runnable

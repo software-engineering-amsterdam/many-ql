@@ -1,6 +1,6 @@
 package org.nlamah.QL.Error;
 
-import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 

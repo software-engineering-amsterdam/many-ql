@@ -1,7 +1,9 @@
 package org.nlamah.QL.TypeChecker;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.IdentifierTypeMismatchError;
+import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -32,7 +34,7 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 
-public class IdentifierTypeChecker extends TypeCheckerAbstract
+public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements QLNodeVisitor
 {
 	private QBaseQuestionType expectedIdentifierType;
 	private IdentifierLiteral identifier;

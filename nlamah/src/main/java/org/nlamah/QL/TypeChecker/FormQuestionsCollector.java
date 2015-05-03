@@ -17,11 +17,11 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 
-public class DeclaredFormQuestionsCollector implements QLFormElementVisitor 
+public class FormQuestionsCollector implements QLFormElementVisitor 
 {
 	private List<FormQuestion> questions;
 	
-	public DeclaredFormQuestionsCollector(Form form)
+	public FormQuestionsCollector(Form form)
 	{
 		questions = new ArrayList<FormQuestion>();
 		

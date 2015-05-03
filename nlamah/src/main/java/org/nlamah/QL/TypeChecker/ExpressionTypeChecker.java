@@ -1,6 +1,7 @@
 package org.nlamah.QL.TypeChecker;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.ExpressionTypeMismatchError;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
@@ -39,7 +40,7 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
-public class ExpressionTypeChecker extends TypeCheckerAbstract implements QLNodeVisitor 
+public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements QLNodeVisitor 
 {
 	public ExpressionTypeChecker(Form form)
 	{

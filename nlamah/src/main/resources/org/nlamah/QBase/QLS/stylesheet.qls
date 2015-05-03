@@ -4,12 +4,12 @@ stylesheet taxOfficeExample
 	{
 		section "Buying" 
 		{
-			question hasBoughtHouse widget checkbox 
+			question question1 widget checkbox 
 		}	
 	
 		section "Loaning"  
 		{
-      		question hasMaintLoan
+      		question question2
    	 	}
 	}
 	
@@ -17,14 +17,11 @@ stylesheet taxOfficeExample
 	{ 
     	section "Selling" 
     	{
-      		question hasSoldHouse widget radio("Yes", "No") 
+      		question question3 widget radio("Yes", "No") 
       		
       		section "You sold a house" 
       		{
-        		question sellingPrice widget spinbox
-        		question privateDebt widget spinbox 
-        		question valueResidue
-        		question hasBoughtHouse widget checkbox 
+        		question question4 widget spinbox
         		default number 
         		{
 		        	width: 400

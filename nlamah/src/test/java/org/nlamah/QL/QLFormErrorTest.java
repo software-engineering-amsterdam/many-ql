@@ -5,12 +5,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.Error.CyclicDependencyError;
 import org.nlamah.QL.Error.QLDoubleDeclarationError;
-import org.nlamah.QL.Error.EqualQuestionLabelWarning;
+import org.nlamah.QL.Error.DoubleQuestionLabelWarning;
 import org.nlamah.QL.Error.ExpressionTypeMismatchError;
 import org.nlamah.QL.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Error.OutOfScopeDeclarationError;
@@ -80,12 +80,12 @@ public class QLFormErrorTest extends TestCase
 
 			QBaseError error1 = new QLDoubleDeclarationError(identifier1, declaredQuestions1);
 			referenceErrors.add(error1);			
-			
+
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
 	}
 
-	
+
 	public void testDoubleDeclaration2() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration2");
@@ -102,7 +102,7 @@ public class QLFormErrorTest extends TestCase
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			List<FormQuestion> declaredQuestions2 = new ArrayList<FormQuestion>();
-			
+
 			IdentifierLiteral identifier3 = new IdentifierLiteral("question2");
 			FormQuestion question3 = new TextQuestion(identifier3, new TextLiteral("test3"));
 			declaredQuestions2.add(question3);
@@ -113,11 +113,11 @@ public class QLFormErrorTest extends TestCase
 
 			QBaseError error2 = new QLDoubleDeclarationError(identifier3, declaredQuestions2);
 			referenceErrors.add(error2);
-				
+
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
 	}
-	
+
 	public void testDoubleDeclaration3() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration3");
@@ -134,7 +134,7 @@ public class QLFormErrorTest extends TestCase
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			List<FormQuestion> declaredQuestions3 = new ArrayList<FormQuestion>();
-			
+
 			IdentifierLiteral identifier5 = new IdentifierLiteral("question3");
 			FormQuestion question5 = new NumberQuestion(identifier5, new TextLiteral("test5"));
 			declaredQuestions3.add(question5);
@@ -145,11 +145,11 @@ public class QLFormErrorTest extends TestCase
 
 			QBaseError error3 = new QLDoubleDeclarationError(identifier5, declaredQuestions3);
 			referenceErrors.add(error3);
-			
+
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
 	}
-	
+
 	public void testDoubleDeclaration4() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration4");
@@ -164,30 +164,30 @@ public class QLFormErrorTest extends TestCase
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
-			
+
 			List<FormQuestion> declaredQuestions4 = new ArrayList<FormQuestion>();
-			
+
 			IdentifierLiteral identifier7 = new IdentifierLiteral("question4");
 			AddExpression addExpression1 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral("1"));
-			
+
 			FormQuestion question7 = new ComputedQuestion(identifier7, new TextLiteral("test7"), QBaseQuestionType.NUMBER, addExpression1);
 			declaredQuestions4.add(question7);
 
 			IdentifierLiteral identifier8 = new IdentifierLiteral("question4");
-			
+
 			AddExpression addExpression2 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral("2"));
-			
+
 			FormQuestion question8 = new ComputedQuestion(identifier8, new TextLiteral("test8"), QBaseQuestionType.NUMBER, addExpression2);
 			declaredQuestions4.add(question8);
 
 			QBaseError error4 = new QLDoubleDeclarationError(identifier7, declaredQuestions4);
 			referenceErrors.add(error4);
-			
-			
+
+
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
 	}
-	
+
 	public void testDoubleDeclaration5() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration5");
@@ -219,7 +219,7 @@ public class QLFormErrorTest extends TestCase
 			assertEquals(typeChecker.errors(), referenceErrors);
 		}
 	}
-	
+
 	public void testEqualTextLabel() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleQuestionText");
@@ -232,8 +232,9 @@ public class QLFormErrorTest extends TestCase
 		} 
 		catch (QBaseException e) 
 		{
+			assertTrue(false);
 		}
-		
+
 		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 		List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
@@ -246,7 +247,7 @@ public class QLFormErrorTest extends TestCase
 		FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
 		declaredQuestions.add(question2);
 
-		QBaseError error = new EqualQuestionLabelWarning(declaredQuestions);
+		QBaseError error = new DoubleQuestionLabelWarning(declaredQuestions);
 		referenceErrors.add(error);
 
 		assertEquals(typeChecker.warnings(), referenceErrors);

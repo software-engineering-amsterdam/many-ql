@@ -39,8 +39,7 @@ public class QLSTest extends TestCase
 		} 
 		catch (FileReadException e) 
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		}
 
 		return null;

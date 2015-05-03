@@ -6,11 +6,11 @@ import java.util.Iterator;
 import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
-public class EqualQuestionLabelWarning extends QBaseWarning 
+public class DoubleQuestionLabelWarning extends QBaseWarning 
 {
 	private List<FormQuestion> questions;
 
-	public EqualQuestionLabelWarning(List<FormQuestion> questions)
+	public DoubleQuestionLabelWarning(List<FormQuestion> questions)
 	{
 		this.questions = questions;
 	}
@@ -38,12 +38,12 @@ public class EqualQuestionLabelWarning extends QBaseWarning
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof EqualQuestionLabelWarning))
+		if (!(object instanceof DoubleQuestionLabelWarning))
 		{
 			return false;
 		}
 
-		EqualQuestionLabelWarning value = (EqualQuestionLabelWarning)object;
+		DoubleQuestionLabelWarning value = (DoubleQuestionLabelWarning)object;
 
 		if (!this.questions.equals(value.questions))
 		{
