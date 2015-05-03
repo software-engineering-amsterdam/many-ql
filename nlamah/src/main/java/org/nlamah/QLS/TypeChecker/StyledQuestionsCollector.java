@@ -13,7 +13,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -28,7 +28,7 @@ public class StyledQuestionsCollector implements QLSNodeVisitor
 {
 	private List<StyledQuestion> questions;
 	
-	public StyledQuestionsCollector(QLStylesheet stylesheet)
+	public StyledQuestionsCollector(Stylesheet stylesheet)
 	{
 		super();
 		
@@ -43,7 +43,7 @@ public class StyledQuestionsCollector implements QLSNodeVisitor
 	}
 	
 	@Override
-	public QLSNode visit(QLStylesheet stylesheet) 
+	public QLSNode visit(Stylesheet stylesheet) 
 	{
 		for (Page page : stylesheet.pages())
 		{

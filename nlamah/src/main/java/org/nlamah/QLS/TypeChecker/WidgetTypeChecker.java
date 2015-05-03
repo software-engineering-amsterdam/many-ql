@@ -19,7 +19,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.FontValue;
@@ -37,7 +37,7 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 
 	private WidgetDeclaration currentWidgetDeclaration;
 
-	public WidgetTypeChecker(Form form, QLStylesheet stylesheet) 
+	public WidgetTypeChecker(Form form, Stylesheet stylesheet) 
 	{
 		super();
 
@@ -57,7 +57,7 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	}
 
 	@Override
-	public QLSNode visit(QLStylesheet stylesheet) 
+	public QLSNode visit(Stylesheet stylesheet) 
 	{
 		assert(false);
 

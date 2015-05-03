@@ -15,7 +15,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.FontValue;
@@ -28,10 +28,10 @@ import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public class WidgetDeclarationsCollector implements QLSNodeVisitor
 {
-	private QLStylesheet stylesheet;
+	private Stylesheet stylesheet;
 	private List<WidgetDeclaration> widgetDeclarations;
 	
-	public WidgetDeclarationsCollector(QLStylesheet stylesheet) 
+	public WidgetDeclarationsCollector(Stylesheet stylesheet) 
 	{
 		super();
 		
@@ -51,7 +51,7 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(QLStylesheet stylesheet) 
+	public QLSNode visit(Stylesheet stylesheet) 
 	{
 		for (Page page : stylesheet.pages())
 		{

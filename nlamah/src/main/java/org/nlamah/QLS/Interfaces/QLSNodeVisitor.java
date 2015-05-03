@@ -9,7 +9,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -22,7 +22,7 @@ import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public interface QLSNodeVisitor 
 {
-	public QLSNode visit(QLStylesheet stylesheet);
+	public QLSNode visit(Stylesheet stylesheet);
 	public QLSNode visit(Page page);
 	
 	public QLSNode visit(Section sectionDeclaration);

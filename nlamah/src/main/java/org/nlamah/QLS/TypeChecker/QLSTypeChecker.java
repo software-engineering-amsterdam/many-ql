@@ -15,7 +15,7 @@ import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
 import org.nlamah.QLS.Model.Declaration.StyledQuestion;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.QLSHelper.QLSHelper;
 
 public class QLSTypeChecker extends QBaseAbstractTypeChecker
@@ -23,7 +23,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	List<StyledQuestion> styledQuestions; 
 	List<FormQuestion> formQuestions;
 		
-	public void check(Form form, QLStylesheet stylesheet) throws QBaseException
+	public void check(Form form, Stylesheet stylesheet) throws QBaseException
 	{		
 		styledQuestions = new StyledQuestionsCollector(stylesheet).questions();
 		formQuestions = new FormQuestionsCollector(form).questions();
@@ -77,7 +77,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		return true;
 	}
 	
-	private boolean doAllStyledQuestionsExistInTheForm(Form form, QLStylesheet styelsheet)
+	private boolean doAllStyledQuestionsExistInTheForm(Form form, Stylesheet styelsheet)
 	{
 		for (StyledQuestion styledQuestion : styledQuestions)
 		{
@@ -92,7 +92,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		return true;
 	}
 	
-	private boolean areAlQuestionsStyledOnlyOnce(Form form, QLStylesheet stylesheet)
+	private boolean areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet)
 	{
 		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions);
 		
@@ -109,7 +109,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		return true;
 	}
 	
-	private boolean areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(Form form, QLStylesheet stylesheet)
+	private boolean areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(Form form, Stylesheet stylesheet)
 	{
 		WidgetTypeChecker widgetTypeChecker = new WidgetTypeChecker(form, stylesheet);
 		widgetTypeChecker.check();

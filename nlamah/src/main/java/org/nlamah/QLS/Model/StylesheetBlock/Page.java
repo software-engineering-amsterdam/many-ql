@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.QLStylesheetBlock;
+import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class Page extends QLStylesheetBlock 
+public class Page extends StylesheetBlock 
 {
 	List<Section> sections;
 	

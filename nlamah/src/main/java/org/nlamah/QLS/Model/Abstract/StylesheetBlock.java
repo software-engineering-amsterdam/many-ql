@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 
-public abstract class QLStylesheetBlock extends QLSNode 
+public abstract class StylesheetBlock extends QLSNode 
 {
 	protected DeclarationValue title;
 	protected List<DefaultDeclaration> defaultDeclarations;
 	
-	public QLStylesheetBlock(DeclarationValue title, List<DefaultDeclaration> defaultDeclarations)
+	public StylesheetBlock(DeclarationValue title, List<DefaultDeclaration> defaultDeclarations)
 	{
 		super();
 		
@@ -37,12 +37,12 @@ public abstract class QLStylesheetBlock extends QLSNode
 			 return true;
 		 }
 		 
-		 if (!(object instanceof QLStylesheetBlock))
+		 if (!(object instanceof StylesheetBlock))
 		 {
 			 return false;
 		 }
 		 
-		 QLStylesheetBlock value = (QLStylesheetBlock) object;
+		 StylesheetBlock value = (StylesheetBlock) object;
 		 
 		 if (this.title == null && value.title == null)
 		 {

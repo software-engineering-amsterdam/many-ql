@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -45,13 +45,13 @@ public class QLSTest extends TestCase
 		return null;
 	}
 
-	protected static QLStylesheet produceStylesheetFromSourceFile(String folder, String filename)
+	protected static Stylesheet produceStylesheetFromSourceFile(String folder, String filename)
 	{		
 		ParseTree tree = produceParseTreeFromSourceFile(folder, filename);
 
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
-		QLStylesheet parsedStylesheet = stylesheetBuilder.build(tree);
+		Stylesheet parsedStylesheet = stylesheetBuilder.build(tree);
 
 		return  parsedStylesheet;
 	}

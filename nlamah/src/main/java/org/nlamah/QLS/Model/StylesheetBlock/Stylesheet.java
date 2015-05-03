@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.QLStylesheetBlock;
+import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class QLStylesheet extends QLStylesheetBlock 
+public class Stylesheet extends StylesheetBlock 
 {
 	private List<Page> pages;
 	
-	public QLStylesheet(IdentifierValue identifier, List<Page> pages, List<DefaultDeclaration> defaultDeclarations)
+	public Stylesheet(IdentifierValue identifier, List<Page> pages, List<DefaultDeclaration> defaultDeclarations)
 	{
 		super(identifier, defaultDeclarations);
 		
@@ -44,12 +44,12 @@ public class QLStylesheet extends QLStylesheetBlock
 			return false;
 		}
 
-		if (!(object instanceof QLStylesheet))
+		if (!(object instanceof Stylesheet))
 		{
 			return false;
 		}
 		
-		QLStylesheet value = (QLStylesheet) object;
+		Stylesheet value = (Stylesheet) object;
 		
 		if (!(pages.equals(value.pages)))
 		{

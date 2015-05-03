@@ -25,7 +25,7 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.QLSLexer;
 import org.nlamah.QLS.QLSParser;
 import org.nlamah.QLS.Error.QLSException;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
 public class QLSInterpreter implements ANTLRErrorListener 
@@ -39,7 +39,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		errors = new ArrayList<QBaseError>();
 	}
 	
-	public QLStylesheet interprete(String qlsFileName, Form form) throws FileReadException, QLSException
+	public Stylesheet interprete(String qlsFileName, Form form) throws FileReadException, QLSException
 	{
 		String qlsSourceCode;
 
@@ -48,7 +48,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 		
 		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
-		QLStylesheet stylesheet = rawStylesheetBuilder.build(tree);
+		Stylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		
 		errors.addAll(rawStylesheetBuilder.errors());
 		

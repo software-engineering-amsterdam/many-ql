@@ -18,7 +18,7 @@ import org.nlamah.QLS.Error.UnStyledFormQuestionError;
 import org.nlamah.QLS.Error.WidgetTypeMismatchError;
 import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
@@ -60,7 +60,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 		
-		QLStylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "widgettypemismatcherror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "widgettypemismatcherror");
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 		
@@ -104,7 +104,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 		
-		QLStylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "unstyledquestionerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "unstyledquestionerror");
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 		
@@ -138,7 +138,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 		
-		QLStylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledeclarationerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledeclarationerror");
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 		

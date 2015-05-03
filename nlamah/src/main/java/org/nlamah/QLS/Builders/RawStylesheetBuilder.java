@@ -33,7 +33,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -60,9 +60,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		return this.errors;
 	}
 
-	public QLStylesheet build(ParseTree tree)
+	public Stylesheet build(ParseTree tree)
 	{
-		return (QLStylesheet) tree.accept(this);
+		return (Stylesheet) tree.accept(this);
 	}
 
 	private void addSourceCodePosition(QLSNode node, ParserRuleContext ctx)
@@ -96,7 +96,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			defaultDeclarations.add(defaultDeclaration);
 		}
 
-		QLStylesheet stylesheet = new QLStylesheet(identifier, pages, defaultDeclarations);
+		Stylesheet stylesheet = new Stylesheet(identifier, pages, defaultDeclarations);
 
 		addSourceCodePosition(stylesheet, ctx);
 

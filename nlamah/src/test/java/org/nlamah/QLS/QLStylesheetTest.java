@@ -17,7 +17,7 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.QLStylesheet;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
@@ -29,14 +29,14 @@ import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
 public class QLStylesheetTest extends TestCase
 {
-	private QLStylesheet parsedStylesheet;
-	private QLStylesheet referenceStylesheet;
+	private Stylesheet parsedStylesheet;
+	private Stylesheet referenceStylesheet;
 
 	public void testEmptyStylesheet() 
 	{	
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "emptystylesheet");
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), new ArrayList<Page>(), new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), new ArrayList<DefaultDeclaration>());
 		
 	    assertEquals(parsedStylesheet, referenceStylesheet);  
 	}
@@ -50,7 +50,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -69,7 +69,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -93,7 +93,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -121,7 +121,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -135,7 +135,7 @@ public class QLStylesheetTest extends TestCase
 		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
 		defaultDeclarations.add(defaultDeclaration);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -154,7 +154,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -178,7 +178,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -214,7 +214,7 @@ public class QLStylesheetTest extends TestCase
 		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
 		defaultDeclarations.add(defaultDeclaration);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -243,7 +243,7 @@ public class QLStylesheetTest extends TestCase
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -265,7 +265,40 @@ public class QLStylesheetTest extends TestCase
 		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
 		defaultDeclarations.add(defaultDeclaration);
 		
-		referenceStylesheet = new QLStylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		
+		assertEquals(parsedStylesheet, referenceStylesheet);
+	}
+	
+	public void testMixedOrderDeclarations()
+	{
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "mixedorderdeclaration");
+		
+		List<Page> pages = new ArrayList<Page>();
+		
+		Page page1 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		pages.add(page1);
+		Page page2 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		pages.add(page2);
+		
+		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		
+		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
+		styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidgetType()));
+		
+		DefaultDeclaration defaultDeclaration1 = new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations1);
+		defaultDeclarations.add(defaultDeclaration1);
+		
+		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
+		List<TextValue> answers = new ArrayList<TextValue>();
+		answers.add(new TextValue("yes"));
+		answers.add(new TextValue("no"));
+		styleDeclarations2.add(new WidgetDeclaration(new RadioButtonWidgetType(answers)));
+		
+		DefaultDeclaration defaultDeclaration2 = new DefaultDeclaration(QBaseQuestionType.TEXT, styleDeclarations2);
+		defaultDeclarations.add(defaultDeclaration2);
+		
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, defaultDeclarations);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
