@@ -34,7 +34,7 @@ public class Page extends StylesheetBlock
 	{
 		return visitor.visit(this);
 	}
-
+	
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -57,4 +57,6 @@ public class Page extends StylesheetBlock
 
 		return true;
 	}
+
+	
 }

@@ -12,14 +12,19 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
+import org.nlamah.QLS.Error.DoubleDefaultDeclarationError;
 import org.nlamah.QLS.Error.FontRecognitionError;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
 import org.nlamah.QLS.Error.WidgetTypeMismatchError;
+import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
+import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
@@ -155,6 +160,50 @@ public class QLStylesheetErrorTest extends TestCase
 			styledQuestions.add(new StyledQuestion(new IdentifierValue("question1"), null));
 			
 			QBaseError error = new QLSDoubleDeclarationError(new IdentifierValue("question1"), styledQuestions);
+			referenceErrors.add(error);
+			
+			assertEquals(qlsTypeChecker.errors(), referenceErrors);
+		}
+	}
+	
+	public void testDoubelDefaultDeclaration()
+	{
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "doubledefaultdeclarationerror");
+
+		QLTypeChecker qlTypeChecker = new QLTypeChecker();
+
+		try 
+		{
+			qlTypeChecker.check(parsedForm);
+		} 
+		catch (QBaseException e) 
+		{
+			assertTrue(false);
+		}
+		
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledefaultdeclarationerror");
+		
+		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+		
+		try
+		{
+			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+		}
+		catch (QBaseException e)
+		{
+			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
+			
+			List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+			
+			List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
+			styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidgetType()));
+			defaultDeclarations.add(new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations1));
+			
+			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
+			styleDeclarations2.add(new WidthDeclaration(new NumberValue(200)));
+			defaultDeclarations.add(new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations2));
+			
+			QBaseError error = new DoubleDefaultDeclarationError(defaultDeclarations);
 			referenceErrors.add(error);
 			
 			assertEquals(qlsTypeChecker.errors(), referenceErrors);

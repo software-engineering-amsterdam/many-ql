@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 
-public abstract class StylesheetBlock extends QLSNode 
+public abstract class StylesheetBlock extends QLSNode
 {
 	protected DeclarationValue title;
 	protected List<DefaultDeclaration> defaultDeclarations;

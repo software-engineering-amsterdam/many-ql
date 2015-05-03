@@ -9,6 +9,8 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
 public class DefaultDeclaration extends QLSNode
 {
+	public boolean checkForTypeEquality;
+	
 	private QBaseQuestionType questionType;
 	private List<StyleDeclaration> styleDeclarations;
 	
@@ -52,23 +54,48 @@ public class DefaultDeclaration extends QLSNode
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof DefaultDeclaration))
+		if (checkForTypeEquality)
 		{
-			return false;
-		}
-		
-		DefaultDeclaration value = (DefaultDeclaration) object;
-		
-		if (this.questionType != value.questionType)
-		{
-			return false;
-		}
-		
-		if (!this.styleDeclarations.equals(value.styleDeclarations))
-		{
-			return false;
-		}
+			if (!(object instanceof DefaultDeclaration))
+			{
+				return false;
+			}
+			
+			DefaultDeclaration value = (DefaultDeclaration) object;
+			
+			if (this.questionType != value.questionType)
+			{
+				return false;
+			}
 
-		return true;
+			return true;
+		}
+		else
+		{
+			if (!(object instanceof DefaultDeclaration))
+			{
+				return false;
+			}
+			
+			DefaultDeclaration value = (DefaultDeclaration) object;
+			
+			if (this.questionType != value.questionType)
+			{
+				return false;
+			}
+			
+			if (!this.styleDeclarations.equals(value.styleDeclarations))
+			{
+				return false;
+			}
+
+			return true;
+		}
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return questionType.toString().hashCode();
 	}
 }
