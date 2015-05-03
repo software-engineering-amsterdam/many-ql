@@ -2,7 +2,9 @@ package org.nlamah.QLS.Builders;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -249,7 +251,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		String numberValueString = ctx.Number().getText();
 
 		int numberValue = Integer.parseInt(numberValueString); 
-	
+
 		WidthDeclaration widthDeclaration = new WidthDeclaration(new NumberValue(numberValue));
 
 		addSourceCodePosition(widthDeclaration, ctx);
@@ -262,13 +264,17 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String fontValueString = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
 
-		Font font = Font.decode(fontValueString);
+		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-		if (font == null)
+		String[] availableFontFamilyNames = graphicsEnvironment.getAvailableFontFamilyNames();
+
+		if (Arrays.asList(availableFontFamilyNames).indexOf(fontValueString) < 0)
 		{
 			errors.add(new FontRecognitionError(fontValueString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
-		
+
+		Font font = Font.decode(fontValueString);
+
 		FontDeclaration fontDeclaration = new FontDeclaration(new FontValue(font));
 
 		addSourceCodePosition(fontDeclaration, ctx);
@@ -282,7 +288,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		String numberValueString = ctx.Number().getText();
 
 		int numberValue = Integer.parseInt(numberValueString); 
-		
+
 		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(new NumberValue(numberValue));
 
 		addSourceCodePosition(fontSizeDeclaration, ctx);
@@ -294,7 +300,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitColorDeclaration(QLSParser.ColorDeclarationContext ctx) 
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
-		
+
 		Color color = Color.decode(hexNumberValueString);
 
 		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(color));
