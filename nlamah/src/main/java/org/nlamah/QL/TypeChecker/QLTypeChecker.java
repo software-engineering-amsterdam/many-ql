@@ -2,8 +2,6 @@ package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.nlamah.QBase.QBaseError;
@@ -98,9 +96,9 @@ public class QLTypeChecker
 		
 		if (set.size() > 0)
 		{
-			for (FormQuestion styledQuestion : set)
+			for (FormQuestion duplicateQuestion : set)
 			{
-				errors.add(new QLDoubleDeclarationError(styledQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), styledQuestion.identifier())));
+				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), duplicateQuestion.identifier())));
 			}
 			
 			return false;
@@ -165,36 +163,24 @@ public class QLTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Map<String, List<FormQuestion>> questionLabels = new HashMap<String, List<FormQuestion>>();
-
-		for (FormQuestion question : form.declaredQuestions())
+		for (FormQuestion formQuestion : form.declaredQuestions())
 		{
-			String labelKey = question.questionText().toString();
-
-			List<FormQuestion> questionsWithTheSameLabel = questionLabels.get(labelKey);
-
-			if (!QBaseHelper.arrayExistsAndHasElements(questionsWithTheSameLabel))
-			{
-				questionsWithTheSameLabel = new ArrayList<FormQuestion>();
-			}
-
-			questionsWithTheSameLabel.add(question);
-
-			questionLabels.put(labelKey, questionsWithTheSameLabel);
-
+			formQuestion.compareOnlyQuestionText = true;
 		}
-
-		if (questionLabels.size() < form.declaredQuestions().size())
+		
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.declaredQuestions());
+		
+		if (set.size() > 0)
 		{
-			for (String labelKey : questionLabels.keySet())
+			for (FormQuestion question : set)
 			{
-				List<FormQuestion> questionsWithTheSameLabel = questionLabels.get(labelKey);
-
-				if (questionsWithTheSameLabel.size() > 1)
-				{
-					warnings.add(new EqualQuestionLabelWarning(questionsWithTheSameLabel));
-				}
+				warnings.add(new EqualQuestionLabelWarning(QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), question.identifier())));
 			}
+		}
+		
+		for (FormQuestion formQuestion : form.declaredQuestions())
+		{
+			formQuestion.compareOnlyQuestionText = false;
 		}
 	}
 }

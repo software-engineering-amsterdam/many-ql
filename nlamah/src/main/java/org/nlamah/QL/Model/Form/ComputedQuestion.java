@@ -14,51 +14,39 @@ import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 public class ComputedQuestion extends FormQuestion 
 {
 	private Expression expression;
-	
+
 	public ComputedQuestion(IdentifierLiteral identifier, TextLiteral questionText, QBaseQuestionType type, Expression expression) 
 	{
 		super(identifier, questionText, type);
-		
+
 		this.expression = expression;
-		
+
 		expression.setParentNode(this);
 	}
-	
+
 	public Expression expression()
 	{
 		return expression;
 	}
-	
+
 	public ValueExpression computedValue() 
 	{
 		ExpressionEvaluator evalution = new ExpressionEvaluator();
-		
+
 		return (ValueExpression) expression.accept(evalution);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof ComputedQuestion))
-		 {
-			 return false;
-		 }
-		 
-		 ComputedQuestion value = (ComputedQuestion)object;
-		 
-		 if (!(this.expression.equals(value.expression)))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{

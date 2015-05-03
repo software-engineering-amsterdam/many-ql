@@ -8,60 +8,71 @@ public abstract class FormQuestion extends FormElement
 {
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
-	
+
+	public boolean compareOnlyQuestionText;
+
 	public FormQuestion(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
 	{
 		super(identifier);
-		
+
 		this.questionText = questionString;
 		this.type = type;
-		
+
 		if (identifier != null)
 		{
 			identifier.setParentNode(this);
 		}
-		
+
 		if (questionString != null)
 		{
 			questionString.setParentNode(this);
 		}
 	}
-	
+
 	public QBaseQuestionType returnType()
 	{
 		return type;
 	}
-	
+
 	public TextLiteral questionText()
 	{
 		return questionText;
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof FormQuestion))
-		 {
-			 return false;
-		 }
-		 
-		 FormQuestion value = (FormQuestion) object;
-		 
-		 if (!(this.questionText.equals(value.questionText)))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(this.type.equals(value.type)))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
+		{
+			return false;
+		}
+
+		if (!(object instanceof FormQuestion))
+		{
+			return false;
+		}
+
+		FormQuestion value = (FormQuestion) object;
+
+		if (compareOnlyQuestionText)
+		{
+			if ((this.questionText.equals(value.questionText)))
+			{
+				return true;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		if (compareOnlyQuestionText)
+		{
+			return questionText.toString().hashCode();
+		}
+
+		return identifier().toString().hashCode();
+	}
 }

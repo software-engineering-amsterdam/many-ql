@@ -20,11 +20,6 @@ public abstract class InputQuestion extends FormQuestion
 			 return false;
 		 }
 		 
-		 if (!(object instanceof InputQuestion))
-		 {
-			 return false;
-		 }
-		 
 		 return true;
 	 }
 }

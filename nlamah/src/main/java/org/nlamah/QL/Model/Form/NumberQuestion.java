@@ -38,18 +38,6 @@ public class NumberQuestion extends InputQuestion
 			 return false;
 		 }
 		 
-		 if (!(object instanceof NumberQuestion))
-		 {
-			 return false;
-		 }
-		 
-		 NumberQuestion value = (NumberQuestion)object;
-		 
-		 if (!this.insertedNumber.equals(value.insertedNumber))
-		 {
-			 return false;
-		 }
-		 
 		 return true;
 	 }
 	

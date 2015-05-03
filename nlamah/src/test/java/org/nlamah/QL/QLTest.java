@@ -19,9 +19,9 @@ public class QLTest extends TestCase
 	{
 		final TestSuite suite = new TestSuite("QLTestSuite");
 
-		suite.addTestSuite(QLFormTest.class);
-		suite.addTestSuite(QLComputationalExpressionTest.class);
-		suite.addTestSuite(QLLogicalExpressionTest.class);
+		//suite.addTestSuite(QLFormTest.class);
+	//	suite.addTestSuite(QLComputationalExpressionTest.class);
+		//suite.addTestSuite(QLLogicalExpressionTest.class);
 		suite.addTestSuite(QLFormErrorTest.class);
 
 		return suite;

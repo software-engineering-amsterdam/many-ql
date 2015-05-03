@@ -36,19 +36,7 @@ public class TextQuestion extends InputQuestion
 		 {
 			 return false;
 		 }
-		 
-		 if (!(object instanceof TextQuestion))
-		 {
-			 return false;
-		 }
-		 
-		 TextQuestion value = (TextQuestion)object;
-		 
-		 if (this.insertedText != value.insertedText)
-		 {
-			 return false;
-		 }
-		 
+		 	 
 		 return true;
 	 }
 	

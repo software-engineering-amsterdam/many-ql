@@ -38,18 +38,6 @@ public class BooleanQuestion extends InputQuestion
 			 return false;
 		 }
 		 
-		 if (!(object instanceof BooleanQuestion))
-		 {
-			 return false;
-		 }
-		 
-		 BooleanQuestion value = (BooleanQuestion)object;
-		 
-		 if (!this.checked.equals(value.checked))
-		 {
-			 return false;
-		 }
-		 
 		 return true;
 	 }
 	
