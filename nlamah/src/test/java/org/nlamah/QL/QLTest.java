@@ -27,7 +27,7 @@ public class QLTest extends TestCase
 		return suite;
 	}
 
-	protected static Expression produceExpressionFromString(String string)
+	public static Expression produceExpressionFromString(String string)
 	{
 		ANTLRInputStream input = new ANTLRInputStream(string);
 
@@ -41,7 +41,7 @@ public class QLTest extends TestCase
 		return  expression;
 	}
 
-	protected static Form produceFormFromSourceFile(String folder, String filename)
+	public static Form produceFormFromSourceFile(String folder, String filename)
 	{		
 		try 
 		{

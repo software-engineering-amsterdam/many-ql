@@ -11,26 +11,26 @@ public class CheckBoxWidgetType extends WidgetType
 	{
 		super(QBaseQuestionType.BOOLEAN);
 	}
-	
+
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
 		{
 			return false;
 		}
-		 
-		 if (!(object instanceof CheckBoxWidgetType))
-		 {
-			 return false;
-		 }
 
-		 return true;
-	 }
+		if (!(object instanceof CheckBoxWidgetType))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
