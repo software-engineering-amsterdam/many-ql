@@ -42,27 +42,31 @@ public abstract class FormQuestion extends FormElement
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!super.equals(object))
-		{
-			return false;
-		}
-
-		if (!(object instanceof FormQuestion))
-		{
-			return false;
-		}
-
-		FormQuestion value = (FormQuestion) object;
-
 		if (compareOnlyQuestionText)
 		{
+			FormQuestion value = (FormQuestion) object;
+			
 			if ((this.questionText.equals(value.questionText)))
 			{
 				return true;
 			}
-		}
 
-		return true;
+			return false;
+		}
+		else
+		{
+			if (!super.equals(object))
+			{
+				return false;
+			}
+
+			if (!(object instanceof FormQuestion))
+			{
+				return false;
+			}
+
+			return true;
+		}
 	}
 
 	@Override

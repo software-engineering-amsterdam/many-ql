@@ -133,7 +133,6 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			//question3
 			List<FormQuestion> declaredQuestions3 = new ArrayList<FormQuestion>();
 			
 			IdentifierLiteral identifier5 = new IdentifierLiteral("question3");
@@ -223,7 +222,7 @@ public class QLFormErrorTest extends TestCase
 	
 	public void testEqualTextLabel() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "equalQuestionLabel");
+		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleQuestionText");
 
 		QLTypeChecker typeChecker = new QLTypeChecker();
 
@@ -233,24 +232,24 @@ public class QLFormErrorTest extends TestCase
 		} 
 		catch (QBaseException e) 
 		{
-
-			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
-
-			List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
-
-			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
-			FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
-			declaredQuestions.add(question1);
-
-			IdentifierLiteral identifier2 = new IdentifierLiteral("question2");
-			FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
-			declaredQuestions.add(question2);
-
-			QBaseError error = new EqualQuestionLabelWarning(declaredQuestions);
-			referenceErrors.add(error);
-
-			assertEquals(typeChecker.warnings(), referenceErrors);
 		}
+		
+		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
+
+		List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
+
+		IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
+		FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
+		declaredQuestions.add(question1);
+
+		IdentifierLiteral identifier2 = new IdentifierLiteral("question2");
+		FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
+		declaredQuestions.add(question2);
+
+		QBaseError error = new EqualQuestionLabelWarning(declaredQuestions);
+		referenceErrors.add(error);
+
+		assertEquals(typeChecker.warnings(), referenceErrors);
 	}
 
 	public void testExpressionTypeMismatch() 

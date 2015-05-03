@@ -139,7 +139,6 @@ public class QLTypeChecker
 		return true;
 	}
 
-
 	private void checkForTypeMismatchErrors(Form form)
 	{
 		List<QBaseError> identifierErrors = new ArrayList<QBaseError>();
@@ -174,7 +173,7 @@ public class QLTypeChecker
 		{
 			for (FormQuestion question : set)
 			{
-				warnings.add(new EqualQuestionLabelWarning(QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), question.identifier())));
+				warnings.add(new EqualQuestionLabelWarning(QLHelper.getQuestionsWithQuestionText(form.declaredQuestions(), question.questionText())));
 			}
 		}
 		
