@@ -2,7 +2,7 @@ package org.nlamah.QL.Builders;
 
 import java.util.List;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
@@ -24,7 +24,7 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	{
 		preferredHeight = 0;
 		
-		if (QLHelper.arrayExistsAndHasElements(formElementViewControllers))
+		if (QBaseHelper.arrayExistsAndHasElements(formElementViewControllers))
 		{
 			for (FormElementViewController formElementViewController : formElementViewControllers)
 			{

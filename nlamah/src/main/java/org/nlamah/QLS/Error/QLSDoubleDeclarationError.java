@@ -1,17 +1,17 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QLS.Error;
 
 import java.util.List;
 
 import org.nlamah.QBase.QBaseError;
-import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class DoubleDeclarationError extends QBaseError
+public class QLSDoubleDeclarationError extends QBaseError
 {
-	IdentifierLiteral identifier;
-	List<Question> questions;
+	IdentifierValue identifier;
+	List<StyledQuestion> questions;
 
-	public DoubleDeclarationError(IdentifierLiteral identifier, List<Question> declaredQuestions)
+	public QLSDoubleDeclarationError(IdentifierValue identifier, List<StyledQuestion> declaredQuestions)
 	{
 		super();
 
@@ -24,9 +24,9 @@ public class DoubleDeclarationError extends QBaseError
 	{			
 		String errorString = "ERROR: Line " + identifier.startsOnLine + ":"  + identifier.startsAtCharacterPosition;
 
-		errorString += ", The question with Identifier \"" + identifier.toString() + "\" is declared more than once.<br/>";
+		errorString += ", The question with Identifier \"" + identifier.toString() + "\" is placed more than once in the stylesheet.<br/>";
 
-		for (Question question : questions)
+		for (StyledQuestion question : questions)
 		{
 			errorString += "<div style='margin-left:45px'>See line: " + question.startsOnLine + "<br/></div>";
 		}
@@ -37,12 +37,12 @@ public class DoubleDeclarationError extends QBaseError
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof DoubleDeclarationError))
+		if (!(object instanceof QLSDoubleDeclarationError))
 		{
 			return false;
 		}
 
-		DoubleDeclarationError value = (DoubleDeclarationError)object;
+		QLSDoubleDeclarationError value = (QLSDoubleDeclarationError)object;
 
 		if (!this.identifier.equals(value.identifier))
 		{

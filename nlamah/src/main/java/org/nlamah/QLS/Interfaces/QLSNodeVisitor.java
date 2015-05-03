@@ -5,7 +5,7 @@ import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
@@ -28,7 +28,7 @@ public interface QLSNodeVisitor
 	
 	public QLSNode visit(Section sectionDeclaration);
 	public QLSNode visit(WidgetDeclaration widgetDeclaration);
-	public QLSNode visit(QuestionDeclaration questionDeclaration);
+	public QLSNode visit(StyledQuestion questionDeclaration);
 	public QLSNode visit(DefaultDeclaration defaultDeclaration);
 	
 	public QLSNode visit(CheckBoxWidgetType checkBoxWidgetType);

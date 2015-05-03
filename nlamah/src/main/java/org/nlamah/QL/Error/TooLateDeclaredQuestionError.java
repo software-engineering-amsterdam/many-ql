@@ -2,14 +2,14 @@ package org.nlamah.QL.Error;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class TooLateDeclaredQuestionError extends QBaseError 
 {
 	IdentifierLiteral identifier;
-	Question question;
+	FormQuestion question;
 
-	public TooLateDeclaredQuestionError(IdentifierLiteral identifier, Question question)
+	public TooLateDeclaredQuestionError(IdentifierLiteral identifier, FormQuestion question)
 	{
 		super();
 

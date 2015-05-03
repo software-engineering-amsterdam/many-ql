@@ -2,14 +2,14 @@ package org.nlamah.QL.Error;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class CyclicDependencyError extends QBaseError 
 {
 	private IdentifierLiteral identifier;
-	private Question question;
+	private FormQuestion question;
 	
-	public CyclicDependencyError(IdentifierLiteral identifier, Question question)
+	public CyclicDependencyError(IdentifierLiteral identifier, FormQuestion question)
 	{
 		super();
 		

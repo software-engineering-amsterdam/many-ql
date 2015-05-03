@@ -3,10 +3,10 @@ package org.nlamah.QL.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
@@ -17,26 +17,26 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 
-public class GatherDeclaredQuestions implements QLFormElementVisitor 
+public class DeclaredFormQuestionsCollector implements QLFormElementVisitor 
 {
-	private List<Question> declaredQuestions;
+	private List<FormQuestion> questions;
 	
-	public GatherDeclaredQuestions(Form form)
+	public DeclaredFormQuestionsCollector(Form form)
 	{
-		declaredQuestions = new ArrayList<Question>();
+		questions = new ArrayList<FormQuestion>();
 		
 		form.accept(this);
 	}
 	
-	public List<Question> declaredQuestions()
+	public List<FormQuestion> questions()
 	{
-		return declaredQuestions;
+		return questions;
 	}
 
 	@Override
 	public void visit(Form form) 
 	{
-		if (QLHelper.arrayExistsAndHasElements(form.childElements()))
+		if (QBaseHelper.arrayExistsAndHasElements(form.childElements()))
 		{
 			for (FormElement childElement : form.childElements())
 			{
@@ -48,25 +48,25 @@ public class GatherDeclaredQuestions implements QLFormElementVisitor
 	@Override
 	public void visit(BooleanQuestion booleanQuestion) 
 	{
-		declaredQuestions.add(booleanQuestion);
+		questions.add(booleanQuestion);
 	}
 
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
-		declaredQuestions.add(computedQuestion);
+		questions.add(computedQuestion);
 	}
 
 	@Override
 	public void visit(NumberQuestion numberQuestion) 
 	{
-		declaredQuestions.add(numberQuestion);
+		questions.add(numberQuestion);
 	}
 
 	@Override
 	public void visit(TextQuestion textQuestion) 
 	{
-		declaredQuestions.add(textQuestion);
+		questions.add(textQuestion);
 
 	}
 
@@ -105,7 +105,7 @@ public class GatherDeclaredQuestions implements QLFormElementVisitor
 			conditionalBlock.ifThenBlock().accept(this);
 		}
 		
-		if (QLHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
+		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
 			{

@@ -1,38 +1,43 @@
-package org.nlamah.QL.Error;
+package org.nlamah.QLS.Error;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 
-public class UndeclaredQuestionError extends QBaseError 
+public class UnStyledFormQuestionError extends QBaseError
 {
-	IdentifierLiteral identifier;
-
-	public UndeclaredQuestionError(IdentifierLiteral identifier)
+	private IdentifierLiteral identifier;
+	
+	public UnStyledFormQuestionError(IdentifierLiteral identifier)
 	{
 		super();
-
+		
 		this.identifier = identifier;
 	}
-
+	
 	@Override
 	public String description() 
 	{
 		String errorString =  "ERROR: Line " + identifier.startsOnLine + ":"  + identifier.startsAtCharacterPosition;
 
-		errorString += " The question with Identifier \"" + identifier.toString() + "\" isn't declared";
+		errorString += " The question with Identifier \"" + identifier.toString() + "\" isn't styled by the stylesheet";
 
 		return errorString;
 	}
-
+	
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof UndeclaredQuestionError))
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof UnStyledFormQuestionError))
 		{
 			return false;
 		}
 
-		UndeclaredQuestionError value = (UndeclaredQuestionError)object;
+		UnStyledFormQuestionError value = (UnStyledFormQuestionError)object;
 
 		if (!this.identifier.equals(value.identifier))
 		{

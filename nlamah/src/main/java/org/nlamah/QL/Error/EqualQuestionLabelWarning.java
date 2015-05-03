@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Iterator;
 
 import org.nlamah.QBase.QBaseWarning;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class EqualQuestionLabelWarning extends QBaseWarning 
 {
-	private List<Question> questions;
+	private List<FormQuestion> questions;
 
-	public EqualQuestionLabelWarning(List<Question> questions)
+	public EqualQuestionLabelWarning(List<FormQuestion> questions)
 	{
 		this.questions = questions;
 	}
@@ -20,7 +20,7 @@ public class EqualQuestionLabelWarning extends QBaseWarning
 	{
 		String errorString = "WARNING: The questions declared on lines ";
 
-		for (Iterator<Question> i = questions.iterator(); i.hasNext(); ) 
+		for (Iterator<FormQuestion> i = questions.iterator(); i.hasNext(); ) 
 		{
 			errorString += i.next().startsOnLine;
 

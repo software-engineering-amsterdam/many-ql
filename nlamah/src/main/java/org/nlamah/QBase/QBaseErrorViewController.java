@@ -54,7 +54,7 @@ public class QBaseErrorViewController implements Runnable
 	private String produceErrorString()
 	{
 		String errorString = "";
-		if (QLHelper.arrayExistsAndHasElements(errors))
+		if (QBaseHelper.arrayExistsAndHasElements(errors))
 		{
 			for (QBaseError error : errors)
 			{
@@ -70,7 +70,7 @@ public class QBaseErrorViewController implements Runnable
 	{	
 		String warningString = "";
 
-		if (QLHelper.arrayExistsAndHasElements(warnings))
+		if (QBaseHelper.arrayExistsAndHasElements(warnings))
 		{
 			for (QBaseWarning warning : warnings)
 			{

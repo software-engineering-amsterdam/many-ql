@@ -6,15 +6,15 @@ import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.QLStylesheetBlock;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
-import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Value.TextValue;
 
 public class Section extends QLStylesheetBlock
 {
-	private List<QuestionDeclaration> questionDeclarations;
+	private List<StyledQuestion> questionDeclarations;
 	private List<Section> sections;
 	
-	public Section(TextValue titleValue, List<Section> sections, List<QuestionDeclaration> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
+	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
 	{
 		super(titleValue, defaultDeclarations);
 	
@@ -28,7 +28,7 @@ public class Section extends QLStylesheetBlock
 		}
 	}
 	
-	public List<QuestionDeclaration> questionDeclarations()
+	public List<StyledQuestion> questionDeclarations()
 	{
 		return questionDeclarations;
 	}

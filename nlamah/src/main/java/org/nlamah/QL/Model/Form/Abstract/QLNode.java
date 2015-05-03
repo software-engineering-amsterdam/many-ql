@@ -1,8 +1,9 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
+import org.nlamah.QBase.QBaseNode;
 import org.nlamah.QL.Interfaces.QLVisitable;
 
-public abstract class QLNode implements QLVisitable
+public abstract class QLNode extends QBaseNode implements QLVisitable
 {	
 	private QLNode parentNode;
 	

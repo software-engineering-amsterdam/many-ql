@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.Error.DoubleDeclarationError;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
+import org.nlamah.QL.Error.QLDoubleDeclarationError;
 import org.nlamah.QL.Error.EqualQuestionLabelWarning;
 import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
-import org.nlamah.QL.Error.UndeclaredQuestionError;
+import org.nlamah.QL.Error.UndeclaredFormQuestionError;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker 
 {
 	private List<QBaseError> errors;
 	private List<QBaseWarning> warnings;
-
-	private Map<IdentifierLiteral, List<Question>> doubleDeclaratedQuestions;
 
 	public QLTypeChecker()
 	{
@@ -60,11 +60,11 @@ public class QLTypeChecker
 
 	private void checkValidityQuestionDeclarations(Form form)
 	{
-		createDoubleDeclaredQuestionList(form);
+		questionsAreNotDeclaredMoreThanOnce(form);
 
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{
-			if (questionIsDeclared(identifier, form) && questionIsDeclaredOnlyOnce(identifier) && questionIsDeclaredBeforeReferredTo(identifier, form))
+			if (questionIsDeclared(identifier, form) && questionIsDeclaredBeforeReferredTo(identifier, form))
 			{
 				if (questionIsDeclaredInRightScopeWithNoCyclicDependency(identifier))
 				{
@@ -83,7 +83,7 @@ public class QLTypeChecker
 	{
 		if (QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), identifier).size() == 0)
 		{
-			errors.add(new UndeclaredQuestionError(identifier));
+			errors.add(new UndeclaredFormQuestionError(identifier));
 
 			return false;
 		}
@@ -92,65 +92,35 @@ public class QLTypeChecker
 
 	}
 
-	private boolean questionIsDeclaredOnlyOnce(IdentifierLiteral identifier)
+	private boolean questionsAreNotDeclaredMoreThanOnce(Form form)
 	{
-		List<Question> questions = doubleDeclaratedQuestions.get(identifier.toString());
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.declaredQuestions());
 		
-		if (QLHelper.arrayExistsAndHasElements(questions))
+		if (set.size() > 0)
 		{
-			return questions.size() > 1;
+			for (FormQuestion styledQuestion : set)
+			{
+				errors.add(new QLDoubleDeclarationError(styledQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.declaredQuestions(), styledQuestion.identifier())));
+			}
+			
+			return false;
 		}
-
+		
 		return true;
 	}
-
-	private void createDoubleDeclaredQuestionList(Form form)
-	{
-		doubleDeclaratedQuestions = new HashMap<IdentifierLiteral, List<Question>>();
-
-		for (Question question : form.declaredQuestions())
-		{
-			IdentifierLiteral key = question.identifier();
-
-			List<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
-
-			if (!QLHelper.arrayExistsAndHasElements(questionsWithTheSameIdentifier))
-			{
-				questionsWithTheSameIdentifier = new ArrayList<Question>();
-			}
-
-			questionsWithTheSameIdentifier.add(question);
-
-			doubleDeclaratedQuestions.put(key, questionsWithTheSameIdentifier);
-
-		}
-
-		if (doubleDeclaratedQuestions.size() < form.declaredQuestions().size())
-		{
-			for (IdentifierLiteral key : doubleDeclaratedQuestions.keySet())
-			{
-				List<Question> questionsWithTheSameIdentifier = doubleDeclaratedQuestions.get(key);
-
-				if (questionsWithTheSameIdentifier.size() > 1)
-				{
-					errors.add(new DoubleDeclarationError(key, questionsWithTheSameIdentifier));
-				}
-			}
-		}
-	}
-
+	
 	private boolean questionIsDeclaredInRightScopeWithNoCyclicDependency(IdentifierLiteral identifier)
 	{
 		OutOfScopeDeclarationChecker outOfScopeChecker = new OutOfScopeDeclarationChecker(identifier);
 
 		errors.addAll(outOfScopeChecker.errors());
 		
-		return !QLHelper.arrayExistsAndHasElements(outOfScopeChecker.errors());
+		return !QBaseHelper.arrayExistsAndHasElements(outOfScopeChecker.errors());
 	}
 
 	private boolean questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form)
 	{
-		Question foundDeclaration = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier);
+		FormQuestion foundDeclaration = QLHelper.getQuestionWithIdentifier(form.declaredQuestions(), identifier);
 
 		if (identifier.startsOnLine < foundDeclaration.startsOnLine)
 		{
@@ -195,17 +165,17 @@ public class QLTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Map<String, List<Question>> questionLabels = new HashMap<String, List<Question>>();
+		Map<String, List<FormQuestion>> questionLabels = new HashMap<String, List<FormQuestion>>();
 
-		for (Question question : form.declaredQuestions())
+		for (FormQuestion question : form.declaredQuestions())
 		{
 			String labelKey = question.questionText().toString();
 
-			List<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
+			List<FormQuestion> questionsWithTheSameLabel = questionLabels.get(labelKey);
 
-			if (!QLHelper.arrayExistsAndHasElements(questionsWithTheSameLabel))
+			if (!QBaseHelper.arrayExistsAndHasElements(questionsWithTheSameLabel))
 			{
-				questionsWithTheSameLabel = new ArrayList<Question>();
+				questionsWithTheSameLabel = new ArrayList<FormQuestion>();
 			}
 
 			questionsWithTheSameLabel.add(question);
@@ -218,7 +188,7 @@ public class QLTypeChecker
 		{
 			for (String labelKey : questionLabels.keySet())
 			{
-				List<Question> questionsWithTheSameLabel = questionLabels.get(labelKey);
+				List<FormQuestion> questionsWithTheSameLabel = questionLabels.get(labelKey);
 
 				if (questionsWithTheSameLabel.size() > 1)
 				{

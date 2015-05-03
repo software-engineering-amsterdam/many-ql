@@ -4,23 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class QLHelper 
-{
-	static public boolean arrayExistsAndHasElements(List<?> List)
-	{
-		return List != null && List.size() > 0;
-	}
-	
+{	
 	static public String surroundStringWithHtmlTags(String string)
 	{
 		return "<html>" + string + "</html>";
 	}
 	
-	static public Question getQuestionWithIdentifier(List<Question> questions, IdentifierLiteral identifier)
+	static public FormQuestion getQuestionWithIdentifier(List<FormQuestion> questions, IdentifierLiteral identifier)
 	{
-		for (Question question : questions)
+		for (FormQuestion question : questions)
 		{
 			if (question.identifier().equals(identifier))
 			{
@@ -31,11 +26,11 @@ public class QLHelper
 		return null;
 	}
 	
-	static public List<Question> getQuestionsWithIdentifier(List<Question> questions, IdentifierLiteral identifier)
+	static public List<FormQuestion> getQuestionsWithIdentifier(List<FormQuestion> questions, IdentifierLiteral identifier)
 	{
-		List<Question> foundQuestions = new ArrayList<Question>();
+		List<FormQuestion> foundQuestions = new ArrayList<FormQuestion>();
 		
-		for (Question question : questions)
+		for (FormQuestion question : questions)
 		{
 			if (question.identifier().equals(identifier))
 			{

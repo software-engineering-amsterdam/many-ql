@@ -3,7 +3,7 @@ package org.nlamah.QL.Builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
 import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
@@ -30,7 +30,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		List<FormElementViewController> childViewControllers = declaringFormElementViewController.childViewControllers();
 		List<FormElementView> childViews = null;
 		
-		if (QLHelper.arrayExistsAndHasElements(childViewControllers))
+		if (QBaseHelper.arrayExistsAndHasElements(childViewControllers))
 		{
 			childViews = new ArrayList<FormElementView>(childViewControllers.size());
 			
@@ -51,7 +51,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		
 		viewController.setChildViews(gatherChildViews(viewController));
 		
-		if (QLHelper.arrayExistsAndHasElements(viewController.childViews()))
+		if (QBaseHelper.arrayExistsAndHasElements(viewController.childViews()))
 		{
 			for (FormElementView childView : viewController.childViews())
 			{
@@ -85,7 +85,7 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = conditionalBlockViewController.elseIfThenBlockViewControllers();
 		List<ElseIfThenBlockView> elseIfThenBlockViews = null;
 		
-		if (QLHelper.arrayExistsAndHasElements(elseIfThenBlockViewControllers))
+		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlockViewControllers))
 		{
 			elseIfThenBlockViews = new ArrayList<ElseIfThenBlockView>(elseIfThenBlockViewControllers.size());
 			

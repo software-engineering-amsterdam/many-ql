@@ -13,7 +13,7 @@ import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
@@ -59,7 +59,7 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onesection");
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<QuestionDeclaration>(), new ArrayList<DefaultDeclaration>());
+		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -78,9 +78,9 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onequestion");
 		
-		QuestionDeclaration questionDeclaration = new QuestionDeclaration(new IdentifierValue("testquestion"), null);
+		StyledQuestion questionDeclaration = new StyledQuestion(new IdentifierValue("testquestion"), null);
 		
-		List<QuestionDeclaration> questions = new ArrayList<QuestionDeclaration>();
+		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(questionDeclaration);
 		
 		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), questions, new ArrayList<DefaultDeclaration>());
@@ -106,9 +106,9 @@ public class QLStylesheetTest extends TestCase
 		
 		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(widgetType);
 		
-		QuestionDeclaration questionDeclaration = new QuestionDeclaration(new IdentifierValue("testquestion"), widgetDeclaration);
+		StyledQuestion questionDeclaration = new StyledQuestion(new IdentifierValue("testquestion"), widgetDeclaration);
 		
-		List<QuestionDeclaration> questions = new ArrayList<QuestionDeclaration>();
+		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(questionDeclaration);
 		
 		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), questions, new ArrayList<DefaultDeclaration>());
@@ -168,7 +168,7 @@ public class QLStylesheetTest extends TestCase
 		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
 		defaultDeclarations.add(defaultDeclaration);
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<QuestionDeclaration>(), defaultDeclarations);
+		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), defaultDeclarations);
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -224,18 +224,18 @@ public class QLStylesheetTest extends TestCase
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "nestedsections");
 		
 		List<Section> nestedSections = new ArrayList<Section>();
-		Section nestedSection1 = new Section(new TextValue("nestedsection1"), new ArrayList<Section>(), new ArrayList<QuestionDeclaration>(), new ArrayList<DefaultDeclaration>());
+		Section nestedSection1 = new Section(new TextValue("nestedsection1"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
 		nestedSections.add(nestedSection1);
 		
 		List<Section> nestedSectionsInNestedSection2 = new ArrayList<Section>();
-		Section nestedSection21 = new Section(new TextValue("nestedsection2.1"), new ArrayList<Section>(), new ArrayList<QuestionDeclaration>(), new ArrayList<DefaultDeclaration>());
+		Section nestedSection21 = new Section(new TextValue("nestedsection2.1"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
 		nestedSectionsInNestedSection2.add(nestedSection21);
 		
-		Section nestedSection2 = new Section(new TextValue("nestedsection2"), nestedSectionsInNestedSection2, new ArrayList<QuestionDeclaration>(), new ArrayList<DefaultDeclaration>());
+		Section nestedSection2 = new Section(new TextValue("nestedsection2"), nestedSectionsInNestedSection2, new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
 		nestedSections.add(nestedSection2);
 			
 		List<Section> pageSections = new ArrayList<Section>();
-		Section section = new Section(new TextValue("testsection"), nestedSections, new ArrayList<QuestionDeclaration>(), new ArrayList<DefaultDeclaration>());
+		Section section = new Section(new TextValue("testsection"), nestedSections, new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
 		pageSections.add(section);
 		
 		Page page = new Page(new IdentifierValue("testpage"), pageSections, new ArrayList<DefaultDeclaration>());

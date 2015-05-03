@@ -4,12 +4,12 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
-public abstract class Question extends FormElement 
+public abstract class FormQuestion extends FormElement
 {
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
 	
-	public Question(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
+	public FormQuestion(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
 	{
 		super(identifier);
 		
@@ -45,12 +45,12 @@ public abstract class Question extends FormElement
 			 return false;
 		 }
 		 
-		 if (!(object instanceof Question))
+		 if (!(object instanceof FormQuestion))
 		 {
 			 return false;
 		 }
 		 
-		 Question value = (Question) object;
+		 FormQuestion value = (FormQuestion) object;
 		 
 		 if (!(this.questionText.equals(value.questionText)))
 		 {

@@ -4,12 +4,12 @@ import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class QuestionDeclaration extends QLSNode
+public class StyledQuestion extends QLSNode
 {
 	private IdentifierValue identifier;
 	private WidgetDeclaration widgetDeclaration;
 	
-	public QuestionDeclaration(IdentifierValue identifier, WidgetDeclaration widgetDeclaration)
+	public StyledQuestion(IdentifierValue identifier, WidgetDeclaration widgetDeclaration)
 	{
 		super();
 		
@@ -36,12 +36,12 @@ public class QuestionDeclaration extends QLSNode
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof QuestionDeclaration))
+		if (!(object instanceof StyledQuestion))
 		{
 			return false;
 		}
 		
-		QuestionDeclaration value = (QuestionDeclaration) object;
+		StyledQuestion value = (StyledQuestion) object;
 		
 		if (!this.identifier.equals(value.identifier))
 		{
@@ -59,5 +59,11 @@ public class QuestionDeclaration extends QLSNode
 		}
 
 		return true;
+	}
+	
+	@Override
+	public int hashCode() 
+	{
+		return identifier.toString().hashCode();
 	}
 }

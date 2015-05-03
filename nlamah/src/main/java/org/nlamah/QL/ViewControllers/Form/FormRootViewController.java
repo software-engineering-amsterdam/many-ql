@@ -10,6 +10,7 @@ import javax.swing.JSplitPane;
 import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Builders.QLViewControllersFactory;
 import org.nlamah.QL.Builders.QLViewsFactory;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.Form;
@@ -72,7 +73,7 @@ public class FormRootViewController extends DeclaringFormElementViewController i
 		QLViewsFactory viewsFactory = new QLViewsFactory();
 		
 		List<FormElementView> childViews = viewsFactory.gatherChildViews(this);
-		if (QLHelper.arrayExistsAndHasElements(childViews))
+		if (QBaseHelper.arrayExistsAndHasElements(childViews))
 		{
 			for (FormElementView childView : childViews)
 			{	

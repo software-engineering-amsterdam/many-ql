@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
@@ -33,5 +35,26 @@ public class QBaseHelper
 	static public String removeSurroundingQuotes(String string) 
 	{
 		return string.substring(1, string.length() - 1);
+	}
+	
+	static public boolean arrayExistsAndHasElements(List<?> List)
+	{
+		return List != null && List.size() > 0;
+	}
+	
+	static public <T> Set<T> getSetWithDuplicatedObjects(List<T> questions)
+	{
+		final Set<T> setToReturn = new HashSet<T>();
+		final Set<T> set = new HashSet<T>();
+	
+		for (T node : questions) 
+		{
+			if (!set.add(node)) 
+			{
+				setToReturn.add(node);
+			}
+		}
+		
+		return setToReturn;
 	}
 }

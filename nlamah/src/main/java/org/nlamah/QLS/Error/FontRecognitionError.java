@@ -1,4 +1,6 @@
-package org.nlamah.QBase.Error;
+package org.nlamah.QLS.Error;
+
+import org.nlamah.QBase.Error.QBaseParsingError;
 
 public class FontRecognitionError extends QBaseParsingError 
 {
@@ -13,7 +15,7 @@ public class FontRecognitionError extends QBaseParsingError
 	{
 		String errorString = "ERROR: Line:" + startLine + ":" + startCharacterInLine;
 		
-		errorString += " The string: \"" + valueString + "\" coundn't be parsed to the valid font.";
+		errorString += " The string: \"" + valueString + "\" coundn't be parsed to a valid font.";
 		
 		return errorString;
 	}

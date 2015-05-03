@@ -3,19 +3,19 @@ package org.nlamah.QL.Model.Form;
 import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
-import org.nlamah.QL.Model.Form.Abstract.Question;
-import org.nlamah.QL.TypeChecker.GatherDeclaredQuestions;
-import org.nlamah.QL.TypeChecker.GatherReferencedQuestions;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
+import org.nlamah.QL.TypeChecker.DeclaredFormQuestionsCollector;
+import org.nlamah.QL.TypeChecker.ReferencedQuestionsCollector;
 
 public class Form extends DeclaringFormElement
 {
-	private List<Question> declaredQuestions;
+	private List<FormQuestion> declaredQuestions;
 	private List<IdentifierLiteral> referencedQuestions;
 
 	private String title;
@@ -32,11 +32,11 @@ public class Form extends DeclaringFormElement
 		return this.title;
 	}
 
-	public List<Question> declaredQuestions()
+	public List<FormQuestion> declaredQuestions()
 	{
-		if (!QLHelper.arrayExistsAndHasElements(declaredQuestions))
+		if (!QBaseHelper.arrayExistsAndHasElements(declaredQuestions))
 		{
-			declaredQuestions = new GatherDeclaredQuestions(this).declaredQuestions();
+			declaredQuestions = new DeclaredFormQuestionsCollector(this).questions();
 		}
 
 		return declaredQuestions;
@@ -44,9 +44,9 @@ public class Form extends DeclaringFormElement
 
 	public List<IdentifierLiteral> referencedQuestions()
 	{
-		if (!QLHelper.arrayExistsAndHasElements(referencedQuestions))
+		if (!QBaseHelper.arrayExistsAndHasElements(referencedQuestions))
 		{
-			referencedQuestions = new GatherReferencedQuestions(this).referencedQuestions();
+			referencedQuestions = new ReferencedQuestionsCollector(this).questions();
 		}
 
 		return referencedQuestions;

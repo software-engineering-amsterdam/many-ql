@@ -1,22 +1,22 @@
 package org.nlamah.QL.ViewControllers.Form.Abstract;
 
 import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public abstract class QuestionViewController extends FormElementViewController 
 {
-	public QuestionViewController(Question question) 
+	public QuestionViewController(FormQuestion question) 
 	{
 		super(question);
 	}
 	
 	public QBaseQuestionType questionReturnType()
 	{
-		return ((Question) modelElement).returnType();
+		return ((FormQuestion) modelElement).returnType();
 	}
 	
 	public String questionString()
 	{
-		return ((Question) modelElement).questionText().value();
+		return ((FormQuestion) modelElement).questionText().value();
 	}
 }

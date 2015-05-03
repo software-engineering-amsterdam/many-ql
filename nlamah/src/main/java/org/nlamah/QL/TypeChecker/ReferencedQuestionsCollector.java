@@ -3,7 +3,7 @@ package org.nlamah.QL.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -36,20 +36,20 @@ import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
-public class GatherReferencedQuestions implements QLNodeVisitor 
+public class ReferencedQuestionsCollector implements QLNodeVisitor 
 {
-	private List<IdentifierLiteral> referencedQuestions;
+	private List<IdentifierLiteral> questions;
 	
-	public GatherReferencedQuestions(Form form)
+	public ReferencedQuestionsCollector(Form form)
 	{
-		referencedQuestions = new ArrayList<IdentifierLiteral>();
+		questions = new ArrayList<IdentifierLiteral>();
 		
 		form.accept(this);
 	}
 	
-	public List<IdentifierLiteral> referencedQuestions()
+	public List<IdentifierLiteral> questions()
 	{
-		return this.referencedQuestions;
+		return this.questions;
 	}
 	
 	@Override
@@ -169,7 +169,7 @@ public class GatherReferencedQuestions implements QLNodeVisitor
 	@Override
 	public QLNode visit(IdentifierLiteral identifierLiteral) 
 	{
-		referencedQuestions.add(identifierLiteral);
+		questions.add(identifierLiteral);
 		
 		return null;
 	}
@@ -234,7 +234,7 @@ public class GatherReferencedQuestions implements QLNodeVisitor
 			conditionalBlock.ifThenBlock().accept(this);
 		}
 		
-		if (QLHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
+		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
 			{
@@ -290,7 +290,7 @@ public class GatherReferencedQuestions implements QLNodeVisitor
 	@Override
 	public QLNode visit(Form form) 
 	{
-		if (QLHelper.arrayExistsAndHasElements(form.childElements()))
+		if (QBaseHelper.arrayExistsAndHasElements(form.childElements()))
 		{
 			for (FormElement childElement : form.childElements())
 			{

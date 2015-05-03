@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseError;
+import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
@@ -57,7 +58,15 @@ public class QLSInterpreter implements ANTLRErrorListener
 		}
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-		qlsTypeChecker.check(form, stylesheet);
+		
+		try 
+		{
+			qlsTypeChecker.check(form, stylesheet);
+		} 
+		catch (QBaseException e) 
+		{
+			throw new QLSException(null, qlsTypeChecker.errors());
+		}
 
 		return stylesheet;
 	}

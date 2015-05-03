@@ -42,7 +42,7 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
@@ -117,7 +117,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		Expression expression = (Expression)ctx.expression().accept(this);
 
-		Question question = new ComputedQuestion(identifier, questionText, returnType, expression);
+		FormQuestion question = new ComputedQuestion(identifier, questionText, returnType, expression);
 
 		addSourceCodePosition(question, ctx);
 
@@ -133,7 +133,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
-		Question question = new BooleanQuestion(identifier, questionText);
+		FormQuestion question = new BooleanQuestion(identifier, questionText);
 
 		addSourceCodePosition(question, ctx);
 
@@ -149,7 +149,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
-		Question question = new NumberQuestion(identifier, questionText);
+		FormQuestion question = new NumberQuestion(identifier, questionText);
 
 		addSourceCodePosition(question, ctx);
 
@@ -165,7 +165,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		addSourceCodePosition(questionText, ctx);
 
-		Question question = new TextQuestion(identifier, questionText);
+		FormQuestion question = new TextQuestion(identifier, questionText);
 
 		addSourceCodePosition(question, ctx);
 

@@ -9,12 +9,12 @@ import org.nlamah.QBase.QBaseError;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Error.CyclicDependencyError;
-import org.nlamah.QL.Error.DoubleDeclarationError;
+import org.nlamah.QL.Error.QLDoubleDeclarationError;
 import org.nlamah.QL.Error.EqualQuestionLabelWarning;
 import org.nlamah.QL.Error.ExpressionTypeMismatchError;
 import org.nlamah.QL.Error.IdentifierTypeMismatchError;
 import org.nlamah.QL.Error.OutOfScopeDeclarationError;
-import org.nlamah.QL.Error.UndeclaredQuestionError;
+import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -22,7 +22,7 @@ import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
 public class QLFormErrorTest extends TestCase
@@ -42,7 +42,7 @@ public class QLFormErrorTest extends TestCase
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question1");
-			Question question = new ComputedQuestion(identifier1, new TextLiteral("test question"), QBaseQuestionType.BOOLEAN, identifier2);
+			FormQuestion question = new ComputedQuestion(identifier1, new TextLiteral("test question"), QBaseQuestionType.BOOLEAN, identifier2);
 			QBaseError error = new CyclicDependencyError(identifier1, question);
 			referenceErrors.add(error);
 
@@ -65,17 +65,17 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			List<Question> declaredQuestions = new ArrayList<Question>();
+			List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
-			Question question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
+			FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
 			declaredQuestions.add(question1);
 
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question1");
-			Question question2 = new BooleanQuestion(identifier2, new TextLiteral("test2"));
+			FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test2"));
 			declaredQuestions.add(question2);
 
-			QBaseError error = new DoubleDeclarationError(identifier1, declaredQuestions);
+			QBaseError error = new QLDoubleDeclarationError(identifier1, declaredQuestions);
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);
@@ -97,14 +97,14 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			List<Question> declaredQuestions = new ArrayList<Question>();
+			List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
-			Question question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
+			FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
 			declaredQuestions.add(question1);
 
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question2");
-			Question question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
+			FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
 			declaredQuestions.add(question2);
 
 			QBaseError error = new EqualQuestionLabelWarning(declaredQuestions);
@@ -197,7 +197,7 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			Question question = new NumberQuestion(new IdentifierLiteral("question2"), new TextLiteral("test2"));
+			FormQuestion question = new NumberQuestion(new IdentifierLiteral("question2"), new TextLiteral("test2"));
 			QBaseError error = new OutOfScopeDeclarationError(new IdentifierLiteral("question2"), question);
 			referenceErrors.add(error);
 
@@ -220,10 +220,10 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QBaseError error1 = new UndeclaredQuestionError(new IdentifierLiteral("question1"));
+			QBaseError error1 = new UndeclaredFormQuestionError(new IdentifierLiteral("question1"));
 			referenceErrors.add(error1);
 
-			QBaseError error2 = new UndeclaredQuestionError(new IdentifierLiteral("question2"));
+			QBaseError error2 = new UndeclaredFormQuestionError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error2);
 
 			assertEquals(typeChecker.errors(), referenceErrors);

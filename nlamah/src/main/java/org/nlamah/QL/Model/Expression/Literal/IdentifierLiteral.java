@@ -8,25 +8,31 @@ import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class IdentifierLiteral extends ValueExpression 
 {
-	private Question correspondingQuestion;
+	private FormQuestion correspondingQuestion;
 	
 	public IdentifierLiteral(String identifierValueString)
 	{	
 		super(identifierValueString, null);
 	}
 	
-	public Question correspondingQuestion()
+	public FormQuestion correspondingQuestion()
 	{
 		return correspondingQuestion;
 	}
 	
-	public void setCorrespondingQuestion(Question question)
+	public void setCorrespondingQuestion(FormQuestion question)
 	{
 		this.correspondingQuestion = question;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return valueString;
 	}
 	
 	@Override

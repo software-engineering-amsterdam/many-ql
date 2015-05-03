@@ -9,9 +9,9 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
-import org.nlamah.QL.Model.Form.Abstract.Question;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
-public class ComputedQuestion extends Question 
+public class ComputedQuestion extends FormQuestion 
 {
 	private Expression expression;
 	

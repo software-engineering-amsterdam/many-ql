@@ -1,4 +1,4 @@
-package org.nlamah.QLS;
+package org.nlamah.QLS.ViewController;
 
 public class RootFormViewControllerStyled implements Runnable
 {

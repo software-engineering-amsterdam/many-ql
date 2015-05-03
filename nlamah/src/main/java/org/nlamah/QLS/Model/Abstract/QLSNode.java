@@ -1,8 +1,9 @@
 package org.nlamah.QLS.Model.Abstract;
 
+import org.nlamah.QBase.QBaseNode;
 import org.nlamah.QLS.Interfaces.QLSVisitable;
 
-public abstract class QLSNode implements QLSVisitable
+public abstract class QLSNode extends QBaseNode implements QLSVisitable
 {
 	private QLSNode parentNode;
 	

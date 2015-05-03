@@ -5,7 +5,7 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
 
-public abstract class InputQuestion extends Question 
+public abstract class InputQuestion extends FormQuestion 
 {
 	public InputQuestion(IdentifierLiteral identifier, TextLiteral questionText, QBaseQuestionType type) 
 	{

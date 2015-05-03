@@ -24,6 +24,7 @@ stylesheet taxOfficeExample
         		question sellingPrice widget spinbox
         		question privateDebt widget spinbox 
         		question valueResidue
+        		question hasBoughtHouse widget checkbox 
         		default number 
         		{
 		        	width: 400

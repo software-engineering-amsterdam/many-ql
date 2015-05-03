@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
-import org.nlamah.QBase.Error.FontRecognitionError;
 import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSParser;
@@ -20,6 +19,7 @@ import org.nlamah.QLS.QLSParser.PageContext;
 import org.nlamah.QLS.QLSParser.QuestionDeclarationContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
+import org.nlamah.QLS.Error.FontRecognitionError;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
@@ -27,7 +27,7 @@ import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.QuestionDeclaration;
+import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
@@ -142,11 +142,11 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			sections.add(section);
 		}
 
-		List<QuestionDeclaration> questionDeclarations = new ArrayList<QuestionDeclaration>();
+		List<StyledQuestion> questionDeclarations = new ArrayList<StyledQuestion>();
 
 		for (QuestionDeclarationContext contextualQuestionDeclaration : ctx.questionDeclaration())
 		{
-			QuestionDeclaration questionDeclaration = (QuestionDeclaration) contextualQuestionDeclaration.accept(this);
+			StyledQuestion questionDeclaration = (StyledQuestion) contextualQuestionDeclaration.accept(this);
 			questionDeclarations.add(questionDeclaration);
 		}
 
@@ -177,7 +177,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
 		}
 
-		QuestionDeclaration questionDeclaration = new QuestionDeclaration(identifier, widgetDeclaration);
+		StyledQuestion questionDeclaration = new StyledQuestion(identifier, widgetDeclaration);
 
 		addSourceCodePosition(questionDeclaration, ctx);
 
@@ -260,9 +260,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitFontDeclaration(QLSParser.FontDeclarationContext ctx) 
 	{ 
-		String fontValueString = ctx.Text().getText();
+		String fontValueString = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
 
-		Font font = Font.getFont(fontValueString);
+		Font font = Font.decode(fontValueString);
 
 		if (font == null)
 		{
