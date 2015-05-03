@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
@@ -43,7 +44,6 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 			throw new QBaseException(warnings, errors);
 		}
 	}
-
 	
 	public List<QBaseError> errors()
 	{
@@ -55,7 +55,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 		return warnings;
 	}
 
-	private void checkValidityQuestionDeclarations(Form form)
+	private void checkValidityQuestionDeclarations(Form form) throws QBaseException
 	{
 		questionsAreNotDeclaredMoreThanOnce(form);
 
@@ -86,12 +86,11 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 		}
 
 		return true;
-
 	}
 
 	private boolean questionsAreNotDeclaredMoreThanOnce(Form form)
-	{
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions());
+	{	
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER);
 		
 		if (set.size() > 0)
 		{
@@ -158,15 +157,10 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 			errors.addAll(expressionChecker.errors());
 		}
 	}
-
+	
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		for (FormQuestion formQuestion : form.questions())
-		{
-			formQuestion.compareOnlyQuestionText = true;
-		}
-		
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions());
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT);
 		
 		if (set.size() > 0)
 		{
@@ -174,11 +168,6 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 			{
 				warnings.add(new DoubleQuestionLabelWarning(QLHelper.getQuestionsWithQuestionText(form.questions(), question.questionText())));
 			}
-		}
-		
-		for (FormQuestion formQuestion : form.questions())
-		{
-			formQuestion.compareOnlyQuestionText = false;
 		}
 	}
 }

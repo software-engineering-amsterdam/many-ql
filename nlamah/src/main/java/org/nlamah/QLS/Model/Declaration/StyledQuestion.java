@@ -1,11 +1,17 @@
 package org.nlamah.QLS.Model.Declaration;
 
+import java.util.Stack;
+
+import org.nlamah.QBase.EqualityStating;
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class StyledQuestion extends QLSNode
+public class StyledQuestion extends QLSNode implements EqualityStating
 {
+	public Stack<QBaseEqualityState> equalityStateStack;
+	
 	private IdentifierValue identifier;
 	private WidgetDeclaration widgetDeclaration;
 	
@@ -15,6 +21,9 @@ public class StyledQuestion extends QLSNode
 		
 		this.identifier = identifier;
 		this.widgetDeclaration = widgetDeclaration;
+		
+		equalityStateStack = new Stack<QBaseEqualityState>();
+		equalityStateStack.push(QBaseEqualityState.ALL);
 		
 		if (widgetDeclaration != null)
 		{
@@ -41,28 +50,52 @@ public class StyledQuestion extends QLSNode
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!(object instanceof StyledQuestion))
+		switch (equalityStateStack.peek())
 		{
-			return false;
+		case IDENTIFIER:
+		{
+			if (!(object instanceof StyledQuestion))
+			{
+				return false;
+			}
+			
+			StyledQuestion value = (StyledQuestion) object;
+			
+			if (!this.identifier.equals(value.identifier))
+			{
+				return false;
+			}
+			
+			break;
+		}
+		default:
+		{
+			if (!(object instanceof StyledQuestion))
+			{
+				return false;
+			}
+			
+			StyledQuestion value = (StyledQuestion) object;
+			
+			if (!this.identifier.equals(value.identifier))
+			{
+				return false;
+			}
+			
+			if (widgetDeclaration == null && value.widgetDeclaration == null)
+			{
+				return true;
+			}
+			
+			if (!widgetDeclaration.equals(value.widgetDeclaration))
+			{
+				return false;
+			}
+			
+			break;
+		}
 		}
 		
-		StyledQuestion value = (StyledQuestion) object;
-		
-		if (!this.identifier.equals(value.identifier))
-		{
-			return false;
-		}
-		
-		if (widgetDeclaration == null && value.widgetDeclaration == null)
-		{
-			return true;
-		}
-		
-		if (!widgetDeclaration.equals(value.widgetDeclaration))
-		{
-			return false;
-		}
-
 		return true;
 	}
 	
@@ -70,5 +103,17 @@ public class StyledQuestion extends QLSNode
 	public int hashCode() 
 	{
 		return identifier.toString().hashCode();
+	}
+
+	@Override
+	public void push(QBaseEqualityState state) 
+	{
+		equalityStateStack.push(state);
+	}
+
+	@Override
+	public QBaseEqualityState popState() 
+	{
+		return equalityStateStack.pop();
 	}
 }

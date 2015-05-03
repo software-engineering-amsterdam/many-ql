@@ -39,6 +39,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -62,6 +64,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -95,6 +99,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -127,6 +133,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -159,6 +167,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -197,6 +207,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -223,7 +235,7 @@ public class QLFormErrorTest extends TestCase
 	public void testEqualTextLabel() 
 	{
 		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleQuestionText");
-
+		
 		QLTypeChecker typeChecker = new QLTypeChecker();
 
 		try 
@@ -262,6 +274,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -284,6 +298,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -308,6 +324,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -330,6 +348,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{
@@ -353,6 +373,8 @@ public class QLFormErrorTest extends TestCase
 		try 
 		{
 			typeChecker.check(parsedForm);
+			
+			assertTrue(false);
 		} 
 		catch (QBaseException e) 
 		{

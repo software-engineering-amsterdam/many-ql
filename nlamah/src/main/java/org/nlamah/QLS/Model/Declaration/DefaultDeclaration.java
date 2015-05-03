@@ -1,15 +1,18 @@
 package org.nlamah.QLS.Model.Declaration;
 
 import java.util.List;
+import java.util.Stack;
 
+import org.nlamah.QBase.EqualityStating;
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
-public class DefaultDeclaration extends QLSNode
+public class DefaultDeclaration extends QLSNode implements EqualityStating
 {
-	public boolean checkForTypeEquality;
+	public Stack<QBaseEqualityState> equalityStateStack;
 	
 	private QBaseQuestionType questionType;
 	private List<StyleDeclaration> styleDeclarations;
@@ -19,8 +22,10 @@ public class DefaultDeclaration extends QLSNode
 		super();
 		
 		this.questionType = questionType;
-		
 		this.styleDeclarations = styleDeclarations;
+		
+		equalityStateStack = new Stack<QBaseEqualityState>();
+		equalityStateStack.push(QBaseEqualityState.ALL);
 		
 		for (StyleDeclaration styleDeclaration : styleDeclarations)
 		{
@@ -54,7 +59,10 @@ public class DefaultDeclaration extends QLSNode
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (checkForTypeEquality)
+		
+		switch(equalityStateStack.peek())
+		{
+		case TYPE:
 		{
 			if (!(object instanceof DefaultDeclaration))
 			{
@@ -67,10 +75,10 @@ public class DefaultDeclaration extends QLSNode
 			{
 				return false;
 			}
-
-			return true;
+			
+			break;
 		}
-		else
+		default:
 		{
 			if (!(object instanceof DefaultDeclaration))
 			{
@@ -88,14 +96,29 @@ public class DefaultDeclaration extends QLSNode
 			{
 				return false;
 			}
-
-			return true;
+			
+			break;
 		}
+		}
+		
+		return true;
 	}
 	
 	@Override
 	public int hashCode()
 	{
 		return questionType.toString().hashCode();
+	}
+
+	@Override
+	public void push(QBaseEqualityState state) 
+	{
+		equalityStateStack.push(state);
+	}
+
+	@Override
+	public QBaseEqualityState popState() 
+	{
+		return equalityStateStack.pop();
 	}
 }

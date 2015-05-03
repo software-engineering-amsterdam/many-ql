@@ -72,6 +72,8 @@ public class QLStylesheetErrorTest extends TestCase
 		try
 		{
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			
+			assertTrue(false);
 		}
 		catch (QBaseException e)
 		{
@@ -116,6 +118,8 @@ public class QLStylesheetErrorTest extends TestCase
 		try
 		{
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			
+			assertTrue(false);
 		}
 		catch (QBaseException e)
 		{
@@ -150,6 +154,8 @@ public class QLStylesheetErrorTest extends TestCase
 		try
 		{
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			
+			assertTrue(false);
 		}
 		catch (QBaseException e)
 		{
@@ -188,6 +194,8 @@ public class QLStylesheetErrorTest extends TestCase
 		try
 		{
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			
+			assertTrue(false);
 		}
 		catch (QBaseException e)
 		{

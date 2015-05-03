@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.Error.DoubleDefaultDeclarationError;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
@@ -38,10 +39,8 @@ public class DoubleDefaultDeclarationChecker extends QBaseAbstractTypeChecker im
 	}
 	
 	private void gatherErrors(List<DefaultDeclaration> defaultDeclarations)
-	{
-		setCheckForTypeEqualityProperty(defaultDeclarations, true);
-		
-		Set<DefaultDeclaration> set = QBaseHelper.getSetWithDuplicatedObjects(defaultDeclarations);
+	{		
+		Set<DefaultDeclaration> set = QBaseHelper.getSetWithDuplicatedObjects(defaultDeclarations, QBaseEqualityState.TYPE);
 		
 		if (set.size() > 0)
 		{
@@ -52,8 +51,6 @@ public class DoubleDefaultDeclarationChecker extends QBaseAbstractTypeChecker im
 				errors.add(new DoubleDefaultDeclarationError(new ArrayList<DefaultDeclaration>(defaultDeclarationsWithSameType)));
 			}
 		}
-		
-		setCheckForTypeEqualityProperty(defaultDeclarations, false);
 	}
 	
 	private List<DefaultDeclaration> defaultDeclarationsWithSameType(List<DefaultDeclaration> defaultDeclarations, DefaultDeclaration referenceDeclaration)
@@ -69,14 +66,6 @@ public class DoubleDefaultDeclarationChecker extends QBaseAbstractTypeChecker im
 		}
 		
 		return returnList;
-	}
-	
-	private void setCheckForTypeEqualityProperty(List<DefaultDeclaration> defaultDeclarations, boolean typeEquality)
-	{
-		for (DefaultDeclaration defaultDeclaration : defaultDeclarations)
-		{
-			defaultDeclaration.checkForTypeEquality = typeEquality;
-		}
 	}
 
 	@Override

@@ -43,8 +43,17 @@ public class QBaseHelper
 		return List != null && List.size() > 0;
 	}
 	
-	static public <T> Set<T> getSetWithDuplicatedObjects(List<T> questions)
+	static public <T> Set<T> getSetWithDuplicatedObjects(List<T> questions, QBaseEqualityState state)
 	{
+		for (T question : questions)
+		{
+			if(EqualityStating.class.isAssignableFrom(question.getClass()))
+			{
+				((EqualityStating) question).push(state);
+			}
+		}
+		
+		
 		final Set<T> setToReturn = new HashSet<T>();
 		final Set<T> set = new HashSet<T>();
 	
@@ -53,6 +62,14 @@ public class QBaseHelper
 			if (!set.add(node)) 
 			{
 				setToReturn.add(node);
+			}
+		}
+		
+		for (T question : questions)
+		{
+			if(EqualityStating.class.isAssignableFrom(question.getClass()))
+			{
+				((EqualityStating) question).popState();
 			}
 		}
 		

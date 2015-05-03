@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
@@ -40,8 +41,6 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		
 	}
 	
-	
-
 	public List<QBaseError> errors()
 	{
 		return errors;
@@ -75,7 +74,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions);
+		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions, QBaseEqualityState.IDENTIFIER);
 		
 		if (set.size() > 0)
 		{

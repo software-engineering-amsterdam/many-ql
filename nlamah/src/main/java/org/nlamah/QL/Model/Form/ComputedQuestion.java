@@ -1,5 +1,6 @@
 package org.nlamah.QL.Model.Form;
 
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -39,11 +40,50 @@ public class ComputedQuestion extends FormQuestion
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (!super.equals(object))
+		switch (equalityStateStack.peek())
 		{
-			return false;
+		case IDENTIFIER:
+		{
+			if (!super.equals(object))
+			{
+				return false;
+			}
+			
+			break;
 		}
 
+		case QUESTIONTEXT:
+		{
+			if (!super.equals(object))
+			{
+				return false;
+			}
+			
+			break;
+		}
+		default:
+		{
+			if (!super.equals(object))
+			 {
+				 return false;
+			 }
+			 
+			 if (!(object instanceof ComputedQuestion))
+			 {
+				 return false;
+			 }
+			 
+			 ComputedQuestion value = (ComputedQuestion)object;
+			 
+			 if (!(this.expression.equals(value.expression)))
+			 {
+				 return false;
+			 }
+			 
+			break;
+		}
+		}
+		
 		return true;
 	}
 
@@ -57,5 +97,18 @@ public class ComputedQuestion extends FormQuestion
 	public void accept(QLFormElementVisitor visitor) 
 	{
 		visitor.visit(this);	
+	}
+	
+	@Override
+	public void push(QBaseEqualityState state) 
+	{
+		equalityStateStack.push(state);
+		
+	}
+
+	@Override
+	public QBaseEqualityState popState() 
+	{
+		return equalityStateStack.pop();
 	}
 }

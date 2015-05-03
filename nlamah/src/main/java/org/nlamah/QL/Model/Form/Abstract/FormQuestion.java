@@ -1,15 +1,19 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
+import java.util.Stack;
+
+import org.nlamah.QBase.EqualityStating;
+import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
-public abstract class FormQuestion extends FormElement
+public abstract class FormQuestion extends FormElement implements EqualityStating
 {
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
 
-	public boolean compareOnlyQuestionText;
+	protected Stack<QBaseEqualityState> equalityStateStack;
 
 	public FormQuestion(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
 	{
@@ -17,6 +21,9 @@ public abstract class FormQuestion extends FormElement
 
 		this.questionText = questionString;
 		this.type = type;
+		
+		equalityStateStack = new Stack<QBaseEqualityState>();
+		equalityStateStack.push(QBaseEqualityState.ALL);
 
 		if (identifier != null)
 		{
@@ -42,10 +49,22 @@ public abstract class FormQuestion extends FormElement
 	@Override 
 	public boolean equals(Object object) 
 	{
-		if (compareOnlyQuestionText)
+		switch (equalityStateStack.peek())
+		{
+		case IDENTIFIER:
+		{
+			if (!super.equals(object))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		case QUESTIONTEXT:
 		{
 			FormQuestion value = (FormQuestion) object;
-			
+
 			if ((this.questionText.equals(value.questionText)))
 			{
 				return true;
@@ -53,7 +72,7 @@ public abstract class FormQuestion extends FormElement
 
 			return false;
 		}
-		else
+		default:
 		{
 			if (!super.equals(object))
 			{
@@ -65,16 +84,34 @@ public abstract class FormQuestion extends FormElement
 				return false;
 			}
 
+			FormQuestion value = (FormQuestion) object;
+
+			if (!(this.questionText.equals(value.questionText)))
+			{
+				return false;
+			}
+
+			if (!(this.type.equals(value.type)))
+			{
+				return false;
+			}
+
 			return true;
+		}
 		}
 	}
 
 	@Override
 	public int hashCode()
 	{
-		if (compareOnlyQuestionText)
+		switch (equalityStateStack.peek())
+		{
+		case QUESTIONTEXT:
 		{
 			return questionText.toString().hashCode();
+		}
+		default:
+			break;
 		}
 
 		return identifier().toString().hashCode();
