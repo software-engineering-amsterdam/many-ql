@@ -1,4 +1,4 @@
-package org.nlamah.QLS.TypeChecker;
+package org.nlamah.QLS.Builders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,10 @@ import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
-import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
-import org.nlamah.QLS.Model.Value.FontValue;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.ColorValue;
+import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
@@ -24,36 +24,28 @@ import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
-public class StyledQuestionsCollector implements QLSNodeVisitor
-{
-	private List<StyledQuestion> questions;
+public class SectionsCollector implements QLSNodeVisitor 
+{	
+	List<Section> sections;
 	
-	public StyledQuestionsCollector()
+	public SectionsCollector() 
 	{
 		super();
 	}
 	
-	public List<StyledQuestion> questionsForStylesheet(Stylesheet stylesheet)
+	public List<Section> sectionsForPage(Page page)
 	{
-		questions = new ArrayList<StyledQuestion>();
+		sections = new ArrayList<Section>();
 		
-		stylesheet.accept(this);
+		page.accept(this);
 		
-		return questions;
+		return sections;
 	}
-	
-	public List<StyledQuestion> questionsForSection(Section section)
-	{
-		questions = new ArrayList<StyledQuestion>();
-		
-		section.accept(this);
-		
-		return questions;
-	}
-	
+
 	@Override
 	public QLSNode visit(Stylesheet stylesheet) 
 	{
+		
 		for (Page page : stylesheet.pages())
 		{
 			page.accept(this);
@@ -67,6 +59,8 @@ public class StyledQuestionsCollector implements QLSNodeVisitor
 	{
 		for (Section section : page.sections())
 		{
+			sections.add(section);
+			
 			section.accept(this);
 		}
 		
@@ -76,13 +70,10 @@ public class StyledQuestionsCollector implements QLSNodeVisitor
 	@Override
 	public QLSNode visit(Section sectionDeclaration) 
 	{
-		for (StyledQuestion questionDeclaration : sectionDeclaration.questionDeclarations())
+		for (Section section :sectionDeclaration.sections())
 		{
-			questions.add(questionDeclaration);
-		}
-		
-		for (Section section : sectionDeclaration.sections())
-		{
+			sections.add(section);
+			
 			section.accept(this);
 		}
 		
@@ -92,90 +83,105 @@ public class StyledQuestionsCollector implements QLSNodeVisitor
 	@Override
 	public QLSNode visit(WidgetDeclaration widgetDeclaration) 
 	{
+		assert(false);;
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(StyledQuestion questionDeclaration) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(DefaultDeclaration defaultDeclaration) 
-	{	
+	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(CheckBoxWidgetType checkBoxWidgetType) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(RadioButtonWidgetType radioButtonWidgetType) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(SpinBoxWidgetType spinBoxWidgetType) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(TextValue textValue) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(ColorValue hexNumberValue) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(IdentifierValue identifierValue) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(NumberValue numberValue) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(FontValue fontValue) 
 	{
+		assert(false);
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(ColorDeclaration colorDeclaration) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(FontDeclaration fontDeclaration) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration) 
 	{
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(WidthDeclaration widthDeclaration) 
 	{
+		assert(false);
 		return null;
 	}
 }

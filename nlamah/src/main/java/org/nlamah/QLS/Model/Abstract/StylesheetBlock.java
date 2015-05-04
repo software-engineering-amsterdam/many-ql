@@ -24,6 +24,11 @@ public abstract class StylesheetBlock extends QLSNode
 		}
 	}
 	
+	public String title()
+	{
+		return title.toString();
+	}
+	
 	public List<DefaultDeclaration> defaultDeclarations()
 	{
 		return defaultDeclarations;

@@ -5,21 +5,21 @@ import java.util.List;
 
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
-import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
-import org.nlamah.QL.Views.Form.ElseThenBlockView;
-import org.nlamah.QL.Views.Form.IfThenBlockView;
-import org.nlamah.QL.Views.Form.ElseIfThenBlockView;
-import org.nlamah.QL.Views.Form.Abstract.FormElementView;
+import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
+import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
+import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
+import org.nlamah.QL.View.Controllers.FormRootViewController;
+import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
+import org.nlamah.QL.View.Controllers.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
+import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
+import org.nlamah.QL.View.Form.ElseIfThenBlockView;
+import org.nlamah.QL.View.Form.ElseThenBlockView;
+import org.nlamah.QL.View.Form.IfThenBlockView;
+import org.nlamah.QL.View.Form.Abstract.FormElementView;
 
 public class QLViewsFactory implements QLFormElementViewControllerVisitor 
 {
@@ -43,6 +43,13 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 		}
 		
 		return childViews;
+	}
+	
+	public FormElementView gatherViewForFormViewController(FormElementViewController formViewController)
+	{
+		formViewController.accept(this);
+		
+		return currentlyCreatedView;
 	}
 	
 	private void gatherAndAddChildViews(DeclaringFormElementViewController viewController)

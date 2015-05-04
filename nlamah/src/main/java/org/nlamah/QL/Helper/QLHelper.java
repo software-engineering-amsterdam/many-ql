@@ -101,6 +101,11 @@ public class QLHelper
 	{
 		return 30;
 	}
+	
+	static public int navigationViewWidth()
+	{
+		return 225;
+	}
 }
 
 

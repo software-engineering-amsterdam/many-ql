@@ -2,7 +2,7 @@ package org.nlamah.QLS.Builders;
 
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.ViewController.RootFormViewControllerStyled;
+import org.nlamah.QLS.View.Controllers.RootFormViewControllerStyled;
 
 public class QLStylesheetAdapter 
 {

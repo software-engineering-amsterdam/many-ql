@@ -57,6 +57,4 @@ public class Page extends StylesheetBlock
 
 		return true;
 	}
-
-	
 }

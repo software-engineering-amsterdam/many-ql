@@ -1,6 +1,6 @@
 stylesheet test
 {
-	page test
+	page test1
 	{
 		section "section1"
 		{
@@ -15,7 +15,7 @@ stylesheet test
 	
 	default number widget spinbox
 	
-	page test
+	page test2
 	{
 		section "section2"
 		{

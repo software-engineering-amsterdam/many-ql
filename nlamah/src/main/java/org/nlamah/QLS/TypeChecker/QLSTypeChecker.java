@@ -15,9 +15,9 @@ import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
+import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.QLSHelper.QLSHelper;
 
 public class QLSTypeChecker extends QBaseAbstractTypeChecker
 {		
@@ -26,7 +26,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		
 	public void check(Form form, Stylesheet stylesheet) throws QBaseException
 	{		
-		styledQuestions = new StyledQuestionsCollector(stylesheet).questions();
+		styledQuestions = new StyledQuestionsCollector().questionsForStylesheet(stylesheet);
 		formQuestions = new FormQuestionsCollector(form).questions();
 		
 		areAllFormQuestionsStyled();

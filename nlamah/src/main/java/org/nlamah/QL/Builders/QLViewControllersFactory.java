@@ -16,17 +16,17 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.DeclaringFormElementViewController;
-import org.nlamah.QL.ViewControllers.Form.Abstract.FormElementViewController;
+import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
+import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
+import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
+import org.nlamah.QL.View.Controllers.FormRootViewController;
+import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
+import org.nlamah.QL.View.Controllers.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
+import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
@@ -57,6 +57,13 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		}
 		
 		return childViewControllers;
+	}
+	
+	public FormElementViewController createFormElementViewController(FormElement formElement)
+	{
+		formElement.accept(this);
+		
+		return currentlyCreatedViewController;
 	}
 	
 	private void createAndAddChildViewControllers(DeclaringFormElementViewController viewController, DeclaringFormElement formElement)

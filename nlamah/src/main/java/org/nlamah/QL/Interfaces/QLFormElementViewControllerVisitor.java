@@ -1,14 +1,14 @@
 package org.nlamah.QL.Interfaces;
 
-import org.nlamah.QL.ViewControllers.Form.BooleanQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ComputedQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.ConditionalBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseIfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.ElseThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
-import org.nlamah.QL.ViewControllers.Form.IfThenBlockViewController;
-import org.nlamah.QL.ViewControllers.Form.NumberQuestionViewController;
-import org.nlamah.QL.ViewControllers.Form.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
+import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
+import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
+import org.nlamah.QL.View.Controllers.FormRootViewController;
+import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
+import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
+import org.nlamah.QL.View.Controllers.TextQuestionViewController;
 
 public interface QLFormElementViewControllerVisitor 
 {
