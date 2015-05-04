@@ -2,12 +2,20 @@ stylesheet test
 {
 	page test
 	{
+		section "section1"
+		{
+			question question1
+		}
 	}
 	
 	default number widget spinbox
 	
 	page test
 	{
+		section "section2"
+		{
+			question question2
+		}
 	}
 	
 	default text widget radio("yes", "no")

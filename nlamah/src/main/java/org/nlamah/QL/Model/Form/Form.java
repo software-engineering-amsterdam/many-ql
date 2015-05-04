@@ -27,7 +27,7 @@ public class Form extends DeclaringFormElement
 		this.title = title;
 	}
 
-	public String getTitle()
+	public String title()
 	{
 		return this.title;
 	}

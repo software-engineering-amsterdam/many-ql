@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 
 import org.nlamah.QBase.QBaseErrorViewController;
 import org.nlamah.QBase.QBaseException;
+import org.nlamah.QL.Builders.QLFormFragmentiser;
 import org.nlamah.QL.Builders.QLInterpreter;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.QLSInterpreter;
@@ -25,6 +26,8 @@ public class QLS
 			Stylesheet stylesheet = null;
 	
 			form = qlInterpreter.interprete(qlSourceCodePath);
+			
+			form = new QLFormFragmentiser(form).form();
 			
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
 			
