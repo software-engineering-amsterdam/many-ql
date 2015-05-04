@@ -2,7 +2,7 @@ grammar QLS;
 
 stylesheet: 'stylesheet' Identifier  '{' (page | defaultDeclaration)* '}' ;
 
-page: 'page' Identifier '{' (section| defaultDeclaration)* '}' ;
+page: 'page' Identifier '{' (section | defaultDeclaration)* '}' ;
 
 section : 'section' Text '{' (section | questionDeclaration | defaultDeclaration)* '}' ;
 pageDefaultDeclaration : 'default' QuestionType widgetType ;

@@ -21,12 +21,12 @@ import org.nlamah.QL.Views.Form.Abstract.FormElementView;
 
 public class FormRootViewController extends DeclaringFormElementViewController implements Runnable
 {
-	private final static int FRAME_WIDTH = 900;
+	private final static int FRAME_WIDTH = 1000;
 	private final static int FRAME_HEIGHT = 600;
 	
 	private JFrame frame;
-	private NavigationView navigationView;
-	private ContentView contentView;
+	protected NavigationView navigationView;
+	protected ContentView contentView;
 	
 	public FormRootViewController(Form form)
 	{
@@ -49,7 +49,7 @@ public class FormRootViewController extends DeclaringFormElementViewController i
 		showForm();
 	}
 	
-	private void showForm()
+	protected void showForm()
 	{
 		frame.setVisible(true);
 	}

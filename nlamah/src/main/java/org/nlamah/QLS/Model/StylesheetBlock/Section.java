@@ -13,8 +13,9 @@ public class Section extends StylesheetBlock
 {
 	private List<StyledQuestion> questionDeclarations;
 	private List<Section> sections;
+	private int depthLevel;
 	
-	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
+	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations, int depthLevel) 
 	{
 		super(titleValue, defaultDeclarations);
 	
@@ -22,10 +23,17 @@ public class Section extends StylesheetBlock
 		
 		this.sections = sections;
 		
+		this.depthLevel = depthLevel;
+		
 		for (Section section : sections)
 		{
 			section.setParentNode(this);
 		}
+	}
+	
+	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
+	{
+		this(titleValue, sections, questionDeclarations, defaultDeclarations, -1);
 	}
 	
 	public List<StyledQuestion> questionDeclarations()
@@ -36,6 +44,11 @@ public class Section extends StylesheetBlock
 	public List<Section> sections()
 	{
 		return sections;
+	}
+	
+	public int depthLevel()
+	{
+		return depthLevel;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.QLSInterpreter;
 import org.nlamah.QLS.Builders.QLStylesheetAdapter;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
+import org.nlamah.QLS.ViewController.RootFormViewControllerStyled;
 
 public class QLS 
 {
@@ -36,8 +37,7 @@ public class QLS
 			QLStylesheetAdapter adapter = new QLStylesheetAdapter();
 			adapter.adapt(form, stylesheet);
 			
-//			RootFormViewControllerStyled rootViewController = null;
-//			SwingUtilities.invokeLater();
+			SwingUtilities.invokeLater(new RootFormViewControllerStyled(form, stylesheet));
 		}
 		catch(QBaseException exception)
 		{	

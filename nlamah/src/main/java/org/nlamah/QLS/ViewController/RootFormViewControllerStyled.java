@@ -1,18 +1,19 @@
 package org.nlamah.QLS.ViewController;
 
-public class RootFormViewControllerStyled implements Runnable
-{
+import org.nlamah.QL.Model.Form.Form;
+import org.nlamah.QL.ViewControllers.Form.FormRootViewController;
+import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
-	public RootFormViewControllerStyled() 
+public class RootFormViewControllerStyled extends FormRootViewController
+{
+	public RootFormViewControllerStyled(Form form, Stylesheet stylesheet) 
 	{
-		// TODO Auto-generated constructor stub
+		super(form);
 	}
 
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
-		
+		showForm();
 	}
-
 }

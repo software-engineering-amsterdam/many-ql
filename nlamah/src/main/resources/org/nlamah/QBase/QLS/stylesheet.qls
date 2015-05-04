@@ -6,6 +6,11 @@ stylesheet test
 		{
 			question question1
 		}
+		
+		section "section5"
+		{
+			question question5
+		}
 	}
 	
 	default number widget spinbox
@@ -15,6 +20,22 @@ stylesheet test
 		section "section2"
 		{
 			question question2
+			section "section 3"
+			{
+				question question3
+				
+				section "section 4"
+				{
+					question question4
+				
+				}
+				
+			}
+		}
+		
+		section "section6"
+		{
+			question question6
 		}
 	}
 	
