@@ -3,7 +3,6 @@ package org.nlamah.QL.Builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
 import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
@@ -21,114 +20,104 @@ import org.nlamah.QL.View.Form.ElseThenBlockView;
 import org.nlamah.QL.View.Form.IfThenBlockView;
 import org.nlamah.QL.View.Form.Abstract.FormElementView;
 
-public class QLViewsFactory implements QLFormElementViewControllerVisitor 
+public class QLViewFactory implements QLFormElementViewControllerVisitor 
 {
 	private FormElementView currentlyCreatedView;
 
 	public List<FormElementView> gatherChildViews(DeclaringFormElementViewController declaringFormElementViewController)
 	{
 		List<FormElementViewController> childViewControllers = declaringFormElementViewController.childViewControllers();
-		List<FormElementView> childViews = null;
-		
-		if (QBaseHelper.arrayExistsAndHasElements(childViewControllers))
+		List<FormElementView> childViews = new ArrayList<FormElementView>();
+
+		for (FormElementViewController childViewController : childViewControllers)
 		{
-			childViews = new ArrayList<FormElementView>(childViewControllers.size());
-			
-			for (FormElementViewController childViewController : childViewControllers)
-			{
-				childViewController.accept(this);
-				
-				childViews.add(currentlyCreatedView);
-			}
+			childViewController.accept(this);
+
+			childViews.add(currentlyCreatedView);
 		}
-		
+
 		return childViews;
 	}
-	
+
 	public FormElementView gatherViewForFormViewController(FormElementViewController formViewController)
 	{
 		formViewController.accept(this);
-		
+
 		return currentlyCreatedView;
 	}
-	
+
 	private void gatherAndAddChildViews(DeclaringFormElementViewController viewController)
 	{
 		FormElementView view = viewController.view();
-		
+
 		viewController.setChildViews(gatherChildViews(viewController));
-		
-		if (QBaseHelper.arrayExistsAndHasElements(viewController.childViews()))
+
+		for (FormElementView childView : viewController.childViews())
 		{
-			for (FormElementView childView : viewController.childViews())
-			{
-				view.add(childView);
-			}
+			view.add(childView);
 		}
-		
+
 		currentlyCreatedView = view;
 	}
-	
+
 	private ConditionalBlockViewController addIfThenBlockView (ConditionalBlockViewController conditionalBlockViewController)
 	{
 		FormElementView conditionalBlockView = conditionalBlockViewController.view();
-		
+
 		IfThenBlockViewController ifThenBlockViewController = conditionalBlockViewController.ifThenBlockViewController();
-		
-		if (ifThenBlockViewController != null)
-		{
-			ifThenBlockViewController.accept(this);
-			conditionalBlockViewController.setIfThenBlockView((IfThenBlockView) currentlyCreatedView);	
-			conditionalBlockView.add(currentlyCreatedView);
-		}
-		
+
+		ifThenBlockViewController.accept(this);
+
+		conditionalBlockViewController.setIfThenBlockView((IfThenBlockView) currentlyCreatedView);	
+		conditionalBlockView.add(currentlyCreatedView);
+
+
 		return conditionalBlockViewController;
 	}
-	
+
 	private ConditionalBlockViewController addElseIfThenBlockViews(ConditionalBlockViewController conditionalBlockViewController)
 	{
 		FormElementView conditionalBlockView = conditionalBlockViewController.view();
-		
+
+		assert(conditionalBlockView != null);
+
 		List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = conditionalBlockViewController.elseIfThenBlockViewControllers();
-		List<ElseIfThenBlockView> elseIfThenBlockViews = null;
-		
-		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlockViewControllers))
+		List<ElseIfThenBlockView> elseIfThenBlockViews = new ArrayList<ElseIfThenBlockView>();
+
+		for (ElseIfThenBlockViewController elseIfThenBlockViewController : elseIfThenBlockViewControllers)
 		{
-			elseIfThenBlockViews = new ArrayList<ElseIfThenBlockView>(elseIfThenBlockViewControllers.size());
-			
-			for (ElseIfThenBlockViewController elseIfThenBlockViewController : elseIfThenBlockViewControllers)
-			{
-				elseIfThenBlockViewController.accept(this);
-				elseIfThenBlockViews.add((ElseIfThenBlockView) currentlyCreatedView);
-				conditionalBlockView.add(currentlyCreatedView);
-			}
+			elseIfThenBlockViewController.accept(this);
+
+			elseIfThenBlockViews.add((ElseIfThenBlockView) currentlyCreatedView);
+
+			conditionalBlockView.add(currentlyCreatedView);
 		}
-		
+
 		conditionalBlockViewController.setElseIfThenBlockViews(elseIfThenBlockViews);
-		
+
 		return conditionalBlockViewController;
 	}
-	
+
 	private ConditionalBlockViewController addElseThenBlockView(ConditionalBlockViewController conditionalBlockViewController)
 	{
 		FormElementView conditionalBlockView = conditionalBlockViewController.view();
-		
+
 		ElseThenBlockViewController elseThenBlockViewController = conditionalBlockViewController.elseThenBlockViewController();
-		
-		if (elseThenBlockViewController != null)
-		{
-			elseThenBlockViewController.accept(this);
-			conditionalBlockViewController.setElseThenBlockView((ElseThenBlockView) currentlyCreatedView);
-			conditionalBlockView.add(currentlyCreatedView);
-		}
-		
+
+		assert(elseThenBlockViewController != null);
+
+		elseThenBlockViewController.accept(this);
+
+		conditionalBlockViewController.setElseThenBlockView((ElseThenBlockView) currentlyCreatedView);
+		conditionalBlockView.add(currentlyCreatedView);
+
 		return conditionalBlockViewController;
 	}
-	
+
 	@Override
 	public void visit(FormRootViewController FormRootViewController) 
 	{
-		assert false;
+		assert(false);
 	}
 
 	@Override
@@ -163,25 +152,25 @@ public class QLViewsFactory implements QLFormElementViewControllerVisitor
 
 	@Override
 	public void visit(ElseThenBlockViewController elseThenBlockViewController) 
-	{
+	{	
 		gatherAndAddChildViews(elseThenBlockViewController);
 	}
 
 	@Override
 	public void visit(IfThenBlockViewController ifThenBlockViewController) 
-	{
+	{	
 		gatherAndAddChildViews(ifThenBlockViewController);
 	}
 
 	@Override
 	public void visit(ConditionalBlockViewController conditionalBlockViewController) 
-	{
+	{	
 		conditionalBlockViewController = addIfThenBlockView(conditionalBlockViewController);
-		
+
 		conditionalBlockViewController = addElseIfThenBlockViews(conditionalBlockViewController);
-		
+
 		conditionalBlockViewController = addElseThenBlockView(conditionalBlockViewController);
-		
+
 		currentlyCreatedView = conditionalBlockViewController.view();
 	}
 }

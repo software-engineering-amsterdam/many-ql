@@ -1,5 +1,6 @@
 package org.nlamah.QL.View.Controllers.Abstract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
@@ -9,17 +10,22 @@ public abstract class DeclaringFormElementViewController extends FormElementView
 {
 	private List<FormElementViewController> childViewControllers;
 	private List<FormElementView> childViews;
-	
+
 	public DeclaringFormElementViewController(DeclaringFormElement modelElement) 
 	{
 		super(modelElement);
 	}
-	
+
 	public List<FormElementViewController> childViewControllers()
 	{		
+		if (childViewControllers == null)
+		{
+			return new ArrayList<FormElementViewController>();
+		}
+
 		return childViewControllers;
 	}
-	
+
 	public void setChildViewControllers(List<FormElementViewController> childViewControllers)
 	{
 		this.childViewControllers = childViewControllers;
@@ -34,5 +40,4 @@ public abstract class DeclaringFormElementViewController extends FormElementView
 	{
 		this.childViews = childViews;
 	}
-
 }

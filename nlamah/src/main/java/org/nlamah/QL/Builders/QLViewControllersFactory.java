@@ -79,12 +79,11 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	{
 		IfThenBlockViewController ifThenBlockViewController = null;
 		
-		if (ifThenBlock != null)
-		{
-			ifThenBlockViewController = new IfThenBlockViewController(ifThenBlock);
-			ifThenBlockViewController.setChildViewControllers(createChildViewControllers(ifThenBlock));
-		}
+		assert(ifThenBlock != null);
 		
+		ifThenBlockViewController = new IfThenBlockViewController(ifThenBlock);
+		ifThenBlockViewController.setChildViewControllers(createChildViewControllers(ifThenBlock));
+
 		conditionalBlockViewController.setIfThenBlockViewController(ifThenBlockViewController);
 		
 		return conditionalBlockViewController;

@@ -101,8 +101,6 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		{
 			pageViewControllers.add(new PageViewController((Form) modelElement, identifierForPage(page), page, this));
 		}
-		
-		
 	}
 	
 	private void addPageViewsToView()

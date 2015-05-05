@@ -1,5 +1,6 @@
 package org.nlamah.QL.View.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
@@ -12,23 +13,19 @@ import org.nlamah.QL.View.Form.IfThenBlockView;
 
 public abstract class ConditionalBlockViewController extends FormElementViewController 
 {
-	protected ConditionalBlockView conditionalBlockView;
-	
 	protected IfThenBlockViewController ifThenBlockViewController;
 	protected List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers;
 	protected ElseThenBlockViewController elseThenBlockViewController;
 
-	protected IfThenBlockView ifThenBlockView;
-	protected List<ElseIfThenBlockView> elseIfThenBlockViews;
-	protected ElseThenBlockView elseThenBlockView;
+	private IfThenBlockView ifThenBlockView;
+	private List<ElseIfThenBlockView> elseIfThenBlockViews;
+	private ElseThenBlockView elseThenBlockView;
 
 	public ConditionalBlockViewController(ConditionalBlock conditionalBlock)
 	{
 		super(conditionalBlock);
 		
-		conditionalBlockView = new ConditionalBlockView();
-		
-		view = conditionalBlockView;
+		view = new ConditionalBlockView();
 	}
 	
 	public IfThenBlockViewController ifThenBlockViewController() 
@@ -43,6 +40,11 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 
 	public List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers() 
 	{
+		if (elseIfThenBlockViewControllers == null)
+		{
+			return new ArrayList<ElseIfThenBlockViewController>();
+		}
+		
 		return elseIfThenBlockViewControllers;
 	}
 
@@ -61,20 +63,34 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 		this.elseThenBlockViewController = elseThenBlockViewController;
 	}
 
-
 	public void setIfThenBlockView(IfThenBlockView ifThenBlockView) 
-	{
+	{		
 		this.ifThenBlockView = ifThenBlockView;
+	}
+	
+	public IfThenBlockView ifThenBlockView() 
+	{	
+		return ifThenBlockView;
 	}
 	
 	public void setElseIfThenBlockViews(List<ElseIfThenBlockView> elseIfThenBlockViews) 
 	{
 		this.elseIfThenBlockViews = elseIfThenBlockViews;
 	}
+	
+	public List<ElseIfThenBlockView> elseIfThenBlockViews()
+	{
+		return elseIfThenBlockViews;
+	}
 
 	public void setElseThenBlockView(ElseThenBlockView elseThenBlockView) 
 	{
 		this.elseThenBlockView = elseThenBlockView;
+	}
+	
+	public ElseThenBlockView elseThenBlockView()
+	{
+		return elseThenBlockView;
 	}
 	
 	@Override

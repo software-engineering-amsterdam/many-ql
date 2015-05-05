@@ -20,7 +20,7 @@ public class ConditionalBlockAllViewController extends ConditionalBlockViewContr
 
 		if (ifThenBlockViewController.viewShouldBeVisible())
 		{
-			ifThenBlockView.setVisible(true);
+			ifThenBlockViewController.view().setVisible(true);
 
 			int neededHeight = ifThenBlockViewController.neededViewHeight();
 
@@ -36,7 +36,7 @@ public class ConditionalBlockAllViewController extends ConditionalBlockViewContr
 				{
 					int index = elseIfThenBlockViewControllers.indexOf(elseIfThenBlockViewController);
 
-					ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews.get(index);
+					ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews().get(index);
 
 					elseIfThenBlockView.setVisible(true);
 
@@ -48,7 +48,8 @@ public class ConditionalBlockAllViewController extends ConditionalBlockViewContr
 				}
 			}
 
-			elseThenBlockView.setVisible(true);
+
+			elseThenBlockView().setVisible(true);
 
 			int neededHeight = elseThenBlockViewController.neededViewHeight();
 
@@ -60,18 +61,18 @@ public class ConditionalBlockAllViewController extends ConditionalBlockViewContr
 
 	private void makeAllViewsInvisible()
 	{
-		ifThenBlockView.setVisible(false);
-		
-		for (ElseIfThenBlockView elseIfThenBlockView : elseIfThenBlockViews)
+		ifThenBlockView().setVisible(false);
+
+		for (ElseIfThenBlockView elseIfThenBlockView : elseIfThenBlockViews())
 		{
 			elseIfThenBlockView.setVisible(false);
 		}
-		
-		elseThenBlockView.setVisible(false);
+
+		elseThenBlockView().setVisible(false);
 	}
 
 	private void adjustViewHeightToNeededHeight(int neededHeight)
 	{
-		conditionalBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 }

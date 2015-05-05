@@ -14,19 +14,19 @@ public class PageViewController extends StylesheetViewController
 	
 	private List<SectionViewController> sectionViewControllers;
 
-	private RootFormViewControllerStyled parentViewController;
+	private RootFormViewControllerStyled rootViewController;
 	
-	public PageViewController(Form form, String identifier, Page page, RootFormViewControllerStyled parentViewController) 
+	public PageViewController(Form form, String identifier, Page page, RootFormViewControllerStyled rootViewController) 
 	{
-		super(parentViewController, null);
+		super(rootViewController, null);
 		
 		this.identifier = identifier;
 
-		this.parentViewController = parentViewController;
+		this.rootViewController = rootViewController;
 		
 		view = new PageView(page);
 
-		createSectionViewController(form, page.sections());
+		createSectionViewControllers(form, page.sections());
 		
 		addSectionViewsToView();
 	}
@@ -36,13 +36,13 @@ public class PageViewController extends StylesheetViewController
 		return identifier;
 	}
 
-	private void createSectionViewController(Form form, List<Section> sections)
+	private void createSectionViewControllers(Form form, List<Section> sections)
 	{
 		sectionViewControllers = new ArrayList<SectionViewController>();
 
 		for (Section section : sections)
 		{
-			sectionViewControllers.add(new SectionViewController(parentViewController, form, section, this));
+			sectionViewControllers.add(new SectionViewController(rootViewController, form, section, this));
 		}
 	}
 	

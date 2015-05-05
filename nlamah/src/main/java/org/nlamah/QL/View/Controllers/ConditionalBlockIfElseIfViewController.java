@@ -21,7 +21,7 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 
 		if (ifThenBlockViewController.viewShouldBeVisible())
 		{
-			ifThenBlockView.setVisible(true);
+			ifThenBlockView().setVisible(true);
 
 			int neededHeight = ifThenBlockViewController.neededViewHeight();
 
@@ -37,7 +37,7 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 				{
 					int index = elseIfThenBlockViewControllers.indexOf(elseIfThenBlockViewController);
 
-					ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews.get(index);
+					ElseIfThenBlockView elseIfThenBlockView = elseIfThenBlockViews().get(index);
 
 					elseIfThenBlockView.setVisible(true);
 
@@ -59,9 +59,9 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 
 	private void makeAllViewsInvisible()
 	{
-		ifThenBlockView.setVisible(false);
+		ifThenBlockView().setVisible(false);
 
-		for (ElseIfThenBlockView elseIfThenBlockView : elseIfThenBlockViews)
+		for (ElseIfThenBlockView elseIfThenBlockView : elseIfThenBlockViews())
 		{
 			elseIfThenBlockView.setVisible(false);
 		}
@@ -69,6 +69,6 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 
 	private void adjustViewHeightToNeededHeight(int neededHeight)
 	{
-		conditionalBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 }

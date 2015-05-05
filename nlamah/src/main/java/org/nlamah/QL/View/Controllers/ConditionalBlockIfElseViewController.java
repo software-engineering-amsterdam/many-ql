@@ -7,7 +7,6 @@ import org.nlamah.QL.Model.Form.ConditionalBlock;
 
 public class ConditionalBlockIfElseViewController extends ConditionalBlockViewController 
 {
-
 	public ConditionalBlockIfElseViewController(ConditionalBlock conditionalBlock) 
 	{
 		super(conditionalBlock);
@@ -20,7 +19,7 @@ public class ConditionalBlockIfElseViewController extends ConditionalBlockViewCo
 
 		if (ifThenBlockViewController.viewShouldBeVisible())
 		{
-			ifThenBlockView.setVisible(true);
+			ifThenBlockView().setVisible(true);
 
 			int neededHeight = ifThenBlockViewController.neededViewHeight();
 
@@ -30,7 +29,7 @@ public class ConditionalBlockIfElseViewController extends ConditionalBlockViewCo
 		}
 		else
 		{
-			elseThenBlockView.setVisible(true);
+			elseThenBlockView().setVisible(true);
 
 			int neededHeight = elseThenBlockViewController.neededViewHeight();
 
@@ -42,13 +41,13 @@ public class ConditionalBlockIfElseViewController extends ConditionalBlockViewCo
 
 	private void makeAllViewsInvisible()
 	{
-		ifThenBlockView.setVisible(false);
+		ifThenBlockView().setVisible(false);
 
-		elseThenBlockView.setVisible(false);
+		elseThenBlockView().setVisible(false);
 	}
 
 	private void adjustViewHeightToNeededHeight(int neededHeight)
 	{
-		conditionalBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 }

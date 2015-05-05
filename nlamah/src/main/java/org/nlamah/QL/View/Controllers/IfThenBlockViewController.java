@@ -10,16 +10,12 @@ import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewControlle
 import org.nlamah.QL.View.Form.IfThenBlockView;
 
 public class IfThenBlockViewController extends DeclaringFormElementViewController 
-{
-	private IfThenBlockView ifThenBlockView;
-	
+{	
 	public IfThenBlockViewController(IfThenBlock ifThenBlock) 
 	{
 		super(ifThenBlock);
 		
-		ifThenBlockView = new IfThenBlockView();
-		
-		view = ifThenBlockView;
+		view = new IfThenBlockView();
 	}
 	
 	public boolean viewShouldBeVisible()
@@ -40,7 +36,7 @@ public class IfThenBlockViewController extends DeclaringFormElementViewControlle
 		
 		int neededHeight = heightAdjuster.getPreferredHeight(childViewControllers());
 		
-		ifThenBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 		
 		return neededHeight;
 	}

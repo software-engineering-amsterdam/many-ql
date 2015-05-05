@@ -15,12 +15,12 @@ public class ConditionalBlockIfViewController extends ConditionalBlockViewContro
 
 	@Override
 	public int neededViewHeight() 
-	{	
+	{			
 		makeAllViewsInvisible();
 
 		if (ifThenBlockViewController.viewShouldBeVisible())
 		{
-			ifThenBlockView.setVisible(true);
+			ifThenBlockView().setVisible(true);
 
 			int neededHeight = ifThenBlockViewController.neededViewHeight();
 
@@ -41,11 +41,11 @@ public class ConditionalBlockIfViewController extends ConditionalBlockViewContro
 
 	private void makeAllViewsInvisible()
 	{
-		ifThenBlockView.setVisible(false);
+		ifThenBlockView().setVisible(false);
 	}
 
 	private void adjustViewHeightToNeededHeight(int neededHeight)
 	{
-		conditionalBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 }

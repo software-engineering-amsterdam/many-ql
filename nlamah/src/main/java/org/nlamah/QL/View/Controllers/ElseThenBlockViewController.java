@@ -10,16 +10,12 @@ import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewControlle
 import org.nlamah.QL.View.Form.ElseThenBlockView;
 
 public class ElseThenBlockViewController extends DeclaringFormElementViewController 
-{
-	private ElseThenBlockView elseThenBlockView;
-	
+{	
 	public ElseThenBlockViewController(ElseThenBlock elseThenBlock) 
 	{
 		super(elseThenBlock);
 		
-		elseThenBlockView  = new ElseThenBlockView();
-		
-		view = elseThenBlockView;
+		view = new ElseThenBlockView();
 	}
 	
 	@Override
@@ -35,7 +31,7 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 		
 		int neededHeight = heightCalculator.getPreferredHeight(childViewControllers());
 		
-		elseThenBlockView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 		
 		return neededHeight;
 	}
