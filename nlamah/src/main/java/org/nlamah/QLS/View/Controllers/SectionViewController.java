@@ -86,6 +86,8 @@ public class SectionViewController extends StylesheetViewController
 	{	
 		int preferredHeight = 0;
 		
+		((SectionView) view).redrawBorder();
+		
 		for (FormElementViewController formElementViewController : formElementViewControllers)
 		{	
 			preferredHeight += formElementViewController.neededViewHeight();	

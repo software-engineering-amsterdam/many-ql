@@ -37,6 +37,8 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		createPageViewControllers(stylesheet.pages());
 		
 		addPageViewsToView();
+		
+		show(stylesheet);
 	}
 	
 	private String identifierForPage(Page page)
@@ -69,6 +71,10 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		{
 			requestedPage = new PageFinder().pageForSection((Section) block);
 		}
+		else if (block instanceof Stylesheet)
+		{
+			requestedPage = ((Stylesheet) block).pages().get(0);
+		}
 		
 		PageViewController pageViewController = pageViewControllerForPage(requestedPage);
 		
@@ -76,7 +82,23 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		
 		cardLayout.show(contentView, pageViewController.identifier());
 		
-		contentView.setPreferredSize(new Dimension(QLHelper.navigationViewWidth(), pageViewController.neededViewHeight()));
+		modelStateChanged();
+	}
+	
+	@Override
+	public void modelStateChanged() 
+	{
+		contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededViewHeight()));
+		
+		for (PageViewController pageViewController : pageViewControllers)
+		{
+			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
+		}
+		
+		for (PageViewController pageViewController : pageViewControllers)
+		{
+			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
+		}
 	}
 	
 	private void setupNavigationView()
@@ -108,6 +130,7 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		for (PageViewController pageViewController : pageViewControllers)
 		{
 			contentView.add(pageViewController.view, pageViewController.identifier());
+			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
 		}
 	}
 }

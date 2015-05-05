@@ -113,8 +113,9 @@ public class FormRootViewController extends DeclaringFormElementViewController i
 	@Override
 	public int neededViewHeight() 
 	{
-		FormHeightAdjuster heightCalculator = new FormHeightAdjuster();
+		//TODO find better name
+		FormHeightAdjuster heightAjuster = new FormHeightAdjuster();
 		
-		return heightCalculator.getPreferredHeight(childViewControllers());
+		return heightAjuster.getPreferredHeight(childViewControllers());
 	}
 }
