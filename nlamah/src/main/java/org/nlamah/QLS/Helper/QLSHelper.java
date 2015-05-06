@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class QLSHelper 

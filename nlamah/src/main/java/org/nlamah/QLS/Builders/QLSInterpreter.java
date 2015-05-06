@@ -47,6 +47,11 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 		
+		if (errors.size() > 0)
+		{
+			throw new QLSException(errors);
+		}
+		
 		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
 		Stylesheet stylesheet = rawStylesheetBuilder.build(tree);
 		

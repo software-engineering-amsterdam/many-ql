@@ -30,7 +30,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 
 	public void check(Form form) throws QBaseException
 	{		
-		checkValidityQuestionDeclarations(form);
+		checkValidityStyledQuestions(form);
 		
 		if (errors.size() == 0)
 		{
@@ -55,7 +55,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 		return warnings;
 	}
 
-	private void checkValidityQuestionDeclarations(Form form) throws QBaseException
+	private void checkValidityStyledQuestions(Form form) throws QBaseException
 	{
 		questionsAreNotDeclaredMoreThanOnce(form);
 

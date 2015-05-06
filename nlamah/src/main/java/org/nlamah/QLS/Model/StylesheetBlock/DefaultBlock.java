@@ -1,4 +1,4 @@
-package org.nlamah.QLS.Model.Declaration;
+package org.nlamah.QLS.Model.StylesheetBlock;
 
 import java.util.List;
 import java.util.Stack;
@@ -8,16 +8,17 @@ import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
-public class DefaultDeclaration extends QLSNode implements EqualityStating
+public class DefaultBlock extends SectionItem implements EqualityStating
 {
 	public Stack<QBaseEqualityState> equalityStateStack;
 	
 	private QBaseQuestionType questionType;
 	private List<StyleDeclaration> styleDeclarations;
 	
-	public DefaultDeclaration(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
+	public DefaultBlock(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
 		super();
 		
@@ -64,12 +65,12 @@ public class DefaultDeclaration extends QLSNode implements EqualityStating
 		{
 		case TYPE:
 		{
-			if (!(object instanceof DefaultDeclaration))
+			if (!(object instanceof DefaultBlock))
 			{
 				return false;
 			}
 			
-			DefaultDeclaration value = (DefaultDeclaration) object;
+			DefaultBlock value = (DefaultBlock) object;
 			
 			if (this.questionType != value.questionType)
 			{
@@ -80,12 +81,12 @@ public class DefaultDeclaration extends QLSNode implements EqualityStating
 		}
 		default:
 		{
-			if (!(object instanceof DefaultDeclaration))
+			if (!(object instanceof DefaultBlock))
 			{
 				return false;
 			}
 			
-			DefaultDeclaration value = (DefaultDeclaration) object;
+			DefaultBlock value = (DefaultBlock) object;
 			
 			if (this.questionType != value.questionType)
 			{

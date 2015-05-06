@@ -14,24 +14,24 @@ import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSParser;
-import org.nlamah.QLS.QLSParser.DefaultDeclarationContext;
-import org.nlamah.QLS.QLSParser.DefaultDeclarationSingleStatementContext;
+import org.nlamah.QLS.QLSParser.DefaultBlockContext;
 import org.nlamah.QLS.QLSParser.PageContext;
-import org.nlamah.QLS.QLSParser.QuestionDeclarationContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
+import org.nlamah.QLS.QLSParser.StylesheetBlockContext;
 import org.nlamah.QLS.Error.FontRecognitionError;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.FontValue;
@@ -80,15 +80,15 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			pages.add(page);
 		}
 
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 
-		for (DefaultDeclarationContext contextualDefaulDeclaration : ctx.defaultDeclaration())
+		for (DefaultBlockContext contextualDefaultBlock : ctx.defaultBlock())
 		{
-			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaulDeclaration.accept(this);
-			defaultDeclarations.add(defaultDeclaration);
+			DefaultBlock defaultBlock = (DefaultBlock) contextualDefaultBlock.accept(this);
+			defaultBlocks.add(defaultBlock);
 		}
 
-		Stylesheet stylesheet = new Stylesheet(identifier, pages, defaultDeclarations);
+		Stylesheet stylesheet = new Stylesheet(identifier, pages, defaultBlocks);
 		QBaseHelper.addSourceCodePosition(stylesheet, ctx);
 
 		return stylesheet;
@@ -104,19 +104,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		for (SectionContext contextualSection : ctx.section())
 		{
-			Section sectionDeclaration = (Section) contextualSection.accept(this);
-			sections.add(sectionDeclaration);
+			Section section = (Section) contextualSection.accept(this);
+			sections.add(section);
 		}
 
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 
-		for (DefaultDeclarationContext contextualDefaulDeclaration : ctx.defaultDeclaration())
+		for (DefaultBlockContext contextualDefaultBlock : ctx.defaultBlock())
 		{
-			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaulDeclaration.accept(this);
-			defaultDeclarations.add(defaultDeclaration);
+			DefaultBlock defaultBlock = (DefaultBlock) contextualDefaultBlock.accept(this);
+			defaultBlocks.add(defaultBlock);
 		}
 
-		Page page = new Page(identifier, sections, defaultDeclarations);
+		Page page = new Page(identifier, sections, defaultBlocks);
 		QBaseHelper.addSourceCodePosition(page, ctx);
 
 		return page;
@@ -130,31 +130,23 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		TextValue titleValue = new TextValue(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(titleValue, ctx);
 		
-		List<Section> sections = new ArrayList<Section>();
+		List<SectionItem> sectionItems = new ArrayList<SectionItem>();
 
-		for (SectionContext contextualSection : ctx.section())
+		for (StylesheetBlockContext contextualSection : ctx.stylesheetBlock())
 		{
-			Section section = (Section) contextualSection.accept(this);
-			sections.add(section);
+			SectionItem sectionItem = (SectionItem) contextualSection.accept(this);
+			sectionItems.add(sectionItem);
 		}
 
-		List<StyledQuestion> questionDeclarations = new ArrayList<StyledQuestion>();
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 
-		for (QuestionDeclarationContext contextualQuestionDeclaration : ctx.questionDeclaration())
+		for (DefaultBlockContext contextualDefaultBlock : ctx.defaultBlock())
 		{
-			StyledQuestion questionDeclaration = (StyledQuestion) contextualQuestionDeclaration.accept(this);
-			questionDeclarations.add(questionDeclaration);
+			DefaultBlock defaultBlock = (DefaultBlock) contextualDefaultBlock.accept(this);
+			defaultBlocks.add(defaultBlock);
 		}
 
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-
-		for (DefaultDeclarationContext contextualDefaultDeclaration : ctx.defaultDeclaration())
-		{
-			DefaultDeclaration defaultDeclaration = (DefaultDeclaration) contextualDefaultDeclaration.accept(this);
-			defaultDeclarations.add(defaultDeclaration);
-		}
-
-		Section section = new Section(titleValue, sections, questionDeclarations, defaultDeclarations, sectionDepthLevel);
+		Section section = new Section(titleValue, sectionItems, defaultBlocks, sectionDepthLevel);
 		QBaseHelper.addSourceCodePosition(section, ctx);
 		
 		sectionDepthLevel--;
@@ -163,7 +155,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	}
 
 	@Override 
-	public QLSNode visitQuestionDeclaration(QLSParser.QuestionDeclarationContext ctx) 
+	public QLSNode visitStyledQuestion(QLSParser.StyledQuestionContext ctx)
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
@@ -175,19 +167,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
 		}
 
-		StyledQuestion questionDeclaration = new StyledQuestion(identifier, widgetDeclaration);
-		QBaseHelper.addSourceCodePosition(questionDeclaration, ctx);
+		StyledQuestion styledQuestion = new StyledQuestion(identifier, widgetDeclaration);
+		QBaseHelper.addSourceCodePosition(styledQuestion, ctx);
 
-		return questionDeclaration; 
+		return styledQuestion; 
 	}
-
-	@Override 
-	public QLSNode visitDefaultDeclarationBlock(QLSParser.DefaultDeclarationBlockContext ctx) 
-	{ 
-		String questionTypeString = ctx.QuestionType().getText().toUpperCase();;
-
+	
+	@Override
+	public QLSNode visitDefaultBlock(QLSParser.DefaultBlockContext ctx)
+	{
+		String questionTypeString = ctx.QuestionType().getText().toUpperCase();
+		
 		QBaseQuestionType questionType = null;
-
+		
 		try 
 		{
 			questionType = QBaseQuestionType.valueOf(questionTypeString);
@@ -196,46 +188,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		{	
 			errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
-
+		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
-
+		
 		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
 			styleDeclarations.add(styleDeclaration);
 		}
+		
+		DefaultBlock defaultBlock = new DefaultBlock(questionType, styleDeclarations);
+		QBaseHelper.addSourceCodePosition(defaultBlock, ctx);
 
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(questionType, styleDeclarations);
-		QBaseHelper.addSourceCodePosition(defaultDeclaration, ctx);
-
-		return defaultDeclaration; 
-	}
-
-	@Override 
-	public QLSNode visitDefaultDeclarationSingleStatement(DefaultDeclarationSingleStatementContext ctx) 
-	{ 
-		String questionTypeString = ctx.QuestionType().getText().toUpperCase();
-
-		QBaseQuestionType questionType = null;
-
-		try 
-		{
-			questionType = QBaseQuestionType.valueOf(questionTypeString);
-		} 
-		catch(Exception ex) 
-		{
-			errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
-		}
-
-		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
-
-		StyleDeclaration styleDeclaration = (StyleDeclaration)ctx.styleDeclaration().accept(this);
-		styleDeclarations.add(styleDeclaration);
-
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(questionType, styleDeclarations);
-		QBaseHelper.addSourceCodePosition(defaultDeclaration, ctx);
-
-		return defaultDeclaration; 
+		return defaultBlock;
 	}
 
 	@Override 

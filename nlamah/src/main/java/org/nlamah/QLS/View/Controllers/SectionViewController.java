@@ -3,6 +3,8 @@ package org.nlamah.QLS.View.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import org.nlamah.QL.Builders.FragementedFormElementFinder;
 import org.nlamah.QL.Builders.QLViewControllersFactory;
 import org.nlamah.QL.Builders.QLViewFactory;
@@ -12,8 +14,9 @@ import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.View.Stylesheet.SectionView;
 
 public class SectionViewController extends StylesheetViewController 
@@ -22,9 +25,7 @@ public class SectionViewController extends StylesheetViewController
 	
 	private List<FormElementViewController> formElementViewControllers;
 	
-	private List<SectionViewController> sectionViewControllers;
-	
-	private Section section;
+	private List<SectionViewController> childSectionViewControllers;
 	
 	public SectionViewController(RootFormViewControllerStyled rootViewController, Form form, Section section, StylesheetViewController parentViewController)
 	{
@@ -32,52 +33,52 @@ public class SectionViewController extends StylesheetViewController
 		
 		this.form = form;
 		
-		this.section = section;
-		
 		view = new SectionView(section);
 		
-		createSectionViewControllers(section.sections());
-		
-		addViewsToView();
+		createChildViewsAndControllers(section.sectionItems());
 	}
 	
-	private void createSectionViewControllers(List<Section> sections)
+	private void createChildViewsAndControllers(List<? extends SectionItem> sectionItems)
 	{
-		sectionViewControllers = new ArrayList<SectionViewController>();
-		
-		for (Section section : sections)
-		{	
-			sectionViewControllers.add(new SectionViewController(rootViewController(), form, section, this));
-		}
-	}
-	
-	private void addViewsToView()
-	{
-		QLViewFactory viewFactory = new QLViewFactory();
-		
+		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
 		
-		for (StyledQuestion styledQuestion : section.questionDeclarations())
-		{
-			FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
-			
-			FragementedFormElementFinder fragmentedFormElementFinder = new FragementedFormElementFinder();
-			
-			FormElement formElement = fragmentedFormElementFinder.findFragementedFormElementForQuestion(formQuestion);
-			
-			QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory(rootViewController());
-			
-			FormElementViewController formElementViewController = viewControllersFactory.createFormElementViewController(formElement);
-			
-			formElementViewControllers.add(formElementViewController);
-			
-			view.add(viewFactory.gatherViewForFormViewController(formElementViewController));
-			
-		}
+		QLViewFactory viewFactory = new QLViewFactory();
 		
-		for (SectionViewController sectionViewController : sectionViewControllers)
-		{
-			view.add(sectionViewController.view);
+		for (SectionItem sectionItem : sectionItems)
+		{	
+			if (sectionItem instanceof StyledQuestion)
+			{
+				StyledQuestion styledQuestion = (StyledQuestion) sectionItem;
+				
+				FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
+				
+				FragementedFormElementFinder fragmentedFormElementFinder = new FragementedFormElementFinder();
+				
+				FormElement formElement = fragmentedFormElementFinder.findFragementedFormElementForQuestion(formQuestion);
+				
+				QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory(rootViewController());
+				
+				FormElementViewController formElementViewController = viewControllersFactory.createFormElementViewController(formElement);
+				
+				formElementViewControllers.add(formElementViewController);
+				
+				JPanel gatheredView = viewFactory.gatherViewForFormViewController(formElementViewController);
+				
+				view.add(gatheredView);
+			}
+			else if (sectionItem instanceof Section)
+			{	
+				SectionViewController sectionViewController = new SectionViewController(rootViewController(), form, (Section)sectionItem, this);
+				
+				childSectionViewControllers.add(sectionViewController);
+				
+				view.add(sectionViewController.view);
+			}
+			else
+			{
+				assert(false);
+			}
 		}
 	}
 	
@@ -93,7 +94,7 @@ public class SectionViewController extends StylesheetViewController
 			preferredHeight += formElementViewController.neededViewHeight();	
 		}
 		
-		for (SectionViewController sectionViewController : sectionViewControllers)
+		for (SectionViewController sectionViewController : childSectionViewControllers)
 		{
 			preferredHeight += sectionViewController.neededViewHeight();
 		}

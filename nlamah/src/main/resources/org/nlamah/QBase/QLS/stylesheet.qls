@@ -19,7 +19,6 @@ stylesheet test
 	{
 		section "section2"
 		{
-			question question2
 			section "section 3"
 			{
 				question question3
@@ -31,6 +30,8 @@ stylesheet test
 				}
 				
 			}
+		
+			question question2
 		}
 		
 		section "section6"

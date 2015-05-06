@@ -3,7 +3,7 @@ package org.nlamah.QLS.Error;
 import java.util.List;
 
 import org.nlamah.QBase.Error.QBaseError;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class QLSDoubleDeclarationError extends QBaseError

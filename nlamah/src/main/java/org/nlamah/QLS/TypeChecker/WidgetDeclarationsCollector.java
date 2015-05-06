@@ -6,15 +6,16 @@ import java.util.List;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -58,9 +59,9 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 			page.accept(this);
 		}
 		
-		for (DefaultDeclaration defaultDeclaration : stylesheet.defaultDeclarations())
+		for (DefaultBlock defaultBlock : stylesheet.defaultBlocks())
 		{
-			defaultDeclaration.accept(this);
+			defaultBlock.accept(this);
 		}
 		
 		return null;
@@ -74,30 +75,25 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 			section.accept(this);
 		}
 		
-		for (DefaultDeclaration defaultDeclaration : page.defaultDeclarations())
+		for (DefaultBlock defaultBlock : page.defaultBlocks())
 		{
-			defaultDeclaration.accept(this);
+			defaultBlock.accept(this);
 		}
 		
 		return null;
 	}
 
 	@Override
-	public QLSNode visit(Section sectionDeclaration) 
-	{
-		for (StyledQuestion questionDeclaration : sectionDeclaration.questionDeclarations())
+	public QLSNode visit(Section section) 
+	{		
+		for (SectionItem sectionItem : section.sectionItems())
 		{
-			questionDeclaration.accept(this);
+			sectionItem.accept(this);
 		}
 		
-		for (Section section : sectionDeclaration.sections())
+		for (DefaultBlock defaultBlock : section.defaultBlocks())
 		{
-			section.accept(this);
-		}
-		
-		for (DefaultDeclaration defaultDeclaration : sectionDeclaration.defaultDeclarations())
-		{
-			defaultDeclaration.accept(this);
+			defaultBlock.accept(this);
 		}
 		
 		return null;
@@ -112,20 +108,20 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(StyledQuestion questionDeclaration) 
+	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
-		if (questionDeclaration.widgetDeclaration() != null)
+		if (styledQuestion.widgetDeclaration() != null)
 		{
-			questionDeclaration.widgetDeclaration().accept(this);
+			styledQuestion.widgetDeclaration().accept(this);
 		}
 		
 		return null;
 	}
 
 	@Override
-	public QLSNode visit(DefaultDeclaration defaultDeclaration) 
+	public QLSNode visit(DefaultBlock defaultBlock) 
 	{	
-		for (StyleDeclaration styleDeclaration : defaultDeclaration.styleDeclarations())
+		for (StyleDeclaration styleDeclaration : defaultBlock.styleDeclarations())
 		{
 			styleDeclaration.accept(this);
 		}

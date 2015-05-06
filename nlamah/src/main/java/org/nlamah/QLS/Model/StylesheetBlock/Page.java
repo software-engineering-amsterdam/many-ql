@@ -5,16 +5,15 @@ import java.util.List;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class Page extends StylesheetBlock 
 {
 	List<Section> sections;
 	
-	public Page(IdentifierValue identifier, List<Section> sections, List<DefaultDeclaration> defaultDeclarations) 
+	public Page(IdentifierValue identifier, List<Section> sections, List<DefaultBlock> defaultBlocks) 
 	{
-		super(identifier, defaultDeclarations);
+		super(identifier, defaultBlocks);
 		
 		this.sections = sections;
 		

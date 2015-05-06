@@ -4,46 +4,36 @@ import java.util.List;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Value.TextValue;
 
-public class Section extends StylesheetBlock
+public class Section extends SectionItem
 {
-	private List<StyledQuestion> questionDeclarations;
-	private List<Section> sections;
+	private List<? extends SectionItem> sectionItems;
 	private int depthLevel;
 	
-	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations, int depthLevel) 
+	public Section(TextValue titleValue, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks, int depthLevel) 
 	{
-		super(titleValue, defaultDeclarations);
-	
-		this.questionDeclarations = questionDeclarations;
+		super(titleValue, defaultBlocks);
 		
-		this.sections = sections;
+		this.sectionItems = sectionItems;
 		
 		this.depthLevel = depthLevel;
 		
-		for (Section section : sections)
+		for (SectionItem sectionItem : sectionItems)
 		{
-			section.setParentNode(this);
+			sectionItem.setParentNode(this);
 		}
 	}
 	
-	public Section(TextValue titleValue, List<Section> sections, List<StyledQuestion> questionDeclarations, List<DefaultDeclaration> defaultDeclarations) 
+	public Section(TextValue titleValue, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks) 
 	{
-		this(titleValue, sections, questionDeclarations, defaultDeclarations, -1);
+		this(titleValue, sectionItems, defaultBlocks, -1);
 	}
 	
-	public List<StyledQuestion> questionDeclarations()
+	public List<? extends SectionItem> sectionItems()
 	{
-		return questionDeclarations;
-	}
-	
-	public List<Section> sections()
-	{
-		return sections;
+		return sectionItems;
 	}
 	
 	public int depthLevel()
@@ -72,12 +62,7 @@ public class Section extends StylesheetBlock
 		
 		Section value = (Section)object;
 		
-		if (!(questionDeclarations.equals(value.questionDeclarations)))
-		{
-			return false;
-		}
-		
-		if (!(sections.equals(value.sections)))
+		if (!(sectionItems.equals(value.sectionItems)))
 		{
 			return false;
 		}

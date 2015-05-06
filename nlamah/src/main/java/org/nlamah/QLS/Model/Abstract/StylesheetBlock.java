@@ -2,68 +2,82 @@ package org.nlamah.QLS.Model.Abstract;
 
 import java.util.List;
 
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
+import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 
 public abstract class StylesheetBlock extends QLSNode
 {
 	protected DeclarationValue title;
-	protected List<DefaultDeclaration> defaultDeclarations;
-	
-	public StylesheetBlock(DeclarationValue title, List<DefaultDeclaration> defaultDeclarations)
+	protected List<DefaultBlock> defaultBlocks;
+
+	public StylesheetBlock(DeclarationValue title, List<DefaultBlock> defaultBlocks)
 	{
 		super();
-		
-		this.title = title;
-		this.defaultDeclarations = defaultDeclarations;
-		
-		title.setParentNode(this);
 
-		for (DefaultDeclaration defaultDeclaration : defaultDeclarations)
+		this.title = title;
+		this.defaultBlocks = defaultBlocks;
+		
+		if (title != null)
 		{
-			defaultDeclaration.setParentNode(this);
+			title.setParentNode(this);
+		}
+		
+		if (QBaseHelper.arrayExistsAndHasElements(defaultBlocks))
+		{
+			for (DefaultBlock defaultBlock : defaultBlocks)
+			{
+				defaultBlock.setParentNode(this);
+			}
 		}
 	}
-	
+
+
+
+	public StylesheetBlock()
+	{
+		this(null, null);
+	}
+
 	public String title()
 	{
 		return title.toString();
 	}
-	
-	public List<DefaultDeclaration> defaultDeclarations()
-	{
-		return defaultDeclarations;
-	}
-	
-	@Override 
-	 public boolean equals(Object object) 
-	 {
-		 if (this == object)
-		 {
-			 return true;
-		 }
-		 
-		 if (!(object instanceof StylesheetBlock))
-		 {
-			 return false;
-		 }
-		 
-		 StylesheetBlock value = (StylesheetBlock) object;
-		 
-		 if (this.title == null && value.title == null)
-		 {
-			 return true;
-		 }
-		 
-		 if (!(this.title.equals(value.title)))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(this.defaultDeclarations.equals(value.defaultDeclarations)))
-		 {
-			 return false;
-		 }
 
-		 return true;
-	 }
+	public List<DefaultBlock> defaultBlocks()
+	{
+		return defaultBlocks;
+	}
+
+	@Override 
+	public boolean equals(Object object) 
+	{
+		if (this == object)
+		{
+			return true;
+		}
+
+		if (!(object instanceof StylesheetBlock))
+		{
+			return false;
+		}
+
+		StylesheetBlock value = (StylesheetBlock) object;
+
+		if (this.title == null && value.title == null)
+		{
+			return true;
+		}
+
+		if (!(this.title.equals(value.title)))
+		{
+			return false;
+		}
+
+		if (!(this.defaultBlocks.equals(value.defaultBlocks)))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -1,4 +1,4 @@
-package org.nlamah.QLS.Model.Declaration;
+package org.nlamah.QLS.Model.StylesheetBlock;
 
 import java.util.Stack;
 
@@ -6,9 +6,11 @@ import org.nlamah.QBase.EqualityStating;
 import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
+import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class StyledQuestion extends QLSNode implements EqualityStating
+public class StyledQuestion extends SectionItem implements EqualityStating
 {
 	public Stack<QBaseEqualityState> equalityStateStack;
 	

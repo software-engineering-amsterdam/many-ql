@@ -16,7 +16,7 @@ import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
 import org.nlamah.QLS.Helper.QLSHelper;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
 public class QLSTypeChecker extends QBaseAbstractTypeChecker
@@ -35,7 +35,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		
 		areAlQuestionsStyledOnlyOnce(form, stylesheet);
 		
-		areDefaultDeclarationsDefiningTheSameTypeInTheSameScope(stylesheet);
+		aredefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
 		
 		areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(form, stylesheet);
 		
@@ -87,9 +87,9 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		checkForErrors();
 	}
 	
-	private void areDefaultDeclarationsDefiningTheSameTypeInTheSameScope(Stylesheet stylesheet) throws QBaseException 
+	private void aredefaultBlocksDefiningTheSameTypeInTheSameScope(Stylesheet stylesheet) throws QBaseException 
 	{
-		errors.addAll(new DoubleDefaultDeclarationChecker(stylesheet).errors());
+		errors.addAll(new DoubleDefaultBlockChecker(stylesheet).errors());
 		
 		checkForErrors();
 	}

@@ -10,15 +10,16 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Abstract.WidgetType;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
@@ -36,7 +37,7 @@ public class QLStylesheetTest extends TestCase
 	{	
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "emptystylesheet");
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), new ArrayList<DefaultBlock>());
 		
 	    assertEquals(parsedStylesheet, referenceStylesheet);  
 	}
@@ -45,12 +46,12 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onepage");
 		
-		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
 		
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -59,17 +60,17 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onesection");
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
+		Section section = new Section(new TextValue("testsection"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
 		
-		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultDeclaration>());
+		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultBlock>());
 		
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -78,22 +79,22 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onequestion");
 		
-		StyledQuestion questionDeclaration = new StyledQuestion(new IdentifierValue("testquestion"), null);
+		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), null);
 		
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
-		questions.add(questionDeclaration);
+		questions.add(styledQuestion);
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), questions, new ArrayList<DefaultDeclaration>());
+		Section section = new Section(new TextValue("testsection"), questions, new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
 		
-		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultDeclaration>());
+		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultBlock>());
 		
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -106,79 +107,79 @@ public class QLStylesheetTest extends TestCase
 		
 		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(widgetType);
 		
-		StyledQuestion questionDeclaration = new StyledQuestion(new IdentifierValue("testquestion"), widgetDeclaration);
+		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), widgetDeclaration);
 		
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
-		questions.add(questionDeclaration);
+		questions.add(styledQuestion);
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), questions, new ArrayList<DefaultDeclaration>());
-		
-		List<Section> sections = new ArrayList<Section>();
-		sections.add(section);
-		
-		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultDeclaration>());
-		
-		List<Page> pages = new ArrayList<Page>();
-		pages.add(page);
-		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
-		
-		assertEquals(parsedStylesheet, referenceStylesheet);
-	}
-	
-	public void testDefaultDeclarationsSheet()
-	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultdeclarationsheet");
-		
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
-		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-		defaultDeclarations.add(defaultDeclaration);
-		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
-		
-		assertEquals(parsedStylesheet, referenceStylesheet);
-	}
-	
-	public void testDefaultDeclarationsPage()
-	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultdeclarationpage");
-		
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
-		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-		defaultDeclarations.add(defaultDeclaration);
-		
-		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), defaultDeclarations);
-		
-		List<Page> pages = new ArrayList<Page>();
-		pages.add(page);
-		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
-		
-		assertEquals(parsedStylesheet, referenceStylesheet);
-	}
-	
-	public void testDefaultDeclarationsSection()
-	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultdeclarationsection");
-		
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
-		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-		defaultDeclarations.add(defaultDeclaration);
-		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), defaultDeclarations);
+		Section section = new Section(new TextValue("testsection"), questions, new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
 		
-		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultDeclaration>());
+		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultBlock>());
 		
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
+		
+		assertEquals(parsedStylesheet, referenceStylesheet);
+	}
+	
+	public void testdefaultBlocksSheet()
+	{
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultblocksheet");
+		
+		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
+		
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
+		defaultBlocks.add(defaultBlock);
+		
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultBlocks);
+		
+		assertEquals(parsedStylesheet, referenceStylesheet);
+	}
+	
+	public void testdefaultBlocksPage()
+	{
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultblockpage");
+		
+		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
+		
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
+		defaultBlocks.add(defaultBlock);
+		
+		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), defaultBlocks);
+		
+		List<Page> pages = new ArrayList<Page>();
+		pages.add(page);
+		
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
+		
+		assertEquals(parsedStylesheet, referenceStylesheet);
+	}
+	
+	public void testdefaultBlocksSection()
+	{
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultblocksection");
+		
+		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
+		
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
+		defaultBlocks.add(defaultBlock);
+		
+		Section section = new Section(new TextValue("testsection"), new ArrayList<SectionItem>(), defaultBlocks);
+		
+		List<Section> sections = new ArrayList<Section>();
+		sections.add(section);
+		
+		Page page = new Page(new IdentifierValue("testpage"), sections, new ArrayList<DefaultBlock>());
+		
+		List<Page> pages = new ArrayList<Page>();
+		pages.add(page);
+		
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -209,12 +210,12 @@ public class QLStylesheetTest extends TestCase
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		styleDeclarations.add(widgetDeclaration);
 		
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.TEXT, styleDeclarations);
+		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.TEXT, styleDeclarations);
 		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-		defaultDeclarations.add(defaultDeclaration);
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
+		defaultBlocks.add(defaultBlock);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultBlocks);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -223,34 +224,34 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "nestedsections");
 		
-		List<Section> nestedSections = new ArrayList<Section>();
-		Section nestedSection1 = new Section(new TextValue("nestedsection1"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
+		List<SectionItem> nestedSections = new ArrayList<SectionItem>();
+		Section nestedSection1 = new Section(new TextValue("nestedsection1"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		nestedSections.add(nestedSection1);
 		
-		List<Section> nestedSectionsInNestedSection2 = new ArrayList<Section>();
-		Section nestedSection21 = new Section(new TextValue("nestedsection2.1"), new ArrayList<Section>(), new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
+		List<SectionItem> nestedSectionsInNestedSection2 = new ArrayList<SectionItem>();
+		Section nestedSection21 = new Section(new TextValue("nestedsection2.1"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		nestedSectionsInNestedSection2.add(nestedSection21);
 		
-		Section nestedSection2 = new Section(new TextValue("nestedsection2"), nestedSectionsInNestedSection2, new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
+		Section nestedSection2 = new Section(new TextValue("nestedsection2"), nestedSectionsInNestedSection2, new ArrayList<DefaultBlock>());
 		nestedSections.add(nestedSection2);
 			
 		List<Section> pageSections = new ArrayList<Section>();
-		Section section = new Section(new TextValue("testsection"), nestedSections, new ArrayList<StyledQuestion>(), new ArrayList<DefaultDeclaration>());
+		Section section = new Section(new TextValue("testsection"), nestedSections, new ArrayList<DefaultBlock>());
 		pageSections.add(section);
 		
-		Page page = new Page(new IdentifierValue("testpage"), pageSections, new ArrayList<DefaultDeclaration>());
+		Page page = new Page(new IdentifierValue("testpage"), pageSections, new ArrayList<DefaultBlock>());
 		
 		List<Page> pages = new ArrayList<Page>();
 		pages.add(page);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultDeclaration>());
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, new ArrayList<DefaultBlock>());
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
 	
-	public void testDefaultDeclarationFilled()
+	public void testdefaultBlockFilled()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultdeclarationfilled");
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "defaultblockfilled");
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
@@ -260,12 +261,12 @@ public class QLStylesheetTest extends TestCase
 		styleDeclarations.add(new ColorDeclaration(new ColorValue(Color.decode("#999999"))));
 		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidgetType()));
 		
-		DefaultDeclaration defaultDeclaration = new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations);
+		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations);
 		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
-		defaultDeclarations.add(defaultDeclaration);
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
+		defaultBlocks.add(defaultBlock);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), defaultBlocks);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
@@ -276,18 +277,18 @@ public class QLStylesheetTest extends TestCase
 		
 		List<Page> pages = new ArrayList<Page>();
 		
-		Page page1 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		Page page1 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
 		pages.add(page1);
-		Page page2 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultDeclaration>());
+		Page page2 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
 		pages.add(page2);
 		
-		List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 		
 		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
 		styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidgetType()));
 		
-		DefaultDeclaration defaultDeclaration1 = new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations1);
-		defaultDeclarations.add(defaultDeclaration1);
+		DefaultBlock defaultBlock1 = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations1);
+		defaultBlocks.add(defaultBlock1);
 		
 		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
 		List<TextValue> answers = new ArrayList<TextValue>();
@@ -295,10 +296,10 @@ public class QLStylesheetTest extends TestCase
 		answers.add(new TextValue("no"));
 		styleDeclarations2.add(new WidgetDeclaration(new RadioButtonWidgetType(answers)));
 		
-		DefaultDeclaration defaultDeclaration2 = new DefaultDeclaration(QBaseQuestionType.TEXT, styleDeclarations2);
-		defaultDeclarations.add(defaultDeclaration2);
+		DefaultBlock defaultBlock2 = new DefaultBlock(QBaseQuestionType.TEXT, styleDeclarations2);
+		defaultBlocks.add(defaultBlock2);
 		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, defaultDeclarations);
+		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, defaultBlocks);
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}

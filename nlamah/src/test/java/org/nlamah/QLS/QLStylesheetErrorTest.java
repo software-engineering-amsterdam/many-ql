@@ -12,16 +12,16 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
-import org.nlamah.QLS.Error.DoubleDefaultDeclarationError;
+import org.nlamah.QLS.Error.DoubleDefaultBlockError;
 import org.nlamah.QLS.Error.FontRecognitionError;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
 import org.nlamah.QLS.Error.WidgetTypeMismatchError;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
@@ -172,9 +172,9 @@ public class QLStylesheetErrorTest extends TestCase
 		}
 	}
 	
-	public void testDoubelDefaultDeclaration()
+	public void testDoubeldefaultBlock()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "doubledefaultdeclarationerror");
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "doubledefaultblockerror");
 
 		QLTypeChecker qlTypeChecker = new QLTypeChecker();
 
@@ -187,7 +187,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 		
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledefaultdeclarationerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledefaultblockerror");
 		
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 		
@@ -201,17 +201,17 @@ public class QLStylesheetErrorTest extends TestCase
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 			
-			List<DefaultDeclaration> defaultDeclarations = new ArrayList<DefaultDeclaration>();
+			List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 			
 			List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
 			styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidgetType()));
-			defaultDeclarations.add(new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations1));
+			defaultBlocks.add(new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations1));
 			
 			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
 			styleDeclarations2.add(new WidthDeclaration(new NumberValue(200)));
-			defaultDeclarations.add(new DefaultDeclaration(QBaseQuestionType.NUMBER, styleDeclarations2));
+			defaultBlocks.add(new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations2));
 			
-			QBaseError error = new DoubleDefaultDeclarationError(defaultDeclarations);
+			QBaseError error = new DoubleDefaultBlockError(defaultBlocks);
 			referenceErrors.add(error);
 			
 			assertEquals(qlsTypeChecker.errors(), referenceErrors);

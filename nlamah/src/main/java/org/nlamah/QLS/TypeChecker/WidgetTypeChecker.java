@@ -12,13 +12,13 @@ import org.nlamah.QLS.Error.WidgetTypeMismatchError;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -73,7 +73,7 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	}
 
 	@Override
-	public QLSNode visit(Section sectionDeclaration) 
+	public QLSNode visit(Section section) 
 	{
 		assert(false);
 
@@ -89,12 +89,12 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	}
 
 	@Override
-	public QLSNode visit(StyledQuestion questionDeclaration) 
+	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
 		FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier
 				(
 						formQuestions,
-						new IdentifierLiteral(questionDeclaration.identifier().toString())
+						new IdentifierLiteral(styledQuestion.identifier().toString())
 				);
 
 		if (formQuestion.returnType() != currentWidgetDeclaration.returnType())
@@ -106,11 +106,11 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	}
 
 	@Override
-	public QLSNode visit(DefaultDeclaration defaultDeclaration) 
+	public QLSNode visit(DefaultBlock defaultBlock) 
 	{
-		if (defaultDeclaration.questionType() != currentWidgetDeclaration.returnType())
+		if (defaultBlock.questionType() != currentWidgetDeclaration.returnType())
 		{
-			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, defaultDeclaration.questionType()));
+			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, defaultBlock.questionType()));
 		}
 		
 		return null;

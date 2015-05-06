@@ -94,7 +94,7 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		{
 			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
 		}
-		//TODO why not immdeitately reAligned.
+		//TODO why not immediately reAligned.
 		for (PageViewController pageViewController : pageViewControllers)
 		{
 			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));

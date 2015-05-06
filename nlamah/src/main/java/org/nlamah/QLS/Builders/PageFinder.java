@@ -3,14 +3,14 @@ package org.nlamah.QLS.Builders;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
-import org.nlamah.QLS.Model.Declaration.DefaultDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
-import org.nlamah.QLS.Model.Declaration.StyledQuestion;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.FontValue;
@@ -48,9 +48,9 @@ public class PageFinder implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(Section sectionDeclaration) 
+	public QLSNode visit(Section section) 
 	{
-		sectionDeclaration.parentNode().accept(this);
+		section.parentNode().accept(this);
 		
 		return null;
 	}
@@ -63,14 +63,14 @@ public class PageFinder implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(StyledQuestion questionDeclaration) 
+	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
 		assert(false);
 		return null;
 	}
 
 	@Override
-	public QLSNode visit(DefaultDeclaration defaultDeclaration) 
+	public QLSNode visit(DefaultBlock defaultBlock) 
 	{
 		assert(false);
 		return null;
