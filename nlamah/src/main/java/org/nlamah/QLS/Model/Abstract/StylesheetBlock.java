@@ -44,7 +44,7 @@ public abstract class StylesheetBlock extends QLSNode
 	}
 
 	public List<DefaultBlock> defaultBlocks()
-	{
+	{		
 		return defaultBlocks;
 	}
 

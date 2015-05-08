@@ -2,14 +2,17 @@ package org.nlamah.QLS.Model.StylesheetBlock;
 
 import java.util.List;
 
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.TypeChecker.StyledQuestionsCollector;
 
 public class Stylesheet extends StylesheetBlock 
 {
 	private List<Page> pages;
+	private List<StyledQuestion> questions;
 	
 	public Stylesheet(IdentifierValue identifier, List<Page> pages, List<DefaultBlock> defaultBlocks)
 	{
@@ -26,6 +29,16 @@ public class Stylesheet extends StylesheetBlock
 	public List<Page> pages()
 	{
 		return pages;
+	}
+	
+	public List<StyledQuestion> questions()
+	{
+		if (!QBaseHelper.arrayExistsAndHasElements(questions))
+		{
+			questions = new StyledQuestionsCollector().questionsForStylesheet(this);
+		}
+		
+		return questions;
 	}
 	
 	

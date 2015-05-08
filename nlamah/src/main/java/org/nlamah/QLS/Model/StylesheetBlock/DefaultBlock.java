@@ -22,6 +22,8 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	{
 		super();
 		
+		assert(styleDeclarations != null);
+		
 		this.questionType = questionType;
 		this.styleDeclarations = styleDeclarations;
 		
@@ -40,8 +42,40 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	}
 	
 	public List<StyleDeclaration> styleDeclarations()
-	{
+	{		
 		return styleDeclarations;
+	}
+	
+	public void overWriteStyleDeclaration(StyleDeclaration styleDeclaration)
+	{
+		StyleDeclaration styleDeclartionOfTheSameType = findStyleDeclarationOfTheSameType(styleDeclaration);
+		
+		if (styleDeclartionOfTheSameType == null)
+		{
+			styleDeclarations.add(styleDeclaration);
+		}
+		else
+		{
+			styleDeclarations.remove(styleDeclartionOfTheSameType);
+			styleDeclarations.add(styleDeclaration);
+		}
+	}
+
+	private StyleDeclaration findStyleDeclarationOfTheSameType(StyleDeclaration styleDeclaration) 
+	{
+		StyleDeclaration styleDeclarationToReturn = null;
+		
+		for (StyleDeclaration temporaryStyleDeclaration : styleDeclarations)
+		{
+			if(temporaryStyleDeclaration.getValue().getClass().equals(styleDeclaration.getValue().getClass()))
+			{
+				styleDeclarationToReturn = temporaryStyleDeclaration;
+				
+				break;
+			}
+		}
+		
+		return styleDeclarationToReturn;
 	}
 
 	@Override

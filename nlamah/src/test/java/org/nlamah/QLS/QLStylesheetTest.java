@@ -270,37 +270,4 @@ public class QLStylesheetTest extends TestCase
 		
 		assertEquals(parsedStylesheet, referenceStylesheet);
 	}
-	
-	public void testMixedOrderDeclarations()
-	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "mixedorderdeclaration");
-		
-		List<Page> pages = new ArrayList<Page>();
-		
-		Page page1 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
-		pages.add(page1);
-		Page page2 = new Page(new IdentifierValue("test"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
-		pages.add(page2);
-		
-		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
-		
-		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
-		styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidgetType()));
-		
-		DefaultBlock defaultBlock1 = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations1);
-		defaultBlocks.add(defaultBlock1);
-		
-		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
-		List<TextValue> answers = new ArrayList<TextValue>();
-		answers.add(new TextValue("yes"));
-		answers.add(new TextValue("no"));
-		styleDeclarations2.add(new WidgetDeclaration(new RadioButtonWidgetType(answers)));
-		
-		DefaultBlock defaultBlock2 = new DefaultBlock(QBaseQuestionType.TEXT, styleDeclarations2);
-		defaultBlocks.add(defaultBlock2);
-		
-		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), pages, defaultBlocks);
-		
-		assertEquals(parsedStylesheet, referenceStylesheet);
-	}
 }

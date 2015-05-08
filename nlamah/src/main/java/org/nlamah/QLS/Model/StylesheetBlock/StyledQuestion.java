@@ -17,6 +17,8 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	private IdentifierValue identifier;
 	private WidgetDeclaration widgetDeclaration;
 	
+	public DefaultBlock styleBlock;
+	
 	public StyledQuestion(IdentifierValue identifier, WidgetDeclaration widgetDeclaration)
 	{
 		super();

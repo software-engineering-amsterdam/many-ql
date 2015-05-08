@@ -3,18 +3,16 @@ package org.nlamah.QLS.Helper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
+import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class QLSHelper 
-{
-
-	static boolean doesExist()
-	{
-		return false;
-	}
-	
+{	
 	static public List<StyledQuestion> getQuestionsWithIdentifier(List<StyledQuestion> questions, IdentifierValue identifier)
 	{
 		List<StyledQuestion> foundQuestions = new ArrayList<StyledQuestion>();
@@ -61,5 +59,29 @@ public class QLSHelper
 	private static boolean questionsHaveTheSameIdentifier(FormQuestion formQuestion, StyledQuestion styledQuestion) 
 	{
 		return formQuestion.identifier().toString().equals(styledQuestion.identifier().toString());
+	}
+	
+	public static DefaultBlock findStyleDeclarationOfType(QBaseQuestionType type, List<DefaultBlock> defaultBlocks)
+	{
+		for (DefaultBlock defaultBlock : defaultBlocks)
+		{
+			if (defaultBlock.questionType() == type)
+			{
+				return defaultBlock;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static QBaseQuestionType getTypeForStyleQuestion(StyledQuestion styledQuestion, List<FormQuestion> formQuestions)
+	{		
+		FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier
+				(
+						formQuestions,
+						new IdentifierLiteral(styledQuestion.identifier().toString())
+				);
+		
+		return formQuestion.returnType();
 	}
 }

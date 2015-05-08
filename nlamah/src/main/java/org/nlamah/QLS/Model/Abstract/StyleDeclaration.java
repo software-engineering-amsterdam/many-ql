@@ -13,6 +13,11 @@ public abstract class StyleDeclaration extends QLSNode
 		value.setParentNode(this);
 	}
 	
+	public DeclarationValue getValue()
+	{
+		return value;
+	}
+	
 	@Override 
 	 public boolean equals(Object object) 
 	 {

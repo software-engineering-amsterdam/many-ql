@@ -1,16 +1,15 @@
-package org.nlamah.QLS.TypeChecker;
+package org.nlamah.QLS.Builders;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
-import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
-import org.nlamah.QLS.Error.WidgetTypeMismatchError;
 import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -18,9 +17,9 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
@@ -30,52 +29,97 @@ import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
-public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNodeVisitor
+public class CombinedStylesForQuestionsBuilder implements QLSNodeVisitor
 {
-	private List<FormQuestion> formQuestions;
-	private List<WidgetDeclaration> widgetDeclarations;
+	Stack<List<DefaultBlock>> styleStack;
+	Form form;
+	Stylesheet stylesheet;
 
-	private WidgetDeclaration currentWidgetDeclaration;
+	StyledQuestion currentQuestion;
 
-	public WidgetTypeChecker(Form form, Stylesheet stylesheet) 
+	public CombinedStylesForQuestionsBuilder(Form form, Stylesheet stylesheet)
 	{
 		super();
 
-		formQuestions = new FormQuestionsCollector(form).questions();
-
-		widgetDeclarations = new WidgetDeclarationsCollector(stylesheet).widgetDeclarations();	
+		this.form = form;
+		this.stylesheet = stylesheet;
+		
+		styleStack = new Stack<List<DefaultBlock>>();
 	}
 
-	public void check()
+	public void build()
 	{
-		for (WidgetDeclaration widgetDeclaration : widgetDeclarations)
+		for (StyledQuestion question : stylesheet.questions())
 		{
-			currentWidgetDeclaration = widgetDeclaration;
-
-			widgetDeclaration.parentNode().accept(this);
+			question.accept(this);
 		}
 	}
 
 	@Override
 	public QLSNode visit(Stylesheet stylesheet) 
 	{
-		assert(false);
+		styleStack.push(stylesheet.defaultBlocks());
+
+		addStyleBlockToStyledQuestion(currentQuestion);
 
 		return null;
+	}
+
+	private void addStyleBlockToStyledQuestion(StyledQuestion styledQuestion)
+	{
+		QBaseQuestionType styledQuestionType = QLSHelper.getTypeForStyleQuestion(styledQuestion, form.questions());
+
+		DefaultBlock styleBlockToAdd = new DefaultBlock(styledQuestionType, new ArrayList<StyleDeclaration>());
+
+		while(!styleStack.isEmpty())
+		{
+			List<DefaultBlock> defaultBlocks = styleStack.pop();
+
+			DefaultBlock defaultBlockAll = QLSHelper.findStyleDeclarationOfType(QBaseQuestionType.ALL, defaultBlocks);
+
+			if (defaultBlockAll != null)
+			{
+				for (StyleDeclaration styleDeclaration : defaultBlockAll.styleDeclarations())
+				{
+					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
+				}
+			}
+
+			DefaultBlock defaultBlockTyped = QLSHelper.findStyleDeclarationOfType(styledQuestionType, defaultBlocks);
+
+			if (defaultBlockTyped != null)
+			{
+				for (StyleDeclaration styleDeclaration : defaultBlockTyped.styleDeclarations())
+				{
+					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
+				}
+			} 
+
+			if (styledQuestion.widgetDeclaration() != null)
+			{
+				styleBlockToAdd.overWriteStyleDeclaration(styledQuestion.widgetDeclaration());
+			}
+		}
+
+		styledQuestion.styleBlock = styleBlockToAdd;
 	}
 
 	@Override
 	public QLSNode visit(Page page) 
 	{
-		assert(false);
+		styleStack.push(page.defaultBlocks());
+
+		page.parentNode().accept(this);
 
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(Section section) 
-	{
-		assert(false);
+	{	
+		styleStack.push(section.defaultBlocks());
+
+		section.parentNode().accept(this);
 
 		return null;
 	}
@@ -87,28 +131,22 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(StyledQuestion styledQuestion) 
-	{		
-		QBaseQuestionType formQuestionType = QLSHelper.getTypeForStyleQuestion(styledQuestion, formQuestions);
+	{
+		currentQuestion = styledQuestion;
 		
-		if (formQuestionType != currentWidgetDeclaration.returnType() && formQuestionType != QBaseQuestionType.ALL)
-		{
-			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, formQuestionType));
-		}
-		
+		styledQuestion.parentNode().accept(this);
+
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(DefaultBlock defaultBlock) 
-	{	
-		if (defaultBlock.questionType() != currentWidgetDeclaration.returnType() && defaultBlock.questionType() != QBaseQuestionType.ALL)
-		{
-			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, defaultBlock.questionType()));
-		}
-		
+	{
+		assert(false);
+
 		return null;
 	}
 
@@ -148,7 +186,7 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(ColorValue hexNumberValue) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 

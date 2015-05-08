@@ -72,6 +72,8 @@ public class QLSInterpreter implements ANTLRErrorListener
 		{
 			throw new QLSException(qlsTypeChecker.errors());
 		}
+		
+		new CombinedStylesForQuestionsBuilder(form, stylesheet).build();
 
 		return stylesheet;
 	}
