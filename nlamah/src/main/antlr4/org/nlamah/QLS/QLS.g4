@@ -1,16 +1,16 @@
 grammar QLS;
 
-stylesheet: 'stylesheet' Identifier  '{' (page | defaultBlock)* '}' ;
+stylesheet: 'stylesheet' Identifier  '{' page* defaultBlock* '}' ;
 
-page: 'page' Identifier '{' (section | defaultBlock)* '}' ;
+page: 'page' Identifier '{' section* defaultBlock* '}' ;
 
-section : 'section' Text '{' (stylesheetBlock | defaultBlock)* '}' ;
+section : 'section' Text '{' stylesheetBlock* defaultBlock* '}' ;
 
 stylesheetBlock: section | styledQuestion;
 
 styledQuestion : 'question' Identifier widgetDeclaration? ;
 
-defaultBlock : 'default' QuestionType ('{' styleDeclaration* '}' | styleDeclaration);
+defaultBlock : 'default' QuestionType? ('{' styleDeclaration* '}' | styleDeclaration);
 
 styleDeclaration : widthDeclaration	
 				| fontDeclaration

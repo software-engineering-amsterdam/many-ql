@@ -3,6 +3,7 @@ package org.nlamah.QLS.TypeChecker;
 import java.util.List;
 
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -97,7 +98,9 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 						new IdentifierLiteral(styledQuestion.identifier().toString())
 				);
 
-		if (formQuestion.returnType() != currentWidgetDeclaration.returnType())
+		System.out.println("currentWidgetDecl:" + currentWidgetDeclaration.returnType().toString());
+		
+		if (formQuestion.returnType() != currentWidgetDeclaration.returnType() && formQuestion.returnType() != QBaseQuestionType.ALL)
 		{
 			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, formQuestion.returnType()));
 		}
@@ -108,7 +111,9 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	@Override
 	public QLSNode visit(DefaultBlock defaultBlock) 
 	{
-		if (defaultBlock.questionType() != currentWidgetDeclaration.returnType())
+		System.out.println("currentWidgetDecl:" + currentWidgetDeclaration.returnType().toString());
+		
+		if (defaultBlock.questionType() != currentWidgetDeclaration.returnType() && defaultBlock.questionType() != QBaseQuestionType.ALL)
 		{
 			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, defaultBlock.questionType()));
 		}

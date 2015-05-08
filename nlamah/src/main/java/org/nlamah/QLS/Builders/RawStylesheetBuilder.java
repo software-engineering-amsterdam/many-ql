@@ -176,17 +176,24 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override
 	public QLSNode visitDefaultBlock(QLSParser.DefaultBlockContext ctx)
 	{
-		String questionTypeString = ctx.QuestionType().getText().toUpperCase();
+		String questionTypeString = ctx.QuestionType() != null ? ctx.QuestionType().getText().toUpperCase() : null;
 		
 		QBaseQuestionType questionType = null;
 		
-		try 
+		if (questionTypeString != null)
 		{
-			questionType = QBaseQuestionType.valueOf(questionTypeString);
-		} 
-		catch(Exception ex) 
-		{	
-			errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
+			try 
+			{
+				questionType = QBaseQuestionType.valueOf(questionTypeString);
+			} 
+			catch(Exception ex) 
+			{	
+				errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
+			}
+		}
+		else
+		{
+			questionType = QBaseQuestionType.ALL;
 		}
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();

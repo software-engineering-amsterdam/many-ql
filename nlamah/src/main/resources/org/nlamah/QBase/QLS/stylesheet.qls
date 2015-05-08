@@ -13,7 +13,7 @@ stylesheet test
 		}
 	}
 	
-	default number widget spinbox
+	
 	
 	page test2
 	{
@@ -39,6 +39,8 @@ stylesheet test
 			question question6
 		}
 	}
+	
+	default widget spinbox
 	
 	default text widget radio("yes", "no")
 }

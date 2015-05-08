@@ -54,7 +54,6 @@ public class QBaseHelper
 			}
 		}
 		
-		
 		final Set<T> setToReturn = new HashSet<T>();
 		final Set<T> set = new HashSet<T>();
 	
