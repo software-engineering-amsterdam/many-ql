@@ -10,7 +10,7 @@ public abstract class FormElementView extends JPanel implements ViewLoadingStrat
 	public FormElementView()
 	{
 		super();
-		
+
 		initializeComponents();
 		addComponentsToView();
 		layoutView();

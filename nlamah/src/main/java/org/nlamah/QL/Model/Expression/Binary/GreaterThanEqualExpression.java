@@ -41,10 +41,7 @@ public class GreaterThanEqualExpression extends BinaryLogicalExpression
 		switch(type)
 		{
 			case BOOLEAN: return false;
-			case TEXT: return false;
-			case NUMBER: return true;
+			default: return true;
 		}
-		
-		return false;
 	}
 }

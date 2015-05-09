@@ -43,8 +43,7 @@ public class UnEqualExpression extends EqualityExpression
 			case BOOLEAN: return true;
 			case TEXT: return true;
 			case NUMBER: return true;
+			default: return false;
 		}
-		
-		return false;
 	}
 }

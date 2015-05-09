@@ -22,7 +22,7 @@ import org.nlamah.QL.View.Form.Abstract.FormElementView;
 
 public class QLViewFactory implements QLFormElementViewControllerVisitor 
 {
-	private FormElementView currentlyCreatedView;
+	protected FormElementView currentlyCreatedView;
 
 	public List<FormElementView> gatherChildViews(DeclaringFormElementViewController declaringFormElementViewController)
 	{

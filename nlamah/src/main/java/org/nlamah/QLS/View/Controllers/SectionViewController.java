@@ -3,18 +3,16 @@ package org.nlamah.QLS.View.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Builders.FragementedFormElementFinder;
 import org.nlamah.QL.Builders.QLViewControllersFactory;
-import org.nlamah.QL.Builders.QLViewFactory;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
+import org.nlamah.QLS.Builders.QLSViewFactory;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
@@ -44,7 +42,9 @@ public class SectionViewController extends StylesheetViewController
 		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
 		
-		QLViewFactory viewFactory = new QLViewFactory();
+		QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory(rootViewController());
+		
+		QLSViewFactory viewFactory = new QLSViewFactory();
 		
 		for (SectionItem sectionItem : sectionItems)
 		{	
@@ -58,15 +58,11 @@ public class SectionViewController extends StylesheetViewController
 				
 				FormElement formElement = fragmentedFormElementFinder.findFragementedFormElementForQuestion(formQuestion);
 				
-				QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory(rootViewController());
-				
 				FormElementViewController formElementViewController = viewControllersFactory.createFormElementViewController(formElement);
 				
 				formElementViewControllers.add(formElementViewController);
 				
-				JPanel gatheredView = viewFactory.gatherViewForFormViewController(formElementViewController);
-				
-				view.add(gatheredView);
+				view.add(viewFactory.gatherViewForFormViewController(formElementViewController, styledQuestion.styleBlock));
 			}
 			else if (sectionItem instanceof Section)
 			{	
@@ -96,8 +92,6 @@ public class SectionViewController extends StylesheetViewController
 		{
 			preferredHeight += sectionViewController.neededViewHeight();
 		}
-		
-		((SectionView) view).redrawBorder();
 		
 		return preferredHeight;
 	}

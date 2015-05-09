@@ -1,7 +1,5 @@
 package org.nlamah.QL.View.Form;
 
-import javax.swing.JTextField;
-
 import org.nlamah.QL.View.Form.Abstract.QuestionView;
 import org.nlamah.QL.View.Form.Abstract.QuestionWidget;
 import org.nlamah.QL.View.Form.Widgets.NumberWidget;
@@ -9,8 +7,6 @@ import org.nlamah.QL.View.Form.Widgets.NumberWidget;
 @SuppressWarnings("serial")
 public class NumberQuestionView extends QuestionView
 {	
-	JTextField textField;
-	
 	public NumberQuestionView(QuestionWidget widget) 
 	{
 		super(widget);

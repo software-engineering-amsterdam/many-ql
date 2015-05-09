@@ -40,11 +40,8 @@ public class DivideExpression extends BinaryComputationalExpression
 	{
 		switch(type)
 		{
-			case BOOLEAN: return false;
-			case TEXT: return false;
 			case NUMBER: return true;
+			default: return false;
 		}
-		
-		return false;
 	}
 }

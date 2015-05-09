@@ -41,10 +41,7 @@ public class NotExpression extends UnaryLogicalExpression
 		switch(type)
 		{
 			case BOOLEAN: return true;
-			case TEXT: return false;
-			case NUMBER: return false;
+			default: return false;
 		}
-		
-		return false;
 	}
 }
