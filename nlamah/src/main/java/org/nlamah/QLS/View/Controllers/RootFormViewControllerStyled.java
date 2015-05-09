@@ -88,13 +88,8 @@ public class RootFormViewControllerStyled extends FormRootViewController
 	@Override
 	public void modelStateChanged() 
 	{
-		contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededViewHeight()));
+		super.modelStateChanged();
 		
-		for (PageViewController pageViewController : pageViewControllers)
-		{
-			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
-		}
-		//TODO why not immediately reAligned.
 		for (PageViewController pageViewController : pageViewControllers)
 		{
 			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Builders.FragementedFormElementFinder;
 import org.nlamah.QL.Builders.QLViewControllersFactory;
 import org.nlamah.QL.Builders.QLViewFactory;
@@ -87,17 +88,16 @@ public class SectionViewController extends StylesheetViewController
 	{	
 		int preferredHeight = 0;
 		
-		((SectionView) view).redrawBorder();
-		
-		for (FormElementViewController formElementViewController : formElementViewControllers)
-		{	
-			preferredHeight += formElementViewController.neededViewHeight();	
-		}
+		FormHeightAdjuster heightAjuster = new FormHeightAdjuster();
+	
+		preferredHeight += heightAjuster.getPreferredHeight(formElementViewControllers);	
 		
 		for (SectionViewController sectionViewController : childSectionViewControllers)
 		{
 			preferredHeight += sectionViewController.neededViewHeight();
 		}
+		
+		((SectionView) view).redrawBorder();
 		
 		return preferredHeight;
 	}
