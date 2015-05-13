@@ -20,6 +20,7 @@ public class QLSTest extends TestCase
 
 		suite.addTestSuite(QLStylesheetTest.class);
 		suite.addTestSuite(QLStylesheetErrorTest.class);
+		suite.addTestSuite(QLStyleCombiningTest.class);
 
 		return suite;
 	}

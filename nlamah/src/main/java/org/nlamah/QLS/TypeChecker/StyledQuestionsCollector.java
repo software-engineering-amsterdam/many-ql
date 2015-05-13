@@ -3,7 +3,7 @@ package org.nlamah.QLS.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QLS.Model.Abstract.AbstractQLSVisitor;
+import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
@@ -12,7 +12,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 
-public class StyledQuestionsCollector extends AbstractQLSVisitor
+public class StyledQuestionsCollector extends QLSVisitorAbstract
 {
 	private List<StyledQuestion> questions;
 	

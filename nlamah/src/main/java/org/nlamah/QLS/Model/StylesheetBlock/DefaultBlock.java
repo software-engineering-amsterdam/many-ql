@@ -52,30 +52,30 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		
 		if (styleDeclartionOfTheSameType == null)
 		{
+			System.out.println("add:" + styleDeclaration.getClass());
+			
 			styleDeclarations.add(styleDeclaration);
 		}
 		else
 		{
+			System.out.println("remove+add:" + styleDeclartionOfTheSameType.getClass() + "|" + styleDeclartionOfTheSameType.getClass());
+			
 			styleDeclarations.remove(styleDeclartionOfTheSameType);
 			styleDeclarations.add(styleDeclaration);
 		}
 	}
 
 	private StyleDeclaration findStyleDeclarationOfTheSameType(StyleDeclaration styleDeclaration) 
-	{
-		StyleDeclaration styleDeclarationToReturn = null;
-		
+	{		
 		for (StyleDeclaration temporaryStyleDeclaration : styleDeclarations)
 		{
-			if(temporaryStyleDeclaration.getValue().getClass().equals(styleDeclaration.getValue().getClass()))
+			if(temporaryStyleDeclaration.getClass().equals(styleDeclaration.getClass()))
 			{
-				styleDeclarationToReturn = temporaryStyleDeclaration;
-				
-				break;
+				return temporaryStyleDeclaration;
 			}
 		}
 		
-		return styleDeclarationToReturn;
+		return null;
 	}
 
 	@Override

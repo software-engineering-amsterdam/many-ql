@@ -1,11 +1,11 @@
 package org.nlamah.QLS.Builders;
 
-import org.nlamah.QLS.Model.Abstract.AbstractQLSVisitor;
+import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 
-public class PageFinder extends AbstractQLSVisitor 
+public class PageFinder extends QLSVisitorAbstract 
 {
 	private Page foundPage;
 	

@@ -1,6 +1,6 @@
-package org.nlamah.QLS.Model.Abstract;
+package org.nlamah.QLS.Interfaces;
 
-import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
+import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -21,7 +21,7 @@ import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
 import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
 
-public abstract class AbstractQLSVisitor implements QLSNodeVisitor 
+public abstract class QLSVisitorAbstract implements QLSNodeVisitor 
 {
 	@Override
 	public QLSNode visit(Stylesheet stylesheet) 

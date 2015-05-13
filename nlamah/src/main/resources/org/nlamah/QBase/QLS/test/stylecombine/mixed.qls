@@ -1,0 +1,39 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			section "test"
+			{
+				question question1
+				{
+					color: #000
+				}
+			}
+			
+			default number
+			{
+				width: 9
+				font: "Arial"
+			}
+			
+			default
+			{
+				fontsize: 12
+				width: 5
+			}
+		}
+		
+		default number
+		{
+			width: 20
+		}
+	}
+	
+	default number
+	{
+		 color: #F00
+		 width: 100
+	}
+}

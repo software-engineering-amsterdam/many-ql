@@ -7,7 +7,7 @@ import java.util.Stack;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Helper.QLSHelper;
-import org.nlamah.QLS.Model.Abstract.AbstractQLSVisitor;
+import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
@@ -18,7 +18,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
-public class CombinedStylesForQuestionsBuilder extends AbstractQLSVisitor
+public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 {
 	Stack<List<DefaultBlock>> styleStack;
 	Form form;
@@ -70,6 +70,8 @@ public class CombinedStylesForQuestionsBuilder extends AbstractQLSVisitor
 			{
 				for (StyleDeclaration styleDeclaration : defaultBlockAll.styleDeclarations())
 				{
+					System.out.println("All.class:" + styleDeclaration.getClass());
+					
 					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
 				}
 			}
@@ -80,13 +82,20 @@ public class CombinedStylesForQuestionsBuilder extends AbstractQLSVisitor
 			{
 				for (StyleDeclaration styleDeclaration : defaultBlockTyped.styleDeclarations())
 				{
+					System.out.println("Type.class:" + styleDeclaration.getClass());
+					
 					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
 				}
 			} 
 
-			if (styledQuestion.styleBlock().widgetDeclaration() != null)
+			if (styledQuestion.styleBlock() != null)
 			{
-				styleBlockToAdd.overWriteStyleDeclaration(styledQuestion.styleBlock().widgetDeclaration());
+				for (StyleDeclaration styleDeclaration : styledQuestion.styleBlock().styleDeclarations())
+				{
+					System.out.println("Question.class:" + styleDeclaration.getClass());
+					
+					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
+				}
 			}
 		}
 

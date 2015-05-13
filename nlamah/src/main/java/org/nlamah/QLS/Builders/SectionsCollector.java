@@ -3,7 +3,7 @@ package org.nlamah.QLS.Builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QLS.Model.Abstract.AbstractQLSVisitor;
+import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
@@ -11,7 +11,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
-public class SectionsCollector extends AbstractQLSVisitor 
+public class SectionsCollector extends QLSVisitorAbstract 
 {	
 	List<Section> sections;
 	

@@ -53,7 +53,7 @@ public class QLStylesheetErrorTest extends TestCase
 	
 	public void testWidgetTypeMismatch()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "widgettypemismatcherror");
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "widgettypemismatcherror");
 
 		QLTypeChecker qlTypeChecker = new QLTypeChecker();
 
@@ -99,7 +99,7 @@ public class QLStylesheetErrorTest extends TestCase
 	
 	public void testUnStyledQuestion()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "unstyledquestionerror");
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "unstyledquestionerror");
 
 		QLTypeChecker qlTypeChecker = new QLTypeChecker();
 
@@ -135,7 +135,7 @@ public class QLStylesheetErrorTest extends TestCase
 	
 	public void testDoubleDeclaration()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "doubledeclarationerror");
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledeclarationerror");
 
 		QLTypeChecker qlTypeChecker = new QLTypeChecker();
 
@@ -175,7 +175,7 @@ public class QLStylesheetErrorTest extends TestCase
 	
 	public void testDoubeldefaultBlock()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls", "doubledefaultblockerror");
+		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledefaultblockerror");
 
 		QLTypeChecker qlTypeChecker = new QLTypeChecker();
 
