@@ -34,7 +34,9 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		
 		areAlQuestionsStyledOnlyOnce(form, stylesheet);
 		
-		aredefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
+		areDefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
+		
+		areTheSamePropertiesDeclaredInTheSameTypeBlock(stylesheet);
 		
 		areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(form, stylesheet);
 		
@@ -86,10 +88,16 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		checkForErrors();
 	}
 	
-	private void aredefaultBlocksDefiningTheSameTypeInTheSameScope(Stylesheet stylesheet) throws QBaseException 
+	private void areDefaultBlocksDefiningTheSameTypeInTheSameScope(Stylesheet stylesheet) throws QBaseException 
 	{
 		errors.addAll(new DoubleDefaultBlockChecker(stylesheet).errors());
 		
+		checkForErrors();
+	}
+	
+	private void areTheSamePropertiesDeclaredInTheSameTypeBlock(Stylesheet stylesheet) throws QBaseException 
+	{
+		errors.addAll(new DoublePropertyDeclarationChecker(stylesheet).errors());
 		checkForErrors();
 	}
 	

@@ -6,6 +6,7 @@ import java.util.Stack;
 import org.nlamah.QBase.EqualityStating;
 import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
@@ -48,34 +49,19 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	
 	public void overWriteStyleDeclaration(StyleDeclaration styleDeclaration)
 	{
-		StyleDeclaration styleDeclartionOfTheSameType = findStyleDeclarationOfTheSameType(styleDeclaration);
+		List<StyleDeclaration> foundStyleDeclarations = QLSHelper.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
 		
-		if (styleDeclartionOfTheSameType == null)
+		if (foundStyleDeclarations.size() == 0)
 		{
-			System.out.println("add:" + styleDeclaration.getClass());
-			
 			styleDeclarations.add(styleDeclaration);
 		}
 		else
 		{
-			System.out.println("remove+add:" + styleDeclartionOfTheSameType.getClass() + "|" + styleDeclartionOfTheSameType.getClass());
+			assert(foundStyleDeclarations.size() == 1);
 			
-			styleDeclarations.remove(styleDeclartionOfTheSameType);
+			styleDeclarations.remove(foundStyleDeclarations.get(0));
 			styleDeclarations.add(styleDeclaration);
 		}
-	}
-
-	private StyleDeclaration findStyleDeclarationOfTheSameType(StyleDeclaration styleDeclaration) 
-	{		
-		for (StyleDeclaration temporaryStyleDeclaration : styleDeclarations)
-		{
-			if(temporaryStyleDeclaration.getClass().equals(styleDeclaration.getClass()))
-			{
-				return temporaryStyleDeclaration;
-			}
-		}
-		
-		return null;
 	}
 
 	@Override

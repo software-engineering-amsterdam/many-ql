@@ -56,7 +56,7 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 
 	private void addStyleBlockToStyledQuestion(StyledQuestion styledQuestion)
 	{
-		QBaseQuestionType styledQuestionType = QLSHelper.getTypeForStyleQuestion(styledQuestion, form.questions());
+		QBaseQuestionType styledQuestionType = QLSHelper.getTypeForStyledQuestion(styledQuestion, form.questions());
 
 		StyleBlock styleBlockToAdd = new StyleBlock(new ArrayList<StyleDeclaration>());
 
@@ -70,8 +70,6 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 			{
 				for (StyleDeclaration styleDeclaration : defaultBlockAll.styleDeclarations())
 				{
-					System.out.println("All.class:" + styleDeclaration.getClass());
-					
 					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
 				}
 			}
@@ -82,8 +80,6 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 			{
 				for (StyleDeclaration styleDeclaration : defaultBlockTyped.styleDeclarations())
 				{
-					System.out.println("Type.class:" + styleDeclaration.getClass());
-					
 					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
 				}
 			} 
@@ -92,8 +88,6 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 			{
 				for (StyleDeclaration styleDeclaration : styledQuestion.styleBlock().styleDeclarations())
 				{
-					System.out.println("Question.class:" + styleDeclaration.getClass());
-					
 					styleBlockToAdd.overWriteStyleDeclaration(styleDeclaration);
 				}
 			}

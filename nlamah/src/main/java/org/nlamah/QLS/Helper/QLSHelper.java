@@ -7,6 +7,7 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
+import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
@@ -37,7 +38,6 @@ public class QLSHelper
 				return true;
 			}
 		}
-		
 		
 		return false;
 	}
@@ -74,7 +74,22 @@ public class QLSHelper
 		return null;
 	}
 	
-	public static QBaseQuestionType getTypeForStyleQuestion(StyledQuestion styledQuestion, List<FormQuestion> formQuestions)
+	public static List<StyleDeclaration> findStyleDeclarationsOfTheSameClass(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations) 
+	{		
+		List<StyleDeclaration> foundDeclarations = new ArrayList<StyleDeclaration>();
+		
+		for (StyleDeclaration temporaryStyleDeclaration : styleDeclarations)
+		{
+			if(temporaryStyleDeclaration.getClass().equals(styleDeclaration.getClass()))
+			{
+				foundDeclarations.add(temporaryStyleDeclaration);
+			}
+		}
+		
+		return foundDeclarations;
+	}
+	
+	public static QBaseQuestionType getTypeForStyledQuestion(StyledQuestion styledQuestion, List<FormQuestion> formQuestions)
 	{		
 		FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier
 				(

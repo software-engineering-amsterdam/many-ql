@@ -1,6 +1,7 @@
 package org.nlamah.QLS.Interfaces;
 
 import org.nlamah.QLS.Model.Abstract.QLSNode;
+import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -26,21 +27,33 @@ public abstract class QLSVisitorAbstract implements QLSNodeVisitor
 	@Override
 	public QLSNode visit(Stylesheet stylesheet) 
 	{
-		assert(false);
+		for (Page page : stylesheet.pages())
+		{
+			page.accept(this);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(Page page) 
 	{
-		assert(false);
+		for (Section section : page.sections())
+		{
+			section.accept(this);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public QLSNode visit(Section section) 
-	{
-		assert(false);
+	{		
+		for (SectionItem sectionItem : section.sectionItems())
+		{
+			sectionItem.accept(this);
+		}
+		
 		return null;
 	}
 
