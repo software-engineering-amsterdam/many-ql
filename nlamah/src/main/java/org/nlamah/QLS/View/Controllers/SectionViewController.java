@@ -62,7 +62,7 @@ public class SectionViewController extends StylesheetViewController
 				
 				formElementViewControllers.add(formElementViewController);
 				
-				view.add(viewFactory.gatherViewForFormViewController(formElementViewController, styledQuestion.styleBlock));
+				view.add(viewFactory.gatherViewForFormViewController(formElementViewController, styledQuestion.styleBlock()));
 			}
 			else if (sectionItem instanceof Section)
 			{	

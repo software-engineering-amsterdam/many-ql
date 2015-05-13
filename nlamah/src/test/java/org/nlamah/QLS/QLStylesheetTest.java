@@ -16,6 +16,7 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
@@ -79,7 +80,9 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onequestion");
 		
-		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), null);
+		
+		
+		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), new StyleBlock(new ArrayList<StyleDeclaration>()));
 		
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(styledQuestion);
@@ -107,7 +110,13 @@ public class QLStylesheetTest extends TestCase
 		
 		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(widgetType);
 		
-		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), widgetDeclaration);
+		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+		
+		styleDeclarations.add(widgetDeclaration);
+		
+		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+		
+		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), styleBlock);
 		
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(styledQuestion);

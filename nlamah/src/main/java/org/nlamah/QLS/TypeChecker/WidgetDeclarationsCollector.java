@@ -15,6 +15,7 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
@@ -110,9 +111,9 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 	@Override
 	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
-		if (styledQuestion.widgetDeclaration() != null)
+		if (styledQuestion.styleBlock() != null)
 		{
-			styledQuestion.widgetDeclaration().accept(this);
+			styledQuestion.styleBlock().accept(this);
 		}
 		
 		return null;
@@ -122,6 +123,17 @@ public class WidgetDeclarationsCollector implements QLSNodeVisitor
 	public QLSNode visit(DefaultBlock defaultBlock) 
 	{	
 		for (StyleDeclaration styleDeclaration : defaultBlock.styleDeclarations())
+		{
+			styleDeclaration.accept(this);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public QLSNode visit(StyleBlock styleBlock)
+	{
+		for (StyleDeclaration styleDeclaration : styleBlock.styleDeclarations())
 		{
 			styleDeclaration.accept(this);
 		}

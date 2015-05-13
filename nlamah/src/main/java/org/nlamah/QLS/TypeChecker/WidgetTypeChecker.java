@@ -18,6 +18,7 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
@@ -109,6 +110,13 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, defaultBlock.questionType()));
 		}
 		
+		return null;
+	}
+	
+	@Override 
+	public QLSNode visit(StyleBlock styleBlock)
+	{
+		//TODO
 		return null;
 	}
 

@@ -21,6 +21,7 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
@@ -162,8 +163,8 @@ public class QLStylesheetErrorTest extends TestCase
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			List<StyledQuestion> styledQuestions = new ArrayList<StyledQuestion>();
-			styledQuestions.add(new StyledQuestion(new IdentifierValue("question1"), null));
-			styledQuestions.add(new StyledQuestion(new IdentifierValue("question1"), null));
+			styledQuestions.add(new StyledQuestion(new IdentifierValue("question1"), new StyleBlock(new ArrayList<StyleDeclaration>())));
+			styledQuestions.add(new StyledQuestion(new IdentifierValue("question1"), new StyleBlock(new ArrayList<StyleDeclaration>())));
 			
 			QBaseError error = new QLSDoubleDeclarationError(new IdentifierValue("question1"), styledQuestions);
 			referenceErrors.add(error);

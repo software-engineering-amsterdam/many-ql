@@ -14,6 +14,7 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.ColorValue;
@@ -93,6 +94,13 @@ public class SectionsCollector implements QLSNodeVisitor
 
 	@Override
 	public QLSNode visit(DefaultBlock defaultBlock) 
+	{
+		assert(false);
+		return null;
+	}
+	
+	@Override
+	public QLSNode visit(StyleBlock styleBlock)
 	{
 		assert(false);
 		return null;

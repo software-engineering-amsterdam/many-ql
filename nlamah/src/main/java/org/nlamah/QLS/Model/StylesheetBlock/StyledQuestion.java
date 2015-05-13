@@ -7,7 +7,6 @@ import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
-import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
 public class StyledQuestion extends SectionItem implements EqualityStating
@@ -15,23 +14,22 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	public Stack<QBaseEqualityState> equalityStateStack;
 	
 	private IdentifierValue identifier;
-	private WidgetDeclaration widgetDeclaration;
 	
-	public DefaultBlock styleBlock;
+	private StyleBlock styleBlock;
 	
-	public StyledQuestion(IdentifierValue identifier, WidgetDeclaration widgetDeclaration)
+	public StyledQuestion(IdentifierValue identifier, StyleBlock styleBlock)
 	{
 		super();
 		
 		this.identifier = identifier;
-		this.widgetDeclaration = widgetDeclaration;
+		this.styleBlock = styleBlock;
 		
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL);
 		
-		if (widgetDeclaration != null)
+		if (styleBlock != null)
 		{
-			widgetDeclaration.setParentNode(this);
+			styleBlock.setParentNode(this);
 		}
 	}
 	
@@ -40,9 +38,14 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 		return identifier;
 	}
 	
-	public WidgetDeclaration widgetDeclaration()
+	public StyleBlock styleBlock()
 	{
-		return widgetDeclaration;
+		return styleBlock;
+	}
+	
+	public void setSyleBlock(StyleBlock styleBlock)
+	{
+		this.styleBlock = styleBlock;
 	}
 	
 	@Override
@@ -86,12 +89,12 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 				return false;
 			}
 			
-			if (widgetDeclaration == null && value.widgetDeclaration == null)
+			if (styleBlock == null && value.styleBlock == null)
 			{
 				return true;
 			}
 			
-			if (!widgetDeclaration.equals(value.widgetDeclaration))
+			if (!styleBlock.equals(value.styleBlock))
 			{
 				return false;
 			}

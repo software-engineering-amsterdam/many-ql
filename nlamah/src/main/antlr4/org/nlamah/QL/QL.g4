@@ -14,7 +14,7 @@ ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;
 elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
 elseThenBlock : 'else' '{' formElement* '}' ;
 
-expression : operator=('-' |'+' | '!') expression				# UnaryExpression
+expression : operator=('-' |'+' | '!') expression		# UnaryExpression
 			| '(' expression ')'						# ParenthesesExpression
 			| expression MultiplyOperator expression	# MultiplyExpression
 			| expression op=('+' | '-') expression		# AdditionExpression

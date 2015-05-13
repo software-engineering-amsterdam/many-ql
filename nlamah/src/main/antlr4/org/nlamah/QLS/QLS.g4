@@ -8,23 +8,17 @@ section : 'section' Text '{' stylesheetBlock* defaultBlock* '}' ;
 
 stylesheetBlock: section | styledQuestion;
 
-styledQuestion : 'question' Identifier widgetDeclaration? ;
+styledQuestion : 'question' Identifier ('{' styleDeclaration* '}' | styleDeclaration)? ;
 
-defaultBlock : 'default' QuestionType? ('{' styleDeclaration* '}' | styleDeclaration);
+defaultBlock : 'default' QuestionType? ('{' styleDeclaration* '}' | styleDeclaration) ;
 
-styleDeclaration : widthDeclaration	
-				| fontDeclaration
-				| fontSizeDeclaration
-				| colorDeclaration
-				| widgetDeclaration
+styleDeclaration : 'width:' Number		#widthDeclaration
+				| 'font:' Text			#fontDeclaration
+				| 'fontsize:' Number	#fontSizeDeclaration
+				| 'color:' HexNumber	#colorDeclaration
+				| 'widget' widgetType	#widgetDeclaration
 				;
 
-widthDeclaration : 'width:' Number ;
-fontDeclaration : 'font:' Text ;
-fontSizeDeclaration : 'fontsize:' Number ;
-colorDeclaration : 'color:' HexNumber;
-
-widgetDeclaration : 'widget' widgetType ;
 widgetType : 'checkbox' 									#checkBoxType
 			| 'spinbox' 									#spinBoxType
 			| 'radio('answer+=Text (',' answer+=Text)* ')'	#radioButtonType
@@ -41,5 +35,4 @@ Comment : '//' ~[\r\n]* '\r'? '\n' -> skip ;
 
 fragment Digit : [0-9] ;
 fragment Letter : [a-zA-Z] ;
-//HexDigit : '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'a'|'A'|'b'|'B'|'c'|'C'|'d'|'D'|'e'|'E'|'f'|'F' ;
 fragment HexDigit :[0-9] | [a-fA-F] ;

@@ -31,6 +31,7 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
+import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
@@ -131,7 +132,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		QBaseHelper.addSourceCodePosition(titleValue, ctx);
 		
 		List<SectionItem> sectionItems = new ArrayList<SectionItem>();
-
+		
 		for (StylesheetBlockContext contextualSection : ctx.stylesheetBlock())
 		{
 			SectionItem sectionItem = (SectionItem) contextualSection.accept(this);
@@ -160,14 +161,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
 			
-		WidgetDeclaration widgetDeclaration = null;
-
-		if (ctx.widgetDeclaration() != null)
+		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+		
+		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
-			widgetDeclaration = (WidgetDeclaration) ctx.widgetDeclaration().accept(this);
+			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
+			styleDeclarations.add(styleDeclaration);
 		}
+		
+		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+		QBaseHelper.addSourceCodePosition(styleBlock, ctx);
+	
 
-		StyledQuestion styledQuestion = new StyledQuestion(identifier, widgetDeclaration);
+		StyledQuestion styledQuestion = new StyledQuestion(identifier, styleBlock);
 		QBaseHelper.addSourceCodePosition(styledQuestion, ctx);
 
 		return styledQuestion; 
