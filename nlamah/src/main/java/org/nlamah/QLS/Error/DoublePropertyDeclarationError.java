@@ -2,16 +2,16 @@ package org.nlamah.QLS.Error;
 
 import java.util.List;
 
-import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
-public class DoublePropertyDeclarationError extends QBaseError 
+public class DoublePropertyDeclarationError extends QBaseParsingError 
 {
 	private List<StyleDeclaration> styleDeclarations;
 	
 	public DoublePropertyDeclarationError(List<StyleDeclaration> styleDeclarations)
 	{
-		super();
+		super(0,0);
 		
 		this.styleDeclarations = styleDeclarations;
 	}

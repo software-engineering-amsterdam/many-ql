@@ -19,7 +19,9 @@ import org.nlamah.QLS.QLSParser.PageContext;
 import org.nlamah.QLS.QLSParser.SectionContext;
 import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
 import org.nlamah.QLS.QLSParser.StylesheetBlockContext;
+import org.nlamah.QLS.Error.DoublePropertyDeclarationError;
 import org.nlamah.QLS.Error.FontRecognitionError;
+import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -65,6 +67,18 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public Stylesheet build(ParseTree tree)
 	{
 		return (Stylesheet) tree.accept(this);
+	}
+	
+	private void checkForDoublePropertyDeclarations(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations)
+	{
+		List<StyleDeclaration> foundDeclarations = QLSHelper.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
+		
+		if (foundDeclarations.size() > 0)
+		{
+			foundDeclarations.add(styleDeclaration);
+			
+			errors.add(new DoublePropertyDeclarationError(foundDeclarations));
+		}
 	}
 
 	@Override 
@@ -154,7 +168,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		return section;
 	}
-
+	
 	@Override 
 	public QLSNode visitStyledQuestion(QLSParser.StyledQuestionContext ctx)
 	{ 
@@ -166,6 +180,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
+			
+			checkForDoublePropertyDeclarations(styleDeclaration, styleDeclarations);
+			
 			styleDeclarations.add(styleDeclaration);
 		}
 		
@@ -207,6 +224,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
+			
+			checkForDoublePropertyDeclarations(styleDeclaration, styleDeclarations);
+			
 			styleDeclarations.add(styleDeclaration);
 		}
 		

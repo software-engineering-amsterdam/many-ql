@@ -237,37 +237,28 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doublepropertydeclarationerror");
+		ParseTree tree = QLSTest.produceParseTreeFromSourceFile("error", "doublepropertydeclarationerror");
 
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
-		try
-		{
-			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+		stylesheetBuilder.build(tree);
+		
+		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			assertTrue(false);
-		}
-		catch (QBaseException e)
-		{
-			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
+		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
+		styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(12)));
+		styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(13)));
 
-			List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
-			styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(12)));
-			styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(13)));
+		QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
+		referenceErrors.add(error1);
+		
+		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
+		styleDeclarations2.add(new WidthDeclaration(new NumberValue(1)));
+		styleDeclarations2.add(new WidthDeclaration(new NumberValue(2)));
 
-			QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
-			referenceErrors.add(error1);
-			referenceErrors.add(error1);
-
-			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
-			styleDeclarations2.add(new WidthDeclaration(new NumberValue(1)));
-			styleDeclarations2.add(new WidthDeclaration(new NumberValue(2)));
-
-			QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
-			referenceErrors.add(error2);
-			referenceErrors.add(error2);
-
-			assertEquals(qlsTypeChecker.errors(), referenceErrors);
-		}
+		QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
+		referenceErrors.add(error2);
+	
+		assertEquals(stylesheetBuilder.errors(), referenceErrors);
 	}
 }

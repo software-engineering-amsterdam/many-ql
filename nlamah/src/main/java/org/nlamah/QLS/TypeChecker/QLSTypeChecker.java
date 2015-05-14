@@ -36,8 +36,6 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		
 		areDefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
 		
-		areTheSamePropertiesDeclaredInTheSameTypeBlock(stylesheet);
-		
 		areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(form, stylesheet);
 		
 	}
@@ -92,12 +90,6 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	{
 		errors.addAll(new DoubleDefaultBlockChecker(stylesheet).errors());
 		
-		checkForErrors();
-	}
-	
-	private void areTheSamePropertiesDeclaredInTheSameTypeBlock(Stylesheet stylesheet) throws QBaseException 
-	{
-		errors.addAll(new DoublePropertyDeclarationChecker(stylesheet).errors());
 		checkForErrors();
 	}
 	
