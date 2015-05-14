@@ -35,7 +35,7 @@ public class TextQuestion extends InputQuestion
 	{
 		switch (equalityStateStack.peek())
 		{
-		case IDENTIFIER:
+		case IDENTIFIER_ONLY:
 		{
 			if (!super.equals(object))
 			{
@@ -45,7 +45,7 @@ public class TextQuestion extends InputQuestion
 			break;
 		}
 
-		case QUESTIONTEXT:
+		case QUESTIONTEXT_ONLY:
 		{
 			if (!super.equals(object))
 			{

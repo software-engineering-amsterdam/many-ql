@@ -40,7 +40,7 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		this.questionType = questionType;
 		
 		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL);
+		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 		
 		for (StyleDeclaration styleDeclaration : styleDeclarations)
 		{
@@ -144,6 +144,31 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		}
 	}
 
+	public ColorDeclaration colorDeclaration() 
+	{
+		return colorDeclaration;
+	}
+
+	public FontDeclaration fontDeclaration() 
+	{
+		return fontDeclaration;
+	}
+
+	public FontSizeDeclaration fontSizeDeclaration() 
+	{
+		return fontSizeDeclaration;
+	}
+
+	public WidgetDeclaration widgetDeclaration() 
+	{
+		return widgetDeclaration;
+	}
+
+	public WidthDeclaration widthDeclaration() 
+	{
+		return widthDeclaration;
+	}
+
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
@@ -163,7 +188,7 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		
 		switch(equalityStateStack.peek())
 		{
-		case TYPE:
+		case QUESTIONTYPE_ONLY:
 		{
 			if (!(object instanceof DefaultBlock))
 			{

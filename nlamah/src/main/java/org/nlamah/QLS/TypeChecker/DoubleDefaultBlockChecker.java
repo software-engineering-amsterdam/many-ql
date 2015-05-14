@@ -42,7 +42,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	
 	private void gatherErrors(List<DefaultBlock> defaultBlocks)
 	{		
-		Set<DefaultBlock> set = QBaseHelper.getSetWithDuplicatedObjects(defaultBlocks, QBaseEqualityState.TYPE);
+		Set<DefaultBlock> set = QBaseHelper.getSetWithDuplicatedObjects(defaultBlocks, QBaseEqualityState.QUESTIONTYPE_ONLY);
 		
 		if (set.size() > 0)
 		{

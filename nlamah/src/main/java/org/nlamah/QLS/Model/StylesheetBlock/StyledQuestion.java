@@ -25,7 +25,7 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 		this.styleBlock = styleBlock;
 		
 		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL);
+		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 		
 		if (styleBlock != null)
 		{
@@ -59,7 +59,7 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	{
 		switch (equalityStateStack.peek())
 		{
-		case IDENTIFIER:
+		case IDENTIFIER_ONLY:
 		{
 			if (!(object instanceof StyledQuestion))
 			{

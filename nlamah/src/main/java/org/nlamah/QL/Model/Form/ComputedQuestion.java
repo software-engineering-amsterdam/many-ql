@@ -42,7 +42,7 @@ public class ComputedQuestion extends FormQuestion
 	{
 		switch (equalityStateStack.peek())
 		{
-		case IDENTIFIER:
+		case IDENTIFIER_ONLY:
 		{
 			if (!super.equals(object))
 			{
@@ -52,7 +52,7 @@ public class ComputedQuestion extends FormQuestion
 			break;
 		}
 
-		case QUESTIONTEXT:
+		case QUESTIONTEXT_ONLY:
 		{
 			if (!super.equals(object))
 			{

@@ -90,7 +90,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 
 	private boolean questionsAreNotDeclaredMoreThanOnce(Form form)
 	{	
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER);
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
 		
 		if (set.size() > 0)
 		{
@@ -160,7 +160,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT);
+		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT_ONLY);
 		
 		if (set.size() > 0)
 		{

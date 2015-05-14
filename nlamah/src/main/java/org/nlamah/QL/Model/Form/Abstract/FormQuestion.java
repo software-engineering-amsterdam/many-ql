@@ -23,7 +23,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 		this.type = type;
 		
 		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL);
+		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 
 		if (identifier != null)
 		{
@@ -51,7 +51,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 	{
 		switch (equalityStateStack.peek())
 		{
-		case IDENTIFIER:
+		case IDENTIFIER_ONLY:
 		{
 			if (!super.equals(object))
 			{
@@ -61,7 +61,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 			return true;
 		}
 
-		case QUESTIONTEXT:
+		case QUESTIONTEXT_ONLY:
 		{
 			FormQuestion value = (FormQuestion) object;
 
@@ -106,7 +106,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 	{
 		switch (equalityStateStack.peek())
 		{
-		case QUESTIONTEXT:
+		case QUESTIONTEXT_ONLY:
 		{
 			return questionText.toString().hashCode();
 		}

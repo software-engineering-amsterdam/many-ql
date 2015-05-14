@@ -73,7 +73,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions, QBaseEqualityState.IDENTIFIER);
+		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions, QBaseEqualityState.IDENTIFIER_ONLY);
 		
 		if (set.size() > 0)
 		{
