@@ -64,7 +64,7 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 		{
 			List<DefaultBlock> defaultBlocks = styleStack.pop();
 
-			DefaultBlock defaultBlockAll = QLSHelper.findStyleDeclarationOfType(QBaseQuestionType.ALL, defaultBlocks);
+			DefaultBlock defaultBlockAll = QLSHelper.findStyleDeclarationOfType(null, defaultBlocks);
 
 			if (defaultBlockAll != null)
 			{

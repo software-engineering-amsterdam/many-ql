@@ -32,7 +32,7 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	public DefaultBlock(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
 		super();
-		
+
 		assert(styleDeclarations != null);
 		
 		assignStyleDeclarations(styleDeclarations);

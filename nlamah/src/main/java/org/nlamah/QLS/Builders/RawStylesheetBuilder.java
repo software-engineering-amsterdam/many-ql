@@ -214,10 +214,6 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 				errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 			}
 		}
-		else
-		{
-			questionType = QBaseQuestionType.ALL;
-		}
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
