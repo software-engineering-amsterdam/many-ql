@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -25,9 +25,9 @@ import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
+import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
+import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
 
 public class QLStylesheetTest extends TestCase
 {
@@ -106,7 +106,7 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onewidgetquestion");
 		
-		WidgetType widgetType = new CheckBoxWidgetType();
+		WidgetStyle widgetType = new CheckBoxWidget();
 		
 		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(widgetType);
 		
@@ -213,7 +213,7 @@ public class QLStylesheetTest extends TestCase
 		TextValue value7 = new TextValue("value7");
 		answers.add(value7);
 		
-		WidgetType widgetType = new RadioButtonWidgetType(answers);
+		WidgetStyle widgetType = new RadioButtonWidget(answers);
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(widgetType);
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
@@ -268,7 +268,7 @@ public class QLStylesheetTest extends TestCase
 		styleDeclarations.add(new FontDeclaration(new TextValue("Arial")));
 		styleDeclarations.add(new FontSizeDeclaration(new NumberValue(14)));
 		styleDeclarations.add(new ColorDeclaration(new ColorValue(Color.decode("#999999"))));
-		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidgetType()));
+		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidget()));
 		
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations);
 		

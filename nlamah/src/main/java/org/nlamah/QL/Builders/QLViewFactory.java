@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
-import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
-import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
-import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
-import org.nlamah.QL.View.Controllers.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 import org.nlamah.QL.View.Form.ElseIfThenBlockView;
@@ -122,30 +119,6 @@ public class QLViewFactory implements QLFormElementViewControllerVisitor
 	}
 
 	@Override
-	public void visit(BooleanQuestionViewController booleanQuestionViewController) 
-	{
-		currentlyCreatedView = booleanQuestionViewController.view();
-	}
-
-	@Override
-	public void visit(ComputedQuestionViewController computedQuestionViewController) 
-	{
-		currentlyCreatedView = computedQuestionViewController.view();
-	}
-
-	@Override
-	public void visit(NumberQuestionViewController numberQuestionViewController) 
-	{
-		currentlyCreatedView = numberQuestionViewController.view();
-	}
-
-	@Override
-	public void visit(TextQuestionViewController textQuestionViewController) 
-	{
-		currentlyCreatedView = textQuestionViewController.view();
-	}
-
-	@Override
 	public void visit(ElseIfThenBlockViewController elseIfThenBlockViewController) 
 	{
 		gatherAndAddChildViews(elseIfThenBlockViewController);
@@ -173,5 +146,11 @@ public class QLViewFactory implements QLFormElementViewControllerVisitor
 		conditionalBlockViewController = addElseThenBlockView(conditionalBlockViewController);
 
 		currentlyCreatedView = conditionalBlockViewController.view();
+	}
+
+	@Override
+	public void visit(QuestionViewController questionViewController)
+	{
+		currentlyCreatedView = questionViewController.view();
 	}
 }

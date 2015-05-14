@@ -4,15 +4,12 @@ import java.util.List;
 
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
-import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
-import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
-import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
-import org.nlamah.QL.View.Controllers.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 
 public class FormHeightAdjuster implements QLFormElementViewControllerVisitor 
@@ -40,35 +37,11 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	{
 		assert false;
 	}
-
+	
 	@Override
-	public void visit(BooleanQuestionViewController booleanQuestionViewController) 
+	public void visit(QuestionViewController questionViewController)
 	{
-		currentlyCalculatedHeight = booleanQuestionViewController.neededViewHeight();
-		
-		preferredHeight += currentlyCalculatedHeight;
-	}
-
-	@Override
-	public void visit(ComputedQuestionViewController computedQuestionViewController) 
-	{
-		currentlyCalculatedHeight = computedQuestionViewController.neededViewHeight();
-		
-		preferredHeight += currentlyCalculatedHeight;
-	}
-
-	@Override
-	public void visit(NumberQuestionViewController numberQuestionViewController) 
-	{
-		currentlyCalculatedHeight = numberQuestionViewController.neededViewHeight();
-		
-		preferredHeight += currentlyCalculatedHeight;
-	}
-
-	@Override
-	public void visit(TextQuestionViewController textQuestionViewController) 
-	{
-		currentlyCalculatedHeight = textQuestionViewController.neededViewHeight();
+		currentlyCalculatedHeight = questionViewController.neededViewHeight();
 		
 		preferredHeight += currentlyCalculatedHeight;
 	}

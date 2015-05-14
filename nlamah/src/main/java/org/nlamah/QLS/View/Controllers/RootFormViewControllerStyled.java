@@ -48,6 +48,12 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		return Integer.toString(position);
 	}
 	
+	public Stylesheet stylesheet()
+	{
+		//TODO is this nice?
+		return stylesheet;
+	}
+	
 	private PageViewController pageViewControllerForPage(Page page)
 	{
 		return pageViewControllers.get(stylesheet.pages().indexOf(page));

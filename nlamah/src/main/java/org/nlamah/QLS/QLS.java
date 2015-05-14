@@ -8,7 +8,6 @@ import org.nlamah.QL.Builders.QLFormFragmentiser;
 import org.nlamah.QL.Builders.QLInterpreter;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.QLSInterpreter;
-import org.nlamah.QLS.Builders.QLStylesheetAdapter;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.View.Controllers.RootFormViewControllerStyled;
 
@@ -33,9 +32,6 @@ public class QLS
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
 			
 			stylesheet = qlsInterpreter.interprete(qlsSourceCodePath, form);
-			
-			QLStylesheetAdapter adapter = new QLStylesheetAdapter();
-			adapter.adapt(form, stylesheet);
 			
 			SwingUtilities.invokeLater(new RootFormViewControllerStyled(form, stylesheet));
 		}

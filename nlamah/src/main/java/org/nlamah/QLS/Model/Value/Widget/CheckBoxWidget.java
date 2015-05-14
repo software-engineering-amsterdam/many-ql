@@ -3,13 +3,13 @@ package org.nlamah.QLS.Model.Value.Widget;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 
-public class SpinBoxWidgetType extends WidgetType 
+public class CheckBoxWidget extends WidgetStyle 
 {
-	public SpinBoxWidgetType() 
+	public CheckBoxWidget()
 	{
-		super(QBaseQuestionType.NUMBER);
+		super(QBaseQuestionType.BOOLEAN);
 	}
 
 	@Override
@@ -17,20 +17,20 @@ public class SpinBoxWidgetType extends WidgetType
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
 		{
 			return false;
 		}
-		 
-		 if (!(object instanceof SpinBoxWidgetType))
-		 {
-			 return false;
-		 }
 
-		 return true;
-	 }
+		if (!(object instanceof CheckBoxWidget))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

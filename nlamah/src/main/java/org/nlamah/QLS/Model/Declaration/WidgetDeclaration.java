@@ -4,18 +4,23 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 
 public class WidgetDeclaration extends StyleDeclaration 
 {
-	public WidgetDeclaration(WidgetType widgetType) 
+	public WidgetDeclaration(WidgetStyle widget) 
 	{
-		super(widgetType);
+		super(widget);
 	}
 	
 	public QBaseQuestionType returnType()
 	{
-		return ((WidgetType) value).type();
+		return ((WidgetStyle) value).type();
+	}
+	
+	public WidgetStyle widget()
+	{
+		return (WidgetStyle) getValue();
 	}
 
 	@Override

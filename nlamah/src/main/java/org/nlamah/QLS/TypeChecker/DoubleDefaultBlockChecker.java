@@ -27,9 +27,9 @@ import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
+import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
+import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
 
 public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implements QLSNodeVisitor 
 {
@@ -140,7 +140,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	}
 	
 	@Override
-	public QLSNode visit(CheckBoxWidgetType checkBoxWidgetType) 
+	public QLSNode visit(CheckBoxWidget checkBoxWidgetType) 
 	{
 		assert(false);
 		
@@ -148,7 +148,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	}
 
 	@Override
-	public QLSNode visit(RadioButtonWidgetType radioButtonWidgetType) 
+	public QLSNode visit(RadioButtonWidget radioButtonWidgetType) 
 	{
 		assert(false);
 		
@@ -156,7 +156,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	}
 
 	@Override
-	public QLSNode visit(SpinBoxWidgetType spinBoxWidgetType) 
+	public QLSNode visit(SpinBoxWidget spinBoxWidgetType) 
 	{
 		assert(false);
 		

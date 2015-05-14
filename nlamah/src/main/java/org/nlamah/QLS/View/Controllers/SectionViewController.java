@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Builders.FragementedFormElementFinder;
-import org.nlamah.QL.Builders.QLViewControllersFactory;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
+import org.nlamah.QLS.Builders.QLSViewControllersFactory;
 import org.nlamah.QLS.Builders.QLSViewFactory;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
@@ -41,8 +41,8 @@ public class SectionViewController extends StylesheetViewController
 	{
 		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
-		
-		QLViewControllersFactory viewControllersFactory = new QLViewControllersFactory(rootViewController());
+		//TODO how to get the stylesheet properly?
+		QLSViewControllersFactory viewControllersFactory = new QLSViewControllersFactory(rootViewController(), rootViewController().stylesheet());
 		
 		QLSViewFactory viewFactory = new QLSViewFactory();
 		

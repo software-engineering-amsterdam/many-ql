@@ -6,19 +6,20 @@ import java.awt.Font;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.text.View;
 
 import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 @SuppressWarnings("serial")
-public abstract class QuestionView extends FormElementView 
+public class QuestionView extends FormElementView 
 {
 	protected JLabel questionLabel;
-	protected JPanel answerWidget;
+	protected WidgetView widgetView;
 
-	public QuestionView(QuestionWidget answerWidget) 
+	public QuestionView(FormQuestion question, WidgetView answerWidget) 
 	{
 		super();	
 
@@ -27,7 +28,7 @@ public abstract class QuestionView extends FormElementView
 		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
 		
 
-		this.answerWidget = answerWidget;
+		this.widgetView = answerWidget;
 
 		answerWidget.setMinimumSize(new Dimension(QLHelper.widgetWidth(), 20));
 
@@ -38,9 +39,11 @@ public abstract class QuestionView extends FormElementView
 		add(Box.createRigidArea(new Dimension(QLHelper.widgetRightMargin(), 0)));
 
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		
+		fillInQuestionString(question.questionText().toString());
 	}
 
-	public void fillInQuestionString(String questionString)
+	private void fillInQuestionString(String questionString)
 	{
 		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 
@@ -55,9 +58,35 @@ public abstract class QuestionView extends FormElementView
 		setMaximumSize(getPreferredSize()); 
 		setMinimumSize(getPreferredSize());
 		
-		answerWidget.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
-		answerWidget.setMinimumSize(answerWidget.getPreferredSize());
-		answerWidget.setMaximumSize(answerWidget.getPreferredSize());
+		widgetView.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
+		widgetView.setMinimumSize(widgetView.getPreferredSize());
+		widgetView.setMaximumSize(widgetView.getPreferredSize());
 
+	}
+	
+	public void setValue(ValueExpression value)
+	{
+		widgetView.setValue(value);
+	}
+
+	@Override
+	public void layoutView() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initializeComponents() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addComponentsToView() 
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

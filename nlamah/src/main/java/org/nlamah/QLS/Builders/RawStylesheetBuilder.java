@@ -25,7 +25,7 @@ import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -42,9 +42,9 @@ import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidgetType;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidgetType;
+import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
+import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
+import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
 
 public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode> 
 {
@@ -300,7 +300,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitWidgetDeclaration(QLSParser.WidgetDeclarationContext ctx) 
 	{ 
-		WidgetType widgetType = (WidgetType) ctx.widgetType().accept(this);
+		WidgetStyle widgetType = (WidgetStyle) ctx.widgetType().accept(this);
 
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(widgetType);
 		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
@@ -311,7 +311,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitCheckBoxType(QLSParser.CheckBoxTypeContext ctx) 
 	{ 		
-		CheckBoxWidgetType checkBoxWidgetType = new CheckBoxWidgetType();
+		CheckBoxWidget checkBoxWidgetType = new CheckBoxWidget();
 		QBaseHelper.addSourceCodePosition(checkBoxWidgetType, ctx);
 
 		return checkBoxWidgetType; 
@@ -320,7 +320,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitSpinBoxType(QLSParser.SpinBoxTypeContext ctx) 
 	{
-		SpinBoxWidgetType spinBoxWidgetType = new SpinBoxWidgetType();
+		SpinBoxWidget spinBoxWidgetType = new SpinBoxWidget();
 		QBaseHelper.addSourceCodePosition(spinBoxWidgetType, ctx);
 
 		return spinBoxWidgetType; 
@@ -338,7 +338,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			answers.add(answer);
 		}
 
-		RadioButtonWidgetType radioButtonWidgetType = new RadioButtonWidgetType(answers);
+		RadioButtonWidget radioButtonWidgetType = new RadioButtonWidget(answers);
 
 		QBaseHelper.addSourceCodePosition(radioButtonWidgetType, ctx);
 

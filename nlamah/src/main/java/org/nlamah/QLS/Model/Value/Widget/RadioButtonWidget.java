@@ -6,14 +6,14 @@ import java.util.List;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
-import org.nlamah.QLS.Model.Abstract.WidgetType;
+import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 import org.nlamah.QLS.Model.Value.TextValue;
 
-public class RadioButtonWidgetType extends WidgetType 
+public class RadioButtonWidget extends WidgetStyle 
 {
 	private List<TextValue> values;
 	
-	public RadioButtonWidgetType(List<TextValue> values)
+	public RadioButtonWidget(List<TextValue> values)
 	{
 		super(QBaseQuestionType.TEXT);
 		
@@ -52,12 +52,12 @@ public class RadioButtonWidgetType extends WidgetType
 			return false;
 		}
 		 
-		 if (!(object instanceof RadioButtonWidgetType))
+		 if (!(object instanceof RadioButtonWidget))
 		 {
 			 return false;
 		 }
 		 
-		 RadioButtonWidgetType widgetType = (RadioButtonWidgetType) object;
+		 RadioButtonWidget widgetType = (RadioButtonWidget) object;
 		 
 		 if (!(values.equals(widgetType.values)))
 		 {

@@ -7,9 +7,16 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 
 public class BooleanLiteral extends ValueExpression
 {	
+	public BooleanLiteral(boolean booleanValue)
+	{
+		this(booleanValue ? "yes" : "no");
+	}
+	
 	public BooleanLiteral(String booleanValueString)
 	{
-		super(booleanValueString, QBaseQuestionType.BOOLEAN);	
+		super(booleanValueString, QBaseQuestionType.BOOLEAN);
+		
+		assert(booleanValueString.equals("yes") || booleanValueString.equals("no"));
 	}
 	
 	public boolean primitiveValue()
@@ -21,7 +28,5 @@ public class BooleanLiteral extends ValueExpression
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
-	}
-
-	
+	}	
 }

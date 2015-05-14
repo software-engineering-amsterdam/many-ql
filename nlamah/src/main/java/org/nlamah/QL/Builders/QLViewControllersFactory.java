@@ -16,22 +16,23 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.View.Controllers.BooleanQuestionViewController;
-import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
-import org.nlamah.QL.View.Controllers.NumberQuestionViewController;
-import org.nlamah.QL.View.Controllers.TextQuestionViewController;
+import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
+import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
+import org.nlamah.QL.View.Form.Widgets.ComputedValueWidgetView;
+import org.nlamah.QL.View.Form.Widgets.NumberWidgetView;
+import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
-	FormRootViewController rootViewController;
-	FormElementViewController currentlyCreatedViewController;
+	protected FormRootViewController rootViewController;
+	protected FormElementViewController currentlyCreatedViewController;
 	
 	public QLViewControllersFactory(FormRootViewController rootViewController)
 	{
@@ -134,7 +135,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(BooleanQuestion booleanQuestion) 
 	{		
-		currentlyCreatedViewController = new BooleanQuestionViewController(booleanQuestion);
+		currentlyCreatedViewController = new QuestionViewController(booleanQuestion, new CheckboxWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
@@ -142,7 +143,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
-		currentlyCreatedViewController = new ComputedQuestionViewController(computedQuestion);
+		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
@@ -194,7 +195,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(NumberQuestion numberQuestion) 
 	{
-		currentlyCreatedViewController = new NumberQuestionViewController(numberQuestion);
+		currentlyCreatedViewController = new QuestionViewController(numberQuestion, new NumberWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
@@ -202,8 +203,9 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(TextQuestion textQuestion) 
 	{
-		currentlyCreatedViewController = new TextQuestionViewController(textQuestion);
+		currentlyCreatedViewController = new QuestionViewController(textQuestion, new TextFieldWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
+	
 }
