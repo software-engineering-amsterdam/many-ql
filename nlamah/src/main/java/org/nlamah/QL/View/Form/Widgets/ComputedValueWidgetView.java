@@ -2,6 +2,7 @@ package org.nlamah.QL.View.Form.Widgets;
 
 import javax.swing.JLabel;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
@@ -13,7 +14,7 @@ public class ComputedValueWidgetView extends WidgetView
 	
 	public ComputedValueWidgetView() 
 	{
-		super();
+		super(QBaseQuestionType.TEXT);
 		
 		label = new JLabel();
 

@@ -14,6 +14,11 @@ public class BooleanValue extends DeclarationValue
 		
 		this.booleanValue = booleanValue;
 	}
+	
+	public boolean value()
+	{
+		return booleanValue;
+	}
 
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 

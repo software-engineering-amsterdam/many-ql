@@ -39,6 +39,4 @@ stylesheet test
 			question question6
 		}
 	}
-	
-	default boolean widget radio("yes", "no")
 }

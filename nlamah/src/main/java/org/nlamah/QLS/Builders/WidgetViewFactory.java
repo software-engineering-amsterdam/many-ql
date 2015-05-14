@@ -2,8 +2,10 @@ package org.nlamah.QLS.Builders;
 
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
+import org.nlamah.QL.View.Form.Widgets.NumberFieldWidgetView;
 import org.nlamah.QL.View.Form.Widgets.RadioButtonWidgetView;
 import org.nlamah.QL.View.Form.Widgets.SpinBoxWidgetView;
+import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 
 public class WidgetViewFactory 
@@ -12,37 +14,16 @@ public class WidgetViewFactory
 	{
 		switch (widgetDeclaration.widgetType())
 		{
-		case CHECKBOX:
-			break;
-		case NUMBERFIELD:
-			break;
-		case RADIOBUTTON:
-			break;
-		case SPINBOX:
-			break;
-		case TEXTFIELD:
-			break;
+		case CHECKBOX: return new CheckboxWidgetView();
+		case NUMBERFIELD: return new NumberFieldWidgetView();
+		case RADIOBUTTON: return new RadioButtonWidgetView(widgetDeclaration.values(), widgetDeclaration.returnType());
+		case SPINBOX:return new SpinBoxWidgetView(widgetDeclaration.returnType());
+		case TEXTFIELD: return new TextFieldWidgetView();
 		default:
-			break;	
+		{
+			assert(false);
 		}
-		
-		
-//		if (style instanceof CheckBoxWidget)
-//		{
-//			return new CheckboxWidgetView();
-//		}
-//		else if (style instanceof RadioButtonWidget)
-//		{
-//			return new RadioButtonWidgetView();
-//		}
-//		else if (style instanceof SpinBoxWidget)
-//		{
-//			return new SpinBoxWidgetView();
-//		}
-//		else
-//		{
-//			assert(false);
-//		}
+		}
 		
 		return null;
 	}

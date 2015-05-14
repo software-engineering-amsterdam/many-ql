@@ -1,14 +1,15 @@
 package org.nlamah.QL.View.Form.Widgets;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
 @SuppressWarnings("serial")
 public class SpinBoxWidgetView extends WidgetView 
 {
-	public SpinBoxWidgetView()
+	public SpinBoxWidgetView(QBaseQuestionType returnType)
 	{
-		super();
+		super(returnType);
 	}
 	
 	@Override

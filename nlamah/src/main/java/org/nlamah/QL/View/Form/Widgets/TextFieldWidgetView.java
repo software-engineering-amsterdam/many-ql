@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -18,7 +19,7 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 	
 	public TextFieldWidgetView()
 	{
-		super();
+		super(QBaseQuestionType.TEXT);
 		
 		textField = new JTextField();
 		textField.addActionListener(this);

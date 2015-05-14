@@ -8,19 +8,20 @@ import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
 @SuppressWarnings("serial")
-public class NumberWidgetView extends WidgetView implements ActionListener
+public class NumberFieldWidgetView extends WidgetView implements ActionListener
 {
 	private JTextField textField;
 
-	public NumberWidgetView()
+	public NumberFieldWidgetView()
 	{
-		super();
+		super(QBaseQuestionType.NUMBER);
 		
 		textField = new JFormattedTextField(NumberFormat.getNumberInstance());
 		textField.addActionListener(this);

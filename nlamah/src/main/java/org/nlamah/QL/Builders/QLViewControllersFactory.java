@@ -26,7 +26,7 @@ import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewControlle
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
 import org.nlamah.QL.View.Form.Widgets.ComputedValueWidgetView;
-import org.nlamah.QL.View.Form.Widgets.NumberWidgetView;
+import org.nlamah.QL.View.Form.Widgets.NumberFieldWidgetView;
 import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
@@ -178,7 +178,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(NumberQuestion numberQuestion) 
 	{
-		currentlyCreatedViewController = new QuestionViewController(numberQuestion, new NumberWidgetView());
+		currentlyCreatedViewController = new QuestionViewController(numberQuestion, new NumberFieldWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}

@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
@@ -16,7 +17,7 @@ public class CheckboxWidgetView extends WidgetView implements ItemListener
 	
 	public CheckboxWidgetView() 
 	{
-		super();
+		super(QBaseQuestionType.BOOLEAN);
 		
 		checkbox = new JCheckBox("Yes");
 		checkbox.addItemListener(this);
