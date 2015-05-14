@@ -13,6 +13,9 @@ public class WidgetTypeMismatchError extends QBaseError
 	{
 		super();
 
+		assert(widgetDeclaration != null);
+		assert(neededType != null);
+		
 		this.widgetDeclaration = widgetDeclaration;
 		this.neededType = neededType;
 	}

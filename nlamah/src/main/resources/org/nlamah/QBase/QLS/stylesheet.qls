@@ -40,7 +40,5 @@ stylesheet test
 		}
 	}
 	
-	default widget spinbox
-	
-	default text widget radio("yes", "no")
+	default boolean widget radio("yes", "no")
 }

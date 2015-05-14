@@ -16,15 +16,20 @@ styleDeclaration : 'width:' Number		#widthDeclaration
 				| 'font:' Text			#fontDeclaration
 				| 'fontsize:' Number	#fontSizeDeclaration
 				| 'color:' HexNumber	#colorDeclaration
-				| 'widget' widgetType	#widgetDeclaration
+				| 'widget' widgetStyle	#widgetDeclaration
 				;
 
-widgetType : 'checkbox' 									#checkBoxType
-			| 'spinbox' 									#spinBoxType
-			| 'radio('answer+=Text (',' answer+=Text)* ')'	#radioButtonType
+widgetStyle : 'checkbox' 																				#checkBox
+			| 'spinbox' 																				#spinBox
+			| 'radio('answer+=Text (',' answer+=Text)* ')'												#radioButtonText
+			| 'radio('answer+=Text ':' value+= BooleanValue ',' answer+=Text ':' value+= BooleanValue 	#radioButtonBoolean
+			| 'radio('answer+=Number (',' answer+=Number)* ')' 											#radioButtonNumber
+			| 'textfield'																				#textField
+			| 'numberfield'																				#numberField
 			;
 
 QuestionType : 'boolean' | 'number' | 'text' ;
+BooleanValue : 'yes' | 'no' ;
 Text : '"' .*? '"' ;
 Identifier : Letter (Letter | Digit)* ;
 Number : (Digit)+ ;

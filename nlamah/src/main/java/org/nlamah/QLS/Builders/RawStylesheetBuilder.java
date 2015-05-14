@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
@@ -25,7 +27,6 @@ import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -37,14 +38,13 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Value.BooleanValue;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
+import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
 public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode> 
 {
@@ -300,48 +300,105 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitWidgetDeclaration(QLSParser.WidgetDeclarationContext ctx) 
 	{ 
-		WidgetStyle widgetType = (WidgetStyle) ctx.widgetType().accept(this);
+		WidgetDeclaration widgetDeclaration = (WidgetDeclaration) ctx.widgetStyle().accept(this);
 
-		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(widgetType);
 		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration;
 	}
 
 	@Override 
-	public QLSNode visitCheckBoxType(QLSParser.CheckBoxTypeContext ctx) 
+	public QLSNode visitCheckBox(QLSParser.CheckBoxContext ctx) 
 	{ 		
-		CheckBoxWidget checkBoxWidgetType = new CheckBoxWidget();
-		QBaseHelper.addSourceCodePosition(checkBoxWidgetType, ctx);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.CHECKBOX, QBaseQuestionType.BOOLEAN, null);
 
-		return checkBoxWidgetType; 
+		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+
+		return widgetDeclaration; 
 	}
 
 	@Override 
-	public QLSNode visitSpinBoxType(QLSParser.SpinBoxTypeContext ctx) 
+	public QLSNode visitSpinBox(QLSParser.SpinBoxContext ctx) 
 	{
-		SpinBoxWidget spinBoxWidgetType = new SpinBoxWidget();
-		QBaseHelper.addSourceCodePosition(spinBoxWidgetType, ctx);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null);
 
-		return spinBoxWidgetType; 
+		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+
+		return widgetDeclaration;  
 	}
 
 	@Override 
-	public QLSNode visitRadioButtonType(QLSParser.RadioButtonTypeContext ctx) 
+	public QLSNode visitRadioButtonText(QLSParser.RadioButtonTextContext ctx) 
 	{ 
-		List<TextValue> answers = new ArrayList<TextValue>();
+		Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
 
 		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
 		{
 			TextValue answer = new TextValue(QBaseHelper.removeSurroundingQuotes(contextualTextValue.getText()));
 			QBaseHelper.addSourceCodePosition(answer, ctx);
-			answers.add(answer);
+			answers.put(answer, answer);
 		}
 
-		RadioButtonWidget radioButtonWidgetType = new RadioButtonWidget(answers);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
 
-		QBaseHelper.addSourceCodePosition(radioButtonWidgetType, ctx);
+		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
 
-		return radioButtonWidgetType; 
+		return widgetDeclaration; 
+	}
+	
+	@Override 
+	public QLSNode visitRadioButtonNumber(QLSParser.RadioButtonNumberContext ctx) 
+	{ 
+		Map<TextValue, NumberValue> answers = new HashMap<TextValue, NumberValue>();
+
+		for (org.antlr.v4.runtime.Token contextualNumberValue : ctx.answer)
+		{
+			String numberValueString = contextualNumberValue.getText();
+			TextValue answer = new TextValue(numberValueString);
+			NumberValue answerValue = new NumberValue(Integer.valueOf(numberValueString));
+			QBaseHelper.addSourceCodePosition(answer, ctx);
+			QBaseHelper.addSourceCodePosition(answerValue, ctx);
+			answers.put(answer, answerValue);
+		}
+
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
+
+		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+
+		return widgetDeclaration; 
+	}
+	
+	@Override 
+	public QLSNode visitRadioButtonBoolean(QLSParser.RadioButtonBooleanContext ctx) 
+	{ 
+		Map<TextValue, BooleanValue> answers = new HashMap<TextValue, BooleanValue>();
+
+		for (org.antlr.v4.runtime.Token contextualBooleanValue : ctx.answer)
+		{
+			String booleanValueString = contextualBooleanValue.getText();
+			TextValue answer = new TextValue(booleanValueString);
+			BooleanValue answerValue = new BooleanValue(booleanValueString.equals("yes") ? true : false);
+			QBaseHelper.addSourceCodePosition(answer, ctx);
+			QBaseHelper.addSourceCodePosition(answerValue, ctx);
+			answers.put(answer, answerValue);
+		}
+
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
+
+		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+
+		return widgetDeclaration; 
+	}
+	
+	@Override
+	public QLSNode visitTextField(QLSParser.TextFieldContext ctx)
+	{
+		return null;
+	}
+	
+	@Override
+	public QLSNode visitNumberField(QLSParser.NumberFieldContext ctx)
+	{
+		return null;
 	}
 }

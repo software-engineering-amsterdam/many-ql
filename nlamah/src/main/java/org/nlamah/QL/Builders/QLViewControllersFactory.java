@@ -131,23 +131,6 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		return conditionalBlockViewController;
 	}
 
-
-	@Override
-	public void visit(BooleanQuestion booleanQuestion) 
-	{		
-		currentlyCreatedViewController = new QuestionViewController(booleanQuestion, new CheckboxWidgetView());
-		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
-	}
-
-	@Override
-	public void visit(ComputedQuestion computedQuestion) 
-	{
-		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
-		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
-	}
-
 	@Override
 	public void visit(ConditionalBlock conditionalBlock) 
 	{
@@ -208,4 +191,19 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
 	
+	@Override
+	public void visit(BooleanQuestion booleanQuestion) 
+	{		
+		currentlyCreatedViewController = new QuestionViewController(booleanQuestion, new CheckboxWidgetView());
+		
+		currentlyCreatedViewController.setRootViewController(this.rootViewController);
+	}
+
+	@Override
+	public void visit(ComputedQuestion computedQuestion) 
+	{
+		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
+		
+		currentlyCreatedViewController.setRootViewController(this.rootViewController);
+	}
 }

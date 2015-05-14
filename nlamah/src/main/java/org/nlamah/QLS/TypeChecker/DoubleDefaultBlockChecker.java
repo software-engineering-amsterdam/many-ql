@@ -22,14 +22,12 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
+import org.nlamah.QLS.Model.Value.BooleanValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
 
 public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implements QLSNodeVisitor 
 {
@@ -138,30 +136,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 		
 		return null;
 	}
-	
-	@Override
-	public QLSNode visit(CheckBoxWidget checkBoxWidgetType) 
-	{
-		assert(false);
-		
-		return null;
-	}
-
-	@Override
-	public QLSNode visit(RadioButtonWidget radioButtonWidgetType) 
-	{
-		assert(false);
-		
-		return null;
-	}
-
-	@Override
-	public QLSNode visit(SpinBoxWidget spinBoxWidgetType) 
-	{
-		assert(false);
-		
-		return null;
-	}
 
 	@Override
 	public QLSNode visit(TextValue textValue) 
@@ -200,6 +174,14 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	{
 		assert(false);
 		
+		return null;
+	}
+	
+	@Override
+	public QLSNode visit(BooleanValue booleanValue)
+	{
+		assert(false);
+	
 		return null;
 	}
 

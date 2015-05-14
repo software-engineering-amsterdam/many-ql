@@ -2,13 +2,14 @@ package org.nlamah.QLS;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Abstract.WidgetStyle;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
@@ -25,9 +26,7 @@ import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
+import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
 public class QLStylesheetTest extends TestCase
 {
@@ -106,9 +105,7 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onewidgetquestion");
 		
-		WidgetStyle widgetType = new CheckBoxWidget();
-		
-		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(widgetType);
+		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(WidgetTypeEnum.CHECKBOX, QBaseQuestionType.BOOLEAN, null);
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
@@ -197,24 +194,23 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "radiobutton");
 		
-		List<TextValue> answers = new ArrayList<TextValue>();
+		Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
 		TextValue value1 = new TextValue("value1");
-		answers.add(value1);
+		answers.put(value1, value1);
 		TextValue value2 = new TextValue("value2");
-		answers.add(value2);
+		answers.put(value2, value2);
 		TextValue value3 = new TextValue("value3");
-		answers.add(value3);
+		answers.put(value3, value3);
 		TextValue value4 = new TextValue("value4");
-		answers.add(value4);
+		answers.put(value4, value4);
 		TextValue value5 = new TextValue("value5");
-		answers.add(value5);
+		answers.put(value5, value5);
 		TextValue value6 = new TextValue("value6");
-		answers.add(value6);
+		answers.put(value6, value6);
 		TextValue value7 = new TextValue("value7");
-		answers.add(value7);
+		answers.put(value7, value7);
 		
-		WidgetStyle widgetType = new RadioButtonWidget(answers);
-		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(widgetType);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		styleDeclarations.add(widgetDeclaration);
@@ -268,7 +264,7 @@ public class QLStylesheetTest extends TestCase
 		styleDeclarations.add(new FontDeclaration(new TextValue("Arial")));
 		styleDeclarations.add(new FontSizeDeclaration(new NumberValue(14)));
 		styleDeclarations.add(new ColorDeclaration(new ColorValue(Color.decode("#999999"))));
-		styleDeclarations.add(new WidgetDeclaration(new SpinBoxWidget()));
+		styleDeclarations.add(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null));
 		
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations);
 		

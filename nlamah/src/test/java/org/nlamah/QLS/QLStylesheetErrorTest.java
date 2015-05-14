@@ -1,7 +1,9 @@
 package org.nlamah.QLS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseException;
@@ -29,9 +31,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
+import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
 import junit.framework.TestCase;
@@ -82,17 +82,17 @@ public class QLStylesheetErrorTest extends TestCase
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QBaseError error1 = new WidgetTypeMismatchError(new WidgetDeclaration(new CheckBoxWidget()), QBaseQuestionType.NUMBER);
+			QBaseError error1 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.CHECKBOX, QBaseQuestionType.BOOLEAN, null), QBaseQuestionType.NUMBER);
 			referenceErrors.add(error1);
 
-			QBaseError error2 = new WidgetTypeMismatchError(new WidgetDeclaration(new SpinBoxWidget()), QBaseQuestionType.TEXT);
+			QBaseError error2 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null), QBaseQuestionType.TEXT);
 			referenceErrors.add(error2);
 
-			List<TextValue> answers = new ArrayList<TextValue>();
-			answers.add(new TextValue("yes"));
-			answers.add(new TextValue("no"));
+			Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
+			answers.put(new TextValue("yes"), new TextValue("yes"));
+			answers.put(new TextValue("no"), new TextValue("no"));
 
-			QBaseError error3 = new WidgetTypeMismatchError(new WidgetDeclaration(new RadioButtonWidget(answers)), QBaseQuestionType.BOOLEAN);
+			QBaseError error3 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers), QBaseQuestionType.BOOLEAN);
 			referenceErrors.add(error3);
 
 			assertEquals(qlsTypeChecker.errors(), referenceErrors);
@@ -207,7 +207,7 @@ public class QLStylesheetErrorTest extends TestCase
 			List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 
 			List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
-			styleDeclarations1.add(new WidgetDeclaration(new SpinBoxWidget()));
+			styleDeclarations1.add(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null));
 			defaultBlocks.add(new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations1));
 
 			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();

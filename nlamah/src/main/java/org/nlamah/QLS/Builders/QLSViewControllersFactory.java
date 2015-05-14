@@ -8,6 +8,7 @@ import org.nlamah.QL.Model.Form.NumberQuestion;
 import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
+import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
@@ -34,8 +35,8 @@ public class QLSViewControllersFactory extends QLViewControllersFactory
 		WidgetDeclaration widgetDeclaration = styledQuestions.get(0).styleBlock().widgetDeclaration();
 		
 		if (widgetDeclaration != null)
-		{
-			currentlyCreatedViewController = new StyledQuestionViewControllerFactory().createViewController(question, widgetDeclaration.widget());
+		{	
+			currentlyCreatedViewController = new QuestionViewController(question, WidgetViewFactory.widgetViewForStyle(widgetDeclaration));
 			
 			currentlyCreatedViewController.setRootViewController(rootViewController);
 			

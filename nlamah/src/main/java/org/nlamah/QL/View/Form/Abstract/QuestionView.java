@@ -27,7 +27,6 @@ public class QuestionView extends FormElementView
 		questionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
 		
-
 		this.widgetView = answerWidget;
 
 		answerWidget.setMinimumSize(new Dimension(QLHelper.widgetWidth(), 20));
@@ -61,7 +60,6 @@ public class QuestionView extends FormElementView
 		widgetView.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
 		widgetView.setMinimumSize(widgetView.getPreferredSize());
 		widgetView.setMaximumSize(widgetView.getPreferredSize());
-
 	}
 	
 	public void setValue(ValueExpression value)

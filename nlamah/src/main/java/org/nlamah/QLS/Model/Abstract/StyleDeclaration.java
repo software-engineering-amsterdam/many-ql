@@ -7,10 +7,13 @@ public abstract class StyleDeclaration extends QLSNode
 	public StyleDeclaration(DeclarationValue value)
 	{
 		super();
-		
+	
 		this.value = value;
 		
-		value.setParentNode(this);
+		if (value != null)
+		{
+			value.setParentNode(this);
+		}
 	}
 	
 	public DeclarationValue getValue()
@@ -32,6 +35,11 @@ public abstract class StyleDeclaration extends QLSNode
 		 }
 		 
 		 StyleDeclaration styleDeclaration = (StyleDeclaration) object;
+		 
+		 if (value == null && styleDeclaration.value == null)
+		 {
+			 return true;
+		 }
 		 
 		 if (!(value.equals(styleDeclaration.value)))
 		 {

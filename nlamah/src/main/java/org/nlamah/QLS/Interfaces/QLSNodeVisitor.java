@@ -12,14 +12,12 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
+import org.nlamah.QLS.Model.Value.BooleanValue;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.TextValue;
-import org.nlamah.QLS.Model.Value.Widget.CheckBoxWidget;
-import org.nlamah.QLS.Model.Value.Widget.RadioButtonWidget;
-import org.nlamah.QLS.Model.Value.Widget.SpinBoxWidget;
 
 public interface QLSNodeVisitor 
 {
@@ -32,15 +30,12 @@ public interface QLSNodeVisitor
 	public QLSNode visit(DefaultBlock defaultBlock);
 	public QLSNode visit(StyleBlock styleBlock);
 	
-	public QLSNode visit(CheckBoxWidget checkBoxWidgetType);
-	public QLSNode visit(RadioButtonWidget radioButtonWidgetType);
-	public QLSNode visit(SpinBoxWidget spinBoxWidgetType);
-	
 	public QLSNode visit(TextValue textValue);
 	public QLSNode visit(ColorValue hexNumberValue);
 	public QLSNode visit(IdentifierValue identifierValue);
 	public QLSNode visit(NumberValue numberValue);
 	public QLSNode visit(FontValue fontValue);
+	public QLSNode visit(BooleanValue booleanValue);
 	
 	public QLSNode visit(ColorDeclaration colorDeclaration);
 	public QLSNode visit(FontDeclaration fontDeclaration);
