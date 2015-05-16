@@ -22,8 +22,11 @@ import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
+import org.nlamah.QL.View.Form.Abstract.WidgetView;
+import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
 import org.nlamah.QL.View.Form.Widgets.ComputedValueWidgetView;
 import org.nlamah.QL.View.Form.Widgets.NumberFieldWidgetView;
+import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
@@ -174,7 +177,21 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(InputQuestion inputQuestion) 
 	{
-		currentlyCreatedViewController = new QuestionViewController(inputQuestion, new NumberFieldWidgetView());
+		WidgetView widgetView = null;
+		
+		switch (inputQuestion.returnType())
+		{
+		case BOOLEAN:widgetView = new CheckboxWidgetView();
+			break;
+		case NUMBER: widgetView = new NumberFieldWidgetView();
+			break;
+		case TEXT: widgetView = new TextFieldWidgetView();
+			break;
+		default: assert(false);
+		break;
+		}
+		
+		currentlyCreatedViewController = new QuestionViewController(inputQuestion, widgetView);
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
@@ -182,7 +199,6 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
-		//TODO create the right default widget
 		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);

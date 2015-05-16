@@ -6,7 +6,9 @@ import org.nlamah.QBase.EqualityStating;
 import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
+import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
 public abstract class FormQuestion extends FormElement implements EqualityStating
@@ -23,6 +25,18 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 
 		this.questionText = questionString;
 		this.type = type;
+		
+		switch (type)
+		{
+		case BOOLEAN: value = new BooleanLiteral("no");
+			break;
+		case NUMBER: value = new NumberLiteral("0");
+			break;
+		case TEXT: value = new TextLiteral("");
+			break;
+		default: assert(false);
+			break;
+		}
 		
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
