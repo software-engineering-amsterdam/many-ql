@@ -19,13 +19,13 @@ styleDeclaration : 'width:' Number		#widthDeclaration
 				| 'widget' widgetStyle	#widgetDeclaration
 				;
 
-widgetStyle : 'checkbox' 																				#checkBox
-			| 'spinbox' 																				#spinBox
-			| 'radio('answer+=Text (',' answer+=Text)* ')'												#radioButtonText
-			| 'radio('answer+=Text ':' value+= BooleanValue ',' answer+=Text ':' value+= BooleanValue 	#radioButtonBoolean
-			| 'radio('answer+=Number (',' answer+=Number)* ')' 											#radioButtonNumber
-			| 'textfield'																				#textField
-			| 'numberfield'																				#numberField
+widgetStyle : 'checkbox' 																					#checkBox
+			| 'spinbox' 																					#spinBox
+			| 'radio('answer+=Text ':' value+= BooleanValue ',' answer+=Text ':' value+= BooleanValue ')' 	#radioButtonBoolean
+			| 'radio('answer+=Text (',' answer+=Text)* ')'													#radioButtonText
+			| 'radio('answer+=Number (',' answer+=Number)* ')' 												#radioButtonNumber
+			| 'textfield'																					#textField
+			| 'numberfield'																					#numberField
 			;
 
 QuestionType : 'boolean' | 'number' | 'text' ;

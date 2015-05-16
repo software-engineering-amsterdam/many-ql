@@ -3,20 +3,20 @@ package org.nlamah.QLS.Model.Declaration;
 import java.util.Map;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
-import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
 public class WidgetDeclaration extends StyleDeclaration 
 {
 	WidgetTypeEnum widgetType;
 	QBaseQuestionType returnType;
-	Map<TextValue, ? extends DeclarationValue> values;
+	Map<TextLiteral, ? extends ValueExpression> values;
 
-	public WidgetDeclaration(WidgetTypeEnum widgetType, QBaseQuestionType returnType, Map<TextValue, ? extends DeclarationValue> values) 
+	public WidgetDeclaration(WidgetTypeEnum widgetType, QBaseQuestionType returnType, Map<TextLiteral, ? extends ValueExpression> values) 
 	{
 		super(null);
 
@@ -35,7 +35,7 @@ public class WidgetDeclaration extends StyleDeclaration
 		return widgetType;
 	}
 
-	public Map<TextValue, ? extends DeclarationValue> values()
+	public Map<TextLiteral, ? extends ValueExpression> values()
 	{
 		return values;
 	}

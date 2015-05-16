@@ -9,6 +9,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
 import org.nlamah.QLS.Model.Declaration.FontDeclaration;
@@ -194,20 +195,20 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "radiobutton");
 		
-		Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
-		TextValue value1 = new TextValue("value1");
+		Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
+		TextLiteral value1 = new TextLiteral("value1");
 		answers.put(value1, value1);
-		TextValue value2 = new TextValue("value2");
+		TextLiteral value2 = new TextLiteral("value2");
 		answers.put(value2, value2);
-		TextValue value3 = new TextValue("value3");
+		TextLiteral value3 = new TextLiteral("value3");
 		answers.put(value3, value3);
-		TextValue value4 = new TextValue("value4");
+		TextLiteral value4 = new TextLiteral("value4");
 		answers.put(value4, value4);
-		TextValue value5 = new TextValue("value5");
+		TextLiteral value5 = new TextLiteral("value5");
 		answers.put(value5, value5);
-		TextValue value6 = new TextValue("value6");
+		TextLiteral value6 = new TextLiteral("value6");
 		answers.put(value6, value6);
-		TextValue value7 = new TextValue("value7");
+		TextLiteral value7 = new TextLiteral("value7");
 		answers.put(value7, value7);
 		
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);

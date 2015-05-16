@@ -114,7 +114,8 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	@Override 
 	public QLSNode visit(StyleBlock styleBlock)
 	{
-		//TODO
+		styleBlock.parentNode().accept(this);
+
 		return null;
 	}
 

@@ -11,6 +11,7 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.QLTest;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
@@ -30,7 +31,6 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.NumberValue;
-import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
@@ -88,9 +88,9 @@ public class QLStylesheetErrorTest extends TestCase
 			QBaseError error2 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null), QBaseQuestionType.TEXT);
 			referenceErrors.add(error2);
 
-			Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
-			answers.put(new TextValue("yes"), new TextValue("yes"));
-			answers.put(new TextValue("no"), new TextValue("no"));
+			Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
+			answers.put(new TextLiteral("yes"), new TextLiteral("yes"));
+			answers.put(new TextLiteral("no"), new TextLiteral("no"));
 
 			QBaseError error3 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers), QBaseQuestionType.BOOLEAN);
 			referenceErrors.add(error3);

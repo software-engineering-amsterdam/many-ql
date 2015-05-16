@@ -6,7 +6,12 @@ import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 
 public class NumberLiteral extends ValueExpression 
-{		
+{	
+	public NumberLiteral(int number)
+	{
+		this(Integer.toString(number));
+	}
+	
 	public NumberLiteral(String numberValueString)
 	{
 		super(numberValueString, QBaseQuestionType.NUMBER);

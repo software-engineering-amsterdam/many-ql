@@ -13,8 +13,6 @@ stylesheet test
 		}
 	}
 	
-	
-	
 	page test2
 	{
 		section "section2"
@@ -22,11 +20,13 @@ stylesheet test
 			section "section 3"
 			{
 				question question3
+				{
+					widget radio("yes":yes, "no":no)
+				}
 				
 				section "section 4"
 				{
 					question question4
-				
 				}
 				
 			}

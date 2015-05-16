@@ -14,6 +14,9 @@ import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.QBaseParsingError;
+import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
+import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
+import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QLS.QLSBaseVisitor;
 import org.nlamah.QLS.QLSParser;
 import org.nlamah.QLS.QLSParser.DefaultBlockContext;
@@ -38,7 +41,6 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
-import org.nlamah.QLS.Model.Value.BooleanValue;
 import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
@@ -326,11 +328,11 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonText(QLSParser.RadioButtonTextContext ctx) 
 	{ 
-		Map<TextValue, TextValue> answers = new HashMap<TextValue, TextValue>();
+		Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
 		{
-			TextValue answer = new TextValue(QBaseHelper.removeSurroundingQuotes(contextualTextValue.getText()));
+			TextLiteral answer = new TextLiteral(QBaseHelper.removeSurroundingQuotes(contextualTextValue.getText()));
 			QBaseHelper.addSourceCodePosition(answer, ctx);
 			answers.put(answer, answer);
 		}
@@ -345,19 +347,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonNumber(QLSParser.RadioButtonNumberContext ctx) 
 	{ 
-		Map<TextValue, NumberValue> answers = new HashMap<TextValue, NumberValue>();
+		Map<TextLiteral, NumberLiteral> answers = new HashMap<TextLiteral, NumberLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualNumberValue : ctx.answer)
 		{
-			String numberValueString = contextualNumberValue.getText();
-			TextValue answer = new TextValue(numberValueString);
-			NumberValue answerValue = new NumberValue(Integer.valueOf(numberValueString));
+			String numberValueString = QBaseHelper.removeSurroundingQuotes(contextualNumberValue.getText());
+			TextLiteral answer = new TextLiteral(numberValueString);
+			NumberLiteral answerValue = new NumberLiteral(Integer.valueOf(numberValueString));
 			QBaseHelper.addSourceCodePosition(answer, ctx);
 			QBaseHelper.addSourceCodePosition(answerValue, ctx);
 			answers.put(answer, answerValue);
 		}
 
-		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.NUMBER, answers);
 
 		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
 
@@ -367,19 +369,19 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonBoolean(QLSParser.RadioButtonBooleanContext ctx) 
 	{ 
-		Map<TextValue, BooleanValue> answers = new HashMap<TextValue, BooleanValue>();
+		Map<TextLiteral, BooleanLiteral> answers = new HashMap<TextLiteral, BooleanLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualBooleanValue : ctx.answer)
 		{
-			String booleanValueString = contextualBooleanValue.getText();
-			TextValue answer = new TextValue(booleanValueString);
-			BooleanValue answerValue = new BooleanValue(booleanValueString.equals("yes") ? true : false);
+			String booleanValueString = QBaseHelper.removeSurroundingQuotes(contextualBooleanValue.getText());
+			TextLiteral answer = new TextLiteral(booleanValueString);
+			BooleanLiteral answerValue = new BooleanLiteral(booleanValueString.equals("yes") ? true : false);
 			QBaseHelper.addSourceCodePosition(answer, ctx);
 			QBaseHelper.addSourceCodePosition(answerValue, ctx);
 			answers.put(answer, answerValue);
 		}
 
-		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
+		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.BOOLEAN, answers);
 
 		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
 
