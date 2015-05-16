@@ -5,6 +5,9 @@ stylesheet test
 		section "section1"
 		{
 			question question1
+			{
+				widget spinbox
+			}
 		}
 		
 		section "section5"

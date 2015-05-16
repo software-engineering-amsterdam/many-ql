@@ -21,13 +21,9 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 	{
 		super(QBaseQuestionType.TEXT);
 		
-		textField = new JTextField();
-		textField.addActionListener(this);
-		
-		textField.setPreferredSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
-		textField.setMaximumSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
-		
-		add(textField);
+		initializeComponents();
+		addComponentsToView();
+		layoutView();
 	}
 	
 	@Override
@@ -54,22 +50,22 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 	@Override
 	public void layoutView() 
 	{
-		// TODO Auto-generated method stub
-		
+		textField.setPreferredSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
+		textField.setMaximumSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));	
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
-		// TODO Auto-generated method stub
+		textField = new JTextField();
+		textField.addActionListener(this);
 		
 	}
 
 	@Override
 	public void addComponentsToView() 
 	{
-		// TODO Auto-generated method stub
-		
+		add(textField);
 	}
 
 	@Override

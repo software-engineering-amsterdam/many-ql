@@ -20,7 +20,6 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
-import org.nlamah.QLS.Model.Value.BooleanValue;
 
 @SuppressWarnings("serial")
 public class RadioButtonWidgetView extends WidgetView implements ActionListener
