@@ -77,4 +77,5 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 		
 		preferredHeight += currentlyCalculatedHeight;
 	}
+	
 }

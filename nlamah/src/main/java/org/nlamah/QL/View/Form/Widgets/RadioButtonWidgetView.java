@@ -1,15 +1,18 @@
 package org.nlamah.QL.View.Form.Widgets;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
@@ -32,17 +35,31 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 		radioButtons = new ArrayList<JRadioButton>();
 		buttonGroup = new ButtonGroup();
 
+		int neededHeight = 20;
+		
 		for (Map.Entry<TextLiteral, ? extends ValueExpression> entry : map.entrySet())
 		{
 			JRadioButton button = new JRadioButton(entry.getKey().toString());
 			button.setActionCommand(entry.getKey().toString());
-			button.setSelected(true);
 
+			ValueExpression value = QLHelper.defaultValueForQuestionType(returnType);
+			button.setSelected(value.equals(entry.getValue()));
+			
 			radioButtons.add(button);
 			add(button);
+			neededHeight += button.getPreferredSize().height;
+			
 			button.addActionListener(this);
 			buttonGroup.add(button);
 		}
+		
+		neededHeight = Math.max(neededHeight, super.getPreferredSize().height);
+		
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		setMaximumSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		setMinimumSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 	}
 
 	@Override
