@@ -43,7 +43,7 @@ public class QLS
 	
 	private static String getQLSourceCodePath(String[] args)
 	{
-		String qlSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QL/source.ql";
+		String qlSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/source.ql";
 		
 		if (args.length > 0)
 		{
@@ -55,7 +55,7 @@ public class QLS
 	
 	private static String getQLSSourceCodePath(String[] args)
 	{
-		String qlsSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QLS/stylesheet.qls";
+		String qlsSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QLS/stylesheet.qls";
 		
 		if (args.length > 1)
 		{

@@ -14,7 +14,7 @@ public class QL
 	{
 		try
 		{
-			String sourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QBase/QL/source.ql";
+			String sourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/source.ql";
 			
 			if (args.length > 0)
 			{
