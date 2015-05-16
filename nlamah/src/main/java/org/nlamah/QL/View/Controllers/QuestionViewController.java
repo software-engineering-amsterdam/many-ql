@@ -10,16 +10,19 @@ import org.nlamah.QL.View.Form.Abstract.QuestionView;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
 public class QuestionViewController extends FormElementViewController implements WidgetViewDelegate
-{	
-	public QuestionViewController(FormQuestion question, WidgetView widgetView) 
+{		
+	public QuestionViewController(FormRootViewController rootViewController, FormQuestion question) 
 	{
 		super(question);
 		
-		widgetView.setWidgetViewDelegate(this);
-
-		widgetView.setValue(question.value());
+		setRootViewController(rootViewController);
+	}
+	
+	public void setWidgetView(WidgetView widgetView)
+	{
+		widgetView.setValue(((FormQuestion) modelElement).value());
 		
-		view = new QuestionView(question, widgetView);
+		view = new QuestionView(((FormQuestion) modelElement), widgetView);
 	}
 	
 	public QBaseQuestionType questionReturnType()

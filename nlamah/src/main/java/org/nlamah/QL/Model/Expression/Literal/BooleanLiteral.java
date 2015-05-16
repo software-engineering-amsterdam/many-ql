@@ -28,5 +28,28 @@ public class BooleanLiteral extends ValueExpression
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
-	}	
+	}
+	
+	 @Override 
+	 public boolean equals(Object object) 
+	 {
+		 if (!super.equals(object))
+		 {
+			 return false;
+		 }
+		 
+		 if (!(object instanceof BooleanLiteral))
+		 {
+			 return false;
+		 }
+		 
+		 BooleanLiteral value = (BooleanLiteral) object;
+		 
+		 if (value.primitiveValue() != primitiveValue())
+		 {
+			 return false;
+		 }
+		 
+		 return true;
+	 }
 }

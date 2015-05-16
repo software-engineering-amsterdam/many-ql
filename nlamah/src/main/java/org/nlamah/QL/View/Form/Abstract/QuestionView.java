@@ -19,26 +19,16 @@ public class QuestionView extends FormElementView
 	protected JLabel questionLabel;
 	protected WidgetView widgetView;
 
-	public QuestionView(FormQuestion question, WidgetView answerWidget) 
+	public QuestionView(FormQuestion question, WidgetView widgetView) 
 	{
 		super();	
 
-		questionLabel = new JLabel();
-		questionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
+		this.widgetView = widgetView;
 		
-		this.widgetView = answerWidget;
+		initializeComponents();
+		addComponentsToView();
+		layoutView();
 
-		answerWidget.setMinimumSize(new Dimension(QLHelper.widgetWidth(), 20));
-
-		add(Box.createRigidArea(new Dimension(QLHelper.labelLeftMargin(), 0)));
-		add(questionLabel);
-		add(Box.createRigidArea(new Dimension(QLHelper.labelRightMargin(), 0)));
-		add(answerWidget);
-		add(Box.createRigidArea(new Dimension(QLHelper.widgetRightMargin(), 0)));
-
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		
 		fillInQuestionString(question.questionText().toString());
 	}
 
@@ -46,20 +36,7 @@ public class QuestionView extends FormElementView
 	{
 		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 
-		View view = (View) javax.swing.plaf.basic.BasicHTML.createHTMLView(questionLabel, questionLabel.getText());
-		view.setSize(QLHelper.contentWidth() - QLHelper.widgetWidth() - QLHelper.labelLeftMargin() - QLHelper.labelRightMargin(), Integer.MAX_VALUE);
-
-		int height = (int) view.getPreferredSpan(View.Y_AXIS);
-
-		height +=  QLHelper.labelTopMargin() + QLHelper.labelBottomMargin();
-
-		setPreferredSize(new Dimension(QLHelper.contentWidth(), height));
-		setMaximumSize(getPreferredSize()); 
-		setMinimumSize(getPreferredSize());
-		
-		widgetView.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
-		widgetView.setMinimumSize(widgetView.getPreferredSize());
-		widgetView.setMaximumSize(widgetView.getPreferredSize());
+		layoutView();
 	}
 	
 	public void setValue(ValueExpression value)
@@ -70,21 +47,44 @@ public class QuestionView extends FormElementView
 	@Override
 	public void layoutView() 
 	{
-		// TODO Auto-generated method stub
+		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+		
+		View view = (View) javax.swing.plaf.basic.BasicHTML.createHTMLView(questionLabel, questionLabel.getText());
+		view.setSize(QLHelper.contentWidth() - QLHelper.widgetWidth() - QLHelper.labelLeftMargin() - QLHelper.labelRightMargin(), Integer.MAX_VALUE);
+		
+		int height = (int) view.getPreferredSpan(View.Y_AXIS);
+
+		height +=  QLHelper.labelTopMargin() + QLHelper.labelBottomMargin();
+		
+		widgetView.layoutView();
+		
+		height = Math.max(height, widgetView.getPreferredSize().height);
+		
+		setPreferredSize(new Dimension(QLHelper.contentWidth(), height));
+		setMaximumSize(getPreferredSize()); 
+		setMinimumSize(getPreferredSize());
+		
+		widgetView.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
+		widgetView.setMinimumSize(widgetView.getPreferredSize());
+		widgetView.setMaximumSize(widgetView.getPreferredSize());
 		
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
-		// TODO Auto-generated method stub
-		
+		questionLabel = new JLabel();
+		questionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
 	}
 
 	@Override
 	public void addComponentsToView() 
 	{
-		// TODO Auto-generated method stub
-		
+		add(Box.createRigidArea(new Dimension(QLHelper.labelLeftMargin(), 0)));
+		add(questionLabel);
+		add(Box.createRigidArea(new Dimension(QLHelper.labelRightMargin(), 0)));
+		add(widgetView);
+		add(Box.createRigidArea(new Dimension(QLHelper.widgetRightMargin(), 0)));
 	}
 }

@@ -191,16 +191,26 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		break;
 		}
 		
-		currentlyCreatedViewController = new QuestionViewController(inputQuestion, widgetView);
+		QuestionViewController questionViewController = new QuestionViewController(rootViewController, inputQuestion);
 		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
+		widgetView.setWidgetViewDelegate(questionViewController);
+		
+		questionViewController.setWidgetView(widgetView);
+		
+		currentlyCreatedViewController = questionViewController;
 	}
 	
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
-		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
+		ComputedValueWidgetView widgetView = new ComputedValueWidgetView();
 		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
+		QuestionViewController questionViewController = new QuestionViewController(rootViewController, computedQuestion);
+		
+		widgetView.setWidgetViewDelegate(questionViewController);
+		
+		questionViewController.setWidgetView(widgetView);
+		
+		currentlyCreatedViewController = questionViewController;
 	}
 }

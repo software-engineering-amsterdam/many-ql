@@ -10,6 +10,10 @@ public class ElseThenBlockView extends FormElementView
 	public ElseThenBlockView() 
 	{
 		super();
+		
+		initializeComponents();
+		addComponentsToView();
+		layoutView();
 	}
 
 	@Override

@@ -15,12 +15,7 @@ public abstract class ValueExpression extends Expression
 	
 	 @Override 
 	 public boolean equals(Object object) 
-	 {
-		 if (this == object)
-		 {
-			 return true;
-		 }
-		 
+	 {	 
 		 if (!(object instanceof ValueExpression))
 		 {
 			 return false;
@@ -28,7 +23,12 @@ public abstract class ValueExpression extends Expression
 		 
 		 ValueExpression value = (ValueExpression) object;
 		 
-		 return value.valueString.equals(valueString);
+		 if (!value.valueString.equals(valueString))
+		 {
+			 return false;
+		 }
+		 
+		 return true;
 	 }
 	 
 	@Override

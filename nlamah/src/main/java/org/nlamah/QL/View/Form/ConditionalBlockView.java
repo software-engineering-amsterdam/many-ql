@@ -12,6 +12,10 @@ public class ConditionalBlockView extends FormElementView
 	public ConditionalBlockView() 
 	{
 		super();
+		
+		initializeComponents();
+		addComponentsToView();
+		layoutView();
 	}
 
 	@Override

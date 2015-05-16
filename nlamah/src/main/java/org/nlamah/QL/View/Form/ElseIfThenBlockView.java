@@ -11,6 +11,10 @@ public class ElseIfThenBlockView extends FormElementView
 	public ElseIfThenBlockView(ElseIfThenBlockViewController viewController) 
 	{
 		super();
+		
+		initializeComponents();
+		addComponentsToView();
+		layoutView();
 	}
 
 	@Override

@@ -30,8 +30,11 @@ stylesheet test
 				}
 				
 			}
-		
+
 			question question2
+			{
+				widget radio("gello", "hello", "brello")
+			}
 		}
 		
 		section "section6"
