@@ -39,7 +39,6 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
-
 	}
 
 	@Override

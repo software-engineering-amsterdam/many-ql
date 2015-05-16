@@ -26,7 +26,6 @@ public class CheckboxWidgetView extends WidgetView implements ItemListener
 	@Override
 	public void layoutView() 
 	{
-		add(checkbox);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package org.nlamah.QLS;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,9 +88,12 @@ public class QLStylesheetErrorTest extends TestCase
 			QBaseError error2 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null), QBaseQuestionType.TEXT);
 			referenceErrors.add(error2);
 
-			Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
-			answers.put(new TextLiteral("yes"), new TextLiteral("yes"));
-			answers.put(new TextLiteral("no"), new TextLiteral("no"));
+			Map<TextLiteral, TextLiteral> answers = new LinkedHashMap<TextLiteral, TextLiteral>();
+			
+			TextLiteral yesAnswer = new TextLiteral("yes");
+			answers.put(yesAnswer, yesAnswer);
+			TextLiteral noAnswer = new TextLiteral("no");
+			answers.put(noAnswer, noAnswer);
 
 			QBaseError error3 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers), QBaseQuestionType.BOOLEAN);
 			referenceErrors.add(error3);

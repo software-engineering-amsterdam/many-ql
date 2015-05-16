@@ -37,7 +37,6 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 	{
 		textField = new JTextField();
 		textField.addActionListener(this);
-		
 	}
 
 	@Override

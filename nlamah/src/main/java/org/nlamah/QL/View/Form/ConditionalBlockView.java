@@ -20,21 +20,18 @@ public class ConditionalBlockView extends FormElementView
 
 	@Override
 	public void layoutView() 
+	{	
+	}
+
+	@Override
+	public void initializeComponents() 
 	{
 		setBackground(Color.green);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); 
 	}
 
 	@Override
-	public void initializeComponents() 
-	{
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void addComponentsToView() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 }

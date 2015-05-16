@@ -2,7 +2,7 @@ package org.nlamah.QLS;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -195,7 +195,7 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "radiobutton");
 		
-		Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
+		Map<TextLiteral, TextLiteral> answers = new LinkedHashMap<TextLiteral, TextLiteral>();
 		TextLiteral value1 = new TextLiteral("value1");
 		answers.put(value1, value1);
 		TextLiteral value2 = new TextLiteral("value2");

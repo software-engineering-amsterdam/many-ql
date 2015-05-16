@@ -1,6 +1,8 @@
 package org.nlamah.QLS.Model.Declaration;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
@@ -70,11 +72,28 @@ public class WidgetDeclaration extends StyleDeclaration
 		{
 			return true;
 		}
-
-		if (value.values.equals(this.values))
+		
+		Iterator<TextLiteral> thisIterator = values.keySet().iterator();
+		Iterator<TextLiteral> objectIterator = value.values.keySet().iterator();
+		
+		while(thisIterator.hasNext())
 		{
-			return false;
-		}
+			TextLiteral thisKey = thisIterator.next();
+			TextLiteral objectKey = objectIterator.next();
+			
+			if (!thisKey.equals(objectKey))
+			{
+				return false;
+			}
+			
+			ValueExpression thisValue = values.get(thisKey);
+			ValueExpression objectValue = value.values.get(objectKey);
+			
+			if (!thisValue.equals(objectValue))
+			{
+				return false;
+			}
+		}		
 
 		return true;
 	}

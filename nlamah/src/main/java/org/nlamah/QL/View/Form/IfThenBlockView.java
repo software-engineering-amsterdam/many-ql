@@ -19,18 +19,16 @@ public class IfThenBlockView extends FormElementView
 	@Override
 	public void layoutView() 
 	{
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
-		// TODO Auto-generated method stub
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 
 	@Override
 	public void addComponentsToView() 
 	{
-		// TODO Auto-generated method stub
 	}
 }

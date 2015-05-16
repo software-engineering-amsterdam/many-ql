@@ -9,16 +9,16 @@ import org.nlamah.QL.View.Form.Abstract.WidgetView;
 public class ComputedValueWidgetView extends WidgetView 
 {
 	private JLabel label;
-	
+
 	public ComputedValueWidgetView() 
 	{
 		super(QBaseQuestionType.TEXT);
-		
+
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
 	}
-	
+
 	@Override
 	public void layoutView() 
 	{

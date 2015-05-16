@@ -58,15 +58,15 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 			}
 			else if (styleDeclaration instanceof FontDeclaration)
 			{
-				fontDeclaration = (FontDeclaration)styleDeclaration;
+				fontDeclaration = (FontDeclaration) styleDeclaration;
 			}
 			else if (styleDeclaration instanceof FontSizeDeclaration)
 			{
-				fontSizeDeclaration = (FontSizeDeclaration)styleDeclaration;
+				fontSizeDeclaration = (FontSizeDeclaration) styleDeclaration;
 			}
 			else if (styleDeclaration instanceof WidgetDeclaration)
 			{
-				widgetDeclaration = (WidgetDeclaration)styleDeclaration;
+				widgetDeclaration = (WidgetDeclaration) styleDeclaration;
 			}
 			else if (styleDeclaration instanceof WidthDeclaration)
 			{
@@ -124,15 +124,15 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		}
 		else if (styleDeclaration instanceof FontDeclaration)
 		{
-			fontDeclaration = (FontDeclaration)styleDeclaration;
+			fontDeclaration = (FontDeclaration) styleDeclaration;
 		}
 		else if (styleDeclaration instanceof FontSizeDeclaration)
 		{
-			fontSizeDeclaration = (FontSizeDeclaration)styleDeclaration;
+			fontSizeDeclaration = (FontSizeDeclaration) styleDeclaration;
 		}
 		else if (styleDeclaration instanceof WidgetDeclaration)
 		{
-			widgetDeclaration = (WidgetDeclaration)styleDeclaration;
+			widgetDeclaration = (WidgetDeclaration) styleDeclaration;
 		}
 		else if (styleDeclaration instanceof WidthDeclaration)
 		{

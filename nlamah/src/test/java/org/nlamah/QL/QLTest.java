@@ -60,8 +60,7 @@ public class QLTest extends TestCase
 		} 
 		catch (FileReadException e) 
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assert(false);
 		} 
 
 		return null;
