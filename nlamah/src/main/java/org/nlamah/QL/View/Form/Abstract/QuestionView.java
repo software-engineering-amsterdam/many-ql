@@ -10,7 +10,6 @@ import javax.swing.SwingConstants;
 import javax.swing.text.View;
 
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 @SuppressWarnings("serial")
@@ -37,11 +36,6 @@ public class QuestionView extends FormElementView
 		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
 
 		layoutView();
-	}
-	
-	public void setValue(ValueExpression value)
-	{
-		widgetView.setValue(value);
 	}
 
 	@Override

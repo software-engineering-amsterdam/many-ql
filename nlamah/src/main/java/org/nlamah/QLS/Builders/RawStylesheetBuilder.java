@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -328,7 +328,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonText(QLSParser.RadioButtonTextContext ctx) 
 	{ 
-		Map<TextLiteral, TextLiteral> answers = new HashMap<TextLiteral, TextLiteral>();
+		Map<TextLiteral, TextLiteral> answers = new LinkedHashMap<TextLiteral, TextLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
 		{
@@ -347,7 +347,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonNumber(QLSParser.RadioButtonNumberContext ctx) 
 	{ 
-		Map<TextLiteral, NumberLiteral> answers = new HashMap<TextLiteral, NumberLiteral>();
+		Map<TextLiteral, NumberLiteral> answers = new LinkedHashMap<TextLiteral, NumberLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualNumberValue : ctx.answer)
 		{
@@ -369,7 +369,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitRadioButtonBoolean(QLSParser.RadioButtonBooleanContext ctx) 
 	{ 
-		Map<TextLiteral, BooleanLiteral> answers = new HashMap<TextLiteral, BooleanLiteral>();
+		Map<TextLiteral, BooleanLiteral> answers = new LinkedHashMap<TextLiteral, BooleanLiteral>();
 
 		for (org.antlr.v4.runtime.Token contextualBooleanValue : ctx.answer)
 		{

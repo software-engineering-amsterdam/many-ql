@@ -19,9 +19,7 @@ public class QuestionViewController extends FormElementViewController implements
 	}
 	
 	public void setWidgetView(WidgetView widgetView)
-	{
-		widgetView.setValue(((FormQuestion) modelElement).value());
-		
+	{	
 		view = new QuestionView(((FormQuestion) modelElement), widgetView);
 	}
 	

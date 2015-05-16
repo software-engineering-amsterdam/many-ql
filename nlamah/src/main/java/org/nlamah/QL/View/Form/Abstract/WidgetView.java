@@ -32,7 +32,4 @@ public abstract class WidgetView extends FormElementView
 	{
 		this.widgetViewDelegate = widgetViewDelegate;
 	}
-	
-	abstract public ValueExpression value();
-	abstract public void setValue(ValueExpression value);
 }

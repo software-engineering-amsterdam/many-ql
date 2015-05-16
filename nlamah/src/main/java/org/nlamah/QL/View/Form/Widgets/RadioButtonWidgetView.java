@@ -89,41 +89,28 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 
 	private void setRightValueSelected()
 	{
-		boolean matchedDefaultValue = false;
-
 		for (JRadioButton radioButton : radioButtons)
 		{
 			ValueExpression defaultValue = QLHelper.defaultValueForQuestionType(returnType);
 
 			TextLiteral key = new TextLiteral(radioButton.getActionCommand());
 			ValueExpression buttonValue = map.get(key);
-			
+
 			if (defaultValue.equals(buttonValue))
 			{
-
 				notifiyNewValue(radioButton.getActionCommand());
-				
+
 				radioButton.setSelected(true);
 
-				
-				System.out.println("found default value " + (((BooleanLiteral) defaultValue).primitiveValue() ? "YES" : "NO") + " key: " + map.get(key).toString());
-				
-				matchedDefaultValue = true;
-
-				break;
+				return;
 			}
 		}
 
-		if (!matchedDefaultValue)
-		{
-			System.out.println("not found default");
-			
-			JRadioButton radioButton = radioButtons.get(0);
+		JRadioButton radioButton = radioButtons.get(0);
 
-			radioButton.setSelected(true);
+		radioButton.setSelected(true);
 
-			notifiyNewValue(radioButton.getActionCommand());
-		}
+		notifiyNewValue(radioButton.getActionCommand());
 	}
 
 	@Override
@@ -137,20 +124,6 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 		}
 
 		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetBottomPadding())));
-	}
-
-	@Override
-	public ValueExpression value() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setValue(ValueExpression value) 
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

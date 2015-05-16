@@ -23,9 +23,6 @@ stylesheet test
 			section "section 3"
 			{
 				question question3
-				{
-					widget radio("yes":yes, "no":no)
-				}
 				
 				section "section 4"
 				{
@@ -35,14 +32,15 @@ stylesheet test
 			}
 
 			question question2
-			{
-				widget radio("gello", "hello", "brello")
-			}
 		}
 		
 		section "section6"
 		{
-			question question6
+			question question6 
 		}
+		
+		default text widget radio("gello", "hello", "brello")
 	}
+	
+	default boolean widget radio("yes":yes, "no":no)
 }

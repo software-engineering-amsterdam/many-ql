@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
-import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
@@ -24,27 +23,6 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
-	}
-	
-	@Override
-	public ValueExpression value() 
-	{
-		return new TextLiteral(textField.getText());
-	}
-
-	@Override
-	public void setValue(ValueExpression value) 
-	{
-		if (value == null)
-		{
-			return;
-		}
-		
-		this.value = value;
-		
-		assert(value instanceof TextLiteral);
-		
-		textField.setText(value.toString());
 	}
 
 	@Override

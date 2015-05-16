@@ -52,20 +52,6 @@ public class SpinnerWidgetView extends WidgetView implements ChangeListener
 	}
 
 	@Override
-	public ValueExpression value() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setValue(ValueExpression value) 
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void stateChanged(ChangeEvent e) 
 	{
 		SpinnerNumberModel numberModel = (SpinnerNumberModel) spinner.getModel();
