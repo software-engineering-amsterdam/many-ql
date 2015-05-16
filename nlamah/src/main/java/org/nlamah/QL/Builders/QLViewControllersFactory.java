@@ -5,15 +5,13 @@ import java.util.List;
 
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
@@ -24,10 +22,8 @@ import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
-import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
 import org.nlamah.QL.View.Form.Widgets.ComputedValueWidgetView;
 import org.nlamah.QL.View.Form.Widgets.NumberFieldWidgetView;
-import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	
@@ -176,32 +172,17 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	}
 
 	@Override
-	public void visit(NumberQuestion numberQuestion) 
+	public void visit(InputQuestion inputQuestion) 
 	{
-		currentlyCreatedViewController = new QuestionViewController(numberQuestion, new NumberFieldWidgetView());
-		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
-	}
-
-	@Override
-	public void visit(TextQuestion textQuestion) 
-	{
-		currentlyCreatedViewController = new QuestionViewController(textQuestion, new TextFieldWidgetView());
+		currentlyCreatedViewController = new QuestionViewController(inputQuestion, new NumberFieldWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
 	
 	@Override
-	public void visit(BooleanQuestion booleanQuestion) 
-	{		
-		currentlyCreatedViewController = new QuestionViewController(booleanQuestion, new CheckboxWidgetView());
-		
-		currentlyCreatedViewController.setRootViewController(this.rootViewController);
-	}
-
-	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
+		//TODO create the right default widget
 		currentlyCreatedViewController = new QuestionViewController(computedQuestion, new ComputedValueWidgetView());
 		
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);

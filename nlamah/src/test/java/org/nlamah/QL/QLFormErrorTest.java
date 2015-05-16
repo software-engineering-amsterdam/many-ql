@@ -20,11 +20,9 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
@@ -75,11 +73,11 @@ public class QLFormErrorTest extends TestCase
 			List<FormQuestion> declaredQuestions1 = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
-			FormQuestion question1 = new BooleanQuestion(identifier1, new TextLiteral("test1"));
+			FormQuestion question1 = new InputQuestion(identifier1, new TextLiteral("test1"), QBaseQuestionType.BOOLEAN);
 			declaredQuestions1.add(question1);
 
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question1");
-			FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test2"));
+			FormQuestion question2 = new InputQuestion(identifier2, new TextLiteral("test2"), QBaseQuestionType.BOOLEAN);
 			declaredQuestions1.add(question2);
 
 			QBaseError error1 = new QLDoubleDeclarationError(identifier1, declaredQuestions1);
@@ -110,11 +108,11 @@ public class QLFormErrorTest extends TestCase
 			List<FormQuestion> declaredQuestions2 = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier3 = new IdentifierLiteral("question2");
-			FormQuestion question3 = new TextQuestion(identifier3, new TextLiteral("test3"));
+			FormQuestion question3 = new InputQuestion(identifier3, new TextLiteral("test3"), QBaseQuestionType.TEXT);
 			declaredQuestions2.add(question3);
 
 			IdentifierLiteral identifier4 = new IdentifierLiteral("question2");
-			FormQuestion question4 = new TextQuestion(identifier4, new TextLiteral("test4"));
+			FormQuestion question4 = new InputQuestion(identifier4, new TextLiteral("test4"), QBaseQuestionType.TEXT);
 			declaredQuestions2.add(question4);
 
 			QBaseError error2 = new QLDoubleDeclarationError(identifier3, declaredQuestions2);
@@ -144,11 +142,11 @@ public class QLFormErrorTest extends TestCase
 			List<FormQuestion> declaredQuestions3 = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier5 = new IdentifierLiteral("question3");
-			FormQuestion question5 = new NumberQuestion(identifier5, new TextLiteral("test5"));
+			FormQuestion question5 = new InputQuestion(identifier5, new TextLiteral("test5"), QBaseQuestionType.NUMBER);
 			declaredQuestions3.add(question5);
 
 			IdentifierLiteral identifier6 = new IdentifierLiteral("question3");
-			FormQuestion question6 = new NumberQuestion(identifier6, new TextLiteral("test6"));
+			FormQuestion question6 = new InputQuestion(identifier6, new TextLiteral("test6"), QBaseQuestionType.NUMBER);
 			declaredQuestions3.add(question6);
 
 			QBaseError error3 = new QLDoubleDeclarationError(identifier5, declaredQuestions3);
@@ -218,11 +216,11 @@ public class QLFormErrorTest extends TestCase
 			List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question5");
-			FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
+			FormQuestion question1 = new InputQuestion(identifier1, new TextLiteral("test1"), QBaseQuestionType.NUMBER);
 			declaredQuestions.add(question1);
 
 			IdentifierLiteral identifier2 = new IdentifierLiteral("question5");
-			FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test2"));
+			FormQuestion question2 = new InputQuestion(identifier2, new TextLiteral("test2"), QBaseQuestionType.BOOLEAN);
 			declaredQuestions.add(question2);
 
 			QBaseError error = new QLDoubleDeclarationError(identifier1, declaredQuestions);
@@ -252,11 +250,11 @@ public class QLFormErrorTest extends TestCase
 		List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
 
 		IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
-		FormQuestion question1 = new NumberQuestion(identifier1, new TextLiteral("test1"));
+		FormQuestion question1 = new InputQuestion(identifier1, new TextLiteral("test1"), QBaseQuestionType.NUMBER);
 		declaredQuestions.add(question1);
 
 		IdentifierLiteral identifier2 = new IdentifierLiteral("question2");
-		FormQuestion question2 = new BooleanQuestion(identifier2, new TextLiteral("test1"));
+		FormQuestion question2 = new InputQuestion(identifier2, new TextLiteral("test1"), QBaseQuestionType.BOOLEAN);
 		declaredQuestions.add(question2);
 
 		QBaseError error = new DoubleQuestionLabelWarning(declaredQuestions);
@@ -356,7 +354,7 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			FormQuestion question = new NumberQuestion(new IdentifierLiteral("question2"), new TextLiteral("test2"));
+			FormQuestion question = new InputQuestion(new IdentifierLiteral("question2"), new TextLiteral("test2"), QBaseQuestionType.NUMBER);
 			QBaseError error = new OutOfScopeDeclarationError(new IdentifierLiteral("question2"), question);
 			referenceErrors.add(error);
 

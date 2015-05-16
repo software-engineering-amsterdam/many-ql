@@ -19,15 +19,13 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public interface QLNodeVisitor
@@ -51,13 +49,11 @@ public interface QLNodeVisitor
 	public QLNode visit(MinusExpression minusExpression);
 	public QLNode visit(NotExpression notExpression);
 	public QLNode visit(PlusExpression plusExpression);
-	public QLNode visit(BooleanQuestion booleanQuestion);
-	public QLNode visit(ComputedQuestion computedQuestion);
 	public QLNode visit(ConditionalBlock conditionalBlock);
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock);
 	public QLNode visit(ElseThenBlock elseThenBlock);
 	public QLNode visit(Form form);
 	public QLNode visit(IfThenBlock ifThenBlock);
-	public QLNode visit(NumberQuestion numberQuestion);
-	public QLNode visit(TextQuestion textQuestion);
+	public QLNode visit(InputQuestion inputQuestion);
+	public QLNode visit(ComputedQuestion computedQuestion);
 }

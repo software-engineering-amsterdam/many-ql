@@ -24,15 +24,13 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 
 public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements QLNodeVisitor
 {
@@ -238,22 +236,6 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	}
 
 	@Override
-	public QLNode visit(BooleanQuestion booleanQuestion) 
-	{
-		assert false;
-		
-		return null;
-	}
-
-	@Override
-	public QLNode visit(ComputedQuestion computedQuestion) 
-	{		
-		expectedIdentifierType = computedQuestion.returnType();
-		
-		return null;
-	}
-
-	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
 		assert false;
@@ -294,17 +276,17 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	}
 
 	@Override
-	public QLNode visit(NumberQuestion numberQuestion) 
+	public QLNode visit(InputQuestion inputQuestion) 
 	{
 		assert false;
 		
 		return null;
 	}
-
+	
 	@Override
-	public QLNode visit(TextQuestion textQuestion) 
-	{
-		assert false;
+	public QLNode visit(ComputedQuestion computedQuestion) 
+	{		
+		expectedIdentifierType = computedQuestion.returnType();
 		
 		return null;
 	}

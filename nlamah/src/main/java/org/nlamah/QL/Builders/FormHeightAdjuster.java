@@ -35,7 +35,7 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	@Override
 	public void visit(FormRootViewController FormRootViewController) 
 	{
-		assert false;
+		assert(false);
 	}
 	
 	@Override

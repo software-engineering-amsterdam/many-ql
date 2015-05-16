@@ -3,9 +3,7 @@ package org.nlamah.QLS.Builders;
 import java.util.List;
 
 import org.nlamah.QL.Builders.QLViewControllersFactory;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QL.View.Controllers.QuestionViewController;
@@ -45,32 +43,14 @@ public class QLSViewControllersFactory extends QLViewControllersFactory
 		
 		return false;
 	}
-
 	
 	@Override
-	public void visit(BooleanQuestion booleanQuestion) 
-	{		
-		if (!createNewViewController(booleanQuestion))
-		{
-			super.visit(booleanQuestion);
-		}
-	}
-	
-	@Override
-	public void visit(NumberQuestion numberQuestion)
+	public void visit(InputQuestion inputQuestion)
 	{
-		if (!createNewViewController(numberQuestion))
+		if (!createNewViewController(inputQuestion))
 		{
-			super.visit(numberQuestion);
-		}
-	}
-	
-	@Override
-	public void visit(TextQuestion textQuestion)
-	{
-		if (!createNewViewController(textQuestion))
-		{
-			super.visit(textQuestion);
+			super.visit(inputQuestion);
+			//TODO check if this is correct
 		}
 	}
 }

@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 
 public class QLFormFragmentiser implements QLFormElementVisitor
@@ -48,34 +46,6 @@ public class QLFormFragmentiser implements QLFormElementVisitor
 		}
 		
 		fragmentedForm = new Form(form.title(), newFormElements);
-	}
-
-	@Override
-	public void visit(BooleanQuestion booleanQuestion) 
-	{
-		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
-		justAcceptedFragementedFormElementList.add(booleanQuestion);
-	}
-
-	@Override
-	public void visit(ComputedQuestion computedQuestion) 
-	{
-		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
-		justAcceptedFragementedFormElementList.add(computedQuestion);
-	}
-
-	@Override
-	public void visit(NumberQuestion numberQuestion) 
-	{
-		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
-		justAcceptedFragementedFormElementList.add(numberQuestion);
-	}
-
-	@Override
-	public void visit(TextQuestion textQuestion) 
-	{
-		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
-		justAcceptedFragementedFormElementList.add(textQuestion);
 	}
 
 	@Override
@@ -235,5 +205,19 @@ public class QLFormFragmentiser implements QLFormElementVisitor
 		}
 		
 		justAcceptedFragementedFormElementList = fragmentedConditionalBlockList;
+	}
+
+	@Override
+	public void visit(InputQuestion inputQuestion) 
+	{
+		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
+		justAcceptedFragementedFormElementList.add(inputQuestion);
+	}
+	
+	@Override
+	public void visit(ComputedQuestion computedQuestion) 
+	{
+		justAcceptedFragementedFormElementList = new ArrayList<FormElement>();
+		justAcceptedFragementedFormElementList.add(computedQuestion);
 	}
 }

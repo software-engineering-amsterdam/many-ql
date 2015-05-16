@@ -21,15 +21,14 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
+import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public class ExpressionEvaluator implements QLNodeVisitor
 {
@@ -216,18 +215,6 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	}
 
 	@Override
-	public ValueExpression visit(BooleanQuestion booleanQuestion) 
-	{
-		return booleanQuestion.checked();
-	}
-
-	@Override
-	public ValueExpression visit(ComputedQuestion computedQuestion) 
-	{
-		return computedQuestion.computedValue();
-	}
-
-	@Override
 	public ValueExpression visit(ConditionalBlock conditionalBlock) 
 	{
 		//The EpxressionVisitor should not call this visit method
@@ -257,8 +244,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(Form form) 
 	{
-		//The EpxressionVisitor should not call this visit method
-				
+		//The EpxressionVisitor should not call this visit method		
 		assert false;
 				
 		return null;
@@ -274,14 +260,14 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	}
 
 	@Override
-	public ValueExpression visit(NumberQuestion numberQuestion) 
+	public QLNode visit(InputQuestion inputQuestion) 
 	{
-		return numberQuestion.insertedNumber();
+		return inputQuestion.value();
 	}
-
+	
 	@Override
-	public ValueExpression visit(TextQuestion textQuestion) 
+	public ValueExpression visit(ComputedQuestion computedQuestion) 
 	{
-		return textQuestion.insertedText();
+		return computedQuestion.computedValue();
 	}
 }

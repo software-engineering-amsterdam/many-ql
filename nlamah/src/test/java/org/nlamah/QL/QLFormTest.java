@@ -3,6 +3,7 @@ package org.nlamah.QL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.GreaterThanExpression;
@@ -13,14 +14,13 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
-import org.nlamah.QL.Model.Form.Abstract.InputQuestion;
 
 import junit.framework.TestCase;
 
@@ -42,7 +42,7 @@ public class QLFormTest extends TestCase
 	{
 		parsedForm = QLTest.produceFormFromSourceFile("form", "onequestion");
 		
-		InputQuestion question = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
+		InputQuestion question = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
 		List<FormElement> questions = new ArrayList<FormElement>();
 		questions.add(question);
 		
@@ -55,8 +55,8 @@ public class QLFormTest extends TestCase
 	 {
  		parsedForm = QLTest.produceFormFromSourceFile("form", "twoquestions");
 
- 		InputQuestion question1 = new BooleanQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"));
- 		InputQuestion question2 = new BooleanQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"));
+ 		InputQuestion question1 = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
+ 		InputQuestion question2 = new InputQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"), QBaseQuestionType.BOOLEAN);
 
  		List<FormElement> questions = new ArrayList<FormElement>();
  		questions.add(question1);

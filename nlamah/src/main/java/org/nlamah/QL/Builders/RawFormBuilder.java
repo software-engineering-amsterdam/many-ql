@@ -30,15 +30,13 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
@@ -124,7 +122,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
-		FormQuestion question = new BooleanQuestion(identifier, questionText);
+		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.BOOLEAN);
 
 		QBaseHelper.addSourceCodePosition(question, ctx);
 
@@ -140,7 +138,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
-		FormQuestion question = new NumberQuestion(identifier, questionText);
+		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.NUMBER);
 
 		QBaseHelper.addSourceCodePosition(question, ctx);
 
@@ -156,7 +154,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
-		FormQuestion question = new TextQuestion(identifier, questionText);
+		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.TEXT);
 
 		QBaseHelper.addSourceCodePosition(question, ctx);
 

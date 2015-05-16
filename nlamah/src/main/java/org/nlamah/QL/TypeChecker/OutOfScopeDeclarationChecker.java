@@ -28,35 +28,33 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker implements QLNodeVisitor 
 {
 	private IdentifierLiteral identifier;
-	
+
 	public OutOfScopeDeclarationChecker(IdentifierLiteral identifier)
 	{
 		super();
-		
+
 		this.identifier = identifier;
-		
+
 		identifier.accept(this);
 	}
-	
+
 	private FormQuestion IsIdentifierDeclaredHere(List<FormElement> childElements) 
 	{	
 		FormQuestion declaredQuestion = null;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
@@ -66,18 +64,18 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 					if (childElement.identifier().equals(identifier))
 					{		
 						assert childElement instanceof FormQuestion;
-						
+
 						declaredQuestion =  (FormQuestion)childElement;
-						
+
 						identifier.setCorrespondingQuestion(declaredQuestion);
 					}
 				}
 			}
 		}
-		
+
 		return declaredQuestion;
 	}
-	
+
 	@Override
 	public QLNode visit(AddExpression addExpression) 
 	{
@@ -155,7 +153,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	{
 		//This visitor should not call this method
 		assert false;
-						
+
 		return null;
 	}
 
@@ -170,7 +168,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	{
 		//This visitor should not call this method
 		assert false;
-		
+
 		return null;
 	}
 
@@ -179,7 +177,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	{
 		//This visitor should not call this method
 		assert false;
-				
+
 		return null;
 	}
 
@@ -202,26 +200,6 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	}
 
 	@Override
-	public QLNode visit(BooleanQuestion booleanQuestion) 
-	{
-		//This visitor should not call this method
-		assert false;
-						
-		return null;
-	}
-
-	@Override
-	public QLNode visit(ComputedQuestion computedQuestion) 
-	{	
-		if (computedQuestion.identifier().equals(identifier))
-		{
-			errors.add(new CyclicDependencyError(identifier, computedQuestion));
-		}
-		
-		return computedQuestion.parentNode().accept(this);
-	}
-
-	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{	
 		return conditionalBlock.parentNode().accept(this);
@@ -231,12 +209,12 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{
 		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(elseIfThenBlock.childElements());
-		
+
 		if (declaredQuestion != null)
 		{
 			return declaredQuestion;
 		}
-		
+
 		return elseIfThenBlock.parentNode().accept(this);	
 	}
 
@@ -244,12 +222,12 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	public QLNode visit(ElseThenBlock elseThenBlock) 
 	{	
 		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(elseThenBlock.childElements());
-		
+
 		if (declaredQuestion != null)
 		{
 			return declaredQuestion;
 		}
-		
+
 		return elseThenBlock.parentNode().accept(this);
 	}
 
@@ -257,16 +235,16 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	public QLNode visit(Form form) 
 	{
 		FormQuestion declaredQuestion =  IsIdentifierDeclaredHere(form.childElements());
-		
+
 		if (declaredQuestion == null)
 		{
 			FormQuestion outOfScopeQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), this.identifier);
-			
+
 			assert(outOfScopeQuestion != null);
-			
+
 			errors.add(new OutOfScopeDeclarationError(this.identifier, outOfScopeQuestion));
 		}
-		
+
 		return declaredQuestion;
 	}
 
@@ -274,31 +252,32 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
 		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(ifThenBlock.childElements());
-		
+
 		if (declaredQuestion != null)
 		{	
 			return declaredQuestion;
 		}
-		
+
 		return ifThenBlock.parentNode().accept(this);
 	}
 
 	@Override
-	public QLNode visit(NumberQuestion numberQuestion) 
+	public QLNode visit(InputQuestion inputQuestion) 
 	{
 		//This visitor should not call this method
 		assert false;
-						
+
 		return null;
 	}
-
+	
 	@Override
-	public QLNode visit(TextQuestion textQuestion) 
-	{
-		//This visitor should not call this method
-		assert false;
-						
-		return null;
-	}
+	public QLNode visit(ComputedQuestion computedQuestion) 
+	{	
+		if (computedQuestion.identifier().equals(identifier))
+		{
+			errors.add(new CyclicDependencyError(identifier, computedQuestion));
+		}
 
+		return computedQuestion.parentNode().accept(this);
+	}
 }

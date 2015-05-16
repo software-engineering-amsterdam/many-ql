@@ -4,10 +4,7 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class IdentifierLiteral extends ValueExpression 
@@ -55,13 +52,7 @@ public class IdentifierLiteral extends ValueExpression
 			return question.computedValue();
 		}
 		
-		switch (correspondingQuestion.returnType())
-		{
-			case BOOLEAN: return ((BooleanQuestion) correspondingQuestion).checked();
-			case NUMBER: return ((NumberQuestion) correspondingQuestion).insertedNumber();
-			case TEXT: return ((TextQuestion) correspondingQuestion).insertedText();
-			default: return null;
-		}
+		return correspondingQuestion.value();
 	}
 	
 	@Override

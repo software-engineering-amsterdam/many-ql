@@ -7,15 +7,13 @@ import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 
 public class FormQuestionsCollector implements QLFormElementVisitor 
 {
@@ -43,31 +41,6 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 				childElement.accept(this);
 			}
 		}
-	}
-
-	@Override
-	public void visit(BooleanQuestion booleanQuestion) 
-	{
-		questions.add(booleanQuestion);
-	}
-
-	@Override
-	public void visit(ComputedQuestion computedQuestion) 
-	{
-		questions.add(computedQuestion);
-	}
-
-	@Override
-	public void visit(NumberQuestion numberQuestion) 
-	{
-		questions.add(numberQuestion);
-	}
-
-	@Override
-	public void visit(TextQuestion textQuestion) 
-	{
-		questions.add(textQuestion);
-
 	}
 
 	@Override
@@ -117,5 +90,17 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 		{
 			conditionalBlock.elseThenBlock().accept(this);
 		}
+	}
+
+	@Override
+	public void visit(InputQuestion inputQuestion) 
+	{
+		questions.add(inputQuestion);
+	}
+	
+	@Override
+	public void visit(ComputedQuestion computedQuestion) 
+	{
+		questions.add(computedQuestion);
 	}
 }

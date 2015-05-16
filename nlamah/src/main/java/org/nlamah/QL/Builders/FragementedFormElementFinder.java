@@ -20,15 +20,13 @@ import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Expression.Unary.MinusExpression;
 import org.nlamah.QL.Model.Expression.Unary.NotExpression;
 import org.nlamah.QL.Model.Expression.Unary.PlusExpression;
-import org.nlamah.QL.Model.Form.BooleanQuestion;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
 import org.nlamah.QL.Model.Form.ElseIfThenBlock;
 import org.nlamah.QL.Model.Form.ElseThenBlock;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.IfThenBlock;
-import org.nlamah.QL.Model.Form.NumberQuestion;
-import org.nlamah.QL.Model.Form.TextQuestion;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
@@ -205,26 +203,6 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	}
 
 	@Override
-	public QLNode visit(BooleanQuestion booleanQuestion) 
-	{
-		lastVisitedFormElement = booleanQuestion;
-		
-		booleanQuestion.parentNode().accept(this);
-		
-		return null;
-	}
-
-	@Override
-	public QLNode visit(ComputedQuestion computedQuestion) 
-	{
-		lastVisitedFormElement = computedQuestion;
-		
-		computedQuestion.parentNode().accept(this);
-		
-		return null;
-	}
-
-	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
 		lastVisitedFormElement = conditionalBlock;
@@ -271,21 +249,21 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	}
 
 	@Override
-	public QLNode visit(NumberQuestion numberQuestion) 
+	public QLNode visit(InputQuestion inputQuestion) 
 	{
-		lastVisitedFormElement = numberQuestion;
+		lastVisitedFormElement = inputQuestion;
 		
-		numberQuestion.parentNode().accept(this);
+		inputQuestion.parentNode().accept(this);
 		
 		return null;
 	}
-
+	
 	@Override
-	public QLNode visit(TextQuestion textQuestion) 
+	public QLNode visit(ComputedQuestion computedQuestion) 
 	{
-		lastVisitedFormElement = textQuestion;
+		lastVisitedFormElement = computedQuestion;
 		
-		textQuestion.parentNode().accept(this);
+		computedQuestion.parentNode().accept(this);
 		
 		return null;
 	}
