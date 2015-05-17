@@ -1,15 +1,25 @@
 package org.nlamah.QLS.Model.Declaration;
 
+import java.awt.Font;
+
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
-import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
 public class FontDeclaration extends StyleDeclaration 
 {
-	public FontDeclaration(DeclarationValue value) 
+	private Font font;
+	
+	public FontDeclaration(Font font) 
 	{
-		super(value);
+		super();
+		
+		this.font = font;
+	}
+	
+	public Font primitiveValue()
+	{
+		return font;
 	}
 
 	@Override
@@ -27,6 +37,13 @@ public class FontDeclaration extends StyleDeclaration
 		}
 
 		if (!(object instanceof FontDeclaration))
+		{
+			return false;
+		}
+		
+		FontDeclaration value = (FontDeclaration) object;
+		
+		if (!value.font.equals(font))
 		{
 			return false;
 		}

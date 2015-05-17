@@ -1,15 +1,14 @@
 package org.nlamah.QLS.View.Stylesheet;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Form.Abstract.QuestionView;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
-import org.nlamah.QLS.Model.Value.ColorValue;
-import org.nlamah.QLS.Model.Value.FontValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
 
+//TODO what to do with the serial numbers?
 @SuppressWarnings("serial")
 public class QuestionViewStyled extends QuestionView 
 {
@@ -33,38 +32,38 @@ public class QuestionViewStyled extends QuestionView
 	{
 		if (styleBlock.fontDeclaration() != null)
 		{
-			FontValue fontValue = (FontValue) styleBlock.fontDeclaration().value();
+			Font declaredFont = styleBlock.fontDeclaration().primitiveValue();
 		
 			Font currentFont = questionLabel.getFont();
 			
-			Font newFont = new Font(fontValue.font().getFontName(), fontValue.font().getStyle(), currentFont.getSize());
+			Font newFont = new Font(declaredFont.getFontName(), declaredFont.getStyle(), currentFont.getSize());
 			
 			questionLabel.setFont(newFont);
 		}
 		
 		if (styleBlock.fontSizeDeclaration() != null)
 		{
-			NumberValue fontSizeValue = (NumberValue) styleBlock.fontSizeDeclaration().value();
+			int declaredFontSize = styleBlock.fontSizeDeclaration().primitiveValue();
 			
 			Font currentFont = questionLabel.getFont();
 			
-			Font newFont = new Font(currentFont.getFontName(), currentFont.getStyle(), fontSizeValue.number());
+			Font newFont = new Font(currentFont.getFontName(), currentFont.getStyle(), declaredFontSize);
 			
 			questionLabel.setFont(newFont);
 		}
 		
 		if (styleBlock.colorDeclaration() != null)
 		{
-			ColorValue colorValue = (ColorValue) styleBlock.colorDeclaration().value();
+			Color declaredColor = styleBlock.colorDeclaration().primitiveValue();
 			
-			questionLabel.setForeground(colorValue.color());
+			questionLabel.setForeground(declaredColor);
 		}
 		
 		if (styleBlock.widthDeclaration() != null)
 		{
-			NumberValue widthValue = (NumberValue) styleBlock.widthDeclaration().value();
+			int declaredWidth = styleBlock.widthDeclaration().primitiveValue();
 			
-			viewWidth = widthValue.number();
+			viewWidth = declaredWidth;
 		}
 		
 		layoutView();

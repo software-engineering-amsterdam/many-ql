@@ -1,15 +1,23 @@
 package org.nlamah.QLS.Model.Declaration;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
-import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 
 public class FontSizeDeclaration extends StyleDeclaration 
 {
-	public FontSizeDeclaration(DeclarationValue value) 
+	private int fontSize;
+	
+	public FontSizeDeclaration(int fontSize) 
 	{
-		super(value);
+		super();
+		
+		this.fontSize = fontSize;
+	}
+	
+	public int primitiveValue()
+	{
+		return fontSize;
 	}
 
 	@Override
@@ -27,6 +35,13 @@ public class FontSizeDeclaration extends StyleDeclaration
 		}
 
 		if (!(object instanceof FontSizeDeclaration))
+		{
+			return false;
+		}
+		
+		FontSizeDeclaration value = (FontSizeDeclaration) object;
+		
+		if (value.fontSize != fontSize)
 		{
 			return false;
 		}

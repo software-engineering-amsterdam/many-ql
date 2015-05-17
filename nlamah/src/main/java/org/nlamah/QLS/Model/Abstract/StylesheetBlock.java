@@ -7,20 +7,15 @@ import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 
 public abstract class StylesheetBlock extends QLSNode
 {
-	protected DeclarationValue title;
+	protected String title;
 	protected List<DefaultBlock> defaultBlocks;
 
-	public StylesheetBlock(DeclarationValue title, List<DefaultBlock> defaultBlocks)
+	public StylesheetBlock(String title, List<DefaultBlock> defaultBlocks)
 	{
 		super();
 
 		this.title = title;
 		this.defaultBlocks = defaultBlocks;
-		
-		if (title != null)
-		{
-			title.setParentNode(this);
-		}
 		
 		if (QBaseHelper.arrayExistsAndHasElements(defaultBlocks))
 		{
@@ -30,9 +25,7 @@ public abstract class StylesheetBlock extends QLSNode
 			}
 		}
 	}
-
-
-
+	
 	public StylesheetBlock()
 	{
 		this(null, null);

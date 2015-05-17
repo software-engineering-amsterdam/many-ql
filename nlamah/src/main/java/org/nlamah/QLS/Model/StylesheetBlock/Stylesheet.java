@@ -16,7 +16,7 @@ public class Stylesheet extends StylesheetBlock
 	
 	public Stylesheet(IdentifierValue identifier, List<Page> pages, List<DefaultBlock> defaultBlocks)
 	{
-		super(identifier, defaultBlocks);
+		super(identifier.toString(), defaultBlocks);
 		
 		this.pages = pages;
 		

@@ -3,13 +3,21 @@ package org.nlamah.QLS.Model.Declaration;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
-import org.nlamah.QLS.Model.Value.NumberValue;
 
 public class WidthDeclaration extends StyleDeclaration 
 {	
-	public WidthDeclaration(NumberValue numberValue) 
+	private int width;
+	
+	public WidthDeclaration(int width) 
 	{
-		super(numberValue);
+		super();
+		
+		this.width = width;
+	}
+	
+	public int primitiveValue()
+	{
+		return width;
 	}
 
 	@Override
@@ -27,6 +35,13 @@ public class WidthDeclaration extends StyleDeclaration
 		}
 
 		if (!(object instanceof WidthDeclaration))
+		{
+			return false;
+		}
+		
+		WidthDeclaration value = (WidthDeclaration) object;
+		
+		if (value.width != width)
 		{
 			return false;
 		}

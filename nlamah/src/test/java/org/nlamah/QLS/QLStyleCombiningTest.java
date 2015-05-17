@@ -16,11 +16,7 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.Model.Value.ColorValue;
-import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
-
 import junit.framework.TestCase;
 
 public class QLStyleCombiningTest extends TestCase
@@ -37,7 +33,7 @@ public class QLStyleCombiningTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(Color.decode("#F00")));
+		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
 		styleDeclarations.add(colorDeclaration);
 		
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
@@ -56,10 +52,10 @@ public class QLStyleCombiningTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(Color.decode("#F00")));
+		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
 		styleDeclarations.add(colorDeclaration);
 		
-		WidthDeclaration widthDeclaration = new WidthDeclaration(new NumberValue(20));
+		WidthDeclaration widthDeclaration = new WidthDeclaration(20);
 		styleDeclarations.add(widthDeclaration);
 		
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
@@ -78,7 +74,7 @@ public class QLStyleCombiningTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(Color.decode("#000")));
+		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
 		styleDeclarations.add(colorDeclaration);
 		
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
@@ -97,16 +93,16 @@ public class QLStyleCombiningTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(new NumberValue(12));
+		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(12);
 		styleDeclarations.add(fontSizeDeclaration);
 		
-		WidthDeclaration widthDeclaration = new WidthDeclaration(new NumberValue(9));
+		WidthDeclaration widthDeclaration = new WidthDeclaration(9);
 		styleDeclarations.add(widthDeclaration);
 		
-		FontDeclaration fontDeclaration = new FontDeclaration(new FontValue(Font.decode("Arial")));
+		FontDeclaration fontDeclaration = new FontDeclaration(Font.decode("Arial"));
 		styleDeclarations.add(fontDeclaration);
 		
-		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(Color.decode("#000")));
+		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
 		styleDeclarations.add(colorDeclaration);
 		
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);

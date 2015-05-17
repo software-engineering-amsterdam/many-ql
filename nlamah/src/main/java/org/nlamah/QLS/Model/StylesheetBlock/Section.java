@@ -5,16 +5,15 @@ import java.util.List;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
-import org.nlamah.QLS.Model.Value.TextValue;
 
 public class Section extends SectionItem
 {
 	private List<? extends SectionItem> sectionItems;
 	private int depthLevel;
 	
-	public Section(TextValue titleValue, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks, int depthLevel) 
+	public Section(String title, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks, int depthLevel) 
 	{
-		super(titleValue, defaultBlocks);
+		super(title, defaultBlocks);
 		
 		this.sectionItems = sectionItems;
 		
@@ -26,9 +25,9 @@ public class Section extends SectionItem
 		}
 	}
 	
-	public Section(TextValue titleValue, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks) 
+	public Section(String title, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks) 
 	{
-		this(titleValue, sectionItems, defaultBlocks, -1);
+		this(title, sectionItems, defaultBlocks, -1);
 	}
 	
 	public List<? extends SectionItem> sectionItems()

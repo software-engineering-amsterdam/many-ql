@@ -41,11 +41,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
-import org.nlamah.QLS.Model.Value.FontValue;
-import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
-import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
 public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode> 
@@ -144,8 +140,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{
 		sectionDepthLevel++;
 		
-		TextValue titleValue = new TextValue(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
-		QBaseHelper.addSourceCodePosition(titleValue, ctx);
+		String title = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
 		
 		List<SectionItem> sectionItems = new ArrayList<SectionItem>();
 		
@@ -163,7 +158,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 			defaultBlocks.add(defaultBlock);
 		}
 
-		Section section = new Section(titleValue, sectionItems, defaultBlocks, sectionDepthLevel);
+		Section section = new Section(title, sectionItems, defaultBlocks, sectionDepthLevel);
 		QBaseHelper.addSourceCodePosition(section, ctx);
 		
 		sectionDepthLevel--;
@@ -241,7 +236,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		int numberValue = Integer.parseInt(numberValueString); 
 
-		WidthDeclaration widthDeclaration = new WidthDeclaration(new NumberValue(numberValue));
+		WidthDeclaration widthDeclaration = new WidthDeclaration(numberValue);
 		QBaseHelper.addSourceCodePosition(widthDeclaration, ctx);
 
 		return widthDeclaration;
@@ -263,7 +258,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		Font font = Font.decode(fontValueString);
 
-		FontDeclaration fontDeclaration = new FontDeclaration(new FontValue(font));
+		FontDeclaration fontDeclaration = new FontDeclaration(font);
 		QBaseHelper.addSourceCodePosition(fontDeclaration, ctx);
 
 		return fontDeclaration; 
@@ -276,7 +271,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		int numberValue = Integer.parseInt(numberValueString); 
 
-		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(new NumberValue(numberValue));
+		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(numberValue);
 		QBaseHelper.addSourceCodePosition(fontSizeDeclaration, ctx);
 
 		return fontSizeDeclaration;
@@ -291,7 +286,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		
 		Color color = Color.decode(hexNumberValueString);
 
-		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(color));
+		ColorDeclaration colorDeclaration = new ColorDeclaration(color);
 		QBaseHelper.addSourceCodePosition(colorDeclaration, ctx);
 
 		return colorDeclaration;

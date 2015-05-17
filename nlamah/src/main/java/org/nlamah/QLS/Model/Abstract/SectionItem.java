@@ -3,12 +3,10 @@ package org.nlamah.QLS.Model.Abstract;
 import java.util.List;
 
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
-import org.nlamah.QLS.Model.Value.TextValue;
 
 public abstract class SectionItem extends StylesheetBlock
 {
-
-	public SectionItem(TextValue titleValue, List<DefaultBlock> defaultBlocks) 
+	public SectionItem(String titleValue, List<DefaultBlock> defaultBlocks) 
 	{
 		super(titleValue, defaultBlocks);
 	}

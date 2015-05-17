@@ -1,6 +1,7 @@
 package org.nlamah.QLS;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,10 +24,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
-import org.nlamah.QLS.Model.Value.ColorValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
-import org.nlamah.QLS.Model.Value.TextValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
 public class QLStylesheetTest extends TestCase
@@ -61,7 +59,7 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onesection");
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
+		Section section = new Section("testsection", new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -87,7 +85,7 @@ public class QLStylesheetTest extends TestCase
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(styledQuestion);
 		
-		Section section = new Section(new TextValue("testsection"), questions, new ArrayList<DefaultBlock>());
+		Section section = new Section("testsection", questions, new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -119,7 +117,7 @@ public class QLStylesheetTest extends TestCase
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();
 		questions.add(styledQuestion);
 		
-		Section section = new Section(new TextValue("testsection"), questions, new ArrayList<DefaultBlock>());
+		Section section = new Section("testsection", questions, new ArrayList<DefaultBlock>());
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -176,7 +174,7 @@ public class QLStylesheetTest extends TestCase
 		List<DefaultBlock> defaultBlocks = new ArrayList<DefaultBlock>();
 		defaultBlocks.add(defaultBlock);
 		
-		Section section = new Section(new TextValue("testsection"), new ArrayList<SectionItem>(), defaultBlocks);
+		Section section = new Section("testsection", new ArrayList<SectionItem>(), defaultBlocks);
 		
 		List<Section> sections = new ArrayList<Section>();
 		sections.add(section);
@@ -231,18 +229,18 @@ public class QLStylesheetTest extends TestCase
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "nestedsections");
 		
 		List<SectionItem> nestedSections = new ArrayList<SectionItem>();
-		Section nestedSection1 = new Section(new TextValue("nestedsection1"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
+		Section nestedSection1 = new Section("nestedsection1", new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		nestedSections.add(nestedSection1);
 		
 		List<SectionItem> nestedSectionsInNestedSection2 = new ArrayList<SectionItem>();
-		Section nestedSection21 = new Section(new TextValue("nestedsection2.1"), new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
+		Section nestedSection21 = new Section("nestedsection2.1", new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 		nestedSectionsInNestedSection2.add(nestedSection21);
 		
-		Section nestedSection2 = new Section(new TextValue("nestedsection2"), nestedSectionsInNestedSection2, new ArrayList<DefaultBlock>());
+		Section nestedSection2 = new Section("nestedsection2", nestedSectionsInNestedSection2, new ArrayList<DefaultBlock>());
 		nestedSections.add(nestedSection2);
 			
 		List<Section> pageSections = new ArrayList<Section>();
-		Section section = new Section(new TextValue("testsection"), nestedSections, new ArrayList<DefaultBlock>());
+		Section section = new Section("testsection", nestedSections, new ArrayList<DefaultBlock>());
 		pageSections.add(section);
 		
 		Page page = new Page(new IdentifierValue("testpage"), pageSections, new ArrayList<DefaultBlock>());
@@ -261,10 +259,10 @@ public class QLStylesheetTest extends TestCase
 		
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 		
-		styleDeclarations.add(new WidthDeclaration(new NumberValue(400)));
-		styleDeclarations.add(new FontDeclaration(new TextValue("Arial")));
-		styleDeclarations.add(new FontSizeDeclaration(new NumberValue(14)));
-		styleDeclarations.add(new ColorDeclaration(new ColorValue(Color.decode("#999999"))));
+		styleDeclarations.add(new WidthDeclaration(400));
+		styleDeclarations.add(new FontDeclaration(Font.decode("Arial")));
+		styleDeclarations.add(new FontSizeDeclaration(14));
+		styleDeclarations.add(new ColorDeclaration(Color.decode("#999999")));
 		styleDeclarations.add(new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null));
 		
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations);

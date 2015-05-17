@@ -30,7 +30,6 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
@@ -214,7 +213,7 @@ public class QLStylesheetErrorTest extends TestCase
 			defaultBlocks.add(new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations1));
 
 			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
-			styleDeclarations2.add(new WidthDeclaration(new NumberValue(200)));
+			styleDeclarations2.add(new WidthDeclaration(200));
 			defaultBlocks.add(new DefaultBlock(QBaseQuestionType.NUMBER, styleDeclarations2));
 
 			QBaseError error = new DoubleDefaultBlockError(defaultBlocks);
@@ -249,15 +248,15 @@ public class QLStylesheetErrorTest extends TestCase
 		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
-		styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(12)));
-		styleDeclarations1.add(new FontSizeDeclaration(new NumberValue(13)));
+		styleDeclarations1.add(new FontSizeDeclaration(12));
+		styleDeclarations1.add(new FontSizeDeclaration(13));
 
 		QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
 		referenceErrors.add(error1);
 		
 		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
-		styleDeclarations2.add(new WidthDeclaration(new NumberValue(1)));
-		styleDeclarations2.add(new WidthDeclaration(new NumberValue(2)));
+		styleDeclarations2.add(new WidthDeclaration(1));
+		styleDeclarations2.add(new WidthDeclaration(2));
 
 		QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
 		referenceErrors.add(error2);

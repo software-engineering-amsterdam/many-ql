@@ -13,7 +13,7 @@ public class Page extends StylesheetBlock
 	
 	public Page(IdentifierValue identifier, List<Section> sections, List<DefaultBlock> defaultBlocks) 
 	{
-		super(identifier, defaultBlocks);
+		super(identifier.toString(), defaultBlocks);
 		
 		this.sections = sections;
 		

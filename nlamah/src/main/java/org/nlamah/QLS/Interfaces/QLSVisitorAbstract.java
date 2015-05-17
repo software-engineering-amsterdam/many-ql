@@ -13,12 +13,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.Model.Value.BooleanValue;
-import org.nlamah.QLS.Model.Value.ColorValue;
-import org.nlamah.QLS.Model.Value.FontValue;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
-import org.nlamah.QLS.Model.Value.NumberValue;
-import org.nlamah.QLS.Model.Value.TextValue;
 
 public abstract class QLSVisitorAbstract implements QLSNodeVisitor 
 {
@@ -84,42 +79,7 @@ public abstract class QLSVisitorAbstract implements QLSNodeVisitor
 	}
 
 	@Override
-	public QLSNode visit(TextValue textValue) 
-	{
-		assert(false);
-		return null;
-	}
-
-	@Override
-	public QLSNode visit(ColorValue hexNumberValue) 
-	{
-		assert(false);
-		return null;
-	}
-
-	@Override
 	public QLSNode visit(IdentifierValue identifierValue) 
-	{
-		assert(false);
-		return null;
-	}
-
-	@Override
-	public QLSNode visit(NumberValue numberValue) 
-	{
-		assert(false);
-		return null;
-	}
-
-	@Override
-	public QLSNode visit(FontValue fontValue) 
-	{
-		assert(false);
-		return null;
-	}
-	
-	@Override
-	public QLSNode visit(BooleanValue booleanValue)
 	{
 		assert(false);
 		return null;
