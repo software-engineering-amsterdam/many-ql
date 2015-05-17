@@ -8,11 +8,11 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 public class PageFinder extends QLSVisitorAbstract 
 {
 	private Page foundPage;
-	
+
 	public Page pageForSection(Section section)
 	{
 		section.accept(this);
-		
+
 		return foundPage;
 	}
 
@@ -20,7 +20,7 @@ public class PageFinder extends QLSVisitorAbstract
 	public QLSNode visit(Page page) 
 	{
 		foundPage = page;
-		
+
 		return null;
 	}
 
@@ -28,7 +28,7 @@ public class PageFinder extends QLSVisitorAbstract
 	public QLSNode visit(Section section) 
 	{
 		section.parentNode().accept(this);
-		
+
 		return null;
 	}
 }

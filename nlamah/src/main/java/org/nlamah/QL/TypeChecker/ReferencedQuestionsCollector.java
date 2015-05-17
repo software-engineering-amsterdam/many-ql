@@ -37,25 +37,25 @@ import org.nlamah.QL.Model.Form.Abstract.QLNode;
 public class ReferencedQuestionsCollector implements QLNodeVisitor 
 {
 	private List<IdentifierLiteral> questions;
-	
+
 	public ReferencedQuestionsCollector(Form form)
 	{
 		questions = new ArrayList<IdentifierLiteral>();
-		
+
 		form.accept(this);
 	}
-	
+
 	public List<IdentifierLiteral> questions()
 	{
 		return this.questions;
 	}
-	
+
 	@Override
 	public QLNode visit(AddExpression addExpression) 
 	{
 		addExpression.leftHandExpression().accept(this);
 		addExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -64,7 +64,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		andExpression.leftHandExpression().accept(this);
 		andExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -73,7 +73,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		divideExpression.leftHandExpression().accept(this);
 		divideExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -82,7 +82,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		equalExpression.leftHandExpression().accept(this);
 		equalExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -91,7 +91,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		greaterThanExpression.leftHandExpression().accept(this);
 		greaterThanExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -100,7 +100,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		greaterThanEqualExpression.leftHandExpression().accept(this);
 		greaterThanEqualExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -109,7 +109,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		multiplyExpression.leftHandExpression().accept(this);
 		multiplyExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -118,7 +118,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		orExpression.leftHandExpression().accept(this);
 		orExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -127,7 +127,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		smallerThanExpression.leftHandExpression().accept(this);
 		smallerThanExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -136,7 +136,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		smallerThanEqualExpression.leftHandExpression().accept(this);
 		smallerThanEqualExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -145,7 +145,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		subtractExpression.leftHandExpression().accept(this);
 		subtractExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -154,7 +154,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{
 		unEqualExpression.leftHandExpression().accept(this);
 		unEqualExpression.rightHandExpression().accept(this);
-		
+
 		return null;
 	}
 
@@ -168,7 +168,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	public QLNode visit(IdentifierLiteral identifierLiteral) 
 	{
 		questions.add(identifierLiteral);
-		
+
 		return null;
 	}
 
@@ -188,7 +188,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	public QLNode visit(MinusExpression minusExpression) 
 	{
 		minusExpression.expression().accept(this);
-		
+
 		return null;
 	}
 
@@ -196,28 +196,28 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	public QLNode visit(NotExpression notExpression) 
 	{
 		notExpression.expression().accept(this);
-		
+
 		return null;
 	}
 
 	@Override
 	public QLNode visit(PlusExpression plusExpression) 
 	{
-		
+
 		plusExpression.expression().accept(this);
-		
+
 		return null;
 	}
 
 	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
-		
+
 		if (conditionalBlock.ifThenBlock() != null)
 		{
 			conditionalBlock.ifThenBlock().accept(this);
 		}
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
@@ -225,12 +225,12 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 				elseIfThenBlock.accept(this);
 			}
 		}
-		
+
 		if (conditionalBlock.elseThenBlock() != null)
 		{
 			conditionalBlock.elseThenBlock().accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -238,12 +238,12 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{
 		elseIfThenBlock.expression().accept(this);
-		
+
 		for (FormElement childElement : elseIfThenBlock.childElements())
 		{
 			childElement.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -254,20 +254,20 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 		{
 			childElement.accept(this);
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
 		ifThenBlock.expression().accept(this);
-		
+
 		for (FormElement childElement : ifThenBlock.childElements())
 		{
 			childElement.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -281,7 +281,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 				childElement.accept(this);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -290,12 +290,12 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	{		
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{
 		computedQuestion.expression().accept(this);
-		
+
 		return null;
 	}
 }

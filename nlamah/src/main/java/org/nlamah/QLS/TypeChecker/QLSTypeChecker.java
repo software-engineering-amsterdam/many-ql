@@ -22,29 +22,29 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 {		
 	List<StyledQuestion> styledQuestions; 
 	List<FormQuestion> formQuestions;
-		
+
 	public void check(Form form, Stylesheet stylesheet) throws QBaseException
 	{		
 		styledQuestions = stylesheet.questions();
 		formQuestions = form.questions();
-		
+
 		areAllFormQuestionsStyled();
-		
+
 		doAllStyledQuestionsExistInTheForm(form, stylesheet);
-		
+
 		areAlQuestionsStyledOnlyOnce(form, stylesheet);
-		
+
 		areDefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
-		
+
 		areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(form, stylesheet);
-		
+
 	}
-	
+
 	public List<QBaseError> errors()
 	{
 		return errors;
 	}
-	
+
 	private void areAllFormQuestionsStyled() throws QBaseException
 	{		
 		for (FormQuestion formQuestion : formQuestions)
@@ -54,10 +54,10 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 				errors.add(new UnStyledFormQuestionError(formQuestion.identifier()));
 			}	
 		}
-		
+
 		checkForErrors();
 	}
-	
+
 	private void doAllStyledQuestionsExistInTheForm(Form form, Stylesheet styelsheet) throws QBaseException
 	{
 		for (StyledQuestion styledQuestion : styledQuestions)
@@ -67,14 +67,14 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 				errors.add(new UndeclaredFormQuestionError(new IdentifierLiteral(styledQuestion.identifier().toString())));
 			}
 		}
-		
+
 		checkForErrors();
 	}
-	
+
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
 		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions, QBaseEqualityState.IDENTIFIER_ONLY);
-		
+
 		if (set.size() > 0)
 		{
 			for (StyledQuestion styledQuestion : set)
@@ -82,27 +82,27 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSHelper.getQuestionsWithIdentifier(styledQuestions, styledQuestion.identifier())));
 			}
 		}
-		
+
 		checkForErrors();
 	}
-	
+
 	private void areDefaultBlocksDefiningTheSameTypeInTheSameScope(Stylesheet stylesheet) throws QBaseException 
 	{
 		errors.addAll(new DoubleDefaultBlockChecker(stylesheet).errors());
-		
+
 		checkForErrors();
 	}
-	
+
 	private void areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(Form form, Stylesheet stylesheet) throws QBaseException
 	{
 		WidgetTypeChecker widgetTypeChecker = new WidgetTypeChecker(form, stylesheet);
 		widgetTypeChecker.check();
-		
+
 		errors.addAll(widgetTypeChecker.errors());
-		
+
 		checkForErrors();
 	}
-	
+
 	private void checkForErrors() throws QBaseException
 	{
 		if (errors.size() > 0)

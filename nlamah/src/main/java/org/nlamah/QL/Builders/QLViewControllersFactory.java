@@ -32,101 +32,101 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 {	
 	protected FormRootViewController rootViewController;
 	protected FormElementViewController currentlyCreatedViewController;
-	
+
 	public QLViewControllersFactory(FormRootViewController rootViewController)
 	{
 		super();	
-		
+
 		this.rootViewController = rootViewController;
 	}
-	
+
 	public List<FormElementViewController> createChildViewControllers(DeclaringFormElement declaringFormElement)
 	{
 		List<FormElementViewController> childViewControllers = null;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(declaringFormElement.childElements()))
 		{
 			childViewControllers = new ArrayList<FormElementViewController>();
-			
+
 			for (FormElement formElement : declaringFormElement.childElements())
 			{
 				formElement.accept(this);
-				
+
 				childViewControllers.add(currentlyCreatedViewController);
 			}
 		}
-		
+
 		return childViewControllers;
 	}
-	
+
 	public FormElementViewController createFormElementViewController(FormElement formElement)
 	{
 		formElement.accept(this);
-		
+
 		return currentlyCreatedViewController;
 	}
-	
+
 	private void createAndAddChildViewControllers(DeclaringFormElementViewController viewController, DeclaringFormElement formElement)
 	{
 		viewController.setChildViewControllers(createChildViewControllers(formElement));
-		
+
 		currentlyCreatedViewController = viewController;
-		
+
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
-	
+
 	private ConditionalBlockViewController createIfThenBlockViewController(ConditionalBlockViewController conditionalBlockViewController, IfThenBlock ifThenBlock)
 	{
 		IfThenBlockViewController ifThenBlockViewController = null;
-		
+
 		assert(ifThenBlock != null);
-		
+
 		ifThenBlockViewController = new IfThenBlockViewController(ifThenBlock);
 		ifThenBlockViewController.setChildViewControllers(createChildViewControllers(ifThenBlock));
 
 		conditionalBlockViewController.setIfThenBlockViewController(ifThenBlockViewController);
-		
+
 		return conditionalBlockViewController;
 	}
-	
+
 	private ConditionalBlockViewController createElseIfThenBlockViewControllers(ConditionalBlockViewController conditionalBlockViewController, List<ElseIfThenBlock> elseIfThenBlocks)
 	{
 		List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlocks))
 		{
 			int numberOfElseIfThenViewControllers = elseIfThenBlocks.size();
-			
+
 			elseIfThenBlockViewControllers = new ArrayList<ElseIfThenBlockViewController>(numberOfElseIfThenViewControllers);
-			
+
 			for (ElseIfThenBlock elseIfThenBlock : elseIfThenBlocks)
 			{
 				ElseIfThenBlockViewController viewController = new ElseIfThenBlockViewController(elseIfThenBlock);
-				
+
 				viewController.setChildViewControllers(createChildViewControllers(elseIfThenBlock));
-				
+
 				elseIfThenBlockViewControllers.add(viewController);
 			}
 		}
-		
+
 		conditionalBlockViewController.setElseIfThenBlockViewControllers(elseIfThenBlockViewControllers);
-		
+
 		return conditionalBlockViewController;
 	}
-	
+
 	private ConditionalBlockViewController createElseThenBlockViewController(ConditionalBlockViewController conditionalBlockViewController, ElseThenBlock elseThenBlock)
 	{		
 		ElseThenBlockViewController elseThenBlockViewController = null;
-		
+
 		if (elseThenBlock != null)
 		{
 			elseThenBlockViewController = new ElseThenBlockViewController(elseThenBlock);
-			
+
 			elseThenBlockViewController.setChildViewControllers(createChildViewControllers(elseThenBlock));
 		}
-		
+
 		conditionalBlockViewController.setElseThenBlockViewController(elseThenBlockViewController);
-		
+
 		return conditionalBlockViewController;
 	}
 
@@ -134,13 +134,13 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	public void visit(ConditionalBlock conditionalBlock) 
 	{
 		ConditionalBlockViewController conditionalBlockViewController = ConditionalBlockViewControllerFactory.createConditionalBlockViewController(conditionalBlock);
-		
+
 		conditionalBlockViewController = createIfThenBlockViewController(conditionalBlockViewController, conditionalBlock.ifThenBlock());
 		conditionalBlockViewController = createElseIfThenBlockViewControllers(conditionalBlockViewController, conditionalBlock.elseIfThenBlocks());
 		conditionalBlockViewController = createElseThenBlockViewController(conditionalBlockViewController, conditionalBlock.elseThenBlock());
-		
+
 		currentlyCreatedViewController = conditionalBlockViewController;
-		
+
 		currentlyCreatedViewController.setRootViewController(this.rootViewController);
 	}
 
@@ -148,7 +148,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	public void visit(ElseIfThenBlock elseIfThenBlock) 
 	{	
 		DeclaringFormElementViewController declaringFormElementViewController = new ElseIfThenBlockViewController(elseIfThenBlock);
-		
+
 		createAndAddChildViewControllers(declaringFormElementViewController, elseIfThenBlock);
 	}
 
@@ -156,7 +156,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	public void visit(ElseThenBlock elseThenBlock) 
 	{
 		DeclaringFormElementViewController declaringFormElementViewController = new ElseThenBlockViewController(elseThenBlock);
-		
+
 		createAndAddChildViewControllers(declaringFormElementViewController, elseThenBlock);
 	}
 
@@ -170,7 +170,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	public void visit(IfThenBlock ifThenBlock) 
 	{
 		DeclaringFormElementViewController declaringFormElementViewController = new IfThenBlockViewController(ifThenBlock);
-		
+
 		createAndAddChildViewControllers(declaringFormElementViewController, ifThenBlock);
 	}
 
@@ -178,39 +178,39 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	public void visit(InputQuestion inputQuestion) 
 	{
 		WidgetView widgetView = null;
-		
+
 		switch (inputQuestion.returnType())
 		{
 		case BOOLEAN:widgetView = new CheckboxWidgetView();
-			break;
+		break;
 		case NUMBER: widgetView = new NumberFieldWidgetView();
-			break;
+		break;
 		case TEXT: widgetView = new TextFieldWidgetView();
-			break;
+		break;
 		default: assert(false);
 		break;
 		}
-		
+
 		QuestionViewController questionViewController = new QuestionViewController(rootViewController, inputQuestion);
-		
+
 		widgetView.setWidgetViewDelegate(questionViewController);
-		
+
 		questionViewController.setWidgetView(widgetView);
-		
+
 		currentlyCreatedViewController = questionViewController;
 	}
-	
+
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
 		ComputedValueWidgetView widgetView = new ComputedValueWidgetView();
-		
+
 		QuestionViewController questionViewController = new QuestionViewController(rootViewController, computedQuestion);
-		
+
 		widgetView.setWidgetViewDelegate(questionViewController);
-		
+
 		questionViewController.setWidgetView(widgetView);
-		
+
 		currentlyCreatedViewController = questionViewController;
 	}
 }

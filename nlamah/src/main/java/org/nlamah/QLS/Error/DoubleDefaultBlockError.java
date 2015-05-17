@@ -8,11 +8,11 @@ import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 public class DoubleDefaultBlockError extends QBaseError 
 {
 	private List<DefaultBlock> defaultBlocks;
-	
+
 	public DoubleDefaultBlockError(List<DefaultBlock>defaultBlocks) 
 	{
 		super();
-		
+
 		this.defaultBlocks = defaultBlocks;
 	}
 

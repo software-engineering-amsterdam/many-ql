@@ -11,27 +11,27 @@ import org.nlamah.QLS.View.Stylesheet.QuestionViewStyled;
 public class QLSViewFactory extends QLViewFactory 
 {
 	private StyleBlock styleBlock;
-	
+
 	public FormElementView gatherViewForFormViewController(FormElementViewController formViewController, StyleBlock styleBlock)
 	{	
 		this.styleBlock = styleBlock;
-		
+
 		formViewController.accept(this);
-		
+
 		return currentlyCreatedView;
 	}
-	
+
 	@Override
 	public void visit(QuestionViewController questionViewController)
 	{
 		assert(questionViewController.view() instanceof QuestionView);
-		
+
 		QuestionView questionView = (QuestionView) questionViewController.view();
-		
+
 		QuestionViewStyled questionViewStyled = new QuestionViewStyled(questionView, styleBlock);
-		
+
 		questionViewController.setView(questionViewStyled);
-		
+
 		currentlyCreatedView = questionViewStyled;
 	}
 }

@@ -15,30 +15,30 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 public class StyledQuestionsCollector extends QLSVisitorAbstract
 {
 	private List<StyledQuestion> questions;
-	
+
 	public StyledQuestionsCollector()
 	{
 		super();
 	}
-	
+
 	public List<StyledQuestion> questionsForStylesheet(Stylesheet stylesheet)
 	{
 		questions = new ArrayList<StyledQuestion>();
-		
+
 		stylesheet.accept(this);
-		
+
 		return questions;
 	}
-	
+
 	public List<StyledQuestion> questionsForSection(Section section)
 	{
 		questions = new ArrayList<StyledQuestion>();
-		
+
 		section.accept(this);
-		
+
 		return questions;
 	}
-	
+
 	@Override
 	public QLSNode visit(Stylesheet stylesheet) 
 	{
@@ -46,7 +46,7 @@ public class StyledQuestionsCollector extends QLSVisitorAbstract
 		{
 			page.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -57,7 +57,7 @@ public class StyledQuestionsCollector extends QLSVisitorAbstract
 		{
 			section.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -68,7 +68,7 @@ public class StyledQuestionsCollector extends QLSVisitorAbstract
 		{
 			sectionItem.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -83,7 +83,7 @@ public class StyledQuestionsCollector extends QLSVisitorAbstract
 	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
 		questions.add(styledQuestion);
-		
+
 		return null;
 	}
 }

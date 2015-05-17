@@ -13,15 +13,15 @@ public class AttemptingFullContextError extends QBaseParsingError
 	{
 		return "AttemptingFullContextError: StartIndex:" + startIndex + ", StopIndex:" + stopIndex;
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {		 
-		 if (!(object instanceof AttemptingFullContextError))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
+	public boolean equals(Object object) 
+	{		 
+		if (!(object instanceof AttemptingFullContextError))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

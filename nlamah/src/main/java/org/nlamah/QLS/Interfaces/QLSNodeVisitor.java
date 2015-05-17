@@ -18,15 +18,15 @@ public interface QLSNodeVisitor
 {
 	public QLSNode visit(Stylesheet stylesheet);
 	public QLSNode visit(Page page);
-	
+
 	public QLSNode visit(Section section);
 	public QLSNode visit(WidgetDeclaration widgetDeclaration);
 	public QLSNode visit(StyledQuestion styledQuestion);
 	public QLSNode visit(DefaultBlock defaultBlock);
 	public QLSNode visit(StyleBlock styleBlock);
-	
+
 	public QLSNode visit(IdentifierValue identifierValue);
-	
+
 	public QLSNode visit(ColorDeclaration colorDeclaration);
 	public QLSNode visit(FontDeclaration fontDeclaration);
 	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration);

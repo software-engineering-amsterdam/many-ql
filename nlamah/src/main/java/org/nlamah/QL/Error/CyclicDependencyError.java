@@ -8,15 +8,15 @@ public class CyclicDependencyError extends QBaseError
 {
 	private IdentifierLiteral identifier;
 	private FormQuestion question;
-	
+
 	public CyclicDependencyError(IdentifierLiteral identifier, FormQuestion question)
 	{
 		super();
-		
+
 		this.identifier = identifier;
 		this.question = question;
 	}
-	
+
 	@Override
 	public String description() 
 	{

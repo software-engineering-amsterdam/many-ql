@@ -43,7 +43,7 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public ExpressionTypeChecker(Form form)
 	{
 		super();
-		
+
 		form.accept(this);
 	}
 
@@ -51,29 +51,29 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 	{
 		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
 		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
-		
+
 		if ( ! (leftHandExpression.type().equals(rightHandExpression.type())))
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
 	}
-	
+
 	private void checkForErrorInBinaryExpression(BinaryExpression expression, QBaseQuestionType type)
 	{
 		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
 		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
-		
+
 		checkIfResultExpressionIsOfType(leftHandExpression, type);
 		checkIfResultExpressionIsOfType(rightHandExpression, type);
 	}
-	
+
 	private void checkForErrorInUnaryExpression(UnaryExpression expression, QBaseQuestionType type)
 	{
 		Expression visitedExpression = (Expression) expression.expression().accept(this);
 
 		checkIfResultExpressionIsOfType(visitedExpression, type);
 	}
-	
+
 	private void checkIfResultExpressionIsOfType(Expression expression, QBaseQuestionType type)
 	{		
 		switch (expression.type())
@@ -283,12 +283,12 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{	
 		Expression expression = (Expression) elseIfThenBlock.expression().accept(this);
-		
+
 		if (expression.type() != QBaseQuestionType.BOOLEAN)
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlock.childElements()))
 		{
 			for (FormElement childElement : elseIfThenBlock.childElements())
@@ -326,12 +326,12 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
 		Expression expression = (Expression) ifThenBlock.expression().accept(this);
-		
+
 		if (expression.type() != QBaseQuestionType.BOOLEAN)
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(ifThenBlock.childElements()))
 		{
 			for (FormElement childElement : ifThenBlock.childElements())
@@ -348,17 +348,17 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 	{
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{
 		Expression expression = (Expression) computedQuestion.expression().accept(this);
-		
+
 		if (expression.type() != computedQuestion.returnType())
 		{
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
-		
+
 		return null;
 	}
 }

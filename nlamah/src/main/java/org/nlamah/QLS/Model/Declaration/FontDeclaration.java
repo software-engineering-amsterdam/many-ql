@@ -9,14 +9,14 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 public class FontDeclaration extends StyleDeclaration 
 {
 	private Font font;
-	
+
 	public FontDeclaration(Font font) 
 	{
 		super();
-		
+
 		this.font = font;
 	}
-	
+
 	public Font primitiveValue()
 	{
 		return font;
@@ -27,7 +27,7 @@ public class FontDeclaration extends StyleDeclaration
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -40,9 +40,9 @@ public class FontDeclaration extends StyleDeclaration
 		{
 			return false;
 		}
-		
+
 		FontDeclaration value = (FontDeclaration) object;
-		
+
 		if (!value.font.equals(font))
 		{
 			return false;

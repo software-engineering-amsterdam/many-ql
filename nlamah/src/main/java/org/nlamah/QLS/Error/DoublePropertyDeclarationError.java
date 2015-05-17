@@ -8,11 +8,11 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 public class DoublePropertyDeclarationError extends QBaseParsingError 
 {
 	private List<StyleDeclaration> styleDeclarations;
-	
+
 	public DoublePropertyDeclarationError(List<StyleDeclaration> styleDeclarations)
 	{
 		super(0,0);
-		
+
 		this.styleDeclarations = styleDeclarations;
 	}
 
@@ -30,7 +30,7 @@ public class DoublePropertyDeclarationError extends QBaseParsingError
 
 		return errorString;
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -41,7 +41,7 @@ public class DoublePropertyDeclarationError extends QBaseParsingError
 
 		DoublePropertyDeclarationError value = (DoublePropertyDeclarationError)object;
 
-		
+
 		if (!this.styleDeclarations.equals(value.styleDeclarations))
 		{
 			return false;

@@ -8,7 +8,7 @@ public abstract class ValueExpression extends Expression
 	{
 		super(type);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{	 

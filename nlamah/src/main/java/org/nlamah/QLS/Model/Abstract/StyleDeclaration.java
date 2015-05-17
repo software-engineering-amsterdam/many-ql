@@ -8,18 +8,18 @@ public abstract class StyleDeclaration extends QLSNode
 	}
 
 	@Override 
-	 public boolean equals(Object object) 
-	 {
-		 if (this == object)
-		 {
-			 return true;
-		 }
-		 
-		 if (!(object instanceof StyleDeclaration))
-		 {
-			 return false;
-		 }
+	public boolean equals(Object object) 
+	{
+		if (this == object)
+		{
+			return true;
+		}
 
-		 return true;
-	 }
+		if (!(object instanceof StyleDeclaration))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

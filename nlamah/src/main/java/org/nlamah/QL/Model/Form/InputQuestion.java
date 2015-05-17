@@ -27,7 +27,7 @@ public class InputQuestion extends FormQuestion
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 
@@ -37,7 +37,7 @@ public class InputQuestion extends FormQuestion
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 		default:
@@ -51,14 +51,14 @@ public class InputQuestion extends FormQuestion
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public void push(QBaseEqualityState state) 
 	{

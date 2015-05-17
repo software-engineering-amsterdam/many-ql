@@ -17,23 +17,23 @@ import org.nlamah.QLS.Model.StylesheetBlock.Page;
 public class PageView extends JPanel 
 {
 	private JLabel titleLabel;
-	
+
 	public PageView(Page page)
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			
+
 		titleLabel = new JLabel(page.title(), JLabel.CENTER);
-		
+
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
 		titleLabel.setOpaque(true);
-		
+
 		titleLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
 		Box horizontalBox = Box.createHorizontalBox();
 		horizontalBox.add(titleLabel);
 
 		add(horizontalBox);
-		
+
 		add(Box.createRigidArea(new Dimension(0, QLSHelper.pageTitleBottomPadding())));
 	}
 }

@@ -12,7 +12,7 @@ public class StyleBlock extends DefaultBlock
 	{
 		super(null, styleDeclarations);
 	}
-	
+
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{

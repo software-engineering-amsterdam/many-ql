@@ -21,10 +21,10 @@ public class QBaseErrorViewController implements Runnable
 	public QBaseErrorViewController( List<QBaseWarning> warnings, List<QBaseError> errors)
 	{
 		super();
-		
+
 		this.warnings = warnings;
 		this.errors = errors;
-	
+
 		loadFrame();
 	}
 

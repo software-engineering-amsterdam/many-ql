@@ -37,153 +37,153 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		int addition = leftHandLiteral.value() + rightHandLiteral.value();
-		
+
 		return new NumberLiteral(addition);
 	}
-	
+
 	@Override
 	public ValueExpression visit(AndExpression expression)
 	{
 		BooleanLiteral leftHandLiteral = (BooleanLiteral)expression.leftHandExpression().accept(this);
 		BooleanLiteral rightHandLiteral = (BooleanLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean andOperation = leftHandLiteral.primitiveValue() && rightHandLiteral.primitiveValue();
-		
+
 		return new BooleanLiteral(andOperation);
 	}
-	
+
 	@Override
 	public ValueExpression visit(DivideExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		double division = (double)leftHandLiteral.value() / (double)rightHandLiteral.value();
 		int roundedDivision = (int)Math.round(division);
-		
+
 		return new NumberLiteral(roundedDivision);
 	}
-	
+
 	@Override
 	public ValueExpression visit(EqualExpression expression)
 	{
 		ValueExpression leftHandLiteral = (ValueExpression)expression.leftHandExpression().accept(this);
 		ValueExpression rightHandLiteral = (ValueExpression)expression.rightHandExpression().accept(this);
-		
+
 		boolean areEqual = leftHandLiteral.equals(rightHandLiteral);
-		
+
 		return new BooleanLiteral(areEqual);
 	}
-	
+
 	@Override
 	public ValueExpression visit(GreaterThanExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean greaterThan = leftHandLiteral.value() > rightHandLiteral.value();
-		
+
 		return new BooleanLiteral(greaterThan);
 	}
-	
+
 	@Override
 	public ValueExpression visit(GreaterThanEqualExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean greaterThanEqual = leftHandLiteral.value() >= rightHandLiteral.value();
-		
+
 		return new BooleanLiteral(greaterThanEqual);
 	}
-	
+
 	@Override
 	public ValueExpression visit(MultiplyExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		int multiplication = leftHandLiteral.value() * rightHandLiteral.value();
-		
+
 		return new NumberLiteral(multiplication);
 	}
-	
+
 	@Override
 	public ValueExpression visit(OrExpression expression)
 	{
 		BooleanLiteral leftHandLiteral = (BooleanLiteral)expression.leftHandExpression().accept(this);
 		BooleanLiteral rightHandLiteral = (BooleanLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean orOperation = leftHandLiteral.primitiveValue() || rightHandLiteral.primitiveValue();
-		
+
 		return new BooleanLiteral(orOperation);
 	}
-	
+
 	public ValueExpression visit(SmallerThanEqualExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean smallerThanEqual = leftHandLiteral.value() <= rightHandLiteral.value();
-		
+
 		return new BooleanLiteral(smallerThanEqual);
 	}
-	
+
 	@Override
 	public ValueExpression visit(SmallerThanExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		boolean smallerThan = leftHandLiteral.value() < rightHandLiteral.value();
-		
+
 		return new BooleanLiteral(smallerThan);
 	}
-	
+
 	@Override
 	public ValueExpression visit(SubtractExpression expression)
 	{
 		NumberLiteral leftHandLiteral = (NumberLiteral)expression.leftHandExpression().accept(this);
 		NumberLiteral rightHandLiteral = (NumberLiteral)expression.rightHandExpression().accept(this);
-		
+
 		int subtraction = leftHandLiteral.value() - rightHandLiteral.value();
-		
+
 		return new NumberLiteral(subtraction);
 	}
-	
+
 	@Override
 	public ValueExpression visit(UnEqualExpression expression)
 	{
 		ValueExpression leftHandLiteral = (ValueExpression)expression.leftHandExpression().accept(this);
 		ValueExpression rightHandLiteral = (ValueExpression)expression.rightHandExpression().accept(this);
-		
+
 		boolean areUnEqual = !leftHandLiteral.equals(rightHandLiteral);
-		
+
 		return new BooleanLiteral(areUnEqual);
 	}
-	
+
 	@Override
 	public ValueExpression visit(MinusExpression expression)
 	{
 		NumberLiteral numberLiteral = (NumberLiteral) expression.expression().accept(this);
-		
+
 		int minusNumber = -1 * numberLiteral.value();
-		
+
 		return new NumberLiteral(minusNumber);
 	}
-	
+
 	@Override
 	public ValueExpression visit(NotExpression expression)
 	{
 		BooleanLiteral booleanLiteral = (BooleanLiteral) expression.expression().accept(this);
-		
+
 		boolean notBoolean = !booleanLiteral.primitiveValue();
-		
+
 		return new BooleanLiteral(notBoolean);
 	}
-	
+
 	@Override
 	public ValueExpression visit(PlusExpression expression)
 	{
@@ -219,7 +219,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		//The EpxressionVisitor should not call this visit method
 		assert false;
-		
+
 		return null;
 	}
 
@@ -228,7 +228,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		//The EpxressionVisitor should not call this visit method
 		assert false;
-				
+
 		return null;
 	}
 
@@ -237,7 +237,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		//The EpxressionVisitor should not call this visit method
 		assert false;
-				
+
 		return null;
 	}
 
@@ -246,7 +246,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		//The EpxressionVisitor should not call this visit method		
 		assert false;
-				
+
 		return null;
 	}
 
@@ -255,7 +255,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		//The EpxressionVisitor should not call this visit method
 		assert false;
-				
+
 		return null;
 	}
 
@@ -264,7 +264,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	{
 		return inputQuestion.value();
 	}
-	
+
 	@Override
 	public ValueExpression visit(ComputedQuestion computedQuestion) 
 	{

@@ -15,21 +15,21 @@ public class QL
 		try
 		{
 			String sourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/source.ql";
-			
+
 			if (args.length > 0)
 			{
 				sourceCodePath = System.getProperty("user.dir") + "/" + args[0];
 			}
-			
+
 			QLInterpreter qlInterpreter = new QLInterpreter();
-			
+
 			Form form = qlInterpreter.interprete(sourceCodePath);	
-			
+
 			if (qlInterpreter.warnings().size() > 0)
 			{
 				SwingUtilities.invokeLater(new QBaseErrorViewController(qlInterpreter.warnings(), null));
 			}
-			
+
 			SwingUtilities.invokeLater(new FormRootViewController(form));
 		}
 		catch(QBaseException exception)

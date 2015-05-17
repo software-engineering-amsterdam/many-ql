@@ -9,13 +9,13 @@ public abstract class FormElementViewController implements QLShowable
 {
 	protected FormElement modelElement;
 	protected FormElementView view;
-	
+
 	protected FormRootViewController rootViewController;
-	
+
 	public FormElementViewController(FormElement modelElement)
 	{
 		super();
-		
+
 		this.modelElement = modelElement;
 	}
 
@@ -23,11 +23,11 @@ public abstract class FormElementViewController implements QLShowable
 	{
 		this.rootViewController = rootViewController;
 	}
-	
+
 	public FormElementView view()
 	{
 		return this.view;
 	}
-	
-	abstract public int neededViewHeight();
+
+	abstract public int evaluateViewHeight();
 }

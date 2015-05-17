@@ -86,12 +86,12 @@ public class QLHelper
 	{
 		return 15;
 	}
-	
+
 	static public int widgetTopPadding() 
 	{
 		return 10;
 	}
-	
+
 	static public int widgetBottomPadding() 
 	{
 		return 10;

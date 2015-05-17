@@ -14,26 +14,26 @@ public class QuestionViewController extends FormElementViewController implements
 	public QuestionViewController(FormRootViewController rootViewController, FormQuestion question) 
 	{
 		super(question);
-		
+
 		setRootViewController(rootViewController);
 	}
-	
+
 	public void setView(QuestionView questionView)
 	{
 		//TODO is this really necessary?
 		view = questionView;
 	}
-	
+
 	public void setWidgetView(WidgetView widgetView)
 	{	
 		view = new QuestionView(((FormQuestion) modelElement), widgetView);
 	}
-	
+
 	public QBaseQuestionType questionReturnType()
 	{
 		return ((FormQuestion) modelElement).returnType();
 	}
-	
+
 	public String questionString()
 	{
 		return ((FormQuestion) modelElement).questionText().value();
@@ -49,17 +49,17 @@ public class QuestionViewController extends FormElementViewController implements
 	public void valueChanged(ValueExpression newValue) 
 	{
 		FormQuestion question = (FormQuestion) modelElement;
-		
+
 		question.setValue(newValue);
-		
+
 		rootViewController.modelStateChanged();
 	}
 
 	@Override
-	public int neededViewHeight() 
+	public int evaluateViewHeight() 
 	{	
 		view.layoutView();
-		
+
 		return view.getPreferredSize().height;
 	}
 }

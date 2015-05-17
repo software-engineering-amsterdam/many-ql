@@ -21,7 +21,7 @@ public class NumberFieldWidgetView extends WidgetView implements ActionListener
 	public NumberFieldWidgetView()
 	{
 		super(QBaseQuestionType.NUMBER);
-		
+
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
@@ -51,7 +51,7 @@ public class NumberFieldWidgetView extends WidgetView implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		String insertedNumberString = textField.getText();
-		
+
 		widgetViewDelegate.valueChanged(new NumberLiteral(Integer.parseInt(insertedNumberString)));
 	}
 }

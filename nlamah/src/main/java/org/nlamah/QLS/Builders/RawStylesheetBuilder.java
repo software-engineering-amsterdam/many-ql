@@ -47,7 +47,7 @@ import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode> 
 {
 	private List<QBaseParsingError> errors;
-	
+
 	private int sectionDepthLevel = -1;
 
 	public RawStylesheetBuilder() 
@@ -66,15 +66,15 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{
 		return (Stylesheet) tree.accept(this);
 	}
-	
+
 	private void checkForDoublePropertyDeclarations(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations)
 	{
 		List<StyleDeclaration> foundDeclarations = QLSHelper.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
-		
+
 		if (foundDeclarations.size() > 0)
 		{
 			foundDeclarations.add(styleDeclaration);
-			
+
 			errors.add(new DoublePropertyDeclarationError(foundDeclarations));
 		}
 	}
@@ -84,7 +84,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 		
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		List<Page> pages = new ArrayList<Page>();
 
 		for (PageContext contextualPage : ctx.page())
@@ -112,7 +112,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		List<Section> sections = new ArrayList<Section>();
 
 		for (SectionContext contextualSection : ctx.section())
@@ -139,11 +139,11 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitSection(QLSParser.SectionContext ctx) 
 	{
 		sectionDepthLevel++;
-		
+
 		String title = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
-		
+
 		List<SectionItem> sectionItems = new ArrayList<SectionItem>();
-		
+
 		for (StylesheetBlockContext contextualSection : ctx.stylesheetBlock())
 		{
 			SectionItem sectionItem = (SectionItem) contextualSection.accept(this);
@@ -160,46 +160,46 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		Section section = new Section(title, sectionItems, defaultBlocks, sectionDepthLevel);
 		QBaseHelper.addSourceCodePosition(section, ctx);
-		
+
 		sectionDepthLevel--;
 
 		return section;
 	}
-	
+
 	@Override 
 	public QLSNode visitStyledQuestion(QLSParser.StyledQuestionContext ctx)
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-			
+
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
-		
+
 		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
-			
+
 			checkForDoublePropertyDeclarations(styleDeclaration, styleDeclarations);
-			
+
 			styleDeclarations.add(styleDeclaration);
 		}
-		
+
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
 		QBaseHelper.addSourceCodePosition(styleBlock, ctx);
-	
+
 
 		StyledQuestion styledQuestion = new StyledQuestion(identifier, styleBlock);
 		QBaseHelper.addSourceCodePosition(styledQuestion, ctx);
 
 		return styledQuestion; 
 	}
-	
+
 	@Override
 	public QLSNode visitDefaultBlock(QLSParser.DefaultBlockContext ctx)
 	{
 		String questionTypeString = ctx.QuestionType() != null ? ctx.QuestionType().getText().toUpperCase() : null;
-		
+
 		QBaseQuestionType questionType = null;
-		
+
 		if (questionTypeString != null)
 		{
 			try 
@@ -211,18 +211,18 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 				errors.add(new EnumRecognitionError(questionTypeString, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 			}
 		}
-		
+
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
-		
+
 		for (StyleDeclarationContext contextualStyleDeclaration : ctx.styleDeclaration())
 		{
 			StyleDeclaration styleDeclaration = (StyleDeclaration)contextualStyleDeclaration.accept(this);
-			
+
 			checkForDoublePropertyDeclarations(styleDeclaration, styleDeclarations);
-			
+
 			styleDeclarations.add(styleDeclaration);
 		}
-		
+
 		DefaultBlock defaultBlock = new DefaultBlock(questionType, styleDeclarations);
 		QBaseHelper.addSourceCodePosition(defaultBlock, ctx);
 
@@ -281,9 +281,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitColorDeclaration(QLSParser.ColorDeclarationContext ctx) 
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
-		
+
 		hexNumberValueString = QLSHelper.uniformHexNumberString(hexNumberValueString);
-		
+
 		Color color = Color.decode(hexNumberValueString);
 
 		ColorDeclaration colorDeclaration = new ColorDeclaration(color);
@@ -340,7 +340,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		return widgetDeclaration; 
 	}
-	
+
 	@Override 
 	public QLSNode visitRadioButtonNumber(QLSParser.RadioButtonNumberContext ctx) 
 	{ 
@@ -362,7 +362,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		return widgetDeclaration; 
 	}
-	
+
 	@Override 
 	public QLSNode visitRadioButtonBoolean(QLSParser.RadioButtonBooleanContext ctx) 
 	{ 
@@ -384,13 +384,13 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		return widgetDeclaration; 
 	}
-	
+
 	@Override
 	public QLSNode visitTextField(QLSParser.TextFieldContext ctx)
 	{
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visitNumberField(QLSParser.NumberFieldContext ctx)
 	{

@@ -14,20 +14,20 @@ public class FontRecognitionError extends QBaseParsingError
 	public String description() 
 	{
 		String errorString = "ERROR: Line:" + startLine + ":" + startCharacterInLine;
-		
+
 		errorString += " The string: \"" + valueString + "\" coundn't be parsed to a valid font.";
-		
+
 		return errorString;
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {		 
-		 if (!(object instanceof FontRecognitionError))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }	
+	public boolean equals(Object object) 
+	{		 
+		if (!(object instanceof FontRecognitionError))
+		{
+			return false;
+		}
+
+		return true;
+	}	
 }

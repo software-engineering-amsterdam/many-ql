@@ -15,12 +15,12 @@ public class QBaseException extends Exception
 		this.warnings = warnings;
 		this.errors = errors;
 	}
-	
+
 	public List<QBaseWarning> warnings()
 	{
 		return warnings;
 	}
-	
+
 	public List<QBaseError> errors()
 	{
 		return errors;

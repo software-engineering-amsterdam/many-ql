@@ -16,14 +16,14 @@ public class NavigationSectionButtonView extends StylesheetBlockButtonView
 	public NavigationSectionButtonView(Section section, ActionListener listener) 
 	{		
 		super(section, listener);
-		
+
 		add(Box.createRigidArea(new Dimension( padding + 10 * section.depthLevel(), 0)));
-		
+
 		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
 		fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		
+
 		button.setFont(button.getFont().deriveFont(fontAttributes));
-		
+
 		add(button);
 	}
 }

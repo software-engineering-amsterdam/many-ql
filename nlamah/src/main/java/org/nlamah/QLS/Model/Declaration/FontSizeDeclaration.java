@@ -7,14 +7,14 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 public class FontSizeDeclaration extends StyleDeclaration 
 {
 	private int fontSize;
-	
+
 	public FontSizeDeclaration(int fontSize) 
 	{
 		super();
-		
+
 		this.fontSize = fontSize;
 	}
-	
+
 	public int primitiveValue()
 	{
 		return fontSize;
@@ -25,7 +25,7 @@ public class FontSizeDeclaration extends StyleDeclaration
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -38,9 +38,9 @@ public class FontSizeDeclaration extends StyleDeclaration
 		{
 			return false;
 		}
-		
+
 		FontSizeDeclaration value = (FontSizeDeclaration) object;
-		
+
 		if (value.fontSize != fontSize)
 		{
 			return false;

@@ -12,15 +12,15 @@ import org.nlamah.QL.View.Controllers.IfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 
-public class FormHeightAdjuster implements QLFormElementViewControllerVisitor 
+public class FormHeightEvaluator implements QLFormElementViewControllerVisitor 
 {
 	private int preferredHeight;
 	private int currentlyCalculatedHeight;
-	
+
 	public int getPreferredHeight(List<FormElementViewController> formElementViewControllers)
 	{
 		preferredHeight = 0;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(formElementViewControllers))
 		{
 			for (FormElementViewController formElementViewController : formElementViewControllers)
@@ -28,7 +28,7 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 				formElementViewController.accept(this);
 			}
 		}
-	
+
 		return preferredHeight;
 	}
 
@@ -37,47 +37,46 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	{
 		assert(false);
 	}
-	
+
 	@Override
 	public void visit(QuestionViewController questionViewController)
 	{
 		questionViewController.view().layoutView();
-		
-		currentlyCalculatedHeight = questionViewController.neededViewHeight();
-		
+
+		currentlyCalculatedHeight = questionViewController.evaluateViewHeight();
+
 		preferredHeight += currentlyCalculatedHeight;
 	}
-	
+
 	@Override
 	public void visit(ElseIfThenBlockViewController elseIfThenBlockViewController) 
 	{
-		currentlyCalculatedHeight = elseIfThenBlockViewController.neededViewHeight();
-		
+		currentlyCalculatedHeight = elseIfThenBlockViewController.evaluateViewHeight();
+
 		preferredHeight += currentlyCalculatedHeight;
 	}
 
 	@Override
 	public void visit(ElseThenBlockViewController elseThenBlockViewController) 
 	{
-		currentlyCalculatedHeight = elseThenBlockViewController.neededViewHeight();
-		
+		currentlyCalculatedHeight = elseThenBlockViewController.evaluateViewHeight();
+
 		preferredHeight += currentlyCalculatedHeight;
 	}
 
 	@Override
 	public void visit(IfThenBlockViewController ifThenBlockViewController) 
 	{
-		currentlyCalculatedHeight = ifThenBlockViewController.neededViewHeight();
-		
+		currentlyCalculatedHeight = ifThenBlockViewController.evaluateViewHeight();
+
 		preferredHeight += currentlyCalculatedHeight;
 	}
 
 	@Override
 	public void visit(ConditionalBlockViewController conditionalBlockViewController) 
-	{
-		currentlyCalculatedHeight = conditionalBlockViewController.neededViewHeight();
-		
+	{		
+		currentlyCalculatedHeight = conditionalBlockViewController.evaluateViewHeight();
+
 		preferredHeight += currentlyCalculatedHeight;
-	}
-	
+	}	
 }

@@ -16,7 +16,7 @@ public abstract class StylesheetBlock extends QLSNode
 
 		this.title = title;
 		this.defaultBlocks = defaultBlocks;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(defaultBlocks))
 		{
 			for (DefaultBlock defaultBlock : defaultBlocks)
@@ -25,7 +25,7 @@ public abstract class StylesheetBlock extends QLSNode
 			}
 		}
 	}
-	
+
 	public StylesheetBlock()
 	{
 		this(null, null);

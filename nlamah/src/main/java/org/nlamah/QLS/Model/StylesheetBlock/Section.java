@@ -10,31 +10,31 @@ public class Section extends SectionItem
 {
 	private List<? extends SectionItem> sectionItems;
 	private int depthLevel;
-	
+
 	public Section(String title, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks, int depthLevel) 
 	{
 		super(title, defaultBlocks);
-		
+
 		this.sectionItems = sectionItems;
-		
+
 		this.depthLevel = depthLevel;
-		
+
 		for (SectionItem sectionItem : sectionItems)
 		{
 			sectionItem.setParentNode(this);
 		}
 	}
-	
+
 	public Section(String title, List<? extends SectionItem> sectionItems, List<DefaultBlock> defaultBlocks) 
 	{
 		this(title, sectionItems, defaultBlocks, -1);
 	}
-	
+
 	public List<? extends SectionItem> sectionItems()
 	{
 		return sectionItems;
 	}
-	
+
 	public int depthLevel()
 	{
 		return depthLevel;
@@ -45,7 +45,7 @@ public class Section extends SectionItem
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -58,9 +58,9 @@ public class Section extends SectionItem
 		{
 			return false;
 		}
-		
+
 		Section value = (Section)object;
-		
+
 		if (!(sectionItems.equals(value.sectionItems)))
 		{
 			return false;

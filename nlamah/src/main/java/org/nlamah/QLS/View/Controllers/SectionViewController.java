@@ -20,55 +20,55 @@ import org.nlamah.QLS.View.Stylesheet.SectionView;
 public class SectionViewController extends StylesheetViewController 
 {
 	private Form form;
-	
+
 	private List<FormElementViewController> formElementViewControllers;
-	
+
 	private List<SectionViewController> childSectionViewControllers;
-	
+
 	public SectionViewController(RootFormViewControllerStyled rootViewController, Form form, Section section, StylesheetViewController parentViewController)
 	{
 		super (rootViewController, parentViewController);
-		
+
 		this.form = form;
-		
+
 		view = new SectionView(section);
-		
+
 		createChildViewsAndControllers(section.sectionItems());
 	}
-	
+
 	private void createChildViewsAndControllers(List<? extends SectionItem> sectionItems)
 	{	
 		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
 		//TODO how to get the stylesheet properly?
 		QLSViewControllersFactory viewControllersFactory = new QLSViewControllersFactory(rootViewController(), rootViewController().stylesheet());
-		
+
 		QLSViewFactory viewFactory = new QLSViewFactory();
-		
+
 		for (SectionItem sectionItem : sectionItems)
 		{	
 			if (sectionItem instanceof StyledQuestion)
 			{
 				StyledQuestion styledQuestion = (StyledQuestion) sectionItem;
-				
+
 				FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
-				
+
 				FragementedFormElementFinder fragmentedFormElementFinder = new FragementedFormElementFinder();
-				
+
 				FormElement formElement = fragmentedFormElementFinder.findFragementedFormElementForQuestion(formQuestion);
-				
+
 				FormElementViewController formElementViewController = viewControllersFactory.createFormElementViewController(formElement);
-				
+
 				formElementViewControllers.add(formElementViewController);
-				
+
 				view.add(viewFactory.gatherViewForFormViewController(formElementViewController, styledQuestion.styleBlock()));
 			}
 			else if (sectionItem instanceof Section)
 			{	
 				SectionViewController sectionViewController = new SectionViewController(rootViewController(), form, (Section)sectionItem, this);
-				
+
 				childSectionViewControllers.add(sectionViewController);
-				
+
 				view.add(sectionViewController.view);
 			}
 			else
@@ -77,22 +77,22 @@ public class SectionViewController extends StylesheetViewController
 			}
 		}
 	}
-	
+
 	@Override
 	public int neededViewHeight() 
 	{		
 		for (FormElementViewController formElementViewController : formElementViewControllers)
 		{
-			formElementViewController.neededViewHeight();
+			formElementViewController.evaluateViewHeight();
 		}
-		
+
 		for (SectionViewController sectionViewController : childSectionViewControllers)
 		{
 			sectionViewController.neededViewHeight();
 		}
-		
+
 		((SectionView) view).layoutView();
-		
+
 		return view.getPreferredSize().height;
 	}
 }

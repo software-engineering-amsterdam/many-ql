@@ -7,52 +7,52 @@ import org.nlamah.QBase.QBaseHelper;
 public abstract class DeclaringFormElement extends FormElement
 {
 	private List<FormElement> childElements;
-	
+
 	public DeclaringFormElement(List<FormElement> childElements)
 	{
 		super(null);
-		
+
 		this.childElements = childElements;
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
-		    {
-		    	childElement.setParentNode(this);
-		    }
+			{
+				childElement.setParentNode(this);
+			}
 		}
 	}
-	
+
 	public List<FormElement>childElements()
 	{
 		return this.childElements;
 	}
-	
-	@Override 
-	 public boolean equals(Object object) 
-	 {
-		 if (this == object)
-		 {
-			 return true;
-		 }
-		 
-		 if (!(object instanceof DeclaringFormElement))
-		 {
-			 return false;
-		 }
-		 
-		 DeclaringFormElement value = (DeclaringFormElement)object;
-		 
-		 if(childElements == null && value.childElements == null)
-		 {
-			 return true;
-		 }
-		 
-		 if (!(childElements.equals(value.childElements)))
-		 {
-			 return false;
-		 } 
 
-		 return true;
-	 }
+	@Override 
+	public boolean equals(Object object) 
+	{
+		if (this == object)
+		{
+			return true;
+		}
+
+		if (!(object instanceof DeclaringFormElement))
+		{
+			return false;
+		}
+
+		DeclaringFormElement value = (DeclaringFormElement)object;
+
+		if(childElements == null && value.childElements == null)
+		{
+			return true;
+		}
+
+		if (!(childElements.equals(value.childElements)))
+		{
+			return false;
+		} 
+
+		return true;
+	}
 }

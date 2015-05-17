@@ -24,7 +24,7 @@ public abstract class QLSVisitorAbstract implements QLSNodeVisitor
 		{
 			page.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -35,7 +35,7 @@ public abstract class QLSVisitorAbstract implements QLSNodeVisitor
 		{
 			section.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -46,7 +46,7 @@ public abstract class QLSVisitorAbstract implements QLSNodeVisitor
 		{
 			sectionItem.accept(this);
 		}
-		
+
 		return null;
 	}
 

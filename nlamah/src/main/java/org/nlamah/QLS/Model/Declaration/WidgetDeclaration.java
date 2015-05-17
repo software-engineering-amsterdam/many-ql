@@ -66,28 +66,28 @@ public class WidgetDeclaration extends StyleDeclaration
 		{
 			return false;
 		}
-		
+
 		if (value.values == null && this.values == null)
 		{
 			return true;
 		}
-		
+
 		Iterator<TextLiteral> thisIterator = values.keySet().iterator();
 		Iterator<TextLiteral> objectIterator = value.values.keySet().iterator();
-		
+
 		while(thisIterator.hasNext())
 		{
 			TextLiteral thisKey = thisIterator.next();
 			TextLiteral objectKey = objectIterator.next();
-			
+
 			if (!thisKey.equals(objectKey))
 			{
 				return false;
 			}
-			
+
 			ValueExpression thisValue = values.get(thisKey);
 			ValueExpression objectValue = value.values.get(objectKey);
-			
+
 			if (!thisValue.equals(objectValue))
 			{
 				return false;

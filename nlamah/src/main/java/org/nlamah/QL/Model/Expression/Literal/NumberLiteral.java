@@ -8,19 +8,19 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 public class NumberLiteral extends ValueExpression 
 {	
 	private int value;
-	
+
 	public NumberLiteral(int value)
 	{
 		super(QBaseQuestionType.NUMBER);
-		
+
 		this.value = value;
 	}
-	
+
 	public int value()
 	{
 		return value;
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{	 
@@ -28,9 +28,9 @@ public class NumberLiteral extends ValueExpression
 		{
 			return false;
 		}
-		
+
 		NumberLiteral numberValue = (NumberLiteral) object;
-		
+
 		if (numberValue.value != value)
 		{
 			return false;
@@ -38,13 +38,13 @@ public class NumberLiteral extends ValueExpression
 
 		return true;
 	}
-	
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override
 	public String toString()
 	{

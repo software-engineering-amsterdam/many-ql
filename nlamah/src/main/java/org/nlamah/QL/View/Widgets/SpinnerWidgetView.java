@@ -56,7 +56,7 @@ public class SpinnerWidgetView extends WidgetView implements ChangeListener
 	{
 		SpinnerNumberModel numberModel = (SpinnerNumberModel) spinner.getModel();
 		Number numberObject = numberModel.getNumber();
-		
+
 		widgetViewDelegate.valueChanged(new NumberLiteral(numberObject.intValue()));
 	}
 }

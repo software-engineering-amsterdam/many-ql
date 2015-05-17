@@ -12,38 +12,38 @@ public class UnEqualExpression extends EqualityExpression
 	{
 		super(leftHandExpression, rightHandExpression);
 	}
-	
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof UnEqualExpression))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		if (!(object instanceof UnEqualExpression))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public boolean isSafeForType(QBaseQuestionType type) 
 	{
 		switch(type)
 		{
-			case BOOLEAN: return true;
-			case TEXT: return true;
-			case NUMBER: return true;
-			default: return false;
+		case BOOLEAN: return true;
+		case TEXT: return true;
+		case NUMBER: return true;
+		default: return false;
 		}
 	}
 }

@@ -269,7 +269,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{	

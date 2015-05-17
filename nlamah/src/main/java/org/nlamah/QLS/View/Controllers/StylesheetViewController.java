@@ -12,11 +12,11 @@ public abstract class StylesheetViewController
 	public StylesheetViewController(RootFormViewControllerStyled rootViewController, StylesheetViewController parentViewController)
 	{
 		super();
-		
+
 		this.rootViewController = rootViewController;
 		this.parentViewController = parentViewController;
 	}
-	
+
 	public StylesheetViewController()
 	{
 		this(null, null);
@@ -26,11 +26,11 @@ public abstract class StylesheetViewController
 	{
 		return parentViewController;
 	}
-	
+
 	public RootFormViewControllerStyled rootViewController()
 	{
 		return rootViewController;
 	}
-	
+
 	abstract public int neededViewHeight();
 }

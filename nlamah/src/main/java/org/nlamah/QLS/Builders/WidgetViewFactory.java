@@ -24,7 +24,7 @@ public class WidgetViewFactory
 			assert(false);
 		}
 		}
-		
+
 		return null;
 	}
 }

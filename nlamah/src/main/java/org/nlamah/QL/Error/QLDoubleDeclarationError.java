@@ -48,7 +48,7 @@ public class QLDoubleDeclarationError extends QBaseError
 		{
 			return false;
 		}
-		
+
 		if (!this.questions.equals(value.questions))
 		{
 			return false;

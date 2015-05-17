@@ -14,11 +14,11 @@ public class NavigationPageButtonView extends StylesheetBlockButtonView
 	public NavigationPageButtonView(StylesheetBlock block, ActionListener listener) 
 	{
 		super(block, listener);
-		
+
 		add(Box.createRigidArea(new Dimension( padding, 0)));
-		
+
 		button.setFont(button.getFont().deriveFont(18.0f));
-		
+
 		add(button);	
 	}
 }

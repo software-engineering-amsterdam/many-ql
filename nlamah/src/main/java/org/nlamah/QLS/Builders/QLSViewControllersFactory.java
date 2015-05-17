@@ -17,40 +17,40 @@ import org.nlamah.QLS.Model.Value.IdentifierValue;
 public class QLSViewControllersFactory extends QLViewControllersFactory 
 {
 	private Stylesheet stylesheet;
-	
+
 	public QLSViewControllersFactory(FormRootViewController rootViewController, Stylesheet stylesheet) 
 	{
 		super(rootViewController);
-		
+
 		this.stylesheet = stylesheet;
 	}
-	
+
 	private boolean createNewViewController(FormQuestion question)
 	{
 		List<StyledQuestion> styledQuestions = QLSHelper.getQuestionsWithIdentifier(stylesheet.questions(), new IdentifierValue(question.identifier().toString()));
-		
+
 		assert(styledQuestions.size() == 1);
-		
+
 		WidgetDeclaration widgetDeclaration = styledQuestions.get(0).styleBlock().widgetDeclaration();
-		
+
 		if (widgetDeclaration != null)
 		{	
 			QuestionViewController questionViewController = new QuestionViewController(rootViewController, question);
-			
+
 			WidgetView widgetView = WidgetViewFactory.widgetViewForStyle(widgetDeclaration);
-			
+
 			widgetView.setWidgetViewDelegate(questionViewController);
-			
+
 			questionViewController.setWidgetView(widgetView);
-			
+
 			currentlyCreatedViewController = questionViewController;
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public void visit(InputQuestion inputQuestion)
 	{

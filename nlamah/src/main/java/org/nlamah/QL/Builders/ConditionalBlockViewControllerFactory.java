@@ -15,50 +15,50 @@ public class ConditionalBlockViewControllerFactory
 		boolean ifThenBlockExists = ifThenBlockExists(conditionalBlock);
 		boolean elseIfThenBlocksExist = elseIfThenBlocksExist(conditionalBlock);
 		boolean elseThenBlockExists = elseThenBlockExists(conditionalBlock);
-		
+
 		if (ifThenBlockExists && elseIfThenBlocksExist && elseThenBlockExists)
 		{
 			return new ConditionalBlockAllViewController(conditionalBlock);
 		}
-		
+
 		if (ifThenBlockExists && !elseIfThenBlocksExist && elseThenBlockExists)
 		{
 			return new ConditionalBlockIfElseViewController(conditionalBlock);
 		}
-		
+
 		if (ifThenBlockExists && elseIfThenBlocksExist && !elseThenBlockExists)
 		{
 			return new ConditionalBlockIfElseIfViewController(conditionalBlock);
 		}
-		
+
 		if (ifThenBlockExists && !elseIfThenBlocksExist && !elseThenBlockExists)
 		{
 			return new ConditionalBlockIfViewController(conditionalBlock);
 		}
-		
+
 		if (ifThenBlockExists && !elseIfThenBlocksExist && !elseThenBlockExists)
 		{
 			assert false;
 		}
-		
+
 		if (!ifThenBlockExists && (elseIfThenBlocksExist || elseThenBlockExists))
 		{
 			assert false;
 		}
-		
+
 		return null;
 	}
-	
+
 	static private boolean ifThenBlockExists(ConditionalBlock conditionalBlock)
 	{
 		return conditionalBlock.ifThenBlock() != null;
 	}
-	
+
 	static private boolean elseIfThenBlocksExist(ConditionalBlock conditionalBlock)
 	{
 		return QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks());
 	}
-	
+
 	static private boolean elseThenBlockExists(ConditionalBlock conditionalBlock)
 	{
 		return conditionalBlock.elseThenBlock() != null;

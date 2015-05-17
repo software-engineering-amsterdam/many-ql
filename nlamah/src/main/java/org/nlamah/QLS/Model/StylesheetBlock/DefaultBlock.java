@@ -20,34 +20,34 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 public class DefaultBlock extends SectionItem implements EqualityStating
 {
 	public Stack<QBaseEqualityState> equalityStateStack;
-	
+
 	private QBaseQuestionType questionType;
-	
+
 	private ColorDeclaration colorDeclaration;
 	private FontDeclaration fontDeclaration;
 	private FontSizeDeclaration fontSizeDeclaration;
 	private WidgetDeclaration widgetDeclaration;
 	private WidthDeclaration widthDeclaration;
-	
+
 	public DefaultBlock(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
 		super();
 
 		assert(styleDeclarations != null);
-		
+
 		assignStyleDeclarations(styleDeclarations);
-		
+
 		this.questionType = questionType;
-		
+
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
-		
+
 		for (StyleDeclaration styleDeclaration : styleDeclarations)
 		{
 			styleDeclaration.setParentNode(this);
 		}
 	}
-	
+
 	private void assignStyleDeclarations(List<StyleDeclaration> styleDeclarations)
 	{
 		for (StyleDeclaration styleDeclaration : styleDeclarations)
@@ -78,44 +78,44 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 			}
 		}
 	}
-	
+
 	public QBaseQuestionType questionType()
 	{
 		return questionType;
 	}
-	
+
 	public List<StyleDeclaration> styleDeclarations()
 	{	
 		List<StyleDeclaration> styleDeclarationsToReturn = new ArrayList<StyleDeclaration>();
-		
+
 		if (colorDeclaration != null)
 		{
 			styleDeclarationsToReturn.add(colorDeclaration);
 		}
-		
+
 		if (fontDeclaration != null)
 		{
 			styleDeclarationsToReturn.add(fontDeclaration);
 		}
-		
+
 		if (fontSizeDeclaration != null)
 		{
 			styleDeclarationsToReturn.add(fontSizeDeclaration);
 		}
-		
+
 		if (widgetDeclaration != null)
 		{
 			styleDeclarationsToReturn.add(widgetDeclaration);
 		}
-		
+
 		if (widthDeclaration != null)
 		{
 			styleDeclarationsToReturn.add(widthDeclaration);
 		}
-		
+
 		return styleDeclarationsToReturn;
 	}
-	
+
 	public void overWriteStyleDeclaration(StyleDeclaration styleDeclaration)
 	{
 		if (styleDeclaration instanceof ColorDeclaration)
@@ -174,18 +174,18 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		//TODO
 		return questionType.toString();
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
-		
+
 		switch(equalityStateStack.peek())
 		{
 		case QUESTIONTYPE_ONLY:
@@ -194,14 +194,14 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 			{
 				return false;
 			}
-			
+
 			DefaultBlock value = (DefaultBlock) object;
-			
+
 			if (this.questionType != value.questionType)
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 		default:
@@ -210,26 +210,26 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 			{
 				return false;
 			}
-			
+
 			DefaultBlock value = (DefaultBlock) object;
-			
+
 			if (this.questionType != value.questionType)
 			{
 				return false;
 			}
-			
+
 			if (!this.styleDeclarations().equals(value.styleDeclarations()))
 			{
 				return false;
 			}			
-			
+
 			break;
 		}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode()
 	{
@@ -237,7 +237,7 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		{
 			return 0;
 		}
-		
+
 		return questionType.toString().hashCode();
 	}
 

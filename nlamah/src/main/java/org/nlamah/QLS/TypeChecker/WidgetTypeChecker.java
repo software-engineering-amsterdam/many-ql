@@ -81,17 +81,17 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(StyledQuestion styledQuestion) 
 	{		
 		QBaseQuestionType formQuestionType = QLSHelper.getTypeForStyledQuestion(styledQuestion, formQuestions);
-		
+
 		if (formQuestionType != currentWidgetDeclaration.returnType())
 		{
 			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, formQuestionType));
 		}
-		
+
 		return null;
 	}
 
@@ -102,10 +102,10 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 		{
 			errors.add(new WidgetTypeMismatchError(currentWidgetDeclaration, currentWidgetDeclaration.returnType()));
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override 
 	public QLSNode visit(StyleBlock styleBlock)
 	{

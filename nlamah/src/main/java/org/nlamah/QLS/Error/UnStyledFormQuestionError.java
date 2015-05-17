@@ -6,14 +6,14 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 public class UnStyledFormQuestionError extends QBaseError
 {
 	private IdentifierLiteral identifier;
-	
+
 	public UnStyledFormQuestionError(IdentifierLiteral identifier)
 	{
 		super();
-		
+
 		this.identifier = identifier;
 	}
-	
+
 	@Override
 	public String description() 
 	{
@@ -23,7 +23,7 @@ public class UnStyledFormQuestionError extends QBaseError
 
 		return errorString;
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -31,7 +31,7 @@ public class UnStyledFormQuestionError extends QBaseError
 		{
 			return true;
 		}
-		
+
 		if (!(object instanceof UnStyledFormQuestionError))
 		{
 			return false;

@@ -14,26 +14,26 @@ public class ElseIfThenBlock extends ConditionalBlockChildWithExpression
 	public ElseIfThenBlock(Expression expression, List<FormElement> childElements) 
 	{
 		super(expression, childElements);
-		
+
 		expression.setParentNode(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof ElseIfThenBlock))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		if (!(object instanceof ElseIfThenBlock))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{

@@ -48,7 +48,7 @@ public class ComputedQuestion extends FormQuestion
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 
@@ -58,32 +58,32 @@ public class ComputedQuestion extends FormQuestion
 			{
 				return false;
 			}
-			
+
 			break;
 		}
 		default:
 		{
 			if (!super.equals(object))
-			 {
-				 return false;
-			 }
-			 
-			 if (!(object instanceof ComputedQuestion))
-			 {
-				 return false;
-			 }
-			 
-			 ComputedQuestion value = (ComputedQuestion)object;
-			 
-			 if (!(this.expression.equals(value.expression)))
-			 {
-				 return false;
-			 }
-			 
+			{
+				return false;
+			}
+
+			if (!(object instanceof ComputedQuestion))
+			{
+				return false;
+			}
+
+			ComputedQuestion value = (ComputedQuestion)object;
+
+			if (!(this.expression.equals(value.expression)))
+			{
+				return false;
+			}
+
 			break;
 		}
 		}
-		
+
 		return true;
 	}
 
@@ -98,12 +98,12 @@ public class ComputedQuestion extends FormQuestion
 	{
 		visitor.visit(this);	
 	}
-	
+
 	@Override
 	public void push(QBaseEqualityState state) 
 	{
 		equalityStateStack.push(state);
-		
+
 	}
 
 	@Override

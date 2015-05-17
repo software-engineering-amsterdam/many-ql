@@ -14,29 +14,29 @@ public class ElseThenBlock extends DeclaringFormElement
 	{
 		super(childElements);	
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof ElseThenBlock))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		if (!(object instanceof ElseThenBlock))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override
 	public void accept(QLFormElementVisitor visitor) 
 	{

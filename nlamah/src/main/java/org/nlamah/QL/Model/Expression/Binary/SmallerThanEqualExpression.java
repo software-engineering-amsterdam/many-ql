@@ -18,30 +18,30 @@ public class SmallerThanEqualExpression extends BinaryLogicalExpression
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof SmallerThanEqualExpression))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		if (!(object instanceof SmallerThanEqualExpression))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public boolean isSafeForType(QBaseQuestionType type) 
 	{
 		switch(type)
 		{
-			case NUMBER: return true;
-			default: return false;
+		case NUMBER: return true;
+		default: return false;
 		}
 	}
 }

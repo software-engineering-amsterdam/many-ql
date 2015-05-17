@@ -29,29 +29,29 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public DoubleDefaultBlockChecker(Stylesheet stylesheet) 
 	{
 		super();
-		
+
 		stylesheet.accept(this);
 	}
-	
+
 	private void gatherErrors(List<DefaultBlock> defaultBlocks)
 	{		
 		Set<DefaultBlock> set = QBaseHelper.getSetWithDuplicatedObjects(defaultBlocks, QBaseEqualityState.QUESTIONTYPE_ONLY);
-		
+
 		if (set.size() > 0)
 		{
 			for (DefaultBlock defaultBlock : set)
 			{
 				List<DefaultBlock> defaultBlocksWithSameType = defaultBlocksWithSameType(defaultBlocks, defaultBlock);
-				
+
 				errors.add(new DoubleDefaultBlockError(new ArrayList<DefaultBlock>(defaultBlocksWithSameType)));
 			}
 		}
 	}
-	
+
 	private List<DefaultBlock> defaultBlocksWithSameType(List<DefaultBlock> defaultBlocks, DefaultBlock referenceDeclaration)
 	{
 		List<DefaultBlock> returnList = new ArrayList<DefaultBlock>();
-		
+
 		for (DefaultBlock defaultBlock : defaultBlocks)
 		{
 			if (defaultBlock.questionType() == referenceDeclaration.questionType())
@@ -59,7 +59,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 				returnList.add(defaultBlock);
 			}
 		}
-		
+
 		return returnList;
 	}
 
@@ -67,25 +67,25 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(Stylesheet stylesheet) 
 	{	
 		gatherErrors(stylesheet.defaultBlocks());
-		
+
 		for (Page page : stylesheet.pages())
 		{
 			page.accept(this);
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(Page page) 
 	{
 		gatherErrors(page.defaultBlocks());
-		
+
 		for (Section section : page.sections())
 		{
 			section.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -93,12 +93,12 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(Section section) 
 	{
 		gatherErrors(section.defaultBlocks());
-		
+
 		for (SectionItem sectionItem : section.sectionItems())
 		{
 			sectionItem.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -106,7 +106,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(WidgetDeclaration widgetDeclaration) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -120,7 +120,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(DefaultBlock defaultBlock) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -128,7 +128,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(StyleBlock styleBlock)
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -136,7 +136,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(IdentifierValue identifierValue) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -144,7 +144,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(ColorDeclaration colorDeclaration) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -152,7 +152,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(FontDeclaration fontDeclaration) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -160,7 +160,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 
@@ -168,7 +168,7 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(WidthDeclaration widthDeclaration) 
 	{
 		assert(false);
-		
+
 		return null;
 	}
 }

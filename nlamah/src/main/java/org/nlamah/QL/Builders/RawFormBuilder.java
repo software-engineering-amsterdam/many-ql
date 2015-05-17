@@ -44,19 +44,19 @@ import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
 	private List<QBaseParsingError> errors;
-	
+
 	public RawFormBuilder()
 	{
 		super();
-		
+
 		errors = new ArrayList<QBaseParsingError>();
 	}
-	
+
 	public Form buildForm(ParseTree tree)
 	{
 		return (Form) tree.accept(this);
 	}
-	
+
 	public List<QBaseParsingError> errors()
 	{
 		return this.errors;
@@ -87,7 +87,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
@@ -118,7 +118,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
@@ -134,7 +134,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 
@@ -150,7 +150,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 		QBaseHelper.addSourceCodePosition(identifier, ctx);
-		
+
 		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
 		QBaseHelper.addSourceCodePosition(questionText, ctx);
 

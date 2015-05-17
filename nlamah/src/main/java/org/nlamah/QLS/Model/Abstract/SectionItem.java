@@ -10,12 +10,12 @@ public abstract class SectionItem extends StylesheetBlock
 	{
 		super(titleValue, defaultBlocks);
 	}
-	
+
 	public SectionItem()
 	{
 		this(null, null);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -28,7 +28,7 @@ public abstract class SectionItem extends StylesheetBlock
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 }

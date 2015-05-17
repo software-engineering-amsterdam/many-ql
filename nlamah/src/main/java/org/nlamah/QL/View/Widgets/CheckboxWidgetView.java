@@ -13,11 +13,11 @@ import org.nlamah.QL.View.Form.Abstract.WidgetView;
 public class CheckboxWidgetView extends WidgetView implements ItemListener
 {
 	private JCheckBox checkbox;
-	
+
 	public CheckboxWidgetView() 
 	{
 		super(QBaseQuestionType.BOOLEAN);
-		
+
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
@@ -46,13 +46,13 @@ public class CheckboxWidgetView extends WidgetView implements ItemListener
 	{
 		switch (e.getStateChange())
 		{
-			case ItemEvent.SELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(true));
-			break;
-			
-			case ItemEvent.DESELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(false));
-			break;
-			
-			default: break;
+		case ItemEvent.SELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(true));
+		break;
+
+		case ItemEvent.DESELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(false));
+		break;
+
+		default: break;
 		}
 	}	
 }

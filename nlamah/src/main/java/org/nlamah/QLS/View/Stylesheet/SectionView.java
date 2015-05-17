@@ -10,23 +10,23 @@ import org.nlamah.QLS.Model.StylesheetBlock.Section;
 public class SectionView extends JPanel
 {
 	private Section section;
-	
+
 	public SectionView(Section section)
 	{
 		this.section = section;
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
-	
+
 	public void layoutView()
 	{
 		redrawBorder();
 	}
-	
+
 	private void redrawBorder()
 	{
 		setBorder(BorderFactory.createEmptyBorder());
-		
+
 		if (getPreferredSize().height > 0)
 		{
 			setBorder(BorderFactory.createTitledBorder(section.title()));

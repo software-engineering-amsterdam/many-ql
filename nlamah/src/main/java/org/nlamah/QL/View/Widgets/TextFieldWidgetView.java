@@ -15,11 +15,11 @@ import org.nlamah.QL.View.Form.Abstract.WidgetView;
 public class TextFieldWidgetView extends WidgetView implements ActionListener
 {
 	private JTextField textField;
-	
+
 	public TextFieldWidgetView()
 	{
 		super(QBaseQuestionType.TEXT);
-		
+
 		initializeComponents();
 		addComponentsToView();
 		layoutView();
@@ -49,7 +49,7 @@ public class TextFieldWidgetView extends WidgetView implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		String insertedTextString = ((JTextField) e.getSource()).getText();
-		
+
 		widgetViewDelegate.valueChanged(new TextLiteral(insertedTextString));
 	}
 }

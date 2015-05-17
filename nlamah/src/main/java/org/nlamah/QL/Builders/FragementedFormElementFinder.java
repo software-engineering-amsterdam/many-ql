@@ -39,13 +39,13 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	{
 		super();
 	}
-	
+
 	public FormElement findFragementedFormElementForQuestion(FormQuestion question)
 	{
 		question.accept(this);
-		
+
 		assert(lastVisitedFormElement != null);
-		
+
 		return lastVisitedFormElement;
 	}
 
@@ -53,7 +53,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(AddExpression addExpression) 
 	{
 		addExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -61,7 +61,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(AndExpression andExpression) 
 	{
 		andExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -69,7 +69,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(DivideExpression divideExpression) 
 	{
 		divideExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -77,7 +77,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(EqualExpression equalExpression) 
 	{
 		equalExpression.parentNode().accept(this);
-		
+
 		return null;
 
 	}
@@ -86,7 +86,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(GreaterThanExpression greaterThanExpression) 
 	{
 		greaterThanExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -94,7 +94,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(GreaterThanEqualExpression greaterThanEqualExpression) 
 	{
 		greaterThanEqualExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -102,7 +102,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(MultiplyExpression multiplyExpression) 
 	{
 		multiplyExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -110,7 +110,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(OrExpression orExpression) 
 	{
 		orExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -118,7 +118,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(SmallerThanExpression smallerThanExpression) 
 	{
 		smallerThanExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -126,7 +126,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(SmallerThanEqualExpression smallerThanEqualExpression) 
 	{
 		smallerThanEqualExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -134,7 +134,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(SubtractExpression subtractExpression) 
 	{
 		subtractExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -142,7 +142,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(UnEqualExpression unEqualExpression) 
 	{
 		unEqualExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -150,7 +150,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(BooleanLiteral booleanLiteral) 
 	{
 		booleanLiteral.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -158,7 +158,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(IdentifierLiteral identifierLiteral) 
 	{
 		identifierLiteral.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -166,7 +166,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(NumberLiteral numberLiteral) 
 	{
 		numberLiteral.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -174,7 +174,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(TextLiteral textLiteral) 
 	{
 		textLiteral.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -182,7 +182,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(MinusExpression minusExpression) 
 	{
 		minusExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -190,7 +190,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(NotExpression notExpression) 
 	{
 		notExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -198,7 +198,7 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(PlusExpression plusExpression) 
 	{
 		plusExpression.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -206,9 +206,9 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
 		lastVisitedFormElement = conditionalBlock;
-		
+
 		conditionalBlock.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -216,9 +216,9 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{
 		lastVisitedFormElement = elseIfThenBlock;
-		
+
 		elseIfThenBlock.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -226,9 +226,9 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(ElseThenBlock elseThenBlock) 
 	{
 		lastVisitedFormElement = elseThenBlock;
-		
+
 		elseThenBlock.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -242,9 +242,9 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
 		lastVisitedFormElement = ifThenBlock;
-		
+
 		ifThenBlock.parentNode().accept(this);
-		
+
 		return null;
 	}
 
@@ -252,19 +252,19 @@ public class FragementedFormElementFinder implements QLNodeVisitor
 	public QLNode visit(InputQuestion inputQuestion) 
 	{
 		lastVisitedFormElement = inputQuestion;
-		
+
 		inputQuestion.parentNode().accept(this);
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{
 		lastVisitedFormElement = computedQuestion;
-		
+
 		computedQuestion.parentNode().accept(this);
-		
+
 		return null;
 	}
 }

@@ -12,7 +12,7 @@ public class BooleanLiteral extends ValueExpression
 	public BooleanLiteral(boolean value)
 	{
 		super(QBaseQuestionType.BOOLEAN);
-		
+
 		this.value = value;
 	}
 

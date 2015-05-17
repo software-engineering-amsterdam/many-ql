@@ -32,7 +32,7 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 
 		this.form = form;
 		this.stylesheet = stylesheet;
-		
+
 		styleStack = new Stack<List<DefaultBlock>>();
 	}
 
@@ -128,7 +128,7 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 	public QLSNode visit(StyledQuestion styledQuestion) 
 	{
 		currentQuestion = styledQuestion;
-		
+
 		styledQuestion.parentNode().accept(this);
 
 		return null;

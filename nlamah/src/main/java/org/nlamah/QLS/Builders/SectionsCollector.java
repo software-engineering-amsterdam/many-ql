@@ -14,18 +14,18 @@ import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 public class SectionsCollector extends QLSVisitorAbstract 
 {	
 	List<Section> sections;
-	
+
 	public SectionsCollector() 
 	{
 		super();
 	}
-	
+
 	public List<Section> sectionsForPage(Page page)
 	{
 		sections = new ArrayList<Section>();
-		
+
 		page.accept(this);
-		
+
 		return sections;
 	}
 
@@ -36,7 +36,7 @@ public class SectionsCollector extends QLSVisitorAbstract
 		{
 			page.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class SectionsCollector extends QLSVisitorAbstract
 		{			
 			section.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -55,12 +55,12 @@ public class SectionsCollector extends QLSVisitorAbstract
 	public QLSNode visit(Section section) 
 	{
 		sections.add(section);
-		
+
 		for (SectionItem sectionItem :section.sectionItems())
 		{
 			sectionItem.accept(this);
 		}
-		
+
 		return null;
 	}
 

@@ -24,23 +24,23 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 {
 	private Stylesheet stylesheet;
 	private List<WidgetDeclaration> widgetDeclarations;
-	
+
 	public WidgetDeclarationsCollector(Stylesheet stylesheet) 
 	{
 		super();
-		
+
 		this.stylesheet = stylesheet;
 	}
-	
+
 	public List<WidgetDeclaration> widgetDeclarations()
 	{
 		if (!QBaseHelper.arrayExistsAndHasElements(widgetDeclarations))
 		{
 			widgetDeclarations = new ArrayList<WidgetDeclaration>();
-			
+
 			stylesheet.accept(this);
 		}
-		
+
 		return widgetDeclarations;
 	}
 
@@ -51,12 +51,12 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			page.accept(this);
 		}
-		
+
 		for (DefaultBlock defaultBlock : stylesheet.defaultBlocks())
 		{
 			defaultBlock.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -67,12 +67,12 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			section.accept(this);
 		}
-		
+
 		for (DefaultBlock defaultBlock : page.defaultBlocks())
 		{
 			defaultBlock.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -83,12 +83,12 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			sectionItem.accept(this);
 		}
-		
+
 		for (DefaultBlock defaultBlock : section.defaultBlocks())
 		{
 			defaultBlock.accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -96,7 +96,7 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 	public QLSNode visit(WidgetDeclaration widgetDeclaration) 
 	{
 		widgetDeclarations.add(widgetDeclaration);
-		
+
 		return null;
 	}
 
@@ -107,7 +107,7 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			styledQuestion.styleBlock().accept(this);
 		}
-		
+
 		return null;
 	}
 
@@ -118,10 +118,10 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			styleDeclaration.accept(this);
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(StyleBlock styleBlock)
 	{
@@ -129,10 +129,10 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 		{
 			styleDeclaration.accept(this);
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLSNode visit(ColorDeclaration colorDeclaration) 
 	{

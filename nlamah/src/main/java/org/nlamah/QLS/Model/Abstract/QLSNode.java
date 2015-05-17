@@ -6,7 +6,7 @@ import org.nlamah.QLS.Interfaces.QLSVisitable;
 public abstract class QLSNode extends QBaseNode implements QLSVisitable
 {
 	private QLSNode parentNode;
-	
+
 	public QLSNode parentNode()
 	{
 		return this.parentNode;

@@ -20,27 +20,27 @@ public class NavigationSubviewPage extends JPanel
 	public NavigationSubviewPage(Page page, List<Section> sections, ActionListener buttonListener) 
 	{
 		super();
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		pageButton = new NavigationPageButtonView(page, buttonListener);
-		
+
 		add(pageButton);
-		
+
 		sectionButtons = new ArrayList<NavigationSectionButtonView>();
-		
+
 		int preferredHeight = 0;
-		
+
 		for (Section section : sections)
 		{
 			NavigationSectionButtonView sectionButton = new NavigationSectionButtonView(section, buttonListener);
 			preferredHeight += sectionButton.getPreferredSize().height;
-			
+
 			sectionButtons.add(sectionButton);
-			
+
 			add(sectionButton);
 		}
-		
+
 		setPreferredSize(new Dimension(225, preferredHeight));
 		setMinimumSize(getPreferredSize());
 		setMaximumSize(getPreferredSize());

@@ -14,26 +14,26 @@ import org.nlamah.QLS.View.Stylesheet.PageView;
 public class PageViewController extends StylesheetViewController 
 {
 	private String identifier;
-	
+
 	private List<SectionViewController> sectionViewControllers;
 
 	private RootFormViewControllerStyled rootViewController;
-	
+
 	public PageViewController(Form form, String identifier, Page page, RootFormViewControllerStyled rootViewController) 
 	{
 		super(rootViewController, null);
-		
+
 		this.identifier = identifier;
 
 		this.rootViewController = rootViewController;
-		
+
 		view = new PageView(page);
 
 		createSectionViewControllers(form, page.sections());
-		
+
 		addSectionViewsToView();
 	}
-	
+
 	public String identifier()
 	{
 		return identifier;
@@ -48,14 +48,14 @@ public class PageViewController extends StylesheetViewController
 			sectionViewControllers.add(new SectionViewController(rootViewController, form, section, this));
 		}
 	}
-	
+
 	private void addSectionViewsToView()
 	{
 		for (SectionViewController sectionViewController : sectionViewControllers)
 		{
 			view.add(sectionViewController.view);
 		}
-		
+
 		view.add(Box.createRigidArea(new Dimension(0, 40)));
 	}
 

@@ -9,14 +9,14 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 public class ColorDeclaration extends StyleDeclaration 
 {
 	private Color color;
-	
+
 	public ColorDeclaration(Color color) 
 	{
 		super();
-		
+
 		this.color = color;
 	}
-	
+
 	public Color primitiveValue()
 	{
 		return color;
@@ -27,7 +27,7 @@ public class ColorDeclaration extends StyleDeclaration
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -40,9 +40,9 @@ public class ColorDeclaration extends StyleDeclaration
 		{
 			return false;
 		}
-		
+
 		ColorDeclaration value = (ColorDeclaration) object;
-		
+
 		if (!value.color.equals(color))
 		{
 			return false;

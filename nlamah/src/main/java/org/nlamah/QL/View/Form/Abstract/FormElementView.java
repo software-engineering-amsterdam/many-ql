@@ -9,11 +9,11 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 public abstract class FormElementView extends JPanel implements ViewLoadingStrategy
 {	
 	protected FormElement modelElement;
-	
+
 	public FormElementView(FormElement modelElement)
 	{
 		super();
-		
+
 		this.modelElement = modelElement;
 	} 
 }

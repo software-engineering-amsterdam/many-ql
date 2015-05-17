@@ -12,36 +12,36 @@ public class GreaterThanEqualExpression extends BinaryLogicalExpression
 	{
 		super(leftHandExpression, rightHandExpression);
 	}
-	
+
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {
+	public boolean equals(Object object) 
+	{
 		if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof GreaterThanEqualExpression))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
-	
+		{
+			return false;
+		}
+
+		if (!(object instanceof GreaterThanEqualExpression))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public boolean isSafeForType(QBaseQuestionType type) 
 	{
 		switch(type)
 		{
-			case BOOLEAN: return false;
-			default: return true;
+		case BOOLEAN: return false;
+		default: return true;
 		}
 	}
 }

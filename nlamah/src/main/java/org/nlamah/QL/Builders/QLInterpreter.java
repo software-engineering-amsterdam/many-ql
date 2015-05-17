@@ -31,39 +31,39 @@ import org.nlamah.QL.TypeChecker.QLTypeChecker;
 public class QLInterpreter implements ANTLRErrorListener 
 {	
 	private Form form;
-	
+
 	private List<QBaseWarning> warnings;
 	private List<QBaseError> errors;
-	
+
 	public QLInterpreter()
 	{
 		super();
-		
+
 		warnings = new ArrayList<QBaseWarning>();
 		errors = new ArrayList<QBaseError>();
 	}
-	
+
 	public Form interprete(String sourceCodePath) throws FileReadException, QLException
 	{		
 		String sourceCode;
-		
+
 		sourceCode = QBaseHelper.getSourceCode(sourceCodePath);
-		
+
 		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
-		
+
 		RawFormBuilder rawFormBuilder = new RawFormBuilder();
-				
+
 		form = rawFormBuilder.buildForm(tree);
-		
+
 		errors.addAll(rawFormBuilder.errors());
-		
+
 		if (errors.size() > 0)
 		{
 			throw new QLException(null, errors);
 		}
-		
+
 		QLTypeChecker typeChecker = new QLTypeChecker();
-		
+
 		try 
 		{
 			typeChecker.check(form);
@@ -76,29 +76,29 @@ public class QLInterpreter implements ANTLRErrorListener
 		{
 			warnings.addAll(typeChecker.warnings());
 		}
-			
+
 		return form;
 	}
-	
+
 	public List<QBaseWarning> warnings()
 	{
 		return warnings;
 	}
 
-    private ParseTree createParseTreeFromSourceCode(String sourceCode)
-    {
-    	ANTLRInputStream input = new ANTLRInputStream(sourceCode);
+	private ParseTree createParseTreeFromSourceCode(String sourceCode)
+	{
+		ANTLRInputStream input = new ANTLRInputStream(sourceCode);
 
 		QLLexer lexer = new QLLexer(input);
-		
+
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		
+
 		QLParser parser = new QLParser(tokens);
-		
+
 		parser.addErrorListener(this);
-		
-    	return parser.form();
-    }
+
+		return parser.form();
+	}
 
 	@Override
 	public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) 

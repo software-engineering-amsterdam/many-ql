@@ -36,13 +36,13 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 {
 	private QBaseQuestionType expectedIdentifierType;
 	private IdentifierLiteral identifier;
-	
+
 	public IdentifierTypeChecker(IdentifierLiteral identifier)
 	{
 		super();
-		
+
 		this.identifier = identifier;
-		
+
 		identifier.accept(this);
 	}
 
@@ -50,7 +50,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(AddExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-	
+
 		return null;
 	}
 
@@ -58,7 +58,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(AndExpression expression)
 	{	
 		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
-		
+
 		return null;
 	}
 
@@ -66,7 +66,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(DivideExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -89,7 +89,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 		{
 			expectedIdentifierType = expression.leftHandExpression().type();
 		}
-		
+
 		return null;
 	}
 
@@ -97,7 +97,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(GreaterThanExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -105,7 +105,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(GreaterThanEqualExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -113,7 +113,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(MultiplyExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -121,7 +121,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(OrExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -129,7 +129,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(SmallerThanEqualExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -137,7 +137,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(SmallerThanExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -145,7 +145,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(SubtractExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -168,7 +168,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 		{
 			expectedIdentifierType = expression.leftHandExpression().type();
 		}
-		
+
 		return null;
 	}
 
@@ -176,7 +176,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(MinusExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -184,7 +184,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(NotExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.BOOLEAN;
-		
+
 		return null;
 	}
 
@@ -192,7 +192,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(PlusExpression expression)
 	{
 		expectedIdentifierType = QBaseQuestionType.NUMBER;
-		
+
 		return null;
 	}
 
@@ -200,7 +200,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(BooleanLiteral booleanLiteral) 
 	{
 		assert false;
-		
+
 		return null;
 	}
 
@@ -208,14 +208,14 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(IdentifierLiteral identifierLiteral) 
 	{
 		identifierLiteral.parentNode().accept(this);
-		
+
 		if (identifierLiteral.type() != expectedIdentifierType)
 		{			
 			errors.add(new IdentifierTypeMismatchError(identifier));
 		}
-		
+
 		expectedIdentifierType = identifierLiteral.type();
-		
+
 		return null;
 	}
 
@@ -223,7 +223,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(NumberLiteral numberLiteral) 
 	{
 		assert false;
-		
+
 		return null;
 	}
 
@@ -231,7 +231,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(TextLiteral textLiteral) 
 	{
 		assert false;
-		
+
 		return null;
 	}
 
@@ -279,15 +279,15 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	public QLNode visit(InputQuestion inputQuestion) 
 	{
 		assert false;
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public QLNode visit(ComputedQuestion computedQuestion) 
 	{		
 		expectedIdentifierType = computedQuestion.returnType();
-		
+
 		return null;
 	}
 }

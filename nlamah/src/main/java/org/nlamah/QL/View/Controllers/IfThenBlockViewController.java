@@ -2,7 +2,7 @@ package org.nlamah.QL.View.Controllers;
 
 import java.awt.Dimension;
 
-import org.nlamah.QL.Builders.FormHeightAdjuster;
+import org.nlamah.QL.Builders.FormHeightEvaluator;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Model.Form.IfThenBlock;
@@ -14,15 +14,15 @@ public class IfThenBlockViewController extends DeclaringFormElementViewControlle
 	public IfThenBlockViewController(IfThenBlock ifThenBlock) 
 	{
 		super(ifThenBlock);
-		
+
 		view = new IfThenBlockView();
 	}
-	
+
 	public boolean viewShouldBeVisible()
 	{
 		return ((IfThenBlock) modelElement).isSatisfied();
 	}
-	
+
 	@Override
 	public void accept(QLFormElementViewControllerVisitor visitor) 
 	{
@@ -30,14 +30,14 @@ public class IfThenBlockViewController extends DeclaringFormElementViewControlle
 	}
 
 	@Override
-	public int neededViewHeight() 
+	public int evaluateViewHeight() 
 	{
-		FormHeightAdjuster heightAdjuster = new FormHeightAdjuster();
-		
+		FormHeightEvaluator heightAdjuster = new FormHeightEvaluator();
+
 		int neededHeight = heightAdjuster.getPreferredHeight(childViewControllers());
-		
+
 		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
-		
+
 		return neededHeight;
 	}
 }

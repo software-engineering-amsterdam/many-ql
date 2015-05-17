@@ -31,14 +31,14 @@ import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 public class QLSInterpreter implements ANTLRErrorListener 
 {
 	private List<QBaseError> errors;
-	
+
 	public QLSInterpreter()
 	{
 		super();
-		
+
 		errors = new ArrayList<QBaseError>();
 	}
-	
+
 	public Stylesheet interprete(String qlsFileName, Form form) throws FileReadException, QLSException
 	{
 		String qlsSourceCode;
@@ -46,24 +46,24 @@ public class QLSInterpreter implements ANTLRErrorListener
 		qlsSourceCode = QBaseHelper.getSourceCode(qlsFileName);
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
-		
+
 		if (errors.size() > 0)
 		{
 			throw new QLSException(errors);
 		}
-		
+
 		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
 		Stylesheet stylesheet = rawStylesheetBuilder.build(tree);
-		
+
 		errors.addAll(rawStylesheetBuilder.errors());
-		
+
 		if (errors.size() > 0)
 		{
 			throw new QLSException(errors);
 		}
-		
+
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-		
+
 		try 
 		{
 			qlsTypeChecker.check(form, stylesheet);
@@ -72,7 +72,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		{
 			throw new QLSException(qlsTypeChecker.errors());
 		}
-		
+
 		new CombinedStylesForQuestionsBuilder(form, stylesheet).build();
 
 		return stylesheet;

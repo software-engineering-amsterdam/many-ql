@@ -8,11 +8,11 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 public class TextLiteral extends ValueExpression 
 {
 	String textValueString;
-	
+
 	public TextLiteral(String textValueString)
 	{
 		super(QBaseQuestionType.TEXT);
-		
+
 		this.textValueString = textValueString;
 	}
 
@@ -39,14 +39,14 @@ public class TextLiteral extends ValueExpression
 		{
 			return false;
 		}
-		
+
 		TextLiteral value = (TextLiteral) object;
-		
+
 		if (!value.textValueString.equals(textValueString))
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -55,7 +55,7 @@ public class TextLiteral extends ValueExpression
 	{
 		return textValueString.hashCode();
 	}
-	
+
 	@Override
 	public String toString()
 	{

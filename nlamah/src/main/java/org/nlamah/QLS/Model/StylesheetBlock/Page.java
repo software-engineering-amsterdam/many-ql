@@ -10,13 +10,13 @@ import org.nlamah.QLS.Model.Value.IdentifierValue;
 public class Page extends StylesheetBlock 
 {
 	List<Section> sections;
-	
+
 	public Page(IdentifierValue identifier, List<Section> sections, List<DefaultBlock> defaultBlocks) 
 	{
 		super(identifier.toString(), defaultBlocks);
-		
+
 		this.sections = sections;
-		
+
 		for (Section section : sections)
 		{
 			section.setParentNode(this);
@@ -27,13 +27,13 @@ public class Page extends StylesheetBlock
 	{
 		return sections;
 	}
-	
+
 	@Override
 	public QLSNode accept(QLSNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -46,9 +46,9 @@ public class Page extends StylesheetBlock
 		{
 			return false;
 		}
-		
+
 		Page value = (Page) object;
-		
+
 		if (!(sections.equals(value.sections)))
 		{
 			return false;

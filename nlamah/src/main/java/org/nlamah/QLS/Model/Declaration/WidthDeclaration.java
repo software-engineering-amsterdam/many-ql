@@ -7,14 +7,14 @@ import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 public class WidthDeclaration extends StyleDeclaration 
 {	
 	private int width;
-	
+
 	public WidthDeclaration(int width) 
 	{
 		super();
-		
+
 		this.width = width;
 	}
-	
+
 	public int primitiveValue()
 	{
 		return width;
@@ -25,7 +25,7 @@ public class WidthDeclaration extends StyleDeclaration
 	{
 		return visitor.visit(this);
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{
@@ -38,9 +38,9 @@ public class WidthDeclaration extends StyleDeclaration
 		{
 			return false;
 		}
-		
+
 		WidthDeclaration value = (WidthDeclaration) object;
-		
+
 		if (value.width != width)
 		{
 			return false;

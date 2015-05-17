@@ -24,10 +24,10 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	public ConditionalBlockViewController(ConditionalBlock conditionalBlock)
 	{
 		super(conditionalBlock);
-		
+
 		view = new ConditionalBlockView();
 	}
-	
+
 	public IfThenBlockViewController ifThenBlockViewController() 
 	{
 		return ifThenBlockViewController;
@@ -44,7 +44,7 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 		{
 			return new ArrayList<ElseIfThenBlockViewController>();
 		}
-		
+
 		return elseIfThenBlockViewControllers;
 	}
 
@@ -67,17 +67,17 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	{		
 		this.ifThenBlockView = ifThenBlockView;
 	}
-	
+
 	public IfThenBlockView ifThenBlockView() 
 	{	
 		return ifThenBlockView;
 	}
-	
+
 	public void setElseIfThenBlockViews(List<ElseIfThenBlockView> elseIfThenBlockViews) 
 	{
 		this.elseIfThenBlockViews = elseIfThenBlockViews;
 	}
-	
+
 	public List<ElseIfThenBlockView> elseIfThenBlockViews()
 	{
 		return elseIfThenBlockViews;
@@ -87,12 +87,12 @@ public abstract class ConditionalBlockViewController extends FormElementViewCont
 	{
 		this.elseThenBlockView = elseThenBlockView;
 	}
-	
+
 	public ElseThenBlockView elseThenBlockView()
 	{
 		return elseThenBlockView;
 	}
-	
+
 	@Override
 	public void accept(QLFormElementViewControllerVisitor visitor) 
 	{

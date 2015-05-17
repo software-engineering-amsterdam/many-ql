@@ -15,7 +15,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
 	private ValueExpression value;
-	
+
 	protected Stack<QBaseEqualityState> equalityStateStack;
 
 	public FormQuestion(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
@@ -24,9 +24,9 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 
 		this.questionText = questionString;
 		this.type = type;
-		
+
 		value = QLHelper.defaultValueForQuestionType(type);
-		
+
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 
@@ -55,12 +55,12 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 	{
 		return value;
 	}
-	
+
 	public void setValue(ValueExpression value)
 	{
 		this.value = value;
 	}
-	
+
 	@Override 
 	public boolean equals(Object object) 
 	{

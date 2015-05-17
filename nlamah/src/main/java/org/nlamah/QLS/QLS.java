@@ -19,20 +19,20 @@ public class QLS
 		{	
 			String qlSourceCodePath = getQLSourceCodePath(args);
 			String qlsSourceCodePath = getQLSSourceCodePath(args);
-			
+
 			QLInterpreter qlInterpreter = new QLInterpreter();
-			
+
 			Form form = null;
 			Stylesheet stylesheet = null;
-	
+
 			form = qlInterpreter.interprete(qlSourceCodePath);
-			
+
 			form = new QLFormFragmentiser(form).form();
-			
+
 			QLSInterpreter qlsInterpreter = new QLSInterpreter();
-			
+
 			stylesheet = qlsInterpreter.interprete(qlsSourceCodePath, form);
-			
+
 			SwingUtilities.invokeLater(new RootFormViewControllerStyled(form, stylesheet));
 		}
 		catch(QBaseException exception)
@@ -40,28 +40,28 @@ public class QLS
 			SwingUtilities.invokeLater(new QBaseErrorViewController(exception.warnings(), exception.errors()));
 		} 
 	}
-	
+
 	private static String getQLSourceCodePath(String[] args)
 	{
 		String qlSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/source.ql";
-		
+
 		if (args.length > 0)
 		{
 			qlSourceCodePath = System.getProperty("user.dir") + "/" + args[0];
 		}
-		
+
 		return qlSourceCodePath;
 	}
-	
+
 	private static String getQLSSourceCodePath(String[] args)
 	{
 		String qlsSourceCodePath = System.getProperty("user.dir") + "/target/classes/org/nlamah/QLS/stylesheet.qls";
-		
+
 		if (args.length > 1)
 		{
 			qlsSourceCodePath = System.getProperty("user.dir") + "/" + args[1];
 		}
-		
+
 		return qlsSourceCodePath;
 	}
 }

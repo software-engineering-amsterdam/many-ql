@@ -13,15 +13,15 @@ public class AmbiguityError extends QBaseParsingError
 	{
 		return "AmbiguityError: StartIndex:" + startIndex + ", StopIndex:" + stopIndex;
 	}
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {		 
-		 if (!(object instanceof AmbiguityError))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }	
+	public boolean equals(Object object) 
+	{		 
+		if (!(object instanceof AmbiguityError))
+		{
+			return false;
+		}
+
+		return true;
+	}	
 }

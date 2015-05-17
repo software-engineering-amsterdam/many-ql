@@ -17,7 +17,7 @@ public class QLSHelper
 	static public List<StyledQuestion> getQuestionsWithIdentifier(List<StyledQuestion> questions, IdentifierValue identifier)
 	{
 		List<StyledQuestion> foundQuestions = new ArrayList<StyledQuestion>();
-		
+
 		for (StyledQuestion question : questions)
 		{
 			if (question.identifier().equals(identifier))
@@ -25,7 +25,7 @@ public class QLSHelper
 				foundQuestions.add(question);
 			}
 		}
-		
+
 		return foundQuestions;
 	}
 
@@ -38,7 +38,7 @@ public class QLSHelper
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -52,15 +52,15 @@ public class QLSHelper
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	private static boolean questionsHaveTheSameIdentifier(FormQuestion formQuestion, StyledQuestion styledQuestion) 
 	{
 		return formQuestion.identifier().toString().equals(styledQuestion.identifier().toString());
 	}
-	
+
 	public static DefaultBlock findStyleDeclarationOfType(QBaseQuestionType type, List<DefaultBlock> defaultBlocks)
 	{
 		for (DefaultBlock defaultBlock : defaultBlocks)
@@ -70,14 +70,14 @@ public class QLSHelper
 				return defaultBlock;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static List<StyleDeclaration> findStyleDeclarationsOfTheSameClass(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations) 
 	{		
 		List<StyleDeclaration> foundDeclarations = new ArrayList<StyleDeclaration>();
-		
+
 		for (StyleDeclaration temporaryStyleDeclaration : styleDeclarations)
 		{
 			if(temporaryStyleDeclaration.getClass().equals(styleDeclaration.getClass()))
@@ -85,25 +85,25 @@ public class QLSHelper
 				foundDeclarations.add(temporaryStyleDeclaration);
 			}
 		}
-		
+
 		return foundDeclarations;
 	}
-	
+
 	public static QBaseQuestionType getTypeForStyledQuestion(StyledQuestion styledQuestion, List<FormQuestion> formQuestions)
 	{		
 		FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier
 				(
 						formQuestions,
 						new IdentifierLiteral(styledQuestion.identifier().toString())
-				);
-		
+						);
+
 		return formQuestion.returnType();
 	}
 
 	public static String uniformHexNumberString(String hexNumberValueString) 
 	{
 		assert(hexNumberValueString.length() == 4 || hexNumberValueString.length() == 7);
-		
+
 		if (hexNumberValueString.length() == 4)
 		{
 			return "#" + 
@@ -111,7 +111,7 @@ public class QLSHelper
 					hexNumberValueString.charAt(2) + hexNumberValueString.charAt(2) + 
 					hexNumberValueString.charAt(3) + hexNumberValueString.charAt(3);
 		}
-		
+
 		return hexNumberValueString;
 	}
 

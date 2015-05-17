@@ -15,7 +15,7 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 	}
 
 	@Override
-	public int neededViewHeight() 
+	public int evaluateViewHeight() 
 	{	
 		makeAllViewsInvisible();
 
@@ -23,7 +23,7 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 		{
 			ifThenBlockView().setVisible(true);
 
-			int neededHeight = ifThenBlockViewController.neededViewHeight();
+			int neededHeight = ifThenBlockViewController.evaluateViewHeight();
 
 			adjustViewHeightToNeededHeight(neededHeight);
 
@@ -41,7 +41,7 @@ public class ConditionalBlockIfElseIfViewController extends ConditionalBlockView
 
 					elseIfThenBlockView.setVisible(true);
 
-					int neededHeight = elseIfThenBlockViewController.neededViewHeight();
+					int neededHeight = elseIfThenBlockViewController.evaluateViewHeight();
 
 					adjustViewHeightToNeededHeight(neededHeight);
 

@@ -13,17 +13,17 @@ import org.nlamah.QLS.View.Stylesheet.NavigationSubviewPage;
 public class NavigationPageViewController extends StylesheetViewController implements ActionListener 
 {
 	private List<Section> sections;
-	
+
 	private NavigationViewController navigationViewController;
-	
+
 	public NavigationPageViewController(Page page, NavigationViewController navigationViewController) 
 	{		
 		super();
-		
+
 		this.navigationViewController = navigationViewController;
-		
+
 		sections = new SectionsCollector().sectionsForPage(page);
-		
+
 		view = new NavigationSubviewPage(page, sections, this);
 	}
 

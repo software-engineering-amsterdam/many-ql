@@ -18,14 +18,14 @@ import org.nlamah.QL.Model.Form.InputQuestion;
 public class FormQuestionsCollector implements QLFormElementVisitor 
 {
 	private List<FormQuestion> questions;
-	
+
 	public FormQuestionsCollector(Form form)
 	{
 		questions = new ArrayList<FormQuestion>();
-		
+
 		form.accept(this);
 	}
-	
+
 	public List<FormQuestion> questions()
 	{
 		return questions;
@@ -77,7 +77,7 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 		{
 			conditionalBlock.ifThenBlock().accept(this);
 		}
-		
+
 		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
@@ -85,7 +85,7 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 				elseIfThenBlock.accept(this);
 			}
 		}
-		
+
 		if (conditionalBlock.elseThenBlock() != null)
 		{
 			conditionalBlock.elseThenBlock().accept(this);
@@ -97,7 +97,7 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 	{
 		questions.add(inputQuestion);
 	}
-	
+
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{

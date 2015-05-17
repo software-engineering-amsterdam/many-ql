@@ -13,15 +13,15 @@ public class ContextSensitivityError extends QBaseParsingError
 	{
 		return "ContextSensitivityError: StartIndex:" + startIndex + ", StopIndex:" + stopIndex;
 	}	
-	
+
 	@Override 
-	 public boolean equals(Object object) 
-	 {		 
-		 if (!(object instanceof ContextSensitivityError))
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }	
+	public boolean equals(Object object) 
+	{		 
+		if (!(object instanceof ContextSensitivityError))
+		{
+			return false;
+		}
+
+		return true;
+	}	
 }

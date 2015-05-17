@@ -113,12 +113,12 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetTopPadding())));
 
 		Box verticalBox = Box.createVerticalBox();
-		
+
 		for (JRadioButton radioButton : radioButtons)
 		{
 			verticalBox.add(radioButton);
 		}
-		
+
 		add(verticalBox);
 
 		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetBottomPadding())));
