@@ -34,7 +34,7 @@ public class IfThenBlockViewController extends DeclaringFormElementViewControlle
 	{
 		FormHeightEvaluator heightAdjuster = new FormHeightEvaluator();
 
-		int neededHeight = heightAdjuster.getPreferredHeight(childViewControllers());
+		int neededHeight = heightAdjuster.evaluate(childViewControllers());
 
 		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 

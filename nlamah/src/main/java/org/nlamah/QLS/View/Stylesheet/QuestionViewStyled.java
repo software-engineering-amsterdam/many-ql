@@ -8,7 +8,6 @@ import org.nlamah.QL.View.Form.Abstract.QuestionView;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 
-//TODO what to do with the serial numbers?
 @SuppressWarnings("serial")
 public class QuestionViewStyled extends QuestionView 
 {

@@ -57,7 +57,6 @@ public class QLSViewControllersFactory extends QLViewControllersFactory
 		if (!createNewViewController(inputQuestion))
 		{
 			super.visit(inputQuestion);
-			//TODO check if this is correct
 		}
 	}
 }

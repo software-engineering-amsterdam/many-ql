@@ -175,13 +175,6 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		return visitor.visit(this);
 	}
 
-	@Override
-	public String toString()
-	{
-		//TODO
-		return questionType.toString();
-	}
-
 	@Override 
 	public boolean equals(Object object) 
 	{

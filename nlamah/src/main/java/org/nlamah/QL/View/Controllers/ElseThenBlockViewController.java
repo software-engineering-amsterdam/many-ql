@@ -29,7 +29,7 @@ public class ElseThenBlockViewController extends DeclaringFormElementViewControl
 	{
 		FormHeightEvaluator heightCalculator = new FormHeightEvaluator();
 
-		int neededHeight = heightCalculator.getPreferredHeight(childViewControllers());
+		int neededHeight = heightCalculator.evaluate(childViewControllers());
 
 		view.setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
 

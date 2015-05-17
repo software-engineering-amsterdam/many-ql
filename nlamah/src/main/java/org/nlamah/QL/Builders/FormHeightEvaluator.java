@@ -17,7 +17,7 @@ public class FormHeightEvaluator implements QLFormElementViewControllerVisitor
 	private int preferredHeight;
 	private int currentlyCalculatedHeight;
 
-	public int getPreferredHeight(List<FormElementViewController> formElementViewControllers)
+	public int evaluate(List<FormElementViewController> formElementViewControllers)
 	{
 		preferredHeight = 0;
 
