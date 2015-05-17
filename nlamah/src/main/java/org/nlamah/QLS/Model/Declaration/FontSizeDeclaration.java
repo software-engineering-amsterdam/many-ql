@@ -48,4 +48,10 @@ public class FontSizeDeclaration extends StyleDeclaration
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return ("" + fontSize).hashCode();
+	}
 }

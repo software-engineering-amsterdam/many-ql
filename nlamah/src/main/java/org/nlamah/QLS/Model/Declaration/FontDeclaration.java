@@ -50,4 +50,10 @@ public class FontDeclaration extends StyleDeclaration
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return font.toString().hashCode();
+	}
 }

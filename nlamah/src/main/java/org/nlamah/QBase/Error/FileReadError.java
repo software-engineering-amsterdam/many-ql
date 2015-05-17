@@ -18,7 +18,12 @@ public class FileReadError extends QBaseError
 
 	@Override 
 	public boolean equals(Object object) 
-	{		 
+	{	
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		
 		if (!(object instanceof FileReadError))
 		{
 			return false;

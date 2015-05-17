@@ -51,4 +51,15 @@ public abstract class FormElement extends QLNode implements Controllable
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		if (identifier == null)
+		{
+			return 0;
+		}
+		
+		return identifier.toString().hashCode();
+	}
 }

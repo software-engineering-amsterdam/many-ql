@@ -48,4 +48,10 @@ public class WidthDeclaration extends StyleDeclaration
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return ("" + width).hashCode();
+	}
 }

@@ -16,7 +16,12 @@ public class AttemptingFullContextError extends QBaseParsingError
 
 	@Override 
 	public boolean equals(Object object) 
-	{		 
+	{	
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		
 		if (!(object instanceof AttemptingFullContextError))
 		{
 			return false;

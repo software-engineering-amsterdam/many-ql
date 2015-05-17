@@ -65,12 +65,23 @@ public abstract class StylesheetBlock extends QLSNode
 		{
 			return false;
 		}
-
+		
 		if (!(this.defaultBlocks.equals(value.defaultBlocks)))
 		{
 			return false;
 		}
 
 		return true;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		if (title == null)
+		{
+			return 0;
+		}
+		
+		return title.hashCode();
 	}
 }

@@ -26,4 +26,15 @@ public abstract class QBaseParsingError extends QBaseError
 		this.startLine = startLine;
 		this.startCharacterInLine = startCharacterInLine;
 	}
+	
+	@Override
+	public boolean equals(Object object)
+	{
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }

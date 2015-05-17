@@ -50,4 +50,10 @@ public class ColorDeclaration extends StyleDeclaration
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return color.toString().hashCode();
+	}
 }

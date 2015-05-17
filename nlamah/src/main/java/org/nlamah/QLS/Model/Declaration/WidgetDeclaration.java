@@ -71,7 +71,7 @@ public class WidgetDeclaration extends StyleDeclaration
 		{
 			return true;
 		}
-
+		
 		Iterator<TextLiteral> thisIterator = values.keySet().iterator();
 		Iterator<TextLiteral> objectIterator = value.values.keySet().iterator();
 
@@ -95,5 +95,11 @@ public class WidgetDeclaration extends StyleDeclaration
 		}		
 
 		return true;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return widgetType.toString().hashCode() + returnType.toString().hashCode();
 	}
 }

@@ -49,4 +49,15 @@ public class IdentifierValue extends QLSNode
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		if (identifier == null)
+		{
+			return 0;
+		}
+		
+		return identifier.hashCode();
+	}
 }

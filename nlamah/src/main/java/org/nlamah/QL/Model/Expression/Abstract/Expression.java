@@ -41,6 +41,12 @@ public abstract class Expression extends QLNode
 
 		return true;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return type.toString().hashCode();
+	}
 }
 
 

@@ -20,12 +20,17 @@ public class EnumRecognitionError extends QBaseParsingError
 
 	@Override 
 	public boolean equals(Object object) 
-	{		 
+	{		
+		if (!super.equals(object))
+		{
+			return false;
+		}
+		
 		if (!(object instanceof EnumRecognitionError))
 		{
 			return false;
 		}
-
+		
 		return true;
 	}
 }
