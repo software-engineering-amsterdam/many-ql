@@ -1,7 +1,10 @@
 package org.nlamah.QLS.View.Controllers;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Box;
 
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
@@ -52,18 +55,18 @@ public class PageViewController extends StylesheetViewController
 		{
 			view.add(sectionViewController.view);
 		}
+		
+		view.add(Box.createRigidArea(new Dimension(0, 40)));
 	}
 
 	@Override
 	public int neededViewHeight() 
 	{
-		int preferredHeight = 0;
-
 		for (SectionViewController sectionViewController : sectionViewControllers)
 		{
-			preferredHeight += sectionViewController.neededViewHeight();
+			sectionViewController.neededViewHeight();
 		}
 
-		return preferredHeight;
+		return view.getPreferredSize().height;
 	}
 }

@@ -1,27 +1,39 @@
 package org.nlamah.QLS.View.Stylesheet;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 
 @SuppressWarnings("serial")
 public class PageView extends JPanel 
 {
-	private JLabel pageTitle;
+	private JLabel titleLabel;
 	
 	public PageView(Page page)
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			
-		pageTitle = new JLabel("Page:" + page.title(), JLabel.CENTER);
+		titleLabel = new JLabel(page.title(), JLabel.CENTER);
 		
-		pageTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
+		titleLabel.setOpaque(true);
+		
+		titleLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
-		add(pageTitle);
+		Box horizontalBox = Box.createHorizontalBox();
+		horizontalBox.add(titleLabel);
+
+		add(horizontalBox);
+		
+		add(Box.createRigidArea(new Dimension(0, QLSHelper.pageTitleBottomPadding())));
 	}
 }

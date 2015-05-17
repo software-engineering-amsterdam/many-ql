@@ -1,4 +1,4 @@
-package org.nlamah.QL.View.Form.Widgets;
+package org.nlamah.QL.View.Widgets;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
@@ -62,8 +61,6 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 		radioButtons = new ArrayList<JRadioButton>();
 		buttonGroup = new ButtonGroup();
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 		for (Map.Entry<TextLiteral, ? extends ValueExpression> entry : map.entrySet())
 		{
 			JRadioButton button = new JRadioButton(entry.getKey().toString());
@@ -115,10 +112,14 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 	{
 		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetTopPadding())));
 
+		Box verticalBox = Box.createVerticalBox();
+		
 		for (JRadioButton radioButton : radioButtons)
 		{
-			add(radioButton);
+			verticalBox.add(radioButton);
 		}
+		
+		add(verticalBox);
 
 		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetBottomPadding())));
 	}

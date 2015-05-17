@@ -23,10 +23,10 @@ import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Controllers.Abstract.DeclaringFormElementViewController;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
-import org.nlamah.QL.View.Form.Widgets.CheckboxWidgetView;
-import org.nlamah.QL.View.Form.Widgets.ComputedValueWidgetView;
-import org.nlamah.QL.View.Form.Widgets.NumberFieldWidgetView;
-import org.nlamah.QL.View.Form.Widgets.TextFieldWidgetView;
+import org.nlamah.QL.View.Widgets.CheckboxWidgetView;
+import org.nlamah.QL.View.Widgets.ComputedValueWidgetView;
+import org.nlamah.QL.View.Widgets.NumberFieldWidgetView;
+import org.nlamah.QL.View.Widgets.TextFieldWidgetView;
 
 public class QLViewControllersFactory implements QLFormElementVisitor
 {	

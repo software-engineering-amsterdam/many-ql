@@ -3,7 +3,6 @@ package org.nlamah.QLS.View.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Builders.FormHeightAdjuster;
 import org.nlamah.QL.Builders.FragementedFormElementFinder;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
@@ -81,16 +80,18 @@ public class SectionViewController extends StylesheetViewController
 	
 	@Override
 	public int neededViewHeight() 
-	{			
-		FormHeightAdjuster heightAjuster = new FormHeightAdjuster();
-	
-		heightAjuster.getPreferredHeight(formElementViewControllers);	
+	{		
+		for (FormElementViewController formElementViewController : formElementViewControllers)
+		{
+			formElementViewController.neededViewHeight();
+		}
 		
 		for (SectionViewController sectionViewController : childSectionViewControllers)
 		{
 			sectionViewController.neededViewHeight();
 		}
 		
+		((SectionView) view).layoutView();
 		
 		return view.getPreferredSize().height;
 	}

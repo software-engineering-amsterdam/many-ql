@@ -114,4 +114,9 @@ public class QLSHelper
 		
 		return hexNumberValueString;
 	}
+
+	public static int pageTitleBottomPadding() 
+	{
+		return 10;
+	}
 }

@@ -1,8 +1,5 @@
 package org.nlamah.QLS.View.Stylesheet;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -10,7 +7,7 @@ import javax.swing.JPanel;
 import org.nlamah.QLS.Model.StylesheetBlock.Section;
 
 @SuppressWarnings("serial")
-public class SectionView extends JPanel implements ComponentListener
+public class SectionView extends JPanel
 {
 	private Section section;
 	
@@ -19,8 +16,11 @@ public class SectionView extends JPanel implements ComponentListener
 		this.section = section;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		addComponentListener(this);
+	}
+	
+	public void layoutView()
+	{
+		redrawBorder();
 	}
 	
 	private void redrawBorder()
@@ -31,29 +31,5 @@ public class SectionView extends JPanel implements ComponentListener
 		{
 			setBorder(BorderFactory.createTitledBorder(section.title()));
 		}
-	}
-
-	@Override
-	public void componentResized(ComponentEvent e) 
-	{		
-		redrawBorder();
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent e) 
-	{
-		redrawBorder();
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) 
-	{
-		redrawBorder();
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent e) 
-	{
-		redrawBorder();
 	}
 }

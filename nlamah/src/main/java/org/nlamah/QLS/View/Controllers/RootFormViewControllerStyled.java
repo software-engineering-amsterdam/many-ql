@@ -22,7 +22,7 @@ public class RootFormViewControllerStyled extends FormRootViewController
 	
 	private List<PageViewController> pageViewControllers;
 	
-	private PageViewController currentlyVisiblePage;
+	private StylesheetBlock requestedBlock;
 	
 	public RootFormViewControllerStyled(Form form, Stylesheet stylesheet) 
 	{
@@ -69,6 +69,8 @@ public class RootFormViewControllerStyled extends FormRootViewController
 	
 	public void show(StylesheetBlock block)
 	{
+		requestedBlock = block;
+		
 		Page requestedPage = null;
 		
 		if (block instanceof Page)
@@ -84,19 +86,18 @@ public class RootFormViewControllerStyled extends FormRootViewController
 			requestedPage = ((Stylesheet) block).pages().get(0);
 		}
 		
+		for (PageViewController pageViewController : pageViewControllers)
+		{
+			pageViewController.neededViewHeight();
+		}
+		
 		PageViewController pageViewController = pageViewControllerForPage(requestedPage);
+		
+		contentView.setPreferredSize(new Dimension(contentView.getPreferredSize().width, pageViewController.neededViewHeight()));
 		
 		CardLayout cardLayout = (CardLayout) contentView.getLayout();
 		
 		cardLayout.show(contentView, pageViewController.identifier());
-		
-		currentlyVisiblePage = pageViewController;
-		
-		modelStateChanged();
-		
-		int neededViewHeight = currentlyVisiblePage.neededViewHeight();
-		
-		contentView.setPreferredSize(new Dimension(contentView.getPreferredSize().width, neededViewHeight));
 	}
 	
 	@Override
@@ -104,14 +105,9 @@ public class RootFormViewControllerStyled extends FormRootViewController
 	{
 		super.modelStateChanged();
 		
-		for (PageViewController pageViewController : pageViewControllers)
+		if (requestedBlock != null)
 		{
-			pageViewController.neededViewHeight();
-		}
-		
-		if (currentlyVisiblePage != null)
-		{
-			contentView.setPreferredSize(new Dimension(contentView.getPreferredSize().width, currentlyVisiblePage.neededViewHeight()));
+			show(requestedBlock);
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package org.nlamah.QL.View.Form.Widgets;
+package org.nlamah.QL.View.Widgets;
 
 import javax.swing.JLabel;
 

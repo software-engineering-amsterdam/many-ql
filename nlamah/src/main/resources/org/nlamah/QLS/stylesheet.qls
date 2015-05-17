@@ -18,7 +18,7 @@ stylesheet test
 		default
 		{
 			font: "Arial"
-			fontsize: 45
+			fontsize: 35
 			color: #f00
 			width: 500
 		}
@@ -48,4 +48,12 @@ stylesheet test
 	}
 	
 	default boolean widget radio("yes":yes, "no":no)
+	
+	default
+	{
+		font: "Arial"
+		fontsize: 35
+		color: #f00
+		width: 500
+	}
 }
