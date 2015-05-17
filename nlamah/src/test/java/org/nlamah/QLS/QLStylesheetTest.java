@@ -78,8 +78,6 @@ public class QLStylesheetTest extends TestCase
 	{
 		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylesheet", "onequestion");
 		
-		
-		
 		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), new StyleBlock(new ArrayList<StyleDeclaration>()));
 		
 		List<StyledQuestion> questions = new ArrayList<StyledQuestion>();

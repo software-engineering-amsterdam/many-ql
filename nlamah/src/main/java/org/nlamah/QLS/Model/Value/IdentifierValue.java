@@ -1,10 +1,9 @@
 package org.nlamah.QLS.Model.Value;
 
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
-import org.nlamah.QLS.Model.Abstract.DeclarationValue;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 
-public class IdentifierValue extends DeclarationValue
+public class IdentifierValue extends QLSNode
 {
 	private String identifier;
 	
@@ -29,12 +28,12 @@ public class IdentifierValue extends DeclarationValue
 	
 	@Override 
 	 public boolean equals(Object object) 
-	 {
-		if (!super.equals(object))
-		{
-			return false;
-		}
-		 
+	 {	
+		 if (this == object)
+		 {
+			 return true;
+		 }
+		
 		 if (!(object instanceof IdentifierValue))
 		 {
 			 return false;
