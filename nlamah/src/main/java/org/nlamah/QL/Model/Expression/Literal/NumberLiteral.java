@@ -21,6 +21,24 @@ public class NumberLiteral extends ValueExpression
 		return value;
 	}
 	
+	@Override 
+	public boolean equals(Object object) 
+	{	 
+		if (!(object instanceof NumberLiteral))
+		{
+			return false;
+		}
+		
+		NumberLiteral numberValue = (NumberLiteral) object;
+		
+		if (numberValue.value != value)
+		{
+			return false;
+		}
+
+		return true;
+	}
+	
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{

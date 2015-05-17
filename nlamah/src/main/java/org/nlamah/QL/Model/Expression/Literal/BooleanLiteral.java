@@ -49,11 +49,4 @@ public class BooleanLiteral extends ValueExpression
 
 		return true;
 	}
-
-	@Override
-	public String toString()
-	{
-		//TODO remove this? is this used?
-		return value ? "yes" : "no";
-	}
 }
