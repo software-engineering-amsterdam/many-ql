@@ -428,7 +428,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override 
 	public QLNode visitNumberLiteral(QLParser.NumberLiteralContext ctx) 
 	{ 
-		NumberLiteral literal = new NumberLiteral(ctx.Number().getText());
+		NumberLiteral literal = new NumberLiteral(Integer.parseInt(ctx.Number().getText()));
 
 		QBaseHelper.addSourceCodePosition(literal, ctx);
 
@@ -473,7 +473,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override 
 	public QLNode visitBooleanLiteral(QLParser.BooleanLiteralContext ctx) 
 	{ 
-		BooleanLiteral literal = new BooleanLiteral(ctx.Boolean().getText());
+		BooleanLiteral literal = new BooleanLiteral(ctx.Boolean().getText().equals("yes") ? true : false);
 
 		QBaseHelper.addSourceCodePosition(literal, ctx);
 

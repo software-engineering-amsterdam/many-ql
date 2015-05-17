@@ -11,9 +11,13 @@ public class IdentifierLiteral extends ValueExpression
 {
 	private FormQuestion correspondingQuestion;
 	
+	private String identifierValueString;
+	
 	public IdentifierLiteral(String identifierValueString)
 	{	
-		super(identifierValueString, null);
+		super(null);
+		
+		this.identifierValueString = identifierValueString;
 	}
 	
 	public FormQuestion correspondingQuestion()
@@ -29,10 +33,9 @@ public class IdentifierLiteral extends ValueExpression
 	@Override
 	public String toString()
 	{
-		return valueString;
+		return identifierValueString;
 	}
 	
-	@Override
 	public QBaseQuestionType type()
 	{
 		if (correspondingQuestion == null)
@@ -58,10 +61,7 @@ public class IdentifierLiteral extends ValueExpression
 	@Override
     public int hashCode() 
 	{
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((valueString == null) ? 0 : valueString.hashCode());
-        return result;
+		return identifierValueString.hashCode();
     }
 	
 	@Override 
@@ -79,7 +79,12 @@ public class IdentifierLiteral extends ValueExpression
 		 
 		 IdentifierLiteral value = (IdentifierLiteral) object;
 		 
-		 return value.valueString.equals(valueString);
+		 if (!value.identifierValueString.equals(identifierValueString))
+		 {
+			 return false;
+		 }
+		 
+		 return true;
 	 }
 	
 	@Override

@@ -46,10 +46,10 @@ public class CheckboxWidgetView extends WidgetView implements ItemListener
 	{
 		switch (e.getStateChange())
 		{
-			case ItemEvent.SELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral("yes"));
+			case ItemEvent.SELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(true));
 			break;
 			
-			case ItemEvent.DESELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral("no"));
+			case ItemEvent.DESELECTED: widgetViewDelegate.valueChanged(new BooleanLiteral(false));
 			break;
 			
 			default: break;

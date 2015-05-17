@@ -71,8 +71,8 @@ public class QLFormTest extends TestCase
  	{
  		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifstatement");
 
- 		NumberLiteral leftHandLiteral = new NumberLiteral("1");
- 		NumberLiteral rightHandLiteral = new NumberLiteral("2");
+ 		NumberLiteral leftHandLiteral = new NumberLiteral(1);
+ 		NumberLiteral rightHandLiteral = new NumberLiteral(2);
  		
  		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
  		
@@ -93,8 +93,8 @@ public class QLFormTest extends TestCase
  	{
  		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsestatement");
  		
- 		NumberLiteral leftHandLiteral = new NumberLiteral("1");
- 		NumberLiteral rightHandLiteral = new NumberLiteral("2");
+ 		NumberLiteral leftHandLiteral = new NumberLiteral(1);
+ 		NumberLiteral rightHandLiteral = new NumberLiteral(2);
  		
  		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
  		
@@ -114,24 +114,24 @@ public class QLFormTest extends TestCase
  	{
  		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsifelsestatement");
 
- 		NumberLiteral numberLiteral1 = new NumberLiteral("1");
- 		NumberLiteral numberLiteral2 = new NumberLiteral("2");
+ 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
+ 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
  		
  		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(numberLiteral1, numberLiteral2);
  		
  		IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
  		
  		
- 		NumberLiteral numberLiteral3 = new NumberLiteral("1");
- 		NumberLiteral numberLiteral4 = new NumberLiteral("2");
+ 		NumberLiteral numberLiteral3 = new NumberLiteral(1);
+ 		NumberLiteral numberLiteral4 = new NumberLiteral(2);
  		
  		EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
  		
  		ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
  		
  		
- 		NumberLiteral numberLiteral5 = new NumberLiteral("1");
- 		NumberLiteral numberLiteral6 = new NumberLiteral("2");
+ 		NumberLiteral numberLiteral5 = new NumberLiteral(1);
+ 		NumberLiteral numberLiteral6 = new NumberLiteral(2);
  		
  		GreaterThanExpression greaterThanExpression = new GreaterThanExpression(numberLiteral5, numberLiteral6);
  		
@@ -158,15 +158,15 @@ public class QLFormTest extends TestCase
  	{
  		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
  		
- 		BooleanLiteral booleanLiteral1 = new BooleanLiteral("yes");
- 		BooleanLiteral booleanLiteral2 = new BooleanLiteral("no");
+ 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
+ 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
  		OrExpression orExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
  		
  		IfThenBlock ifThenBlock = new IfThenBlock(orExpression, new ArrayList<FormElement>());
  		
  		
- 		NumberLiteral numberLiteral1 = new NumberLiteral("1");
- 		NumberLiteral numberLiteral2 = new NumberLiteral("2");
+ 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
+ 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
  		UnEqualExpression unEqualExpression = new UnEqualExpression(numberLiteral1, numberLiteral2);
  		
  		
@@ -179,14 +179,14 @@ public class QLFormTest extends TestCase
  		nestedFormElements.add(nestedConditionBlock);
 
  		
- 		BooleanLiteral booleanLiteral3 = new BooleanLiteral("no");
- 		BooleanLiteral booleanLiteral4 = new BooleanLiteral("yes");
+ 		BooleanLiteral booleanLiteral3 = new BooleanLiteral(false);
+ 		BooleanLiteral booleanLiteral4 = new BooleanLiteral(true);
  		AndExpression andExpression = new AndExpression(booleanLiteral3, booleanLiteral4);
  		
  		ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(andExpression, nestedFormElements);
  		
- 		NumberLiteral numberLiteral3 = new NumberLiteral("3");
- 		NumberLiteral numberLiteral4 = new NumberLiteral("4");
+ 		NumberLiteral numberLiteral3 = new NumberLiteral(3);
+ 		NumberLiteral numberLiteral4 = new NumberLiteral(4);
  		EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
  		
  		ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());

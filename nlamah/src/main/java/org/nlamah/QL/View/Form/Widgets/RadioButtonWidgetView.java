@@ -16,8 +16,6 @@ import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
-import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
-import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
@@ -137,27 +135,6 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 
 		ValueExpression value = map.get(key);
 
-		switch (returnType())
-		{
-		case BOOLEAN:
-		{
-			widgetViewDelegate.valueChanged((BooleanLiteral) value);
-			break;
-		}
-		case NUMBER:
-		{
-			widgetViewDelegate.valueChanged((NumberLiteral) value);
-			break;
-		}
-		case TEXT:
-		{
-			widgetViewDelegate.valueChanged((TextLiteral) value);
-			break;
-		}
-		default:
-		{
-			assert(false);
-		}
-		}
+		widgetViewDelegate.valueChanged(value);
 	}
 }

@@ -7,21 +7,18 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 
 public class BooleanLiteral extends ValueExpression
 {	
-	public BooleanLiteral(boolean booleanValue)
+	private boolean value;
+
+	public BooleanLiteral(boolean value)
 	{
-		this(booleanValue ? "yes" : "no");
-	}
-	
-	public BooleanLiteral(String booleanValueString)
-	{
-		super(booleanValueString, QBaseQuestionType.BOOLEAN);
+		super(QBaseQuestionType.BOOLEAN);
 		
-		assert(booleanValueString.equals("yes") || booleanValueString.equals("no"));
+		this.value = value;
 	}
-	
+
 	public boolean primitiveValue()
 	{
-		return valueString.equals("yes") ? true : false; 
+		return value;
 	}
 
 	@Override
@@ -29,27 +26,34 @@ public class BooleanLiteral extends ValueExpression
 	{
 		return visitor.visit(this);
 	}
-	
-	 @Override 
-	 public boolean equals(Object object) 
-	 {
-		 if (!super.equals(object))
-		 {
-			 return false;
-		 }
-		 
-		 if (!(object instanceof BooleanLiteral))
-		 {
-			 return false;
-		 }
-		 
-		 BooleanLiteral value = (BooleanLiteral) object;
-		 
-		 if (value.primitiveValue() != primitiveValue())
-		 {
-			 return false;
-		 }
-		 
-		 return true;
-	 }
+
+	@Override 
+	public boolean equals(Object object) 
+	{
+		if (!super.equals(object))
+		{
+			return false;
+		}
+
+		if (!(object instanceof BooleanLiteral))
+		{
+			return false;
+		}
+
+		BooleanLiteral value = (BooleanLiteral) object;
+
+		if (value.primitiveValue() != primitiveValue())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		//TODO remove this? is this used?
+		return value ? "yes" : "no";
+	}
 }

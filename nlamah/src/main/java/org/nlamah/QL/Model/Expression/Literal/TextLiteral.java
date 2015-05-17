@@ -7,14 +7,18 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 
 public class TextLiteral extends ValueExpression 
 {
+	String textValueString;
+	
 	public TextLiteral(String textValueString)
 	{
-		super(textValueString, QBaseQuestionType.TEXT);
+		super(QBaseQuestionType.TEXT);
+		
+		this.textValueString = textValueString;
 	}
 
 	public String value()
 	{
-		return valueString;
+		return textValueString;
 	}
 
 	@Override
@@ -35,13 +39,26 @@ public class TextLiteral extends ValueExpression
 		{
 			return false;
 		}
-
+		
+		TextLiteral value = (TextLiteral) object;
+		
+		if (!value.textValueString.equals(textValueString))
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return value().hashCode();
+		return textValueString.hashCode();
+	}
+	
+	@Override
+	public String toString()
+	{
+		return textValueString;
 	}
 }

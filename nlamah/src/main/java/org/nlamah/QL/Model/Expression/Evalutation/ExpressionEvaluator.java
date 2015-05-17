@@ -40,7 +40,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		int addition = leftHandLiteral.value() + rightHandLiteral.value();
 		
-		return new NumberLiteral(Integer.toString(addition));
+		return new NumberLiteral(addition);
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean andOperation = leftHandLiteral.primitiveValue() && rightHandLiteral.primitiveValue();
 		
-		return new BooleanLiteral(andOperation ? "yes" : "no");
+		return new BooleanLiteral(andOperation);
 	}
 	
 	@Override
@@ -63,7 +63,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		double division = (double)leftHandLiteral.value() / (double)rightHandLiteral.value();
 		int roundedDivision = (int)Math.round(division);
 		
-		return new NumberLiteral(Integer.toString(roundedDivision));
+		return new NumberLiteral(roundedDivision);
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean areEqual = leftHandLiteral.equals(rightHandLiteral);
 		
-		return new BooleanLiteral(areEqual ? "yes" : "no");
+		return new BooleanLiteral(areEqual);
 	}
 	
 	@Override
@@ -85,7 +85,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean greaterThan = leftHandLiteral.value() > rightHandLiteral.value();
 		
-		return new BooleanLiteral(greaterThan ? "yes" : "no");
+		return new BooleanLiteral(greaterThan);
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean greaterThanEqual = leftHandLiteral.value() >= rightHandLiteral.value();
 		
-		return new BooleanLiteral(greaterThanEqual ? "yes" : "no");
+		return new BooleanLiteral(greaterThanEqual);
 	}
 	
 	@Override
@@ -107,7 +107,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		int multiplication = leftHandLiteral.value() * rightHandLiteral.value();
 		
-		return new NumberLiteral(Integer.toString(multiplication));
+		return new NumberLiteral(multiplication);
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean orOperation = leftHandLiteral.primitiveValue() || rightHandLiteral.primitiveValue();
 		
-		return new BooleanLiteral(orOperation ? "yes" : "no");
+		return new BooleanLiteral(orOperation);
 	}
 	
 	public ValueExpression visit(SmallerThanEqualExpression expression)
@@ -128,7 +128,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean smallerThanEqual = leftHandLiteral.value() <= rightHandLiteral.value();
 		
-		return new BooleanLiteral(smallerThanEqual ? "yes" : "no");
+		return new BooleanLiteral(smallerThanEqual);
 	}
 	
 	@Override
@@ -139,7 +139,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean smallerThan = leftHandLiteral.value() < rightHandLiteral.value();
 		
-		return new BooleanLiteral(smallerThan ? "yes" : "no");
+		return new BooleanLiteral(smallerThan);
 	}
 	
 	@Override
@@ -150,7 +150,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		int subtraction = leftHandLiteral.value() - rightHandLiteral.value();
 		
-		return new NumberLiteral(Integer.toString(subtraction));
+		return new NumberLiteral(subtraction);
 	}
 	
 	@Override
@@ -161,7 +161,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean areUnEqual = !leftHandLiteral.equals(rightHandLiteral);
 		
-		return new BooleanLiteral(areUnEqual ? "yes" : "no");
+		return new BooleanLiteral(areUnEqual);
 	}
 	
 	@Override
@@ -171,7 +171,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		int minusNumber = -1 * numberLiteral.value();
 		
-		return new NumberLiteral(Integer.toString(minusNumber));
+		return new NumberLiteral(minusNumber);
 	}
 	
 	@Override
@@ -181,7 +181,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 		
 		boolean notBoolean = !booleanLiteral.primitiveValue();
 		
-		return new BooleanLiteral(notBoolean ? "yes" : "no");
+		return new BooleanLiteral(notBoolean);
 	}
 	
 	@Override

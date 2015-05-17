@@ -52,6 +52,6 @@ public class NumberFieldWidgetView extends WidgetView implements ActionListener
 	{
 		String insertedNumberString = textField.getText();
 		
-		widgetViewDelegate.valueChanged(new NumberLiteral(insertedNumberString));
+		widgetViewDelegate.valueChanged(new NumberLiteral(Integer.parseInt(insertedNumberString)));
 	}
 }

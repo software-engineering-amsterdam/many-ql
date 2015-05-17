@@ -176,14 +176,14 @@ public class QLFormErrorTest extends TestCase
 			List<FormQuestion> declaredQuestions4 = new ArrayList<FormQuestion>();
 
 			IdentifierLiteral identifier7 = new IdentifierLiteral("question4");
-			AddExpression addExpression1 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral("1"));
+			AddExpression addExpression1 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral(1));
 
 			FormQuestion question7 = new ComputedQuestion(identifier7, new TextLiteral("test7"), QBaseQuestionType.NUMBER, addExpression1);
 			declaredQuestions4.add(question7);
 
 			IdentifierLiteral identifier8 = new IdentifierLiteral("question4");
 
-			AddExpression addExpression2 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral("2"));
+			AddExpression addExpression2 = new AddExpression(new IdentifierLiteral("question3"), new NumberLiteral(2));
 
 			FormQuestion question8 = new ComputedQuestion(identifier8, new TextLiteral("test8"), QBaseQuestionType.NUMBER, addExpression2);
 			declaredQuestions4.add(question8);
@@ -280,7 +280,7 @@ public class QLFormErrorTest extends TestCase
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-			QBaseError error = new ExpressionTypeMismatchError(new BooleanLiteral("yes"));
+			QBaseError error = new ExpressionTypeMismatchError(new BooleanLiteral(true));
 			referenceErrors.add(error);
 
 			assertEquals(typeChecker.errors(), referenceErrors);

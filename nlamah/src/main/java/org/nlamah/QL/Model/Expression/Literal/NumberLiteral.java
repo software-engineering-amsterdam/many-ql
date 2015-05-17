@@ -7,24 +7,29 @@ import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 
 public class NumberLiteral extends ValueExpression 
 {	
-	public NumberLiteral(int number)
-	{
-		this(Integer.toString(number));
-	}
+	private int value;
 	
-	public NumberLiteral(String numberValueString)
+	public NumberLiteral(int value)
 	{
-		super(numberValueString, QBaseQuestionType.NUMBER);
+		super(QBaseQuestionType.NUMBER);
+		
+		this.value = value;
 	}
 	
 	public int value()
 	{
-		return Integer.parseInt(valueString);
+		return value;
 	}
 	
 	@Override
 	public QLNode accept(QLNodeVisitor visitor) 
 	{
 		return visitor.visit(this);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return Integer.toString(value);
 	}
 }
