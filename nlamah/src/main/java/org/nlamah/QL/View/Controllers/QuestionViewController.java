@@ -18,6 +18,12 @@ public class QuestionViewController extends FormElementViewController implements
 		setRootViewController(rootViewController);
 	}
 	
+	public void setView(QuestionView questionView)
+	{
+		//TODO is this really necessary?
+		view = questionView;
+	}
+	
 	public void setWidgetView(WidgetView widgetView)
 	{	
 		view = new QuestionView(((FormQuestion) modelElement), widgetView);
@@ -51,7 +57,9 @@ public class QuestionViewController extends FormElementViewController implements
 
 	@Override
 	public int neededViewHeight() 
-	{
+	{	
+		view.layoutView();
+		
 		return view.getPreferredSize().height;
 	}
 }

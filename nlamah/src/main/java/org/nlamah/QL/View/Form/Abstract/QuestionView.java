@@ -17,6 +17,7 @@ public class QuestionView extends FormElementView
 {
 	protected JLabel questionLabel;
 	protected WidgetView widgetView;
+	protected int viewWidth;
 
 	public QuestionView(FormQuestion question, WidgetView widgetView) 
 	{
@@ -54,7 +55,7 @@ public class QuestionView extends FormElementView
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		View view = (View) javax.swing.plaf.basic.BasicHTML.createHTMLView(questionLabel, questionLabel.getText());
-		view.setSize(QLHelper.contentWidth() - QLHelper.widgetWidth() - QLHelper.labelLeftMargin() - QLHelper.labelRightMargin(), Integer.MAX_VALUE);
+		view.setSize(viewWidth - QLHelper.widgetWidth() - QLHelper.widgetRightMargin() - QLHelper.labelLeftMargin() - QLHelper.labelRightMargin(), Integer.MAX_VALUE);
 		
 		int height = (int) view.getPreferredSpan(View.Y_AXIS);
 
@@ -64,7 +65,7 @@ public class QuestionView extends FormElementView
 		
 		height = Math.max(height, widgetView.getPreferredSize().height);
 		
-		setPreferredSize(new Dimension(QLHelper.contentWidth(), height));
+		setPreferredSize(new Dimension(viewWidth, height));
 		setMaximumSize(getPreferredSize()); 
 		setMinimumSize(getPreferredSize());
 		
@@ -80,6 +81,8 @@ public class QuestionView extends FormElementView
 		questionLabel = new JLabel();
 		questionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
+		
+		viewWidth = QLHelper.contentWidth();
 	}
 
 	@Override

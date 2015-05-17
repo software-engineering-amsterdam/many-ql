@@ -30,6 +30,8 @@ public class QLSViewFactory extends QLViewFactory
 		
 		QuestionViewStyled questionViewStyled = new QuestionViewStyled(questionView, styleBlock);
 		
+		questionViewController.setView(questionViewStyled);
+		
 		currentlyCreatedView = questionViewStyled;
 	}
 }

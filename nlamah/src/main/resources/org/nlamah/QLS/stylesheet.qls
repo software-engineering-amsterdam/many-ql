@@ -7,15 +7,20 @@ stylesheet test
 			question question1
 			{
 				widget spinbox
-				font: "Arial"
-				fontsize: 45
-				color: #f00
 			}
 		}
 		
 		section "section5"
 		{
 			question question5
+		}
+		
+		default
+		{
+			font: "Arial"
+			fontsize: 45
+			color: #f00
+			width: 500
 		}
 	}
 	
@@ -35,11 +40,8 @@ stylesheet test
 			}
 
 			question question2
-		}
-		
-		section "section6"
-		{
-			question question6 
+			
+			question question6
 		}
 		
 		default text widget radio("gello", "hello", "brello")

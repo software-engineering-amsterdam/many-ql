@@ -60,6 +60,13 @@ public class QuestionViewStyled extends QuestionView
 			questionLabel.setForeground(colorValue.color());
 		}
 		
+		if (styleBlock.widthDeclaration() != null)
+		{
+			NumberValue widthValue = (NumberValue) styleBlock.widthDeclaration().value();
+			
+			viewWidth = widthValue.number();
+		}
+		
 		layoutView();
 	}
 }

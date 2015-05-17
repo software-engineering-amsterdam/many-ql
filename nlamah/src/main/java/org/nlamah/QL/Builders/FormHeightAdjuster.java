@@ -41,6 +41,8 @@ public class FormHeightAdjuster implements QLFormElementViewControllerVisitor
 	@Override
 	public void visit(QuestionViewController questionViewController)
 	{
+		questionViewController.view().layoutView();
+		
 		currentlyCalculatedHeight = questionViewController.neededViewHeight();
 		
 		preferredHeight += currentlyCalculatedHeight;

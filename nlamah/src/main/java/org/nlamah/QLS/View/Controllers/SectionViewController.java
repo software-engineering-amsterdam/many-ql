@@ -38,7 +38,7 @@ public class SectionViewController extends StylesheetViewController
 	}
 	
 	private void createChildViewsAndControllers(List<? extends SectionItem> sectionItems)
-	{
+	{	
 		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
 		//TODO how to get the stylesheet properly?
@@ -81,18 +81,17 @@ public class SectionViewController extends StylesheetViewController
 	
 	@Override
 	public int neededViewHeight() 
-	{	
-		int preferredHeight = 0;
-		
+	{			
 		FormHeightAdjuster heightAjuster = new FormHeightAdjuster();
 	
-		preferredHeight += heightAjuster.getPreferredHeight(formElementViewControllers);	
+		heightAjuster.getPreferredHeight(formElementViewControllers);	
 		
 		for (SectionViewController sectionViewController : childSectionViewControllers)
 		{
-			preferredHeight += sectionViewController.neededViewHeight();
+			sectionViewController.neededViewHeight();
 		}
 		
-		return preferredHeight;
+		
+		return view.getPreferredSize().height;
 	}
 }

@@ -22,6 +22,8 @@ public class RootFormViewControllerStyled extends FormRootViewController
 	
 	private List<PageViewController> pageViewControllers;
 	
+	private PageViewController currentlyVisiblePage;
+	
 	public RootFormViewControllerStyled(Form form, Stylesheet stylesheet) 
 	{
 		super(form);
@@ -88,7 +90,13 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		
 		cardLayout.show(contentView, pageViewController.identifier());
 		
+		currentlyVisiblePage = pageViewController;
+		
 		modelStateChanged();
+		
+		int neededViewHeight = currentlyVisiblePage.neededViewHeight();
+		
+		contentView.setPreferredSize(new Dimension(contentView.getPreferredSize().width, neededViewHeight));
 	}
 	
 	@Override
@@ -98,7 +106,12 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		
 		for (PageViewController pageViewController : pageViewControllers)
 		{
-			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
+			pageViewController.neededViewHeight();
+		}
+		
+		if (currentlyVisiblePage != null)
+		{
+			contentView.setPreferredSize(new Dimension(contentView.getPreferredSize().width, currentlyVisiblePage.neededViewHeight()));
 		}
 	}
 	

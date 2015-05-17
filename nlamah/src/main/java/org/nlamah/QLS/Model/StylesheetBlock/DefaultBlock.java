@@ -233,6 +233,11 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	@Override
 	public int hashCode()
 	{
+		if (questionType == null)
+		{
+			return 0;
+		}
+		
 		return questionType.toString().hashCode();
 	}
 
