@@ -16,7 +16,7 @@ public abstract class StyleDeclaration extends QLSNode
 		}
 	}
 	
-	public DeclarationValue getValue()
+	public DeclarationValue value()
 	{
 		return value;
 	}

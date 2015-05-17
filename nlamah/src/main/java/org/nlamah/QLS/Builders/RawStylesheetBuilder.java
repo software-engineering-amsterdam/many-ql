@@ -286,7 +286,9 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitColorDeclaration(QLSParser.ColorDeclarationContext ctx) 
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
-
+		
+		hexNumberValueString = QLSHelper.uniformHexNumberString(hexNumberValueString);
+		
 		Color color = Color.decode(hexNumberValueString);
 
 		ColorDeclaration colorDeclaration = new ColorDeclaration(new ColorValue(color));

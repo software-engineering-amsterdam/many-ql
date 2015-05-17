@@ -11,7 +11,7 @@ public class ConditionalBlockView extends FormElementView
 {
 	public ConditionalBlockView() 
 	{
-		super();
+		super(null);
 		
 		initializeComponents();
 		addComponentsToView();

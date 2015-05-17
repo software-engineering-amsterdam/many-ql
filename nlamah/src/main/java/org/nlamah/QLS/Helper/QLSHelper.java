@@ -99,4 +99,19 @@ public class QLSHelper
 		
 		return formQuestion.returnType();
 	}
+
+	public static String uniformHexNumberString(String hexNumberValueString) 
+	{
+		assert(hexNumberValueString.length() == 4 || hexNumberValueString.length() == 7);
+		
+		if (hexNumberValueString.length() == 4)
+		{
+			return "#" + 
+					hexNumberValueString.charAt(1) + hexNumberValueString.charAt(1) + 
+					hexNumberValueString.charAt(2) + hexNumberValueString.charAt(2) + 
+					hexNumberValueString.charAt(3) + hexNumberValueString.charAt(3);
+		}
+		
+		return hexNumberValueString;
+	}
 }

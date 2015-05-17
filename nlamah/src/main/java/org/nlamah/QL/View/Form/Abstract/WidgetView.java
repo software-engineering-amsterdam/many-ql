@@ -16,7 +16,7 @@ public abstract class WidgetView extends FormElementView
 	
 	public WidgetView(QBaseQuestionType returnType)
 	{
-		super();
+		super(null);
 		
 		this.returnType = returnType;
 		

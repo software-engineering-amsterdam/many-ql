@@ -20,7 +20,7 @@ public class QuestionView extends FormElementView
 
 	public QuestionView(FormQuestion question, WidgetView widgetView) 
 	{
-		super();	
+		super(question);	
 
 		this.widgetView = widgetView;
 		
@@ -31,6 +31,16 @@ public class QuestionView extends FormElementView
 		fillInQuestionString(question.questionText().toString());
 	}
 
+	public FormQuestion question()
+	{
+		return (FormQuestion) modelElement;
+	}
+	
+	public WidgetView widgetView()
+	{
+		return widgetView;
+	}
+	
 	private void fillInQuestionString(String questionString)
 	{
 		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));

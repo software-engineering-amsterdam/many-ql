@@ -2,15 +2,14 @@ package org.nlamah.QL.View.Form;
 
 import javax.swing.BoxLayout;
 
-import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.View.Form.Abstract.FormElementView;
 
 @SuppressWarnings("serial")
 public class ElseIfThenBlockView extends FormElementView 
 {	
-	public ElseIfThenBlockView(ElseIfThenBlockViewController viewController) 
+	public ElseIfThenBlockView() 
 	{
-		super();
+		super(null);
 		
 		initializeComponents();
 		addComponentsToView();

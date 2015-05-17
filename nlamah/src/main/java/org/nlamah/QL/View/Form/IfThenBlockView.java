@@ -9,7 +9,7 @@ public class IfThenBlockView extends FormElementView
 {	
 	public IfThenBlockView()
 	{
-		super();
+		super(null);
 		
 		initializeComponents();
 		addComponentsToView();

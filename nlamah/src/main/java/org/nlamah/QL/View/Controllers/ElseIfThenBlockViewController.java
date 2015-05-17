@@ -15,7 +15,7 @@ public class ElseIfThenBlockViewController extends DeclaringFormElementViewContr
 	{
 		super(elseIfThenBlock);
 		
-		view = new ElseIfThenBlockView(this);
+		view = new ElseIfThenBlockView();
 	}
 	
 	public boolean shouldBeVisisble()

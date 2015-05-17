@@ -8,7 +8,11 @@ import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
+import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontDeclaration;
+import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
+import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
@@ -126,6 +130,30 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 			styleDeclaration.accept(this);
 		}
 		
+		return null;
+	}
+	
+	@Override
+	public QLSNode visit(ColorDeclaration colorDeclaration) 
+	{
+		return null;
+	}
+
+	@Override
+	public QLSNode visit(FontDeclaration fontDeclaration) 
+	{
+		return null;
+	}
+
+	@Override
+	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration) 
+	{
+		return null;
+	}
+
+	@Override
+	public QLSNode visit(WidthDeclaration widthDeclaration) 
+	{
 		return null;
 	}
 }

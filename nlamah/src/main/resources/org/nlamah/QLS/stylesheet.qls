@@ -7,6 +7,9 @@ stylesheet test
 			question question1
 			{
 				widget spinbox
+				font: "Arial"
+				fontsize: 45
+				color: #f00
 			}
 		}
 		
