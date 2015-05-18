@@ -12,8 +12,6 @@ public class FontDeclaration extends StyleDeclaration
 
 	public FontDeclaration(Font font) 
 	{
-		super();
-
 		this.font = font;
 	}
 

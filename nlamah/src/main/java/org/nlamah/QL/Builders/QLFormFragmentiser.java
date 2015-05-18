@@ -18,53 +18,58 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
  * This makes it possible to move separate questions to complete unrelated pages/sections adapting QLS.
  * 
  * EXAMPLE:
- * 
- * form example
- * {
- * 		question1 text "example quesiton1"
- * 
- * 		if (question1 == "hello")
- * 		{
- * 			question2 number "example question2
- * 		}
- * 		else
- * 		{
- * 			question3 boolean "example question3"
- * 			question4 boolean "example question4"
- * 		}
- * }
- * 
+
+form example
+{
+	question1 text "example quesiton1"
+  	
+  	if (question1 == "hello")
+ 	{
+  		question2 number "example question2"
+  	}
+  	else
+  	{
+  		question3 boolean "example question3"
+  		question4 boolean "example question4"
+  	}
+  	endif
+}
+
  * QLFORMFRAGMENTISER YIELDS:
- * 
- * form example
- * {
- * 		question1 text "example quesiton1"
- * 
- * 		if (question1 == "hello")
- * 		{
- * 			question2 number "example question2
- * 		}
- * 		else
- * 		{
- * 		}
- * 
- * 		if (question1 == "hello")
- * 		{
- * 		}
- * 		else
- * 		{
- * 			question3 boolean "example question3"
- * 		}
- * 
- * 		if (question1 == "hello")
- * 		{
- * 		}
- * 		else
- * 		{
- * 			question4 boolean "example question4"
- * 		}
- * }
- * 
+
+form example
+{
+	question1 text "example quesiton1"
+  	
+  	if (question1 == "hello")
+ 	{
+  		question2 number "example question2"
+  	}
+  	else
+  	{
+  	}
+  	endif
+  	
+  	if (question1 == "hello")
+ 	{
+  	}
+  	else
+  	{
+  		question3 boolean "example question3"
+  	}
+  	endif
+  	
+  	if (question1 == "hello")
+ 	{
+  	}
+  	else
+  	{
+  		question4 boolean "example question4"
+  	}
+  	endif
+}
+
+ *
  * */
 
 public class QLFormFragmentiser implements QLFormElementVisitor
