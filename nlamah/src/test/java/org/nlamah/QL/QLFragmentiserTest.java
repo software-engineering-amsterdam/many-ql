@@ -9,15 +9,15 @@ public class QLFragmentiserTest extends TestCase
 {
 	private Form parsedForm;
 	private Form referenceForm;
-	
-	public void testFragmentiser() 
+
+	public void testFragmentiser1() 
 	{
 		parsedForm = QLTest.produceFormFromSourceFile("fragmentised", "1a");
-		
+
 		parsedForm = new QLFormFragmentiser(parsedForm).form();
-		
+
 		referenceForm = QLTest.produceFormFromSourceFile("fragmentised", "1b");
-		
+
 		assertEquals(parsedForm, referenceForm);
 	}
 }
