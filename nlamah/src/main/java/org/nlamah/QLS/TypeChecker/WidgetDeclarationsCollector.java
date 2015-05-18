@@ -27,8 +27,6 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 
 	public WidgetDeclarationsCollector(Stylesheet stylesheet) 
 	{
-		super();
-
 		this.stylesheet = stylesheet;
 	}
 

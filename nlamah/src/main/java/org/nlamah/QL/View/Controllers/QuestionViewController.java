@@ -20,7 +20,6 @@ public class QuestionViewController extends FormElementViewController implements
 
 	public void setView(QuestionView questionView)
 	{
-		//TODO is this really necessary?
 		view = questionView;
 	}
 

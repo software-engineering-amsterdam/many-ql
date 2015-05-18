@@ -41,7 +41,6 @@ public class DoublePropertyDeclarationError extends QBaseParsingError
 
 		DoublePropertyDeclarationError value = (DoublePropertyDeclarationError)object;
 
-
 		if (!this.styleDeclarations.equals(value.styleDeclarations))
 		{
 			return false;

@@ -13,8 +13,6 @@ public class QLSDoubleDeclarationError extends QBaseError
 
 	public QLSDoubleDeclarationError(IdentifierValue identifier, List<StyledQuestion> declaredQuestions)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.questions = declaredQuestions;
 	}

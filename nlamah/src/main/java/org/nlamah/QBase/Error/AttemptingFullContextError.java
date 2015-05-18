@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Error;
 
-
 public class AttemptingFullContextError extends QBaseParsingError 
 {
 	public AttemptingFullContextError(int startIndex, int stopIndex) 

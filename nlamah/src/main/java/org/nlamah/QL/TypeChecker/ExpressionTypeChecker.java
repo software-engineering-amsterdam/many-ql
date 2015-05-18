@@ -42,8 +42,6 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 {
 	public ExpressionTypeChecker(Form form)
 	{
-		super();
-
 		form.accept(this);
 	}
 

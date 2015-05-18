@@ -33,8 +33,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 
 	public WidgetTypeChecker(Form form, Stylesheet stylesheet) 
 	{
-		super();
-
 		formQuestions = new FormQuestionsCollector(form).questions();
 
 		widgetDeclarations = new WidgetDeclarationsCollector(stylesheet).widgetDeclarations();	
@@ -54,7 +52,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(Stylesheet stylesheet) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -62,7 +59,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(Page page) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -70,7 +66,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(Section section) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -78,7 +73,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(WidgetDeclaration widgetDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -118,7 +112,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(IdentifierValue identifierValue) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -126,7 +119,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(ColorDeclaration colorDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -134,7 +126,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(FontDeclaration fontDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -142,7 +133,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -150,7 +140,6 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	public QLSNode visit(WidthDeclaration widthDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 }

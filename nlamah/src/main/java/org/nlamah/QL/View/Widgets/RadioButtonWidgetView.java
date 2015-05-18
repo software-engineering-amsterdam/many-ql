@@ -78,10 +78,10 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 	{
 		super.setWidgetViewDelegate(widgetViewDelegate);	
 
-		setRightValueSelected();
+		setCorrectButtonSelected();
 	}
 
-	private void setRightValueSelected()
+	private void setCorrectButtonSelected()
 	{
 		for (JRadioButton radioButton : radioButtons)
 		{

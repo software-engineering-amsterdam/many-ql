@@ -9,8 +9,6 @@ public class IdentifierValue extends QLSNode
 
 	public IdentifierValue(String identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 	}
 

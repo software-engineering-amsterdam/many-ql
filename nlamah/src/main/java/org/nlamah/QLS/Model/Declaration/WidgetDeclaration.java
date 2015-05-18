@@ -19,8 +19,6 @@ public class WidgetDeclaration extends StyleDeclaration
 
 	public WidgetDeclaration(WidgetTypeEnum widgetType, QBaseQuestionType returnType, Map<TextLiteral, ? extends ValueExpression> values) 
 	{
-		super();
-
 		this.widgetType = widgetType;
 		this.returnType = returnType;
 		this.values = values;

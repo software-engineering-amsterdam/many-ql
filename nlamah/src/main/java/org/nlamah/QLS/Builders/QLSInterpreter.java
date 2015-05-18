@@ -14,12 +14,12 @@ import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
-import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
 import org.nlamah.QBase.Error.ContextSensitivityError;
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Error.SyntaxError;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.QLSLexer;
@@ -34,8 +34,6 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 	public QLSInterpreter()
 	{
-		super();
-
 		errors = new ArrayList<QBaseError>();
 	}
 
@@ -73,7 +71,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 			throw new QLSException(qlsTypeChecker.errors());
 		}
 
-		new CombinedStylesForQuestionsBuilder(form, stylesheet).build();
+		new QuestionStyleCombiner(form, stylesheet).build();
 
 		return stylesheet;
 	}

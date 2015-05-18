@@ -31,10 +31,6 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 
 	public DefaultBlock(QBaseQuestionType questionType, List<StyleDeclaration> styleDeclarations)
 	{
-		super();
-
-		assert(styleDeclarations != null);
-
 		assignStyleDeclarations(styleDeclarations);
 
 		this.questionType = questionType;
@@ -178,7 +174,6 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	@Override 
 	public boolean equals(Object object) 
 	{
-
 		switch(equalityStateStack.peek())
 		{
 		case QUESTIONTYPE_ONLY:

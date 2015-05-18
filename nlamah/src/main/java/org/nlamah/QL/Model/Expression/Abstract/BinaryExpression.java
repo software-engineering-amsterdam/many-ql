@@ -2,7 +2,6 @@ package org.nlamah.QL.Model.Expression.Abstract;
 
 import org.nlamah.QBase.QBaseQuestionType;
 
-
 public abstract class BinaryExpression extends ComposedExpression 
 {
 	private Expression leftHandExpression;

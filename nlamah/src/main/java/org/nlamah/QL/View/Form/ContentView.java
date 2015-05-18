@@ -13,13 +13,6 @@ public class ContentView extends JPanel
 {		
 	public ContentView() 
 	{
-		super();
-		
-		layoutView();
-	}
-	
-	private void layoutView()
-	{
 		setBackground(Color.gray);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		

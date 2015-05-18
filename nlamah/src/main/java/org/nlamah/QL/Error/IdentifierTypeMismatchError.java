@@ -9,8 +9,6 @@ public class IdentifierTypeMismatchError extends QBaseError
 
 	public IdentifierTypeMismatchError(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 	}
 

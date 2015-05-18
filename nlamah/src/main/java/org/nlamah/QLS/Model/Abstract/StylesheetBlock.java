@@ -12,8 +12,6 @@ public abstract class StylesheetBlock extends QLSNode
 
 	public StylesheetBlock(String title, List<DefaultBlock> defaultBlocks)
 	{
-		super();
-
 		this.title = title;
 		this.defaultBlocks = defaultBlocks;
 
@@ -24,11 +22,6 @@ public abstract class StylesheetBlock extends QLSNode
 				defaultBlock.setParentNode(this);
 			}
 		}
-	}
-
-	public StylesheetBlock()
-	{
-		this(null, null);
 	}
 
 	public String title()

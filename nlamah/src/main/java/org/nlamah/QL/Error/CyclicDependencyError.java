@@ -11,8 +11,6 @@ public class CyclicDependencyError extends QBaseError
 
 	public CyclicDependencyError(IdentifierLiteral identifier, FormQuestion question)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.question = question;
 	}

@@ -53,7 +53,7 @@ public class QLSTest extends TestCase
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
 		Stylesheet parsedStylesheet = stylesheetBuilder.build(tree);
-		
+
 		return  parsedStylesheet;
 	}
 }

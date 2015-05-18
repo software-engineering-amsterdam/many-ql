@@ -18,7 +18,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
-public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
+public class QuestionStyleCombiner extends QLSVisitorAbstract
 {
 	Stack<List<DefaultBlock>> styleStack;
 	Form form;
@@ -26,10 +26,8 @@ public class CombinedStylesForQuestionsBuilder extends QLSVisitorAbstract
 
 	StyledQuestion currentQuestion;
 
-	public CombinedStylesForQuestionsBuilder(Form form, Stylesheet stylesheet)
+	public QuestionStyleCombiner(Form form, Stylesheet stylesheet)
 	{
-		super();
-
 		this.form = form;
 		this.stylesheet = stylesheet;
 

@@ -4,7 +4,6 @@ import org.nlamah.QBase.Error.QBaseParsingError;
 
 public class FontRecognitionError extends QBaseParsingError 
 {
-
 	public FontRecognitionError(String valueString, int startLine, int startCharacterInLine) 
 	{
 		super(valueString, startLine, startCharacterInLine);

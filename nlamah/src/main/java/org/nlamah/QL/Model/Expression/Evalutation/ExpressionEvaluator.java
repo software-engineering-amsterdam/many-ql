@@ -217,45 +217,35 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(ConditionalBlock conditionalBlock) 
 	{
-		//The EpxressionVisitor should not call this visit method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public ValueExpression visit(ElseIfThenBlock elseIfThenBlock) 
 	{
-		//The EpxressionVisitor should not call this visit method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public ValueExpression visit(ElseThenBlock elseThenBlock) 
 	{
-		//The EpxressionVisitor should not call this visit method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public ValueExpression visit(Form form) 
-	{
-		//The EpxressionVisitor should not call this visit method		
-		assert false;
-
+	{	
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public ValueExpression visit(IfThenBlock ifThenBlock) 
 	{
-		//The EpxressionVisitor should not call this visit method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 

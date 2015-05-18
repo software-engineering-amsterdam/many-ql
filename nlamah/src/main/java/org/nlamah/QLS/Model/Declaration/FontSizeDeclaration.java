@@ -10,8 +10,6 @@ public class FontSizeDeclaration extends StyleDeclaration
 
 	public FontSizeDeclaration(int fontSize) 
 	{
-		super();
-
 		this.fontSize = fontSize;
 	}
 

@@ -12,8 +12,6 @@ public abstract class FormElementView extends JPanel implements ViewLoadingStrat
 
 	public FormElementView(FormElement modelElement)
 	{
-		super();
-
 		this.modelElement = modelElement;
 	} 
 }

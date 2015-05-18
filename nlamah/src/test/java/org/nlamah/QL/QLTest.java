@@ -23,6 +23,7 @@ public class QLTest extends TestCase
 		suite.addTestSuite(QLComputationalExpressionTest.class);
 		suite.addTestSuite(QLLogicalExpressionTest.class);
 		suite.addTestSuite(QLFormErrorTest.class);
+		suite.addTestSuite(QLFragmentiserTest.class);
 
 		return suite;
 	}
@@ -46,7 +47,7 @@ public class QLTest extends TestCase
 		try 
 		{
 			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/test/" + folder + "/" + filename + ".ql");
-			
+
 			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
 
 			QLLexer lexer = new QLLexer(input);

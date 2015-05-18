@@ -36,4 +36,3 @@ public class ComputedValueWidgetView extends WidgetView
 		add(label);
 	}
 }
-

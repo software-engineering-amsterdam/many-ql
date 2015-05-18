@@ -52,7 +52,6 @@ public class RootFormViewControllerStyled extends FormRootViewController
 
 	public Stylesheet stylesheet()
 	{
-		//TODO is this nice?
 		return stylesheet;
 	}
 

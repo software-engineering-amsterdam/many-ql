@@ -19,8 +19,6 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 
 	public StyledQuestion(IdentifierValue identifier, StyleBlock styleBlock)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.styleBlock = styleBlock;
 

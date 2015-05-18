@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Error;
 
-
 public class EnumRecognitionError extends QBaseParsingError 
 {
 	public EnumRecognitionError(String enumString, int startLine, int startCharacterInLine)

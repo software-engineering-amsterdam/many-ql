@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -37,7 +37,6 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		areDefaultBlocksDefiningTheSameTypeInTheSameScope(stylesheet);
 
 		areAllWidgetTypesCorrespondingCorrectlyWithTheQuestionType(form, stylesheet);
-
 	}
 
 	public List<QBaseError> errors()

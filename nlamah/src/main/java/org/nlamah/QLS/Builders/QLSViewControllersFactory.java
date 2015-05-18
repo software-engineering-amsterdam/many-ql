@@ -5,7 +5,6 @@ import java.util.List;
 import org.nlamah.QL.Builders.QLViewControllersFactory;
 import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
-import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QL.View.Controllers.QuestionViewController;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 import org.nlamah.QLS.Helper.QLSHelper;
@@ -13,16 +12,17 @@ import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.View.Controllers.RootFormViewControllerStyled;
 
 public class QLSViewControllersFactory extends QLViewControllersFactory 
 {
 	private Stylesheet stylesheet;
 
-	public QLSViewControllersFactory(FormRootViewController rootViewController, Stylesheet stylesheet) 
+	public QLSViewControllersFactory(RootFormViewControllerStyled rootViewController) 
 	{
 		super(rootViewController);
 
-		this.stylesheet = stylesheet;
+		this.stylesheet = rootViewController.stylesheet();
 	}
 
 	private boolean createNewViewController(FormQuestion question)

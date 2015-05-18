@@ -11,8 +11,6 @@ public abstract class StylesheetViewController
 
 	public StylesheetViewController(RootFormViewControllerStyled rootViewController, StylesheetViewController parentViewController)
 	{
-		super();
-
 		this.rootViewController = rootViewController;
 		this.parentViewController = parentViewController;
 	}

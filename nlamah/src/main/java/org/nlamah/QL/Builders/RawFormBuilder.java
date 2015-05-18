@@ -47,8 +47,6 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 	public RawFormBuilder()
 	{
-		super();
-
 		errors = new ArrayList<QBaseParsingError>();
 	}
 
@@ -104,7 +102,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
 
-		Expression expression = (Expression)ctx.expression().accept(this);
+		Expression expression = (Expression) ctx.expression().accept(this);
 
 		FormQuestion question = new ComputedQuestion(identifier, questionText, returnType, expression);
 
@@ -164,7 +162,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override
 	public QLNode visitConditionalBlock(QLParser.ConditionalBlockContext ctx)
 	{
-		IfThenBlock ifThenBlock = (IfThenBlock)ctx.ifThenBlock().accept(this);
+		IfThenBlock ifThenBlock = (IfThenBlock) ctx.ifThenBlock().accept(this);
 
 		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
 
@@ -179,7 +177,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		if (ctx.elseThenBlock() != null)
 		{
-			elseThenBlock = (ElseThenBlock)ctx.elseThenBlock().accept(this);
+			elseThenBlock = (ElseThenBlock) ctx.elseThenBlock().accept(this);
 		}
 
 		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);

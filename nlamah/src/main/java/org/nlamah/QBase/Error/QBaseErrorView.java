@@ -1,4 +1,4 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Error;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,8 +17,6 @@ public class QBaseErrorView extends JPanel
 
 	public QBaseErrorView() 
 	{
-		super();
-
 		errorLabel = new JLabel();
 		errorLabel.setForeground(Color.red);
 

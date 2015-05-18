@@ -12,8 +12,6 @@ public class ColorDeclaration extends StyleDeclaration
 
 	public ColorDeclaration(Color color) 
 	{
-		super();
-
 		this.color = color;
 	}
 

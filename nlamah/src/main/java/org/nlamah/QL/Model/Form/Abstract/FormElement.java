@@ -9,8 +9,6 @@ public abstract class FormElement extends QLNode implements Controllable
 
 	public FormElement(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 
 		if (identifier != null)

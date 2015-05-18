@@ -11,8 +11,6 @@ public class TooLateDeclaredQuestionError extends QBaseError
 
 	public TooLateDeclaredQuestionError(IdentifierLiteral identifier, FormQuestion question)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.question = question;
 	}
@@ -46,5 +44,4 @@ public class TooLateDeclaredQuestionError extends QBaseError
 
 		return true;
 	}
-
 }

@@ -134,5 +134,3 @@ public class QLHelper
 		return null;
 	}
 }
-
-

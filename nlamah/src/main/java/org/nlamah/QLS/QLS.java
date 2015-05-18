@@ -3,7 +3,7 @@ package org.nlamah.QLS;
 import javax.swing.SwingUtilities;
 
 import org.nlamah.QBase.QBaseErrorViewController;
-import org.nlamah.QBase.QBaseException;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.QLFormFragmentiser;
 import org.nlamah.QL.Builders.QLInterpreter;
 import org.nlamah.QL.Model.Form.Form;

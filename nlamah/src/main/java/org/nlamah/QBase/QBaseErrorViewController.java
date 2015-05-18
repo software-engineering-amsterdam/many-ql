@@ -5,6 +5,8 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseErrorView;
+import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QBaseErrorViewController implements Runnable
@@ -20,8 +22,6 @@ public class QBaseErrorViewController implements Runnable
 
 	public QBaseErrorViewController( List<QBaseWarning> warnings, List<QBaseError> errors)
 	{
-		super();
-
 		this.warnings = warnings;
 		this.errors = errors;
 

@@ -11,8 +11,6 @@ public class OutOfScopeDeclarationError extends QBaseError
 
 	public OutOfScopeDeclarationError(IdentifierLiteral identifier, FormQuestion question)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.question = question;
 	}
@@ -46,5 +44,4 @@ public class OutOfScopeDeclarationError extends QBaseError
 
 		return true;
 	}
-
 }

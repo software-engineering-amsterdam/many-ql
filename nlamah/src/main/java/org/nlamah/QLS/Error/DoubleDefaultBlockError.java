@@ -11,8 +11,6 @@ public class DoubleDefaultBlockError extends QBaseError
 
 	public DoubleDefaultBlockError(List<DefaultBlock>defaultBlocks) 
 	{
-		super();
-
 		this.defaultBlocks = defaultBlocks;
 	}
 

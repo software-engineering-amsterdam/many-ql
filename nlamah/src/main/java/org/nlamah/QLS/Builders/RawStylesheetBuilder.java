@@ -52,8 +52,6 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 	public RawStylesheetBuilder() 
 	{
-		super();
-
 		errors = new ArrayList<QBaseParsingError>();
 	}
 

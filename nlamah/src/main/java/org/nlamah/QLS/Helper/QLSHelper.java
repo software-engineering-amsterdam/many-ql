@@ -42,7 +42,6 @@ public class QLSHelper
 		return false;
 	}
 
-
 	public static boolean doesStyledQuestionExistInForm(StyledQuestion styledQuestion, List<FormQuestion> formQuestions) 
 	{
 		for (FormQuestion formQuestion : formQuestions)

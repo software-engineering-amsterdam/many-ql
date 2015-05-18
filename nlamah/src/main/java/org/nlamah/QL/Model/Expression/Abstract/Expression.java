@@ -9,8 +9,6 @@ public abstract class Expression extends QLNode
 
 	public Expression(QBaseQuestionType type)
 	{
-		super();
-
 		this.type = type;
 	}
 
@@ -48,5 +46,3 @@ public abstract class Expression extends QLNode
 		return type.toString().hashCode();
 	}
 }
-
-

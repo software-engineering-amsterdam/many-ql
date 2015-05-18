@@ -44,8 +44,6 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 
 	public OutOfScopeDeclarationChecker(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 
 		identifier.accept(this);
@@ -151,9 +149,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(BooleanLiteral booleanLiteral) 
 	{
-		//This visitor should not call this method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
@@ -166,18 +162,14 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(NumberLiteral numberLiteral) 
 	{
-		//This visitor should not call this method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLNode visit(TextLiteral textLiteral) 
 	{
-		//This visitor should not call this method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
@@ -264,9 +256,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(InputQuestion inputQuestion) 
 	{
-		//This visitor should not call this method
-		assert false;
-
+		assert(false);
 		return null;
 	}
 

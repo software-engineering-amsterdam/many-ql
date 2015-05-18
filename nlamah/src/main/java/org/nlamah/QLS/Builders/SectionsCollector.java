@@ -14,12 +14,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 public class SectionsCollector extends QLSVisitorAbstract 
 {	
 	List<Section> sections;
-
-	public SectionsCollector() 
-	{
-		super();
-	}
-
+	
 	public List<Section> sectionsForPage(Page page)
 	{
 		sections = new ArrayList<Section>();

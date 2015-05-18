@@ -39,8 +39,6 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 
 	public IdentifierTypeChecker(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 
 		identifier.accept(this);
@@ -199,8 +197,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	@Override
 	public QLNode visit(BooleanLiteral booleanLiteral) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
@@ -222,24 +219,21 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	@Override
 	public QLNode visit(NumberLiteral numberLiteral) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLNode visit(TextLiteral textLiteral) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLNode visit(ConditionalBlock conditionalBlock) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
@@ -254,16 +248,14 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	@Override
 	public QLNode visit(ElseThenBlock elseThenBlock) 
 	{		
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
 	@Override
 	public QLNode visit(Form form) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 
@@ -278,8 +270,7 @@ public class IdentifierTypeChecker extends QBaseAbstractTypeChecker implements Q
 	@Override
 	public QLNode visit(InputQuestion inputQuestion) 
 	{
-		assert false;
-
+		assert(false);
 		return null;
 	}
 

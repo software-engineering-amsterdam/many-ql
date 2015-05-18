@@ -19,8 +19,6 @@ public class NavigationSubviewPage extends JPanel
 
 	public NavigationSubviewPage(Page page, List<Section> sections, ActionListener buttonListener) 
 	{
-		super();
-
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		pageButton = new NavigationPageButtonView(page, buttonListener);

@@ -2,9 +2,9 @@ package org.nlamah.QL.Error;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseException;
-import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Error.QBaseWarning;
 
 @SuppressWarnings("serial")
 public class QLException extends QBaseException 

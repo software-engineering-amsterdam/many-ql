@@ -16,11 +16,6 @@ public class StyledQuestionsCollector extends QLSVisitorAbstract
 {
 	private List<StyledQuestion> questions;
 
-	public StyledQuestionsCollector()
-	{
-		super();
-	}
-
 	public List<StyledQuestion> questionsForStylesheet(Stylesheet stylesheet)
 	{
 		questions = new ArrayList<StyledQuestion>();

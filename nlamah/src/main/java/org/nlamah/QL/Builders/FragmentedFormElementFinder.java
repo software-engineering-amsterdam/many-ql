@@ -31,14 +31,9 @@ import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
-public class FragementedFormElementFinder implements QLNodeVisitor
+public class FragmentedFormElementFinder implements QLNodeVisitor
 {
 	private FormElement lastVisitedFormElement;
-
-	public FragementedFormElementFinder()
-	{
-		super();
-	}
 
 	public FormElement findFragementedFormElementForQuestion(FormQuestion question)
 	{

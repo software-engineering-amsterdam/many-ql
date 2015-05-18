@@ -35,8 +35,6 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 
 	public QLViewControllersFactory(FormRootViewController rootViewController)
 	{
-		super();	
-
 		this.rootViewController = rootViewController;
 	}
 

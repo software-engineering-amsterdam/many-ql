@@ -15,15 +15,11 @@ import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 public abstract class StylesheetBlockButtonView extends JPanel 
 {
 	protected StylesheetBlock block;
-
 	protected NavigationButton button;
-
 	protected final int padding = 5;
 
 	public StylesheetBlockButtonView(StylesheetBlock block, ActionListener listener) 
 	{
-		super();
-
 		this.block = block;
 
 		button = new NavigationButton(block.title());

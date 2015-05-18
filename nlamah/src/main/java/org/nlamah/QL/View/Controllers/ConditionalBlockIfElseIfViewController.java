@@ -8,7 +8,6 @@ import org.nlamah.QL.View.Form.ElseIfThenBlockView;
 
 public class ConditionalBlockIfElseIfViewController extends ConditionalBlockViewController 
 {
-
 	public ConditionalBlockIfElseIfViewController(ConditionalBlock conditionalBlock) 
 	{
 		super(conditionalBlock);

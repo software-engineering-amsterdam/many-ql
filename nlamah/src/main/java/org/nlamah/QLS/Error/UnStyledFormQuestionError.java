@@ -9,8 +9,6 @@ public class UnStyledFormQuestionError extends QBaseError
 
 	public UnStyledFormQuestionError(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 	}
 

@@ -14,8 +14,6 @@ public abstract class FormElementViewController implements QLShowable
 
 	public FormElementViewController(FormElement modelElement)
 	{
-		super();
-
 		this.modelElement = modelElement;
 	}
 

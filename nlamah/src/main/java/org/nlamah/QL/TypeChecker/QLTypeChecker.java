@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseException;
-import org.nlamah.QBase.QBaseWarning;
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -17,6 +15,8 @@ import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker extends QBaseAbstractTypeChecker 

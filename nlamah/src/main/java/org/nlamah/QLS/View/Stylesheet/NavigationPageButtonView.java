@@ -10,7 +10,6 @@ import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 @SuppressWarnings("serial")
 public class NavigationPageButtonView extends StylesheetBlockButtonView 
 {
-
 	public NavigationPageButtonView(StylesheetBlock block, ActionListener listener) 
 	{
 		super(block, listener);

@@ -103,7 +103,6 @@ public class ComputedQuestion extends FormQuestion
 	public void push(QBaseEqualityState state) 
 	{
 		equalityStateStack.push(state);
-
 	}
 
 	@Override

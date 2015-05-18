@@ -9,8 +9,6 @@ public class UndeclaredFormQuestionError extends QBaseError
 
 	public UndeclaredFormQuestionError(IdentifierLiteral identifier)
 	{
-		super();
-
 		this.identifier = identifier;
 	}
 

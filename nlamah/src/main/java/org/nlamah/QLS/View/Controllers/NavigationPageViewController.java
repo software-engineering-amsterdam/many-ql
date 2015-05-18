@@ -18,8 +18,6 @@ public class NavigationPageViewController extends StylesheetViewController imple
 
 	public NavigationPageViewController(Page page, NavigationViewController navigationViewController) 
 	{		
-		super();
-
 		this.navigationViewController = navigationViewController;
 
 		sections = new SectionsCollector().sectionsForPage(page);

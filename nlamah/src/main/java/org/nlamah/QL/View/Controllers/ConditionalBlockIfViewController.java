@@ -7,7 +7,6 @@ import org.nlamah.QL.Model.Form.ConditionalBlock;
 
 public class ConditionalBlockIfViewController extends ConditionalBlockViewController 
 {
-
 	public ConditionalBlockIfViewController(ConditionalBlock conditionalBlock) 
 	{
 		super(conditionalBlock);
@@ -36,7 +35,6 @@ public class ConditionalBlockIfViewController extends ConditionalBlockViewContro
 
 			return neededHeight;
 		}
-
 	}
 
 	private void makeAllViewsInvisible()

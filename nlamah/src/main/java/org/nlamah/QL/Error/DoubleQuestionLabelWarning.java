@@ -3,7 +3,7 @@ package org.nlamah.QL.Error;
 import java.util.List;
 import java.util.Iterator;
 
-import org.nlamah.QBase.QBaseWarning;
+import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class DoubleQuestionLabelWarning extends QBaseWarning 

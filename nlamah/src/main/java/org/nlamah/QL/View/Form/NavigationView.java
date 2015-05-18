@@ -12,8 +12,6 @@ public class NavigationView extends JPanel
 {
 	public NavigationView() 
 	{
-		super();
-		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		setMinimumSize(new Dimension(QLHelper.navigationViewWidth(), 1500));

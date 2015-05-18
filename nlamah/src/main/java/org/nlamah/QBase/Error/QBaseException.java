@@ -1,8 +1,6 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Error;
 
 import java.util.List;
-
-import org.nlamah.QBase.Error.QBaseError;
 
 @SuppressWarnings("serial")
 public class QBaseException extends Exception 

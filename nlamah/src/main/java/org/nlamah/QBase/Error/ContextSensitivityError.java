@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Error;
 
-
 public class ContextSensitivityError extends QBaseParsingError 
 {
 	public ContextSensitivityError(int startIndex, int stopIndex) 

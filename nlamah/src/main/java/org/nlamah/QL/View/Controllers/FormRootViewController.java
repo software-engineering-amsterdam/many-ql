@@ -26,6 +26,7 @@ public class FormRootViewController extends DeclaringFormElementViewController i
 	private final static int FRAME_HEIGHT = 600;
 
 	private JFrame frame;
+
 	protected NavigationView navigationView;
 	protected ContentView contentView;
 

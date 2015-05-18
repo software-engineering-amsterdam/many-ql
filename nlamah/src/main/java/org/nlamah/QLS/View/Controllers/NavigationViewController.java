@@ -15,8 +15,6 @@ public class NavigationViewController extends StylesheetViewController
 
 	public NavigationViewController(List<Page> pages, RootFormViewControllerStyled rootFormViewController) 
 	{
-		super();
-
 		this.rootFormViewController = rootFormViewController;
 
 		navigationPageViewControllers = new ArrayList<NavigationPageViewController>();

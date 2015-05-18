@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseException;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.QLTest;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -88,7 +88,7 @@ public class QLStylesheetErrorTest extends TestCase
 			referenceErrors.add(error2);
 
 			Map<TextLiteral, TextLiteral> answers = new LinkedHashMap<TextLiteral, TextLiteral>();
-			
+
 			TextLiteral yesAnswer = new TextLiteral("yes");
 			answers.put(yesAnswer, yesAnswer);
 			TextLiteral noAnswer = new TextLiteral("no");
@@ -244,7 +244,7 @@ public class QLStylesheetErrorTest extends TestCase
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
 		stylesheetBuilder.build(tree);
-		
+
 		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
@@ -253,14 +253,14 @@ public class QLStylesheetErrorTest extends TestCase
 
 		QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
 		referenceErrors.add(error1);
-		
+
 		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
 		styleDeclarations2.add(new WidthDeclaration(1));
 		styleDeclarations2.add(new WidthDeclaration(2));
 
 		QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
 		referenceErrors.add(error2);
-	
+
 		assertEquals(stylesheetBuilder.errors(), referenceErrors);
 	}
 }

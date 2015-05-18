@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Error;
 
-
 public class SyntaxError extends QBaseParsingError 
 {
 	private String message;

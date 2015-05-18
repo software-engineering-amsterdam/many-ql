@@ -3,7 +3,7 @@ package org.nlamah.QLS.View.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Builders.FragementedFormElementFinder;
+import org.nlamah.QL.Builders.FragmentedFormElementFinder;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -40,8 +40,8 @@ public class SectionViewController extends StylesheetViewController
 	{	
 		childSectionViewControllers = new ArrayList<SectionViewController>();
 		formElementViewControllers = new ArrayList<FormElementViewController>();
-		//TODO how to get the stylesheet properly?
-		QLSViewControllersFactory viewControllersFactory = new QLSViewControllersFactory(rootViewController(), rootViewController().stylesheet());
+
+		QLSViewControllersFactory viewControllersFactory = new QLSViewControllersFactory(rootViewController());
 
 		QLSViewFactory viewFactory = new QLSViewFactory();
 
@@ -53,7 +53,7 @@ public class SectionViewController extends StylesheetViewController
 
 				FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
 
-				FragementedFormElementFinder fragmentedFormElementFinder = new FragementedFormElementFinder();
+				FragmentedFormElementFinder fragmentedFormElementFinder = new FragmentedFormElementFinder();
 
 				FormElement formElement = fragmentedFormElementFinder.findFragementedFormElementForQuestion(formQuestion);
 

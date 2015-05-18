@@ -13,8 +13,6 @@ public class QLDoubleDeclarationError extends QBaseError
 
 	public QLDoubleDeclarationError(IdentifierLiteral identifier, List<FormQuestion> declaredQuestions)
 	{
-		super();
-
 		this.identifier = identifier;
 		this.questions = declaredQuestions;
 	}

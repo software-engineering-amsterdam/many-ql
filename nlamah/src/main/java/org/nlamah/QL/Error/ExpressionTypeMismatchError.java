@@ -9,8 +9,6 @@ public class ExpressionTypeMismatchError extends QBaseError
 
 	public ExpressionTypeMismatchError(Expression expression)
 	{
-		super();
-
 		this.expression = expression;
 	}
 

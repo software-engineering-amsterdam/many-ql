@@ -28,8 +28,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 {
 	public DoubleDefaultBlockChecker(Stylesheet stylesheet) 
 	{
-		super();
-
 		stylesheet.accept(this);
 	}
 
@@ -106,7 +104,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(WidgetDeclaration widgetDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -120,7 +117,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(DefaultBlock defaultBlock) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -128,7 +124,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(StyleBlock styleBlock)
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -136,7 +131,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(IdentifierValue identifierValue) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -144,7 +138,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(ColorDeclaration colorDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -152,7 +145,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(FontDeclaration fontDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -160,7 +152,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(FontSizeDeclaration fontSizeDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 
@@ -168,7 +159,6 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 	public QLSNode visit(WidthDeclaration widthDeclaration) 
 	{
 		assert(false);
-
 		return null;
 	}
 }

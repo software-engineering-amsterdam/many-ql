@@ -10,8 +10,6 @@ public class WidthDeclaration extends StyleDeclaration
 
 	public WidthDeclaration(int width) 
 	{
-		super();
-
 		this.width = width;
 	}
 
