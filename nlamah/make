@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mvn clean
+mvn antlr4:antlr4
+mvn package
+#java -cp target/sc-dsl-1.0-jar-with-dependencies.jar org.nlamah.QL.QL
+#java -cp target/sc-dsl-1.0-jar-with-dependencies.jar org.nlamah.QLS.QLS

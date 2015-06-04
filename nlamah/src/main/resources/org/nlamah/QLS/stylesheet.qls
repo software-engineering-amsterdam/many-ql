@@ -1,0 +1,59 @@
+stylesheet test
+{
+	page test1
+	{
+		section "section1"
+		{
+			question question1
+			{
+				widget spinbox
+			}
+		}
+		
+		section "section5"
+		{
+			question question5
+		}
+		
+		default
+		{
+			font: "Arial"
+			fontsize: 35
+			color: #f00
+			width: 500
+		}
+	}
+	
+	page test2
+	{
+		section "section2"
+		{
+			section "section 3"
+			{
+				question question3
+				
+				section "section 4"
+				{
+					question question4
+				}
+				
+			}
+
+			question question2
+			
+			question question6
+		}
+		
+		default text widget radio("gello", "hello", "brello")
+	}
+	
+	default boolean widget radio("yes":yes, "no":no)
+	
+	default
+	{
+		font: "Arial"
+		fontsize: 35
+		color: #f00
+		width: 500
+	}
+}

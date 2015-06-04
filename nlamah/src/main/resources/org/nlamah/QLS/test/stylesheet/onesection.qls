@@ -1,0 +1,9 @@
+stylesheet test
+{
+	page testpage
+	{
+		section "testsection"
+		{
+		}
+	}
+}

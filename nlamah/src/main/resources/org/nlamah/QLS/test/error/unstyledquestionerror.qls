@@ -1,0 +1,10 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			question question1
+		}
+	}
+}

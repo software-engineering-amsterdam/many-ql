@@ -1,0 +1,10 @@
+stylesheet test
+{
+	page testpage
+	{
+		section "testsection"
+		{
+			question testquestion widget checkbox
+		}
+	}
+}

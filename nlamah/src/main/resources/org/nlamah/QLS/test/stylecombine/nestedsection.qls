@@ -1,0 +1,31 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			section "test"
+			{
+				question question1
+				{
+					color: #000
+				}
+			}
+			
+			default number
+			{
+				color: #00F
+			}
+		}
+		
+		default number
+		{
+			color: #0F0
+		}
+	}
+	
+	default number
+	{
+		 color: #F00
+	}
+}

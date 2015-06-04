@@ -1,23 +1,46 @@
 grammar QL;
 
-form : 'form' ID '{' (question | conditional_block)* '}' ;
-question : ID TYPE STRING ;
+form : 'form' Identifier '{' formElement* '}' ;
+formElement : question | conditionalBlock ; 
 
-// if ( s ) { t } endif
-// if ( s ) { t } else { e } endif
-// if ( s ) { t } elsif ( s ) { t } endif
-// if ( s ) { t } elsif ( s ) { t } else { e } endif
-// ifthen + elif* + else* + endif
+question : Identifier type=('boolean' | 'number' | 'text') Text '=' expression		#ComputedQuestion
+		| Identifier 'boolean' Text 												#BooleanQuestion	
+		| Identifier 'number' Text													#NumberQuestion
+		| Identifier 'text' Text													#TextQuestion
+		;
 
-conditional_block : ifthen elsifthen* elsethen? 'endif';
-ifthen : 'if' '(' logical_expression ')' '{' (question | conditional_block)* '}' ;
-elsifthen : 'elsif' '(' logical_expression ')' '{' (question | conditional_block)* '}' ;
-elsethen : 'else' '{' (question | conditional_block)* '}' ;
+conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? 'endif';
+ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;
+elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
+elseThenBlock : 'else' '{' formElement* '}' ;
 
-logical_expression  : '(' ID ')';
+expression : operator=('-' |'+' | '!') expression		# UnaryExpression
+			| '(' expression ')'						# ParenthesesExpression
+			| expression MultiplyOperator expression	# MultiplyExpression
+			| expression op=('+' | '-') expression		# AdditionExpression
+			| expression ComparisonOperator expression	# ComparisonExpression
+			| expression EqualityOperator expression	# EqualityExpression
+			| expression AndOperator expression			# AndExpression
+			| expression OrOperator expression			# OrExpression
+			| Boolean									# BooleanLiteral
+			| Identifier								# IdentifierLiteral
+			| Text										# TextLiteral
+			| Number									# NumberLiteral
+			;
 
-TYPE : 'boolean' | 'money' ;
-STRING : '"' .*? '"' ;
-ID : [a-zA-Z]+[a-zA-Z0-9]* ;
+MultiplyOperator : '*' | '/' ;
+ComparisonOperator : '>' | '>=' | '<' | '<=' ;
+EqualityOperator : '==' | '!=' ;
+AndOperator : '&&' ;
+OrOperator : '||' ;
 
-WS : [ \t\r\n]+ -> skip ;
+Boolean : 'yes' | 'no';
+Text : '"' .*? '"' ;
+Identifier : Letter (Letter | Digit)* ;
+Number : (Digit)+ ;
+
+Whitespace : [ \t\r\n]+ -> skip ;
+Comment : '//' ~[\r\n]* '\r'? '\n' -> skip ;
+
+fragment Digit : [0-9] ;
+fragment Letter : [a-zA-Z] ;
