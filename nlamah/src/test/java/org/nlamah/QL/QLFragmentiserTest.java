@@ -10,11 +10,11 @@ public class QLFragmentiserTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("fragmentised", "1a", true);
+			parsedForm = produceFormFromSourceFile("fragmentised", "1a");
 
 			parsedForm = new QLFormFragmentiser(parsedForm).form();
 
-			referenceForm = produceFormFromSourceFile("fragmentised", "1b", true);
+			referenceForm = produceFormFromSourceFile("fragmentised", "1b");
 
 			assertEquals(parsedForm, referenceForm);
 		} 

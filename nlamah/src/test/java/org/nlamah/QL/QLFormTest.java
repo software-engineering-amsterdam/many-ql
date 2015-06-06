@@ -30,7 +30,7 @@ public class QLFormTest extends QBaseTestCase
 	{	
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "emptyform", false);
+			parsedForm = produceFormFromSourceFile("form", "emptyform", true);
 			
 			referenceForm = new Form("test", new ArrayList<FormElement>());
 
@@ -46,7 +46,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "onequestion", false);
+			parsedForm = produceFormFromSourceFile("form", "onequestion", true);
 
 			InputQuestion question = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
 			List<FormElement> questions = new ArrayList<FormElement>();
@@ -66,7 +66,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "twoquestions", false);
+			parsedForm = produceFormFromSourceFile("form", "twoquestions", true);
 
 			InputQuestion question1 = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
 			InputQuestion question2 = new InputQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"), QBaseQuestionType.BOOLEAN);
@@ -89,7 +89,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "simpleifstatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifstatement", true);
 
 			NumberLiteral leftHandLiteral = new NumberLiteral(1);
 			NumberLiteral rightHandLiteral = new NumberLiteral(2);
@@ -118,7 +118,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "simpleifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsestatement", true);
 
 			NumberLiteral leftHandLiteral = new NumberLiteral(1);
 			NumberLiteral rightHandLiteral = new NumberLiteral(2);
@@ -146,7 +146,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "simpleifelsifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsifelsestatement", true);
 
 			NumberLiteral numberLiteral1 = new NumberLiteral(1);
 			NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -197,7 +197,7 @@ public class QLFormTest extends QBaseTestCase
 	{
 		try 
 		{
-			parsedForm = produceFormFromSourceFile("form", "nestedifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "nestedifelsestatement", true);
 
 			BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 			BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);

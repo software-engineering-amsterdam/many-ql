@@ -1,6 +1,7 @@
 package org.nlamah.QL;
 
 import org.nlamah.QBase.QBaseTestCase;
+import org.nlamah.QBase.Tools.AntlrTools;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
@@ -13,7 +14,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 {
 	public void testNumberLiteral()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("1");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("1");
 
 		Expression referenceExpression = new NumberLiteral(1);
 
@@ -24,7 +25,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testAddition()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("1 + 2");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("1 + 2");
 
 		Expression leftHandExpression = new NumberLiteral(1);
 		Expression rightHandExpression = new NumberLiteral(2);
@@ -38,7 +39,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testSubtraction()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("50 - 7");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("50 - 7");
 
 		Expression leftHandExpression = new NumberLiteral(50);
 		Expression rightHandExpression = new NumberLiteral(7);
@@ -52,7 +53,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testMultiplication()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("20 *1000");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("20 *1000");
 
 		Expression leftHandExpression = new NumberLiteral(20);
 		Expression rightHandExpression = new NumberLiteral(1000);
@@ -66,7 +67,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testDivision()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("7 / 9");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("7 / 9");
 
 		Expression leftHandExpression = new NumberLiteral(7);
 		Expression rightHandExpression = new NumberLiteral(9);
@@ -81,7 +82,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testSimpleParentheses()
 	{
-		Expression parsedExpression = produceQLExpressionFromString("(1)");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("(1)");
 
 		Expression referenceExpression = new NumberLiteral(1);
 
@@ -91,7 +92,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 
 	public void testComplexParenthese()
 	{	
-		Expression parsedExpression = produceQLExpressionFromString("(1+2)/(3-4) + (50 * (13/13))");
+		Expression parsedExpression = AntlrTools.createQLExpressionFromString("(1+2)/(3-4) + (50 * (13/13))");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);

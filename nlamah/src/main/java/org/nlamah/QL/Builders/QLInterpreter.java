@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.BitSet;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -20,16 +18,16 @@ import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QBase.Error.SyntaxError;
+import org.nlamah.QBase.Tools.AntlrTools;
 import org.nlamah.QBase.Tools.SourceCodeTools;
-import org.nlamah.QL.QLLexer;
-import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
 public class QLInterpreter implements ANTLRErrorListener 
 {	
 	private Form form;
-
+	private boolean skipTypeChecking;
+	
 	private List<QBaseWarning> warnings;
 	private List<QBaseError> errors;
 
@@ -45,7 +43,7 @@ public class QLInterpreter implements ANTLRErrorListener
 		{
 			String sourceCode = SourceCodeTools.sourceCode(sourceCodePath);
 
-			ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
+			ParseTree tree = AntlrTools.createFormTreeFromSourceCode(sourceCode, this);
 
 			RawFormBuilder rawFormBuilder = new RawFormBuilder();
 
@@ -58,11 +56,14 @@ public class QLInterpreter implements ANTLRErrorListener
 				throw new QBaseException(errors);
 			}
 
-			QLTypeChecker typeChecker = new QLTypeChecker();
+			if(!skipTypeChecking)
+			{
+				QLTypeChecker typeChecker = new QLTypeChecker();
 			
-			typeChecker.check(form);
-			
-			warnings.addAll(typeChecker.warnings());
+				typeChecker.check(form);
+				
+				warnings.addAll(typeChecker.warnings());
+			}
 			
 			return form;
 		} 
@@ -71,25 +72,15 @@ public class QLInterpreter implements ANTLRErrorListener
 			throw new QBaseException(exception.warnings(), exception.errors());
 		}
 	}
+	
+	public void skipTypeChecking()
+	{
+		skipTypeChecking = true;
+	}
 
 	public List<QBaseWarning> warnings()
 	{
 		return warnings;
-	}
-
-	private ParseTree createParseTreeFromSourceCode(String sourceCode)
-	{
-		ANTLRInputStream input = new ANTLRInputStream(sourceCode);
-
-		QLLexer lexer = new QLLexer(input);
-
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-		QLParser parser = new QLParser(tokens);
-
-		parser.addErrorListener(this);
-
-		return parser.form();
 	}
 
 	@Override

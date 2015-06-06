@@ -31,7 +31,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "cyclicDependency", true);
+			produceFormFromSourceFile("error", "cyclicDependency");
 
 			assertTrue(false);
 		} 
@@ -52,7 +52,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "doubleDeclaration1", true);
+			produceFormFromSourceFile("error", "doubleDeclaration1");
 
 			assertTrue(false);
 		} 
@@ -82,7 +82,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "doubleDeclaration2", true);
+			produceFormFromSourceFile("error", "doubleDeclaration2");
 
 			assertTrue(false);
 		} 
@@ -112,7 +112,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{	
 		try 
 		{
-			produceFormFromSourceFile("error", "doubleDeclaration3", true);
+			produceFormFromSourceFile("error", "doubleDeclaration3");
 
 			assertTrue(false);
 		} 
@@ -141,7 +141,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "doubleDeclaration4", true);
+			produceFormFromSourceFile("error", "doubleDeclaration4");
 
 			assertTrue(false);
 		} 
@@ -176,7 +176,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "doubleDeclaration5", true);
+			produceFormFromSourceFile("error", "doubleDeclaration5");
 
 			assertTrue(false);
 		} 
@@ -207,7 +207,7 @@ public class QLFormErrorTest extends QBaseTestCase
 
 		try 
 		{
-			Form form = produceFormFromSourceFile("error", "doubleQuestionText", false);
+			Form form = produceFormFromSourceFile("error", "doubleQuestionText", true);
 			
 			typeChecker.check(form);
 		} 
@@ -238,7 +238,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "expressionTypeMismatch", true);
+			produceFormFromSourceFile("error", "expressionTypeMismatch");
 			
 			assertTrue(false);
 		} 
@@ -258,7 +258,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "identifierTypeMismatch1", true);
+			produceFormFromSourceFile("error", "identifierTypeMismatch1");
 
 			assertTrue(false);
 		} 
@@ -279,7 +279,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch", true);
+			produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch");
 
 			assertTrue(false);
 		} 
@@ -299,7 +299,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "outOfScopeDeclaration", true);
+			produceFormFromSourceFile("error", "outOfScopeDeclaration");
 
 			assertTrue(false);
 		} 
@@ -320,7 +320,7 @@ public class QLFormErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			produceFormFromSourceFile("error", "undeclaredQuestion", true);
+			produceFormFromSourceFile("error", "undeclaredQuestion");
 
 			assertTrue(false);
 		} 

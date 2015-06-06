@@ -5,8 +5,6 @@ import java.util.BitSet;
 import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -19,10 +17,9 @@ import org.nlamah.QBase.Error.ContextSensitivityError;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Error.SyntaxError;
+import org.nlamah.QBase.Tools.AntlrTools;
 import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QLS.QLSLexer;
-import org.nlamah.QLS.QLSParser;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
@@ -41,7 +38,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		qlsSourceCode = SourceCodeTools.sourceCode(qlsFileName);
 
-		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
+		ParseTree tree = AntlrTools.createStylesheetTreeFromSourceCode(qlsSourceCode, this);
 
 		if (errors.size() > 0)
 		{
@@ -72,21 +69,6 @@ public class QLSInterpreter implements ANTLRErrorListener
 		new QuestionStyleCombiner(form, stylesheet).build();
 
 		return stylesheet;
-	}
-
-	private ParseTree createParseTreeFromSourceCode(String sourceCode)
-	{
-		ANTLRInputStream input = new ANTLRInputStream(sourceCode);
-
-		QLSLexer lexer = new QLSLexer(input);
-
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-		QLSParser parser = new QLSParser(tokens);
-
-		parser.addErrorListener(this);
-
-		return parser.stylesheet();
 	}
 
 	@Override

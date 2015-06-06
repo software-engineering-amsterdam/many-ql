@@ -63,7 +63,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 					{		
 						assert childElement instanceof FormQuestion;
 
-						declaredQuestion =  (FormQuestion)childElement;
+						declaredQuestion = (FormQuestion)childElement;
 
 						identifier.setCorrespondingQuestion(declaredQuestion);
 					}

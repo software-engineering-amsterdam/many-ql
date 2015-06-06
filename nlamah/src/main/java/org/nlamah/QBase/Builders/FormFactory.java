@@ -9,6 +9,8 @@ import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
 public class FormFactory 
 {
+	private boolean skipTypeChecking;
+	
 	private Language language;
 	
 	public FormFactory(Language language)
@@ -16,7 +18,7 @@ public class FormFactory
 		this.language = language;
 	}
 	
-	public Form form(String qlSourceCodePath, boolean typeChecked) throws QBaseException
+	public Form form(String qlSourceCodePath) throws QBaseException
 	{
 		Form form = null;
 		
@@ -26,11 +28,15 @@ public class FormFactory
 		{
 			form = createBaseForm(qlSourceCodePath);
 			
+			typeCheck(form);
+			
 			break;
 		}
 		case QLS:
 		{
 			form = createBaseForm(qlSourceCodePath);
+			
+			typeCheck(form);
 			
 			form = new QLFormFragmentiser(form).form();
 			
@@ -38,19 +44,32 @@ public class FormFactory
 		}
 		}
 		
-		if (typeChecked)
+		return form;
+	}
+	
+	private void typeCheck(Form form) throws QBaseException
+	{
+		if (!skipTypeChecking)
 		{
 			QLTypeChecker qlTypeChecker = new QLTypeChecker();
 			
 			qlTypeChecker.check(form);
 		}
+	}
 	
-		return form;
+	public void skipTypeChecking()
+	{
+		skipTypeChecking = true;
 	}
 	
 	private Form createBaseForm(String qlSourceCodePath) throws QBaseException
 	{
 		QLInterpreter qlInterpreter = new QLInterpreter();
+		
+		if (skipTypeChecking)
+		{
+			qlInterpreter.skipTypeChecking();
+		}
 		
 		return qlInterpreter.interprete(qlSourceCodePath);
 	}
