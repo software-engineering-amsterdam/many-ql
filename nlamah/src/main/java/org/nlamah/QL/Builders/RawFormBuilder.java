@@ -92,7 +92,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		String type = ctx.type.getText().toUpperCase();
 
-		QBaseQuestionType returnType = null;
+		QBaseQuestionType returnType = QBaseQuestionType.TEXT;
 
 		try 
 		{
@@ -102,17 +102,18 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
-		finally
-		{
-			
-		}
 
 		Expression expression = (Expression) ctx.expression().accept(this);
 
-		FormQuestion question = new ComputedQuestion(identifier, questionText, returnType, expression);
+		FormQuestion question = null;
+		
+		if (expression != null)
+		{
+			question = new ComputedQuestion(identifier, questionText, returnType, expression);
 
-		ParseTools.addSourceCodePosition(question, ctx);
-
+			ParseTools.addSourceCodePosition(question, ctx);
+		}
+		
 		return question;
 	}
 
