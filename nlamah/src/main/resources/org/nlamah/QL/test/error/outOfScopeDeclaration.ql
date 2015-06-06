@@ -6,7 +6,6 @@ form test
 	{
 		question2 number "test2"
 	}
-	endif
 	
 	question3 boolean "test2" = question2 + 200
 }

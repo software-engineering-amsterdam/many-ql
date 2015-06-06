@@ -19,7 +19,5 @@ form test
 		{
 			question6 text "1.test6 test test test test test v test testtest test test test test5 test test test test test v test testtest test test test.1"
 		}
-		endif
 	}
-	endif
 }

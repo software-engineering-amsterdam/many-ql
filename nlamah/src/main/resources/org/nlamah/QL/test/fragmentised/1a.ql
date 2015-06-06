@@ -11,5 +11,4 @@ form example
   		question3 boolean "example question3"
   		question4 boolean "example question4"
   	}
-  	endif
 }

@@ -5,7 +5,6 @@ form test
 	if (question1)
 	{
 	}
-	endif
 	
 	question2 boolean "test2"
 	

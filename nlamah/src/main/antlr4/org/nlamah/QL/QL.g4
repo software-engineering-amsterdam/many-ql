@@ -9,7 +9,7 @@ question : Identifier type=('boolean' | 'number' | 'text') Text '=' expression		
 		| Identifier 'text' Text													#TextQuestion
 		;
 
-conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? 'endif';
+conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock?;
 ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;
 elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
 elseThenBlock : 'else' '{' formElement* '}' ;
