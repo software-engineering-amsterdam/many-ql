@@ -66,7 +66,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		String formName = ctx.Identifier().getText();
 
-		List<FormElement> formElements = new ArrayList<>();
+		List<FormElement> formElements = new ArrayList<FormElement>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{
