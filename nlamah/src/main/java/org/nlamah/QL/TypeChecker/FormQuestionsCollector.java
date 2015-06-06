@@ -3,7 +3,7 @@ package org.nlamah.QL.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
@@ -34,7 +34,7 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 	@Override
 	public void visit(Form form) 
 	{
-		if (QBaseHelper.arrayExistsAndHasElements(form.childElements()))
+		if (ArrayTools.arrayExistsAndHasElements(form.childElements()))
 		{
 			for (FormElement childElement : form.childElements())
 			{
@@ -78,7 +78,7 @@ public class FormQuestionsCollector implements QLFormElementVisitor
 			conditionalBlock.ifThenBlock().accept(this);
 		}
 
-		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
+		if (ArrayTools.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
 			{

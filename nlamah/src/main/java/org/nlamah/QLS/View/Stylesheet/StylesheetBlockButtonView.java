@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QLS.Model.Abstract.StylesheetBlock;
 
 @SuppressWarnings("serial")
@@ -32,7 +32,7 @@ public abstract class StylesheetBlockButtonView extends JPanel
 
 		button.addActionListener(listener);
 
-		setPreferredSize(new Dimension(QLHelper.navigationViewWidth(), button.getPreferredSize().height + 2 * padding));
+		setPreferredSize(new Dimension(UIConstants.navigationViewWidth(), button.getPreferredSize().height + 2 * padding));
 		setMaximumSize(getPreferredSize());
 		setMinimumSize(getPreferredSize());
 	}

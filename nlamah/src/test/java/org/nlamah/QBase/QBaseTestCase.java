@@ -3,19 +3,16 @@ package org.nlamah.QBase;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.FormFactory;
 import org.nlamah.QBase.Language;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.QLLexer;
 import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Builders.RawFormBuilder;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QLS.QLSLexer;
-import org.nlamah.QLS.QLSParser;
-import org.nlamah.QLS.Builders.RawStylesheetBuilder;
+import org.nlamah.QLS.Builders.StylesheetFactory;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
 import junit.framework.TestCase;
@@ -24,6 +21,9 @@ public abstract class QBaseTestCase extends TestCase
 {
 	protected Form parsedForm;
 	protected Form referenceForm;
+	
+	protected Stylesheet parsedStylesheet;
+	protected Stylesheet referenceStylesheet;
 	
 	protected static Expression produceQLExpressionFromString(String string)
 	{
@@ -39,43 +39,17 @@ public abstract class QBaseTestCase extends TestCase
 		return  expression;
 	}
 
-	protected static Form produceFormFromSourceFile(String folder, String fileName, boolean typechecked) throws QBaseException
+	protected static Form produceFormFromSourceFile(String folder, String fileName, boolean typeChecked) throws QBaseException
 	{		
-		Form form = new FormFactory(Language.QL).form(QBaseHelper.qlUriTestForFolderAndFileName(folder, fileName), typechecked);
+		Form form = new FormFactory(Language.QL).form(SourceCodeTools.qlUriTestForFolderAndFileName(folder, fileName), typeChecked);
 
 		return  form;
 	}
-	
-	protected static ParseTree produceQLSParseTreeFromSourceFile(String folder, String fileName)
-	{
-		try 
-		{
-			String qlsSourceCode = QBaseHelper.qlsSourceCodeTestForFolderAndFileName(folder, fileName);
 
-			ANTLRInputStream input = new ANTLRInputStream(qlsSourceCode);
-
-			QLSLexer lexer = new QLSLexer(input);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			QLSParser parser = new QLSParser(tokens);
-			
-			return  parser.stylesheet();
-		} 
-		catch (FileReadException e) 
-		{
-			assertTrue(false);
-		}
-
-		return null;
-	}
-
-	protected static Stylesheet produceStylesheetFromSourceFileWithoutForm(String folder, String filename)
-	{				
-		ParseTree tree = produceQLSParseTreeFromSourceFile(folder, filename);
-
-		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
-
-		Stylesheet parsedStylesheet = stylesheetBuilder.build(tree);
+	protected static Stylesheet produceStylesheetFromSourceFileWithForm(String folder, String fileName, Form form) throws QBaseException
+	{			
+		Stylesheet stylesheet = new StylesheetFactory().stylesheet(SourceCodeTools.qlsUriTestForFolderAndFileName(folder, fileName), form);
 		
-		return parsedStylesheet;	
+		return stylesheet;	
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Stack;
 import org.nlamah.QBase.EqualityStating;
 import org.nlamah.QBase.QBaseEqualityState;
 import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -25,7 +25,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 		this.questionText = questionString;
 		this.type = type;
 
-		value = QLHelper.defaultValueForQuestionType(type);
+		value = UIConstants.defaultValueForQuestionType(type);
 
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);

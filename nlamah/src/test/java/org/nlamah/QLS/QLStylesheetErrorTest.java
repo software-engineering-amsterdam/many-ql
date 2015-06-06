@@ -5,15 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
-import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QLS.Builders.RawStylesheetBuilder;
 import org.nlamah.QLS.Error.DoubleDefaultBlockError;
 import org.nlamah.QLS.Error.DoublePropertyDeclarationError;
 import org.nlamah.QLS.Error.FontRecognitionError;
@@ -27,39 +24,38 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
-import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
-import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
 public class QLStylesheetErrorTest extends QBaseTestCase
 {
 	public void testIllegalFontName() 
 	{
-		ParseTree tree = produceQLSParseTreeFromSourceFile("error", "illegalfontname");
+		try 
+		{
+			parsedForm = null;
+			
+			produceStylesheetFromSourceFileWithForm("error", "illegalfontname", parsedForm);
 
-		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
+			assertTrue(false);			
+		} 
+		catch (QBaseException exception) 
+		{
+			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
+			QBaseError error = new FontRecognitionError("", 0, 0);
+			referenceErrors.add(error);
 
-		stylesheetBuilder.build(tree);
-
-		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
-		QBaseError error = new FontRecognitionError("", 0, 0);
-		referenceErrors.add(error);
-
-		assertEquals(stylesheetBuilder.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
+		}
 	}
 
 	public void testWidgetTypeMismatch()
 	{
 		try 
 		{
-			Form parsedForm = produceFormFromSourceFile("qls/error", "widgettypemismatcherror", true);
+			parsedForm = produceFormFromSourceFile("qls/error", "widgettypemismatcherror", true);
 			
-			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
-
-			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-			
-			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			produceStylesheetFromSourceFileWithForm("error", "widgettypemismatcherror", parsedForm);
 
 			assertTrue(false);
 		} 
@@ -91,13 +87,9 @@ public class QLStylesheetErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			Form parsedForm = produceFormFromSourceFile("qls/error", "unstyledquestionerror", true);
+			parsedForm = produceFormFromSourceFile("qls/error", "unstyledquestionerror", true);
 			
-			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
-
-			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-			
-			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			produceStylesheetFromSourceFileWithForm("error", "unstyledquestionerror", parsedForm);
 
 			assertTrue(false);
 		} 
@@ -116,13 +108,9 @@ public class QLStylesheetErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			Form parsedForm = produceFormFromSourceFile("qls/error", "doubledeclarationerror", true);
+			parsedForm = produceFormFromSourceFile("qls/error", "doubledeclarationerror", true);
 			
-			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
-
-			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-			
-			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			produceStylesheetFromSourceFileWithForm("error", "doubledeclarationerror", parsedForm);
 
 			assertTrue(false);
 		} 
@@ -145,13 +133,9 @@ public class QLStylesheetErrorTest extends QBaseTestCase
 	{
 		try 
 		{
-			Form parsedForm = produceFormFromSourceFile("qls/error", "doubledefaultblockerror", true);
+			parsedForm = produceFormFromSourceFile("qls/error", "doubledefaultblockerror", true);
 			
-			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
-
-			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-			
-			qlsTypeChecker.check(parsedForm, parsedStylesheet);
+			produceStylesheetFromSourceFileWithForm("error", "doubledefaultblockerror", parsedForm);
 
 			assertTrue(false);
 		} 
@@ -179,28 +163,33 @@ public class QLStylesheetErrorTest extends QBaseTestCase
 
 	public void testDoublePropertyDeclaration()
 	{
-		ParseTree tree = produceQLSParseTreeFromSourceFile("error", "doublepropertydeclarationerror");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("qls/error", "doublepropertydeclarationerror", true);
+			
+			produceStylesheetFromSourceFileWithForm("error", "doublepropertydeclarationerror", parsedForm);
 
-		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
+			assertTrue(false);			
+		} 
+		catch (QBaseException exception) 
+		{
+			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
-		stylesheetBuilder.build(tree);
+			List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
+			styleDeclarations1.add(new FontSizeDeclaration(12));
+			styleDeclarations1.add(new FontSizeDeclaration(13));
 
-		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
+			QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
+			referenceErrors.add(error1);
 
-		List<StyleDeclaration> styleDeclarations1 = new ArrayList<StyleDeclaration>();
-		styleDeclarations1.add(new FontSizeDeclaration(12));
-		styleDeclarations1.add(new FontSizeDeclaration(13));
+			List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
+			styleDeclarations2.add(new WidthDeclaration(1));
+			styleDeclarations2.add(new WidthDeclaration(2));
 
-		QBaseError error1 = new DoublePropertyDeclarationError(styleDeclarations1);
-		referenceErrors.add(error1);
+			QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
+			referenceErrors.add(error2);
 
-		List<StyleDeclaration> styleDeclarations2 = new ArrayList<StyleDeclaration>();
-		styleDeclarations2.add(new WidthDeclaration(1));
-		styleDeclarations2.add(new WidthDeclaration(2));
-
-		QBaseError error2 = new DoublePropertyDeclarationError(styleDeclarations2);
-		referenceErrors.add(error2);
-
-		assertEquals(stylesheetBuilder.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
+		}
 	}
 }

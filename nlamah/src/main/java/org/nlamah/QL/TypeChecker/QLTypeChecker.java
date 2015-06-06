@@ -13,9 +13,9 @@ import org.nlamah.QL.Error.QLDoubleDeclarationError;
 import org.nlamah.QL.Error.DoubleQuestionLabelWarning;
 import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker extends QBaseAbstractTypeChecker 
@@ -38,7 +38,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void checkIfQuestionsAreDeclaredOnlyOnce(Form form) throws QBaseException
 	{	
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
+		Set<FormQuestion> set = ArrayTools.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
 
 		if (set.size() > 0)
 		{
@@ -139,7 +139,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT_ONLY);
+		Set<FormQuestion> set = ArrayTools.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT_ONLY);
 
 		if (set.size() > 0)
 		{

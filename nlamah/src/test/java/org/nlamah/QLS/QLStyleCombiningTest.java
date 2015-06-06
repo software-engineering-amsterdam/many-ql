@@ -15,19 +15,16 @@ import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
-import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;;
 
 public class QLStyleCombiningTest extends QBaseTestCase
 {
-	private Stylesheet parsedStylesheet;
-
 	public void testPageDefaultBlock() 
 	{
 		try 
 		{
 			parsedForm = produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock", true);
-			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
+			parsedStylesheet = produceStylesheetFromSourceFileWithForm("stylecombine", "pagedefaultblock", parsedForm);
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -53,7 +50,7 @@ public class QLStyleCombiningTest extends QBaseTestCase
 		try 
 		{
 			parsedForm = produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault", true);
-			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
+			parsedStylesheet = produceStylesheetFromSourceFileWithForm("stylecombine", "pageandsectiondefault", parsedForm);
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -82,7 +79,7 @@ public class QLStyleCombiningTest extends QBaseTestCase
 		try 
 		{
 			parsedForm = produceFormFromSourceFile("qls/stylecombine", "nestedsection", true);
-			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
+			parsedStylesheet = produceStylesheetFromSourceFileWithForm("stylecombine", "nestedsection", parsedForm);
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -108,7 +105,7 @@ public class QLStyleCombiningTest extends QBaseTestCase
 		try 
 		{
 			parsedForm = produceFormFromSourceFile("qls/stylecombine", "mixed", true);
-			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
+			parsedStylesheet = produceStylesheetFromSourceFileWithForm("stylecombine", "mixed", parsedForm);
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 

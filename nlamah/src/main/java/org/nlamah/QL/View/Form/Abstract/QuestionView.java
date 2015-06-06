@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.text.View;
 
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
@@ -55,11 +56,11 @@ public class QuestionView extends FormElementView
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
 		View view = (View) javax.swing.plaf.basic.BasicHTML.createHTMLView(questionLabel, questionLabel.getText());
-		view.setSize(viewWidth - QLHelper.widgetWidth() - QLHelper.widgetRightMargin() - QLHelper.labelLeftMargin() - QLHelper.labelRightMargin(), Integer.MAX_VALUE);
+		view.setSize(viewWidth - UIConstants.widgetWidth() - UIConstants.widgetRightMargin() - UIConstants.labelLeftMargin() - UIConstants.labelRightMargin(), Integer.MAX_VALUE);
 
 		int height = (int) view.getPreferredSpan(View.Y_AXIS);
 
-		height +=  QLHelper.labelTopMargin() + QLHelper.labelBottomMargin();
+		height +=  UIConstants.labelTopMargin() + UIConstants.labelBottomMargin();
 
 		widgetView.layoutView();
 
@@ -69,7 +70,7 @@ public class QuestionView extends FormElementView
 		setMaximumSize(getPreferredSize()); 
 		setMinimumSize(getPreferredSize());
 
-		widgetView.setPreferredSize(new Dimension(QLHelper.widgetWidth(), height));
+		widgetView.setPreferredSize(new Dimension(UIConstants.widgetWidth(), height));
 		widgetView.setMinimumSize(widgetView.getPreferredSize());
 		widgetView.setMaximumSize(widgetView.getPreferredSize());
 
@@ -82,16 +83,16 @@ public class QuestionView extends FormElementView
 		questionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		questionLabel.setFont(new Font("TimesRoman", Font.ITALIC, 15));
 
-		viewWidth = QLHelper.contentWidth();
+		viewWidth = UIConstants.contentWidth();
 	}
 
 	@Override
 	public void addComponentsToView() 
 	{
-		add(Box.createRigidArea(new Dimension(QLHelper.labelLeftMargin(), 0)));
+		add(Box.createRigidArea(new Dimension(UIConstants.labelLeftMargin(), 0)));
 		add(questionLabel);
-		add(Box.createRigidArea(new Dimension(QLHelper.labelRightMargin(), 0)));
+		add(Box.createRigidArea(new Dimension(UIConstants.labelRightMargin(), 0)));
 		add(widgetView);
-		add(Box.createRigidArea(new Dimension(QLHelper.widgetRightMargin(), 0)));
+		add(Box.createRigidArea(new Dimension(UIConstants.widgetRightMargin(), 0)));
 	}
 }

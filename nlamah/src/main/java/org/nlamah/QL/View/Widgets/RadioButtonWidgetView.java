@@ -12,7 +12,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
 import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -41,7 +41,7 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 	@Override
 	public void layoutView() 
 	{	
-		int neededHeight = QLHelper.widgetTopPadding() + QLHelper.widgetBottomPadding();
+		int neededHeight = UIConstants.widgetTopPadding() + UIConstants.widgetBottomPadding();
 
 		for (JRadioButton radioButton : radioButtons)
 		{
@@ -50,9 +50,9 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 
 		neededHeight = Math.max(neededHeight, super.getPreferredSize().height);
 
-		setMaximumSize(new Dimension(QLHelper.contentWidth(), neededHeight));
-		setMinimumSize(new Dimension(QLHelper.contentWidth(), neededHeight));
-		setPreferredSize(new Dimension(QLHelper.contentWidth(), neededHeight));
+		setMaximumSize(new Dimension(UIConstants.contentWidth(), neededHeight));
+		setMinimumSize(new Dimension(UIConstants.contentWidth(), neededHeight));
+		setPreferredSize(new Dimension(UIConstants.contentWidth(), neededHeight));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 	{
 		for (JRadioButton radioButton : radioButtons)
 		{
-			ValueExpression defaultValue = QLHelper.defaultValueForQuestionType(returnType);
+			ValueExpression defaultValue = UIConstants.defaultValueForQuestionType(returnType);
 
 			TextLiteral key = new TextLiteral(radioButton.getActionCommand());
 			ValueExpression buttonValue = map.get(key);
@@ -110,7 +110,7 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 	@Override
 	public void addComponentsToView() 
 	{
-		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetTopPadding())));
+		add(Box.createRigidArea(new Dimension(0, UIConstants.widgetTopPadding())));
 
 		Box verticalBox = Box.createVerticalBox();
 
@@ -121,7 +121,7 @@ public class RadioButtonWidgetView extends WidgetView implements ActionListener
 
 		add(verticalBox);
 
-		add(Box.createRigidArea(new Dimension(0, QLHelper.widgetBottomPadding())));
+		add(Box.createRigidArea(new Dimension(0, UIConstants.widgetBottomPadding())));
 	}
 
 	@Override

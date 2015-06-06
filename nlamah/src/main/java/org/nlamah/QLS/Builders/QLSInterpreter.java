@@ -13,13 +13,13 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
 import org.nlamah.QBase.Error.ContextSensitivityError;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Error.SyntaxError;
+import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.QLSLexer;
 import org.nlamah.QLS.QLSParser;
@@ -39,7 +39,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 	{
 		String qlsSourceCode;
 
-		qlsSourceCode = QBaseHelper.sourceCode(qlsFileName);
+		qlsSourceCode = SourceCodeTools.sourceCode(qlsFileName);
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 

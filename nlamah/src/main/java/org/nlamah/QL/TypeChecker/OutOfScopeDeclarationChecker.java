@@ -5,8 +5,8 @@ import java.util.List;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Error.CyclicDependencyError;
 import org.nlamah.QL.Error.OutOfScopeDeclarationError;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
@@ -53,7 +53,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	{	
 		FormQuestion declaredQuestion = null;
 
-		if (QBaseHelper.arrayExistsAndHasElements(childElements))
+		if (ArrayTools.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
 			{

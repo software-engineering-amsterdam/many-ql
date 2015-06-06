@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -66,7 +66,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(stylesheet.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
+		Set<StyledQuestion> set = ArrayTools.getSetWithDuplicatedObjects(stylesheet.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
 
 		if (set.size() > 0)
 		{

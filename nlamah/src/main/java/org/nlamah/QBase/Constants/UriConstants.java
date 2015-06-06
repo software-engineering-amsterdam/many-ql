@@ -1,28 +1,28 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Constants;
 
-public class Constants 
+public class UriConstants 
 {
-	static protected String baseUri()
+	static public String baseUri()
 	{
 		return System.getProperty("user.dir");
 	}
 	
-	static protected String defaultUriSourceQL()
+	static public String defaultUriSourceQL()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QL/source.ql";
 	}
 	
-	static protected String defaultUriSourceQLS()
+	static public String defaultUriSourceQLS()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QLS/stylesheet.qls";
 	}
 	
-	static protected String defaultUriSourceQLTestRoot()
+	static public String defaultUriSourceQLTestRoot()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QL/test/";
 	}
 	
-	static protected String defaultUriSourceQLSTestRoot()
+	static public String defaultUriSourceQLSTestRoot()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QLS/test/";
 	}

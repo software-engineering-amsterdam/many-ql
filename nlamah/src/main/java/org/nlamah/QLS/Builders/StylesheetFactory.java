@@ -10,6 +10,8 @@ public class StylesheetFactory
 	{
 		QLSInterpreter qlsInterpreter = new QLSInterpreter();
 		
-		return qlsInterpreter.interprete(qlsSourceCodePath, form);
+		Stylesheet stylesheet = qlsInterpreter.interprete(qlsSourceCodePath, form);
+		
+		return stylesheet; 
 	}
 }

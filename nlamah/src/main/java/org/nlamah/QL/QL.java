@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 import org.nlamah.QBase.FormFactory;
 import org.nlamah.QBase.Language;
 import org.nlamah.QBase.QBaseErrorViewController;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 
@@ -16,7 +16,7 @@ public class QL
 	{
 		try
 		{
-			Form form = new FormFactory(Language.QL).form(QBaseHelper.qlSourceCodePath(args), true);
+			Form form = new FormFactory(Language.QL).form(SourceCodeTools.qlSourceCodePath(args), true);
 
 			SwingUtilities.invokeLater(new FormRootViewController(form));
 		}

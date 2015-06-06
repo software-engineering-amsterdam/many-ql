@@ -8,7 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
@@ -30,14 +30,14 @@ public class SpinnerWidgetView extends WidgetView implements ChangeListener
 	@Override
 	public void layoutView() 
 	{
-		spinner.setPreferredSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
-		spinner.setMaximumSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
+		spinner.setPreferredSize(new Dimension(UIConstants.widgetWidth(), UIConstants.maximumTextFieldHeight()));
+		spinner.setMaximumSize(new Dimension(UIConstants.widgetWidth(), UIConstants.maximumTextFieldHeight()));
 	}
 
 	@Override
 	public void initializeComponents() 
 	{
-		ValueExpression value = QLHelper.defaultValueForQuestionType(returnType());
+		ValueExpression value = UIConstants.defaultValueForQuestionType(returnType());
 		int number = Integer.parseInt(value.toString());
 		SpinnerNumberModel model = new SpinnerNumberModel(number, 0, 1000, 1);
 

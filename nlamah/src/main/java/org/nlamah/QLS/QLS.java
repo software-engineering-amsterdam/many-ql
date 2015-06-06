@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 import org.nlamah.QBase.FormFactory;
 import org.nlamah.QBase.Language;
 import org.nlamah.QBase.QBaseErrorViewController;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseException;
+import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.StylesheetFactory;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
@@ -18,9 +18,9 @@ public class QLS
 	{		
 		try
 		{	
-			Form form = new FormFactory(Language.QLS).form(QBaseHelper.qlSourceCodePath(args), true);
+			Form form = new FormFactory(Language.QLS).form(SourceCodeTools.qlSourceCodePath(args), true);
 
-			Stylesheet stylesheet = new StylesheetFactory().stylesheet(QBaseHelper.qlsSourceCodePath(args), form);
+			Stylesheet stylesheet = new StylesheetFactory().stylesheet(SourceCodeTools.qlsSourceCodePath(args), form);
 
 			SwingUtilities.invokeLater(new RootFormViewControllerStyled(form, stylesheet));
 		}
