@@ -3,9 +3,9 @@ package org.nlamah.QL;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.Constants;
 import org.nlamah.QBase.FormFactory;
 import org.nlamah.QBase.Language;
+import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.RawFormBuilder;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
@@ -44,19 +44,10 @@ public class QLTest extends TestCase
 		return  expression;
 	}
 
-	public static Form produceFormFromSourceFile(String folder, String filename)
+	public static Form produceFormFromSourceFile(String folder, String fileName, boolean typechecked) throws QBaseException
 	{		
-		try 
-		{
-			Form form = new FormFactory(Language.QL).form(Constants.defaultUriSourceQLTestRoot() + folder + "/" + filename + ".ql");
+		Form form = new FormFactory(Language.QL).form(QBaseHelper.qlUriTestForFolderAndFileName(folder, fileName), typechecked);
 
-			return  form;
-		} 
-		catch (QBaseException exception) 
-		{
-			assert(false);
-		} 
-
-		return null;
+		return  form;
 	}
 }

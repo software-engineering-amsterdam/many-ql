@@ -1,5 +1,6 @@
 package org.nlamah.QL;
 
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.QLFormFragmentiser;
 import org.nlamah.QL.Model.Form.Form;
 
@@ -12,12 +13,19 @@ public class QLFragmentiserTest extends TestCase
 
 	public void testFragmentiser1() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("fragmentised", "1a");
+		try 
+		{
+			parsedForm = QLTest.produceFormFromSourceFile("fragmentised", "1a", true);
 
-		parsedForm = new QLFormFragmentiser(parsedForm).form();
+			parsedForm = new QLFormFragmentiser(parsedForm).form();
 
-		referenceForm = QLTest.produceFormFromSourceFile("fragmentised", "1b");
+			referenceForm = QLTest.produceFormFromSourceFile("fragmentised", "1b", true);
 
-		assertEquals(parsedForm, referenceForm);
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		} 
 	}
 }

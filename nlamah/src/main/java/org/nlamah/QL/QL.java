@@ -16,7 +16,7 @@ public class QL
 	{
 		try
 		{
-			Form form = new FormFactory(Language.QL).form(QBaseHelper.qlSourceCodePath(args));
+			Form form = new FormFactory(Language.QL).form(QBaseHelper.qlSourceCodePath(args), true);
 
 			SwingUtilities.invokeLater(new FormRootViewController(form));
 		}

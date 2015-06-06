@@ -18,7 +18,7 @@ public class QLS
 	{		
 		try
 		{	
-			Form form = new FormFactory(Language.QLS).form(QBaseHelper.qlSourceCodePath(args));
+			Form form = new FormFactory(Language.QLS).form(QBaseHelper.qlSourceCodePath(args), true);
 
 			Stylesheet stylesheet = new StylesheetFactory().stylesheet(QBaseHelper.qlsSourceCodePath(args), form);
 

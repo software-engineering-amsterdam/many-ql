@@ -25,11 +25,11 @@ public class QLSTest extends QLTest
 		return suite;
 	}
 
-	protected static ParseTree produceParseTreeFromSourceFile(String folder, String filename)
+	protected static ParseTree produceParseTreeFromSourceFile(String folder, String fileName)
 	{
 		try 
 		{
-			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QLS/test/" + folder + "/" + filename + ".qls");
+			String qlSourceCode = QBaseHelper.qlsSourceCodeTestForFolderAndFileName(folder, fileName);
 
 			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
 

@@ -43,34 +43,34 @@ public class QLInterpreter implements ANTLRErrorListener
 
 	public Form interprete(String sourceCodePath) throws FileReadException, QLException
 	{		
-		String sourceCode = QBaseHelper.getSourceCode(sourceCodePath);
-
-		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
-
-		RawFormBuilder rawFormBuilder = new RawFormBuilder();
-
-		form = rawFormBuilder.buildForm(tree);
-
-		errors.addAll(rawFormBuilder.errors());
-
-		if (errors.size() > 0)
-		{
-			throw new QLException(null, errors);
-		}
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
+			String sourceCode = QBaseHelper.sourceCode(sourceCodePath);
+
+			ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
+
+			RawFormBuilder rawFormBuilder = new RawFormBuilder();
+
+			form = rawFormBuilder.buildForm(tree);
+
+			errors.addAll(rawFormBuilder.errors());
+
+			if (errors.size() > 0)
+			{
+				throw new QLException(null, errors);
+			}
+
+			QLTypeChecker typeChecker = new QLTypeChecker();
+			
 			typeChecker.check(form);
 			
 			warnings.addAll(typeChecker.warnings());
 			
 			return form;
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
-			throw new QLException(typeChecker.warnings(), typeChecker.errors());
+			throw new QLException(exception.warnings(), exception.errors());
 		}
 	}
 

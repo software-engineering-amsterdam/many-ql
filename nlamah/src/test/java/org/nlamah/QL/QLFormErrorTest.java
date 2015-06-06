@@ -30,17 +30,13 @@ public class QLFormErrorTest extends TestCase
 {
 	public void testCyclicDependency() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "cyclicDependency");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "cyclicDependency", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 			IdentifierLiteral identifier1 = new IdentifierLiteral("question1");
@@ -49,23 +45,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error = new CyclicDependencyError(identifier1, question);
 			referenceErrors.add(error);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubleDeclaration1() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration1");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "doubleDeclaration1", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -83,24 +75,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error1 = new QLDoubleDeclarationError(identifier1, declaredQuestions1);
 			referenceErrors.add(error1);			
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
-
 	public void testDoubleDeclaration2() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration2");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "doubleDeclaration2", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -118,25 +105,20 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error2 = new QLDoubleDeclarationError(identifier3, declaredQuestions2);
 			referenceErrors.add(error2);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubleDeclaration3() 
-	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration3");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
+	{	
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "doubleDeclaration3", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
-
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			List<FormQuestion> declaredQuestions3 = new ArrayList<FormQuestion>();
@@ -152,23 +134,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error3 = new QLDoubleDeclarationError(identifier5, declaredQuestions3);
 			referenceErrors.add(error3);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubleDeclaration4() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration4");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "doubleDeclaration4", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -191,26 +169,20 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error4 = new QLDoubleDeclarationError(identifier7, declaredQuestions4);
 			referenceErrors.add(error4);
 
-
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubleDeclaration5() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleDeclaration5");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "doubleDeclaration5", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
-
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
@@ -226,25 +198,25 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error = new QLDoubleDeclarationError(identifier1, declaredQuestions);
 			referenceErrors.add(error);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testEqualTextLabel() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "doubleQuestionText");
-
 		QLTypeChecker typeChecker = new QLTypeChecker();
 
 		try 
 		{
-			typeChecker.check(parsedForm);
+			Form form = QLTest.produceFormFromSourceFile("error", "doubleQuestionText", false);
+			
+			typeChecker.check(form);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 			assertTrue(false);
 		}
-
+		
 		List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 		List<FormQuestion> declaredQuestions = new ArrayList<FormQuestion>();
@@ -265,17 +237,13 @@ public class QLFormErrorTest extends TestCase
 
 	public void testExpressionTypeMismatch() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "expressionTypeMismatch");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
-
+			QLTest.produceFormFromSourceFile("error", "expressionTypeMismatch", true);
+			
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -283,25 +251,20 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error = new ExpressionTypeMismatchError(new BooleanLiteral(true));
 			referenceErrors.add(error);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testIdentifierTypeMismatch1() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "identifierTypeMismatch1");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "identifierTypeMismatch1", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
-
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			QBaseError error1 = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
@@ -309,23 +272,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error2 = new IdentifierTypeMismatchError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error2);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testIdentifierTypeMismatch2() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -333,23 +292,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error = new IdentifierTypeMismatchError(new IdentifierLiteral("question1"));
 			referenceErrors.add(error);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testOutOfScopeDeclaration() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "outOfScopeDeclaration");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "outOfScopeDeclaration", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -358,23 +313,19 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error = new OutOfScopeDeclarationError(new IdentifierLiteral("question2"), question);
 			referenceErrors.add(error);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testUndeclaredQuestion() 
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("error", "undeclaredQuestion");
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(parsedForm);
+			QLTest.produceFormFromSourceFile("error", "undeclaredQuestion", true);
 
 			assertTrue(false);
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
 
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
@@ -385,7 +336,7 @@ public class QLFormErrorTest extends TestCase
 			QBaseError error2 = new UndeclaredFormQuestionError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error2);
 
-			assertEquals(typeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 }

@@ -41,7 +41,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 	{
 		String qlsSourceCode;
 
-		qlsSourceCode = QBaseHelper.getSourceCode(qlsFileName);
+		qlsSourceCode = QBaseHelper.sourceCode(qlsFileName);
 
 		ParseTree tree = createParseTreeFromSourceCode(qlsSourceCode);
 

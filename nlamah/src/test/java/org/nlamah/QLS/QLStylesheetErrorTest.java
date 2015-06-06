@@ -13,7 +13,6 @@ import org.nlamah.QL.QLTest;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QL.TypeChecker.QLTypeChecker;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
 import org.nlamah.QLS.Error.DoubleDefaultBlockError;
 import org.nlamah.QLS.Error.DoublePropertyDeclarationError;
@@ -54,30 +53,19 @@ public class QLStylesheetErrorTest extends TestCase
 
 	public void testWidgetTypeMismatch()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "widgettypemismatcherror");
-
-		QLTypeChecker qlTypeChecker = new QLTypeChecker();
-
 		try 
 		{
-			qlTypeChecker.check(parsedForm);
-		} 
-		catch (QBaseException e) 
-		{
-			assertTrue(false);
-		}
+			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "widgettypemismatcherror", true);
+			
+			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
-
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-
-		try
-		{
+			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+			
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
 
 			assertTrue(false);
-		}
-		catch (QBaseException e)
+		} 
+		catch (QBaseException exception) 
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
@@ -97,72 +85,50 @@ public class QLStylesheetErrorTest extends TestCase
 			QBaseError error3 = new WidgetTypeMismatchError(new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers), QBaseQuestionType.BOOLEAN);
 			referenceErrors.add(error3);
 
-			assertEquals(qlsTypeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testUnStyledQuestion()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "unstyledquestionerror");
-
-		QLTypeChecker qlTypeChecker = new QLTypeChecker();
-
 		try 
 		{
-			qlTypeChecker.check(parsedForm);
-		} 
-		catch (QBaseException e) 
-		{
-			assertTrue(false);
-		}
+			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "unstyledquestionerror", true);
+			
+			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
-
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-
-		try
-		{
+			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+			
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
 
 			assertTrue(false);
-		}
-		catch (QBaseException e)
+		} 
+		catch (QBaseException exception) 
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
 			QBaseError error = new UnStyledFormQuestionError(new IdentifierLiteral("question2"));
 			referenceErrors.add(error);
 
-			assertEquals(qlsTypeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubleDeclaration()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledeclarationerror");
-
-		QLTypeChecker qlTypeChecker = new QLTypeChecker();
-
 		try 
 		{
-			qlTypeChecker.check(parsedForm);
-		} 
-		catch (QBaseException e) 
-		{
-			assertTrue(false);
-		}
+			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledeclarationerror", true);
+			
+			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
-
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-
-		try
-		{
+			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+			
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
 
 			assertTrue(false);
-		}
-		catch (QBaseException e)
+		} 
+		catch (QBaseException exception) 
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
@@ -173,36 +139,25 @@ public class QLStylesheetErrorTest extends TestCase
 			QBaseError error = new QLSDoubleDeclarationError(new IdentifierValue("question1"), styledQuestions);
 			referenceErrors.add(error);
 
-			assertEquals(qlsTypeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 	public void testDoubledefaultBlock()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledefaultblockerror");
-
-		QLTypeChecker qlTypeChecker = new QLTypeChecker();
-
 		try 
 		{
-			qlTypeChecker.check(parsedForm);
-		} 
-		catch (QBaseException e) 
-		{
-			assertTrue(false);
-		}
+			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledefaultblockerror", true);
+			
+			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
-
-		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
-
-		try
-		{
+			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+			
 			qlsTypeChecker.check(parsedForm, parsedStylesheet);
 
 			assertTrue(false);
-		}
-		catch (QBaseException e)
+		} 
+		catch (QBaseException exception) 
 		{
 			List<QBaseError> referenceErrors = new ArrayList<QBaseError>();
 
@@ -219,26 +174,13 @@ public class QLStylesheetErrorTest extends TestCase
 			QBaseError error = new DoubleDefaultBlockError(defaultBlocks);
 			referenceErrors.add(error);
 
-			assertEquals(qlsTypeChecker.errors(), referenceErrors);
+			assertEquals(exception.errors(), referenceErrors);
 		}
 	}
 
 
 	public void testDoublePropertyDeclaration()
 	{
-		Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doublepropertydeclarationerror");
-
-		QLTypeChecker qlTypeChecker = new QLTypeChecker();
-
-		try 
-		{
-			qlTypeChecker.check(parsedForm);
-		} 
-		catch (QBaseException e) 
-		{
-			assertTrue(false);
-		}
-
 		ParseTree tree = QLSTest.produceParseTreeFromSourceFile("error", "doublepropertydeclarationerror");
 
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();

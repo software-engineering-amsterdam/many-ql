@@ -38,7 +38,7 @@ public class QBaseHelper
 		return qlsSourceCodePath;
 	}
 	
-	static public String getSourceCode(String resourcePath) throws FileReadException
+	static public String sourceCode(String resourcePath) throws FileReadException
 	{
 		try 
 		{
@@ -56,6 +56,57 @@ public class QBaseHelper
 
 			throw new FileReadException(null, errors);
 		}
+	}
+	
+	static public String qlSourceCodeTestForFolderAndFileName(String folder, String fileName) throws FileReadException
+	{
+		return sourceCode(qlUriTestForFolderAndFileName(folder, fileName));
+	}
+	
+	static public String qlsSourceCodeTestForFolderAndFileName(String folder, String fileName) throws FileReadException
+	{
+		return sourceCode(qlsUriTestForFolderAndFileName(folder, fileName));
+	}
+	
+	static public String qlUriTestForFolderAndFileName(String folder, String fileName)
+	{
+		return uriForFolderAndFileNameAndLanguage(Constants.defaultUriSourceQLTestRoot(), folder, fileName, Language.QL);
+	}
+	
+	static public String qlsUriTestForFolderAndFileName(String folder, String fileName)
+	{
+		return uriForFolderAndFileNameAndLanguage(Constants.defaultUriSourceQLSTestRoot(), folder, fileName, Language.QLS);
+	}
+	
+	static public String qlUriForFolderAndFileName(String root, String folder, String fileName)
+	{
+		return uriForFolderAndFileNameAndLanguage(root, folder, fileName, Language.QL);
+	}
+	
+	static public String qlsUriForFolderAndFileName(String root, String folder, String fileName)
+	{
+		return uriForFolderAndFileNameAndLanguage(root, folder, fileName, Language.QLS);
+	}
+	
+	static private String uriForFolderAndFileNameAndLanguage(String root, String folder, String fileName, Language language)
+	{
+		String result = root + folder + "/" + fileName;
+		
+		switch (language)
+		{
+		case QL:
+		{
+			return result + ".ql";
+		}
+		case QLS:
+		{
+			return result + ".qls";
+		}
+		}
+		
+		assert(false);
+		
+		return result;
 	}
 
 	static public String removeSurroundingQuotes(String string) 

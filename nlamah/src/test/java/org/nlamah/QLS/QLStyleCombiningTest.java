@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.QLTest;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.QuestionStyleCombiner;
@@ -17,6 +18,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
+
 import junit.framework.TestCase;
 
 public class QLStyleCombiningTest extends TestCase
@@ -26,89 +28,117 @@ public class QLStyleCombiningTest extends TestCase
 
 	public void testPageDefaultBlock() 
 	{
-		parsedForm = QLSTest.produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
+		try 
+		{
+			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock", true);
+			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
 
-		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
+			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
-		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+			List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 
-		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
-		styleDeclarations.add(colorDeclaration);
+			ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
+			styleDeclarations.add(colorDeclaration);
 
-		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+			StyleBlock styleBlock = new StyleBlock(styleDeclarations);
 
-		StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
+			StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
 
-		assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+			assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		} 
 	}
 
 	public void testPageAndSectionDefault()
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
+		try 
+		{
+			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault", true);
+			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
 
-		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
+			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
-		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+			List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 
-		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
-		styleDeclarations.add(colorDeclaration);
+			ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#FF0000"));
+			styleDeclarations.add(colorDeclaration);
 
-		WidthDeclaration widthDeclaration = new WidthDeclaration(20);
-		styleDeclarations.add(widthDeclaration);
+			WidthDeclaration widthDeclaration = new WidthDeclaration(20);
+			styleDeclarations.add(widthDeclaration);
 
-		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+			StyleBlock styleBlock = new StyleBlock(styleDeclarations);
 
-		StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
+			StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
 
-		assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+			assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		} 	
 	}
 
 	public void testNestedSection()
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "nestedsection");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
+		try 
+		{
+			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "nestedsection", true);
+			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
 
-		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
+			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
-		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+			List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 
-		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
-		styleDeclarations.add(colorDeclaration);
+			ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
+			styleDeclarations.add(colorDeclaration);
 
-		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+			StyleBlock styleBlock = new StyleBlock(styleDeclarations);
 
-		StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
+			StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
 
-		assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+			assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 
 	public void testMixed()
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "mixed");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
+		try 
+		{
+			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "mixed", true);
+			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
 
-		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
+			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
-		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
+			List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 
-		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(12);
-		styleDeclarations.add(fontSizeDeclaration);
+			FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(12);
+			styleDeclarations.add(fontSizeDeclaration);
 
-		WidthDeclaration widthDeclaration = new WidthDeclaration(9);
-		styleDeclarations.add(widthDeclaration);
+			WidthDeclaration widthDeclaration = new WidthDeclaration(9);
+			styleDeclarations.add(widthDeclaration);
 
-		FontDeclaration fontDeclaration = new FontDeclaration(Font.decode("Arial"));
-		styleDeclarations.add(fontDeclaration);
+			FontDeclaration fontDeclaration = new FontDeclaration(Font.decode("Arial"));
+			styleDeclarations.add(fontDeclaration);
 
-		ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
-		styleDeclarations.add(colorDeclaration);
+			ColorDeclaration colorDeclaration = new ColorDeclaration(Color.decode("#000"));
+			styleDeclarations.add(colorDeclaration);
 
-		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
+			StyleBlock styleBlock = new StyleBlock(styleDeclarations);
 
-		StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
+			StyledQuestion referenceQuestion = new StyledQuestion(new IdentifierValue("question1"), styleBlock);
 
-		assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+			assertEquals(parsedStylesheet.questions().get(0), referenceQuestion);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 }
