@@ -5,14 +5,14 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QL.QLTest;
 import org.nlamah.QLS.Builders.RawStylesheetBuilder;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class QLSTest extends TestCase
+public class QLSTest extends QLTest
 {
 	public static Test suite()
 	{
@@ -36,6 +36,7 @@ public class QLSTest extends TestCase
 			QLSLexer lexer = new QLSLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			QLSParser parser = new QLSParser(tokens);
+			
 			return  parser.stylesheet();
 		} 
 		catch (FileReadException e) 
@@ -46,14 +47,14 @@ public class QLSTest extends TestCase
 		return null;
 	}
 
-	protected static Stylesheet produceStylesheetFromSourceFile(String folder, String filename)
-	{		
+	protected static Stylesheet produceStylesheetFromSourceFileWithoutForm(String folder, String filename)
+	{				
 		ParseTree tree = produceParseTreeFromSourceFile(folder, filename);
 
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
 		Stylesheet parsedStylesheet = stylesheetBuilder.build(tree);
-
-		return  parsedStylesheet;
+		
+		return parsedStylesheet;	
 	}
 }

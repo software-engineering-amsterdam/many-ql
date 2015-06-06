@@ -3,8 +3,10 @@ package org.nlamah.QL;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.FileReadException;
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Constants;
+import org.nlamah.QBase.FormFactory;
+import org.nlamah.QBase.Language;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.RawFormBuilder;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Form.Form;
@@ -28,7 +30,7 @@ public class QLTest extends TestCase
 		return suite;
 	}
 
-	public static Expression produceExpressionFromString(String string)
+	protected static Expression produceExpressionFromString(String string)
 	{
 		ANTLRInputStream input = new ANTLRInputStream(string);
 
@@ -46,20 +48,11 @@ public class QLTest extends TestCase
 	{		
 		try 
 		{
-			String qlSourceCode = QBaseHelper.getSourceCode(System.getProperty("user.dir") + "/target/classes/org/nlamah/QL/test/" + folder + "/" + filename + ".ql");
+			Form form = new FormFactory(Language.QL).form(Constants.defaultUriSourceQLTestRoot() + folder + "/" + filename + ".ql");
 
-			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
-
-			QLLexer lexer = new QLLexer(input);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			QLParser parser = new QLParser(tokens);
-			ParseTree tree = parser.form();
-			RawFormBuilder formBuilder = new RawFormBuilder();
-			Form parsedForm = formBuilder.buildForm(tree);
-
-			return  parsedForm;
+			return  form;
 		} 
-		catch (FileReadException e) 
+		catch (QBaseException exception) 
 		{
 			assert(false);
 		} 

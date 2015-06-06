@@ -67,7 +67,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "widgettypemismatcherror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
 
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 
@@ -116,7 +116,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "unstyledquestionerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
 
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 
@@ -152,7 +152,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledeclarationerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
 
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 
@@ -192,7 +192,7 @@ public class QLStylesheetErrorTest extends TestCase
 			assertTrue(false);
 		}
 
-		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("error", "doubledefaultblockerror");
+		Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
 
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 

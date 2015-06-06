@@ -14,6 +14,30 @@ import org.nlamah.QBase.Error.QBaseError;
 
 public class QBaseHelper 
 {
+	public static String qlSourceCodePath(String[] args)
+	{
+		String qlSourceCodePath = Constants.defaultUriSourceQL();
+
+		if (args.length > 0)
+		{
+			qlSourceCodePath = Constants.baseUri()  + args[0];
+		}
+
+		return qlSourceCodePath;
+	}
+
+	public static String qlsSourceCodePath(String[] args)
+	{
+		String qlsSourceCodePath = Constants.defaultUriSourceQLS();
+
+		if (args.length > 1)
+		{
+			qlsSourceCodePath = Constants.baseUri() + args[1];
+		}
+
+		return qlsSourceCodePath;
+	}
+	
 	static public String getSourceCode(String resourcePath) throws FileReadException
 	{
 		try 

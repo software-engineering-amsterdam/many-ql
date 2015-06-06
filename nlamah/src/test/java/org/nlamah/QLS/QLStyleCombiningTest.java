@@ -26,8 +26,8 @@ public class QLStyleCombiningTest extends TestCase
 
 	public void testPageDefaultBlock() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylecombine", "pagedefaultblock");
+		parsedForm = QLSTest.produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock");
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
 
 		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -46,7 +46,7 @@ public class QLStyleCombiningTest extends TestCase
 	public void testPageAndSectionDefault()
 	{
 		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylecombine", "pageandsectiondefault");
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
 
 		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -68,7 +68,7 @@ public class QLStyleCombiningTest extends TestCase
 	public void testNestedSection()
 	{
 		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "nestedsection");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylecombine", "nestedsection");
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
 
 		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -87,7 +87,7 @@ public class QLStyleCombiningTest extends TestCase
 	public void testMixed()
 	{
 		parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "mixed");
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFile("stylecombine", "mixed");
+		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
 
 		new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
