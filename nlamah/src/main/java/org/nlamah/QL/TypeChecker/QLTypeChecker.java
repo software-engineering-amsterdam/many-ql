@@ -16,79 +16,27 @@ import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
-import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QL.Helper.QLHelper;
 
 public class QLTypeChecker extends QBaseAbstractTypeChecker 
 {
-	private List<QBaseWarning> warnings;
-
-	public QLTypeChecker()
-	{
-		warnings = new ArrayList<QBaseWarning>();
-	}
-
 	public void check(Form form) throws QBaseException
-	{		
-		checkValidityStyledQuestions(form);
+	{
+		checkIfQuestionsAreDeclaredOnlyOnce(form);
+		
+		checkIfReferenceQuestionsAreDeclaredAtAll(form);
+		checkIfReferencedQuestionsAreDeclaredBeforeReferral(form);
+				
+		questionsAreDeclaredInRightScopeWithNoCyclicDependency(form);
 
-		if (errors.size() == 0)
-		{
-			checkForTypeMismatchErrors(form);
-		}
+		interconnectReferencesWithDeclarations(form);
+		
+		checkForTypeMismatchErrors(form);
 
 		checkForDuplicateQuestionLabels(form);
-
-		if (errors.size() > 0)
-		{
-			throw new QBaseException(warnings, errors);
-		}
 	}
-
-	public List<QBaseError> errors()
-	{
-		return errors;
-	}
-
-	public List<QBaseWarning> warnings()
-	{
-		return warnings;
-	}
-
-	private void checkValidityStyledQuestions(Form form) throws QBaseException
-	{
-		questionsAreNotDeclaredMoreThanOnce(form);
-
-		for (IdentifierLiteral identifier : form.referencedQuestions())
-		{
-			if (questionIsDeclared(identifier, form) && questionIsDeclaredBeforeReferredTo(identifier, form))
-			{
-				if (questionIsDeclaredInRightScopeWithNoCyclicDependency(identifier))
-				{
-					interconnectReferenceWithDeclaration(identifier, form);
-				}
-			};
-		}
-	}
-
-	private void interconnectReferenceWithDeclaration(IdentifierLiteral identifier, Form form)
-	{
-		identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.questions(), identifier));
-	}
-
-	private boolean questionIsDeclared(IdentifierLiteral identifier, Form form)
-	{
-		if (QLHelper.getQuestionsWithIdentifier(form.questions(), identifier).size() == 0)
-		{
-			errors.add(new UndeclaredFormQuestionError(identifier));
-
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean questionsAreNotDeclaredMoreThanOnce(Form form)
+	
+	private void checkIfQuestionsAreDeclaredOnlyOnce(Form form) throws QBaseException
 	{	
 		Set<FormQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
 
@@ -98,46 +46,75 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 			{
 				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.questions(), duplicateQuestion.identifier())));
 			}
-
-			return false;
 		}
-
-		return true;
+		
+		checkForErrors();
 	}
-
-	private boolean questionIsDeclaredInRightScopeWithNoCyclicDependency(IdentifierLiteral identifier)
+	
+	private void checkIfReferenceQuestionsAreDeclaredAtAll(Form form) throws QBaseException
 	{
-		OutOfScopeDeclarationChecker outOfScopeChecker = new OutOfScopeDeclarationChecker(identifier);
-
-		errors.addAll(outOfScopeChecker.errors());
-
-		return !QBaseHelper.arrayExistsAndHasElements(outOfScopeChecker.errors());
+		for (IdentifierLiteral identifier : form.referencedQuestions())
+		{
+			if (QLHelper.getQuestionsWithIdentifier(form.questions(), identifier).size() == 0)
+			{
+				errors.add(new UndeclaredFormQuestionError(identifier));
+			}
+		}
+		
+		checkForErrors();
 	}
-
-	private boolean questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form)
+		
+	private void checkIfReferencedQuestionsAreDeclaredBeforeReferral(Form form) throws QBaseException
+	{
+		for (IdentifierLiteral identifier : form.referencedQuestions())
+		{
+			questionIsDeclaredBeforeReferredTo(identifier, form);
+		}
+		
+		checkForErrors();
+	}
+	
+	private void questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form) throws QBaseException
 	{
 		FormQuestion foundDeclaration = QLHelper.getQuestionWithIdentifier(form.questions(), identifier);
 
 		if (identifier.startsOnLine < foundDeclaration.startsOnLine)
 		{
 			errors.add(new TooLateDeclaredQuestionError(identifier, foundDeclaration));
-
-			return false;
 		}
 		else if (identifier.startsOnLine == foundDeclaration.startsOnLine)
 		{
 			if (identifier.startsAtCharacterPosition < foundDeclaration.startsAtCharacterPosition)
 			{
 				errors.add(new TooLateDeclaredQuestionError(identifier, foundDeclaration));
-
-				return false;
 			}
 		}
+		
+		checkForErrors();
+	}
+	
+	private void questionsAreDeclaredInRightScopeWithNoCyclicDependency(Form form) throws QBaseException
+	{
+		for (IdentifierLiteral identifier : form.referencedQuestions())
+		{
+			OutOfScopeDeclarationChecker outOfScopeChecker = new OutOfScopeDeclarationChecker(identifier);
 
-		return true;
+			errors.addAll(outOfScopeChecker.errors());
+		}
+		
+		checkForErrors();
+	}
+	
+
+	private void interconnectReferencesWithDeclarations(Form form)
+	{
+		for (IdentifierLiteral identifier : form.referencedQuestions())
+		{
+			identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.questions(), identifier));
+		}
 	}
 
-	private void checkForTypeMismatchErrors(Form form)
+	private void checkForTypeMismatchErrors(Form form) throws QBaseException
 	{
 		List<QBaseError> identifierErrors = new ArrayList<QBaseError>();
 
@@ -156,6 +133,8 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 
 			errors.addAll(expressionChecker.errors());
 		}
+		
+		checkForErrors();
 	}
 
 	private void checkForDuplicateQuestionLabels(Form form)

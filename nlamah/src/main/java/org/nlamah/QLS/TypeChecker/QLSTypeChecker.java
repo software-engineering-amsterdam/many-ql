@@ -20,15 +20,9 @@ import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
 public class QLSTypeChecker extends QBaseAbstractTypeChecker
 {		
-	List<StyledQuestion> styledQuestions; 
-	List<FormQuestion> formQuestions;
-
 	public void check(Form form, Stylesheet stylesheet) throws QBaseException
 	{		
-		styledQuestions = stylesheet.questions();
-		formQuestions = form.questions();
-
-		areAllFormQuestionsStyled();
+		areAllFormQuestionsStyled(form, stylesheet);
 
 		doAllStyledQuestionsExistInTheForm(form, stylesheet);
 
@@ -44,11 +38,11 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		return errors;
 	}
 
-	private void areAllFormQuestionsStyled() throws QBaseException
+	private void areAllFormQuestionsStyled(Form form, Stylesheet stylesheet) throws QBaseException
 	{		
-		for (FormQuestion formQuestion : formQuestions)
+		for (FormQuestion formQuestion : form.questions())
 		{
-			if (!QLSHelper.questionIsStyled(formQuestion, styledQuestions))
+			if (!QLSHelper.questionIsStyled(formQuestion, stylesheet.questions()))
 			{
 				errors.add(new UnStyledFormQuestionError(formQuestion.identifier()));
 			}	
@@ -57,11 +51,11 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		checkForErrors();
 	}
 
-	private void doAllStyledQuestionsExistInTheForm(Form form, Stylesheet styelsheet) throws QBaseException
+	private void doAllStyledQuestionsExistInTheForm(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		for (StyledQuestion styledQuestion : styledQuestions)
+		for (StyledQuestion styledQuestion : stylesheet.questions())
 		{
-			if (!QLSHelper.doesStyledQuestionExistInForm(styledQuestion, formQuestions))
+			if (!QLSHelper.doesStyledQuestionExistInForm(styledQuestion, form.questions()))
 			{
 				errors.add(new UndeclaredFormQuestionError(new IdentifierLiteral(styledQuestion.identifier().toString())));
 			}
@@ -72,13 +66,13 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(styledQuestions, QBaseEqualityState.IDENTIFIER_ONLY);
+		Set<StyledQuestion> set = QBaseHelper.getSetWithDuplicatedObjects(stylesheet.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
 
 		if (set.size() > 0)
 		{
 			for (StyledQuestion styledQuestion : set)
 			{
-				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSHelper.getQuestionsWithIdentifier(styledQuestions, styledQuestion.identifier())));
+				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSHelper.getQuestionsWithIdentifier(stylesheet.questions(), styledQuestion.identifier())));
 			}
 		}
 
@@ -100,13 +94,5 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		errors.addAll(widgetTypeChecker.errors());
 
 		checkForErrors();
-	}
-
-	private void checkForErrors() throws QBaseException
-	{
-		if (errors.size() > 0)
-		{
-			throw new QBaseException(null, errors);
-		}
 	}
 }

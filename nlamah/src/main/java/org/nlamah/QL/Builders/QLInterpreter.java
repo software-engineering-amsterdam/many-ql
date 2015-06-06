@@ -55,7 +55,7 @@ public class QLInterpreter implements ANTLRErrorListener
 
 			if (errors.size() > 0)
 			{
-				throw new QBaseException(null, errors);
+				throw new QBaseException(errors);
 			}
 
 			QLTypeChecker typeChecker = new QLTypeChecker();

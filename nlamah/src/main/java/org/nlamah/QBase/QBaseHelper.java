@@ -54,7 +54,7 @@ public class QBaseHelper
 
 			List<QBaseError> errors = new ArrayList<QBaseError>();
 
-			throw new FileReadException(null, errors);
+			throw new FileReadException(errors);
 		}
 	}
 	
