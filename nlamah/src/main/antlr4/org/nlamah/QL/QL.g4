@@ -9,7 +9,7 @@ question : Identifier type=('boolean' | 'number' | 'text') Text '=' expression		
 		| Identifier 'text' Text													#TextQuestion
 		;
 
-conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock?;
+conditionalBlock : ifThenBlock elseIfThenBlock* elseThenBlock? ;
 ifThenBlock : 'if' '(' expression ')' '{' formElement* '}' ;
 elseIfThenBlock : 'elseif' '(' expression ')' '{' formElement* '}' ;
 elseThenBlock : 'else' '{' formElement* '}' ;
@@ -34,7 +34,7 @@ EqualityOperator : '==' | '!=' ;
 AndOperator : '&&' ;
 OrOperator : '||' ;
 
-Boolean : 'yes' | 'no';
+Boolean : 'yes' | 'no' ;
 Text : '"' .*? '"' ;
 Identifier : Letter (Letter | Digit)* ;
 Number : (Digit)+ ;
