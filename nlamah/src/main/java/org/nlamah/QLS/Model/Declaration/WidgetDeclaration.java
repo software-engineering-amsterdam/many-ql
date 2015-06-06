@@ -3,7 +3,7 @@ package org.nlamah.QLS.Model.Declaration;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;

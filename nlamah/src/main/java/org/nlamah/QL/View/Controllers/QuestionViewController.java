@@ -1,6 +1,6 @@
 package org.nlamah.QL.View.Controllers;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;

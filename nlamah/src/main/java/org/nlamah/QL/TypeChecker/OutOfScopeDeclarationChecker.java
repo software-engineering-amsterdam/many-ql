@@ -5,9 +5,9 @@ import java.util.List;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Error.CyclicDependencyError;
 import org.nlamah.QL.Error.OutOfScopeDeclarationError;
-import org.nlamah.QBase.QBaseHelper;
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.Tools.QLTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -53,7 +53,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	{	
 		FormQuestion declaredQuestion = null;
 
-		if (QBaseHelper.arrayExistsAndHasElements(childElements))
+		if (ArrayTools.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
 			{
@@ -63,7 +63,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 					{		
 						assert childElement instanceof FormQuestion;
 
-						declaredQuestion =  (FormQuestion)childElement;
+						declaredQuestion = (FormQuestion)childElement;
 
 						identifier.setCorrespondingQuestion(declaredQuestion);
 					}
@@ -230,7 +230,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 
 		if (declaredQuestion == null)
 		{
-			FormQuestion outOfScopeQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), this.identifier);
+			FormQuestion outOfScopeQuestion = QLTools.getQuestionWithIdentifier(form.questions(), this.identifier);
 
 			assert(outOfScopeQuestion != null);
 

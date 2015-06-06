@@ -1,13 +1,11 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Error;
 
 import java.util.List;
 
 import javax.swing.JFrame;
 
-import org.nlamah.QBase.Error.QBaseError;
-import org.nlamah.QBase.Error.QBaseErrorView;
-import org.nlamah.QBase.Error.QBaseWarning;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.Tools.StringTools;
 
 public class QBaseErrorViewController implements Runnable
 {
@@ -54,7 +52,7 @@ public class QBaseErrorViewController implements Runnable
 	private String produceErrorString()
 	{
 		String errorString = "";
-		if (QBaseHelper.arrayExistsAndHasElements(errors))
+		if (ArrayTools.arrayExistsAndHasElements(errors))
 		{
 			for (QBaseError error : errors)
 			{
@@ -62,7 +60,7 @@ public class QBaseErrorViewController implements Runnable
 			}
 		}
 
-		return QLHelper.surroundStringWithHtmlTags(errorString);
+		return StringTools.surroundStringWithHtmlTags(errorString);
 
 	}
 
@@ -70,7 +68,7 @@ public class QBaseErrorViewController implements Runnable
 	{	
 		String warningString = "";
 
-		if (QBaseHelper.arrayExistsAndHasElements(warnings))
+		if (ArrayTools.arrayExistsAndHasElements(warnings))
 		{
 			for (QBaseWarning warning : warnings)
 			{
@@ -78,6 +76,6 @@ public class QBaseErrorViewController implements Runnable
 			}
 		}
 
-		return QLHelper.surroundStringWithHtmlTags(warningString);
+		return StringTools.surroundStringWithHtmlTags(warningString);
 	}
 }

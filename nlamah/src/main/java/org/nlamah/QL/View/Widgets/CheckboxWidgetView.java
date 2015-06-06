@@ -5,7 +5,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 

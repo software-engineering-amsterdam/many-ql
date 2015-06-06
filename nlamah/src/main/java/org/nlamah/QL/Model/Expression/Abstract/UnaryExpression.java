@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 
 public abstract class UnaryExpression extends ComposedExpression 
 {

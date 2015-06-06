@@ -3,7 +3,7 @@ package org.nlamah.QLS.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
@@ -32,7 +32,7 @@ public class WidgetDeclarationsCollector extends QLSVisitorAbstract
 
 	public List<WidgetDeclaration> widgetDeclarations()
 	{
-		if (!QBaseHelper.arrayExistsAndHasElements(widgetDeclarations))
+		if (!ArrayTools.arrayExistsAndHasElements(widgetDeclarations))
 		{
 			widgetDeclarations = new ArrayList<WidgetDeclaration>();
 

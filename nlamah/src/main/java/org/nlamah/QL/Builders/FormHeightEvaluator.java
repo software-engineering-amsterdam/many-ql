@@ -2,7 +2,7 @@ package org.nlamah.QL.Builders;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
@@ -21,7 +21,7 @@ public class FormHeightEvaluator implements QLFormElementViewControllerVisitor
 	{
 		preferredHeight = 0;
 
-		if (QBaseHelper.arrayExistsAndHasElements(formElementViewControllers))
+		if (ArrayTools.arrayExistsAndHasElements(formElementViewControllers))
 		{
 			for (FormElementViewController formElementViewController : formElementViewControllers)
 			{

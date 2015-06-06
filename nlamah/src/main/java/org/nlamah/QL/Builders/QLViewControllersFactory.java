@@ -3,7 +3,7 @@ package org.nlamah.QL.Builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.ConditionalBlock;
@@ -42,7 +42,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	{
 		List<FormElementViewController> childViewControllers = null;
 
-		if (QBaseHelper.arrayExistsAndHasElements(declaringFormElement.childElements()))
+		if (ArrayTools.arrayExistsAndHasElements(declaringFormElement.childElements()))
 		{
 			childViewControllers = new ArrayList<FormElementViewController>();
 
@@ -91,7 +91,7 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	{
 		List<ElseIfThenBlockViewController> elseIfThenBlockViewControllers = null;
 
-		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlocks))
+		if (ArrayTools.arrayExistsAndHasElements(elseIfThenBlocks))
 		{
 			int numberOfElseIfThenViewControllers = elseIfThenBlocks.size();
 

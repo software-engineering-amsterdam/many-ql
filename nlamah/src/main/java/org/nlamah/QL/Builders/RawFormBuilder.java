@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseHelper;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
-import org.nlamah.QBase.Error.QBaseParsingError;
+import org.nlamah.QBase.Error.QBaseError;
+import org.nlamah.QBase.Tools.ParseTools;
+import org.nlamah.QBase.Tools.StringTools;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
@@ -43,11 +44,11 @@ import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	private List<QBaseParsingError> errors;
+	private List<QBaseError> errors;
 
 	public RawFormBuilder()
 	{
-		errors = new ArrayList<QBaseParsingError>();
+		errors = new ArrayList<QBaseError>();
 	}
 
 	public Form buildForm(ParseTree tree)
@@ -55,7 +56,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		return (Form) tree.accept(this);
 	}
 
-	public List<QBaseParsingError> errors()
+	public List<QBaseError> errors()
 	{
 		return this.errors;
 	}
@@ -65,7 +66,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{
 		String formName = ctx.Identifier().getText();
 
-		List<FormElement> formElements = new ArrayList<>();
+		List<FormElement> formElements = new ArrayList<FormElement>();
 
 		for (QLParser.FormElementContext contextualFormElement : ctx.formElement()) 
 		{
@@ -75,7 +76,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		Form form = new Form(formName, formElements);
 
-		QBaseHelper.addSourceCodePosition(form, ctx);
+		ParseTools.addSourceCodePosition(form, ctx);
 
 		return form; 
 	}
@@ -84,10 +85,10 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	public QLNode visitComputedQuestion(QLParser.ComputedQuestionContext ctx) 
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
-		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
-		QBaseHelper.addSourceCodePosition(questionText, ctx);
+		TextLiteral questionText = new TextLiteral(StringTools.removeSurroundingQuotes(ctx.Text().getText()));
+		ParseTools.addSourceCodePosition(questionText, ctx);
 
 		String type = ctx.type.getText().toUpperCase();
 
@@ -101,12 +102,16 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
 		}
+		finally
+		{
+			
+		}
 
 		Expression expression = (Expression) ctx.expression().accept(this);
 
 		FormQuestion question = new ComputedQuestion(identifier, questionText, returnType, expression);
 
-		QBaseHelper.addSourceCodePosition(question, ctx);
+		ParseTools.addSourceCodePosition(question, ctx);
 
 		return question;
 	}
@@ -115,14 +120,14 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	public QLNode visitBooleanQuestion(QLParser.BooleanQuestionContext ctx) 
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
-		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
-		QBaseHelper.addSourceCodePosition(questionText, ctx);
+		TextLiteral questionText = new TextLiteral(StringTools.removeSurroundingQuotes(ctx.Text().getText()));
+		ParseTools.addSourceCodePosition(questionText, ctx);
 
 		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.BOOLEAN);
 
-		QBaseHelper.addSourceCodePosition(question, ctx);
+		ParseTools.addSourceCodePosition(question, ctx);
 
 		return question;
 	}
@@ -131,14 +136,14 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	public QLNode visitNumberQuestion(QLParser.NumberQuestionContext ctx) 
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
-		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
-		QBaseHelper.addSourceCodePosition(questionText, ctx);
+		TextLiteral questionText = new TextLiteral(StringTools.removeSurroundingQuotes(ctx.Text().getText()));
+		ParseTools.addSourceCodePosition(questionText, ctx);
 
 		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.NUMBER);
 
-		QBaseHelper.addSourceCodePosition(question, ctx);
+		ParseTools.addSourceCodePosition(question, ctx);
 
 		return question;
 	}
@@ -147,14 +152,14 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	public QLNode visitTextQuestion(QLParser.TextQuestionContext ctx) 
 	{ 
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
-		TextLiteral questionText = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
-		QBaseHelper.addSourceCodePosition(questionText, ctx);
+		TextLiteral questionText = new TextLiteral(StringTools.removeSurroundingQuotes(ctx.Text().getText()));
+		ParseTools.addSourceCodePosition(questionText, ctx);
 
 		FormQuestion question = new InputQuestion(identifier, questionText, QBaseQuestionType.TEXT);
 
-		QBaseHelper.addSourceCodePosition(question, ctx);
+		ParseTools.addSourceCodePosition(question, ctx);
 
 		return question;
 	}
@@ -182,7 +187,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
 
-		QBaseHelper.addSourceCodePosition(conditionalBlock, ctx);
+		ParseTools.addSourceCodePosition(conditionalBlock, ctx);
 
 		return conditionalBlock;
 	}
@@ -202,7 +207,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		IfThenBlock ifThenBlock =  new IfThenBlock(logicalExpression, formElements);
 
-		QBaseHelper.addSourceCodePosition(ifThenBlock, ctx);
+		ParseTools.addSourceCodePosition(ifThenBlock, ctx);
 
 		return ifThenBlock;
 	}
@@ -222,7 +227,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		ElseIfThenBlock elseIfThenBlock = new ElseIfThenBlock(expression, formElements);
 
-		QBaseHelper.addSourceCodePosition(elseIfThenBlock, ctx);
+		ParseTools.addSourceCodePosition(elseIfThenBlock, ctx);
 
 		return elseIfThenBlock;
 	}
@@ -240,7 +245,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		ElseThenBlock elseThenBlock = new ElseThenBlock(formElements);
 
-		QBaseHelper.addSourceCodePosition(elseThenBlock, ctx);
+		ParseTools.addSourceCodePosition(elseThenBlock, ctx);
 
 		return elseThenBlock;
 	}
@@ -253,7 +258,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		OrExpression expression = new OrExpression(leftHandExpression, rightHandExpression); 
 
-		QBaseHelper.addSourceCodePosition(expression, ctx);
+		ParseTools.addSourceCodePosition(expression, ctx);
 
 		return expression;
 	}
@@ -268,7 +273,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			MultiplyExpression expression = new MultiplyExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -277,7 +282,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			DivideExpression expression = new DivideExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -293,7 +298,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 
 		AndExpression expression = new AndExpression(leftHandExpression, rightHandExpression); 
 
-		QBaseHelper.addSourceCodePosition(expression, ctx);
+		ParseTools.addSourceCodePosition(expression, ctx);
 
 		return expression;
 	}
@@ -314,7 +319,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			SmallerThanExpression expression = new SmallerThanExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -323,7 +328,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			SmallerThanEqualExpression expression = new SmallerThanEqualExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -332,7 +337,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			GreaterThanExpression expression = new GreaterThanExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -341,7 +346,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			GreaterThanEqualExpression expression = new GreaterThanEqualExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -359,7 +364,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			AddExpression expression = new AddExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -368,7 +373,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			SubtractExpression expression = new SubtractExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -379,9 +384,9 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	@Override 
 	public QLNode visitTextLiteral(QLParser.TextLiteralContext ctx) 
 	{ 
-		TextLiteral literal = new TextLiteral(QBaseHelper.removeSurroundingQuotes(ctx.Text().getText()));
+		TextLiteral literal = new TextLiteral(StringTools.removeSurroundingQuotes(ctx.Text().getText()));
 
-		QBaseHelper.addSourceCodePosition(literal, ctx);
+		ParseTools.addSourceCodePosition(literal, ctx);
 
 		return literal;
 	}
@@ -391,7 +396,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 		
 		IdentifierLiteral identifier = new IdentifierLiteral(ctx.Identifier().getText());
 
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
 		return identifier;
 	}
@@ -406,7 +411,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			EqualExpression expression = new EqualExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -415,7 +420,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			UnEqualExpression expression = new UnEqualExpression(leftHandExpression, rightHandExpression); 
 
-			QBaseHelper.addSourceCodePosition(expression, ctx);
+			ParseTools.addSourceCodePosition(expression, ctx);
 
 			return expression;
 		}
@@ -428,7 +433,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		NumberLiteral literal = new NumberLiteral(Integer.parseInt(ctx.Number().getText()));
 
-		QBaseHelper.addSourceCodePosition(literal, ctx);
+		ParseTools.addSourceCodePosition(literal, ctx);
 
 		return literal;
 	}
@@ -442,7 +447,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			NotExpression notExpression = new NotExpression(expression);
 
-			QBaseHelper.addSourceCodePosition(notExpression, ctx);
+			ParseTools.addSourceCodePosition(notExpression, ctx);
 
 			return notExpression;
 		}
@@ -451,7 +456,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			MinusExpression minusExpression = new MinusExpression(expression);
 
-			QBaseHelper.addSourceCodePosition(minusExpression, ctx);
+			ParseTools.addSourceCodePosition(minusExpression, ctx);
 
 			return minusExpression;
 		}
@@ -460,7 +465,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		{
 			PlusExpression plusExpression = new PlusExpression(expression);
 
-			QBaseHelper.addSourceCodePosition(plusExpression, ctx);
+			ParseTools.addSourceCodePosition(plusExpression, ctx);
 
 			return plusExpression;
 		}
@@ -473,7 +478,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 	{ 
 		BooleanLiteral literal = new BooleanLiteral(ctx.Boolean().getText().equals("yes") ? true : false);
 
-		QBaseHelper.addSourceCodePosition(literal, ctx);
+		ParseTools.addSourceCodePosition(literal, ctx);
 
 		return literal;
 	}

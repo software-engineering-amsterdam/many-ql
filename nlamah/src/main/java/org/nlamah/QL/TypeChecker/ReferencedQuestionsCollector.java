@@ -3,7 +3,7 @@ package org.nlamah.QL.TypeChecker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -218,7 +218,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 			conditionalBlock.ifThenBlock().accept(this);
 		}
 
-		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
+		if (ArrayTools.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
 			{
@@ -274,7 +274,7 @@ public class ReferencedQuestionsCollector implements QLNodeVisitor
 	@Override
 	public QLNode visit(Form form) 
 	{
-		if (QBaseHelper.arrayExistsAndHasElements(form.childElements()))
+		if (ArrayTools.arrayExistsAndHasElements(form.childElements()))
 		{
 			for (FormElement childElement : form.childElements())
 			{

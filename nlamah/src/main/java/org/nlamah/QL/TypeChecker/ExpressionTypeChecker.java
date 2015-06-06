@@ -1,9 +1,9 @@
 package org.nlamah.QL.TypeChecker;
 
-import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.ExpressionTypeMismatchError;
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryExpression;
 import org.nlamah.QL.Model.Expression.Abstract.EqualityExpression;
@@ -261,7 +261,7 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 			conditionalBlock.ifThenBlock().accept(this);
 		}
 
-		if (QBaseHelper.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
+		if (ArrayTools.arrayExistsAndHasElements(conditionalBlock.elseIfThenBlocks()))
 		{
 			for (ElseIfThenBlock elseIfThenBlock : conditionalBlock.elseIfThenBlocks())
 			{
@@ -287,7 +287,7 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
 
-		if (QBaseHelper.arrayExistsAndHasElements(elseIfThenBlock.childElements()))
+		if (ArrayTools.arrayExistsAndHasElements(elseIfThenBlock.childElements()))
 		{
 			for (FormElement childElement : elseIfThenBlock.childElements())
 			{
@@ -330,7 +330,7 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 			errors.add(new ExpressionTypeMismatchError(expression));
 		}
 
-		if (QBaseHelper.arrayExistsAndHasElements(ifThenBlock.childElements()))
+		if (ArrayTools.arrayExistsAndHasElements(ifThenBlock.childElements()))
 		{
 			for (FormElement childElement : ifThenBlock.childElements())
 			{

@@ -10,7 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.nlamah.QLS.Helper.QLSHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QLS.Model.StylesheetBlock.Page;
 
 @SuppressWarnings("serial")
@@ -34,6 +34,6 @@ public class PageView extends JPanel
 
 		add(horizontalBox);
 
-		add(Box.createRigidArea(new Dimension(0, QLSHelper.pageTitleBottomPadding())));
+		add(Box.createRigidArea(new Dimension(0, UIConstants.pageTitleBottomPadding())));
 	}
 }

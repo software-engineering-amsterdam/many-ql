@@ -8,8 +8,8 @@ import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
-import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
@@ -30,8 +30,8 @@ public class NumberFieldWidgetView extends WidgetView implements ActionListener
 	@Override
 	public void layoutView() 
 	{
-		textField.setPreferredSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
-		textField.setMaximumSize(new Dimension(QLHelper.widgetWidth(), QLHelper.maximumTextFieldHeight()));
+		textField.setPreferredSize(new Dimension(UIConstants.widgetWidth(), UIConstants.maximumTextFieldHeight()));
+		textField.setMaximumSize(new Dimension(UIConstants.widgetWidth(), UIConstants.maximumTextFieldHeight()));
 	}
 
 	@Override

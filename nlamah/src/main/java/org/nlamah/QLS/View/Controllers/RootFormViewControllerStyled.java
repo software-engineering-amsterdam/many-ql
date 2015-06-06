@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.View.Controllers.FormRootViewController;
 import org.nlamah.QLS.Builders.PageFinder;
@@ -112,7 +112,7 @@ public class RootFormViewControllerStyled extends FormRootViewController
 
 	private void setupNavigationView()
 	{
-		navigationView.setPreferredSize(new Dimension(QLHelper.navigationViewWidth(), navigationViewController.neededViewHeight()));
+		navigationView.setPreferredSize(new Dimension(UIConstants.navigationViewWidth(), navigationViewController.neededViewHeight()));
 
 		navigationView.add(navigationViewController.view);
 	}
@@ -139,7 +139,7 @@ public class RootFormViewControllerStyled extends FormRootViewController
 		for (PageViewController pageViewController : pageViewControllers)
 		{
 			contentView.add(pageViewController.view, pageViewController.identifier());
-			contentView.setPreferredSize(new Dimension(QLHelper.contentWidth(), pageViewController.neededViewHeight()));
+			contentView.setPreferredSize(new Dimension(UIConstants.contentWidth(), pageViewController.neededViewHeight()));
 		}
 	}
 }

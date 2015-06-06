@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Expression.Abstract;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 
 public abstract class Expression extends QLNode

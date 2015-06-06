@@ -9,7 +9,6 @@ form example
   	else
   	{
   	}
-  	endif
   	
   	if (question1 == "hello")
  	{
@@ -18,7 +17,6 @@ form example
   	{
   		question3 boolean "example question3"
   	}
-  	endif
   	
   	if (question1 == "hello")
  	{
@@ -27,5 +25,4 @@ form example
   	{
   		question4 boolean "example question4"
   	}
-  	endif
 }

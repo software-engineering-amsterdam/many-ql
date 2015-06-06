@@ -2,7 +2,7 @@ package org.nlamah.QLS.Model.Abstract;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 
 public abstract class StylesheetBlock extends QLSNode
@@ -15,7 +15,7 @@ public abstract class StylesheetBlock extends QLSNode
 		this.title = title;
 		this.defaultBlocks = defaultBlocks;
 
-		if (QBaseHelper.arrayExistsAndHasElements(defaultBlocks))
+		if (ArrayTools.arrayExistsAndHasElements(defaultBlocks))
 		{
 			for (DefaultBlock defaultBlock : defaultBlocks)
 			{

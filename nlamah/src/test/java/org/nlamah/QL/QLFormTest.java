@@ -3,7 +3,9 @@ package org.nlamah.QL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseTestCase;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.GreaterThanExpression;
@@ -22,194 +24,233 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 
-import junit.framework.TestCase;
-
-public class QLFormTest extends TestCase 
+public class QLFormTest extends QBaseTestCase 
 {
-	private Form parsedForm;
-	private Form referenceForm;
-
 	public void testEmptyForm() 
 	{	
-		parsedForm = QLTest.produceFormFromSourceFile("form", "emptyform");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "emptyform", true);
+			
+			referenceForm = new Form("test", new ArrayList<FormElement>());
 
-		referenceForm = new Form("test", new ArrayList<FormElement>());
-
-		assertEquals(parsedForm, referenceForm);  
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		} 
 	}
 
 	public void testOneQuestion() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "onequestion");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "onequestion", true);
 
-		InputQuestion question = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
-		List<FormElement> questions = new ArrayList<FormElement>();
-		questions.add(question);
+			InputQuestion question = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
+			List<FormElement> questions = new ArrayList<FormElement>();
+			questions.add(question);
 
-		referenceForm = new Form("test", questions);
+			referenceForm = new Form("test", questions);
 
-		assertEquals(parsedForm, referenceForm);
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		} 
 	}
 
 	public void testTwoQuestions() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "twoquestions");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "twoquestions", true);
 
-		InputQuestion question1 = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
-		InputQuestion question2 = new InputQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"), QBaseQuestionType.BOOLEAN);
+			InputQuestion question1 = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
+			InputQuestion question2 = new InputQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"), QBaseQuestionType.BOOLEAN);
 
-		List<FormElement> questions = new ArrayList<FormElement>();
-		questions.add(question1);
-		questions.add(question2);
+			List<FormElement> questions = new ArrayList<FormElement>();
+			questions.add(question1);
+			questions.add(question2);
 
-		Form referenceForm = new Form("test", questions);
+			Form referenceForm = new Form("test", questions);
 
-		assertEquals(parsedForm, referenceForm);
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 
 	public void testSimpleIfStatement() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifstatement");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "simpleifstatement", true);
 
-		NumberLiteral leftHandLiteral = new NumberLiteral(1);
-		NumberLiteral rightHandLiteral = new NumberLiteral(2);
+			NumberLiteral leftHandLiteral = new NumberLiteral(1);
+			NumberLiteral rightHandLiteral = new NumberLiteral(2);
 
-		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
+			SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
 
-		IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
+			IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
 
-		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), null);
+			ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), null);
 
-		List<FormElement> conditionalBlocks = new ArrayList<FormElement>();
+			List<FormElement> conditionalBlocks = new ArrayList<FormElement>();
 
-		conditionalBlocks.add(conditionalBlock);
+			conditionalBlocks.add(conditionalBlock);
 
-		referenceForm = new Form("test", conditionalBlocks);
+			referenceForm = new Form("test", conditionalBlocks);
 
-		assertEquals(parsedForm, referenceForm);
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 
 	public void testSimpleIfElseStatement() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsestatement");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsestatement", true);
 
-		NumberLiteral leftHandLiteral = new NumberLiteral(1);
-		NumberLiteral rightHandLiteral = new NumberLiteral(2);
+			NumberLiteral leftHandLiteral = new NumberLiteral(1);
+			NumberLiteral rightHandLiteral = new NumberLiteral(2);
 
-		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
+			SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(leftHandLiteral, rightHandLiteral);
 
-		IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
-		ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
+			IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
+			ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
 
-		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), elseThenBlock);
-		List<FormElement> formElements = new ArrayList<FormElement>();
-		formElements.add(conditionalBlock);
+			ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, new ArrayList<ElseIfThenBlock>(), elseThenBlock);
+			List<FormElement> formElements = new ArrayList<FormElement>();
+			formElements.add(conditionalBlock);
 
-		referenceForm = new Form("test", formElements);
+			referenceForm = new Form("test", formElements);
 
-		assertEquals(parsedForm, referenceForm);
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 
 	public void testSimpleIfElsifElseStatement() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsifelsestatement");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsifelsestatement", true);
 
-		NumberLiteral numberLiteral1 = new NumberLiteral(1);
-		NumberLiteral numberLiteral2 = new NumberLiteral(2);
+			NumberLiteral numberLiteral1 = new NumberLiteral(1);
+			NumberLiteral numberLiteral2 = new NumberLiteral(2);
 
-		SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(numberLiteral1, numberLiteral2);
+			SmallerThanEqualExpression smallerThanEqualExpression = new SmallerThanEqualExpression(numberLiteral1, numberLiteral2);
 
-		IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
-
-
-		NumberLiteral numberLiteral3 = new NumberLiteral(1);
-		NumberLiteral numberLiteral4 = new NumberLiteral(2);
-
-		EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
-
-		ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
+			IfThenBlock ifThenBlock = new IfThenBlock(smallerThanEqualExpression, new ArrayList<FormElement>());
 
 
-		NumberLiteral numberLiteral5 = new NumberLiteral(1);
-		NumberLiteral numberLiteral6 = new NumberLiteral(2);
+			NumberLiteral numberLiteral3 = new NumberLiteral(1);
+			NumberLiteral numberLiteral4 = new NumberLiteral(2);
 
-		GreaterThanExpression greaterThanExpression = new GreaterThanExpression(numberLiteral5, numberLiteral6);
+			EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
+
+			ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
 
 
-		ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(greaterThanExpression, new ArrayList<FormElement>());
+			NumberLiteral numberLiteral5 = new NumberLiteral(1);
+			NumberLiteral numberLiteral6 = new NumberLiteral(2);
 
-		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
-		elseIfThenBlocks.add(elseIfThen1);
-		elseIfThenBlocks.add(elseIfThen2);
+			GreaterThanExpression greaterThanExpression = new GreaterThanExpression(numberLiteral5, numberLiteral6);
 
-		ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
 
-		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
+			ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(greaterThanExpression, new ArrayList<FormElement>());
 
-		List<FormElement> formElements = new ArrayList<FormElement>(1);
-		formElements.add(conditionalBlock);
+			List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
+			elseIfThenBlocks.add(elseIfThen1);
+			elseIfThenBlocks.add(elseIfThen2);
 
-		referenceForm = new Form("test", formElements);
+			ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
 
-		assertEquals(parsedForm, referenceForm);
+			ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
+
+			List<FormElement> formElements = new ArrayList<FormElement>(1);
+			formElements.add(conditionalBlock);
+
+			referenceForm = new Form("test", formElements);
+
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 
 	public void testNestedIfElsifElseStatement() 
 	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
+		try 
+		{
+			parsedForm = produceFormFromSourceFile("form", "nestedifelsestatement", true);
 
-		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
-		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
-		OrExpression orExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
+			BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
+			BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
+			OrExpression orExpression = new OrExpression(booleanLiteral1, booleanLiteral2);
 
-		IfThenBlock ifThenBlock = new IfThenBlock(orExpression, new ArrayList<FormElement>());
-
-
-		NumberLiteral numberLiteral1 = new NumberLiteral(1);
-		NumberLiteral numberLiteral2 = new NumberLiteral(2);
-		UnEqualExpression unEqualExpression = new UnEqualExpression(numberLiteral1, numberLiteral2);
+			IfThenBlock ifThenBlock = new IfThenBlock(orExpression, new ArrayList<FormElement>());
 
 
-		IfThenBlock nestedIfThenBlock = new IfThenBlock(unEqualExpression, new ArrayList<FormElement>());
-		ElseThenBlock nestedElseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
-
-		ConditionalBlock nestedConditionBlock = new ConditionalBlock(nestedIfThenBlock, new ArrayList<ElseIfThenBlock>(), nestedElseThenBlock);
-
-		List<FormElement>nestedFormElements = new ArrayList<FormElement>();
-		nestedFormElements.add(nestedConditionBlock);
+			NumberLiteral numberLiteral1 = new NumberLiteral(1);
+			NumberLiteral numberLiteral2 = new NumberLiteral(2);
+			UnEqualExpression unEqualExpression = new UnEqualExpression(numberLiteral1, numberLiteral2);
 
 
-		BooleanLiteral booleanLiteral3 = new BooleanLiteral(false);
-		BooleanLiteral booleanLiteral4 = new BooleanLiteral(true);
-		AndExpression andExpression = new AndExpression(booleanLiteral3, booleanLiteral4);
+			IfThenBlock nestedIfThenBlock = new IfThenBlock(unEqualExpression, new ArrayList<FormElement>());
+			ElseThenBlock nestedElseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
 
-		ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(andExpression, nestedFormElements);
+			ConditionalBlock nestedConditionBlock = new ConditionalBlock(nestedIfThenBlock, new ArrayList<ElseIfThenBlock>(), nestedElseThenBlock);
 
-		NumberLiteral numberLiteral3 = new NumberLiteral(3);
-		NumberLiteral numberLiteral4 = new NumberLiteral(4);
-		EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
-
-		ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
-
-		List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
-		elseIfThenBlocks.add(elseIfThen1);
-		elseIfThenBlocks.add(elseIfThen2);
+			List<FormElement>nestedFormElements = new ArrayList<FormElement>();
+			nestedFormElements.add(nestedConditionBlock);
 
 
-		ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
+			BooleanLiteral booleanLiteral3 = new BooleanLiteral(false);
+			BooleanLiteral booleanLiteral4 = new BooleanLiteral(true);
+			AndExpression andExpression = new AndExpression(booleanLiteral3, booleanLiteral4);
 
-		ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
+			ElseIfThenBlock elseIfThen1 = new ElseIfThenBlock(andExpression, nestedFormElements);
 
-		List<FormElement> formElements = new ArrayList<FormElement>();
-		formElements.add(conditionalBlock);
+			NumberLiteral numberLiteral3 = new NumberLiteral(3);
+			NumberLiteral numberLiteral4 = new NumberLiteral(4);
+			EqualExpression equalExpression = new EqualExpression(numberLiteral3, numberLiteral4);
 
-		referenceForm = new Form("test", formElements);
+			ElseIfThenBlock elseIfThen2 = new ElseIfThenBlock(equalExpression, new ArrayList<FormElement>());
 
-		assertEquals(parsedForm, referenceForm);
-	}
+			List<ElseIfThenBlock> elseIfThenBlocks = new ArrayList<ElseIfThenBlock>();
+			elseIfThenBlocks.add(elseIfThen1);
+			elseIfThenBlocks.add(elseIfThen2);
 
-	public void testTextualComparison()
-	{
-		parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement");
+
+			ElseThenBlock elseThenBlock = new ElseThenBlock(new ArrayList<FormElement>());
+
+			ConditionalBlock conditionalBlock = new ConditionalBlock(ifThenBlock, elseIfThenBlocks, elseThenBlock);
+
+			List<FormElement> formElements = new ArrayList<FormElement>();
+			formElements.add(conditionalBlock);
+
+			referenceForm = new Form("test", formElements);
+
+			assertEquals(parsedForm, referenceForm);
+		} 
+		catch (QBaseException exception) 
+		{
+			assertTrue(false);
+		}
 	}
 }

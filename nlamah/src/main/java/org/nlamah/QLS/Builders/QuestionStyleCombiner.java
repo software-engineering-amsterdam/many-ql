@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Tools.QLSTools;
 import org.nlamah.QL.Model.Form.Form;
-import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Interfaces.QLSVisitorAbstract;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -54,7 +54,7 @@ public class QuestionStyleCombiner extends QLSVisitorAbstract
 
 	private void addStyleBlockToStyledQuestion(StyledQuestion styledQuestion)
 	{
-		QBaseQuestionType styledQuestionType = QLSHelper.getTypeForStyledQuestion(styledQuestion, form.questions());
+		QBaseQuestionType styledQuestionType = QLSTools.getTypeForStyledQuestion(styledQuestion, form.questions());
 
 		StyleBlock styleBlockToAdd = new StyleBlock(new ArrayList<StyleDeclaration>());
 
@@ -62,7 +62,7 @@ public class QuestionStyleCombiner extends QLSVisitorAbstract
 		{
 			List<DefaultBlock> defaultBlocks = styleStack.pop();
 
-			DefaultBlock defaultBlockAll = QLSHelper.findStyleDeclarationOfType(null, defaultBlocks);
+			DefaultBlock defaultBlockAll = QLSTools.findStyleDeclarationOfType(null, defaultBlocks);
 
 			if (defaultBlockAll != null)
 			{
@@ -72,7 +72,7 @@ public class QuestionStyleCombiner extends QLSVisitorAbstract
 				}
 			}
 
-			DefaultBlock defaultBlockTyped = QLSHelper.findStyleDeclarationOfType(styledQuestionType, defaultBlocks);
+			DefaultBlock defaultBlockTyped = QLSTools.findStyleDeclarationOfType(styledQuestionType, defaultBlocks);
 
 			if (defaultBlockTyped != null)
 			{

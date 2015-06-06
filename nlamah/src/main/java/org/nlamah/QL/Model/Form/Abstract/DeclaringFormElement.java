@@ -2,7 +2,7 @@ package org.nlamah.QL.Model.Form.Abstract;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 
 public abstract class DeclaringFormElement extends FormElement
 {
@@ -14,7 +14,7 @@ public abstract class DeclaringFormElement extends FormElement
 
 		this.childElements = childElements;
 
-		if (QBaseHelper.arrayExistsAndHasElements(childElements))
+		if (ArrayTools.arrayExistsAndHasElements(childElements))
 		{
 			for (FormElement childElement : childElements)
 			{

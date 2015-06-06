@@ -5,16 +5,12 @@ import java.util.List;
 import java.util.BitSet;
 
 import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.FileReadException;
-import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
 import org.nlamah.QBase.Error.ContextSensitivityError;
@@ -22,16 +18,16 @@ import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QBase.Error.SyntaxError;
-import org.nlamah.QL.QLLexer;
-import org.nlamah.QL.QLParser;
-import org.nlamah.QL.Error.QLException;
+import org.nlamah.QBase.Tools.AntlrTools;
+import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
 public class QLInterpreter implements ANTLRErrorListener 
 {	
 	private Form form;
-
+	private boolean skipTypeChecking;
+	
 	private List<QBaseWarning> warnings;
 	private List<QBaseError> errors;
 
@@ -41,57 +37,50 @@ public class QLInterpreter implements ANTLRErrorListener
 		errors = new ArrayList<QBaseError>();
 	}
 
-	public Form interprete(String sourceCodePath) throws FileReadException, QLException
+	public Form interprete(String sourceCodePath) throws QBaseException
 	{		
-		String sourceCode = QBaseHelper.getSourceCode(sourceCodePath);
-
-		ParseTree tree = this.createParseTreeFromSourceCode(sourceCode);
-
-		RawFormBuilder rawFormBuilder = new RawFormBuilder();
-
-		form = rawFormBuilder.buildForm(tree);
-
-		errors.addAll(rawFormBuilder.errors());
-
-		if (errors.size() > 0)
-		{
-			throw new QLException(null, errors);
-		}
-
-		QLTypeChecker typeChecker = new QLTypeChecker();
-
 		try 
 		{
-			typeChecker.check(form);
+			String sourceCode = SourceCodeTools.sourceCode(sourceCodePath);
+
+			ParseTree tree = AntlrTools.createFormTreeFromSourceCode(sourceCode, this);
+
+			RawFormBuilder rawFormBuilder = new RawFormBuilder();
+
+			form = rawFormBuilder.buildForm(tree);
+
+			errors.addAll(rawFormBuilder.errors());
+
+			if (errors.size() > 0)
+			{
+				throw new QBaseException(errors);
+			}
+
+			if(!skipTypeChecking)
+			{
+				QLTypeChecker typeChecker = new QLTypeChecker();
 			
-			warnings.addAll(typeChecker.warnings());
+				typeChecker.check(form);
+				
+				warnings.addAll(typeChecker.warnings());
+			}
 			
 			return form;
 		} 
-		catch (QBaseException e) 
+		catch (QBaseException exception) 
 		{
-			throw new QLException(typeChecker.warnings(), typeChecker.errors());
+			throw new QBaseException(exception.warnings(), exception.errors());
 		}
+	}
+	
+	public void skipTypeChecking()
+	{
+		skipTypeChecking = true;
 	}
 
 	public List<QBaseWarning> warnings()
 	{
 		return warnings;
-	}
-
-	private ParseTree createParseTreeFromSourceCode(String sourceCode)
-	{
-		ANTLRInputStream input = new ANTLRInputStream(sourceCode);
-
-		QLLexer lexer = new QLLexer(input);
-
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-		QLParser parser = new QLParser(tokens);
-
-		parser.addErrorListener(this);
-
-		return parser.form();
 	}
 
 	@Override

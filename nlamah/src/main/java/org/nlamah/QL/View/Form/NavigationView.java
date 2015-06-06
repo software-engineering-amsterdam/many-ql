@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 
 @SuppressWarnings("serial")
 public class NavigationView extends JPanel 
@@ -14,7 +14,7 @@ public class NavigationView extends JPanel
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		setMinimumSize(new Dimension(QLHelper.navigationViewWidth(), 1500));
-		setPreferredSize(new Dimension(QLHelper.navigationViewWidth(), 1500));
+		setMinimumSize(new Dimension(UIConstants.navigationViewWidth(), 1500));
+		setPreferredSize(new Dimension(UIConstants.navigationViewWidth(), 1500));
 	}
 }

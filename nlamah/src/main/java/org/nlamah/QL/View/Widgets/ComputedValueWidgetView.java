@@ -2,7 +2,7 @@ package org.nlamah.QL.View.Widgets;
 
 import javax.swing.JLabel;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
 @SuppressWarnings("serial")

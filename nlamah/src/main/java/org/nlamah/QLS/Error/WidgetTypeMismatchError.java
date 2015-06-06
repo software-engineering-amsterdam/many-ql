@@ -1,7 +1,7 @@
 package org.nlamah.QLS.Error;
 
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.QBaseError;
 
 public class WidgetTypeMismatchError extends QBaseError 

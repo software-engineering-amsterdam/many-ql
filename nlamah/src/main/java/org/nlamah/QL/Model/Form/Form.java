@@ -3,7 +3,7 @@ package org.nlamah.QL.Model.Form;
 import java.util.List;
 
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
-import org.nlamah.QBase.QBaseHelper;
+import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
@@ -34,7 +34,7 @@ public class Form extends DeclaringFormElement
 
 	public List<FormQuestion> questions()
 	{
-		if (!QBaseHelper.arrayExistsAndHasElements(questions))
+		if (!ArrayTools.arrayExistsAndHasElements(questions))
 		{
 			questions = new FormQuestionsCollector(this).questions();
 		}
@@ -44,7 +44,7 @@ public class Form extends DeclaringFormElement
 
 	public List<IdentifierLiteral> referencedQuestions()
 	{
-		if (!QBaseHelper.arrayExistsAndHasElements(referencedQuestions))
+		if (!ArrayTools.arrayExistsAndHasElements(referencedQuestions))
 		{
 			referencedQuestions = new ReferencedQuestionsCollector(this).questions();
 		}

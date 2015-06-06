@@ -7,7 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.UIConstants;
 
 @SuppressWarnings("serial")
 public class QBaseErrorView extends JPanel
@@ -44,8 +44,8 @@ public class QBaseErrorView extends JPanel
 		setBackground(Color.white);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		setMaximumSize(new Dimension(QLHelper.contentWidth(), 700));
-		setMinimumSize(new Dimension(QLHelper.contentWidth(),700));
-		setPreferredSize(new Dimension(QLHelper.contentWidth(),700));
+		setMaximumSize(new Dimension(UIConstants.contentWidth(), 700));
+		setMinimumSize(new Dimension(UIConstants.contentWidth(),700));
+		setPreferredSize(new Dimension(UIConstants.contentWidth(),700));
 	}
 }

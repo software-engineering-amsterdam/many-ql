@@ -1,7 +1,7 @@
 package org.nlamah.QL.Model.Form;
 
-import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;

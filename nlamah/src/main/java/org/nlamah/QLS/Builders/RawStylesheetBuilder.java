@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseHelper;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.QBaseParsingError;
+import org.nlamah.QBase.Tools.ParseTools;
+import org.nlamah.QBase.Tools.QLSTools;
+import org.nlamah.QBase.Tools.StringTools;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
@@ -26,7 +28,6 @@ import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
 import org.nlamah.QLS.QLSParser.StylesheetBlockContext;
 import org.nlamah.QLS.Error.DoublePropertyDeclarationError;
 import org.nlamah.QLS.Error.FontRecognitionError;
-import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -67,7 +68,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 	private void checkForDoublePropertyDeclarations(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations)
 	{
-		List<StyleDeclaration> foundDeclarations = QLSHelper.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
+		List<StyleDeclaration> foundDeclarations = QLSTools.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
 
 		if (foundDeclarations.size() > 0)
 		{
@@ -81,7 +82,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitStylesheet(QLSParser.StylesheetContext ctx) 
 	{ 		
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
 		List<Page> pages = new ArrayList<Page>();
 
@@ -100,7 +101,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		}
 
 		Stylesheet stylesheet = new Stylesheet(identifier, pages, defaultBlocks);
-		QBaseHelper.addSourceCodePosition(stylesheet, ctx);
+		ParseTools.addSourceCodePosition(stylesheet, ctx);
 
 		return stylesheet;
 	}
@@ -109,7 +110,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitPage(QLSParser.PageContext ctx) 
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
 		List<Section> sections = new ArrayList<Section>();
 
@@ -128,7 +129,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		}
 
 		Page page = new Page(identifier, sections, defaultBlocks);
-		QBaseHelper.addSourceCodePosition(page, ctx);
+		ParseTools.addSourceCodePosition(page, ctx);
 
 		return page;
 	}
@@ -138,7 +139,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{
 		sectionDepthLevel++;
 
-		String title = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
+		String title = StringTools.removeSurroundingQuotes(ctx.Text().getText());
 
 		List<SectionItem> sectionItems = new ArrayList<SectionItem>();
 
@@ -157,7 +158,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		}
 
 		Section section = new Section(title, sectionItems, defaultBlocks, sectionDepthLevel);
-		QBaseHelper.addSourceCodePosition(section, ctx);
+		ParseTools.addSourceCodePosition(section, ctx);
 
 		sectionDepthLevel--;
 
@@ -168,7 +169,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	public QLSNode visitStyledQuestion(QLSParser.StyledQuestionContext ctx)
 	{ 
 		IdentifierValue identifier = new IdentifierValue(ctx.Identifier().getText());
-		QBaseHelper.addSourceCodePosition(identifier, ctx);
+		ParseTools.addSourceCodePosition(identifier, ctx);
 
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 
@@ -182,11 +183,11 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		}
 
 		StyleBlock styleBlock = new StyleBlock(styleDeclarations);
-		QBaseHelper.addSourceCodePosition(styleBlock, ctx);
+		ParseTools.addSourceCodePosition(styleBlock, ctx);
 
 
 		StyledQuestion styledQuestion = new StyledQuestion(identifier, styleBlock);
-		QBaseHelper.addSourceCodePosition(styledQuestion, ctx);
+		ParseTools.addSourceCodePosition(styledQuestion, ctx);
 
 		return styledQuestion; 
 	}
@@ -222,7 +223,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		}
 
 		DefaultBlock defaultBlock = new DefaultBlock(questionType, styleDeclarations);
-		QBaseHelper.addSourceCodePosition(defaultBlock, ctx);
+		ParseTools.addSourceCodePosition(defaultBlock, ctx);
 
 		return defaultBlock;
 	}
@@ -235,7 +236,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		int numberValue = Integer.parseInt(numberValueString); 
 
 		WidthDeclaration widthDeclaration = new WidthDeclaration(numberValue);
-		QBaseHelper.addSourceCodePosition(widthDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widthDeclaration, ctx);
 
 		return widthDeclaration;
 	}
@@ -243,7 +244,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	@Override 
 	public QLSNode visitFontDeclaration(QLSParser.FontDeclarationContext ctx) 
 	{ 
-		String fontValueString = QBaseHelper.removeSurroundingQuotes(ctx.Text().getText());
+		String fontValueString = StringTools.removeSurroundingQuotes(ctx.Text().getText());
 
 		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -257,7 +258,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		Font font = Font.decode(fontValueString);
 
 		FontDeclaration fontDeclaration = new FontDeclaration(font);
-		QBaseHelper.addSourceCodePosition(fontDeclaration, ctx);
+		ParseTools.addSourceCodePosition(fontDeclaration, ctx);
 
 		return fontDeclaration; 
 	}
@@ -270,7 +271,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 		int numberValue = Integer.parseInt(numberValueString); 
 
 		FontSizeDeclaration fontSizeDeclaration = new FontSizeDeclaration(numberValue);
-		QBaseHelper.addSourceCodePosition(fontSizeDeclaration, ctx);
+		ParseTools.addSourceCodePosition(fontSizeDeclaration, ctx);
 
 		return fontSizeDeclaration;
 	}
@@ -280,12 +281,12 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
 
-		hexNumberValueString = QLSHelper.uniformHexNumberString(hexNumberValueString);
+		hexNumberValueString = QLSTools.uniformHexNumberString(hexNumberValueString);
 
 		Color color = Color.decode(hexNumberValueString);
 
 		ColorDeclaration colorDeclaration = new ColorDeclaration(color);
-		QBaseHelper.addSourceCodePosition(colorDeclaration, ctx);
+		ParseTools.addSourceCodePosition(colorDeclaration, ctx);
 
 		return colorDeclaration;
 	}
@@ -295,7 +296,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		WidgetDeclaration widgetDeclaration = (WidgetDeclaration) ctx.widgetStyle().accept(this);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration;
 	}
@@ -305,7 +306,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 		
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.CHECKBOX, QBaseQuestionType.BOOLEAN, null);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration; 
 	}
@@ -315,7 +316,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.SPINBOX, QBaseQuestionType.NUMBER, null);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration;  
 	}
@@ -327,14 +328,14 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		for (org.antlr.v4.runtime.Token contextualTextValue : ctx.answer)
 		{
-			TextLiteral answer = new TextLiteral(QBaseHelper.removeSurroundingQuotes(contextualTextValue.getText()));
-			QBaseHelper.addSourceCodePosition(answer, ctx);
+			TextLiteral answer = new TextLiteral(StringTools.removeSurroundingQuotes(contextualTextValue.getText()));
+			ParseTools.addSourceCodePosition(answer, ctx);
 			answers.put(answer, answer);
 		}
 
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.TEXT, answers);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration; 
 	}
@@ -346,17 +347,17 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		for (org.antlr.v4.runtime.Token contextualNumberValue : ctx.answer)
 		{
-			String numberValueString = QBaseHelper.removeSurroundingQuotes(contextualNumberValue.getText());
+			String numberValueString = StringTools.removeSurroundingQuotes(contextualNumberValue.getText());
 			TextLiteral answer = new TextLiteral(numberValueString);
 			NumberLiteral answerValue = new NumberLiteral(Integer.valueOf(numberValueString));
-			QBaseHelper.addSourceCodePosition(answer, ctx);
-			QBaseHelper.addSourceCodePosition(answerValue, ctx);
+			ParseTools.addSourceCodePosition(answer, ctx);
+			ParseTools.addSourceCodePosition(answerValue, ctx);
 			answers.put(answer, answerValue);
 		}
 
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.NUMBER, answers);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration; 
 	}
@@ -368,17 +369,17 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 		for (org.antlr.v4.runtime.Token contextualBooleanValue : ctx.answer)
 		{
-			String booleanValueString = QBaseHelper.removeSurroundingQuotes(contextualBooleanValue.getText());
+			String booleanValueString = StringTools.removeSurroundingQuotes(contextualBooleanValue.getText());
 			TextLiteral answer = new TextLiteral(booleanValueString);
 			BooleanLiteral answerValue = new BooleanLiteral(booleanValueString.equals("yes") ? true : false);
-			QBaseHelper.addSourceCodePosition(answer, ctx);
-			QBaseHelper.addSourceCodePosition(answerValue, ctx);
+			ParseTools.addSourceCodePosition(answer, ctx);
+			ParseTools.addSourceCodePosition(answerValue, ctx);
 			answers.put(answer, answerValue);
 		}
 
 		WidgetDeclaration widgetDeclaration = new WidgetDeclaration(WidgetTypeEnum.RADIOBUTTON, QBaseQuestionType.BOOLEAN, answers);
 
-		QBaseHelper.addSourceCodePosition(widgetDeclaration, ctx);
+		ParseTools.addSourceCodePosition(widgetDeclaration, ctx);
 
 		return widgetDeclaration; 
 	}

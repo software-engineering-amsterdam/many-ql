@@ -2,7 +2,7 @@ package org.nlamah.QL.View.Form.Abstract;
 
 import javax.swing.BoxLayout;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 

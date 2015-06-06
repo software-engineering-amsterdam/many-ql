@@ -1,10 +1,9 @@
-package org.nlamah.QLS.Helper;
+package org.nlamah.QBase.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -12,7 +11,7 @@ import org.nlamah.QLS.Model.StylesheetBlock.DefaultBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class QLSHelper 
+public class QLSTools 
 {	
 	static public List<StyledQuestion> getQuestionsWithIdentifier(List<StyledQuestion> questions, IdentifierValue identifier)
 	{
@@ -90,7 +89,7 @@ public class QLSHelper
 
 	public static QBaseQuestionType getTypeForStyledQuestion(StyledQuestion styledQuestion, List<FormQuestion> formQuestions)
 	{		
-		FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier
+		FormQuestion formQuestion = QLTools.getQuestionWithIdentifier
 				(
 						formQuestions,
 						new IdentifierLiteral(styledQuestion.identifier().toString())
@@ -112,10 +111,5 @@ public class QLSHelper
 		}
 
 		return hexNumberValueString;
-	}
-
-	public static int pageTitleBottomPadding() 
-	{
-		return 10;
 	}
 }

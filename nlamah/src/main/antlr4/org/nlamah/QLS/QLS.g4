@@ -6,7 +6,7 @@ page: 'page' Identifier '{' section* defaultBlock* '}' ;
 
 section : 'section' Text '{' stylesheetBlock* defaultBlock* '}' ;
 
-stylesheetBlock: section | styledQuestion;
+stylesheetBlock: section | styledQuestion ;
 
 styledQuestion : 'question' Identifier ('{' styleDeclaration* '}' | styleDeclaration)? ;
 
