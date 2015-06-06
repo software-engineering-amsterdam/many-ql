@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;
@@ -23,18 +24,13 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
 
-import junit.framework.TestCase;
-
-public class QLFormTest extends TestCase 
+public class QLFormTest extends QBaseTestCase 
 {
-	private Form parsedForm;
-	private Form referenceForm;
-
 	public void testEmptyForm() 
 	{	
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "emptyform", false);
+			parsedForm = produceFormFromSourceFile("form", "emptyform", false);
 			
 			referenceForm = new Form("test", new ArrayList<FormElement>());
 
@@ -50,7 +46,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "onequestion", false);
+			parsedForm = produceFormFromSourceFile("form", "onequestion", false);
 
 			InputQuestion question = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
 			List<FormElement> questions = new ArrayList<FormElement>();
@@ -70,7 +66,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "twoquestions", false);
+			parsedForm = produceFormFromSourceFile("form", "twoquestions", false);
 
 			InputQuestion question1 = new InputQuestion(new IdentifierLiteral("hasSoldHouse"), new TextLiteral("Did you sell a house in 2010?"), QBaseQuestionType.BOOLEAN);
 			InputQuestion question2 = new InputQuestion(new IdentifierLiteral("hasMaintLoan"), new TextLiteral("Did you enter a loan for maintenance/reconstruction?"), QBaseQuestionType.BOOLEAN);
@@ -93,7 +89,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifstatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifstatement", false);
 
 			NumberLiteral leftHandLiteral = new NumberLiteral(1);
 			NumberLiteral rightHandLiteral = new NumberLiteral(2);
@@ -122,7 +118,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsestatement", false);
 
 			NumberLiteral leftHandLiteral = new NumberLiteral(1);
 			NumberLiteral rightHandLiteral = new NumberLiteral(2);
@@ -150,7 +146,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "simpleifelsifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "simpleifelsifelsestatement", false);
 
 			NumberLiteral numberLiteral1 = new NumberLiteral(1);
 			NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -201,7 +197,7 @@ public class QLFormTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("form", "nestedifelsestatement", false);
+			parsedForm = produceFormFromSourceFile("form", "nestedifelsestatement", false);
 
 			BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 			BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);

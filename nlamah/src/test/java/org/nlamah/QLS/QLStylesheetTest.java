@@ -7,9 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
@@ -27,14 +26,14 @@ import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 
-public class QLStylesheetTest extends TestCase
+public class QLStylesheetTest extends QBaseTestCase
 {
 	private Stylesheet parsedStylesheet;
 	private Stylesheet referenceStylesheet;
 
 	public void testEmptyStylesheet() 
 	{	
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "emptystylesheet");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "emptystylesheet");
 
 		referenceStylesheet = new Stylesheet(new IdentifierValue("test"), new ArrayList<Page>(), new ArrayList<DefaultBlock>());
 
@@ -43,7 +42,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testOnepage()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "onepage");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "onepage");
 
 		Page page = new Page(new IdentifierValue("testpage"), new ArrayList<Section>(), new ArrayList<DefaultBlock>());
 
@@ -57,7 +56,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testOneSection()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "onesection");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "onesection");
 
 		Section section = new Section("testsection", new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
 
@@ -76,7 +75,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testOneQuestion()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "onequestion");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "onequestion");
 
 		StyledQuestion styledQuestion = new StyledQuestion(new IdentifierValue("testquestion"), new StyleBlock(new ArrayList<StyleDeclaration>()));
 
@@ -100,7 +99,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testOneWidgetQuestion()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "onewidgetquestion");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "onewidgetquestion");
 
 		WidgetDeclaration widgetDeclaration= new WidgetDeclaration(WidgetTypeEnum.CHECKBOX, QBaseQuestionType.BOOLEAN, null);
 
@@ -132,7 +131,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testdefaultBlocksSheet()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblocksheet");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblocksheet");
 
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
 
@@ -146,7 +145,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testdefaultBlocksPage()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblockpage");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblockpage");
 
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
 
@@ -165,7 +164,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testdefaultBlocksSection()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblocksection");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblocksection");
 
 		DefaultBlock defaultBlock = new DefaultBlock(QBaseQuestionType.NUMBER, new ArrayList<StyleDeclaration>());
 
@@ -189,7 +188,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testRadioButton()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "radiobutton");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "radiobutton");
 
 		Map<TextLiteral, TextLiteral> answers = new LinkedHashMap<TextLiteral, TextLiteral>();
 		TextLiteral value1 = new TextLiteral("value1");
@@ -224,7 +223,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testNestedSections()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "nestedsections");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "nestedsections");
 
 		List<SectionItem> nestedSections = new ArrayList<SectionItem>();
 		Section nestedSection1 = new Section("nestedsection1", new ArrayList<SectionItem>(), new ArrayList<DefaultBlock>());
@@ -253,7 +252,7 @@ public class QLStylesheetTest extends TestCase
 
 	public void testDefaultBlockFilled()
 	{
-		parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblockfilled");
+		parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylesheet", "defaultblockfilled");
 
 		List<StyleDeclaration> styleDeclarations = new ArrayList<StyleDeclaration>();
 

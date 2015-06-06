@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
-import org.nlamah.QL.QLTest;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -32,13 +32,11 @@ import org.nlamah.QLS.Model.Value.IdentifierValue;
 import org.nlamah.QLS.Model.Value.WidgetTypeEnum;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
-import junit.framework.TestCase;
-
-public class QLStylesheetErrorTest extends TestCase
+public class QLStylesheetErrorTest extends QBaseTestCase
 {
 	public void testIllegalFontName() 
 	{
-		ParseTree tree = QLSTest.produceParseTreeFromSourceFile("error", "illegalfontname");
+		ParseTree tree = produceQLSParseTreeFromSourceFile("error", "illegalfontname");
 
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 
@@ -55,9 +53,9 @@ public class QLStylesheetErrorTest extends TestCase
 	{
 		try 
 		{
-			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "widgettypemismatcherror", true);
+			Form parsedForm = produceFormFromSourceFile("qls/error", "widgettypemismatcherror", true);
 			
-			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
+			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "widgettypemismatcherror");
 
 			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 			
@@ -93,9 +91,9 @@ public class QLStylesheetErrorTest extends TestCase
 	{
 		try 
 		{
-			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "unstyledquestionerror", true);
+			Form parsedForm = produceFormFromSourceFile("qls/error", "unstyledquestionerror", true);
 			
-			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
+			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "unstyledquestionerror");
 
 			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 			
@@ -118,9 +116,9 @@ public class QLStylesheetErrorTest extends TestCase
 	{
 		try 
 		{
-			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledeclarationerror", true);
+			Form parsedForm = produceFormFromSourceFile("qls/error", "doubledeclarationerror", true);
 			
-			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
+			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "doubledeclarationerror");
 
 			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 			
@@ -147,9 +145,9 @@ public class QLStylesheetErrorTest extends TestCase
 	{
 		try 
 		{
-			Form parsedForm = QLTest.produceFormFromSourceFile("qls/error", "doubledefaultblockerror", true);
+			Form parsedForm = produceFormFromSourceFile("qls/error", "doubledefaultblockerror", true);
 			
-			Stylesheet parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
+			Stylesheet parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("error", "doubledefaultblockerror");
 
 			QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
 			
@@ -181,7 +179,7 @@ public class QLStylesheetErrorTest extends TestCase
 
 	public void testDoublePropertyDeclaration()
 	{
-		ParseTree tree = QLSTest.produceParseTreeFromSourceFile("error", "doublepropertydeclarationerror");
+		ParseTree tree = produceQLSParseTreeFromSourceFile("error", "doublepropertydeclarationerror");
 
 		RawStylesheetBuilder stylesheetBuilder = new RawStylesheetBuilder();
 

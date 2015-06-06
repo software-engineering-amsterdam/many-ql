@@ -3,9 +3,8 @@ package org.nlamah.QL;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Error.CyclicDependencyError;
@@ -26,13 +25,13 @@ import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
-public class QLFormErrorTest extends TestCase
+public class QLFormErrorTest extends QBaseTestCase
 {
 	public void testCyclicDependency() 
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "cyclicDependency", true);
+			produceFormFromSourceFile("error", "cyclicDependency", true);
 
 			assertTrue(false);
 		} 
@@ -53,7 +52,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "doubleDeclaration1", true);
+			produceFormFromSourceFile("error", "doubleDeclaration1", true);
 
 			assertTrue(false);
 		} 
@@ -83,7 +82,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "doubleDeclaration2", true);
+			produceFormFromSourceFile("error", "doubleDeclaration2", true);
 
 			assertTrue(false);
 		} 
@@ -113,7 +112,7 @@ public class QLFormErrorTest extends TestCase
 	{	
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "doubleDeclaration3", true);
+			produceFormFromSourceFile("error", "doubleDeclaration3", true);
 
 			assertTrue(false);
 		} 
@@ -142,7 +141,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "doubleDeclaration4", true);
+			produceFormFromSourceFile("error", "doubleDeclaration4", true);
 
 			assertTrue(false);
 		} 
@@ -177,7 +176,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "doubleDeclaration5", true);
+			produceFormFromSourceFile("error", "doubleDeclaration5", true);
 
 			assertTrue(false);
 		} 
@@ -208,7 +207,7 @@ public class QLFormErrorTest extends TestCase
 
 		try 
 		{
-			Form form = QLTest.produceFormFromSourceFile("error", "doubleQuestionText", false);
+			Form form = produceFormFromSourceFile("error", "doubleQuestionText", false);
 			
 			typeChecker.check(form);
 		} 
@@ -239,7 +238,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "expressionTypeMismatch", true);
+			produceFormFromSourceFile("error", "expressionTypeMismatch", true);
 			
 			assertTrue(false);
 		} 
@@ -259,7 +258,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "identifierTypeMismatch1", true);
+			produceFormFromSourceFile("error", "identifierTypeMismatch1", true);
 
 			assertTrue(false);
 		} 
@@ -280,7 +279,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch", true);
+			produceFormFromSourceFile("error", "identifierAndExpressionTypeMismatch", true);
 
 			assertTrue(false);
 		} 
@@ -300,7 +299,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "outOfScopeDeclaration", true);
+			produceFormFromSourceFile("error", "outOfScopeDeclaration", true);
 
 			assertTrue(false);
 		} 
@@ -321,7 +320,7 @@ public class QLFormErrorTest extends TestCase
 	{
 		try 
 		{
-			QLTest.produceFormFromSourceFile("error", "undeclaredQuestion", true);
+			produceFormFromSourceFile("error", "undeclaredQuestion", true);
 
 			assertTrue(false);
 		} 

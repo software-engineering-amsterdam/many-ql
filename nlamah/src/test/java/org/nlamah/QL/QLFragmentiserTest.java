@@ -1,25 +1,20 @@
 package org.nlamah.QL;
 
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.QLFormFragmentiser;
-import org.nlamah.QL.Model.Form.Form;
 
-import junit.framework.TestCase;
-
-public class QLFragmentiserTest extends TestCase 
+public class QLFragmentiserTest extends QBaseTestCase 
 {
-	private Form parsedForm;
-	private Form referenceForm;
-
 	public void testFragmentiser1() 
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("fragmentised", "1a", true);
+			parsedForm = produceFormFromSourceFile("fragmentised", "1a", true);
 
 			parsedForm = new QLFormFragmentiser(parsedForm).form();
 
-			referenceForm = QLTest.produceFormFromSourceFile("fragmentised", "1b", true);
+			referenceForm = produceFormFromSourceFile("fragmentised", "1b", true);
 
 			assertEquals(parsedForm, referenceForm);
 		} 

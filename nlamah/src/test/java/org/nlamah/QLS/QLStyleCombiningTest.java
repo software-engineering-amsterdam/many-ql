@@ -5,9 +5,8 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QBase.Error.QBaseException;
-import org.nlamah.QL.QLTest;
-import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.Builders.QuestionStyleCombiner;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
@@ -17,21 +16,18 @@ import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 import org.nlamah.QLS.Model.StylesheetBlock.StyleBlock;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
-import org.nlamah.QLS.Model.Value.IdentifierValue;
+import org.nlamah.QLS.Model.Value.IdentifierValue;;
 
-import junit.framework.TestCase;
-
-public class QLStyleCombiningTest extends TestCase
+public class QLStyleCombiningTest extends QBaseTestCase
 {
-	private Form parsedForm;
 	private Stylesheet parsedStylesheet;
 
 	public void testPageDefaultBlock() 
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock", true);
-			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
+			parsedForm = produceFormFromSourceFile("qls/stylecombine", "pagedefaultblock", true);
+			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "pagedefaultblock");
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -56,8 +52,8 @@ public class QLStyleCombiningTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault", true);
-			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
+			parsedForm = produceFormFromSourceFile("qls/stylecombine", "pageandsectiondefault", true);
+			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "pageandsectiondefault");
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -85,8 +81,8 @@ public class QLStyleCombiningTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "nestedsection", true);
-			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
+			parsedForm = produceFormFromSourceFile("qls/stylecombine", "nestedsection", true);
+			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "nestedsection");
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 
@@ -111,8 +107,8 @@ public class QLStyleCombiningTest extends TestCase
 	{
 		try 
 		{
-			parsedForm = QLTest.produceFormFromSourceFile("qls/stylecombine", "mixed", true);
-			parsedStylesheet = QLSTest.produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
+			parsedForm = produceFormFromSourceFile("qls/stylecombine", "mixed", true);
+			parsedStylesheet = produceStylesheetFromSourceFileWithoutForm("stylecombine", "mixed");
 
 			new QuestionStyleCombiner(parsedForm, parsedStylesheet).build();
 

@@ -1,5 +1,6 @@
 package org.nlamah.QL;
 
+import org.nlamah.QBase.QBaseTestCase;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
@@ -16,13 +17,11 @@ import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
-import junit.framework.TestCase;
-
-public class QLLogicalExpressionTest extends TestCase 
+public class QLLogicalExpressionTest extends QBaseTestCase 
 {
 	public void testBoolenLiteral1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("yes");
+		Expression parsedExpression = produceQLExpressionFromString("yes");
 
 		Expression referenceExpression = new BooleanLiteral(true);
 
@@ -33,7 +32,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testBoolenLiteral2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("no");
+		Expression parsedExpression = produceQLExpressionFromString("no");
 
 		Expression referenceExpression = new BooleanLiteral(false);
 
@@ -44,7 +43,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testAndOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("yes && no");
+		Expression parsedExpression = produceQLExpressionFromString("yes && no");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
@@ -58,7 +57,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testAndOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("yes && yes");
+		Expression parsedExpression = produceQLExpressionFromString("yes && yes");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(true);
@@ -72,7 +71,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testAndOperation3()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("no && no");
+		Expression parsedExpression = produceQLExpressionFromString("no && no");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(false);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
@@ -86,7 +85,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testOrOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("yes || no");
+		Expression parsedExpression = produceQLExpressionFromString("yes || no");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
@@ -100,7 +99,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testOrOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("no || no");
+		Expression parsedExpression = produceQLExpressionFromString("no || no");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(false);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(false);
@@ -114,7 +113,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testOrOperation3()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("yes || yes");
+		Expression parsedExpression = produceQLExpressionFromString("yes || yes");
 
 		BooleanLiteral booleanLiteral1 = new BooleanLiteral(true);
 		BooleanLiteral booleanLiteral2 = new BooleanLiteral(true);
@@ -128,7 +127,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testSmallerThanOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 < 2");
+		Expression parsedExpression = produceQLExpressionFromString("1 < 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -142,7 +141,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testSmallerThanOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("2 < 1");
+		Expression parsedExpression = produceQLExpressionFromString("2 < 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(2);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -156,7 +155,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testSmallerThanEqualOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 <= 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 <= 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -170,7 +169,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testSmallerThanEqualOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("2 <= 1");
+		Expression parsedExpression = produceQLExpressionFromString("2 <= 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(2);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -184,7 +183,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testGreaterThanOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("2 > 1");
+		Expression parsedExpression = produceQLExpressionFromString("2 > 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(2);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -198,7 +197,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testGreaterThanOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 > 2");
+		Expression parsedExpression = produceQLExpressionFromString("1 > 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -212,7 +211,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testGreaterThanOperation3()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1+2 > 3");
+		Expression parsedExpression = produceQLExpressionFromString("1+2 > 3");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -229,7 +228,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testGreaterThanEqualOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 >= 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 >= 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -243,7 +242,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testGreaterThanEqualOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 >= 2");
+		Expression parsedExpression = produceQLExpressionFromString("1 >= 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -257,7 +256,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testEqualOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 == 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 == 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -271,7 +270,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testEqualOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 == 2");
+		Expression parsedExpression = produceQLExpressionFromString("1 == 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -285,7 +284,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testEqualOperation3()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 + 2 == 3");
+		Expression parsedExpression = produceQLExpressionFromString("1 + 2 == 3");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -302,7 +301,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testEqualOperation4()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("3 == 1 + 2");
+		Expression parsedExpression = produceQLExpressionFromString("3 == 1 + 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(3);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -319,7 +318,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testEqualOperation5()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("\"hello\" == \"hello\"");
+		Expression parsedExpression = produceQLExpressionFromString("\"hello\" == \"hello\"");
 
 		TextLiteral textLiteral1 = new TextLiteral("hello");
 		TextLiteral textLiteral2 = new TextLiteral("hello");
@@ -333,7 +332,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testUnequalOperation1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 != 2");
+		Expression parsedExpression = produceQLExpressionFromString("1 != 2");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(2);
@@ -347,7 +346,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testUnequalOperation2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 != 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 != 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(1);
@@ -361,7 +360,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testUnEqualOperation3()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("\"hello\" != \"world\"");
+		Expression parsedExpression = produceQLExpressionFromString("\"hello\" != \"world\"");
 
 		TextLiteral textLiteral1 = new TextLiteral("hello");
 		TextLiteral textLiteral2 = new TextLiteral("world");
@@ -375,7 +374,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testComplexLogicalExpression1()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 + 7 > 1 || 7 - 1 >= 1 - 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 + 7 > 1 || 7 - 1 >= 1 - 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(7);
@@ -402,7 +401,7 @@ public class QLLogicalExpressionTest extends TestCase
 
 	public void testComplexLogicalExpression2()
 	{
-		Expression parsedExpression = QLTest.produceExpressionFromString("1 + 7 < 1 || 7 - 1 <= 1 - 1");
+		Expression parsedExpression = produceQLExpressionFromString("1 + 7 < 1 || 7 - 1 <= 1 - 1");
 
 		NumberLiteral numberLiteral1 = new NumberLiteral(1);
 		NumberLiteral numberLiteral2 = new NumberLiteral(7);
