@@ -1,4 +1,4 @@
-package org.nlamah.QL.Helper;
+package org.nlamah.QBase.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,8 @@ import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
-public class QLHelper 
+public class QLTools 
 {	
-	static public String surroundStringWithHtmlTags(String string)
-	{
-		return "<html>" + string + "</html>";
-	}
-
 	static public FormQuestion getQuestionWithIdentifier(List<FormQuestion> questions, IdentifierLiteral identifier)
 	{
 		for (FormQuestion question : questions)

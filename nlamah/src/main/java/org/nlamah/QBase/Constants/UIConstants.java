@@ -1,6 +1,5 @@
 package org.nlamah.QBase.Constants;
 
-import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
@@ -67,6 +66,11 @@ public class UIConstants
 		return 225;
 	}
 
+	public static int pageTitleBottomPadding() 
+	{
+		return 10;
+	}
+	
 	static public ValueExpression defaultValueForQuestionType(QBaseQuestionType type)
 	{
 		switch(type)

@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.nlamah.QBase.EqualityStating;
-import org.nlamah.QBase.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
+import org.nlamah.QBase.Interfaces.EqualityStating;
 
 public class ArrayTools 
 {

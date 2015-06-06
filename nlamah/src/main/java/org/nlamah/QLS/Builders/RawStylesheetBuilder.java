@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.QBaseParsingError;
 import org.nlamah.QBase.Tools.ParseTools;
+import org.nlamah.QBase.Tools.QLSTools;
 import org.nlamah.QBase.Tools.StringTools;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
@@ -27,7 +28,6 @@ import org.nlamah.QLS.QLSParser.StyleDeclarationContext;
 import org.nlamah.QLS.QLSParser.StylesheetBlockContext;
 import org.nlamah.QLS.Error.DoublePropertyDeclarationError;
 import org.nlamah.QLS.Error.FontRecognitionError;
-import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Abstract.StyleDeclaration;
@@ -68,7 +68,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 
 	private void checkForDoublePropertyDeclarations(StyleDeclaration styleDeclaration, List<StyleDeclaration> styleDeclarations)
 	{
-		List<StyleDeclaration> foundDeclarations = QLSHelper.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
+		List<StyleDeclaration> foundDeclarations = QLSTools.findStyleDeclarationsOfTheSameClass(styleDeclaration, styleDeclarations);
 
 		if (foundDeclarations.size() > 0)
 		{
@@ -281,7 +281,7 @@ public class RawStylesheetBuilder extends QLSBaseVisitor<QLSNode>
 	{ 
 		String hexNumberValueString = ctx.HexNumber().getText();
 
-		hexNumberValueString = QLSHelper.uniformHexNumberString(hexNumberValueString);
+		hexNumberValueString = QLSTools.uniformHexNumberString(hexNumberValueString);
 
 		Color color = Color.decode(hexNumberValueString);
 

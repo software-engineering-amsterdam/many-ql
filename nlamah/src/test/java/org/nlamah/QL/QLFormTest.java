@@ -3,8 +3,8 @@ package org.nlamah.QL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.QBaseTestCase;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Model.Expression.Binary.AndExpression;
 import org.nlamah.QL.Model.Expression.Binary.EqualExpression;

@@ -7,7 +7,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;

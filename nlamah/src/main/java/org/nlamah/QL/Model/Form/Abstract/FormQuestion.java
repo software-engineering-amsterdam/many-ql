@@ -2,10 +2,10 @@ package org.nlamah.QL.Model.Form.Abstract;
 
 import java.util.Stack;
 
-import org.nlamah.QBase.EqualityStating;
-import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
+import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;

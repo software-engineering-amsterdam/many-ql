@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.nlamah.QBase.QBaseEqualityState;
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
@@ -13,10 +11,12 @@ import org.nlamah.QL.Error.QLDoubleDeclarationError;
 import org.nlamah.QL.Error.DoubleQuestionLabelWarning;
 import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Tools.ArrayTools;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Tools.QLTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 
 public class QLTypeChecker extends QBaseAbstractTypeChecker 
 {
@@ -44,7 +44,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 		{
 			for (FormQuestion duplicateQuestion : set)
 			{
-				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLHelper.getQuestionsWithIdentifier(form.questions(), duplicateQuestion.identifier())));
+				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLTools.getQuestionsWithIdentifier(form.questions(), duplicateQuestion.identifier())));
 			}
 		}
 		
@@ -55,7 +55,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	{
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{
-			if (QLHelper.getQuestionsWithIdentifier(form.questions(), identifier).size() == 0)
+			if (QLTools.getQuestionsWithIdentifier(form.questions(), identifier).size() == 0)
 			{
 				errors.add(new UndeclaredFormQuestionError(identifier));
 			}
@@ -76,7 +76,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void questionIsDeclaredBeforeReferredTo(IdentifierLiteral identifier, Form form) throws QBaseException
 	{
-		FormQuestion foundDeclaration = QLHelper.getQuestionWithIdentifier(form.questions(), identifier);
+		FormQuestion foundDeclaration = QLTools.getQuestionWithIdentifier(form.questions(), identifier);
 
 		if (identifier.startsOnLine < foundDeclaration.startsOnLine)
 		{
@@ -110,7 +110,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	{
 		for (IdentifierLiteral identifier : form.referencedQuestions())
 		{
-			identifier.setCorrespondingQuestion(QLHelper.getQuestionWithIdentifier(form.questions(), identifier));
+			identifier.setCorrespondingQuestion(QLTools.getQuestionWithIdentifier(form.questions(), identifier));
 		}
 	}
 
@@ -145,7 +145,7 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 		{
 			for (FormQuestion question : set)
 			{
-				warnings.add(new DoubleQuestionLabelWarning(QLHelper.getQuestionsWithQuestionText(form.questions(), question.questionText())));
+				warnings.add(new DoubleQuestionLabelWarning(QLTools.getQuestionsWithQuestionText(form.questions(), question.questionText())));
 			}
 		}
 	}

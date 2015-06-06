@@ -1,4 +1,4 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.List;

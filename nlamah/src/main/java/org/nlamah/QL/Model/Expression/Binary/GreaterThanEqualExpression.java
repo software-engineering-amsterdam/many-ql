@@ -1,6 +1,6 @@
 package org.nlamah.QL.Model.Expression.Binary;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryLogicalExpression;

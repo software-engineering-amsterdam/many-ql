@@ -1,12 +1,9 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Error;
 
 import java.util.List;
 
 import javax.swing.JFrame;
 
-import org.nlamah.QBase.Error.QBaseError;
-import org.nlamah.QBase.Error.QBaseErrorView;
-import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QBase.Tools.StringTools;
 

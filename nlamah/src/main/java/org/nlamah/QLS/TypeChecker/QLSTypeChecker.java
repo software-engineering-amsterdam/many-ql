@@ -3,18 +3,18 @@ package org.nlamah.QLS.TypeChecker;
 import java.util.List;
 import java.util.Set;
 
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
-import org.nlamah.QBase.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.Tools.QLSTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QLS.Error.QLSDoubleDeclarationError;
 import org.nlamah.QLS.Error.UnStyledFormQuestionError;
-import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Model.StylesheetBlock.StyledQuestion;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 
@@ -42,7 +42,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	{		
 		for (FormQuestion formQuestion : form.questions())
 		{
-			if (!QLSHelper.questionIsStyled(formQuestion, stylesheet.questions()))
+			if (!QLSTools.questionIsStyled(formQuestion, stylesheet.questions()))
 			{
 				errors.add(new UnStyledFormQuestionError(formQuestion.identifier()));
 			}	
@@ -55,7 +55,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 	{
 		for (StyledQuestion styledQuestion : stylesheet.questions())
 		{
-			if (!QLSHelper.doesStyledQuestionExistInForm(styledQuestion, form.questions()))
+			if (!QLSTools.doesStyledQuestionExistInForm(styledQuestion, form.questions()))
 			{
 				errors.add(new UndeclaredFormQuestionError(new IdentifierLiteral(styledQuestion.identifier().toString())));
 			}
@@ -72,7 +72,7 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 		{
 			for (StyledQuestion styledQuestion : set)
 			{
-				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSHelper.getQuestionsWithIdentifier(stylesheet.questions(), styledQuestion.identifier())));
+				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSTools.getQuestionsWithIdentifier(stylesheet.questions(), styledQuestion.identifier())));
 			}
 		}
 

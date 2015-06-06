@@ -2,13 +2,13 @@ package org.nlamah.QLS.TypeChecker;
 
 import java.util.List;
 
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Tools.QLSTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.TypeChecker.FormQuestionsCollector;
 import org.nlamah.QLS.Error.WidgetTypeMismatchError;
-import org.nlamah.QLS.Helper.QLSHelper;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Declaration.ColorDeclaration;
@@ -79,7 +79,7 @@ public class WidgetTypeChecker extends QBaseAbstractTypeChecker implements QLSNo
 	@Override
 	public QLSNode visit(StyledQuestion styledQuestion) 
 	{		
-		QBaseQuestionType formQuestionType = QLSHelper.getTypeForStyledQuestion(styledQuestion, formQuestions);
+		QBaseQuestionType formQuestionType = QLSTools.getTypeForStyledQuestion(styledQuestion, formQuestions);
 
 		if (formQuestionType != currentWidgetDeclaration.returnType())
 		{

@@ -1,9 +1,9 @@
 package org.nlamah.QL.TypeChecker;
 
-import org.nlamah.QBase.QBaseQuestionType;
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.ExpressionTypeMismatchError;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryExpression;
 import org.nlamah.QL.Model.Expression.Abstract.EqualityExpression;

@@ -2,8 +2,8 @@ package org.nlamah.QLS.Model.StylesheetBlock;
 
 import java.util.Stack;
 
-import org.nlamah.QBase.EqualityStating;
-import org.nlamah.QBase.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
+import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;

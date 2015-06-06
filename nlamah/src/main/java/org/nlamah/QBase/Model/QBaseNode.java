@@ -1,4 +1,4 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Model;
 
 public abstract class QBaseNode
 {

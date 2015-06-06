@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.text.View;
 
 import org.nlamah.QBase.Constants.UIConstants;
-import org.nlamah.QL.Helper.QLHelper;
+import org.nlamah.QBase.Tools.StringTools;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 @SuppressWarnings("serial")
@@ -45,7 +45,7 @@ public class QuestionView extends FormElementView
 
 	private void fillInQuestionString(String questionString)
 	{
-		questionLabel.setText(QLHelper.surroundStringWithHtmlTags(questionString));
+		questionLabel.setText(StringTools.surroundStringWithHtmlTags(questionString));
 
 		layoutView();
 	}

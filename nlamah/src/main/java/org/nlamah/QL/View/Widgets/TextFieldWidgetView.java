@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;

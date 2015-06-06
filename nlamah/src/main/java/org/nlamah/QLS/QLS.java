@@ -2,9 +2,9 @@ package org.nlamah.QLS;
 
 import javax.swing.SwingUtilities;
 
-import org.nlamah.QBase.FormFactory;
-import org.nlamah.QBase.Language;
-import org.nlamah.QBase.QBaseErrorViewController;
+import org.nlamah.QBase.Builders.FormFactory;
+import org.nlamah.QBase.Constants.Language;
+import org.nlamah.QBase.Error.QBaseErrorViewController;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QBase.Tools.SourceCodeTools;
 import org.nlamah.QL.Model.Form.Form;

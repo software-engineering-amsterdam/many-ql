@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;

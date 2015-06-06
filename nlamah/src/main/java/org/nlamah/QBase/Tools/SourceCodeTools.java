@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.nlamah.QBase.FileReadException;
-import org.nlamah.QBase.Language;
+import org.nlamah.QBase.Constants.Language;
 import org.nlamah.QBase.Constants.UriConstants;
+import org.nlamah.QBase.Error.FileReadException;
 import org.nlamah.QBase.Error.QBaseError;
 
 public class SourceCodeTools 

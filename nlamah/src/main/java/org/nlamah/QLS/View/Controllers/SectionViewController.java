@@ -3,8 +3,8 @@ package org.nlamah.QLS.View.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nlamah.QBase.Tools.QLTools;
 import org.nlamah.QL.Builders.FragmentedFormElementFinder;
-import org.nlamah.QL.Helper.QLHelper;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
@@ -51,7 +51,7 @@ public class SectionViewController extends StylesheetViewController
 			{
 				StyledQuestion styledQuestion = (StyledQuestion) sectionItem;
 
-				FormQuestion formQuestion = QLHelper.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
+				FormQuestion formQuestion = QLTools.getQuestionWithIdentifier(form.questions(), new IdentifierLiteral(styledQuestion.identifier().toString()));
 
 				FragmentedFormElementFinder fragmentedFormElementFinder = new FragmentedFormElementFinder();
 

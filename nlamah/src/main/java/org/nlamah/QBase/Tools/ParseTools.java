@@ -1,7 +1,7 @@
 package org.nlamah.QBase.Tools;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.nlamah.QBase.QBaseNode;
+import org.nlamah.QBase.Model.QBaseNode;
 
 public class ParseTools 
 {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Tools.ParseTools;

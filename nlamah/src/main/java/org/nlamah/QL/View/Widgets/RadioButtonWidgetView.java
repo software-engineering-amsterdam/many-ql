@@ -11,7 +11,7 @@ import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-import org.nlamah.QBase.QBaseQuestionType;
+import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;

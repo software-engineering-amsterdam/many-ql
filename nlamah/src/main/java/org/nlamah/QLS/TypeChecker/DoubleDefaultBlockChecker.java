@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.nlamah.QBase.QBaseAbstractTypeChecker;
-import org.nlamah.QBase.QBaseEqualityState;
+import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Tools.ArrayTools;
+import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QLS.Error.DoubleDefaultBlockError;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;

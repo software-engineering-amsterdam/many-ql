@@ -1,4 +1,6 @@
-package org.nlamah.QBase;
+package org.nlamah.QBase.Interfaces;
+
+import org.nlamah.QBase.Constants.QBaseEqualityState;
 
 public interface EqualityStating 
 {
