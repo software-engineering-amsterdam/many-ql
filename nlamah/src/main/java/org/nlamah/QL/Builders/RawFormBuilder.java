@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.QBaseQuestionType;
 import org.nlamah.QBase.Error.EnumRecognitionError;
-import org.nlamah.QBase.Error.QBaseParsingError;
+import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QL.QLBaseVisitor;
 import org.nlamah.QL.QLParser;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
@@ -43,11 +43,11 @@ import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class RawFormBuilder extends QLBaseVisitor<QLNode> 
 {	
-	private List<QBaseParsingError> errors;
+	private List<QBaseError> errors;
 
 	public RawFormBuilder()
 	{
-		errors = new ArrayList<QBaseParsingError>();
+		errors = new ArrayList<QBaseError>();
 	}
 
 	public Form buildForm(ParseTree tree)
@@ -55,7 +55,7 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		return (Form) tree.accept(this);
 	}
 
-	public List<QBaseParsingError> errors()
+	public List<QBaseError> errors()
 	{
 		return this.errors;
 	}
@@ -100,6 +100,10 @@ public class RawFormBuilder extends QLBaseVisitor<QLNode>
 		catch(Exception ex) 
 		{
 			errors.add(new EnumRecognitionError(type, ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine()));
+		}
+		finally
+		{
+			
 		}
 
 		Expression expression = (Expression) ctx.expression().accept(this);

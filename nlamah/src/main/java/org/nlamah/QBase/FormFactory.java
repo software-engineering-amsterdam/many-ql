@@ -3,7 +3,6 @@ package org.nlamah.QBase;
 import org.nlamah.QBase.Error.QBaseException;
 import org.nlamah.QL.Builders.QLFormFragmentiser;
 import org.nlamah.QL.Builders.QLInterpreter;
-import org.nlamah.QL.Error.QLException;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
@@ -48,7 +47,7 @@ public class FormFactory
 		return form;
 	}
 	
-	private Form createBaseForm(String qlSourceCodePath) throws FileReadException, QLException
+	private Form createBaseForm(String qlSourceCodePath) throws QBaseException
 	{
 		QLInterpreter qlInterpreter = new QLInterpreter();
 		

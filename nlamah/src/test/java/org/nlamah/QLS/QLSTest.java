@@ -29,9 +29,9 @@ public class QLSTest extends QLTest
 	{
 		try 
 		{
-			String qlSourceCode = QBaseHelper.qlsSourceCodeTestForFolderAndFileName(folder, fileName);
+			String qlsSourceCode = QBaseHelper.qlsSourceCodeTestForFolderAndFileName(folder, fileName);
 
-			ANTLRInputStream input = new ANTLRInputStream(qlSourceCode);
+			ANTLRInputStream input = new ANTLRInputStream(qlsSourceCode);
 
 			QLSLexer lexer = new QLSLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);

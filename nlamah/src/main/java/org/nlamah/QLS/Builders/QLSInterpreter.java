@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
@@ -24,7 +23,6 @@ import org.nlamah.QBase.Error.SyntaxError;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QLS.QLSLexer;
 import org.nlamah.QLS.QLSParser;
-import org.nlamah.QLS.Error.QLSException;
 import org.nlamah.QLS.Model.StylesheetBlock.Stylesheet;
 import org.nlamah.QLS.TypeChecker.QLSTypeChecker;
 
@@ -37,7 +35,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		errors = new ArrayList<QBaseError>();
 	}
 
-	public Stylesheet interprete(String qlsFileName, Form form) throws FileReadException, QLSException
+	public Stylesheet interprete(String qlsFileName, Form form) throws QBaseException
 	{
 		String qlsSourceCode;
 
@@ -47,7 +45,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		if (errors.size() > 0)
 		{
-			throw new QLSException(errors);
+			throw new QBaseException(errors);
 		}
 
 		RawStylesheetBuilder rawStylesheetBuilder = new RawStylesheetBuilder();
@@ -57,7 +55,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 
 		if (errors.size() > 0)
 		{
-			throw new QLSException(errors);
+			throw new QBaseException(errors);
 		}
 
 		QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
@@ -68,7 +66,7 @@ public class QLSInterpreter implements ANTLRErrorListener
 		} 
 		catch (QBaseException e) 
 		{
-			throw new QLSException(qlsTypeChecker.errors());
+			throw new QBaseException(qlsTypeChecker.errors());
 		}
 
 		new QuestionStyleCombiner(form, stylesheet).build();

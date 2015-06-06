@@ -2,27 +2,27 @@ package org.nlamah.QBase;
 
 public class Constants 
 {
-	static public String baseUri()
+	static protected String baseUri()
 	{
 		return System.getProperty("user.dir");
 	}
 	
-	static public String defaultUriSourceQL()
+	static protected String defaultUriSourceQL()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QL/source.ql";
 	}
 	
-	static public String defaultUriSourceQLS()
+	static protected String defaultUriSourceQLS()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QLS/stylesheet.qls";
 	}
 	
-	static public String defaultUriSourceQLTestRoot()
+	static protected String defaultUriSourceQLTestRoot()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QL/test/";
 	}
 	
-	static public String defaultUriSourceQLSTestRoot()
+	static protected String defaultUriSourceQLSTestRoot()
 	{
 		return baseUri() + "/target/classes/org/nlamah/QLS/test/";
 	}

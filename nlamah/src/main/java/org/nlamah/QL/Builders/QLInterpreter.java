@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.nlamah.QBase.FileReadException;
 import org.nlamah.QBase.QBaseHelper;
 import org.nlamah.QBase.Error.AmbiguityError;
 import org.nlamah.QBase.Error.AttemptingFullContextError;
@@ -24,7 +23,6 @@ import org.nlamah.QBase.Error.QBaseWarning;
 import org.nlamah.QBase.Error.SyntaxError;
 import org.nlamah.QL.QLLexer;
 import org.nlamah.QL.QLParser;
-import org.nlamah.QL.Error.QLException;
 import org.nlamah.QL.Model.Form.Form;
 import org.nlamah.QL.TypeChecker.QLTypeChecker;
 
@@ -41,7 +39,7 @@ public class QLInterpreter implements ANTLRErrorListener
 		errors = new ArrayList<QBaseError>();
 	}
 
-	public Form interprete(String sourceCodePath) throws FileReadException, QLException
+	public Form interprete(String sourceCodePath) throws QBaseException
 	{		
 		try 
 		{
@@ -57,7 +55,7 @@ public class QLInterpreter implements ANTLRErrorListener
 
 			if (errors.size() > 0)
 			{
-				throw new QLException(null, errors);
+				throw new QBaseException(null, errors);
 			}
 
 			QLTypeChecker typeChecker = new QLTypeChecker();
@@ -70,7 +68,7 @@ public class QLInterpreter implements ANTLRErrorListener
 		} 
 		catch (QBaseException exception) 
 		{
-			throw new QLException(exception.warnings(), exception.errors());
+			throw new QBaseException(exception.warnings(), exception.errors());
 		}
 	}
 
