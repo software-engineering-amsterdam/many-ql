@@ -7,7 +7,7 @@ import org.nlamah.QL.Model.Expression.Binary.AddExpression;
 import org.nlamah.QL.Model.Expression.Binary.DivideExpression;
 import org.nlamah.QL.Model.Expression.Binary.MultiplyExpression;
 import org.nlamah.QL.Model.Expression.Binary.SubtractExpression;
-import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
+import org.nlamah.QL.Model.Expression.Evaluation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 
 public class QLComputationalExpressionTest extends QBaseTestCase 

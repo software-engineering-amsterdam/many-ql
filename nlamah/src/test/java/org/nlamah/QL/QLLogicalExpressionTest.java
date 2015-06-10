@@ -13,7 +13,7 @@ import org.nlamah.QL.Model.Expression.Binary.SmallerThanEqualExpression;
 import org.nlamah.QL.Model.Expression.Binary.SmallerThanExpression;
 import org.nlamah.QL.Model.Expression.Binary.SubtractExpression;
 import org.nlamah.QL.Model.Expression.Binary.UnEqualExpression;
-import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
+import org.nlamah.QL.Model.Expression.Evaluation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.Model.Expression.Literal.NumberLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;

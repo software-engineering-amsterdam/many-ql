@@ -7,7 +7,7 @@ import org.nlamah.QL.Interfaces.QLFormElementVisitor;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
-import org.nlamah.QL.Model.Expression.Evalutation.ExpressionEvaluator;
+import org.nlamah.QL.Model.Expression.Evaluation.ExpressionEvaluator;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
@@ -33,9 +33,9 @@ public class ComputedQuestion extends FormQuestion
 	@Override
 	public ValueExpression value() 
 	{
-		ExpressionEvaluator evalution = new ExpressionEvaluator();
+		ExpressionEvaluator evaluation = new ExpressionEvaluator();
 
-		return (ValueExpression) expression.accept(evalution);
+		return (ValueExpression) expression.accept(evaluation);
 	}
 
 	@Override 

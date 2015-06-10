@@ -49,7 +49,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 		identifier.accept(this);
 	}
 
-	private FormQuestion IsIdentifierDeclaredHere(List<FormElement> childElements) 
+	private FormQuestion isIdentifierDeclaredHere(List<FormElement> childElements) 
 	{	
 		FormQuestion declaredQuestion = null;
 
@@ -200,7 +200,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(ElseIfThenBlock elseIfThenBlock) 
 	{
-		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(elseIfThenBlock.childElements());
+		FormQuestion declaredQuestion = isIdentifierDeclaredHere(elseIfThenBlock.childElements());
 
 		if (declaredQuestion != null)
 		{
@@ -213,7 +213,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(ElseThenBlock elseThenBlock) 
 	{	
-		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(elseThenBlock.childElements());
+		FormQuestion declaredQuestion = isIdentifierDeclaredHere(elseThenBlock.childElements());
 
 		if (declaredQuestion != null)
 		{
@@ -226,7 +226,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(Form form) 
 	{
-		FormQuestion declaredQuestion =  IsIdentifierDeclaredHere(form.childElements());
+		FormQuestion declaredQuestion =  isIdentifierDeclaredHere(form.childElements());
 
 		if (declaredQuestion == null)
 		{
@@ -243,7 +243,7 @@ public class OutOfScopeDeclarationChecker extends QBaseAbstractTypeChecker imple
 	@Override
 	public QLNode visit(IfThenBlock ifThenBlock) 
 	{
-		FormQuestion declaredQuestion = IsIdentifierDeclaredHere(ifThenBlock.childElements());
+		FormQuestion declaredQuestion = isIdentifierDeclaredHere(ifThenBlock.childElements());
 
 		if (declaredQuestion != null)
 		{	

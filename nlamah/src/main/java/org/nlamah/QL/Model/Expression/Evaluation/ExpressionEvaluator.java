@@ -1,4 +1,4 @@
-package org.nlamah.QL.Model.Expression.Evalutation;
+package org.nlamah.QL.Model.Expression.Evaluation;
 
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
