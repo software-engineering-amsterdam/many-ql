@@ -4,6 +4,7 @@ import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Interfaces.QLFormElementViewControllerVisitor;
 import org.nlamah.QL.Interfaces.WidgetViewDelegate;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
+import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 import org.nlamah.QL.View.Controllers.Abstract.FormElementViewController;
 import org.nlamah.QL.View.Form.Abstract.QuestionView;
@@ -49,7 +50,7 @@ public class QuestionViewController extends FormElementViewController implements
 	{
 		FormQuestion question = (FormQuestion) modelElement;
 
-		question.setValue(newValue);
+		((InputQuestion) question).setValue(newValue);
 
 		rootViewController.modelStateChanged();
 	}

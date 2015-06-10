@@ -4,7 +4,6 @@ import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
-import org.nlamah.QL.Model.Form.ComputedQuestion;
 import org.nlamah.QL.Model.Form.Abstract.FormQuestion;
 
 public class IdentifierLiteral extends ValueExpression 
@@ -44,18 +43,6 @@ public class IdentifierLiteral extends ValueExpression
 		}
 
 		return correspondingQuestion.returnType();
-	}
-
-	public ValueExpression representedValue()
-	{
-		if (correspondingQuestion instanceof ComputedQuestion)
-		{
-			ComputedQuestion question = (ComputedQuestion) correspondingQuestion;
-
-			return question.computedValue();
-		}
-
-		return correspondingQuestion.value();
 	}
 
 	@Override

@@ -69,8 +69,8 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(EqualExpression expression)
 	{
-		ValueExpression leftHandLiteral = (ValueExpression)expression.leftHandExpression().accept(this);
-		ValueExpression rightHandLiteral = (ValueExpression)expression.rightHandExpression().accept(this);
+		ValueExpression leftHandLiteral = (ValueExpression) expression.leftHandExpression().accept(this);
+		ValueExpression rightHandLiteral = (ValueExpression) expression.rightHandExpression().accept(this);
 
 		boolean areEqual = leftHandLiteral.equals(rightHandLiteral);
 
@@ -199,7 +199,7 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(IdentifierLiteral identifierLiteral) 
 	{
-		return identifierLiteral.representedValue();
+		return identifierLiteral.correspondingQuestion().value();
 	}
 
 	@Override
@@ -258,6 +258,6 @@ public class ExpressionEvaluator implements QLNodeVisitor
 	@Override
 	public ValueExpression visit(ComputedQuestion computedQuestion) 
 	{
-		return computedQuestion.computedValue();
+		return computedQuestion.value();
 	}
 }

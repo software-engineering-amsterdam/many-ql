@@ -90,6 +90,7 @@ public class QLComputationalExpressionTest extends QBaseTestCase
 		assertEquals(parsedExpression.accept(new ExpressionEvaluator()), new NumberLiteral(1));
 	}
 
+	
 	public void testComplexParenthese()
 	{	
 		Expression parsedExpression = AntlrTools.createQLExpressionFromString("(1+2)/(3-4) + (50 * (13/13))");

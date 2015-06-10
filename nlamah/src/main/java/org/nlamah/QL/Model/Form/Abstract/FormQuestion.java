@@ -4,7 +4,6 @@ import java.util.Stack;
 
 import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Constants.QBaseQuestionType;
-import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
@@ -14,7 +13,6 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 {
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
-	private ValueExpression value;
 
 	protected Stack<QBaseEqualityState> equalityStateStack;
 
@@ -24,8 +22,6 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 
 		this.questionText = questionString;
 		this.type = type;
-
-		value = UIConstants.defaultValueForQuestionType(type);
 
 		equalityStateStack = new Stack<QBaseEqualityState>();
 		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
@@ -51,15 +47,7 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 		return questionText;
 	}
 
-	public ValueExpression value()
-	{
-		return value;
-	}
-
-	public void setValue(ValueExpression value)
-	{
-		this.value = value;
-	}
+	public abstract ValueExpression value();
 
 	@Override 
 	public boolean equals(Object object) 

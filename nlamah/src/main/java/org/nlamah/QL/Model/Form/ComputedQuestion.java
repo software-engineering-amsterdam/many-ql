@@ -30,7 +30,8 @@ public class ComputedQuestion extends FormQuestion
 		return expression;
 	}
 
-	public ValueExpression computedValue() 
+	@Override
+	public ValueExpression value() 
 	{
 		ExpressionEvaluator evalution = new ExpressionEvaluator();
 
