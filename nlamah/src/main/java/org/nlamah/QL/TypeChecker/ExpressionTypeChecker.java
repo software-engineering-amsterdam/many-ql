@@ -6,7 +6,7 @@ import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Interfaces.QLNodeVisitor;
 import org.nlamah.QL.Model.Expression.Abstract.BinaryExpression;
-import org.nlamah.QL.Model.Expression.Abstract.EqualityExpression;
+import org.nlamah.QL.Model.Expression.Abstract.BinaryLogicalExpression;
 import org.nlamah.QL.Model.Expression.Abstract.Expression;
 import org.nlamah.QL.Model.Expression.Abstract.UnaryExpression;
 import org.nlamah.QL.Model.Expression.Binary.AddExpression;
@@ -45,7 +45,7 @@ public class ExpressionTypeChecker extends QBaseAbstractTypeChecker implements Q
 		form.accept(this);
 	}
 
-	private void checkForErrorInEqualityExpression(EqualityExpression expression)
+	private void checkForErrorInEqualityExpression(BinaryLogicalExpression expression)
 	{
 		Expression leftHandExpression = (Expression) expression.leftHandExpression().accept(this);
 		Expression rightHandExpression = (Expression) expression.rightHandExpression().accept(this);
