@@ -27,6 +27,12 @@ public class QLParseTreeListener extends QLBaseListener {
     private Stack<Evaluable> expressions = new Stack<>();
     private Map<String, Primitive> identifiers = new HashMap<>();
 
+    private AST<QLNode> ast = null;
+
+    public AST<QLNode> getAST(){
+        return ast;
+}
+
     @Override
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
         String identifier = ctx.identifier.toString().replace("\"","");
@@ -36,24 +42,25 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-
+        ast = new AST(nodeStack.pop(), identifiers);
     }
 
     @Override
     public void enterForm(QLParser.FormContext ctx) {
-        String identifier = ctx.identifier.toString().replace("\"","");
+        String identifier = ctx.identifier.getText().replace("\"", "");
         Form form =  new Form(identifier, ctx.start.getLine());
         nodeStack.push(form);
     }
 
     @Override
     public void exitForm(QLParser.FormContext ctx) {
-
+        Form f = (Form) nodeStack.pop();
+        nodeStack.peek().addChild(f);
     }
 
     @Override
     public void enterQuestion(QLParser.QuestionContext ctx) {
-        String identifier = ctx.identifier.toString().replace("\"","");
+        String identifier = ctx.identifier.getText().replace("\"","");
         identifiersStack.push(identifier);
         Question question =  new Question(identifier, ctx.start.getLine());
         nodeStack.push(question);
@@ -61,7 +68,8 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitQuestion(QLParser.QuestionContext ctx) {
-
+        Question q = (Question) nodeStack.pop();
+        nodeStack.peek().addChild(q);
     }
 
     @Override
@@ -228,12 +236,15 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitVariable(QLParser.VariableContext ctx) {
+        /*
         String identifier = ctx.identifier.toString().replace("\"","");
         nodeStack.push(new Variable(identifier, ctx.start.getLine()));
+        */
     }
 
     @Override
     public void exitPrimitive(QLParser.PrimitiveContext ctx) {
+        /*
         switch(ctx.value.getType()){
             case QLParser.STRING:
                 expressions.push(new StringPrimitive(ctx.value.toString().replace("\"","")));
@@ -242,37 +253,38 @@ public class QLParseTreeListener extends QLBaseListener {
                 expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.toString())));
                 break;
         }
+        */
     }
 
     @Override
     public void exitArithmeticExpression(QLParser.ArithmeticExpressionContext ctx) {
-        if(ctx.operator != null)
-        {
+        /*
+        if(ctx.operator != null) {
             BinaryExpression expression = null;
             Evaluable right = expressions.pop();
             Evaluable left = expressions.pop();
 
-            switch(ctx.operator.getType()){
+            switch (ctx.operator.getType()) {
                 case QLParser.ADDITION:
-                    expression = new Addition(left,right);
+                    expression = new Addition(left, right);
                     break;
                 case QLParser.SUBTRACTION:
-                    expression = new Subtraction(left,right);
+                    expression = new Subtraction(left, right);
                     break;
                 case QLParser.MULTIPLICATION:
-                    expression = new Multiplication(left,right);
+                    expression = new Multiplication(left, right);
                     break;
                 case QLParser.DIVISION:
-                    expression = new Division(left,right);
+                    expression = new Division(left, right);
                     break;
             }
             this.expressions.push(expression);
-        }
+        }*/
     }
 
     @Override
     public void exitLogicalExpression(QLParser.LogicalExpressionContext ctx) {
-
+        /*
         if(ctx.operator != null)
         {
             BinaryExpression expression = null;
@@ -307,5 +319,6 @@ public class QLParseTreeListener extends QLBaseListener {
             }
             this.expressions.push(expression);
         }
+         */
     }
 }

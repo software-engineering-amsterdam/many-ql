@@ -22,6 +22,8 @@
 
 .formHeader {
     -fx-text-alignment: center;
+    -fx-translate-x: 10;
+    -fx-translate-y: 10;
     -fx-font-size: 150%;
     -fx-font-weight: bold;
     -fx-font-style: italic;

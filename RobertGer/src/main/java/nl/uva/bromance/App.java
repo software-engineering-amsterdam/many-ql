@@ -5,12 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import nl.uva.bromance.QL.ast.QLParseTreeListener;
+import nl.uva.bromance.QL.gui.QLGUI;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 import javax.swing.*;
@@ -35,6 +38,9 @@ public class App extends Application {
         TokenStream tokenStream = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokenStream);
         ParseTree tree = parser.questionnaire();
+        QLParseTreeListener qlListener = new QLParseTreeListener();
+        ParseTreeWalker qlWalker = new ParseTreeWalker();
+        qlWalker.walk(qlListener, tree);
 
         //show AST in console
         System.out.println(tree.toStringTree(parser));
@@ -52,9 +58,16 @@ public class App extends Application {
         frame.setSize(1000, 1000);
         frame.setVisible(true);
 
-        /*this.stage = primaryStage;
+        String stylesheets = this.getClass().getResource("style.css").toExternalForm();
+
+        QLGUI gui = new QLGUI(primaryStage,stylesheets,qlListener.getAST());
+        gui.render();
+
+        /*
+        this.stage = primaryStage;
         createBaseView();
         stage.setScene(scene);
-        stage.show();*/
+        stage.show();
+        */
     }
 }
