@@ -32,7 +32,7 @@ public class QLGUI {
         VBox rootBox = new VBox();
         questionArea = new VBox();
 
-        Scene scene = new Scene(rootBox, 400, 800);
+        Scene scene = new Scene(rootBox, 650, 800);
 
         MenuBar menuBar = createMenuBar();
 

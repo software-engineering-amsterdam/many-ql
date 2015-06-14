@@ -28,3 +28,8 @@
     -fx-font-weight: bold;
     -fx-font-style: italic;
 }
+
+.question {
+    -fx-translate-x: 10;
+    -fx-translate-y: 10;
+}

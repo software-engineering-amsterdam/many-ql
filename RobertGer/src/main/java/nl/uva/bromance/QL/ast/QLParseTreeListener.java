@@ -27,6 +27,9 @@ public class QLParseTreeListener extends QLBaseListener {
     private Stack<Evaluable> expressions = new Stack<>();
     private Map<String, Primitive> identifiers = new HashMap<>();
 
+    // Here to differentiate on where to add labelText
+    private boolean isQuestion;
+
     private AST<QLNode> ast = null;
 
     public AST<QLNode> getAST(){
@@ -64,12 +67,15 @@ public class QLParseTreeListener extends QLBaseListener {
         identifiersStack.push(identifier);
         Question question =  new Question(identifier, ctx.start.getLine());
         nodeStack.push(question);
+        isQuestion = true;
     }
 
     @Override
     public void exitQuestion(QLParser.QuestionContext ctx) {
         Question q = (Question) nodeStack.pop();
+        q.setType(identifiers.get(q.getIdentifier()));
         nodeStack.peek().addChild(q);
+        isQuestion = false;
     }
 
     @Override
@@ -94,12 +100,14 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterTextLabel(QLParser.TextLabelContext ctx) {
-
+        if (isQuestion){
+            Question q = (Question) nodeStack.peek();
+            q.setText(ctx.identifier.getText().replace("\"",""));
+        }
     }
 
     @Override
     public void exitTextLabel(QLParser.TextLabelContext ctx) {
-
     }
 
     @Override

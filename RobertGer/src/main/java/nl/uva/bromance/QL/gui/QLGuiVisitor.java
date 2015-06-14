@@ -29,7 +29,9 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Question question) {
-
+        javafx.scene.control.Label label = new javafx.scene.control.Label(question.getText());
+        label.getStyleClass().add("question");
+        questionArea.getChildren().add(label);
     }
 
     @Override
