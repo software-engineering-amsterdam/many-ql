@@ -1,20 +1,17 @@
 package org.nlamah.QL.Model.Form.Abstract;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Constants.QBaseQuestionType;
-import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QL.Model.Expression.Abstract.ValueExpression;
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Expression.Literal.TextLiteral;
 
-public abstract class FormQuestion extends FormElement implements EqualityStating
+public abstract class FormQuestion extends FormElement
 {
 	private TextLiteral questionText;
 	private QBaseQuestionType type;
-
-	protected Stack<QBaseEqualityState> equalityStateStack;
 
 	public FormQuestion(IdentifierLiteral identifier, TextLiteral questionString, QBaseQuestionType type) 
 	{
@@ -22,9 +19,6 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 
 		this.questionText = questionString;
 		this.type = type;
-
-		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 
 		if (identifier != null)
 		{
@@ -52,71 +46,100 @@ public abstract class FormQuestion extends FormElement implements EqualityStatin
 	@Override 
 	public boolean equals(Object object) 
 	{
-		switch (equalityStateStack.peek())
+		if (!super.equals(object))
 		{
-		case IDENTIFIER_ONLY:
-		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		case QUESTIONTEXT_ONLY:
-		{
-			FormQuestion value = (FormQuestion) object;
-
-			if ((this.questionText.equals(value.questionText)))
-			{
-				return true;
-			}
-
 			return false;
 		}
-		default:
+
+		if (!(object instanceof FormQuestion))
 		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			if (!(object instanceof FormQuestion))
-			{
-				return false;
-			}
-
-			FormQuestion value = (FormQuestion) object;
-
-			if (!(this.questionText.equals(value.questionText)))
-			{
-				return false;
-			}
-
-			if (!(this.type.equals(value.type)))
-			{
-				return false;
-			}
-
-			return true;
+			return false;
 		}
+
+		FormQuestion value = (FormQuestion) object;
+
+		if (!(this.questionText.equals(value.questionText)))
+		{
+			return false;
 		}
+
+		if (!(this.type.equals(value.type)))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		switch (equalityStateStack.peek())
-		{
-		case QUESTIONTEXT_ONLY:
-		{
-			return questionText.toString().hashCode();
-		}
-		default:
-			break;
+		return identifier().toString().hashCode();
+	}
+
+	static public List<FormQuestion> getListWithDuplicatedQuestionIdentifiers(List<FormQuestion> questions)
+	{
+		List<FormQuestion> referenceList = new ArrayList<FormQuestion>();
+		List<FormQuestion> listToReturn = new ArrayList<FormQuestion>();
+
+		for (FormQuestion node : questions) 
+		{			
+			if (FormQuestion.doesListAlreadyContainQuestionWithTheSameIdentifier(referenceList, node)) 
+			{
+				listToReturn.add(node);
+			}
+			else
+			{
+				referenceList.add(node);
+			}
 		}
 
-		return identifier().toString().hashCode();
+		return listToReturn;
+	}
+	
+	static public List<FormQuestion> getListWithDuplicatedQuestionTexts(List<FormQuestion> questions)
+	{
+		List<FormQuestion> referenceList = new ArrayList<FormQuestion>();
+		List<FormQuestion> listToReturn = new ArrayList<FormQuestion>();
+
+		for (FormQuestion node : questions) 
+		{
+			if (FormQuestion.doesListAlreadyContainQuestionWithTheSameTextLabel(referenceList, node)) 
+			{
+				listToReturn.add(node);
+			}
+			else
+			{
+				referenceList.add(node);
+			}
+		}
+
+		return listToReturn;
+	}
+
+	static private boolean doesListAlreadyContainQuestionWithTheSameIdentifier(List<FormQuestion> questions, FormQuestion question)
+	{		
+		for (FormQuestion loopedQuestion : questions)
+		{
+			if (loopedQuestion.identifier().equals(question.identifier()))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	static private boolean doesListAlreadyContainQuestionWithTheSameTextLabel(List<FormQuestion> questions, FormQuestion question)
+	{		
+		for (FormQuestion loopedQuestion : questions)
+		{
+			if (loopedQuestion.questionText.equals(question.questionText))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

@@ -2,10 +2,7 @@ package org.nlamah.QLS.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
-import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QLS.Error.DoubleDefaultBlockError;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
@@ -33,11 +30,11 @@ public class DoubleDefaultBlockChecker extends QBaseAbstractTypeChecker implemen
 
 	private void gatherErrors(List<DefaultBlock> defaultBlocks)
 	{		
-		Set<DefaultBlock> set = ArrayTools.getSetWithDuplicatedObjects(defaultBlocks, QBaseEqualityState.QUESTIONTYPE_ONLY);
+		List<DefaultBlock> list = DefaultBlock.getListWithDuplicatedDefaultBlocksForQuestionType(defaultBlocks);
 
-		if (set.size() > 0)
+		if (list.size() > 0)
 		{
-			for (DefaultBlock defaultBlock : set)
+			for (DefaultBlock defaultBlock : list)
 			{
 				List<DefaultBlock> defaultBlocksWithSameType = defaultBlocksWithSameType(defaultBlocks, defaultBlock);
 

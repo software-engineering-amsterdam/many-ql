@@ -2,11 +2,8 @@ package org.nlamah.QLS.Model.StylesheetBlock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Constants.QBaseQuestionType;
-import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
@@ -17,10 +14,8 @@ import org.nlamah.QLS.Model.Declaration.FontSizeDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidgetDeclaration;
 import org.nlamah.QLS.Model.Declaration.WidthDeclaration;
 
-public class DefaultBlock extends SectionItem implements EqualityStating
+public class DefaultBlock extends SectionItem
 {
-	public Stack<QBaseEqualityState> equalityStateStack;
-
 	private QBaseQuestionType questionType;
 
 	private ColorDeclaration colorDeclaration;
@@ -34,9 +29,6 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 		assignStyleDeclarations(styleDeclarations);
 
 		this.questionType = questionType;
-
-		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 
 		for (StyleDeclaration styleDeclaration : styleDeclarations)
 		{
@@ -174,46 +166,22 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	@Override 
 	public boolean equals(Object object) 
 	{
-		switch(equalityStateStack.peek())
+		if (!(object instanceof DefaultBlock))
 		{
-		case QUESTIONTYPE_ONLY:
+			return false;
+		}
+
+		DefaultBlock value = (DefaultBlock) object;
+
+		if (this.questionType != value.questionType)
 		{
-			if (!(object instanceof DefaultBlock))
-			{
-				return false;
-			}
-
-			DefaultBlock value = (DefaultBlock) object;
-
-			if (this.questionType != value.questionType)
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
-		default:
+
+		if (!this.styleDeclarations().equals(value.styleDeclarations()))
 		{
-			if (!(object instanceof DefaultBlock))
-			{
-				return false;
-			}
-
-			DefaultBlock value = (DefaultBlock) object;
-
-			if (this.questionType != value.questionType)
-			{
-				return false;
-			}
-
-			if (!this.styleDeclarations().equals(value.styleDeclarations()))
-			{
-				return false;
-			}			
-
-			break;
-		}
-		}
+			return false;
+		}			
 
 		return true;
 	}
@@ -221,23 +189,39 @@ public class DefaultBlock extends SectionItem implements EqualityStating
 	@Override
 	public int hashCode()
 	{
-		if (questionType == null)
-		{
-			return 0;
-		}
-
 		return questionType.toString().hashCode();
 	}
-
-	@Override
-	public void push(QBaseEqualityState state) 
+	
+	static public List<DefaultBlock> getListWithDuplicatedDefaultBlocksForQuestionType(List<DefaultBlock> defaultBlocks)
 	{
-		equalityStateStack.push(state);
+		List<DefaultBlock> referenceList = new ArrayList<DefaultBlock>();
+		List<DefaultBlock> listToReturn = new ArrayList<DefaultBlock>();
+
+		for (DefaultBlock node : defaultBlocks) 
+		{				
+			if (doesListAlreadyContainDefaultBlockWithQuestionType(referenceList, node))
+			{
+				listToReturn.add(node);
+			}
+			else
+			{
+				referenceList.add(node);
+			}
+		}
+
+		return listToReturn;
 	}
-
-	@Override
-	public QBaseEqualityState popState() 
-	{
-		return equalityStateStack.pop();
+	
+	static private boolean doesListAlreadyContainDefaultBlockWithQuestionType(List<DefaultBlock> defaultBlocks, DefaultBlock defaultBlock)
+	{		
+		for (DefaultBlock loopedDefaultBlock : defaultBlocks)
+		{
+			if (loopedDefaultBlock.questionType == defaultBlock.questionType)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

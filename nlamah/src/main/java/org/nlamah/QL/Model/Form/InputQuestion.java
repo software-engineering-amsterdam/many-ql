@@ -1,6 +1,5 @@
 package org.nlamah.QL.Model.Form;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -18,63 +17,24 @@ public class InputQuestion extends FormQuestion
 	public InputQuestion(IdentifierLiteral identifier, TextLiteral questionText, QBaseQuestionType type) 
 	{
 		super(identifier, questionText, type);
-		
+
 		value = UIConstants.defaultValueForQuestionType(type);
 	}
 
 	@Override 
 	public boolean equals(Object object) 
 	{
-		switch (equalityStateStack.peek())
+		if (!super.equals(object))
 		{
-		case IDENTIFIER_ONLY:
-		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
 
-		case QUESTIONTEXT_ONLY:
+		if (!(object instanceof InputQuestion))
 		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
-		default:
-		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			if (!(object instanceof InputQuestion))
-			{
-				return false;
-			}
-
-			break;
-		}
-		}
-
+		
 		return true;
-	}
-
-	@Override
-	public void push(QBaseEqualityState state) 
-	{
-		equalityStateStack.push(state);
-	}
-
-	@Override
-	public QBaseEqualityState popState() 
-	{
-		return equalityStateStack.pop();
 	}
 
 	@Override

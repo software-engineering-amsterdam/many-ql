@@ -1,6 +1,5 @@
 package org.nlamah.QL.Model.Form;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Constants.QBaseQuestionType;
 import org.nlamah.QL.Model.Form.Abstract.QLNode;
 import org.nlamah.QL.Interfaces.QLFormElementVisitor;
@@ -41,48 +40,21 @@ public class ComputedQuestion extends FormQuestion
 	@Override 
 	public boolean equals(Object object) 
 	{
-		switch (equalityStateStack.peek())
+		if (!super.equals(object))
 		{
-		case IDENTIFIER_ONLY:
-		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
 
-		case QUESTIONTEXT_ONLY:
+		if (!(object instanceof ComputedQuestion))
 		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
-		default:
+
+		ComputedQuestion value = (ComputedQuestion)object;
+
+		if (!(this.expression.equals(value.expression)))
 		{
-			if (!super.equals(object))
-			{
-				return false;
-			}
-
-			if (!(object instanceof ComputedQuestion))
-			{
-				return false;
-			}
-
-			ComputedQuestion value = (ComputedQuestion)object;
-
-			if (!(this.expression.equals(value.expression)))
-			{
-				return false;
-			}
-
-			break;
-		}
+			return false;
 		}
 
 		return true;
@@ -98,17 +70,5 @@ public class ComputedQuestion extends FormQuestion
 	public void accept(QLFormElementVisitor visitor) 
 	{
 		visitor.visit(this);	
-	}
-
-	@Override
-	public void push(QBaseEqualityState state) 
-	{
-		equalityStateStack.push(state);
-	}
-
-	@Override
-	public QBaseEqualityState popState() 
-	{
-		return equalityStateStack.pop();
 	}
 }

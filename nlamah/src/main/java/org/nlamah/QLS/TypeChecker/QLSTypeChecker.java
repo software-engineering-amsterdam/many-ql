@@ -1,12 +1,9 @@
 package org.nlamah.QLS.TypeChecker;
 
 import java.util.List;
-import java.util.Set;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
-import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QBase.Tools.QLSTools;
 import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
@@ -66,11 +63,11 @@ public class QLSTypeChecker extends QBaseAbstractTypeChecker
 
 	private void areAlQuestionsStyledOnlyOnce(Form form, Stylesheet stylesheet) throws QBaseException
 	{
-		Set<StyledQuestion> set = ArrayTools.getSetWithDuplicatedObjects(stylesheet.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
+		List<StyledQuestion> list = StyledQuestion.getListWithDuplicatedQuestionIdentifiers(stylesheet.questions());
 
-		if (set.size() > 0)
+		if (list.size() > 0)
 		{
-			for (StyledQuestion styledQuestion : set)
+			for (StyledQuestion styledQuestion : list)
 			{
 				errors.add(new QLSDoubleDeclarationError(styledQuestion.identifier(), QLSTools.getQuestionsWithIdentifier(stylesheet.questions(), styledQuestion.identifier())));
 			}

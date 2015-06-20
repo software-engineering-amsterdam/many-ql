@@ -1,18 +1,15 @@
 package org.nlamah.QLS.Model.StylesheetBlock;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.nlamah.QBase.Constants.QBaseEqualityState;
-import org.nlamah.QBase.Interfaces.EqualityStating;
 import org.nlamah.QLS.Interfaces.QLSNodeVisitor;
 import org.nlamah.QLS.Model.Abstract.QLSNode;
 import org.nlamah.QLS.Model.Abstract.SectionItem;
 import org.nlamah.QLS.Model.Value.IdentifierValue;
 
-public class StyledQuestion extends SectionItem implements EqualityStating
+public class StyledQuestion extends SectionItem
 {
-	public Stack<QBaseEqualityState> equalityStateStack;
-
 	private IdentifierValue identifier;
 
 	private StyleBlock styleBlock;
@@ -21,9 +18,6 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	{
 		this.identifier = identifier;
 		this.styleBlock = styleBlock;
-
-		equalityStateStack = new Stack<QBaseEqualityState>();
-		equalityStateStack.push(QBaseEqualityState.ALL_PROPERTIES);
 
 		if (styleBlock != null)
 		{
@@ -55,50 +49,26 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	@Override 
 	public boolean equals(Object object) 
 	{
-		switch (equalityStateStack.peek())
+		if (!(object instanceof StyledQuestion))
 		{
-		case IDENTIFIER_ONLY:
-		{
-			if (!(object instanceof StyledQuestion))
-			{
-				return false;
-			}
-
-			StyledQuestion value = (StyledQuestion) object;
-
-			if (!this.identifier.equals(value.identifier))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
-		default:
+
+		StyledQuestion value = (StyledQuestion) object;
+
+		if (!this.identifier.equals(value.identifier))
 		{
-			if (!(object instanceof StyledQuestion))
-			{
-				return false;
-			}
-
-			StyledQuestion value = (StyledQuestion) object;
-
-			if (!this.identifier.equals(value.identifier))
-			{
-				return false;
-			}
-
-			if (styleBlock == null && value.styleBlock == null)
-			{
-				return true;
-			}
-
-			if (!styleBlock.equals(value.styleBlock))
-			{
-				return false;
-			}
-
-			break;
+			return false;
 		}
+
+		if (styleBlock == null && value.styleBlock == null)
+		{
+			return true;
+		}
+
+		if (!styleBlock.equals(value.styleBlock))
+		{
+			return false;
 		}
 
 		return true;
@@ -109,16 +79,37 @@ public class StyledQuestion extends SectionItem implements EqualityStating
 	{
 		return identifier.toString().hashCode();
 	}
-
-	@Override
-	public void push(QBaseEqualityState state) 
+	
+	static public List<StyledQuestion> getListWithDuplicatedQuestionIdentifiers(List<StyledQuestion> questions)
 	{
-		equalityStateStack.push(state);
-	}
+		List<StyledQuestion> referenceList = new ArrayList<StyledQuestion>();
+		List<StyledQuestion> listToReturn = new ArrayList<StyledQuestion>();
 
-	@Override
-	public QBaseEqualityState popState() 
-	{
-		return equalityStateStack.pop();
+		for (StyledQuestion node : questions) 
+		{			
+			if (StyledQuestion.doesListAlreadyContainQuestionWithTheSameIdentifier(referenceList, node)) 
+			{
+				listToReturn.add(node);
+			}
+			else
+			{
+				referenceList.add(node);
+			}
+		}
+
+		return listToReturn;
+	} 
+	
+	static private boolean doesListAlreadyContainQuestionWithTheSameIdentifier(List<StyledQuestion> questions, StyledQuestion question)
+	{		
+		for (StyledQuestion loopedQuestion : questions)
+		{
+			if (loopedQuestion.identifier().equals(question.identifier()))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

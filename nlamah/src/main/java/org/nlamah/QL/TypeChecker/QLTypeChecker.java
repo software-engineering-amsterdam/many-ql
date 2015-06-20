@@ -2,7 +2,6 @@ package org.nlamah.QL.TypeChecker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.nlamah.QL.Model.Expression.Literal.IdentifierLiteral;
 import org.nlamah.QL.Model.Form.Form;
@@ -11,10 +10,8 @@ import org.nlamah.QL.Error.QLDoubleDeclarationError;
 import org.nlamah.QL.Error.DoubleQuestionLabelWarning;
 import org.nlamah.QL.Error.TooLateDeclaredQuestionError;
 import org.nlamah.QL.Error.UndeclaredFormQuestionError;
-import org.nlamah.QBase.Constants.QBaseEqualityState;
 import org.nlamah.QBase.Error.QBaseError;
 import org.nlamah.QBase.Error.QBaseException;
-import org.nlamah.QBase.Tools.ArrayTools;
 import org.nlamah.QBase.Tools.QLTools;
 import org.nlamah.QBase.TypeChecker.QBaseAbstractTypeChecker;
 
@@ -38,11 +35,11 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 	
 	private void checkIfQuestionsAreDeclaredOnlyOnce(Form form) throws QBaseException
 	{	
-		Set<FormQuestion> set = ArrayTools.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.IDENTIFIER_ONLY);
+		List<FormQuestion> list = FormQuestion.getListWithDuplicatedQuestionIdentifiers(form.questions());
 
-		if (set.size() > 0)
+		if (list.size() > 0)
 		{
-			for (FormQuestion duplicateQuestion : set)
+			for (FormQuestion duplicateQuestion : list)
 			{
 				errors.add(new QLDoubleDeclarationError(duplicateQuestion.identifier(), QLTools.getQuestionsWithIdentifier(form.questions(), duplicateQuestion.identifier())));
 			}
@@ -139,11 +136,11 @@ public class QLTypeChecker extends QBaseAbstractTypeChecker
 
 	private void checkForDuplicateQuestionLabels(Form form)
 	{
-		Set<FormQuestion> set = ArrayTools.getSetWithDuplicatedObjects(form.questions(), QBaseEqualityState.QUESTIONTEXT_ONLY);
+		List<FormQuestion> list = FormQuestion.getListWithDuplicatedQuestionTexts(form.questions());
 
-		if (set.size() > 0)
+		if (list.size() > 0)
 		{
-			for (FormQuestion question : set)
+			for (FormQuestion question : list)
 			{
 				warnings.add(new DoubleQuestionLabelWarning(QLTools.getQuestionsWithQuestionText(form.questions(), question.questionText())));
 			}
