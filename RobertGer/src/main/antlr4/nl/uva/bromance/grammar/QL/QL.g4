@@ -90,11 +90,17 @@ primitive:
 
 
 //Expressions
-expression
+
+expression:
+    unaryExpression
+    | binaryExpression;
+
+unaryExpression
     : primitive
-    | variable
-    | lhs=expression operator=( EQUALTO | NOTEQUALTO) rhs=expression
-    | arithmeticExpression
+    | variable;
+
+binaryExpression:
+     arithmeticExpression
     | logicalExpression;
 
 
@@ -103,13 +109,14 @@ arithmeticExpression:
     | variable
     | '(' arithmeticExpression ')'
     | lhs=arithmeticExpression operator=(MULTIPLICATION|DIVISION) rhs=arithmeticExpression
-    | lhs=arithmeticExpression operator=(ADDITION|SUBTRACTION) rhs=arithmeticExpression;
+    | lhs=arithmeticExpression operator=(ADDITION|SUBTRACTION) rhs=arithmeticExpression
+    | lhs=arithmeticExpression operator=( EQUALTO | NOTEQUALTO) rhs=arithmeticExpression;
 
 logicalExpression:
       primitive
     | variable
     | '(' logicalExpression ')'
-    | lhs=logicalExpression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN | EQUALTO | NOTEQUALTO) rhs=logicalExpression
+    | lhs=logicalExpression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN| EQUALTO | NOTEQUALTO) rhs=logicalExpression
     | lhs=logicalExpression operator=AND rhs=logicalExpression
     | lhs=logicalExpression operator=OR rhs=logicalExpression;
 

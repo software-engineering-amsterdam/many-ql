@@ -66,6 +66,9 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <libDirectory>${basedir}/src/main/antlr4/nl/uva/bromance/grammar/QL</libDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
