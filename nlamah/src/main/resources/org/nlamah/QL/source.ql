@@ -1,23 +1,25 @@
 form test
 {
-	question1 number "1.test test test test test v test testtest test test test.1"
-	question2 text "test2"
+	question1 number "1. How many houses did you own in 2015" 
+	question2 text "What was your status in 2015"
 	
-	if (question2 == "hello")
+	if (question2 == "divorced")
 	{
-		question3 boolean "1.test3 test test test test t  est v test testtest test test test test5 test test te  est v test testtest test test test test5 test test te st test test v test testtest test test test.1"
+		question3 boolean "Was this the first divorce in your life?"
 		
 		if (question3 == yes)
 		{
-			question4 text "1.test4 test test test test test v test testtest test test test test test test test v test testtest test test test.1"
+			question4 text "What is the reason of your divorce?"
 		}
 		elseif (question1 > 2)
 		{
-			question5 text "1.test5 test test test test test v test testtest test test test test5 test test test test test v test testtest test test test.1"
+			question5 boolean "Do you have more than one house because you divorced more than once?"
 		}
 		else
 		{
-			question6 text "1.test6 test test test test test v test testtest test test test test5 test test test test test v test testtest test test test.1"
+			question6 number "How many houses would you like to own?"
 		}
 	}
+	
+	question7 number "7. The amount of tax you have to pay over all your houses:" = question1 * 2000 - 28 / 2 
 }

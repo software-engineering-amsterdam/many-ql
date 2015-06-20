@@ -1,6 +1,6 @@
 stylesheet test
 {
-	page test1
+	page page1
 	{
 		section "section1"
 		{
@@ -8,6 +8,8 @@ stylesheet test
 			{
 				widget spinbox
 			}
+			
+			question question7
 		}
 		
 		section "section5"
@@ -24,7 +26,7 @@ stylesheet test
 		}
 	}
 	
-	page test2
+	page page2
 	{
 		section "section2"
 		{
@@ -44,7 +46,7 @@ stylesheet test
 			question question6
 		}
 		
-		default text widget radio("gello", "hello", "brello")
+		default text widget radio("single", "married", "divorced")
 	}
 	
 	default boolean widget radio("yes":yes, "no":no)
