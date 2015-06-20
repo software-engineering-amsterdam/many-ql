@@ -47,17 +47,17 @@ public class QuestionViewController extends FormElementViewController implements
 
 	@Override
 	public void valueChanged(ValueExpression newValue) 
-	{
-		FormQuestion question = (FormQuestion) modelElement;
+	{	
+		assert(modelElement instanceof InputQuestion);
 
-		((InputQuestion) question).setValue(newValue);
+		((InputQuestion) modelElement).setValue(newValue);
 
 		rootViewController.modelStateChanged();
 	}
 
 	@Override
 	public int evaluateViewHeight() 
-	{	
+	{			
 		view.layoutView();
 
 		return view.getPreferredSize().height;

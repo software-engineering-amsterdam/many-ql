@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 
 import org.nlamah.QBase.Constants.QBaseQuestionType;
+import org.nlamah.QBase.Constants.UIConstants;
 import org.nlamah.QL.Model.Expression.Literal.BooleanLiteral;
 import org.nlamah.QL.View.Form.Abstract.WidgetView;
 
@@ -31,7 +32,9 @@ public class CheckboxWidgetView extends WidgetView implements ItemListener
 	@Override
 	public void initializeComponents() 
 	{
-		checkbox = new JCheckBox("Yes");
+		BooleanLiteral defaultValue = (BooleanLiteral)UIConstants.defaultValueForQuestionType(QBaseQuestionType.BOOLEAN);
+		
+		checkbox = new JCheckBox("Yes", defaultValue.primitiveValue());
 		checkbox.addItemListener(this);
 	}
 

@@ -39,6 +39,9 @@ public class NumberFieldWidgetView extends WidgetView implements ActionListener
 	{
 		textField = new JFormattedTextField(NumberFormat.getNumberInstance());
 		textField.addActionListener(this);	
+		
+		NumberLiteral defaultValue = (NumberLiteral)UIConstants.defaultValueForQuestionType(QBaseQuestionType.NUMBER);
+		textField.setText(defaultValue.toString());	
 	}
 
 	@Override

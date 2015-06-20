@@ -14,6 +14,7 @@ import org.nlamah.QL.Model.Form.IfThenBlock;
 import org.nlamah.QL.Model.Form.InputQuestion;
 import org.nlamah.QL.Model.Form.Abstract.DeclaringFormElement;
 import org.nlamah.QL.Model.Form.Abstract.FormElement;
+import org.nlamah.QL.View.Controllers.ComputedQuestionViewController;
 import org.nlamah.QL.View.Controllers.ConditionalBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseIfThenBlockViewController;
 import org.nlamah.QL.View.Controllers.ElseThenBlockViewController;
@@ -175,6 +176,8 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(InputQuestion inputQuestion) 
 	{
+		QuestionViewController questionViewController = new QuestionViewController(rootViewController, inputQuestion);
+		
 		WidgetView widgetView = null;
 
 		switch (inputQuestion.returnType())
@@ -189,8 +192,6 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 		break;
 		}
 
-		QuestionViewController questionViewController = new QuestionViewController(rootViewController, inputQuestion);
-
 		widgetView.setWidgetViewDelegate(questionViewController);
 
 		questionViewController.setWidgetView(widgetView);
@@ -201,9 +202,9 @@ public class QLViewControllersFactory implements QLFormElementVisitor
 	@Override
 	public void visit(ComputedQuestion computedQuestion) 
 	{
-		ComputedValueWidgetView widgetView = new ComputedValueWidgetView();
+		ComputedQuestionViewController questionViewController = new ComputedQuestionViewController(rootViewController, computedQuestion);
 
-		QuestionViewController questionViewController = new QuestionViewController(rootViewController, computedQuestion);
+		ComputedValueWidgetView widgetView = new ComputedValueWidgetView();
 
 		widgetView.setWidgetViewDelegate(questionViewController);
 
