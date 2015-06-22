@@ -1,6 +1,8 @@
-require_relative "../../util/base_visitor"
+require_relative "../util/base_visitor"
 require_relative "../checker/question_visitor"
-require_relative "../../ql/ast/ast"
+require_relative "../ast/expression"
+require_relative "../ast/form"
+require_relative "../ast/types"
 
 module QL
   class VisibleQuestionsWriter < Checking::QuestionVisitor

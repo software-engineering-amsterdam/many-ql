@@ -1,9 +1,0 @@
-stylesheet Trouwerij {
-  page Gasten {
-    section Overnachten {
-      question blijft_slapen? { 
-        widget: checkbox 
-      }
-    }
-  }
-}

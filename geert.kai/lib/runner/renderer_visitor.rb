@@ -1,8 +1,10 @@
 module QL
-  class QuestionPaneGenerator < Checking::QuestionVisitor
-    def run(delegate)
+  class QuestionPaneGenerator
+    def intialize(ql, delegate)
       @delegate = delegate
-      (visit @base).flatten
+      questions = Checking::QuestionVisitor.run(ql).map do |question|
+        render_question_pane(question, @delegate)
+      end
     end
 
     def visit_question(question)

@@ -3,9 +3,6 @@ require_relative "form"
 module QL
   module AST
     class Expression < Node
-      def accept(visitor)
-        visitor.visit(self)
-      end
     end
 
     class Variable < Expression

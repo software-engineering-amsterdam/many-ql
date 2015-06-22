@@ -1,14 +1,20 @@
-require "require_all"
 require "stringio"
+#require "ruby-debug"
+# require "jrubyfx"
 
-if RUBY_ENGINE == "jruby"
-  require "ruby-debug"
-  require "jrubyfx"
-else
-  require "byebug"
-end
+require_relative "ast/form"
+require_relative "ast/expression"
+require_relative "ast/types"
 
-require_all "lib/ql"
+require_relative "checker/question_visitor"
+require_relative "checker/type_checker"
+require_relative "checker/duplicate_label_checker"
+
+require_relative "parser/parser"
+require_relative "parser/tokenizer"
+
+require_relative "runner/runner"
+require_relative "runner/renderer_visitor"
 
 module QL
   def self.parse(path)
