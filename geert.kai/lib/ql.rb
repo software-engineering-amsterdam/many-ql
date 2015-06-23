@@ -15,6 +15,7 @@ require_relative "parser/tokenizer"
 
 require_relative "runner/runner"
 require_relative "runner/renderer_visitor"
+require_relative "runner/expression_evaluator"
 
 module QL
   def self.parse(path)

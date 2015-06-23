@@ -47,30 +47,4 @@ module QL
       "\n\t -fx-background-color: #CCFF99;" if @visible
     end
   end
-
-  class Evaluator < BaseVisitor
-    def run(values)
-      @values = values
-      visit @base
-    end
-
-    def visit_binary_expression(expression) #nil or undefined?
-      lhs = expression.lhs.accept(self)
-      rhs = expression.rhs.accept(self)
-
-      if lhs.nil? || rhs.nil?
-        nil
-      else
-        lhs.send(expression.operator, rhs)
-      end
-    end
-
-    def visit_variable(variable)
-      @values[variable.name]
-    end
-
-    def visit_literal(literal)
-      literal.value
-    end
-  end
 end

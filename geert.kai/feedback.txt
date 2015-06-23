@@ -1,0 +1,152 @@
+High-level summary (op basis van QL, niet QLS)
+
+- ik zie geen support voor cycle detectie, of computed questions,
+- (???) een aantal dependencies de verkeerde kant op
+- QL en QLS lijken in verschillende directories, maar lopen toch helemaal
+  door elkaar. Op deze manier is QLS geen modulaire oplossing (wat de
+  opdracht was)
+- (*) onnodige complexity met reflectie (magic) : het visitor framework,
+  de classes-to-widget mapping. Dit soort reflectie is micro-optimalisatie
+  om een aantal methods niet te hoeven beschrijven. Maar het risico is dat
+  iemand "van buiten" het niet meer begrijpt, en wat levert het nou in
+  feite op?
+- (*) het hele gebruik van Visitor vocabulair is misleidend: de visitors
+  gebruiken geen double dispatch. Als gevolg daarvan moet je *toch* type
+  checking gerelateerde spullen in de AST classes stoppen (e.g. type,
+  possible_argument_types [maar waar is dat eigenlijk?])
+- je kunt CSS inderdaad gebruiken om visibility te doen, maar via een file
+  is omslachtige manier. Bovendien is je huidige manier niet robuust voor
+  herhaalde vragen (e.g. if (age > 18) license: bool else license: bool
+  = false).
+- (???) hierarchy problem in If/If-Else/Conditional.
+
+- [Geert] Node staat in form.rb, dat is rare naamgeving. Waar moet deze class wel?
+- [Geert] Runner bestaat niet, maar runner.rb wel, en daar staan Evaluator en VisibleQuestionWriter classes
+- [Geert] Runner heeft hetzelfde probleem als TypeChecker, namelijk geen double dispatch, en
+  alle visit methods moeten zonder magic geschreven worden.
+- [Geert] Moeten we alles aanroepen in ql.rb?
+
+- [Tijs] Evaluator geeft true terug of TrueLiteral.new?
+- [Tijs] Hoe zit het met eigen nil types
+- [Tijs] Hoe zit het met error_or_type?
+- [Tijs] Mag :alias visit_and, visit_binary_expression
+   
+
+(*) Why is the duplication between If and IfElse not shared in
+Conditional? De default parameters in de constructors suggereren een
+bredere interface dan wenselijk: wanneer roep je If.new(cond) aan, bv.?
+
+Waarom hier nog .widget aanroepen: QLS::AST::Text.new.widget(controller)
+Nu heb je dus een dependency aangebracht tussen de meest onderste laag
+(AST) en meest bovenste laag (QLS)...
+
+This magic, is really unneeded complexity. And you implement your own
+inheritance too. Looking at Question Visitor the code cannot be understood
+without the BaseVisitor, which is far, far away.
+
+def visit(subject)
+
+    subject.class.ancestors.each do |ancestor|
+
+      method_name = :"visit_#{ancestor.name.snake_case}"
+
+      next unless respond_to?(method_name)
+
+      return send(method_name, subject)
+
+    end
+
+
+
+    raise "Can't handle #{subject.class}"
+
+  end
+
+
+class String
+
+  def snake_case
+
+(*) Dit monkey patchen is zeer onnodig. Je gebruikt het maar op 1 plek,
+maar nu voeg je het toe aan ALLE strings. Zelfde voor duplicates (move to
+Duplicate label checker).
+
+Wat doet question_visitor? (ik zie niet waar die gebruikt wordt, behalve
+in DuplicateLabelChecker, maar dan kunnen ze samen) .flatten ????
+
+(*) Don't use exceptions as type errors: there are *not* exceptions, but
+simply output values of the type checker.
+
+In TypeChecker
+type.nil? lijkt me incorrect
+type == QL::AST::BooleanType.new || type.nil?
+More general: waarom is nil een correcte value van types?
+
+Btw: where are the possible_argument_types methods? They are called on
+expressions, but they are not in the AST classes.
+
+Hier is het nog moeilijke te begrijpen wat er aan de hand is: def
+run(delegate)
+
+      @delegate = delegate
+
+      (visit @base).flatten
+
+    end
+
+
+Dit lijkt me fout: VisibleQuestionsWriter < Checking::QuestionVisitor
+QuestionVisitor is in de Checking namespace: is het generiek, dan
+verplaatsen, anders niet hier hergebruiken. Wat betekent het dat de
+QuestionsWriter iets gebruikt van de typechecker? Btw: het is ook een
+visitor, lijkt het, maar het alleen maar iets zinnigs bij Question; hoe
+kan dat?
+
+
+Interessant: File.write('temp/stylesheets/visible_questions.css',
+css)
+Probleem: het is een hard pad; je wilt waarschijnlijk niet arbitraire
+files bij de gebruiker schrijven (gebruik dan in elk geval tmpfile oid).
+Maar ook: als ik het goed begrijp schrijf je CSS die de visibility
+bepaalt?
+
+De @visible truuk (temporary field smell) werkt niet omdat je nested
+conditionals kunt hebben. Je moet minimaal een stack hebben. Maar sowieso
+is het beter dit te vermijden, en er de call stack voor te gebruiken (IOW:
+een parameter).
+
+Deze if-then-else suggereert onmiddelijk dat de hierarchy van
+if/if-else/conditional problematisch is: if result.nil?
+
+        @visible = false
+
+        statements = map_accept(condition.statements)
+
+        @visible = true
+
+        statements
+
+      else
+
+        @visible = result
+
+        true_statements = map_accept(condition.statements_true)
+
+        @visible = !result
+
+        false_statements = map_accept(condition.statements_false)
+
+        @visible = true
+
+        true_statements + false_statements
+
+      end
+
+
+Typo: visibilty_tag
+
+Waar komt widget_builder vandaan in QuestionPaneGenerator? Kan ik niet
+vinden. widget_builder.name
+
+Dit is raar: @runner = QL::VisibleQuestionsWriter.run(ql)
+De run methode returned een runner? Waarom niet visible questions?
