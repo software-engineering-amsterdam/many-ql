@@ -28,6 +28,25 @@ describe "VisibilityVisitor" do
   end
 
   it "handles nested if statements" do
-    
+    second_question = Question.new("Wat is je oogkleur?", "oogkleur", :string) 
+    nested_if_question = Question.new("Hoe heet je moeder?", "naam_moeder", :string)
+    nested_else_question = Question.new("Hoe heet je vader?", "naam_vader", :string)
+
+    nested_conditional = IfElse.new( Equal.new(Variable.new("oogkleur"), StringLiteral.new("bruin")), [nested_if_question], [nested_else_question] )
+    conditional = IfElse.new( Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [nested_conditional], [@else_question] )
+
+    form = Form.new("Form with nested if", [@first_question, second_question, conditional])
+
+    answers = {"naam" => "Kai", "oogkleur" => "bruin"}
+    result = form.accept( VisibilityVisitor.new(answers) )
+    expect(result).to eq( [@first_question, second_question, @else_question] )
+
+    answers = {"naam" => "Geert", "oogkleur" => "bruin"}
+    result = form.accept( VisibilityVisitor.new(answers) )
+    expect(result).to eq( [@first_question, second_question, nested_if_question] )
+
+    answers = {}
+    result = form.accept( VisibilityVisitor.new(answers) )
+    expect(result).to eq( [@first_question, second_question] )
   end
 end
