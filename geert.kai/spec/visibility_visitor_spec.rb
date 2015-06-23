@@ -13,7 +13,7 @@ describe "VisibilityVisitor" do
 
   it "hides questions within falsy if statements" do
     result = @form.accept( VisibilityVisitor.new({}) )
-    expect(result).to eq( { @first_question => true, @second_question => false } )
+    expect(result).to eq( [@first_question] )
   end
 
   it "handles nested if statements" do

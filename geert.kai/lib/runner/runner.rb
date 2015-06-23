@@ -5,14 +5,9 @@ require_relative "../ast/form"
 require_relative "../ast/types"
 
 module QL
-  class VisibleQuestionsWriter < Checking::QuestionVisitor
-    def run(values = {})
+  class VisibilityVisitor < BaseVisitor
+    def initialize(values = {})
       @values = values
-      @visible = true
-      
-      css = visit(@base).join
-      File.write('temp/stylesheets/visible_questions.css', css)
-      self
     end
 
     def update_variable(variable_name, value)
@@ -21,30 +16,29 @@ module QL
       run(@values)
     end
 
-    def visit_conditional(condition)
-      result = Evaluator.run(condition.expression, @values)
-
-      if result.nil?
-        @visible = false
-        statements = map_accept(condition.statements)
-        @visible = true
-        statements
-      else
-        @visible = result
-        true_statements = map_accept(condition.statements_true)
-        @visible = !result
-        false_statements = map_accept(condition.statements_false)
-        @visible = true
-        true_statements + false_statements
+    def visit_form(form)
+      form.statements.flat_map do |statement|
+        visit(statement)
       end
     end
 
     def visit_question(question)
-      "##{question.variable_name} {#{visibilty_tag}}\n\n"
+      question
     end
 
-    def visibilty_tag
-      "\n\t -fx-background-color: #CCFF99;" if @visible
+    def visit_if_else(if_else_statement)
+      result = if_else_statement.expression.accept(ExpressionEvaluator.new(@values))
+
+      if result == true
+        if_else_statement.statements_true
+      elsif result == false
+        if_else_statement.statements_false
+      else
+        []
+      end.flat_map do |statement|
+        visit(statement)
+      end
     end
   end
 end
+
