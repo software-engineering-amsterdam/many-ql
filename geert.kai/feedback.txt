@@ -42,7 +42,7 @@ Waarom hier nog .widget aanroepen: QLS::AST::Text.new.widget(controller)
 Nu heb je dus een dependency aangebracht tussen de meest onderste laag
 (AST) en meest bovenste laag (QLS)...
 
-This magic, is really unneeded complexity. And you implement your own
+(*) This magic, is really unneeded complexity. And you implement your own
 inheritance too. Looking at Question Visitor the code cannot be understood
 without the BaseVisitor, which is far, far away.
 
@@ -73,7 +73,7 @@ class String
 maar nu voeg je het toe aan ALLE strings. Zelfde voor duplicates (move to
 Duplicate label checker).
 
-Wat doet question_visitor? (ik zie niet waar die gebruikt wordt, behalve
+(*) Wat doet question_visitor? (ik zie niet waar die gebruikt wordt, behalve
 in DuplicateLabelChecker, maar dan kunnen ze samen) .flatten ????
 
 (*) Don't use exceptions as type errors: there are *not* exceptions, but
@@ -87,7 +87,7 @@ More general: waarom is nil een correcte value van types?
 Btw: where are the possible_argument_types methods? They are called on
 expressions, but they are not in the AST classes.
 
-Hier is het nog moeilijke te begrijpen wat er aan de hand is: def
+(*) Hier is het nog moeilijke te begrijpen wat er aan de hand is: def
 run(delegate)
 
       @delegate = delegate
@@ -97,7 +97,7 @@ run(delegate)
     end
 
 
-Dit lijkt me fout: VisibleQuestionsWriter < Checkers::QuestionVisitor
+(*) Dit lijkt me fout: VisibleQuestionsWriter < Checkers::QuestionVisitor
 QuestionVisitor is in de Checkers namespace: is het generiek, dan
 verplaatsen, anders niet hier hergebruiken. Wat betekent het dat de
 QuestionsWriter iets gebruikt van de typechecker? Btw: het is ook een
