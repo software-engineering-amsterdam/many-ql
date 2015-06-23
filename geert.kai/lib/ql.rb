@@ -28,8 +28,8 @@ module QL
   end
 
   def self.check_ql(ql_ast)
-    errors = Checking::TypeChecker.new(ql_ast).errors
-    warnings = Checking::DuplicateLabelChecker.new(ql_ast).warnings
+    errors = ql_ast.accept(Checking::TypeChecker.new)
+    warnings = ql_ast.accept(Checking::DuplicateLabelChecker.new)
 
     { errors: errors, warnings: warnings }
   end
