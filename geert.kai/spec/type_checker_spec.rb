@@ -13,7 +13,7 @@ describe "Type checker" do
 
   it "detects if the type doesn't match up" do
     question = QL::AST::Question.new("Wat is je naam?", "naam", "string")
-    conditional = If.new(GreaterThan.new(Variable.new("naam"), IntegerLiteral.new(8)), [])
+    conditional = IfElse.new(GreaterThan.new(Variable.new("naam"), IntegerLiteral.new(8)), [], [])
     form = Form.new("Test", [question, conditional])
     errors = form.accept(TypeChecker.new)
 
@@ -22,7 +22,7 @@ describe "Type checker" do
   end
 
   it 'complains if expression of a conditional is not of type boolean' do
-    conditional = If.new(IntegerLiteral.new(3), [])
+    conditional = IfElse.new(IntegerLiteral.new(3), [], [])
     form = Form.new("Test", [conditional])
     errors = form.accept(TypeChecker.new)
 
@@ -31,7 +31,7 @@ describe "Type checker" do
   end
 
   it 'detects undefined variables' do
-    conditional = If.new(Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [])
+    conditional = IfElse.new(Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [], [])
     form = Form.new("Test", [conditional])
     errors = form.accept(TypeChecker.new)
 

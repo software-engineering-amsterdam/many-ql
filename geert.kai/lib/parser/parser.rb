@@ -331,7 +331,7 @@ end
 # reduce 13 omitted
 
 def _reduce_14(val, _values, result)
- result = If.new(val[2], val[4]) 
+ result = IfElse.new(val[2], val[4], []) 
     result
 end
 

@@ -40,7 +40,7 @@ rule
     | if_else
     ;
   if
-    : 'if' '(' expression ')' statements 'end' { result = If.new(val[2], val[4]) }
+    : 'if' '(' expression ')' statements 'end' { result = IfElse.new(val[2], val[4], []) }
     ;
   if_else
     : 'if' '(' expression ')' statements 'else' statements 'end' { result = IfElse.new(val[2], val[4], val[6]) }

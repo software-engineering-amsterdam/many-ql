@@ -5,7 +5,7 @@ describe "Runner" do
     @question = Question.new("Wat is je naam?", "naam", :string)
     @second_question = Question.new("Wat is je leeftijd?", "leeftijd", :string)
 
-    @conditional = If.new(Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [@second_question])
+    @conditional = IfElse.new(Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [@second_question], [])
     @form = Form.new("Test form", [@question, @conditional])
   end
 

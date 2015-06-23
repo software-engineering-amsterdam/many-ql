@@ -9,7 +9,7 @@ module QL
     class Form < Node 
       attr_reader :name, :statements
 
-      def initialize(name, statements = [])
+      def initialize(name, statements)
         @name = name
         @statements = statements
       end
@@ -28,30 +28,10 @@ module QL
       end
     end
 
-    class Conditional < Statement
-    end
-
-    class If < Conditional
-      attr_reader :expression, :statements
-
-      def initialize(expression, statements = [])
-        @expression = expression
-        @statements = statements
-      end
-
-      def statements_true
-        statements
-      end
-      
-      def statements_false
-        []
-      end
-    end
-
-    class IfElse < Conditional
+    class IfElse < Statement
       attr_reader :expression, :statements_true, :statements_false
 
-      def initialize(expression, statements_true = [], statements_false = [])
+      def initialize(expression, statements_true, statements_false)
         @expression = expression
         @statements_true = statements_true
         @statements_false = statements_false
