@@ -3,6 +3,8 @@
 #require_relative "factories"
 
 require_relative "../lib/ql"
+require "byebug"
+
 include QL::AST
 include QL::Checking
 include QL

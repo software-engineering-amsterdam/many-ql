@@ -6,7 +6,7 @@ require_relative "../ast/types"
 
 module QL
   class VisibilityVisitor < BaseVisitor
-    def initialize(values = {})
+    def initialize(values)
       @values = values
     end
 
