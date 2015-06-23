@@ -1,10 +1,8 @@
-require_relative 'ql.rb'
-
+require_relative '../ql.rb'
 
 class QuestionairApp < JRubyFX::Application
   def start(stage)
     ql = QL.parse("spec/ql/source_files/long_query.ql")
-    qls = QLS.parse("spec/qls/source_files/long_query.qls")
     
     # from here we asume ql and qls are valid?
     questionair_controller = QuestionairController.new(ql, qls)

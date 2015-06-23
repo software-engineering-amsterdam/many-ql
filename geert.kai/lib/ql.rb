@@ -18,8 +18,8 @@ require_relative "runner/expression_evaluator"
 
 module QL
   def self.parse(path)
-    input     = StringIO.new(File.read(path))
-    tokenizer = Tokenizer.new input
+    input     = StringIO.new( File.read(path) )
+    tokenizer = Tokenizer.new(input)
     parser    = Parser.new(tokenizer)
     result    = parser.parse
 
