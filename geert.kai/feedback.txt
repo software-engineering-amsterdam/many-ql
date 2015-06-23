@@ -20,9 +20,9 @@ High-level summary (op basis van QL, niet QLS)
   = false).
 - (???) hierarchy problem in If/If-Else/Conditional.
 
-- [Geert] Node staat in form.rb, dat is rare naamgeving. Waar moet deze class wel?
+- [Geert] (*) Node staat in form.rb, dat is rare naamgeving. Waar moet deze class wel?
 - [Geert] Runner bestaat niet, maar runner.rb wel, en daar staan Evaluator en VisibleQuestionWriter classes
-- [Geert] Runner heeft hetzelfde probleem als TypeChecker, namelijk geen double dispatch, en
+- [Geert] (*) ExpressionEvaluator heeft hetzelfde probleem als TypeChecker, namelijk geen double dispatch, en
   alle visit methods moeten zonder magic geschreven worden.
 - [Geert] Moeten we alles aanroepen in ql.rb?
 
