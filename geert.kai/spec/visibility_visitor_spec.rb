@@ -28,7 +28,6 @@ describe "VisibilityVisitor" do
   end
 
   it "handles nested if statements" do
-
+    
   end
-
 end
