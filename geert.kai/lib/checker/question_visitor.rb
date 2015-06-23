@@ -16,12 +16,6 @@ module QL
         end
       end
 
-      def visit_if(if_statement)
-        if_statement.statements.flat_map do |statement|
-          visit(statement)
-        end
-      end
-
       def visit_question(question)
         question
       end

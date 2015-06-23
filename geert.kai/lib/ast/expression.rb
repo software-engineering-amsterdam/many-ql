@@ -1,8 +1,9 @@
-require_relative "form"
+require_relative "visitable"
 
 module QL
   module AST
-    class Expression < Node
+    class Expression
+      include Visitable
     end
 
     class Variable < Expression

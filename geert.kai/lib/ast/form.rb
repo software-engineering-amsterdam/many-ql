@@ -1,12 +1,10 @@
+require_relative "visitable"
+
 module QL
   module AST
-    class Node
-      def accept(visitor)
-        visitor.visit(self)
-      end
-    end
+    class Form
+      include Visitable
 
-    class Form < Node 
       attr_reader :name, :statements
 
       def initialize(name, statements)
@@ -15,7 +13,8 @@ module QL
       end
     end
 
-    class Statement < Node
+    class Statement
+      include Visitable
     end
 
     class Question < Statement
