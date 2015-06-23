@@ -97,8 +97,8 @@ run(delegate)
     end
 
 
-Dit lijkt me fout: VisibleQuestionsWriter < Checking::QuestionVisitor
-QuestionVisitor is in de Checking namespace: is het generiek, dan
+Dit lijkt me fout: VisibleQuestionsWriter < Checkers::QuestionVisitor
+QuestionVisitor is in de Checkers namespace: is het generiek, dan
 verplaatsen, anders niet hier hergebruiken. Wat betekent het dat de
 QuestionsWriter iets gebruikt van de typechecker? Btw: het is ook een
 visitor, lijkt het, maar het alleen maar iets zinnigs bij Question; hoe

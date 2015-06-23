@@ -2,7 +2,7 @@ module QL
   class QuestionPaneGenerator
     def intialize(ql, delegate)
       @delegate = delegate
-      questions = Checking::QuestionVisitor.run(ql).map do |question|
+      questions = Checkers::QuestionVisitor.run(ql).map do |question|
         render_question_pane(question, @delegate)
       end
     end

@@ -1,8 +1,8 @@
-require_relative "../util/base_visitor"
+require_relative "base_visitor"
 
 
 module QL
-  module Checking
+  module VisitorPattern
     class QuestionVisitor < BaseVisitor
       def visit_form(form)
         form.statements.flat_map do |statement|

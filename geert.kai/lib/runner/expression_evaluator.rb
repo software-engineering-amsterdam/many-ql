@@ -1,10 +1,10 @@
-require_relative "../util/base_visitor"
+require_relative "../visitor_pattern/base_visitor"
 
 module QL
   class UndefinedExpression
   end
 
-  class ExpressionEvaluator < BaseVisitor
+  class ExpressionEvaluator < VisitorPattern::BaseVisitor
     def initialize(values)
       @values = values
     end
