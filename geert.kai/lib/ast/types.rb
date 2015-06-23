@@ -1,6 +1,10 @@
+require_relative "../visitor_pattern/visitable"
+
 module QL
   module AST
     class Type
+      include Visitable
+
       def ==(other_type)
         self.class == other_type.class
       end

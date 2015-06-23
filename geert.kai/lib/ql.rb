@@ -1,6 +1,4 @@
 require "stringio"
-#require "ruby-debug"
-# require "jrubyfx"
 
 require_relative "ast/form"
 require_relative "ast/expression"
