@@ -119,29 +119,29 @@ een parameter).
 Deze if-then-else suggereert onmiddelijk dat de hierarchy van
 if/if-else/conditional problematisch is: if result.nil?
 
-        @visible = false
+  @visible = false
 
-        statements = map_accept(condition.statements)
+  statements = map_accept(condition.statements)
 
-        @visible = true
+  @visible = true
 
-        statements
+  statements
 
-      else
+else
 
-        @visible = result
+  @visible = result
 
-        true_statements = map_accept(condition.statements_true)
+  true_statements = map_accept(condition.statements_true)
 
-        @visible = !result
+  @visible = !result
 
-        false_statements = map_accept(condition.statements_false)
+  false_statements = map_accept(condition.statements_false)
 
-        @visible = true
+  @visible = true
 
-        true_statements + false_statements
+  true_statements + false_statements
 
-      end
+end
 
 
 Typo: visibilty_tag
