@@ -43,22 +43,7 @@ module QL
         end
       end
 
-      # def visit_conditional(conditional)
-      #   errors = []
-      #   unless valid_conditional_type?(conditional.expression.accept(self))
-      #     errors << Error.new("Expression in condition not a boolean: #{conditional}.")
-      #   end
-
-      #   conditional.statements.flat_map do |statement|
-      #     visit(statement)
-      #   end + errors
-      # end
-
-      def visit_if_else(if_else)
-        visit_if(if_else)
-      end
-
-      def visit_if(if_statement)
+      def visit_if_else(if_statement)
         type_or_error = if_statement.expression.accept(self)
 
         if type_or_error.is_a?(Error)
@@ -151,11 +136,7 @@ module QL
       end
 
       def visit_variable(variable)
-        if @types[variable.name].nil?
-          Error.new("Variable #{variable.name} not defined.")
-        else
-          @types[variable.name]
-        end
+        @types.fetch(variable.name, Error.new("Variable #{variable.name} not defined."))
       end
 
       def visit_integer_literal(literal)
