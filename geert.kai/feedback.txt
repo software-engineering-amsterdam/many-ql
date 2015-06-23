@@ -30,6 +30,7 @@ High-level summary (op basis van QL, niet QLS)
 - [Tijs] Hoe zit het met eigen nil types
 - [Tijs] Hoe zit het met error_or_type?
 - [Tijs] Mag :alias visit_and, visit_binary_expression
+- [Tijs] Wat was het hierarchy problem van If/IfElse?
    
 
 (*) Why is the duplication between If and IfElse not shared in
