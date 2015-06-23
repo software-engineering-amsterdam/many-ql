@@ -1,20 +1,21 @@
 # basic primitive interface
 class Primitive:
     def __init__(self):
-        raise Exception("Not implemented by sub class")
+        raise NotImplementedError("Not implemented here")
 
-    def return_type_string(self, type_dict):
-        raise Exception("Not implemented by sub class")
+    def __str__(self):
+        raise NotImplementedError("Not implemented here")
 
-    def pretty_print(self):
-        raise Exception("Not implemented by sub class")
+    def return_type(self, type_map):
+        raise NotImplementedError("Not implemented here")
 
-    def get_dependency_collection(self):
-        raise Exception("Not implemented by sub class")
+    def eval_expression(self, answer_map):
+        raise NotImplementedError("Not implemented here")
 
-    # Every primitive is a valid expression so return the empty error message
-    def is_valid_expression_message(self, td):
+    # every primitive except variable has no variables, so by default return the empty list
+    def get_variables(self):
         return []
 
-    def eval_expression(self, type_map):
-        raise Exception("Not implemented by sub class")
+    # Every primitive is a valid expression so return the empty error message
+    def type_error_messages(self, td):
+        return []

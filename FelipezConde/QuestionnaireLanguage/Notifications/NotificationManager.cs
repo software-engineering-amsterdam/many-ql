@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Notifications
 {
@@ -13,6 +9,11 @@ namespace Notifications
         public void AddNotification(INotification notification)
         {
             notifications.Add(notification);
+        }
+
+        public void AddNotifications(IEnumerable<INotification> notifications)
+        {
+            this.notifications.AddRange(notifications);
         }
 
         public bool HasError()
@@ -28,6 +29,11 @@ namespace Notifications
         public IList<INotification> GetNotifications()
         {
             return notifications;
+        }
+
+        public void Combine(INotificationManager notificationManager)
+        {
+            notifications.AddRange(notificationManager.GetNotifications());
         }
     }
 }

@@ -3,14 +3,17 @@ grammar Grammar;
 @header
 {
 	import com.form.language.ast.*;
+	import com.form.language.ast.form.*;
+	import com.form.language.ast.statement.question.*;
 	import com.form.language.ast.expression.*;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.expression.variable.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 	import com.form.language.ast.type.*;
-	import com.form.language.error.QLToken;
+	import com.form.language.issue.QLToken;
 	import com.form.language.memory.*;
 }
 
@@ -25,13 +28,13 @@ statementList returns [List<Statement> result]
 	;
 
 statement returns [Statement result]
-: Astmt=assignmentStatement {$result = $Astmt.result;}
-| Istmt=ifStatement {$result = $Istmt.result;}
+: Istmt=ifStatement {$result = $Istmt.result;}
 | Qstmt=question {$result = $Qstmt.result;}
 ;
 
 question returns [Question result]
 	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, new QLToken($ID.line,$ID.pos));}
+	| 'question' STRING ID ':' type '=' expression {$result = new ComputedQuestion($STRING.text, $ID.text, $type.result, $expression.result, new QLToken($ID.line,$ID.pos));}
 	;
 	
 ifStatement returns [Statement result]
@@ -39,10 +42,8 @@ ifStatement returns [Statement result]
   'end' {$result = new IfStatement($exp.result,$slist.result,  new QLToken($IF.line,$IF.pos));}
 ;
 
-assignmentStatement returns [Statement result]
-: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $type.result, $lit.result,new QLToken($ID.line,$ID.pos));}
-;
-
+// This code looks quite ugly, but with nested |, ANTLR can't handle the left-recursion (mutually left-recursive with itself...)
+// So we had to do this.
 expression returns [Expression result]
 // Parentheses
   : '(' x=expression ')' { $result = $x.result;}
@@ -105,7 +106,7 @@ literal returns [Expression result]
 	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),new QLToken($BOOLEAN.line,$BOOLEAN.pos));}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),new QLToken($INTEGER.line,$INTEGER.pos));}
 	| STRING	{$result = new StringLiteral($STRING.text,new QLToken($STRING.line,$STRING.pos));}
-	| ID	    {$result = new IdLiteral($ID.text,new QLToken($ID.line,$ID.pos));}
+	| ID	    {$result = new Reference($ID.text,new QLToken($ID.line,$ID.pos));}
 	;
 
 type returns [Type result]

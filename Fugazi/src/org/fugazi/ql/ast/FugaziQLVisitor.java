@@ -5,30 +5,31 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.comparison.*;
 import org.fugazi.ql.ast.expression.literal.BOOL;
-import org.fugazi.ql.ast.expression.logical.And;
-import org.fugazi.ql.ast.expression.logical.Logical;
-import org.fugazi.ql.ast.expression.numerical.*;
-import org.fugazi.ql.ast.expression.unary.Negative;
-import org.fugazi.ql.ast.expression.unary.Unary;
-import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.expression.literal.INT;
 import org.fugazi.ql.ast.expression.literal.STRING;
+import org.fugazi.ql.ast.expression.logical.And;
+import org.fugazi.ql.ast.expression.logical.Logical;
 import org.fugazi.ql.ast.expression.logical.Or;
+import org.fugazi.ql.ast.expression.numerical.*;
+import org.fugazi.ql.ast.expression.unary.Negative;
 import org.fugazi.ql.ast.expression.unary.Not;
 import org.fugazi.ql.ast.expression.unary.Positive;
+import org.fugazi.ql.ast.expression.unary.Unary;
+import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.statement.Statement;
-import org.fugazi.ql.ast.type.*;
+import org.fugazi.ql.ast.type.BoolType;
+import org.fugazi.ql.ast.type.IntType;
+import org.fugazi.ql.ast.type.StringType;
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.parser.QLBaseVisitor;
 import org.fugazi.ql.parser.QLParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
@@ -83,7 +84,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
+    public Question visitSimpleQuestion(@NotNull QLParser.SimpleQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
         
         ID identifier = new ID(ctx.ID().getText());
@@ -99,7 +100,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+    public ComputedQuestion visitComputedQuestion(@NotNull QLParser.ComputedQuestionContext ctx)  {
         Type type = (Type) ctx.type().accept(this);
 
         ID identifier = new ID(ctx.ID().getText());

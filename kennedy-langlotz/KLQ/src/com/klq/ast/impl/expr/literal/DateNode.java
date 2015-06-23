@@ -5,9 +5,9 @@ import com.klq.ast.IExpressionVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.value.DateValue;
 import com.klq.ast.impl.value.Value;
+import com.klq.controller.VariableTable;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by juriaan on 17-2-15.
@@ -34,7 +34,7 @@ public class DateNode extends AExpression {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierNode, Value> variables) {
+    public Value evaluate(VariableTable variableTable) {
         return new DateValue(date);
     }
 }

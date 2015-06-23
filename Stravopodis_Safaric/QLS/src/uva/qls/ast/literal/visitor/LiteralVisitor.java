@@ -1,7 +1,7 @@
 package uva.qls.ast.literal.visitor;
 
 import uva.qls.ast.literal.*;
-import uva.qls.ast.primitive.Type;
+import uva.qls.ast.type.Type;
 
 public interface LiteralVisitor<T> {
 

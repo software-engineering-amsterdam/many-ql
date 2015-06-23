@@ -3,70 +3,64 @@ import QL.AST.Statements.statement as statement
 
 class Assignment(statement.IStatement):
 
-    #
-    # override methods of statement
-    #
-
     # init
     def __init__(self, qid, qtype, expression):
-        self.id = qid
-        self.type = qtype
-        self.expression = expression
 
-    # pretty print ast, with level giving the indentation
-    def pretty_print(self, level=0):
+        # protected instance variables
+        self._id = qid
+        self._type = qtype
+        self._expression = expression
+
+    # pretty formatted string, with level giving the indentation
+    def string_presentation(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
-        s += "   " * (level + 1) + "Assignment id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Assignment itself: " + self.expression.pretty_print() + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.type)
-        s += "\n"
+        s += "   " * (level + 1) + "Assignment id: " + self._id + "\n"
+        s += "   " * (level + 1) + "Assignment itself: " + str(self._expression) + "\n"
+        s += "   " * (level + 1) + "Assignment type: " + self._type.get_name() + "\n"
         return s
 
-    # return all ids in the statement
-    def id_collection(self):
-        return [self.id]
+    def ids(self):
+        return [self._id]
 
-    # return all labels in the statement
-    def label_collection(self):
+    # assignment has no labels
+    def labels(self):
         return []
 
-    # return if the statement is a conditional
     def is_conditional(self):
         return False
 
-    # return all the _dependencies in the statement of other _statements
-    def get_dependency_collection(self, dependencies):
-        d = self.expression.get_dependencies()
-        if self.id not in dependencies:
-            dependencies[self.id] = d
-        else:
-            dependencies[self.id] = dependencies[self.id] + self.parent_condition.get_dependencies()
+    # evaluate the expression given the map of ids to answers
+    def evaluate_expression(self, answer_map):
+        return self._expression.eval_expression(answer_map)
+
+    # return all the dependencies in the statement of other statements
+    def dependencies(self, dependencies):
+        if self._id not in dependencies:
+            dependencies[self._id] = self._expression.get_variables()
         return dependencies
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
-        return {self.id: self.type}
+    def id_type_map(self):
+        return {self._id: self._type}
 
     # Get a dictionary with ids and statements
-    def get_statement_dict(self):
-        return {self.id: self}
+    def id_statement_map(self):
+        return {self._id: self}
 
-    #
-    # Methods of assignment
-    #
+    def expressions_type_error_messages(self, type_map):
+        return self._expression.type_error_messages(type_map)
 
-    # TODO: change below?
-
-    def get_type(self):
-        return self.type
+    def get_expression(self):
+        return self._expression
 
     def get_id(self):
-        return self.id
+        return self._id
+
+    def get_type_string(self):
+        return self._type
 
     def get_label(self):
-        return self.expression.pretty_print()
+        return ""
 
-    #
-    def valid_type_message(self, td):
-        return self.condition.is_valid_expression_message(td)
-
+    def is_assignment(self):
+        return True

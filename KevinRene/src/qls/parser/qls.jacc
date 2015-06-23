@@ -22,75 +22,70 @@
 %token <Section> SECTION 
 %token <Widget> WIDGET 
 %token <Question> QUESTION 
-%token <Default> DEFAULT 
+%token DEFAULT 
 
-%token RADIO DROPDOWN SLIDER SPINNER TEXT 
+%token RADIO DROPDOWN SLIDER SPINBOX TEXT 
 %token <Checkbox> CHECKBOX
-%token  '"' ':' '.' ','
+%token  '"' ':' '.' ',' ';'
 %token '(' ')' '{' '}'
 
 %type <Literal> literal
 %type <QLType> type
-%type <QLSBlock> statements pages
-%type <QLSStatement> statement
-%type <ValueSet> values
-%type <StyleRule> styleRule
-%type <StyleRuleSet> styleRules
-%type <Widget> widgetType widget
+%type <Block> statements pages
+%type <Statement> statement
+%type <Property> property
+%type <StyleProperties> styleProperties
+%type <WidgetType> widgetType
+%type <Widget> widget
 %type <Page> page
 
 %{
 import ql.ast.QLNode;
-import ql.ast.expression.Identifier;
-import ql.ast.expression.Literal;
 import ql.ast.QLType;
 import ql.ast.type.*;
-import ql.ast.expression.literal.*;
+import ql.ast.expression.Identifier;
 
 import qls.ast.*;
 import qls.ast.statement.*;
-import qls.ast.stylerule.*;
-import qls.ast.stylerule.property.*;
-import qls.ast.widget.*;
+import qls.ast.statement.widget.*;
+import qls.ast.statement.widget.type.*;
+import qls.ast.statement.widget.type.parameterised.*;
+import qls.ast.statement.widget.styling.*;
+import qls.ast.statement.widget.styling.property.*;
+import qls.ast.expression.Literal;
+import qls.ast.expression.literal.*;
 
 @SuppressWarnings("all")
 %}
 
-%%
-	top : stylesheet { result = $1; }
-		;
-		
-	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { $$ = new Stylesheet($2, $4); }
+%%		
+	stylesheet : STYLESHEET IDENTIFIER '{' pages '}' { result = new Stylesheet($2, $4); }
 				;
 
-  pages : page pages  { $$ = new QLSBlock($1, $2); }
-        | page        { $$ = new QLSBlock($1); }
-        ;
+  	pages 	: page pages  { $$ = new Block($1, $2); }
+        	| page        { $$ = new Block($1); }
+        	;
 
-  page : PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
-       ;
+	page 	: PAGE IDENTIFIER '{' statements '}'  { $$ = new Page($2, $4); }
+			;
 
-	statements
-        : statement statements   { $$ = new QLSBlock($1, $2); }
-		| statement              { $$ = new QLSBlock($1); }
-        |                        { $$ = new QLSBlock(); }
-		;
+	statements	: statement statements	{ $$ = new Block($1, $2); }
+        		| /* empty */			{ $$ = new Block(); }
+				;
 				
-	statement
-        : SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
-        | DEFAULT type widget                       { $$ = new Default($2, $3);  }
-        | DEFAULT type '{' styleRules '}'           { $$ = new Default($2, $4);  }
-        | DEFAULT type '{' styleRules widget '}'    { $$ = new Default($2, $4, $5);  }
-        | QUESTION IDENTIFIER                       { $$ = new Question($2);     }
-        | QUESTION IDENTIFIER '{' widget '}'        { $$ = new Question($2, $4); }
-	    ;
+	statement	: SECTION STRINGLITERAL '{' statements '}'  { $$ = new Section($2, $4);  }
+        		| DEFAULT type widget						{ $$ = new DefaultWidget($2, $3);  }
+        		| DEFAULT type '{' styleProperties '}'           { $$ = new DefaultStyle($2, $4);  }
+        		| QUESTION IDENTIFIER ';'                      { $$ = new Question($2);     }
+        		| QUESTION IDENTIFIER widget				{ $$ = new Question($2, $3); }
+	    		;
 
-	type : INTEGER	{ $$ = new QLInteger(); }
-	 	 | MONEY		{ $$ = new QLFloat(); }
-		 | FLOAT		{ $$ = new QLFloat(); }
-		 | BOOLEAN	{ $$ = new QLBoolean(); }
-		 | STRING 	{ $$ = new QLString(); }
-		 ;
+	type	: INTEGER	{ $$ = new QLInteger(); }
+			| MONEY		{ $$ = new QLMoney(); }
+		 	| FLOAT		{ $$ = new QLFloat(); }
+		 	| BOOLEAN	{ $$ = new QLBoolean(); }
+			| STRING 	{ $$ = new QLString(); }
+			;
 			
 	literal	: BOOLEANLITERAL
 			| INTEGERLITERAL
@@ -99,31 +94,28 @@ import qls.ast.widget.*;
 			| STRINGLITERAL
 			;
 	
-	widget : WIDGET widgetType { $$ = $2; }
+	widget 	: WIDGET widgetType	';'					{ $$ = new Widget($2); }
+			| '{' styleProperties WIDGET widgetType ';' '}' 	{ $$ = new Widget($2, $4); }
 			;
 			
-	widgetType	: SPINNER           { $$ = new Spinner(); }
-				| RADIO '(' values ')'    { $$ = new RadioButton($3); }
-				| SLIDER '(' values ')'   { $$ = new Slider($3); }
-				| DROPDOWN '(' values ')' { $$ = new Dropdown($3); }
-				| TEXT                    { $$ = new TextField(); }
-				| CHECKBOX                { $$ = new Checkbox(); }
+	widgetType	: SPINBOX           	  				{ $$ = new Spinbox(); }
+				| RADIO '(' literal ',' literal ')'    	{ $$ = new RadioButton($3, $5); }
+				| SLIDER '(' literal ',' literal ')'   	{ $$ = new Slider($3, $5); }
+				| DROPDOWN '(' literal ',' literal ')' 	{ $$ = new Dropdown($3, $5); }
+				| TEXT                    				{ $$ = new TextField(); }
+				| CHECKBOX               				{ $$ = new Checkbox(); }
 				;
 	
-	values 	: literal ',' values    { $$ = new ValueSet($1, $3); }
-			| literal                   { $$ = new ValueSet($1);     }
-			;
-	
-	styleRules	: styleRule styleRules   { $$ = new StyleRuleSet($1, $2); }
-				| styleRule                    { $$ = new StyleRuleSet($1); }
-				;
-				
-  styleRule	: WIDTH     ':' literal  { $$ = new Width($3);  }
-					| HEIGHT      ':' literal  { $$ = new Height($3); }
-					| FONT        ':' literal  { $$ = new Font($3);   }
-					| FONTSIZE    ':' literal  { $$ = new FontSize($3); }
-					| COLOR       ':' literal  { $$ = new Color($3); }
+	styleProperties	: property styleProperties	{ $$ = new StyleProperties($1, $2); }
+					| /* empty */			{ $$ = new StyleProperties(); }
 					;
+				
+  property	: WIDTH		':' literal ';' { $$ = new Width($3); }
+			| HEIGHT	':' literal ';' { $$ = new Height($3); }
+			| FONT		':' literal ';' { $$ = new Font($3); }
+			| FONTSIZE	':' literal ';' { $$ = new FontSize($3); }
+			| COLOR		':' literal ';' { $$ = new Color($3); }
+			;
 
 %%
 private QLSLexer lexer; 

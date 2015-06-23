@@ -6,31 +6,46 @@ import java.util.List;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import uva.sc.core.INode;
-import uva.sc.core.types.Type;
-import uva.sc.core.types.String;
 import uva.sc.core.types.Boolean;
 import uva.sc.core.types.Number;
+import uva.sc.core.types.String;
+import uva.sc.core.types.Type;
 import uva.sc.ql.ast.IQLExpressionNode;
 import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.NumberAtom;
 import uva.sc.ql.atom.StringAtom;
 import uva.sc.ql.expression.Expression;
-import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.expression.unaryExpressions.*;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
 import uva.sc.ql.form.Form;
 import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
+@SuppressWarnings("rawtypes")
 public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 
     /* ========================== Parsing blocks ============================ */
 
     public Form visitForm(@NotNull QLGrammarParser.FormContext ctx) {
 	List<Statement> statementList = new ArrayList<Statement>();
-	for (int i = 0; i < ctx.sts.size(); i++)
-	    statementList.add((Statement) visitStat(ctx.sts.get(i)));
+	for (QLGrammarParser.StatContext statementContext : ctx.sts) {
+	    statementList.add((Statement) visitStat(statementContext));
+	}
 	return new Form(new ID(ctx.ID().getText()), statementList);
     }
 
@@ -49,8 +64,9 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
     public IfStatement visitIf_stat(@NotNull QLGrammarParser.If_statContext ctx) {
 	Expression expr = (Expression) this.visit(ctx.expr());
 	List<Question> questionList = new ArrayList<Question>();
-	for (int i = 0; i < ctx.qs.size(); i++)
-	    questionList.add((Question) visitQuestion(ctx.qs.get(i)));
+	for (QLGrammarParser.QuestionContext questionContext : ctx.qs) {
+	    questionList.add((Question) visitQuestion(questionContext));
+	}
 	return new IfStatement(expr, questionList);
     }
 
@@ -70,18 +86,17 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 
     /* ============================ Literals ================================ */
 
-    public IQLExpressionNode visitString(@NotNull QLGrammarParser.StringContext ctx) {
+    public IQLExpressionNode visitString(
+	    @NotNull QLGrammarParser.StringContext ctx) {
 	java.lang.String str = ctx.getText();
 	str = str.substring(1, str.length() - 1).replace("\"\"", "\"");
 	return new StringAtom(str);
     }
 
-    public IQLExpressionNode visitNumber(@NotNull QLGrammarParser.NumberContext ctx) {
+    public IQLExpressionNode visitNumber(
+	    @NotNull QLGrammarParser.NumberContext ctx) {
 	IQLExpressionNode result = null;
-	// if (ctx.getText().contains("."))
 	result = new NumberAtom(Double.valueOf(ctx.getText()));
-	// else
-	// result = new NumberAtom(ctx.getText());
 	return result;
     }
 
@@ -118,7 +133,8 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 	return result;
     }
 
-    public IQLExpressionNode visitAdditive(@NotNull QLGrammarParser.AdditiveContext ctx) {
+    public IQLExpressionNode visitAdditive(
+	    @NotNull QLGrammarParser.AdditiveContext ctx) {
 	Expression result = null;
 	Expression firstOperand = (Expression) this.visit(ctx.expr(0));
 	Expression secondOperand = (Expression) this.visit(ctx.expr(1));
@@ -155,7 +171,8 @@ public class ASTGeneratorVisitor extends QLGrammarBaseVisitor<INode> {
 	return result;
     }
 
-    public IQLExpressionNode visitEquality(@NotNull QLGrammarParser.EqualityContext ctx) {
+    public IQLExpressionNode visitEquality(
+	    @NotNull QLGrammarParser.EqualityContext ctx) {
 	IQLExpressionNode result = null;
 	Expression firstOperand = (Expression) this.visit(ctx.expr(0));
 	Expression secondOperand = (Expression) this.visit(ctx.expr(1));

@@ -12,12 +12,11 @@ public class StrValue extends Value {
 	public String value() {
 		return value;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof StrValue){
+		if (obj instanceof StrValue) {
 			return value.equals(((StrValue) obj).value());
-			
 		} else {
 			throw new UnsupportedOperationException("StrValue is only compariable with another StrValue.");
 		}
@@ -56,7 +55,7 @@ public class StrValue extends Value {
 	public Value StrPlus(StrValue arg) {
 		return new StrValue(arg.value() + value());
 	}
-	
+
 	@Override
 	public boolean isDefined() {
 		return true;

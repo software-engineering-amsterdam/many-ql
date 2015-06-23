@@ -1,20 +1,17 @@
-import QL.AST.Expressions.Primitives.primitive as e
-import QL.Grammar.constants as constants
+import QL.AST.Expressions.Primitives.primitive as primitive
+import QL.AST.Expressions.Types.number_type as number_type
 
 
-class Number(e.Primitive):
+class Number(primitive.Primitive):
     def __init__(self, number):
         self.__number = number
 
-    def return_type_string(self, type_dict):
-        return constants.NUMBER
-
-    def pretty_print(self):
+    def __str__(self):
         return str(self.__number)  # since it is a real integer
 
-    # numbers are not dependencies
-    def get_dependency_collection(self):
-        return []
+    def return_type(self, type_map):
+        return number_type.Number()
 
-    def eval_expression(self, type_map):
+    # just the int value
+    def eval_expression(self, answer_map):
         return self.__number

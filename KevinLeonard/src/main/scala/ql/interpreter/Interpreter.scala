@@ -3,8 +3,8 @@ package ql.interpreter
 import ql.ast.Form
 import ql.gui.FormBuilder
 import ql.parser.Parser
-import ql.typechecker.{DuplicateLabelsChecker, TypeChecker}
-import qls.ast.Section
+import ql.typechecker.{DuplicateLabelsChecker, Error, TypeChecker, Warning}
+import types.TypeEnvironment
 
 import scala.io.Source
 
@@ -15,9 +15,13 @@ object Interpreter {
 
     parse(source) match {
       case Some(ast) =>
-        val typeChecks = checkTypes(ast)
-        if (typeChecks) {
+        val (errors, warnings, _) = checkTypes(ast)
+
+        warnings.foreach(println)
+        if (errors.isEmpty) {
           render(ast)
+        } else {
+          errors.foreach(println)
         }
       case None => ()
     }
@@ -33,17 +37,14 @@ object Interpreter {
     }
   }
 
-  def checkTypes(ast: Form): Boolean = {
+  def checkTypes(ast: Form): (List[Error], List[Warning], TypeEnvironment) = {
     val typeChecker = new TypeChecker()
     val duplicateLabelsChecker = new DuplicateLabelsChecker()
 
-    val errors = typeChecker.check(ast)
+    val (errors, env) = typeChecker.check(ast)
     val warnings = duplicateLabelsChecker.check(ast)
 
-    errors.foreach(println)
-    warnings.foreach(println)
-
-    errors.isEmpty
+    (errors, warnings, env)
   }
 
   def render(ast: Form): Unit = {

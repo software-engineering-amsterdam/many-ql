@@ -9,37 +9,45 @@ import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeInteger;
 import uva.ql.ast.type.TypeMoney;
 import uva.ql.ast.value.NumberValue;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitor;
 
-public class Multiplication extends BinaryExpressions{
+public class Multiplication extends BinaryExpression{
 
 	public Multiplication(Expression left, Expression right, CodeLines _codeLines){
 		super(left, right, Operator.MUL, _codeLines);
 	}
 	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
+	public NumberValue evaluate() {
+		int left = (int)this.getLeftExpressionValue();
+		int right = (int)this.getRightExpressionValue();
+		
+		return new NumberValue(left).multiplication(new NumberValue(right));	
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public Object getValue() {
+		return this.evaluate().getValue();
+	}
+	
+	@Override
+	public List<Type> possibleReturnTypes() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public List<Type> acceptedTypes() {
+		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitMultiplication(this);
 	}
 	
 	@Override
-	public NumberValue evaluate() {
-		return new NumberValue((int)this.getLeftExpr().evaluate().getValue()).multiplication(new NumberValue((int)this.getRightExpr().evaluate().getValue()));	
-	}
-	
-	@Override
-	public List<Type> getValueType() {
-		return Arrays.asList(new TypeInteger(), new TypeMoney());
-	}
-	
-	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeInteger(), new TypeMoney());
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override

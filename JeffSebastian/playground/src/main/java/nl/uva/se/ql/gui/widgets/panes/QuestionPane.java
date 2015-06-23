@@ -3,38 +3,39 @@ package nl.uva.se.ql.gui.widgets.panes;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import nl.uva.se.ql.ast.form.Form;
-import nl.uva.se.ql.ast.statement.Condition;
+import nl.uva.se.ql.ast.statement.CalculatedQuestion;
 import nl.uva.se.ql.ast.statement.Question;
-import nl.uva.se.ql.evaluation.ValueTable;
+import nl.uva.se.ql.gui.mediators.Mediator;
 import nl.uva.se.ql.gui.widgets.boxes.ConditionBox;
 import nl.uva.se.ql.gui.widgets.boxes.QuestionBox;
 
 public class QuestionPane extends BorderPane {
 
 	private VBox vbox;
-	public final Form form;
-	private ValueTable values;
+	private final Form form;
+	private final Mediator mediator;
 
-	public QuestionPane(Form form, ValueTable values) {
+	public QuestionPane(Form form, Mediator mediator) {
 		this.form = form;
-		vbox = new VBox();		
+		this.mediator = mediator;
+		vbox = new VBox();
 		this.setLeft(vbox);
-		this.values = values;
-	}
-
-	public void addCondition(Condition condition) {
-		ConditionBox conditionBox = new ConditionBox(condition);
-		conditionBox.setVisible(true);
-		vbox.getChildren().add(conditionBox);
 	}
 
 	public void addConditionBox(ConditionBox conditionBox) {
-		conditionBox.setVisible(true);
+		conditionBox.managedProperty().bind(conditionBox.visibleProperty());
+		conditionBox.setVisible(false);
+		mediator.registerCondition(conditionBox);
 		vbox.getChildren().add(conditionBox);
 	}
 
 	public void addQuestion(Question question) {
-		QuestionBox questionBox = new QuestionBox(question);		
+		QuestionBox questionBox = new QuestionBox(question, mediator);
+		vbox.getChildren().add(questionBox);
+	}
+
+	public void addQuestion(CalculatedQuestion question) {
+		QuestionBox questionBox = new QuestionBox(question, mediator);
 		vbox.getChildren().add(questionBox);
 	}
 

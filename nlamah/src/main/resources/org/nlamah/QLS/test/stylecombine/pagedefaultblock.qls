@@ -1,0 +1,14 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			question question1
+		}
+	}
+	default 
+	{
+		 color: #F00
+	}
+}

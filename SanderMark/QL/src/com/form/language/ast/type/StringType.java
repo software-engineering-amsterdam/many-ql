@@ -6,11 +6,6 @@ import com.form.language.ast.values.StringValue;
 public final class StringType extends Type {
 
     @Override
-    public Type getType() {
-	return this;
-    }
-
-    @Override
     public boolean isStringType() {
 	return true;
     }
@@ -35,5 +30,10 @@ public final class StringType extends Type {
     public int hashCode() {
 	return 0;
     }
+    
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visitStringType(this);
+	}
     
 }

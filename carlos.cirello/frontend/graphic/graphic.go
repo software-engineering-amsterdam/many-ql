@@ -13,31 +13,15 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-type renderAction int
-
-type render struct {
-	action     renderAction
-	identifier string
-	label      string
-	fieldType  string
-	content    interface{}
-	invisible  bool
-}
-
 // Gui holds the driver which is used by Frontend to execute the application.
 type Gui struct {
 	renderplumbing chan render
 	appName        string
 
-	mu              sync.Mutex
-	drawStack       []render
-	renderStack     []render
-	answerStack     map[string]string
-	sweepStack      map[string]bool
-	symbolTable     map[string]qml.Object
-	root            qml.Object
-	updateCallbacks map[string]func(v string)
-	targetContainer qml.Object
+	mu          sync.Mutex
+	root        qml.Object
+	stacks      *stacks
+	objectTable *objectTable
 }
 
 // GUI creates the driver for Frontend process.
@@ -45,11 +29,9 @@ func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 
-		renderplumbing:  make(chan render),
-		answerStack:     make(map[string]string),
-		sweepStack:      make(map[string]bool),
-		symbolTable:     make(map[string]qml.Object),
-		updateCallbacks: make(map[string]func(v string)),
+		renderplumbing: make(chan render),
+		stacks:         newStack(),
+		objectTable:    newObjectTable(),
 	}
 	return driver
 }
@@ -68,15 +50,14 @@ func (g *Gui) DrawQuestion(
 	if visible == plumbing.Hidden {
 		invisible = true
 	}
-	m := &render{
+	r := &render{
 		action:     drawQuestion,
 		identifier: identifier,
 		label:      label,
 		fieldType:  typ,
 		invisible:  invisible,
 	}
-	g.drawStack = append(g.drawStack, *m)
-	g.sweepStack[identifier] = true
+	g.stacks.pushDraw(identifier, *r)
 }
 
 // UpdateQuestion updates an existing question in the GUI form stack.
@@ -84,13 +65,12 @@ func (g *Gui) UpdateQuestion(identifier string, content interface{}) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	m := &render{
+	r := &render{
 		action:     updateQuestion,
 		identifier: identifier,
 		content:    content,
 	}
-	g.renderStack = append(g.renderStack, *m)
-	g.sweepStack[identifier] = true
+	g.stacks.pushRender(identifier, *r)
 }
 
 // Flush transfers form stack into the screen.
@@ -98,24 +78,22 @@ func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	allRender := append(g.drawStack, g.renderStack...)
+	allRender := g.stacks.allRender()
 	for _, v := range allRender {
 		g.renderplumbing <- v
 	}
 
-	g.drawStack = []render{}
-	g.renderStack = []render{}
-
-	for k, v := range g.sweepStack {
+	sweepStack := g.stacks.allSweep()
+	for k, v := range sweepStack {
 		if !v {
 			nukeplumbing := &render{
 				action:     nukeQuestion,
 				identifier: k,
 			}
 			g.renderplumbing <- *nukeplumbing
-			delete(g.sweepStack, k)
+			g.stacks.sweep(k)
 		} else {
-			g.sweepStack[k] = false
+			g.stacks.markToSweep(k)
 		}
 	}
 }
@@ -126,9 +104,7 @@ func (g *Gui) FetchAnswers() map[string]string {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	answerStack := g.answerStack
-	g.answerStack = make(map[string]string)
-	return answerStack
+	return g.stacks.allAnswers()
 }
 
 // Loop executes GUI main loop, which actually delegates the interface to the
@@ -185,17 +161,19 @@ func (g *Gui) addNewQuestion(typ, name, caption string, invisible bool) {
 		question = g.newBooleanQuestion(name, caption, false)
 	case ast.ScalarNumericPrimitive:
 		question = g.newNumericQuestion(name, caption, 0)
+	case ast.ScalarDatePrimitive:
+		question = g.newDateQuestion(name, caption, "")
 	}
 
 	if !invisible {
 		question.Set("visible", true)
 	}
 
-	g.symbolTable[name] = question
+	g.objectTable.add(name, question)
 }
 
 func (g *Gui) updateQuestion(fieldName string, content interface{}) {
-	if question, ok := g.symbolTable[fieldName]; ok {
+	if question, ok := g.objectTable.has(fieldName); ok {
 		question.Set("visible", true)
 
 		fieldPtr := question.ObjectByName(fieldName)
@@ -210,11 +188,11 @@ func (g *Gui) updateIfUnfocused(fieldPtr qml.Object, fieldName,
 		return
 	}
 
-	g.updateCallbacks[fieldName](content)
+	g.objectTable.updateFor(fieldName, content)
 }
 
 func (g *Gui) hideQuestion(fieldName string) {
-	g.symbolTable[fieldName].Set("visible", "false")
+	g.objectTable.get(fieldName).Set("visible", "false")
 }
 
 func (g *Gui) createQuestionQML(template, fieldName, caption string) qml.Object {

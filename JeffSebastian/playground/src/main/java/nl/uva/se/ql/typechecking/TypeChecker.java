@@ -1,7 +1,9 @@
 package nl.uva.se.ql.typechecking;
 
+import nl.uva.se.ql.ast.expression.Binary;
 import nl.uva.se.ql.ast.expression.Expression;
 import nl.uva.se.ql.ast.expression.ExpressionVisitor;
+import nl.uva.se.ql.ast.expression.Unary;
 import nl.uva.se.ql.ast.expression.arithmetical.Addition;
 import nl.uva.se.ql.ast.expression.arithmetical.Divide;
 import nl.uva.se.ql.ast.expression.arithmetical.Modulo;
@@ -37,13 +39,12 @@ import nl.uva.se.ql.ast.type.StringType;
 import nl.uva.se.ql.ast.type.Type;
 import nl.uva.se.ql.ast.type.TypeVisitor;
 import nl.uva.se.ql.ast.type.UndefinedType;
-import nl.uva.se.ql.interpretation.Result;
-import nl.uva.se.ql.interpretation.error.ErrorList;
-import nl.uva.se.ql.interpretation.error.InvalidConditionType;
-import nl.uva.se.ql.interpretation.error.InvalidOperandType;
-import nl.uva.se.ql.interpretation.error.TypeMismatch;
-import nl.uva.se.ql.interpretation.error.TypeNotAllowed;
-import nl.uva.se.ql.interpretation.error.UndefinedReference;
+import nl.uva.se.ql.typechecking.error.ErrorList;
+import nl.uva.se.ql.typechecking.error.InvalidConditionType;
+import nl.uva.se.ql.typechecking.error.InvalidOperandType;
+import nl.uva.se.ql.typechecking.error.TypeMismatch;
+import nl.uva.se.ql.typechecking.error.TypeNotAllowed;
+import nl.uva.se.ql.typechecking.error.UndefinedReference;
 
 public class TypeChecker implements FormVisitor, StatementVisitor,
 		ExpressionVisitor<Type>, TypeVisitor<Type> {
@@ -52,26 +53,39 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	private static final Type INTEGER = new IntegerType();
 	private static final Type DECIMAL = new DecimalType();
 	private static final Type STRING = new StringType();
+	
+	private static final Type[] NUMERIC_TYPES = {INTEGER,DECIMAL};
+	private static final Type[] ALPHA_NUMERIC_TYPES = {INTEGER,DECIMAL,STRING};
+	private static final Type[] ALL_TYPES = {INTEGER,DECIMAL,STRING,BOOLEAN};
 
 	private SymbolTable symbols;
 	private ErrorList errors;
 
-	private TypeChecker(Result<SymbolTable> symbolResult) {
-		this.symbols = symbolResult.getResult();
-		this.errors = symbolResult.getErrorList();
+	private TypeChecker(SymbolTable symbols) {
+		this.symbols = symbols;
+		this.errors = new ErrorList();
 	}
 
-	public static Result<SymbolTable> check(Form form) {
-		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
+	public static ErrorList check(Form form) {
+		SymbolResult symbolResult = SymbolResolver.resolve(form);
+		ErrorList symbolErrorList = symbolResult.getErrorList();
 
-		if (!symbolResult.getErrorList().hasErrors()) {
-			TypeChecker typeChecker = new TypeChecker(symbolResult);
-			typeChecker.visit(form);
-			return new Result<SymbolTable>(typeChecker.errors,
-					typeChecker.symbols);
+		if (symbolErrorList.hasErrors()) {
+			return symbolErrorList;
 		}
-
-		return symbolResult;
+			
+		DependencyTable dependencies = DependencyResolver.resolve(form, 
+				symbolResult.getSymbols());
+		ErrorList dependencyErrorList = CyclicDependencyChecker.check(dependencies);
+		
+		if (dependencyErrorList.hasErrors()) {
+			return dependencyErrorList;
+		}
+		
+		TypeChecker typeChecker = new TypeChecker(symbolResult.getSymbols());
+		typeChecker.visit(form);
+		
+		return typeChecker.errors;
 	}
 
 	public void visit(Form form) {
@@ -82,12 +96,15 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	}
 
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		Type type = calculatedQuestion.getExpression().accept(this);
+		Type expressionType = calculatedQuestion.getExpression().accept(this);
+		Type questionType = calculatedQuestion.getType();
+		Type promotedExpressionType = expressionType.promote();
+		Type promotedQuesType = questionType.promote();
 		
-		if (!type.equals(calculatedQuestion.getType())) {
+		if (!promotedExpressionType.equals(promotedQuesType)) {
 			errors.addError(new TypeMismatch(
 				calculatedQuestion.getLineNumber(), calculatedQuestion
-				.getOffset(), calculatedQuestion.getType(), type));
+				.getOffset(), questionType, expressionType));
 		}
 	}
 
@@ -102,97 +119,88 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	}
 
 	public Type visit(Addition plus) {
-		Type sharedType = getSharedType(plus.getLeft(), plus.getRight());
-		return getTypeForExpression(sharedType, plus, INTEGER, DECIMAL, STRING);
+		Type type = visitBinaryExpression(plus);
+		return defineType(plus, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(Divide divide) {
-		Type sharedType = getSharedType(divide.getLeft(), divide.getRight());
-		return getTypeForExpression(sharedType, divide, INTEGER, DECIMAL);
+		Type type = visitBinaryExpression(divide);
+		return defineType(divide, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Power power) {
-		Type sharedType = getSharedType(power.getLeft(), power.getRight());
-		return getTypeForExpression(sharedType, power, INTEGER, DECIMAL);
+		Type type = visitBinaryExpression(power);
+		return defineType(power, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Multiply multiply) {
-		Type sharedType = getSharedType(multiply.getLeft(), multiply.getRight());
-		return getTypeForExpression(sharedType, multiply, INTEGER, DECIMAL);
+		Type type = visitBinaryExpression(multiply);
+		return defineType(multiply, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Modulo modulo) {
-		Type sharedType = getSharedType(modulo.getLeft(), modulo.getRight());
-		return getTypeForExpression(sharedType, modulo, INTEGER, DECIMAL);
+		Type type = visitBinaryExpression(modulo);
+		return defineType(modulo, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Negative negative) {
-		Type type = negative.getSingleExpression().accept(this);
-		return getTypeForExpression(type, negative, INTEGER, DECIMAL);
+		Type type = visitUnaryExpression(negative);
+		return defineType(negative, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Positive positive) {
-		Type type = positive.getSingleExpression().accept(this);
-		return getTypeForExpression(type, positive, INTEGER, DECIMAL);
+		Type type = visitUnaryExpression(positive);
+		return defineType(positive, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Substraction minus) {
-		Type sharedType = getSharedType(minus.getLeft(), minus.getRight());
-		return getTypeForExpression(sharedType, minus, INTEGER, DECIMAL);
+		Type type = visitBinaryExpression(minus);
+		return defineType(minus, type, NUMERIC_TYPES);
 	}
 
 	public Type visit(Not not) {
-		Type type = not.getSingleExpression().accept(this);
-		return getTypeForBooleanExpression(type, not, BOOLEAN);
+		Type type = visitUnaryExpression(not);
+		return defineType(not, type, BOOLEAN);
 	}
 
 	public Type visit(NotEqual notEqual) {
-		Type sharedType = getSharedType(notEqual.getLeft(), notEqual.getRight());
-		return getTypeForBooleanExpression(sharedType, notEqual, INTEGER,
-				DECIMAL, STRING, BOOLEAN);
+		Type type = visitBinaryExpression(notEqual);
+		return defineType(notEqual, type, ALL_TYPES);
 	}
 
 	public Type visit(Or or) {
-		Type sharedType = getSharedType(or.getLeft(), or.getRight());
-		return getTypeForBooleanExpression(sharedType, or, BOOLEAN);
+		Type type = visitBinaryExpression(or);
+		return defineType(or, type, BOOLEAN);
 	}
 
 	public Type visit(LessThen lessThen) {
-		Type sharedType = getSharedType(lessThen.getLeft(), lessThen.getRight());
-		return getTypeForBooleanExpression(sharedType, lessThen, INTEGER,
-				DECIMAL, STRING);
+		Type type = visitBinaryExpression(lessThen);
+		return defineType(lessThen, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(LessOrEqual lessOrEqual) {
-		Type sharedType = getSharedType(lessOrEqual.getLeft(),
-				lessOrEqual.getRight());
-		return getTypeForBooleanExpression(sharedType, lessOrEqual, INTEGER,
-				DECIMAL, STRING);
+		Type type = visitBinaryExpression(lessOrEqual);
+		return defineType(lessOrEqual, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(GreaterThen greaterThen) {
-		Type sharedType = getSharedType(greaterThen.getLeft(),
-				greaterThen.getRight());
-		return getTypeForBooleanExpression(sharedType, greaterThen, INTEGER,
-				DECIMAL, STRING);
+		Type type = visitBinaryExpression(greaterThen);
+		return defineType(greaterThen, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(GreaterOrEqual greaterOrEqual) {
-		Type sharedType = getSharedType(greaterOrEqual.getLeft(),
-				greaterOrEqual.getRight());
-		return getTypeForBooleanExpression(sharedType, greaterOrEqual, INTEGER,
-				DECIMAL, STRING);
+		Type type = visitBinaryExpression(greaterOrEqual);
+		return defineType(greaterOrEqual, type, ALPHA_NUMERIC_TYPES);
 	}
 
 	public Type visit(Equal equal) {
-		Type sharedType = getSharedType(equal.getLeft(), equal.getRight());
-		return getTypeForBooleanExpression(sharedType, equal, INTEGER, DECIMAL,
-				STRING, BOOLEAN);
+		Type type = visitBinaryExpression(equal);
+		return defineType(equal, type, ALL_TYPES);
 	}
 
 	public Type visit(And and) {
-		Type sharedType = getSharedType(and.getLeft(), and.getRight());
-		return getTypeForBooleanExpression(sharedType, and, BOOLEAN);
+		Type type = visitBinaryExpression(and);
+		return defineType(and, type, BOOLEAN);
 	}
 
 	public Type visit(BooleanLiteral booleanLiteral) {
@@ -221,55 +229,7 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 
 		return new UndefinedType();
 	}
-
-	private Type getSharedType(Expression left, Expression right) {
-		Type leftType = left.accept(this);
-		Type rightType = right.accept(this);
-
-		if (leftType.isUndefined()) {
-			errors.addError(new UndefinedReference(left.getLineNumber(), 
-					left.getOffset(), left.toString()));
-			return new UndefinedType();
-		}
-
-		if (rightType.isUndefined()) {
-			errors.addError(new UndefinedReference(right.getLineNumber(), 
-					right.getOffset(), right.toString()));
-			return new UndefinedType();
-		}
-
-		if (leftType.equals(rightType)) {
-			return leftType.accept(this);
-		}
-
-		errors.addError(new InvalidOperandType(left.getLineNumber(), 
-				left.getOffset(), leftType, leftType, rightType));
-
-		return new UndefinedType();
-	}
-
-	private Type getTypeForExpression(Type type, Expression expr, Type... types) {
-		if (type.isIn(types)) {
-			return type.accept(this);
-		}
-
-		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
-				expr.getOffset(), type, expr.getClass().getName()));
-
-		return new UndefinedType();
-	}
-
-	private Type getTypeForBooleanExpression(Type type, Expression expr, Type... types) {
-		if (type.isIn(types)) {
-			return new BooleanType();
-		}
-
-		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
-				expr.getOffset(), type, expr.getClass().getName()));
-
-		return new UndefinedType();
-	}
-
+	
 	@Override
 	public Type visit(BooleanType booleanType) {
 		return new BooleanType();
@@ -294,4 +254,64 @@ public class TypeChecker implements FormVisitor, StatementVisitor,
 	public Type visit(UndefinedType undefinedType) {
 		return new UndefinedType();
 	}
+	
+	private Type visitBinaryExpression(Binary binaryExpression) {
+		Expression left = binaryExpression.getLeft();
+		Expression right = binaryExpression.getRight();
+		Type leftType = left.accept(this);
+		Type rightType = right.accept(this);
+		
+		if (leftType.isUndefined()) {
+			errors.addError(new UndefinedReference(left.getLineNumber(), 
+					left.getOffset(), left.toString()));
+			return new UndefinedType();
+		}
+
+		if (rightType.isUndefined()) {
+			errors.addError(new UndefinedReference(right.getLineNumber(), 
+					right.getOffset(), right.toString()));
+			return new UndefinedType();
+		}
+		
+		if (leftType.equals(rightType)) {
+			return leftType.accept(this);
+		}
+		
+		Type leftPromoted = leftType.promote();
+		Type rightPromoted = rightType.promote();
+		
+		if (leftPromoted.equals(rightPromoted)) {
+			return leftPromoted.accept(this);
+		}
+		
+		errors.addError(new InvalidOperandType(left.getLineNumber(), 
+				left.getOffset(), leftType, leftType, rightType));
+		
+		return new UndefinedType();
+	}
+	
+	private Type visitUnaryExpression(Unary unaryExpression) {
+		Expression expression = unaryExpression.getSingleExpression();
+		Type type = expression.accept(this);
+		
+		if (type.isUndefined()) {
+			errors.addError(new UndefinedReference(expression.getLineNumber(), 
+					expression.getOffset(), expression.toString()));
+			return new UndefinedType();
+		}
+		
+		return type;
+	}
+	
+	private Type defineType(Expression expr, Type type, Type... types) {
+		if (type.isIn(types)) {
+			return type;
+		} 
+		
+		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
+				expr.getOffset(), type, expr.getClass().getName()));
+		
+		return new UndefinedType();
+	}
+	
 }

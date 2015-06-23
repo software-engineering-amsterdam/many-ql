@@ -5,14 +5,14 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.ast.type.StringType;
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.question.QLSQuestion;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
-import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.Style;
+import org.fugazi.qls.ast.style.UndefinedStyle;
 import org.fugazi.qls.ast.style.style_property.*;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.widget.*;
@@ -220,7 +220,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     
     @Override 
 	public AbstractASTNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) {
-        Color styleProperty = new Color(this.removeStringQuotes(ctx.HEX().getText()));
+        Color styleProperty = new Color(
+            Integer.decode(this.removeStringQuotes(ctx.HEX().getText()))
+        );
         styleProperty.setLineNumber(this.getLineNumber(ctx));
         return styleProperty;
 	}

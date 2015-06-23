@@ -1,93 +1,73 @@
 import QL.AST.form as ast_form
-import QL.Tools.exceptions as e
-import QL.Runtime.question as runtime_question
-import QL.Tools.exceptions as exc
-import QL.AST.Expressions.Operations.and_op as and_op
+import QL.Runtime.assignment as assignment
+
+import QL.AST.Expressions.Operations.Logical.and_op as and_op
+import importlib
 
 
 class Form:
-    def __init__(self, ast_obj):
-        if not isinstance(ast_obj, ast_form.Form):
-            raise e.QException("Input must be an AST!")
-        self.ast = ast_obj
+    def __init__(self, form_ast):
+        assert isinstance(form_ast, ast_form.Form), "Input must be an AST"
+        self._form_ast = form_ast
 
-        # cookbook - must be in the following order
-        self.__ast_questions = []  # questions only based on the ast (basic questions)
-        self.__q_conditions_dict = {}  # {question_id : parent conditions}
-        self.__flatten_ast(self.ast.get_statements())
-        self.__combine_expressions()
+        self._statements = []
+        self.create_flattened_statements(self._form_ast.statements(), importlib.import_module('QL.Runtime.question'))
 
-        self.questions = []  # list for new enriched questions
-        self.__enrich_questions()
-
-    def get_questions(self):
-        return self.questions
-
-    def get_ast(self):
-        return self.ast
-
-    def get_form(self):
-        return self
-
-    def get_statement_dict(self):
-        d = {}
-        for s in self.get_questions():
-            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
-        return d
-
-    def __flatten_ast(self, statements, conditions=[]):
-        """
-        Gets an AST, flatten it to list of questions only,
-        and collect parent conditions recursively for each question.
-            self.__ast_questions = list of only questions based on the AST
-            self.__q_conditions_dict = dict of the questions with their parent conditions
-        :param statements: form statements / recursive blocks
-        :param conditions: previous recursively collected conditions
-        """
+    # Structure is given as parameter so it can be overridden in QLS
+    def create_flattened_statements(self, statements, structure, conditions=[], order=0):
         for statement in statements:
             if statement.is_conditional():
+
                 # flatten if block
-                c_statement_c = list(conditions)
-                c_statement_c.append(statement.get_condition())
-                self.__flatten_ast(statement.get_c_statements(), c_statement_c)
+                statement_conditions = list(conditions)
+                statement_conditions.append(statement.get_condition())
+                order = self.create_flattened_statements(statement.get_if_statements(), structure, statement_conditions, order)
 
                 # flatten else block
-                e_statement_c = list(conditions)
-                e_statement_c.append(statement.get_inverted_condition())
-                self.__flatten_ast(statement.get_e_statements(), e_statement_c)
-                conditions = []
+                else_statement_conditions = list(conditions)
+                else_statement_conditions.append(statement.get_inverted_condition())
+                order = self.create_flattened_statements(statement.get_else_statements(), structure, else_statement_conditions, order)
+
+            # create runtime assignment or runtime question with order and condition
+            elif statement.is_assignment():
+                a = \
+                    assignment.Assignment(statement, order, Form.combine_expressions(conditions))
+                self._statements.append(a)
             else:
-                self.__ast_questions.append(statement)  # add question to the new flat list
-                self.__q_conditions_dict[statement.get_id()] = conditions  # add condition to questions parent conditions
+                order += 1
+                enriched_question = \
+                    structure.Question(statement, order, Form.combine_expressions(conditions))
+                self._statements.append(enriched_question)
+        return order
 
-    def __enrich_questions(self):
-        """
-        takes the basic ast questions and generate new enriched question objects
-        with gui element, order and other useful stuff for runtime.
-            self.__ast_questions = list of questions based on the ast only
-            self.__q_conditions_dict = dict of the questions with their parent conditions
-            self.questions = new enriched questions
-        """
-        order = 0
-        for basic_question in self.__ast_questions:
-            qid = basic_question.get_id()
-            if qid not in self.__q_conditions_dict:
-                raise exc.QException("Fatal Error: id does not exist in the dict!")
-            enriched_question = runtime_question.Question(basic_question, order, self.__q_conditions_dict[qid])
-            self.questions.append(enriched_question)
-            order += 1
+    # from a list of expressions combine them using the and operation to create one expression
+    @staticmethod
+    def combine_expressions(expressions):
+        if len(expressions) == 0:
+            return None
+        expr = expressions[0]
+        for x in range(1, len(expressions), 2):
+            expr = and_op.And(expr, expressions[x])
+        return expr
 
-    def __combine_expressions(self):
-        """
-        takes a shared variable list of expressions and join them together logically
-            self.__q_conditions_dict = dict of the questions with their parent conditions.
-        """
-        for q_id in self.__q_conditions_dict:
-            conditions_list = self.__q_conditions_dict[q_id]
-            if not conditions_list:
-                self.__q_conditions_dict[q_id] = None
-                continue
-            expr = conditions_list[0]
-            for x in range(1, len(conditions_list), 2):
-                expr = and_op.And(expr, conditions_list[x])
-            self.__q_conditions_dict[q_id] = expr
+    def statements(self):
+        return self._statements
+
+    def ast(self):
+        return self._form_ast
+
+    def form(self):
+        return self
+
+    def name(self):
+        return self._form_ast.name()
+
+    def introduction(self):
+        return self._form_ast.introduction()
+
+    def statement_map(self):
+        d = {}
+        for s in self.statements():
+            d = dict(list(d.items()) + list(s.id_statement_map().items()))
+        return d
+

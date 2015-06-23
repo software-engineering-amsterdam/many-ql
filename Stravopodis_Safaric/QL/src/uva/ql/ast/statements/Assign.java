@@ -3,7 +3,7 @@ package uva.ql.ast.statements;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.visitor.StatementVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitor;
 
 public class Assign extends Statement {
 	
@@ -16,25 +16,26 @@ public class Assign extends Statement {
 		this.expression = _expression;
 	}
 	
-	public Expression getExpression(){
+	public Expression getAssignExpression(){
 		return this.expression;
 	}
 	
-	public Identifier getIdentifier(){
+	public Identifier getAssignIdentifier(){
 		return this.identifier;
+	}
+
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitAssign(this);
 	}
 	
 	@Override
 	public CodeLines getCodeLine() {
 		return this.codeLines;
 	}
-
-	@Override
-	public <T> T accept(StatementVisitorInterface<T> visitor) {
-		return visitor.visitAssign(this);
-	}
+	
 	@Override
 	public String toString(){
-		return "Assign(" + this.identifier.evaluate().getValue() + "," + this.expression + ")";
+		return "Assign(" + this.identifier.getValue() + "," + this.expression + ")";
 	}
 }

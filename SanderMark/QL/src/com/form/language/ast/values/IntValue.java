@@ -3,18 +3,23 @@ package com.form.language.ast.values;
 
 public class IntValue extends GenericValue {
     private final Integer value;
+    private final static Integer DEFAULT = 0;
 
     public IntValue(int value) {
 	this.value = value;
     }
 
+    public IntValue() {
+	this.value = DEFAULT;
+    }
+    
     public int getValue() {
 	return value;
     }
 
     @Override
     public String toString() {
-	return new Integer(value).toString();
+	return Integer.toString(value);
 
     }
 
@@ -30,7 +35,7 @@ public class IntValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
 

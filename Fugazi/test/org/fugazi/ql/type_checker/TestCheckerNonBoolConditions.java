@@ -2,6 +2,7 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.NonBoolConditionError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +41,7 @@ public class TestCheckerNonBoolConditions extends TestQlTypeCheckerBase {
 
         List<ASTNodeIssueType> expectedTypes = new ArrayList<>();
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeIssueType.ERROR.NON_BOOL_CONDITION);
+        expectedTypes.add(new NonBoolConditionError());
 
         for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());

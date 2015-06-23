@@ -1,0 +1,12 @@
+
+form taxOfficeExample {
+  "Did you sell a house in 2010?"
+    hasSoldHouse: integer
+
+  if (hasSoldHouse > 10) {
+
+    "Did you buy a car in 2010?"
+      hasSoldHouse: boolean
+
+  }
+}

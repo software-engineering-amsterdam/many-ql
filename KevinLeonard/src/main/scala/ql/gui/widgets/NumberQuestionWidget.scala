@@ -1,7 +1,7 @@
 package ql.gui.widgets
 
-import ql.ast.{Expression, NumberValue, Question}
-import types._
+import ql.ast.{Expression, NumberValue, Question, Value}
+import types.{EvalEnvironment, VariableName}
 
 import scalafx.scene.control.TextField
 
@@ -25,19 +25,32 @@ class NumberQuestionWidget(q: Question, visibilityExpressions: List[Expression],
   children.add(textField)
 
   // Methods
-  override def updateValue(updatedVariable: VariableName): Unit = {
+  override def updateValue(updatedVariable: VariableName, becameVisible: Boolean): Unit = {
     if (valueDependencies contains updatedVariable) {
       textField.text = eval().toString
+    }
+
+    // Needed in order to keep multiple questions with the same key in sync
+    if (isQuestionWithSameKey(updatedVariable) || becameVisible) {
+      val value = env.getOrElse(q.variable.name, NumberValue())
+      textField.text = extract(value).toString
     }
   }
 
   def isValidInput(input: String): Boolean = input.matches("^-?\\d+$")
 
-  def eval(): Int = q.expression match {
-    case Some(e) => evaluator.eval(e, env) match {
+  def eval(): Int = {
+    val value = q.expression match {
+      case Some(e) => evaluator.eval(e, env)
+      case None => NumberValue()
+    }
+    extract(value)
+  }
+
+  def extract(value: Value): Int = {
+    value match {
       case NumberValue(v) => v
       case _ => throw new AssertionError(s"Error in type checker. Variable ${q.variable.name} not of type Number.")
     }
-    case None => 0
   }
 }

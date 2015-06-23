@@ -2,7 +2,6 @@ package qls.semantics;
 
 import ql.ast.type.Type;
 import qls.ast.rule.Rules;
-import qls.semantics.Style;
 
 import java.util.Stack;
 
@@ -11,39 +10,36 @@ import java.util.Stack;
  */
 public class StyleStack
 {
-    private final Stack<Style> stack;
+    private final Stack<Style> styleStack;
 
     public StyleStack()
     {
-        this.stack = new Stack<>();
+        this.styleStack = new Stack<>();
     }
 
     public void push(Style rs)
     {
         assert rs != null;
 
-        if (this.stack.empty())
+        Style newStyle = rs;
+        if (!(this.styleStack.empty()))
         {
-            this.stack.push(rs);
+            Style prevStyle = this.styleStack.peek();
+            newStyle = Style.mergeStyles(rs, prevStyle);
         }
-        else
-        {
-            Style p = this.stack.peek();
-            Style merged = p.addStyle(rs);
-            this.stack.push(merged);
-        }
+        this.styleStack.push(newStyle);
     }
 
     public void pop()
     {
-        this.stack.pop();
+        this.styleStack.pop();
     }
 
-    public Rules getRulesForType(Type t)
+    public Rules peekRulesForType(Type t)
     {
-        assert !this.stack.empty();
+        assert !this.styleStack.empty();
 
-        Style s = this.stack.peek();
+        Style s = this.styleStack.peek();
         return s.getRulesForType(t);
     }
 }

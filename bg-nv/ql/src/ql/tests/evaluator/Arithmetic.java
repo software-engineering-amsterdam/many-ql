@@ -1,10 +1,12 @@
 package ql.tests.evaluator;
 
-import ql.semantics.ValueTable;
-import ql.semantics.ValueTableEntry;
-import ql.semantics.values.*;
-import ql.tests.TestHelper;
 import org.junit.Test;
+import ql.semantics.ValueTable;
+import ql.semantics.values.DecValue;
+import ql.semantics.values.IntValue;
+import ql.semantics.values.StrValue;
+import ql.semantics.values.UndefValue;
+import ql.tests.TestHelper;
 
 import java.math.BigDecimal;
 
@@ -124,7 +126,7 @@ public class Arithmetic
     public void undefinedAdd()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -133,7 +135,7 @@ public class Arithmetic
     public void undefinedSub()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -142,7 +144,7 @@ public class Arithmetic
     public void undefinedMul()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -151,7 +153,7 @@ public class Arithmetic
     public void undefinedDiv()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -160,7 +162,7 @@ public class Arithmetic
     public void undefinedPos()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }
@@ -169,7 +171,7 @@ public class Arithmetic
     public void undefinedNeg()
     {
         ValueTable table = new ValueTable();
-        table.storeEntry(new ValueTableEntry("hasHouse", new UndefValue()));
+        table.storeValue("hasHouse", new UndefValue());
         UndefValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", table), UndefValue.class);
         assertNotNull(v);
     }

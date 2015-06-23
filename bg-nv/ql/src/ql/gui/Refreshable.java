@@ -10,5 +10,4 @@ public interface Refreshable
 {
     public void refreshElement(ValueTable valueTable);
     public Value evaluate(ValueTable valueTable);
-    public Boolean isRefreshPrerequisite();
 }

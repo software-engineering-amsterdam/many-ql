@@ -1,0 +1,11 @@
+stylesheet test
+{
+	page test
+	{
+		default number widget spinbox
+		default number
+		{
+			width: 200
+		}
+	}
+}

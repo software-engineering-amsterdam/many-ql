@@ -1,5 +1,7 @@
 ﻿using Antlr4.Runtime;
-using QL.Grammars;
+using QL.AST.ASTCreation;
+using QL.Grammar;
+using QLLexer = QL.Grammar.QLLexer;
 
 namespace Tests
 {

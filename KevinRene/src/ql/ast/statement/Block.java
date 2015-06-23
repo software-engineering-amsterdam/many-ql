@@ -7,6 +7,7 @@ import ql.ast.Statement;
 import ql.ast.visitor.StatementVisitor;
 
 public class Block extends Statement {
+	
 	private List<Statement> statements = new ArrayList<Statement>();
 	
 	public Block() {}
@@ -21,10 +22,10 @@ public class Block extends Statement {
 	
 	public Block(Statement statement, Block statements) {
 		this.statements.add(statement);
-		this.statements.addAll(statements.statements());
+		this.statements.addAll(statements.getStatements());
 	}
 	
-	public List<Statement> statements() {
+	public List<Statement> getStatements() {
 		return this.statements;
 	}
 

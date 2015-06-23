@@ -7,6 +7,7 @@ import (
 	"encoding/csv"
 	"io"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/utils"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/plumbing"
 )
 
@@ -16,7 +17,7 @@ type output struct {
 	stream  io.Writer
 }
 
-// New takes in a pair of channels for the interpreter, a writer stream and
+// Write takes in a pair of channels for the interpreter, a writer stream and
 // writes CSV output.
 func Write(pipes *plumbing.Pipes, stream io.Writer) {
 	output := &output{
@@ -28,23 +29,8 @@ func Write(pipes *plumbing.Pipes, stream io.Writer) {
 }
 
 func (o *output) write() {
-	o.handshake()
+	utils.OutputHandshake(o.receive, o.send)
 	o.writeLines()
-}
-
-func (o *output) handshake() {
-	readyT := &plumbing.Frontend{
-		Type: plumbing.ReadyT,
-	}
-
-readyTLoop:
-	for {
-		select {
-		case <-o.receive:
-		case o.send <- readyT:
-			break readyTLoop
-		}
-	}
 }
 
 func (o *output) writeLines() {

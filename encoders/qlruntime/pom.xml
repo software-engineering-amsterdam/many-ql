@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.uva.sea.ql.encoders</groupId>
+	<groupId>nl.uva.sc.encoders</groupId>
 	<artifactId>qlruntime</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -16,12 +16,19 @@
 		<antlr4.listener>true</antlr4.listener>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.uva.sea.ql.encoders</groupId>
-            <artifactId>ql</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>nl.uva.sc.encoders</groupId>
+			<artifactId>ql</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.uva.sc.encoders</groupId>
+			<artifactId>ql</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -62,7 +69,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<libDirectory>${basedir}/src/main/antlr4/org/uva/sea/ql/encoders</libDirectory>
+					<libDirectory>${basedir}/src/main/antlr4/nl/uva/sc/encoders</libDirectory>
 				</configuration>
 			</plugin>
 
@@ -75,7 +82,7 @@
 						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.uva.sea.ql.encoders.ui.QLUI</mainClass>
+							<mainClass>nl.uva.sc.encoders.qlruntime.QLUI</mainClass>
 						</manifest>
 						<manifestEntries>
 							<mode>development</mode>

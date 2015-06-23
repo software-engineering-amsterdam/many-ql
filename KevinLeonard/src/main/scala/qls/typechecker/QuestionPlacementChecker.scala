@@ -1,26 +1,20 @@
 package qls.typechecker
 
 import ql.typechecker.Error
-import qls.ast.{Question, Section}
-import types.{TypeEnvironment, VariableName}
+import qls.ast.StyleSheet
+import types.TypeEnvironment
 
 class QuestionPlacementChecker {
 
-  def check(s: Section, env: TypeEnvironment): Option[Error] = {
-    val qlVariables = env.keySet
-    val qlsVariables = s.questions.map({
-      case q: Question => getVariableName(q)
-    })
-    val notPlacedQuestion = qlVariables -- qlsVariables
+  def check(s: StyleSheet, env: TypeEnvironment): Option[Error] = {
+    val qlVariableNames = env.keySet
+    val qlsVariableNames = Variables.getVariableNames(s)
+    val notPlacedQuestion = qlVariableNames -- qlsVariableNames
 
     if (notPlacedQuestion.nonEmpty) {
       Some(Error(s"The question(s) ${notPlacedQuestion.mkString(", ")} are not placed"))
     } else {
       None
     }
-  }
-
-  private def getVariableName(q: Question): VariableName = {
-    q.variable.name
   }
 }

@@ -13,37 +13,33 @@ public class ErrorCollector {
 	}
 	
 	public List<TaZQLError> getErrorCollection() {
-		return errorCollection;
+		return this.errorCollection;
 	}
 	
 	public List<TaZQLWarning> getWarningCollection() {
-		return warningCollection;
+		return this.warningCollection;
 	}
 	
 	public void addError(String errorMessage) {
-		errorCollection.add(new TaZQLError(errorMessage));
+		this.errorCollection.add(new TaZQLError(errorMessage));
 	}
 	
 	public void addWarning(String warningMessage) {
-		warningCollection.add(new TaZQLWarning(warningMessage));
+		this.warningCollection.add(new TaZQLWarning(warningMessage));
 	}
 	
 	public boolean containsError() {
-		return !this.errorCollection.isEmpty();
-	}
-	
-	public boolean containsWarning() {
-		return !this.warningCollection.isEmpty();
+		return !this.errorCollection.isEmpty() || !this.warningCollection.isEmpty();
 	}
 	
 	public String toString() {
 		String output = "";
 		for(TaZQLError error : errorCollection) {
-			output += error.getErrorMessage().toString();
+			output += error.getMessage().toString();
 		}
 		output += " \n";
 		for(TaZQLWarning warn : warningCollection) {
-			output += warn.getWarningMessage().toString();
+			output += warn.getMessage().toString();
 		}
 		output += " \n";
 		

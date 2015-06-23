@@ -1,5 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
+import org.uva.student.calinwouter.qlqls.qls.exceptions.CouldNotFindMatchingQLSComponentException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -7,48 +9,37 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class is used for dynamically creating new components or widgets from the provided component/widget paths.
+ * This class is used for dynamically creating new functions or widgets from the provided component/widget paths.
  */
 public class QLSReflection {
-    private final String componentPath;
-    private final String widgetPath;
+    private final List<String> searchPaths;
 
-    private String getComponentPath(String className) {
-        return componentPath + className.replace(".", "");
-    }
-
-    private String getWidgetPath(String className) {
-        return widgetPath + className.replace(".", "");
-    }
-
-    /**
-     * Get the component or widget class based on the name.
-     *
-     * When able to get the component from the components package, the method also checks if the component is in
-     * the widgets package and throws a runtime exception if that is the case (due to ambiguity).
-     */
-    private Class findComponentOrWidgetClass(final String className) throws ClassNotFoundException {
-        final String potentialComponentPath = getComponentPath(className);
-        final String potentialWidgetPath = getWidgetPath(className);
+    private Class<?> fetchClassOrNull(String classPath) {
         try {
-            Class componentClass = Class.forName(potentialComponentPath);
-            try {
-                Class.forName(potentialWidgetPath);
-                throw new RuntimeException("Class is both in the components and the components.widgets package.");
-            } catch(ClassNotFoundException e) {
-                return componentClass;
-            }
+            return Class.forName(classPath);
         } catch(ClassNotFoundException e) {
-            return Class.forName(potentialWidgetPath);
+            return null;
         }
     }
 
+    private Class findClassInAllowedPaths(final String className) throws ClassNotFoundException {
+        for (String path : searchPaths) {
+            final String classPath = path + className;
+            final Class<?> classOrNull = fetchClassOrNull(classPath);
+            if (classOrNull != null) {
+                return classOrNull;
+            }
+        }
+        throw new ClassNotFoundException();
+    }
+
     /**
-     * Get the constructor's last parameter element's class.
+     * Get the constructor's last parameter element's class, used for casting a var args object array to the type
+     * of the var args' elements.
      */
     private Class<? extends Object[]> getLastConstructorParameterTypeElement(Constructor c) {
         assert c.isVarArgs();
-        Class[] parameterTypes = c.getParameterTypes();
+        final Class[] parameterTypes = c.getParameterTypes();
         return (Class<? extends Object[]>) parameterTypes[parameterTypes.length - 1];
     }
 
@@ -56,39 +47,48 @@ public class QLSReflection {
      * Convert the object-array to the array of the type of the var args.
      */
     private Object[] castConstructorVarArgsArgumentsUp(List<Object> varArgsArguments, Constructor constructor) {
-        Object[] varArgsArgumentArray = varArgsArguments.toArray();
-        return Arrays.copyOf(varArgsArgumentArray, varArgsArgumentArray.length,
-                getLastConstructorParameterTypeElement(constructor));
+        final Object[] varArgsArgumentArray = varArgsArguments.toArray();
+        final Integer varArgsArgumentArrayLength = varArgsArgumentArray.length;
+        final Class<? extends Object[]> lastConstructorParameterTypeElement
+                = getLastConstructorParameterTypeElement(constructor);
+        return Arrays.copyOf(varArgsArgumentArray, varArgsArgumentArrayLength, lastConstructorParameterTypeElement);
     }
 
     /**
-     * Convert varargs parameters to normal call parameters.
+     * Convert varargs constructor's parameters to normal call parameters (because reflection converts varargs to
+     * an array).
      */
     private Object[] newInstanceParametersUsingVarArgs(List<Object> args, Constructor constructor) {
+        List<Object> argsCopy = new LinkedList<Object>(args);
         final int origLength = constructor.getParameterTypes().length;
         final List<Object> varArgsArguments = new LinkedList<Object>();
         final List<Object> results = new LinkedList<Object>();
-        while (args.size() >= origLength) {
-            Object lastArgument = args.remove(args.size() - 1);
+        while (argsCopy.size() >= origLength) {
+            Object lastArgument = argsCopy.remove(argsCopy.size() - 1);
             varArgsArguments.add(0, lastArgument);
         }
-        results.addAll(args);
-        results.add(castConstructorVarArgsArgumentsUp(varArgsArguments, constructor));
+        results.addAll(argsCopy);
+        final Object[] castedConstructorVarArgs = castConstructorVarArgsArgumentsUp(varArgsArguments, constructor);
+        results.add(castedConstructorVarArgs);
         return results.toArray();
     }
 
-    /**
-     * Try to create a new instance using the provided constructor and the provided arguments.
-     *
-     * In case of failure, this method returns null.
-     */
-    private Object tryCreateNewInstance(Constructor c, List<Object> args) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    private Object createNewInstance(Constructor constructor, List<Object> args)
+            throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        if (constructor.isVarArgs()) {
+            final Object[] newInstanceParametersUsingVarArgs = newInstanceParametersUsingVarArgs(args, constructor);
+            return constructor.newInstance(newInstanceParametersUsingVarArgs);
+        }
+        return constructor.newInstance(args.toArray());
+    }
+
+    private Object createNewInstanceOrReturnNull(Constructor constructor, List<Object> args)
+            throws IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
-            if (c.isVarArgs() && args.size() >= c.getParameterTypes().length) {
-                return c.newInstance((Object[]) newInstanceParametersUsingVarArgs(args, c));
-            }
-            return c.newInstance((Object[]) args.toArray());
-        } catch(IllegalArgumentException e) {
+            return createNewInstance(constructor, args);
+        } catch (IllegalArgumentException e) {
+            return null;
+        } catch (ArrayStoreException e) {
             return null;
         }
     }
@@ -97,22 +97,20 @@ public class QLSReflection {
      * This method creates an instance of the class to be found by the specified name, with
      * this QLSAdapter as constructor parameter.
      */
-    protected Object newInstanceForClassPath(String classPath, List<Object> args)
+    protected Object newComponentInstance(String componentName, List<Object> args)
             throws NoSuchMethodException, IllegalAccessException, InstantiationException,
-            InvocationTargetException, ClassNotFoundException {
-        Class clazz = findComponentOrWidgetClass(classPath);
+            InvocationTargetException, ClassNotFoundException, CouldNotFindMatchingQLSComponentException {
+        final Class<?> clazz = findClassInAllowedPaths(componentName);
         for (Constructor c : clazz.getConstructors()) {
-            Object newInstance = tryCreateNewInstance(c, args);
+            final Object newInstance = createNewInstanceOrReturnNull(c, args);
             if (newInstance != null) {
                 return newInstance;
             }
         }
-        // TODO custom exception!
-        throw new RuntimeException("Constructor not found for class: " + clazz);
+        throw new CouldNotFindMatchingQLSComponentException(componentName);
     }
 
-    protected QLSReflection(String componentPath, String widgetPath) {
-        this.componentPath = componentPath;
-        this.widgetPath = widgetPath;
+    protected QLSReflection(List<String> searchPaths) {
+        this.searchPaths = searchPaths;
     }
 }

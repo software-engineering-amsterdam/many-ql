@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.uva.ql.ast.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthesis;
@@ -52,22 +53,18 @@ import org.uva.util.message.Warning;
 public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor<Boolean>,
 		QuestionnaireVisitor<Boolean> {
 
-	private  Map<Identifier, Type> types;
-	private  List<Identifier> questioncomputedList;
-	private  List<String> labels;
-	private  MessageManager messageManager;
-	private  DependencyList dependencyList;
-	private boolean isVisitingQuestionExpression;
+	private Map<Identifier, Type> types;
+	private List<String> labels;
+	private MessageManager messageManager;
+	private DependencyList dependencyList;
 
 	public TypeChecker() {
 		types = new HashMap<Identifier, Type>();
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
 		dependencyList = new DependencyList();
-		questioncomputedList = new ArrayList<Identifier>();
-		isVisitingQuestionExpression = false;
 	}
-	
+
 	// Name-Type table
 	private void addType(Identifier id, Type type) {
 		types.put(id, type);
@@ -113,25 +110,18 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private void addWarning(Warning warning) {
 		messageManager.addWarning(warning);
 	}
-	
+
 	private void addWarning(Warning.Type type, QuestionNormal question) {
 		Warning warning = new Warning(type, question.getPosition().getStartLine(), question.getLabel().toString());
 		addWarning(warning);
 	}
 
-	private int countErrors() {
-		return messageManager.countErrors();
-	}
-
-	private int countWarnings() {
-		return messageManager.countWarnings();
-	}
-
 	public void printMessages() {
-		System.out.println("[ERRORS] (" + countErrors() + " items)");
+		System.out.println();
+		System.out.println("[ERRORS] (" + messageManager.countErrors() + " items)");
 		messageManager.printErrors();
 		System.out.println();
-		System.out.println("[WARNINGS] (" + countWarnings() + " items)");
+		System.out.println("[WARNINGS] (" + messageManager.countWarnings() + " items)");
 		messageManager.printWarnings();
 	}
 
@@ -150,7 +140,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		if (isDeclared(question.getIdentifier())) {
 			Type thisType = question.getType();
 			Type expectType = getType(question.getIdentifier());
-
 			if (!thisType.isEqual(expectType)) {
 				addError(Error.Type.DECLARATION, question.getIdentifier());
 				return false;
@@ -169,7 +158,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		return true;
 	}
 
-	private boolean checkMatch(Expression expr, Type expectType) {
+	private boolean checkExpressionMatchType(Expression expr, Type expectType) {
 		if (expr.accept(this)) {
 			if (!expr.getType(this).isEqual(expectType)) {
 				addError(Error.Type.MISMATCH, expr, expectType.toString());
@@ -191,27 +180,27 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		return result;
 	}
 
-	private boolean checkBinaryMatch(Binary binary, Type expectType) {
+	private boolean checkBinaryMatchType(Binary binary, Type expectType) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		boolean resultLeft = checkMatch(left, expectType);
-		boolean resultRight = checkMatch(right, expectType);
+		boolean resultLeft = checkExpressionMatchType(left, expectType);
+		boolean resultRight = checkExpressionMatchType(right, expectType);
 		return resultLeft && resultRight;
 	}
 
-	private boolean checkSame(Binary binary) {
+	private boolean checkBinarySameType(Binary binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
 		// Check inner levels then do the comparison
 		boolean resultL = left.accept(this);
 		boolean resultR = right.accept(this);
 		if (resultL && resultR) {
-			return checkMatch(right, left.getType(this));
+			return checkExpressionMatchType(right, left.getType(this));
 		} else {
 			return false;
 		}
 	}
-	
+
 	private boolean checkCyclicDependency() {
 		List<Identifier> cyclicDependentIdentifiers = dependencyList.getCyclicDependentIdentifiers();
 		if (cyclicDependentIdentifiers.size() != 0) {
@@ -256,39 +245,42 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(QuestionNormal question) {
-		boolean result1 = checkDeclaration(question);
-		boolean result2 = checkLabel(question);
-		return result1 && result2;
+		boolean isValidDeclaration = checkDeclaration(question);
+		boolean isValidLabel = checkLabel(question);
+		return isValidDeclaration && isValidLabel;
 	}
 
 	@Override
 	public Boolean visit(QuestionComputed question) {
-		questioncomputedList.add(question.getIdentifier());
 		boolean isValidDeclaration = checkDeclaration(question);
 		boolean isValidLabel = checkLabel(question);
-		
-		// Start visiting expression part
-		isVisitingQuestionExpression = true;
-		boolean isValidExpression = question.getExpression().accept(this);
-		// Complete visiting expression part 
-		isVisitingQuestionExpression = false;
-		
+		boolean isValidExpression = checkExpressionMatchType(question.getExpression(), question.getType());
+
+		// Build the dependency list
+		DependencyVisitor visitor = new DependencyVisitor();
+		List<Identifier> dependentIdentifiers = question.getExpression().accept(visitor);
+		for (Identifier identifier : dependentIdentifiers) {
+			dependencyList.add(identifier, question.getIdentifier());
+		}
+
 		return isValidDeclaration && isValidLabel && isValidExpression;
 	}
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		boolean result1 = ifStatement.getExpr().accept(this);
-		boolean result2 = ifStatement.getIfBlock().accept(this);
-		return result1 && result2;
+		boolean isValidExpression = checkExpressionMatchType(ifStatement.getExpr(),
+				new BoolType(ifStatement.getPosition()));
+		boolean isValidIfBlock = ifStatement.getIfBlock().accept(this);
+		return isValidExpression && isValidIfBlock;
 	}
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		boolean result1 = ifElseStatement.getExpr().accept(this);
-		boolean result2 = ifElseStatement.getIfBlock().accept(this);
-		boolean result3 = ifElseStatement.getElseBLock().accept(this);
-		return result1 && result2 && result3;
+		boolean isValidExpression = checkExpressionMatchType(ifElseStatement.getExpr(),
+				new BoolType(ifElseStatement.getPosition()));
+		boolean isValidIfBlock = ifElseStatement.getIfBlock().accept(this);
+		boolean isValidElseBlock = ifElseStatement.getElseBLock().accept(this);
+		return isValidExpression && isValidIfBlock && isValidElseBlock;
 	}
 
 	@Override
@@ -298,28 +290,28 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Not unary) {
-		return checkMatch(unary.getExpression(), new BoolType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new BoolType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Positive unary) {
-		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Negative unary) {
-		return checkMatch(unary.getExpression(), new IntType(unary.getPosition()));
+		return checkExpressionMatchType(unary.getExpression(), new IntType(unary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Addition binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		boolean resultL = left.accept(this);
-		boolean resultR = right.accept(this);
+		boolean isValidLeftPart = left.accept(this);
+		boolean isValidRightPart = right.accept(this);
 		boolean result = true;
 		CodePosition pos = binary.getPosition();
-		if (resultL && resultR) {
+		if (isValidLeftPart && isValidRightPart) {
 			if (left.getType(this).isEqual(new IntType(pos)) || left.getType(this).isEqual(new StrType(pos))) {
 				result = checkMatchThisLevel(right, left.getType(this));
 			} else {
@@ -343,65 +335,61 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Substraction binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Multiply binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Divide binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Greater binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(GreaterEqual binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Less binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(LessEqual binary) {
-		return checkBinaryMatch(binary, new IntType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new IntType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(And binary) {
-		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Or binary) {
-		return checkBinaryMatch(binary, new BoolType(binary.getPosition()));
+		return checkBinaryMatchType(binary, new BoolType(binary.getPosition()));
 	}
 
 	@Override
 	public Boolean visit(Equal binary) {
-		return checkSame(binary);
+		return checkBinarySameType(binary);
 	}
 
 	@Override
 	public Boolean visit(NotEqual binary) {
-		return checkSame(binary);
+		return checkBinarySameType(binary);
 	}
 
 	@Override
 	public Boolean visit(Identifier node) {
-		if (isVisitingQuestionExpression) {
-			Identifier currentQuestionComputed = questioncomputedList.get(questioncomputedList.size() - 1);
-			dependencyList.add(node, currentQuestionComputed);
-		}
 		return checkReference(node);
 	}
 

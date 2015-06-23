@@ -1,0 +1,22 @@
+
+form taxOfficeExample {
+  "Your name"
+    fullname: string
+
+  "Did you sell a house in 2010?"
+    hasSoldHouse: integer
+
+  if (fullname == "Fingers crossed") {
+    "Did you buy a new car in 2010?"
+      hasBoughtCar: boolean
+  }
+
+  if (hasSoldHouse == "Admin") {
+
+  }
+
+  if ( hasSoldHouse-10 > 20) {
+    "What was the selling price?"
+      sellingPrice: money
+  }
+}

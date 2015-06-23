@@ -21,7 +21,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value addDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() + getValue());
+		return new DecimalValue(d.add(new BigDecimal(getValue())));
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value divDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() / getValue());
+		return new DecimalValue(d.divide(new BigDecimal(getValue())));
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value modDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() % getValue());
+		return new DecimalValue(d.remainder(new BigDecimal(getValue())));
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value multDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() * getValue());
+		return new DecimalValue(d.multiply(new BigDecimal(getValue())));
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class IntegerValue extends Value<Integer> {
 
 	@Override
 	public Value negDecimal() {
-		return new IntegerValue(-getValue());
+		return new DecimalValue(new BigDecimal(-getValue()));
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class IntegerValue extends Value<Integer> {
 
 	@Override
 	public Value posDecimal() {
-		return new IntegerValue(getValue());
+		return new DecimalValue(new BigDecimal(getValue()));
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value powDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() ^ getValue());
+		return new DecimalValue(d.pow(getValue()));
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value subDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new IntegerValue(d.intValue() - getValue());
+		return new DecimalValue(d.subtract(new BigDecimal(getValue())));
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value equalDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() == getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) == 0);
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value greaterOrEqualDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() >= getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) >= 0);
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value greaterThanDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() > getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) > 0);
 	}
 
 	@Override
@@ -195,7 +195,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value lessOrEqualDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() <= getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) <= 0);
 	}
 
 	@Override
@@ -211,7 +211,7 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value lessThanDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() < getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) < 0);
 	}
 
 	@Override
@@ -227,7 +227,12 @@ public class IntegerValue extends Value<Integer> {
 	@Override
 	public Value notEqualDecimal(DecimalValue value) {
 		BigDecimal d = value.getValue();
-		return new BooleanValue(d.intValue() != getValue());
+		return new BooleanValue(d.compareTo(new BigDecimal(getValue())) != 0);
 	}
 
+	@Override
+	public Value promote() {
+		return new DecimalValue(new BigDecimal(getValue()));
+	}
+	
 }

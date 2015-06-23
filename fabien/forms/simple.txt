@@ -1,0 +1,58 @@
+
+form taxOfficeExample {
+  "Full name" string
+  "Email" string email
+
+  "Are you a robot?" isRobot: boolean
+
+  if (! isRobot) {
+    "Gender" chosenGender : string gender
+
+    if (chosenGender == "male") {
+      "Long text for people picking male. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco."
+          string text
+    }
+
+    if (chosenGender == "female") {
+      "This text is for female users. Laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        string text
+    }
+  }
+  else {
+    "What type of robot are you?" string
+  }
+
+
+  "Did you sell your house this year?"
+      soldHouse: boolean
+
+  if (soldHouse) {
+    "Price you sold your house for in 2014?"
+      sellingPrice: money
+
+    "Mortgage payments in 2013 - 2014?"
+      privateDebt: money
+
+    "Value residue:"
+      valueResidue: money = (sellingPrice - privateDebt)
+  }
+
+  "What is your favourite natural number?" favNumber : integer
+
+  "Your number squared" favSquared : integer =
+    (favNumber * favNumber)
+
+  "100 divided by your number" favSquared : integer =
+    (100 / favNumber)
+
+  "100 divided by your number" favSquared : integer =
+    (100 / favNumber)
+
+  if (favNumber < 0) {
+     "That is pretty negative, would you like to quit the form?" quitForm : boolean
+
+     if (quitForm) {
+        "Please, tell us why" string
+     }
+  }
+}

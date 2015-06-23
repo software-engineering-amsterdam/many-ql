@@ -50,6 +50,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     public Void visit(Question q)
     {
         this.questions.put(q);
+
         return null;
     }
 
@@ -57,6 +58,7 @@ public class QuestionCollector implements FormVisitor<Void>, StatVisitor<Void>
     public Void visit(CalculatedQuestion q)
     {
         this.questions.put(q);
+
         return null;
     }
 }

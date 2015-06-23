@@ -2,13 +2,15 @@ grammar QLS;
 
 stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-page : 'page' Identifier '{' (statement)+ '}';
+page : 'page' String '{' (statement)+ '}';
 
-statement : section | question | defaultStmt;
+statement : section | questionWithRules | question | defaultStmt;
 
 section : 'section' String '{' (statement)+ '}';
 
-question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
+questionWithRules : 'question' Identifier '{' (stylesheetRule)+ '}';
+
+question : 'question' Identifier ;
 
 defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
 
@@ -16,17 +18,18 @@ stylesheetRule
     : label='width' ':' Integer
     | label='fontsize' ':' Integer
     | label='font' ':' String
-    | label='color' ':' Color
+    | label='forecolor' ':' Color
+    | label='backcolor' ':' Color
     | label='widget' widgetValue
     ;
 
 widgetValue
-    : label='slider' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
-    | label='spinbox' '(' min=IntOrDec ',' max=IntOrDec ',' step=IntOrDec ')'
-    | label='radio' '(' yesText=String ',' noText=String ')'
-    | label='dropdown' '(' yesText=String ',' noText=String ')'
-    | label='checkbox'
-    | label='textbox'
+    : wlabel='slider' '(' decMin=Decimal ',' decMax=Decimal ',' decStep=Decimal ')'
+    | wlabel='slider' '(' intMin=Integer ',' intMax=Integer ',' intStep=Integer ')'
+    | wlabel='radio' '(' yesText=String ',' noText=String ')'
+    | wlabel='dropdown' '(' yesText=String ',' noText=String ')'
+    | wlabel='checkbox'
+    | wlabel='textbox'
     ;
 
 fragment Hex : [0-9A-F];
@@ -58,8 +61,7 @@ Boolean
    ;
 
 WidgetType
-    : 'spinbox'
-    | 'checkbox'
+    : 'checkbox'
     | 'radio';
 
 Color : '#' Hex Hex Hex Hex Hex Hex;
@@ -67,8 +69,6 @@ Color : '#' Hex Hex Hex Hex Hex Hex;
 Integer : (ZeroDigit | NonZeroDigit Digit*);
 
 Decimal : (NonZeroDigit Digit* | ZeroDigit?) '.' Digit+ ;
-
-IntOrDec : Integer | Decimal;
 
 String : Quote StringCharacter*? Quote;
 

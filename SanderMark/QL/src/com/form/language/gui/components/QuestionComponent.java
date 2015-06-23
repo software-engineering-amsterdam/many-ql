@@ -1,76 +1,64 @@
 package com.form.language.gui.components;
 
 import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
-import com.form.language.gui.widget.CheckBox;
-import com.form.language.gui.widget.IntegerTextField;
+import com.form.language.ast.expression.variable.ReferenceCollection;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.gui.widget.Label;
-import com.form.language.gui.widget.TextField;
 import com.form.language.gui.widget.Widget;
+import com.form.language.gui.widget.WidgetFactory;
 import com.form.language.memory.Context;
-import com.form.language.memory.IdCollection;
 
-public class QuestionComponent extends JPanel {
+public class QuestionComponent {
 
-    private static final long serialVersionUID = 134684077598012568L;
+	protected Question question;
+	protected Context context;
+	protected JPanel panel;
+	protected Widget widget;
 
-    private Question question;
-    private JLabel label;
-    private Expression showCondition;
-    private Context rm;
+	public QuestionComponent(Question question, Context context,
+			Expression ifCondition) {
+		this.question = question;
+		this.context = context;
+		this.panel = new JPanel();
 
-    public QuestionComponent(Question question, Context rm, Expression showCondition) {
-	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-	this.question = question;
-	this.label = new Label(question.getText());
-	this.showCondition = showCondition;
-	this.rm = rm;
-	add(label);
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.X_AXIS));
+		Label label = new Label(question.getText());
+		this.panel.add(label.getLabel());
 
-	// Belongs to if statement
-	if (showCondition != null) {
-	    this.setVisible(false);
-	    rm.addDependantQuestion(showCondition, this);
+		if (ifCondition != null) {
+			this.panel.setVisible(false);
+			context.addDependantQuestion(ifCondition, this);
 
-	    IdCollection idCollection = new IdCollection();
-	    showCondition.collectIds(idCollection);
-	    rm.addReference(idCollection, showCondition);
+			ReferenceCollection referenceCollection = new ReferenceCollection();
+			ifCondition.collectIds(referenceCollection);
+			context.addReference(referenceCollection, ifCondition);
+		}
+		WidgetFactory w = new WidgetFactory();
+		widget = w.createWidget(question, context, panel);
 	}
-	createQuestionType();
-    }
 
-    // TODO: Type checker implementation to be added
-    // TODO: casten to specifc widget needed?
-    private void createQuestionType() {
-	if (question.getType(rm).isBoolType()) {
-		Widget checkbox = new CheckBox(question, this, rm);
-	    JCheckBox cb = ((CheckBox) checkbox).getCheckBox();
-		cb.setName(question.getId());
-	    add(cb);
-	} else if (question.getType(rm).isStringType()) {
-		Widget textfield = new TextField(question, this, rm);
-	    JTextField tx = ((TextField) textfield).getTextField();
-	    tx.setName(question.getId());
-	    add(tx);
-	} else {
-		Widget textfield = new IntegerTextField(question, this, rm);
-	    JTextField tx = ((IntegerTextField) textfield).getTextField();
-	    tx.setName(question.getId());
-	    add(tx);
+	
+
+	public Question getQuestion() {
+		return question;
 	}
-    }
 
-    public Question getQuestion() {
-	return question;
-    }
+	public Widget getWidget() {
+		return widget;
+	}
 
-    public void checkVisibility(boolean visible) {
-	setVisible(visible);
-    }
+	public JPanel getPanel() {
+		return panel;
+	}
+
+	public void checkVisibility(boolean visible) {
+		this.panel.setVisible(visible);
+	}
+
+	public void redraw() {
+		this.panel.repaint();
+	}
 }

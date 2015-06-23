@@ -8,13 +8,6 @@ import ql.ast.type.Type;
  */
 public abstract class WidgetValue extends AstNode
 {
-    private final String title;
-
-    public WidgetValue(String title)
-    {
-        this.title = title;
-    }
-
     public abstract boolean isCompatibleWithType(Type t);
 
     public abstract <T> T accept(WidgetVisitor<T> visitor);

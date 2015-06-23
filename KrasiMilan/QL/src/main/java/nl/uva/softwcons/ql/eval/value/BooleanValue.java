@@ -3,7 +3,7 @@ package nl.uva.softwcons.ql.eval.value;
 public class BooleanValue extends Value {
     private final Boolean value;
 
-    public BooleanValue(boolean literal) {
+    public BooleanValue(final boolean literal) {
         this.value = literal;
     }
 
@@ -50,6 +50,11 @@ public class BooleanValue extends Value {
     @Override
     public Value isEqualBoolean(final Value otherValue) {
         return new BooleanValue(this.value.equals(otherValue.getBoolean()));
+    }
+
+    @Override
+    public Value orUndefined() {
+        return new BooleanValue(this.value);
     }
 
 }

@@ -1,17 +1,18 @@
-﻿<UserControl x:Class="QL.UI.Controls.YesNoWidget"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:QL.UI.Controls"
-             xmlns:ui="clr-namespace:QL.UI"
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="300">
+﻿<my:WidgetBase x:Class="QL.UI.Controls.YesNoWidget"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:my="clr-namespace:QL.UI.Controls"
+               xmlns:convert="clr-namespace:QL.UI.ValueConversion"
+               xmlns:ui="clr-namespace:QL.UI"
+               mc:Ignorable="d" 
+               d:DesignHeight="50" d:DesignWidth="300">
     
-    <UserControl.Resources>
+    <my:WidgetBase.Resources>
         <BooleanToVisibilityConverter x:Key="VisibilityConverter" />
-        <controls:BooleanYesNoConverter x:Key="BooleanConverter" />
-    </UserControl.Resources>
+        <convert:BooleanYesNoConverter x:Key="BooleanConverter" />
+    </my:WidgetBase.Resources>
 
     <Grid x:Name="ContentGrid">
         <Grid.RowDefinitions>
@@ -25,15 +26,15 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{Binding Text}" />
-        <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Name}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
+        <TextBlock Grid.Row="0" Grid.Column="1" TextAlignment="Right" FontSize="10px" Text="{Binding Identifier}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:MainWindow}}, Path=ShowIdentifiers, Converter={StaticResource VisibilityConverter}}" />
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=True}">
+            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter=True}">
                 <TextBlock>Yes</TextBlock>
             </RadioButton>
-            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Converter={StaticResource BooleanConverter}, ConverterParameter=False}" Margin="15,0,0,0">
+            <RadioButton GroupName="YesNo" IsChecked="{Binding Value, Mode=TwoWay, Converter={StaticResource BooleanConverter}, ConverterParameter=False}" Margin="15,0,0,0">
                 <TextBlock>No</TextBlock>
             </RadioButton>
         </StackPanel>
     </Grid>
-</UserControl>
+</my:WidgetBase>

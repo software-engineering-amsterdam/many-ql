@@ -1,20 +1,17 @@
-import QL.AST.Expressions.Primitives.primitive as p
-import QL.Grammar.constants as constants
+import QL.AST.Expressions.Primitives.primitive as primitive
+import QL.AST.Expressions.Types.text_type as text_type
 
 
-class Text(p.Primitive):
+class Text(primitive.Primitive):
     def __init__(self, text):
-        self.__text = "\"" + text + "\""
+        self.__text = text
 
-    def pretty_print(self):
+    def __str__(self):
         return self.__text
 
-    def return_type_string(self, type_dict):
-        return constants.TEXT
+    def return_type(self, type_map):
+        return text_type.Text()
 
-    # texts are not dependencies
-    def get_dependency_collection(self):
-        return []
-
-    def eval_expression(self, type_map):
+    # evaluation is just the value of the text
+    def eval_expression(self, answer_map):
         return self.__text

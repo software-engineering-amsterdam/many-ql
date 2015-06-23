@@ -4,6 +4,6 @@ import java.util.EventListener;
 
 public interface ChangedStateEventListener extends EventListener {
 
-    public void onStateChanged();
+    void onStateChanged();
 
 }

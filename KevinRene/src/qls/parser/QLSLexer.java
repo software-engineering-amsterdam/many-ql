@@ -7,9 +7,9 @@ import java.util.Map;
 
 import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
-import ql.ast.expression.literal.FloatLiteral;
-import ql.ast.expression.literal.IntegerLiteral;
-import ql.ast.expression.literal.StringLiteral;
+import qls.ast.expression.literal.FloatLiteral;
+import qls.ast.expression.literal.IntegerLiteral;
+import qls.ast.expression.literal.StringLiteral;
 
 public class QLSLexer implements QLSTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -30,7 +30,7 @@ public class QLSLexer implements QLSTokens {
 		KEYWORDS.put("string", STRING);
 		
 		KEYWORDS.put("checkbox", CHECKBOX);
-		KEYWORDS.put("spinner", SPINNER);
+		KEYWORDS.put("spinbox", SPINBOX);
 		KEYWORDS.put("radio", RADIO);
 		KEYWORDS.put("slider", SLIDER);
 		KEYWORDS.put("text", TEXT);
@@ -114,6 +114,7 @@ public class QLSLexer implements QLSTokens {
 			    case ')': nextChar(); return token = ')';
 			    case '(': nextChar(); return token = '(';
 			    case ',': nextChar(); return token = ',';
+			    case ';': nextChar(); return token = ';';
 			    
 			    case '"': {
 			    	StringBuilder sb = new StringBuilder();
@@ -143,6 +144,28 @@ public class QLSLexer implements QLSTokens {
 					
 		    		yylval = new StringLiteral(string);
 		    		return token = STRINGLITERAL;
+			    }
+			    case '#': {
+			    	StringBuilder sb = new StringBuilder("0x");
+			    	
+			    	nextChar();
+			    	
+			    	while(Character.isDigit(c) || Character.isLetter(c)) {
+			    		sb.append((char) c);
+			    		nextChar();
+			    	}
+			    	
+			    	// Number is 8: 2 for "0x" and 2 for r, g, and b respectively.
+			    	if(sb.length() != 8) {
+			    		throw new RuntimeException("Only hexadecimals of 6 numbers allowed: " + sb.toString() + ".");
+			    	}
+			    	try {
+			    		yylval = new IntegerLiteral(Integer.decode(sb.toString()));
+			    	} catch(NumberFormatException exception) {
+			    		throw new NumberFormatException("Hexadecimal is illegal: " + sb.toString());
+			    	}
+			    	
+			    	return token = INTEGERLITERAL;
 			    }
 			    default: {
 			    	if (Character.isDigit(c)) {

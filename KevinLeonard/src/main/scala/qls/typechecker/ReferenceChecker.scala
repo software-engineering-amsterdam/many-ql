@@ -1,15 +1,23 @@
 package qls.typechecker
 
 import ql.typechecker.Error
-import qls.ast.{Question, Section}
+import qls.ast.{DefaultWidget, Page, Question, Section, StyleSheet}
 import types.TypeEnvironment
 
 class ReferenceChecker {
 
+  def check(s: StyleSheet, env: TypeEnvironment): List[Error] = {
+    s.elements.flatMap {
+      case _: DefaultWidget => List()
+      case Page(_, sections) => sections.flatMap(check(_, env))
+    }
+  }
+
   def check(s: Section, env: TypeEnvironment): List[Error] = {
-    s.questions.flatMap({
+    s.elements.flatMap {
+      case s: Section => check(s, env)
       case q: Question => check(q, env)
-    })
+    }
   }
 
   def check(q: Question, env: TypeEnvironment): Option[Error] = {

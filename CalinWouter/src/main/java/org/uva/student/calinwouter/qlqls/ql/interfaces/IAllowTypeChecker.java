@@ -2,10 +2,10 @@ package org.uva.student.calinwouter.qlqls.ql.interfaces;
 
 public interface IAllowTypeChecker {
 
-    boolean allowsBooleanValue();
+    Boolean allowsBooleanValue();
 
-    boolean allowsIntegerValue();
+    Boolean allowsIntegerValue();
 
-    boolean allowsStringValue();
+    Boolean allowsStringValue();
 
 }

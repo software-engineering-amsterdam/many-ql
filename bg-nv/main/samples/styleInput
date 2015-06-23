@@ -1,20 +1,37 @@
 stylesheet sample {
-    page main {
+    page "main" {
         question maritalStatus
-        question married {
-            widget radio("Yes", "No")
+        section "Marital Status" {
+            default boolean {
+                font: "Calibri"
+            }
+            question married
+            question notMarried
         }
-        question notMarried {
-            widget radio("Yes", "No")
+        default decimal {
+            fontsize: 15
+            width: 100
         }
-        default boolean {
-            width: 15
-            widget checkbox
+        default integer {
+            font: "Calibri"
+            fontsize: 16
+            forecolor: #6633FF
+            backcolor: #CCFFFF
         }
         question name
         question surname
         question combinedName
         question age
+        question beer
+        question q1
+        question q2
+        question q3
+        question q4
+        question q5
+        question q6
+        question q7
+    }
+    page "second" {
         question division
     }
 }

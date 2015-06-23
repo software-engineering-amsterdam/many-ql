@@ -10,7 +10,7 @@ public class String implements Type {
 	if (type == null) {
 	    return false;
 	}
-	return type.toString() == this.toString();
+	return type.getClass() == this.getClass();
     }
-    
+
 }

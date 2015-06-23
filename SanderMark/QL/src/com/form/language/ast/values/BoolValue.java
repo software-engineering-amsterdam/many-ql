@@ -3,9 +3,14 @@ package com.form.language.ast.values;
 
 public class BoolValue extends GenericValue {
     private final Boolean value;
-
+    private final static boolean DEFAULT = false;
+    
     public BoolValue(boolean value) {
 	this.value = value;
+    }
+    
+    public BoolValue(){
+    	this.value = DEFAULT;
     }
 
     public Boolean getValue() {
@@ -14,7 +19,7 @@ public class BoolValue extends GenericValue {
 
     @Override
     public String toString() {
-	return new Boolean(value).toString();
+	return Boolean.toString(value);
 
     }
 
@@ -30,7 +35,7 @@ public class BoolValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
 

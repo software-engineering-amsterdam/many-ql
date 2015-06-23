@@ -1,4 +1,6 @@
 
+from numberTypes import numberTypes
+
 class BooleanOperand:
     def __init__(self, left=None, right=None):
         self.left  = left
@@ -11,7 +13,5 @@ class BooleanOperand:
         leftType  = self.left.getType(IDs)
         rightType = self.right.getType(IDs)
 
-        numberTypes = ["number", "int", "float", "money"]
-
         return leftType == rightType or \
-               leftType in numberTypes and rightType in numberTypes
+              (leftType in numberTypes() and rightType in numberTypes())

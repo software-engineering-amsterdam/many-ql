@@ -1,6 +1,7 @@
 package uva.sc.ql.form;
 
 import java.util.List;
+
 import uva.sc.ql.ast.IQLFormNode;
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.atom.ID;
@@ -8,8 +9,8 @@ import uva.sc.ql.statements.Statement;
 
 public class Form implements IQLFormNode {
 
-    ID id;
-    List<Statement> statements;
+    private ID id;
+    private List<Statement> statements;
 
     public Form(ID id, List<Statement> statementList) {
 	this.id = id;
@@ -26,8 +27,8 @@ public class Form implements IQLFormNode {
 
     public String toString() {
 	String result = "[Form]:{\n\t" + this.id.toString() + "\n";
-	for (int i = 0; i < this.statements.size(); i++) {
-	    result += "\t\t[Statement]:{" + statements.get(i).toString()
+	for (Statement statement : this.statements) {
+	    result += "\t\t[Statement]:{" + statement.toString()
 		    + "}\n";
 	}
 	return result + "\n}";

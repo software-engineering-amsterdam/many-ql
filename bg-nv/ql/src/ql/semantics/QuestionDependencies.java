@@ -1,7 +1,5 @@
 package ql.semantics;
 
-import ql.ast.statement.Question;
-
 import java.util.*;
 
 /**
@@ -61,14 +59,8 @@ public class QuestionDependencies
 
     private boolean searchNeighboursForCycles(Stack<String> path)
     {
-        String lastElement = path.lastElement();
+        Set<String> neighbours = this.getNeighbours(path.lastElement());
 
-        if (this.isIdentUndeclared(lastElement))
-        {
-            return false;
-        }
-
-        Set<String> neighbours = this.dependencies.get(lastElement);
         for (String n : neighbours)
         {
             if (this.isNeighbourFormingCycle(path, n))
@@ -97,6 +89,17 @@ public class QuestionDependencies
         }
 
         return false;
+    }
+
+    private Set<String> getNeighbours(String id)
+    {
+        if (this.isIdentUndeclared(id))
+        {
+            return new HashSet<>();
+        }
+
+        return this.dependencies.get(id);
+
     }
 
     private boolean isIdentUndeclared(String id)

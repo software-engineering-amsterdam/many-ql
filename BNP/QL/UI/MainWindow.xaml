@@ -1,7 +1,6 @@
 ﻿<Window x:Class="QL.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:QL.UI.Controls"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         x:Name="MainWindowControl"
         Title="QL Form filler" Height="600" Width="800" ResizeMode="CanResizeWithGrip"
@@ -9,6 +8,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" Executed="Command_Open" />
+        <CommandBinding Command="SaveAs" Executed="Command_SaveAs" />
         <CommandBinding Command="Close" Executed="Command_Close" />
     </Window.CommandBindings>
 
@@ -17,6 +17,8 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_Open" Command="Open" />
                 <MenuItem Header="Open example..." x:Name="MenuItemExamples" />
+                <Separator />
+                <MenuItem Header="_Save as..." Command="SaveAs" />
                 <Separator />
                 <MenuItem Header="E_xit" Command="Close" />
             </MenuItem>
@@ -27,12 +29,17 @@
         
         <TabControl>
             <TabItem Header="Questionnaire">
-                <StackPanel Name="QuestionsPanel">
-                    <controls:TextWidget Text="Question 1" Value="Hello World" x:Name="TextWidget" />
-                    <controls:NumberWidget Text="Question 2" Value="10" x:Name="NumberWidget" />
-                    <controls:YesNoWidget Text="Question 3" Value="False" x:Name="BoolWidget" />
-                    <controls:StatementWidget Text="Statement 1" Value="Displaying hello world text here" x:Name="StatementWidget" />
-                </StackPanel>
+                <ScrollViewer>
+                    <ItemsControl Name="WidgetsContainer">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <!-- Widgets are loaded here -->
+                                </StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Input">
@@ -40,7 +47,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
                         <RowDefinition Height="25" />
-                        <RowDefinition Height="3" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
@@ -48,17 +54,12 @@
                                            ShowLineNumbers="True" SyntaxHighlighting="JavaScript" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         No file loaded
                     </avalonedit:TextEditor>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Style="{StaticResource ButtonBar}">
-                        <Button x:Name="ButtonParse" Click="ButtonParse_Click">Parse</Button>
-                        <Button x:Name="ButtonTypeCheck" Click="ButtonTypeCheck_Click">Check types</Button>
-                        <Button x:Name="ButtonEvaluate" Click="ButtonEvaluate_Click">Evaluate</Button>
-                    </StackPanel>
                     
-                    <GridSplitter ResizeDirection="Rows" Grid.Row="2" ResizeBehavior="PreviousAndNext"
-                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Style="{StaticResource ButtonBar}">
+                        <Button x:Name="ButtonBuild" Click="ButtonBuild_Click">Build QL</Button>
+                    </StackPanel>
 
-                    <ListView Grid.Row="3" x:Name="ExceptionTable">
+                    <ListView Grid.Row="2" x:Name="ExceptionTable">
                         <ListView.View>
                             <GridView>
                                 <GridView.Columns>

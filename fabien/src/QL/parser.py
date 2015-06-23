@@ -1,11 +1,8 @@
 
 import ply.yacc
-
 from src.QL import nodes
-from src.Typechecker.errors import ParseError
-
+from src.Errors import ParseError
 from tokens import tokens, Lexer
-
 
 # Precedence is ordered from low to high
 precedence = (
@@ -35,6 +32,7 @@ def p_block(p):
     else:
         p[0] = []
 
+
 def p_statements(p):
     '''statements : statement
                   | statements statement
@@ -61,6 +59,8 @@ def p_question(p):
              | STRING TYPE function
              | STRING ID ':' TYPE
              | STRING ID ':' TYPE '=' function
+             | STRING ID ':' TYPE WIDGET
+             | STRING TYPE WIDGET
     '''
     p[0] = nodes.Question(p)
 
@@ -79,23 +79,44 @@ def p_function_expression(p):
     '''
     function : '(' ')'
              | '(' expr ')'
+             | '(' leaf ')'
     '''
     if len(p) == 4:
         p[0] = p[2]
 
 
-def p_leaf(p):
+def p_ID(p):
     '''
-    expr : ID
-         | NUMBER
-         | STRING
+    leaf : ID
     '''
-    p[0] = nodes.Leaf(p, p[1])
+    p[0] = nodes.ID(p, p[1])
+
+
+def p_String(p):
+    '''
+    leaf : STRING
+    '''
+    p[0] = nodes.String(p, p[1])
+
+
+def p_Number(p):
+    '''
+    leaf : NUMBER
+    '''
+    p[0] = nodes.Number(p, p[1])
+
+
+def p_Boolean(p):
+    '''
+    leaf : BOOL
+    '''
+    p[0] = nodes.Boolean(p, p[1])
 
 
 def p_function(p):
     '''
-    expr : function
+    expr : leaf
+         | function
     '''
     p[0] = p[1]
 
@@ -131,23 +152,36 @@ def p_unary_minus_expression(p):
 
 
 def p_not_expression(p):
-    '''expr : '!' ID %prec NOT'''
+    '''expr : '!' ID %prec NOT
+            | '!' expr %prec NOT
+    '''
     p[0] = nodes.UnaryExpression(p, p[2], 'NOT')
 
 
 def p_error(p):
     raise ParseError(p)
 
-
 class Parser:
-    def __init__(self, debug=0):
+    def __init__(self, debug=False):
         self.debug  = debug
-
-        self.lexer  = Lexer()
         self.parser = ply.yacc.yacc()
 
-    def parse(self, text=None):
-        if text.strip():
-            return self.parser.parse(text, debug=self.debug)
+        self.errors = []
 
-        return []
+    def parse(self, text=None):
+        self.errors = []
+        self.lexer  = Lexer()
+
+        try:
+            return self.parser.parse(text.strip(), debug=self.debug)
+        except ParseError as err:
+            self.errors.append(err)
+
+        return None
+
+    @property
+    def hasErrors(self):
+        return len(self.errors) > 0
+
+    def getErrorMessages(self):
+        return [str(err) for err in self.errors]

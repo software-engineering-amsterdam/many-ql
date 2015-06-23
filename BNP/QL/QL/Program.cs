@@ -1,20 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
-using QL.Exceptions;
-using QL.Exceptions.Errors;
-using QL.Grammars;
-using QL.Infrastructure;
-using QL.Model;
-using QL.Visitors;
-
+using QL.AST;
 
 namespace QL
 {
@@ -29,36 +15,16 @@ namespace QL
 
                 Stream inputStream = Console.OpenStandardInput();
 
-                ASTHandler ast = new ASTHandler(inputStream);
+                QLBuilder ast = new QLBuilder(inputStream);
 
-                if (ast.BuildAST())
-                {
-                    foreach (QLException e in ast.ASTHandlerExceptions)
-                        {
-                            Console.WriteLine(e.ToString());
-                        }
-                }
+                ast.RegisterGenericDataHandlers();
+                ast.RunInit();
+                ast.RunASTBuilders();
+                ast.RunTypeCheckers();
+                ast.RunEvaluators();
 
-                ast.CheckType();
-
-                if (ast.ASTHandlerExceptions.Any())
-                {
-                    foreach (QLError e in ast.ASTHandlerExceptions)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    continue;
-                }
-
-                ast.Evaluate();
-
-                if (ast.ASTHandlerExceptions.Any())
-                {
-                    foreach (QLError e in ast.ASTHandlerExceptions)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    continue;
+                foreach (Exception e in ast.UnhandledExceptions){
+                    Console.WriteLine(e.ToString());
                 }
 
                 Console.Write("Hit <return> to restart");

@@ -1,24 +1,10 @@
 #!/usr/bin/env python
 
-#from src.Gui.app import GUI
-
-from src.QL.parser import Parser
-from src.Typechecker import *
+from src.Gui import GUI
+import os
 
 if __name__ == '__main__':
-    parser = Parser()
+    storageDirectory = os.path.dirname("./userData/")
 
-    with open("tests/forms/nonBoolean.txt") as f:
-        formText = f.read()
-        Form = parser.parse(formText)
-
-        f.close()
-
-    checker = TypeChecker()
-
-    #checker.register(DuplicateQuestions())
-    #checker.register(UndefinedQuestions())
-    checker.register(NonBooleanTypes())
-
-    checker.checkAST(Form)
-    checker.reportErrors()
+    gui = GUI(storage=storageDirectory)
+    gui.run()

@@ -1,14 +1,36 @@
 package ql.value;
 
 import ql.Value;
+import ql.ast.QLType;
+import ql.ast.type.QLBoolean;
 
-public class BooleanValue extends Value {
+public class BooleanValue implements Value {
 	private final boolean value;
+	
+	@Override
+	public boolean isUndefined() {
+		return false;
+	}
+
+	@Override
+	public boolean isNumeric() {
+		return false;
+	}
 	
 	public BooleanValue(Boolean value) {
 		this.value = value;
 	}
 
+	@Override
+	public Boolean getPrimitive() {
+		return this.value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLBoolean();
+	}
+	
 	@Override
 	public Value add(Value argument) {
 		throw new UnsupportedOperationException("Cannot add to a Boolean.");
@@ -21,11 +43,6 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value addFloat(FloatValue argument) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Value addString(StringValue argument) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -76,7 +93,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value not() {
-		return new BooleanValue(!getValue());
+		return new BooleanValue(!getPrimitive());
 	}
 
 	@Override
@@ -96,7 +113,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value orBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() || getValue());
+		return new BooleanValue(argument.getPrimitive() || getPrimitive());
 	}
 
 	@Override
@@ -106,7 +123,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value notEqualToBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() != getValue());
+		return new BooleanValue(argument.getPrimitive() != getPrimitive());
 	}
 
 	@Override
@@ -191,7 +208,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value equalToBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() == getValue());
+		return new BooleanValue(argument.getPrimitive() == getPrimitive());
 	}
 
 	@Override
@@ -216,11 +233,7 @@ public class BooleanValue extends Value {
 
 	@Override
 	public Value andBoolean(BooleanValue argument) {
-		return new BooleanValue(argument.getValue() && getValue());
-	}
-	
-	public Boolean getValue() {
-		return this.value;
+		return new BooleanValue(argument.getPrimitive() && getPrimitive());
 	}
 
 	@Override
@@ -231,7 +244,7 @@ public class BooleanValue extends Value {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof BooleanValue) {
-			return getValue().equals(((BooleanValue) obj).getValue());
+			return getPrimitive().equals(((BooleanValue) obj).getPrimitive());
 		}
 		
 		return false;
@@ -239,6 +252,6 @@ public class BooleanValue extends Value {
 
 	@Override
 	public String toString() {
-		return getValue().toString();
+		return getPrimitive().toString();
 	}
 }

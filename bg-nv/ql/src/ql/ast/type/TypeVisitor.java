@@ -6,7 +6,6 @@ package ql.ast.type;
 public interface TypeVisitor<T>
 {
     public T visit(BoolType type);
-    public T visit(DateType type);
     public T visit(DecType type);
     public T visit(IntType type);
     public T visit(StrType type);

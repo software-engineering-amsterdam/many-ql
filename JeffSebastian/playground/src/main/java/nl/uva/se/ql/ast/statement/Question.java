@@ -32,5 +32,14 @@ public class Question extends Statement {
 	public void accept(StatementVisitor visitor) {
 		visitor.visit(this);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Question) {
+			return ((Question) obj).getId().equals(id);
+		}
+		
+		return false;
+	}
 	
 }

@@ -3,34 +3,37 @@
 
 class IStatement:
 
-    # pretty print ast, with level giving the indentation
-    def pretty_print(self, level=0):
-        raise NotImplementedError("Not implemented by sub class")
+    # pretty string format ast, with level giving the indentation
+    def string_presentation(self, level=0):
+        raise NotImplementedError("Not implemented here")
 
     # return all ids in the statement
-    def id_collection(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def ids(self):
+        raise NotImplementedError("Not implemented here")
 
     # return all labels in the statement
-    def label_collection(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def labels(self):
+        raise NotImplementedError("Not implemented here")
 
     # return if the statement is a conditional
     def is_conditional(self):
-        raise NotImplementedError("Not implemented by sub class")
+        raise NotImplementedError("Not implemented here")
 
-    # return all the _dependencies in the statement of other _statements
-    def get_dependency_collection(self, dependencies):
-        raise NotImplementedError("Not implemented by sub class")
+    def is_assignment(self):
+        return False
+
+    # return all the dependencies in the statement of other statements
+    def dependencies(self, dependencies):
+        raise NotImplementedError("Not implemented here")
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def get_id_type_collection(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def id_type_map(self):
+        raise NotImplementedError("Not implemented here")
 
     # Get a dictionary with ids and statements
-    def get_statement_dict(self):
-        raise NotImplementedError("Not implemented by sub class")
+    def id_statement_map(self):
+        raise NotImplementedError("Not implemented here")
 
     # return the error message of type checking, empty if correct
-    def valid_type_message(self, td):
-        raise NotImplementedError("Not implemented by sub class")
+    def expressions_type_error_messages(self, td):
+        raise NotImplementedError("Not implemented here")

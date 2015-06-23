@@ -34,13 +34,6 @@ To access the inline documentation, execute:
 $ make doc
 ```
 
-## TODO
-
-This toy project is an ongoing effort. Therefore, it is expected to have lots of things to do. In order to extract the inline "to do" tasks, execute:
-```
-$ make todo
-```
-
 # Development Cycle
 
 ## Tests
@@ -52,12 +45,11 @@ If you want to run tests only:
 $ make test
 ```
 
-If you want to run tests with code coverage (incomplete):
-```
-$ make coverage
-```
-
-If you want it to detect changes, and automatically execute the tests (Red-Green-Refactor cycle):
-```
-$ make autotest
-```
+* Relevant Content
+  {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]] [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
+  {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
+  {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
+  {4} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
+  {5} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
+  {6} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
+  {7} [[http://www.laputan.org/pub/patterns/fowler/smells.pdf]]

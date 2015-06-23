@@ -1,0 +1,27 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			section "test"
+			{
+				question question1
+			}
+		}
+	}
+	
+	page test
+	{
+		section "test"
+		{
+			section "test"
+			{
+				section "test"
+				{	
+					question question1
+				}
+			}
+		}
+	}
+}

@@ -1,7 +1,13 @@
 package nl.uva.softwcons.helper;
 
+import java.util.List;
+import java.util.function.Function;
+
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.LineInfo;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.form.Form;
+import nl.uva.softwcons.ql.validation.Error;
 
 public final class TestHelper {
     public static final LineInfo DUMMY_LINE_INFO = new LineInfo(-1, -1);
@@ -20,4 +26,23 @@ public final class TestHelper {
     public static String buildStylesheet(final String stylesheetName, final String... pages) {
         return String.format("stylesheet %s {%n %s %n}", stylesheetName, String.join(" ", pages));
     }
+
+    /**
+     * Builds a Form called always "form1" with the given statements (separating
+     * them by newlines), runs the given checker function and returns the list
+     * of found errors.
+     * 
+     * @param formContents
+     *            The statements that will be included in the form
+     * @param checker
+     *            The method reference to a checker function that is used
+     *            against the form
+     * @return Any errors found by the checker
+     */
+    public static List<Error> getCheckerErrors(Function<Form, List<Error>> checker, final String... formContents) {
+        final Form form = FormBuilder.build(TestHelper.buildForm("form1", formContents));
+
+        return checker.apply(form);
+    }
+
 }

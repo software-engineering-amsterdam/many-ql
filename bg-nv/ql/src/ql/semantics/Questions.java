@@ -20,17 +20,13 @@ public class Questions implements Iterable<String>
     public void put(Question q)
     {
         String id = q.getId();
+        List<Question> list = new ArrayList<>();
         if (this.questions.containsKey(id))
         {
-            List<Question> list = this.questions.get(id);
-            list.add(q);
+            list = this.questions.get(id);
         }
-        else
-        {
-            List<Question> list = new ArrayList<>();
-            list.add(q);
-            this.questions.put(id, list);
-        }
+        list.add(q);
+        this.questions.put(id, list);
     }
 
     public boolean contains(String id)
@@ -49,6 +45,7 @@ public class Questions implements Iterable<String>
         return q.getType();
     }
 
+    @Override
     public Iterator<String> iterator()
     {
         return this.questions.keySet().iterator();

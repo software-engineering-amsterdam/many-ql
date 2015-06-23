@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import nl.uva.softwcons.helper.TestHelper;
-import nl.uva.softwcons.ql.Questionnaire;
+import nl.uva.softwcons.ql.FormBuilder;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.form.Form;
 import nl.uva.softwcons.ql.ast.statement.Computable;
@@ -45,7 +45,7 @@ public class EvaluatorTest {
     @Test
     public void testGettingANonexistentValue() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
 
         assertThat(new Evaluator(form).getValue(UNUSED)).isEqualTo(UNDEFINED);
     }
@@ -53,7 +53,7 @@ public class EvaluatorTest {
     @Test
     public void testGettingANonfiledQuestionValue() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
 
         assertThat(new Evaluator(form).getValue(QUESTION)).isEqualTo(UNDEFINED);
     }
@@ -62,7 +62,7 @@ public class EvaluatorTest {
     public void testGettingAYetNoncomputableValue() {
         String question1Text = "question: \"Label\" boolean";
         String question2Text = "question2: \"Label\" boolean(question != true)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, question2Text));
 
         assertThat(new Evaluator(form).getValue(QUESTION2)).isEqualTo(UNDEFINED);
     }
@@ -72,7 +72,7 @@ public class EvaluatorTest {
         String question1Text = "question: \"Label\" boolean (true != false)";
         String question2Text = "question2: \"Label\" number (6 * 5)";
         String question3Text = "question3: \"Label\" number (\"lazy\")";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text, question3Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", question1Text, question2Text, question3Text));
 
         assertThat(new Evaluator(form).getValue(QUESTION).getBoolean()).isEqualTo(true);
         assertThat(new Evaluator(form).getValue(QUESTION2).getNumber()).isEqualTo("30");
@@ -82,7 +82,7 @@ public class EvaluatorTest {
     @Test
     public void testGettingAValueAfterManuallySettingIt() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText));
         Evaluator e = new Evaluator(form);
 
         e.updateValue(QUESTION, new BooleanValue(true));
@@ -94,7 +94,7 @@ public class EvaluatorTest {
     public void testThatUpdatingValuesIsPropagatedToReferences() {
         String questionText = "question: \"Label\" number";
         String question2Text = "question2: \"Label\" boolean (question > 0)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text));
         Evaluator e = new Evaluator(form);
 
         assertThat(e.getValue(QUESTION2)).isEqualTo(UNDEFINED);
@@ -108,7 +108,7 @@ public class EvaluatorTest {
     public void testThatUpdatingValuesIsPropagatedToReferencesInConditionals() {
         String questionText = "question: \"Label\" number";
         String question2Text = "if (true) { question2: \"Label\" number (question * 10) }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text));
         Evaluator e = new Evaluator(form);
 
         assertThat(e.getValue(QUESTION2)).isEqualTo(UNDEFINED);
@@ -124,7 +124,7 @@ public class EvaluatorTest {
         String question2Text = "question2: \"Label\" boolean (question > 0)";
         String question3Text = "question3: \"Label\" boolean (question2 == true)";
         String question4Text = "question4: \"Label\" boolean (question3 == false)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text, question3Text,
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text, question3Text,
                 question4Text));
         Evaluator e = new Evaluator(form);
 
@@ -144,7 +144,7 @@ public class EvaluatorTest {
     public void testThatCallbacksForQuestionsAreCalledAfterValueUpdate() {
         String questionText = "question: \"Label\" number";
         String question2Text = "question2: \"Label\" boolean (question > 0)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text));
         Evaluator e = new Evaluator(form);
 
         // add listener to "question2"
@@ -165,7 +165,7 @@ public class EvaluatorTest {
     public void testThatCallbacksForConditionalsAreCalledAfterValueUpdate() {
         String questionText = "question: \"Label\" number";
         String question2Text = "if (question > 0) { question2: \"Label\" boolean }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text));
         Evaluator e = new Evaluator(form);
 
         // add listener to the conditional
@@ -186,7 +186,7 @@ public class EvaluatorTest {
     public void testThatCallbacksForInsideConditionalsAreCalledAfterValueUpdate() {
         String questionText = "question: \"Label\" number";
         String conditionalText = "if (true) { question2: \"Label\" boolean (question > 0) }";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, conditionalText));
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, conditionalText));
         Conditional conditional = (Conditional) form.getStatements().get(1);
         Evaluator e = new Evaluator(form);
 
@@ -210,7 +210,7 @@ public class EvaluatorTest {
         String question2Text = "question2: \"Label\" boolean (question > 0)";
         String question3Text = "question3: \"Label\" boolean (question2 == true)";
         String question4Text = "question4: \"Label\" boolean (question3 == false)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText, question2Text, question3Text,
+        Form form = FormBuilder.build(TestHelper.buildForm("form1", questionText, question2Text, question3Text,
                 question4Text));
         Evaluator e = new Evaluator(form);
 

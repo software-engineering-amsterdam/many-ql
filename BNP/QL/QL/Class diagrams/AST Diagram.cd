@@ -1,362 +1,397 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="QL.Model.ElementBase" Collapsed="true">
-    <Position X="4" Y="0.5" Width="2" />
+  <Class Name="QL.AST.Nodes.BinaryTreeElementBase" Collapsed="true">
+    <Position X="27.5" Y="7" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AIgABEBAAAAAAAAAAAAkAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
-      <FileName>Model\ElementBase.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="SourceLocation" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Model.QuestionUnit" Collapsed="true">
-    <Position X="0.5" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\QuestionUnit.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\BinaryTreeElementBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Model.UnitBase" Collapsed="true">
-    <Position X="1.5" Y="2.75" Width="1.5" />
+  <Class Name="QL.AST.Nodes.ElementBase" Collapsed="true">
+    <Position X="25.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAAA=</HashCode>
-      <FileName>Model\UnitBase.cs</FileName>
+      <HashCode>AICAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\ElementBase.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Model.StatementUnit" Collapsed="true">
-    <Position X="2.5" Y="4" Width="1.5" />
+  <Class Name="QL.AST.Nodes.Branches.Block" Collapsed="true">
+    <Position X="6.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
-      <FileName>Model\StatementUnit.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Block.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Model.Terminals.Identifier" Collapsed="true">
-    <Position X="13.5" Y="5.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.ControlUnit" Collapsed="true">
+    <Position X="13.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAABA=</HashCode>
+      <FileName>AST\Nodes\Branches\ControlUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.AST.Nodes.Branches.Expression" Collapsed="true">
+    <Position X="14" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.ElementBase" ManuallyRouted="true">
       <Path>
-        <Point X="12.75" Y="1.191" />
-        <Point X="12.75" Y="5.875" />
-        <Point X="13.5" Y="5.875" />
+        <Point X="26.25" Y="5.562" />
+        <Point X="26.25" Y="5.91" />
+        <Point X="14.75" Y="5.91" />
+        <Point X="14.75" Y="6.25" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAgAEgAAAAAAAAAAAAIAAAAAgAAAAAAA=</HashCode>
-      <FileName>Model\Terminals\Identifier.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Expression.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Terminals.Number" Collapsed="true">
-    <Position X="13.5" Y="3" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Form" Collapsed="true">
+    <Position X="13.75" Y="8.75" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.ElementBase" ManuallyRouted="true">
       <Path>
-        <Point X="12.75" Y="1.191" />
-        <Point X="12.75" Y="3.375" />
-        <Point X="13.5" Y="3.375" />
+        <Point X="26.25" Y="5.562" />
+        <Point X="26.25" Y="5.87" />
+        <Point X="15.672" Y="5.87" />
+        <Point X="15.672" Y="8.45" />
+        <Point X="14.5" Y="8.45" />
+        <Point X="14.5" Y="8.75" />
       </Path>
     </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Model\Terminals\Number.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Model.Terminals.Text" Collapsed="true">
-    <Position X="13.5" Y="1.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
-      <Path>
-        <Point X="12.75" Y="1.191" />
-        <Point X="12.75" Y="2.219" />
-        <Point X="13.5" Y="2.219" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Model\Terminals\Text.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Model.Terminals.Yesno" Collapsed="true">
-    <Position X="13.5" Y="4.25" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12.75" Y="1.191" />
-        <Point X="12.75" Y="4.625" />
-        <Point X="13.5" Y="4.625" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Model\Terminals\Yesno.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Model.Block" Collapsed="true">
-    <Position X="6.75" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Block.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="QL.Model.Form" Collapsed="true">
-    <Position X="4.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
-      <FileName>Model\Form.cs</FileName>
+      <FileName>AST\Nodes\Branches\Form.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Block" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="QL.Model.BinaryTreeElementBase" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
-    <AssociationLine Name="ElementType" Type="QL.Model.Enums.ElementType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="12" Y="0.938" />
-        <Point X="11.656" Y="0.938" />
-        <Point X="11.656" Y="1.562" />
-        <Point X="10.5" Y="1.562" />
-      </Path>
-    </AssociationLine>
+  <Class Name="QL.AST.Nodes.Branches.QuestionUnit" Collapsed="true">
+    <Position X="1.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABEAAAAAAAAAAAAAgAAAAAAAAAAAACACAAAAAAAA=</HashCode>
-      <FileName>Model\BinaryTreeElementBase.cs</FileName>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\QuestionUnit.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ElementType" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="QL.Model.TreeElementBase" Collapsed="true">
-    <Position X="2.5" Y="1.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.ElementBase" ManuallyRouted="true">
-      <Path>
-        <Point X="5" Y="1.062" />
-        <Point X="5" Y="1.325" />
-        <Point X="3.25" Y="1.325" />
-        <Point X="3.25" Y="1.5" />
-      </Path>
-    </InheritanceLine>
+  <Class Name="QL.AST.Nodes.Branches.StatementUnit" Collapsed="true">
+    <Position X="4" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\TreeElementBase.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAgAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\StatementUnit.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="ElementType" />
-    </ShowAsAssociation>
   </Class>
-  <Class Name="QL.Model.Operators.AndOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="2.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.UnitBase" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAIAAAAAIAAAAAAAgAAAQAAIAAAgSAACAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\UnitBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Branches.Operators.AndOperator" Collapsed="true">
+    <Position X="24.25" Y="11.25" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="15.26" Y="0.875" />
-        <Point X="15.26" Y="3.096" />
-        <Point X="15.5" Y="3.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.381" />
+        <Point X="26.294" Y="8.381" />
+        <Point X="26.294" Y="11.625" />
+        <Point X="25.75" Y="11.625" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\AndOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\AndOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.DivisionOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="21.5" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.DivisionOperator" Collapsed="true">
+    <Position X="29.5" Y="10" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="21.26" Y="0.875" />
-        <Point X="21.26" Y="5.096" />
-        <Point X="21.5" Y="5.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="29.125" Y="8.375" />
+        <Point X="29.125" Y="10.312" />
+        <Point X="29.5" Y="10.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\DivisionOperator.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\DivisionOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.EqualsOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="1.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.EqualsOperator" Collapsed="true">
+    <Position X="24.25" Y="8.75" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="15.26" Y="0.875" />
-        <Point X="15.26" Y="2.125" />
-        <Point X="15.5" Y="2.125" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="26.294" Y="8.375" />
+        <Point X="26.294" Y="9.125" />
+        <Point X="25.75" Y="9.125" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\EqualsOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\EqualsOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.GreaterThanEqualToOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="3.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.GreaterThanEqualToOperator" Collapsed="true">
+    <Position X="26.5" Y="11.25" Width="2.25" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="19.122" Y="0.875" />
-        <Point X="19.122" Y="4.125" />
-        <Point X="19.5" Y="4.125" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.381" />
+        <Point X="26.294" Y="8.381" />
+        <Point X="26.294" Y="11.688" />
+        <Point X="26.5" Y="11.688" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\GreaterThanEqualToOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\GreaterThanEqualToOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.GreaterThanOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="3.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.GreaterThanOperator" Collapsed="true">
+    <Position X="26.5" Y="8.75" Width="1.75" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="15.26" Y="0.875" />
-        <Point X="15.26" Y="4.096" />
-        <Point X="15.5" Y="4.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="26.294" Y="8.375" />
+        <Point X="26.294" Y="9.125" />
+        <Point X="26.5" Y="9.125" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\GreaterThanOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\GreaterThanOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.LessThanEqualToOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="21.5" Y="3.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.LessThanEqualToOperator" Collapsed="true">
+    <Position X="26.5" Y="12.5" Width="2" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="21.26" Y="0.875" />
-        <Point X="21.26" Y="4.125" />
-        <Point X="21.5" Y="4.125" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.381" />
+        <Point X="26.294" Y="8.381" />
+        <Point X="26.294" Y="12.812" />
+        <Point X="26.5" Y="12.812" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\LessThanEqualToOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\LessThanEqualToOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.LessThanOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17.5" Y="3.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.LessThanOperator" Collapsed="true">
+    <Position X="26.5" Y="10" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="17.122" Y="0.875" />
-        <Point X="17.122" Y="4.096" />
-        <Point X="17.5" Y="4.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="26.294" Y="8.375" />
+        <Point X="26.294" Y="10.438" />
+        <Point X="26.5" Y="10.438" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\LessThanOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\LessThanOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.MinusOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17.5" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.MinusOperator" Collapsed="true">
+    <Position X="29.5" Y="12.5" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="17.122" Y="0.875" />
-        <Point X="17.122" Y="5.096" />
-        <Point X="17.5" Y="5.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="29.125" Y="8.375" />
+        <Point X="29.125" Y="12.812" />
+        <Point X="29.5" Y="12.812" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\MinusOperator.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\MinusOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.MultiplicationOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.MultiplicationOperator" Collapsed="true">
+    <Position X="29.5" Y="8.75" Width="2" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="19.122" Y="0.875" />
-        <Point X="19.122" Y="5.125" />
-        <Point X="19.5" Y="5.125" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="29.125" Y="8.375" />
+        <Point X="29.125" Y="9.062" />
+        <Point X="29.5" Y="9.062" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\MultiplicationOperator.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\MultiplicationOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.NotEqualsOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17.5" Y="1.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.NotEqualsOperator" Collapsed="true">
+    <Position X="24.25" Y="10" Width="1.75" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="17.122" Y="0.875" />
-        <Point X="17.122" Y="2.125" />
-        <Point X="17.5" Y="2.125" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.41" />
+        <Point X="26.3" Y="8.41" />
+        <Point X="26.3" Y="10.438" />
+        <Point X="26" Y="10.438" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\NotEqualsOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\NotEqualsOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.OrOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17.5" Y="2.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.OrOperator" Collapsed="true">
+    <Position X="24.25" Y="12.5" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="17.122" Y="0.875" />
-        <Point X="17.122" Y="3.096" />
-        <Point X="17.5" Y="3.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.381" />
+        <Point X="26.294" Y="8.381" />
+        <Point X="26.294" Y="12.812" />
+        <Point X="25.75" Y="12.812" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\OrOperator.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\OrOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Operators.PlusOperator" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="4.75" Width="1.5" />
-    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+  <Class Name="QL.AST.Nodes.Branches.Operators.PlusOperator" Collapsed="true">
+    <Position X="29.5" Y="11.25" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="13.5" Y="0.875" />
-        <Point X="15.26" Y="0.875" />
-        <Point X="15.26" Y="5.096" />
-        <Point X="15.5" Y="5.096" />
+        <Point X="28.375" Y="7.691" />
+        <Point X="28.375" Y="8.375" />
+        <Point X="29.125" Y="8.375" />
+        <Point X="29.125" Y="11.562" />
+        <Point X="29.5" Y="11.562" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Operators\PlusOperator.cs</FileName>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Branches\Operators\PlusOperator.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="QL.Model.Expression" Collapsed="true">
-    <Position X="8.75" Y="2.75" Width="1.5" />
+  <Class Name="QL.AST.Nodes.Terminals.Identifier" Collapsed="true">
+    <Position X="8.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\Expression.cs</FileName>
+      <HashCode>ABAAAEAAAAAAAAAEgAAAAAAAAAAAAIAAAAAgAAAAAiA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Identifier.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="QL.Model.SourceLocation" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+  <Class Name="QL.AST.Nodes.Terminals.Number" Collapsed="true">
+    <Position X="16.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Number.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Terminals.Text" Collapsed="true">
+    <Position X="16.25" Y="7.5" Width="1.5" />
+    <InheritanceLine Type="QL.AST.Nodes.ElementBase" ManuallyRouted="true">
+      <Path>
+        <Point X="26.25" Y="5.562" />
+        <Point X="26.25" Y="5.86" />
+        <Point X="15.98" Y="5.86" />
+        <Point X="15.98" Y="7.2" />
+        <Point X="17" Y="7.2" />
+        <Point X="17" Y="7.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Text.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Terminals.Yesno" Collapsed="true">
+    <Position X="16.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Yesno.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Terminals.Wrappers.NumberWrapper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="50.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAgAE4AWAAgAAAAAAAIAAAAAgAAAAByA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Wrappers\NumberWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Terminals.Wrappers.TextWrapper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="50.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAgAEwAAAAAAAAAAAAIAAAAAgAAAAAiA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Wrappers\TextWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.AST.Nodes.Terminals.Wrappers.YesnoWrapper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="50.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Wrappers\YesnoWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="QL.AST.SourceLocation" Collapsed="true">
+    <Position X="42.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAgAAAAAEAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
-      <FileName>Model\SourceLocation.cs</FileName>
+      <FileName>AST\SourceLocation.cs</FileName>
     </TypeIdentifier>
   </Struct>
-  <Enum Name="QL.Model.Enums.ElementType" Collapsed="true">
-    <Position X="9" Y="1.25" Width="1.5" />
+  <Interface Name="QL.AST.IVisitor" Collapsed="true">
+    <Position X="42.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAA=</HashCode>
-      <FileName>Model\Enums\ElementType.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\IVisitor.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+  </Interface>
+  <Interface Name="QL.AST.Nodes.IInferredReturnType">
+    <Position X="44.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\IInferredReturnType.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL.AST.Nodes.IStaticReturnType">
+    <Position X="48" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\IStaticReturnType.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL.AST.Nodes.IResolvable" Collapsed="true">
+    <Position X="46.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\IResolvable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL.AST.Nodes.Terminals.Wrappers.ITerminalWrapper" Collapsed="true">
+    <Position X="50.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AST\Nodes\Terminals\Wrappers\ITerminalWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

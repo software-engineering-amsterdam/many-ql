@@ -1,15 +1,13 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interfaces.IQLRenderer;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 
 public abstract class AbstractStaticFormField {
-    private String label, variable;
-    private TypeDescriptor typeDescriptor;
+    private final String label, variable;
+    private final ITypeDescriptor typeDescriptor;
 
-    //TODO should not throw any exception anymore
-    public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer) throws FieldNotFoundException;
+    public abstract <T> T applyRenderer(IQLRenderer<T> iQLRenderer);
 
     public String getVariable() {
         return variable;
@@ -19,11 +17,11 @@ public abstract class AbstractStaticFormField {
         return label;
     }
 
-    public TypeDescriptor getTypeDescriptor() {
+    public ITypeDescriptor getTypeDescriptor() {
         return typeDescriptor;
     }
 
-    public AbstractStaticFormField(String label, String variable, TypeDescriptor typeDescriptor) {
+    public AbstractStaticFormField(String label, String variable, ITypeDescriptor typeDescriptor) {
         this.label = label;
         this.variable = variable;
         this.typeDescriptor = typeDescriptor;

@@ -2,6 +2,8 @@ package ql.gui.input;
 
 import ql.ast.type.*;
 import ql.gui.control.CheckBox;
+import ql.gui.control.Dropdown;
+import ql.gui.control.Slider;
 import ql.gui.control.TextField;
 
 /**
@@ -10,8 +12,6 @@ import ql.gui.control.TextField;
 public class InputBuilder implements TypeVisitor<Input>
 {
     private final String id;
-    private final Boolean VISIBLE = true;
-    private final Boolean DISABLED = false;
 
     public static Input build(String id, Type type)
     {
@@ -27,36 +27,30 @@ public class InputBuilder implements TypeVisitor<Input>
     @Override
     public Input visit(BoolType type)
     {
-        return new BoolInput(this.id, new CheckBox(VISIBLE, DISABLED));
-    }
-
-    @Override
-    public Input visit(DateType type)
-    {
-        return new DateInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new BoolInput(this.id, new CheckBox());
     }
 
     @Override
     public Input visit(DecType type)
     {
-        return new DecInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new DecInput(this.id, new TextField());
     }
 
     @Override
     public Input visit(IntType type)
     {
-        return new IntInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new IntInput(this.id, new TextField());
     }
 
     @Override
     public Input visit(StrType type)
     {
-        return new StrInput(this.id, new TextField(VISIBLE, DISABLED));
+        return new StrInput(this.id, new TextField());
     }
 
     @Override
     public Input visit(UndefType type)
     {
-        return null;
+        throw new IllegalArgumentException("Cannot build input for undefined type.");
     }
 }

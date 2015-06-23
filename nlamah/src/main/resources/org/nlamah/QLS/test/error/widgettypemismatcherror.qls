@@ -1,0 +1,12 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			question question1 widget checkbox
+			question question2 widget spinbox
+			question question3 widget radio("yes", "no")
+		}
+	}
+}

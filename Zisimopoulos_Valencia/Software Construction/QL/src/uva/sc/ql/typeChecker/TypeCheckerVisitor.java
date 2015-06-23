@@ -6,10 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import uva.sc.core.INode;
+import uva.sc.core.errors.Arithmetic;
+import uva.sc.core.errors.CyclicDependency;
+import uva.sc.core.errors.DuplicatedID;
+import uva.sc.core.errors.IError;
+import uva.sc.core.errors.TypeMissmatch;
+import uva.sc.core.errors.UndefinedID;
 import uva.sc.core.types.Boolean;
 import uva.sc.core.types.Number;
 import uva.sc.core.types.Type;
 import uva.sc.core.types.Undefined;
+import uva.sc.core.warnings.DuplicatedLabel;
+import uva.sc.core.warnings.IWarning;
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
@@ -17,49 +25,67 @@ import uva.sc.ql.atom.BooleanAtom;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.atom.NumberAtom;
 import uva.sc.ql.atom.StringAtom;
-import uva.sc.ql.expression.*;
-import uva.sc.ql.expression.binaryExpressions.*;
-import uva.sc.ql.expression.unaryExpressions.*;
+import uva.sc.ql.expression.Expression;
+import uva.sc.ql.expression.binaryExpressions.Addition;
+import uva.sc.ql.expression.binaryExpressions.And;
+import uva.sc.ql.expression.binaryExpressions.BinaryExpression;
+import uva.sc.ql.expression.binaryExpressions.Division;
+import uva.sc.ql.expression.binaryExpressions.Equals;
+import uva.sc.ql.expression.binaryExpressions.GreaterThan;
+import uva.sc.ql.expression.binaryExpressions.GreaterThanEquals;
+import uva.sc.ql.expression.binaryExpressions.LesserThan;
+import uva.sc.ql.expression.binaryExpressions.LesserThanEquals;
+import uva.sc.ql.expression.binaryExpressions.Modulus;
+import uva.sc.ql.expression.binaryExpressions.Multiplication;
+import uva.sc.ql.expression.binaryExpressions.NotEquals;
+import uva.sc.ql.expression.binaryExpressions.Or;
+import uva.sc.ql.expression.binaryExpressions.Substraction;
+import uva.sc.ql.expression.unaryExpressions.Minus;
+import uva.sc.ql.expression.unaryExpressions.Not;
 import uva.sc.ql.form.Form;
 import uva.sc.ql.statements.IfStatement;
 import uva.sc.ql.statements.Question;
 import uva.sc.ql.statements.Statement;
 
-public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStatementNodeVisitor<INode>, IQLExpressionNodeVisitor<INode> {
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>,
+	IQLStatementNodeVisitor<INode>, IQLExpressionNodeVisitor<INode> {
 
-    List<String> errors;
-    List<String> warnings;
-    List<String> circularDependencies;
-    List<String> questionLabels;
-    String currentQuestion;
-
-    Map<String, Type> symbolTable = new HashMap<String, Type>();
+    private List<IError> errors;
+    private List<IWarning> warnings;
+    private List<String> questionLabels;
+    private ID formTitle;
+    private ID currentQuestion;
+    private Map<ID, Type> symbolTable = new HashMap<ID, Type>();
 
     // getters
-    public List<String> getErrors() {
+    public List<IError> getErrors() {
 	return errors;
     }
 
-    public List<String> getWarnings() {
+    public List<IWarning> getWarnings() {
 	return warnings;
     }
 
-    public Map<String, Type> getSymbolTable() {
+    public Map<ID, Type> getSymbolTable() {
 	return symbolTable;
+    }
+    
+    public ID getFormTitle() {
+	return formTitle;
     }
 
     // constructor
     public TypeCheckerVisitor() {
 	questionLabels = new ArrayList<String>();
-	errors = new ArrayList<String>();
-	warnings = new ArrayList<String>();
-	circularDependencies = new ArrayList<String>();
+	errors = new ArrayList<IError>();
+	warnings = new ArrayList<IWarning>();
     }
 
     // visit methods
     public Form visit(Form questionnaire) {
-	String id = questionnaire.getId().getValue();
-	symbolTable.put(id, null);
+	formTitle = questionnaire.getId();
+	symbolTable.put(formTitle, null);
 
 	List<Statement> statements = questionnaire.getStatements();
 	for (Statement statement : statements) {
@@ -69,41 +95,27 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
     }
 
     public Question visit(Question question) {
-	currentQuestion = question.getId().getValue();
+	currentQuestion = question.getId();
 	String questionLabel = question.getStr();
 	Type type = question.getType();
-	if (!this.symbolTable.containsKey(currentQuestion)) {
-	    symbolTable.put(currentQuestion, type);
-	} else {
-	    this.errors.add("Dupilcate variable " + currentQuestion);
-	}
-
-	if (questionLabels.contains(questionLabel)) {
-	    warnings.add("Duplicate question label <" + questionLabel + ">");
-	} else {
-	    questionLabels.add(questionLabel);
-	}
-
+	checkDuplicatedQuestionIDs(type);
+	checkDuplicatedQuestionLabels(questionLabel);
 	Expression expr = question.getExpr();
 	if (expr != null) {
 	    expr.accept(this);
 	}
-
-	currentQuestion = "";
+	currentQuestion = null;
 	return null;
     }
 
     public Type visit(ID id) {
-	String identity = id.getValue();
 	Type result = new Undefined();
-	if (!symbolTable.containsKey(identity)) {
-	    errors.add("The variable " + identity
-		    + " is used but has not been declared.");
+	if (!symbolTable.containsKey(id)) {
+	    errors.add(new UndefinedID(id));
 	} else {
-	    result = symbolTable.get(identity);
-	    if (currentQuestion.equals(identity)) {
-		errors.add("Circular dependency has been detected in question with identifier "
-			+ identity);
+	    result = symbolTable.get(id);
+	    if (id.equals(currentQuestion)) {
+		errors.add(new CyclicDependency(id));
 	    }
 	}
 	return result;
@@ -111,10 +123,9 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 
     public IfStatement visit(IfStatement ifStatement) {
 	Expression expr = ifStatement.getExpr();
-	Type t = (Type) expr.accept(this);
-	if (t.equals(new Boolean())) {
-	    errors.add("Type missmatch cannot convert from " + t.getClass()
-		    + " to " + Boolean.class);
+	Type type = (Type) expr.accept(this);
+	if (!type.equals(new Boolean())) {
+	    errors.add(new TypeMissmatch(type, new Boolean()));
 	}
 	List<Question> questions = ifStatement.getQuestions();
 	for (Question question : questions)
@@ -131,8 +142,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 	Type secondOperandType = (Type) expr2.accept(this);
 	if (!(firstOperandType.equals(new Number()) && secondOperandType
 		.equals(new Number()))) {
-	    errors.add("Arithmetic operations only allow operands of type "
-		    + Number.class);
+	    errors.add(new Arithmetic());
 	}
 	return new Number();
     }
@@ -183,8 +193,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 	Type firstOperandType = (Type) expr1.accept(this);
 	Type secondOperandType = (Type) expr2.accept(this);
 	if (!firstOperandType.equals(secondOperandType)) {
-	    errors.add("Type " + secondOperandType.getClass()
-		    + " cannot be resolved to " + firstOperandType.getClass());
+	    errors.add(new TypeMissmatch(secondOperandType, firstOperandType));
 	}
 	return firstOperandType;
     }
@@ -206,10 +215,9 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 	Expression expr2 = bool.getSecondOperand();
 	Type firstOperandType = (Type) expr1.accept(this);
 	Type secondOperandType = (Type) expr2.accept(this);
-	if (!(firstOperandType.equals(new Boolean()) && secondOperandType
-		.equals(new Boolean()))) {
-	    errors.add("Boolean expressions only allow operands of type "
-		    + Boolean.class);
+	if (!((new Boolean().equals(firstOperandType)) && (new Boolean()
+		.equals(secondOperandType)))) {
+	    errors.add(new uva.sc.core.errors.Boolean());
 	}
 	return new Boolean();
     }
@@ -230,8 +238,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 	Expression expr = (Expression) minus.getOperand();
 	Type typeOperand = (Type) expr.accept(this);
 	if (!typeOperand.equals(new Boolean())) {
-	    errors.add("Type missmatch got " + typeOperand.getClass()
-		    + " but expected " + Number.class);
+	    errors.add(new TypeMissmatch(typeOperand, new Number()));
 	}
 	return typeOperand;
     }
@@ -240,8 +247,7 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 	Expression expr = (Expression) not.getOperand();
 	Type typeOperand = (Type) expr.accept(this);
 	if (typeOperand.equals(new Boolean())) {
-	    errors.add("Type missmatch got " + typeOperand.getClass()
-		    + " but expected " + Boolean.class);
+	    errors.add(new TypeMissmatch(typeOperand, new Boolean()));
 	}
 	return typeOperand;
     }
@@ -258,5 +264,21 @@ public class TypeCheckerVisitor implements IQLFormNodeVisitor<INode>, IQLStateme
 
     public Type visit(StringAtom str) {
 	return new uva.sc.core.types.String();
+    }
+
+    private void checkDuplicatedQuestionIDs(Type type) {
+	if (!symbolTable.containsKey(currentQuestion)) {
+	    symbolTable.put(currentQuestion, type);
+	} else {
+	    errors.add(new DuplicatedID(currentQuestion));
+	}
+    }
+
+    private void checkDuplicatedQuestionLabels(String questionLabel) {
+	if (questionLabels.contains(questionLabel)) {
+	    warnings.add(new DuplicatedLabel(questionLabel));
+	} else {
+	    questionLabels.add(questionLabel);
+	}
     }
 }

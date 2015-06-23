@@ -1,135 +1,130 @@
 package uva.ql.interpreter.gui.elements;
 
-import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.statements.Question;
-import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
-import uva.ql.interpreter.typecheck.table.ExpressionTable;
-import uva.ql.interpreter.typecheck.table.SymbolTable;
-import uva.ql.supporting.ExpressionSupporting;
+import uva.ql.ast.type.Type;
+import uva.ql.ast.type.TypeString;
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.value.NumberValue;
+import uva.ql.ast.value.StringValue;
+import uva.ql.interpreter.gui.supporting.UpdateValue;
 
-public class UITextField extends UIQuestion{
+public class UITextField extends Observable implements UIWidgetKit{
 	
-	private JTextField textField;
-	private Expression expression;
+	private GenericValue<?> value;
+	private Observer observer;
+	private Question question;
 	
-	public UITextField(Question _question, ExpressionTable _expressionTable, SymbolTable _symbolTable, Subject _subject, Expression _expression) {
-		super(_question, _expressionTable, _symbolTable, _subject, _expression);
-		
-		this.expression = _expression;
-		
-		this.textField = new JTextField();
-		this.textField.setText(this.getValue());
-
-		this.textField.setColumns(10);
-		this.textField.setSelectionStart(0);
-		this.textField.setSelectionEnd(0);
-		this.textField.setEnabled(this.shouldBeEnabled());
-		
-		this.setDocumentListener();
-		this.setFocusListener();
+	public UITextField(Question question, GenericValue<?> value , Observer observer) {	
+		this.addObserver(observer);
+		this.observer = observer;
+		this.question = question;
+		this.value = value;
 	}
 	
 	@Override
-	public String getIdentifier(){
-		return this.question.getIdentifier().evaluate().getValue();
-	}
-	
-	@Override
-	public String getWidgetValue() {
-		return this.textField.getText();
-	}
-	
-	@Override
-	public Expression getExpression() {
-		return super.getExpression();
-	}
-	
-	private void setDocumentListener(){
-		this.textField.getDocument().addDocumentListener(new DocumentListener(){
-			public void insertUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
-			}
+	public JTextField rander() {
+		JTextField textField = new JTextField();
+		textField.setText(this.getFieldText());
 
-			public void removeUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
-			}
-
-			public void changedUpdate(DocumentEvent e) {
-				setValue(getWidgetValue());
-			}
-		});
+		textField.setColumns(10);
+		textField.setSelectionStart(0);
+		textField.setSelectionEnd(0);
+		textField.setEditable(this.isEnabled());
+		
+		this.addDocumentListener(textField);
+		this.setFocusListener(textField);
+		
+		return textField;
 	}
 	
-	private void setFocusListener(){
-        this.textField.addFocusListener(new FocusListener() {
-        	
-			@Override
-			public void focusGained(FocusEvent e) {
-				textField.setSelectionEnd(0);
-				textField.setSelectionStart(getValue().length());
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				
-			}
-        });
-	}
-	
-	public Component getWidget(){
-		return this.textField;
-	}
-	
-	private String getValue(){
-		if ((int)this.getExpression().evaluate().getValue() != 0){
-			return String.valueOf(this.getExpression().evaluate().getValue());
+	private String getFieldText(){
+		String valueText = this.getValueForQuestion();
+		
+		if (valueText.equals("0")){
+			return "";
 		}
-		return "";
+		else {
+			return valueText;
+		}
+	}
+	
+	private String getValueForQuestion(){
+		GenericValue<?> value = this.value;
+		return String.valueOf(value.getValue());
 	}
 	
 	private void setValue(String _value){
 		
-		String questionType = super.question.getType().getTypeName();
+		GenericValue<?> updateValue;
 		
-		if (questionType.equals("string") && this.isNumeric(_value) && !_value.equals(""))
-			throw new IllegalTypeException("IllegalTypeException: you are trying to enter different type of value");
+		if (_value.length() != 0){
+			updateValue = this.setUpdateValue(value, _value);
+		}
 		else {
-			if (!this.isNumeric(_value) && !_value.equals(""))
-				throw new IllegalTypeException("IllegalTypeException: you are trying to enter different type of value");
+			Type questionType = this.question.getQuestionType();
+			updateValue = questionType.typeInitialValue();
 		}
-				
-		ExpressionSupporting exprSupporting = new ExpressionSupporting(this.expressionTable, this.symbolTable, null, null, null);
 		
-		this.expressionTable.updateValue(this.question.getIdentifier(), exprSupporting.expressionFromValue(this.question.getType().getPrimitiveType(), _value));
-		this.subject.lastResponse = this.question.getIdentifier().evaluate().getValue();
-		
-		super.update();
+		this.observer.update(this, new UpdateValue(this.question.getQuestionIdentifier(), updateValue));
 	}
 	
-	private boolean shouldBeEnabled(){
-		if (this.expression != null)
-			if (!this.expression.evaluateType().matches(".*Literal"))
-				return false;
+	private GenericValue<?> setUpdateValue(GenericValue<?> value, String textFieldValue){
 		
-		return true;
-	}
-	
-	private boolean isNumeric(String _value){
 		try{
-			Integer.parseInt(_value);
+			if (value.valueHasType().contains(new TypeString())){
+				return new StringValue(textFieldValue);
+			}
+			else {
+				return new NumberValue(Integer.valueOf(textFieldValue));
+			}
 		}
-		catch(NumberFormatException e){
-			return false;
+		catch (NumberFormatException formatException){
+			System.out.println("Exception: " + formatException.getMessage());
 		}
-		return true;
+		
+		return null;
+	}
+
+	private void addDocumentListener(JTextField textField){
+		
+		textField.getDocument().addDocumentListener(new DocumentListener(){
+			public void insertUpdate(DocumentEvent e) {
+				setValue(textField.getText());
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				setValue(textField.getText());
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				setValue(textField.getText());
+			}
+		});
+	}
+	
+	private void setFocusListener(JTextField textField){
+        textField.addFocusListener(new FocusListener() {
+        	
+			@Override
+			public void focusGained(FocusEvent e) {
+				textField.setSelectionEnd(0);
+				textField.setSelectionStart(getValueForQuestion().length());
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {}
+        });
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return !this.question.hasBinaryExpression();
 	}
 }

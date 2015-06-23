@@ -120,4 +120,8 @@ public abstract class Value {
         throw new UnsupportedOperationException();
     }
 
+    public Value orUndefined() {
+        throw new UnsupportedOperationException();
+    }
+
 }

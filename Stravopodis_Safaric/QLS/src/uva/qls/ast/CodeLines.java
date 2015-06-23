@@ -12,9 +12,4 @@ public class CodeLines {
 	public Tuple<Integer, Integer> getCodeLocation(){
 		return this.codeLines;
 	}
-	
-	@Override
-	public String toString(){
-		return "CodeLines(" + String.valueOf(this.codeLines.k) + "," + String.valueOf(this.codeLines.l) + ")";
-	}
 }

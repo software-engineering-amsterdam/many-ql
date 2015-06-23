@@ -4,14 +4,54 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.form.language.ast.Form;
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.form.Form;
+import com.form.language.ast.statement.Statement;
+import com.form.language.ast.statement.question.ComputedQuestion;
+import com.form.language.ast.statement.question.Question;
+import com.form.language.memory.Context;
 
-public class FormComponent extends JPanel {
+public class FormComponent {
 
-    private static final long serialVersionUID = 1L;
+	private Expression ifCondition;
 
-    public FormComponent(Form form, GUIBuilder guibuilder, JFrame frame) {
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	// createGUIComponents(this,form,guibuilder);
-    }
+	private Form form;
+	private JFrame frame;
+	private JPanel panel;
+	private Context context;
+
+	public FormComponent(Form form, JFrame frame, Context context) {
+		this.form = form;
+		this.frame = frame;
+		this.context = context;
+
+		this.panel = new JPanel();
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+		this.frame.add(this.panel);
+	}
+
+	public void createGUIComponents() {
+		//form.createGUI(this, panel, context)
+		for (Statement s : form.getStatements()) {
+			s.createGUIComponent(this, panel, context);
+		}
+	}
+
+	public void createGUIQuestion(Question question, JPanel panel,
+			Context context) {
+		QuestionComponent questionCompondent = new QuestionComponent(question,
+				context, ifCondition);
+		panel.add(questionCompondent.getPanel());
+	}
+
+	public void createGUIComputedQuestion(ComputedQuestion question,
+			JPanel panel, Context context) {
+		QuestionComponent questionCompondent = new ComputedQuestionComponent(
+				question, context, ifCondition);
+		panel.add(questionCompondent.getPanel());
+	}
+
+	public void setIfCondition(Expression condition) {
+		ifCondition = condition;
+	}
 }

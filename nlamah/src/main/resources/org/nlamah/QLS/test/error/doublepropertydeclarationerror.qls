@@ -1,0 +1,20 @@
+stylesheet test
+{
+	page test
+	{
+		section "test"
+		{
+			question question1
+			{
+				fontsize: 12
+				fontsize: 13
+			}
+		}
+	}
+	
+	default number
+	{
+		width:1
+		width:2
+	}
+}

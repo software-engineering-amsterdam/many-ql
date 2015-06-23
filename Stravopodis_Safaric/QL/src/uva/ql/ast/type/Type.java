@@ -1,12 +1,16 @@
 package uva.ql.ast.type;
 
-import uva.ql.ast.ASTNode;
-import uva.ql.ast.CodeLines;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import java.util.List;
 
-public abstract class Type extends ASTNode{
+import uva.ql.ast.Node;
+import uva.ql.ast.CodeLines;
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.visitor.TypeVisitor;
+
+public abstract class Type extends Node{
 	
-	public abstract <T> T accept(ExpressionVisitorInterface<T> visitor);
+	public abstract <T> T accept(TypeVisitor<T> visitor); 
+	public abstract GenericValue<?> typeInitialValue();
 	
 	public Type(){
 		super();
@@ -14,6 +18,17 @@ public abstract class Type extends ASTNode{
 	
 	public Type(CodeLines _codeLines) {
 		super(_codeLines);
+	}
+	
+	public boolean typeDoesConfirm(List<Type> supportedTypes) {
+		
+		for (Type type : supportedTypes){
+			if (this.equals(type)){
+				return true;
+			}
+		}	
+		
+		return false;
 	}
 	
 	@Override

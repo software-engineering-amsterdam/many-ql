@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -13,8 +14,8 @@ import ast.form.Form;
 import ast.form.IFormVisitor;
 import ast.question.Question;
 import evaluator.ValueRepository;
+import gui.listeners.SaveButtonListener;
 import gui.questions.SimpleQuestionUI;
-import gui.widgets.listeners.SaveButtonListener;
 
 public class GUIRenderer implements IFormVisitor<JPanel> {
 	private final JPanel panel;
@@ -22,16 +23,16 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
 	private final JButton saveData;
 	
-	private GUIRenderer(ValueRepository valueRepository) {
+	private GUIRenderer() { 
 		this.panel = new JPanel();
 		this.panel.setLayout(new MigLayout( "wrap 2, hidemode 3")); 
 		this.saveData = new JButton("Save questionnaire");
-		this.valueRepository = valueRepository;
+		this.valueRepository = new ValueRepository();
 		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
 	
-	public static JPanel make(Form form, ValueRepository valueRepository) {
-		GUIRenderer visitor = new GUIRenderer(valueRepository);
+	public static JPanel make(Form form) { 
+		GUIRenderer visitor = new GUIRenderer(); 
 		form.accept(visitor);
 		return visitor.getPanel();
 	}
@@ -44,7 +45,6 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
-            System.out.println(k+" <- added to panel ");
             this.panel.add(widgetsRepository.get(k).getLabel());
             this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");    
         }
@@ -54,7 +54,15 @@ public class GUIRenderer implements IFormVisitor<JPanel> {
 	public void addSaveButton() {
 		saveData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-			   new SaveButtonListener(valueRepository);
+				int selectedOption = 
+						JOptionPane.showConfirmDialog(null, 
+						"Do you want to save changes made to the form?", 
+						"Save form",
+						JOptionPane.YES_NO_OPTION); 
+				
+				if (selectedOption == JOptionPane.YES_OPTION) {
+					new SaveButtonListener(valueRepository);
+				}	
 			}
 		});
 		this.panel.add(saveData, "span 2, align center");

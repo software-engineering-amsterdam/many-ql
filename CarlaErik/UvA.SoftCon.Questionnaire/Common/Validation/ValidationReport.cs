@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UvA.SoftCon.Questionnaire.Common;
 using UvA.SoftCon.Questionnaire.Common.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.Common.Validation
@@ -44,7 +43,7 @@ namespace UvA.SoftCon.Questionnaire.Common.Validation
             Messages = new List<Message>();
         }
 
-        public void AddWarning(string message, TextPosition position)
+        public void AddWarning(TextPosition position, string message)
         {
             Messages.Add(new Message(Severity.Warning, position, message));
         }

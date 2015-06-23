@@ -6,7 +6,7 @@ import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.type_checker.dependency.DependencyManager;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.CyclicDependenciesError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,7 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
         // analyzing dependencies finished for
         // identifier from this computed question
         this.assignableIdLiteral = null;
+        
         return null;
     }
 
@@ -78,13 +79,14 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
      * =======================
      */
 
-    // a = b, a - depender, b - dependee
-    private boolean checkDependency(ID depender, ID dependee) {
-        List<String> dependenciesForDepender =
-                this.questionDependencies.getIdDependencyNames(depender);
+    // a = b, a - to, b - from
+    private boolean checkDependency(ID to, ID from) {
+        List<String> toDependencies =
+                this.questionDependencies.getIdDependencyNames(to);
 
-        if ((dependenciesForDepender != null)
-                && dependenciesForDepender.contains(dependee.getName())) {
+        if ((toDependencies != null)
+                && toDependencies.contains(from.getName())) 
+        {
             return true;
         }
         return false;
@@ -96,41 +98,42 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
      * =======================
      */
 
-    private void updateDependencyGraph(ID depender, ID dependee) {
+    private void updateDependencyGraph(ID to, ID from) {
 
-        // get all indirectly affected nodes (that depend on the depender)
-        List<ID> idsToAddNewDependencyTo = this.getAllIdsWithNewIndirectDependency(depender);
+        // get all indirectly affected nodes (that depend on the to)
+        List<ID> idsToAddNewDependencyTo = this.getAllIdsWithNewIndirectDependency(to);
 
-        // for a new depender add also all dependencies of dependee (propagate backwards)
+        // for a new to add also all dependencies of from (propagate backwards)
         for (ID newDependant : idsToAddNewDependencyTo) {
-            this.addSingleDependencyForId(newDependant, dependee);
+            this.addSingleDependencyForId(newDependant, from);
         }
 
-        // for a new depender add also all dependencies of dependee (propagate forward)
-        this.addDependenciesForId(depender, this.questionDependencies.getIdDependencies(dependee));
+        // for a new to add also all dependencies of from (propagate forward)
+        this.addDependenciesForId(to, this.questionDependencies.getIdDependencies(from));
     }
 
     private List<ID> getAllIdsWithNewIndirectDependency(ID depender) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<>();
+
         // temporary list used for traversing the graph.
         // pop first element, update all it's dependencies and add them
         // used to traverse the graph until all elements indirectly affected
         // by new dependence relation found
-        List<ID> idsWithNewDependencies = new ArrayList<>();
-        idsWithNewDependencies.add(depender);
+        List<ID> idsToAnalyze = new ArrayList<>();
+        idsToAnalyze.add(depender);
 
-        while (idsWithNewDependencies.size() > 0) {
-            ID indirectDependee = idsWithNewDependencies.remove(0);
+        while (idsToAnalyze.size() > 0) {
+            ID indirectFrom = idsToAnalyze.remove(0);
 
-            // check all elements that depend on newDependee and therefore indirectly on passed dependee
-            for (ID key : this.questionDependencies.getIds()) {
-                List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
+            // check all elements that depend on from and therefore indirectly on passed depender
+            for (ID from : this.questionDependencies.getIds()) {
+                List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(from);
 
                 if ((dependenciesForKey != null)
-                        && dependenciesForKey.contains(indirectDependee.getName())) {
-                    idsToAddNewDependencyTo.add(key);
+                        && dependenciesForKey.contains(indirectFrom.getName())) {
+                    idsToAddNewDependencyTo.add(from);
                 }
             }
             idsToAddNewDependencyTo.add(depender);
@@ -139,30 +142,27 @@ public class CyclicDependenciesVisitor extends FullQLFormVisitor {
         return idsToAddNewDependencyTo;
     }
 
-    private void addDependenciesForId(ID depender, List<ID> newDepenees) {
-        if (newDepenees != null) {
-            for (ID newDependee : newDepenees) {
-                this.addSingleDependencyForId(depender, newDependee);
+    private void addDependenciesForId(ID to, List<ID> fromIds) {
+        if (fromIds != null) {
+            for (ID newDependee : fromIds) {
+                this.addSingleDependencyForId(to, newDependee);
             }
         }
-        return;
     }
 
-    private void addSingleDependencyForId(ID depender, ID dependee) {
-        this.questionDependencies.addIdDependenant(depender, dependee);
-        return;
+    private void addSingleDependencyForId(ID to, ID from) {
+        this.questionDependencies.addIdDependenant(to, from);
     }
 
-    // a = b, a - depender, b - dependee
-    private void addAndCheckDependency(ID depender, ID dependee) {
-        boolean revertedDependencyExists = this.checkDependency(dependee, depender);
+    private void addAndCheckDependency(ID to, ID from) {
+        boolean revertedDependencyExists = this.checkDependency(from, to);
         if (revertedDependencyExists) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.CYCLIC, depender,
+                    new CyclicDependenciesError(), to,
                     "Circular dependency between this node and " +
-                            dependee.toString() + "."
+                            from.toString() + "."
             );
         }
-        this.updateDependencyGraph(depender, dependee);
+        this.updateDependencyGraph(to, from);
     }
 }

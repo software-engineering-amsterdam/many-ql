@@ -23,12 +23,6 @@ public abstract class Value<T>
         return this.value;
     }
 
-    @Override
-    public String toString()
-    {
-        return this.value.toString();
-    }
-
     public Value add(Value v)
     {
         throw new IllegalStateException();
@@ -258,6 +252,22 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
-    
+
+    public Value promoteTo(Value v)
+    {
+        return this;
+    }
+
+    protected Value promoteInt(IntValue v)
+    {
+        return v;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.value.toString();
+    }
+
     public abstract <T> T accept (ValueVisitor<T> visitor);
 }

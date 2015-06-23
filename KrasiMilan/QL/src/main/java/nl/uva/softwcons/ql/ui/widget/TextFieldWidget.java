@@ -6,8 +6,12 @@ import nl.uva.softwcons.ql.eval.value.Value;
 import nl.uva.softwcons.ql.ui.converter.ValueConverter;
 
 public class TextFieldWidget extends Widget {
-    private TextField textField;
+    private final TextField textField;
     private ValueConverter<String> converter;
+
+    public TextFieldWidget() {
+        this.textField = new TextField();
+    }
 
     public TextFieldWidget(final ValueConverter<String> converter) {
         this.textField = new TextField();
@@ -25,7 +29,7 @@ public class TextFieldWidget extends Widget {
     }
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(final boolean editable) {
         this.textField.setDisable(!editable);
     }
 
@@ -34,6 +38,12 @@ public class TextFieldWidget extends Widget {
         this.textField.textProperty().addListener((observable, oldValue, newValue) -> {
             listener.processValueChange(converter.toValue(newValue));
         });
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public void setConverter(final ValueConverter converter) {
+        this.converter = converter;
     }
 
 }

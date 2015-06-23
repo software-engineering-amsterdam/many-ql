@@ -1,63 +1,68 @@
 package ql.gui;
 
-import ql.ast.statement.*;
+import ql.ast.expression.Expr;
+import ql.ast.statement.CalculatedQuestion;
+import ql.ast.statement.IfCondition;
+import ql.ast.statement.Question;
 import ql.gui.canvas.Canvas;
-import ql.gui.input.*;
+import ql.gui.input.ExprInputBuilder;
+import ql.gui.input.Input;
+import ql.gui.input.InputBuilder;
 import ql.gui.label.Label;
-import ql.gui.segment.Conditional;
 import ql.gui.segment.Page;
 import ql.gui.segment.Row;
 import ql.gui.segment.Segment;
-import ql.semantics.ConditionalQuestion;
-import ql.semantics.Flat;
+import ql.semantics.CondQuestionTable;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by Nik on 17-2-15.
  */
 public class SimpleModeler extends Modeler
 {
+    public SimpleModeler(CondQuestionTable condQuestionTable)
+    {
+        super(condQuestionTable);
+    }
+
     @Override
-    public Canvas model(Flat flat)
+    public Canvas buildCanvas()
     {
         List<Segment> segments = new ArrayList<>();
-        for (ConditionalQuestion q : flat)
+        for (Question q : this.getCondQuestionTable())
         {
-            segments.add(q.getQuestion().accept(this));
+            Segment segment = q.accept(this);
+            segments.add(segment);
         }
-        List<Segment> pages = new ArrayList<>();
-        pages.add(new Page(segments, true));
+        List<Page> pages = new ArrayList<>();
+        pages.add(new Page(segments, ""));
 
-        return new Canvas("Questionnaire", pages);
+        return new Canvas(this.getCondQuestionTable().getTitle(), pages);
     }
 
     @Override
-    public Segment visit(Question q)
+    public Row visit(Question q)
     {
+        Expr expr = this.getCondition(q.getId());
         Label label = new Label(q.getLabel());
         Input input = InputBuilder.build(q.getId(), q.getType());
-        return new Row(label, input);
+        return new Row(expr, label, input);
     }
 
     @Override
-    public Segment visit(CalculatedQuestion cq)
+    public Row visit(CalculatedQuestion cq)
     {
+        Expr expr = this.getCondition(cq.getId());
         Label label = new Label(cq.getLabel());
         Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
-        return new Row(label, input);
+        return new Row(expr, label, input);
     }
 
     @Override
-    public Segment visit(IfCondition ifCond)
+    public Row visit(IfCondition ifCond)
     {
-        List<Segment> segments = new ArrayList<Segment>();
-        for (Statement s : ifCond.getBody())
-        {
-            segments.add(s.accept(this));
-        }
-        return new Conditional(ifCond.getCondition(), segments);
+        throw new IllegalStateException("Visiting if statement is not allowed");
     }
 }

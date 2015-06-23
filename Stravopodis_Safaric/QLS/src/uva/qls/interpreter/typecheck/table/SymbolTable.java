@@ -5,7 +5,7 @@ import java.util.Map;
 
 import uva.qls.ast.literal.*;
 
-public class SymbolTable extends Table<Identifier, SymbolTableValue>{
+public class SymbolTable {
 
 	private Map <String, SymbolTableValue> symbolMap;
 	
@@ -25,12 +25,10 @@ public class SymbolTable extends Table<Identifier, SymbolTableValue>{
 		return this.symbolMap.get(identifier.evaluatedValue())!=null;
 	}
 	
-	@Override
 	public void putValue(Identifier identifier, SymbolTableValue value) {
 		this.symbolMap.put(identifier.evaluatedValue(), value);
 	}
 
-	@Override
 	public SymbolTableValue retrieveValue(Identifier identifier) {
 		return this.symbolMap.get(identifier.evaluatedValue());
 		

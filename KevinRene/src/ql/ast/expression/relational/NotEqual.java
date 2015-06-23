@@ -7,6 +7,7 @@ import ql.ast.type.QLBoolean;
 import ql.ast.visitor.ExpressionVisitor;
 
 public class NotEqual extends Binary {
+	
 	public NotEqual(Expression left, Expression right) {
 		super(left, right, "!=");
 	}

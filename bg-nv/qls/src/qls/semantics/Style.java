@@ -25,17 +25,21 @@ public class Style
 
     public Rules getRulesForType(Type t)
     {
-        return this.typeToRules.get(t);
+        if (this.typeToRules.containsKey(t))
+        {
+            return this.typeToRules.get(t);
+        }
+        return Rules.empty;
     }
 
-    public Style addStyle(Style lowPr)
+    public static Style mergeStyles(Style highPr, Style lowPr)
     {
         Style result = new Style();
-        result.typeToRules.putAll(this.typeToRules);
+        result.typeToRules.putAll(highPr.typeToRules);
 
         for (Type t : lowPr.typeToRules.keySet())
         {
-            Rules rs = this.getRulesForStyle(t, lowPr);
+            Rules rs = result.getRulesForStyle(t, lowPr);
             result.addRules(t, rs);
         }
 
@@ -44,14 +48,14 @@ public class Style
 
     private Rules getRulesForStyle(Type t, Style s)
     {
-        Rules rs = s.typeToRules.get(t);
+        Rules lowPr = s.typeToRules.get(t);
 
         if (this.typeToRules.containsKey(t))
         {
-            Rules h = this.typeToRules.get(t);
-            return h.addRules(rs);
+            Rules highPr = this.typeToRules.get(t);
+            return Rules.mergeRules(highPr, lowPr);
         }
 
-        return rs;
+        return Rules.mergeRules(lowPr, Rules.empty);
     }
 }

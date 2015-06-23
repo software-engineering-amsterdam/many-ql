@@ -1,80 +1,84 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeCallback;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedArithmeticOperationException;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.UnsupportedValueOperationException;
 
 public abstract class Value {
-    private final Object value;
+    private final Object internalValue;
 
     public Value and(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+        throw new UnsupportedValueOperationException();
     }
 
     public Value or(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+        throw new UnsupportedValueOperationException();
     }
 
     public Value add(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value sub(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public Value subtract(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value mul(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public Value multiply(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value div(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public Value divide(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value mod(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public Value modulo(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value not() {
-        throw new UnsupportedArithmeticOperationException();
+    public BooleanValue not() {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value eq(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public BooleanValue lesserThan(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value neq(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public BooleanValue greaterThan(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value lt(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public BooleanValue lesserThanOrEquals(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value gt(Value value) {
-        throw new UnsupportedArithmeticOperationException();
+    public BooleanValue greaterThanOrEquals(Value value) {
+        throw new UnsupportedValueOperationException();
     }
 
-    public Value lte(Value value) {
-        throw new UnsupportedArithmeticOperationException();
-    }
-
-    public Value gte(Value value) {
-        throw new UnsupportedArithmeticOperationException();
-    }
-
-    public Object getValue() {
-        return value;
+    public Object toJavaObject() {
+        return internalValue;
     }
 
     public Value(Object value) {
         assert(value != null);
-        this.value = value;
+        this.internalValue = value;
     }
 
-    public abstract void apply(TypeCallback typeCallback);
+    public BooleanValue valueEquals(Value value) {
+        final Object otherInternalValue = value.toJavaObject();
+        final Object myInternalValue = toJavaObject();
+        final Boolean equality = otherInternalValue.equals(myInternalValue);
+        return new BooleanValue(equality);
+    }
+
+    public BooleanValue valueNotEquals(Value value) {
+        final BooleanValue equalityBooleanValue = valueEquals(value);
+        return equalityBooleanValue.not();
+    }
+
+    public abstract void apply(ITypeCallback typeCallback);
 
     @Override
     public String toString() {
-        return "" + getValue();
+        return "" + toJavaObject();
     }
 }

@@ -2,33 +2,58 @@ import sys
 
 # Using Observer Patern
 class TypeChecker():
-    def __init__(self):
+    def __init__(self, AST=None):
+        self.AST = AST
         self.listeners = set()
 
     def register(self, listener):
         self.listeners.add(listener)
 
-    def dispatch(self, function=None, *args):
+    def dispatch(self, function=None, *args, **kwargs):
         for listener in self.listeners:
             try:
-                getattr(listener, function)(*args)
-            except AttributeError:
+                getattr(listener, function)(*args, **kwargs)
+            except AttributeError as err:
                 pass
-            except:
-                print("Unexpected error:", sys.exc_info()[0])
+            except Exception as err:
+                print "Unexpected error: %s" % err
                 raise
 
-    def checkAST(self, AST):
-        # Reset listeners
-        self.dispatch("__init__")
+    def check(self):
+        # Obtain general question info
+        questionIDs   = {}
+        questionTypes = {}
 
-        for node in AST:
+        for node in self.AST.findAll("Question"):
+            questionIDs[node.ID]   = node
+            questionTypes[node.ID] = node.type
+
+        # Pass question info
+        self.dispatch("__init__", questionIDs, questionTypes)
+
+        for node in self.AST:
             self.dispatch(node.NodeType, node)
 
         self.dispatch("Done")
 
-    def reportErrors(self):
+    # Allow re-use of typechecker with listeners on different AST's
+    def checkAST(self, AST):
+        self.AST = AST
+        self.check()
+
+    @property
+    def hasErrors(self):
         for listener in self.listeners:
-            for err in listener.errors:
-                print err
-                print "\n"
+            if listener.errors:
+                return True
+                break
+
+        return False
+
+    def getErrorMessages(self):
+        errors = []
+
+        for listener in self.listeners:
+            errors.extend([str(err) for err in listener.errors])
+
+        return errors

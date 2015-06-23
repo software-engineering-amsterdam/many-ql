@@ -2,29 +2,21 @@ package ql.gui.control;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
-import ql.gui.ModelVisitor;
 import ql.semantics.values.*;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Nik on 10-3-15.
  */
 public class TextField extends ControlElement implements IntControl, DecControl, StrControl
 {
+    private final static UndefValue undefValue = new UndefValue();
     private final javafx.scene.control.TextInputControl textField;
 
-    public TextField(Boolean visible, Boolean disabled)
+    public TextField()
     {
-        super(visible, disabled);
         this.textField = new javafx.scene.control.TextField();
-        this.setVisible(visible);
-        this.setDisabled(disabled);
-    }
-
-    @Override
-    public void setVisible(Boolean visible)
-    {
-        this.textField.setVisible(visible);
-        this.textField.setManaged(visible);
     }
 
     @Override
@@ -45,11 +37,6 @@ public class TextField extends ControlElement implements IntControl, DecControl,
         return this.textField;
     }
 
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
-    {
-        return visitor.visit(this);
-    }
 
     @Override
     public void addListener(ChangeListener listener)
@@ -88,5 +75,46 @@ public class TextField extends ControlElement implements IntControl, DecControl,
     {
         this.setText("");
         return null;
+    }
+
+    @Override
+    public Value getIntValue()
+    {
+        String userInput = this.textField.getText();
+        userInput = userInput.trim();
+        Value value;
+        try
+        {
+            Integer intValue = Integer.parseInt(userInput);
+            value = new IntValue(intValue);
+        }
+        catch (NumberFormatException e)
+        {
+            value = undefValue;
+        }
+
+        return value;
+    }
+
+    @Override
+    public Value getDecValue()
+    {
+        Value value;
+        try
+        {
+            BigDecimal decValue = new BigDecimal(this.textField.getText());
+            value = new DecValue(decValue);
+        }
+        catch (NumberFormatException e)
+        {
+            value = undefValue;
+        }
+        return value;
+    }
+
+    @Override
+    public Value getStrValue()
+    {
+        return new StrValue(this.textField.getText());
     }
 }

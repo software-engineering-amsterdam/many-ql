@@ -1,31 +1,20 @@
 ﻿using AST.Nodes.Expressions;
-using AST.Nodes.Expressions.Binary;
-using AST.Nodes.Expressions.Unary;
-using AST.ASTVisitors;
-using Notifications;
+using AST.Nodes.Expressions.Binaries;
+using AST.Nodes.Expressions.Unaries;
+using AST.VisitorInterfaces;
 using System.Collections.Generic;
-using TypeChecking.Notifications.Errors;
 using Types = AST.Types;
-using AST.ASTVisitors.Interfaces;
 
 namespace TypeChecking.Collectors
 {
     public class ExpressionTypeCollector : IExpressionVisitor<Types.Type>
     {
         private readonly Dictionary<Id, Types.Type> idToType;
-        private List<INotification> collectedNotifications = new List<INotification>();
 
         public ExpressionTypeCollector(Dictionary<Id, Types.Type> idToType)
         {
             this.idToType = idToType;
         }
-
-        public IList<INotification> GetCollectedNotifications()
-        { return collectedNotifications; }
-
-        public void ClearCollectedNotifications()
-        { collectedNotifications = new List<INotification>(); }
-
         #region Id
         public  Types.Type Visit(Id node)
         {
@@ -36,12 +25,12 @@ namespace TypeChecking.Collectors
         #region Binary
         public  Types.Type Visit(And node)
         {
-            return VisitBinaryExpectedType(node, new Types.BoolType());
+            return VisitBinaryExpectedType(node, new Types.BoolType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Or node)
         {
-            return VisitBinaryExpectedType(node, new Types.BoolType());
+            return VisitBinaryExpectedType(node, new Types.BoolType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Equal node)
@@ -56,42 +45,42 @@ namespace TypeChecking.Collectors
 
         public  Types.Type Visit(GreaterThan node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(GreaterThanOrEqual node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(LessThan node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(LessThanOrEqual node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.BoolType());
         }
 
         public  Types.Type Visit(Add node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Subtract node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Multiply node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
 
         public  Types.Type Visit(Divide node)
         {
-            return VisitBinaryExpectedType(node, new Types.IntType());
+            return VisitBinaryExpectedType(node, new Types.IntType(), new Types.IntType());
         }
         #endregion
         #region Unary
@@ -106,41 +95,41 @@ namespace TypeChecking.Collectors
         }
         #endregion
 
-        private Types.Type VisitBinaryExpectedType(BaseBinary node, Types.Type expectedType)
+        private Types.Type VisitBinaryExpectedType(Binary node, Types.Type expectedOperandType, Types.Type resultType)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
 
-            if (!left.IsEqual(expectedType) && right.IsEqual(expectedType))
+            if (!left.IsEqual(expectedOperandType) && right.IsEqual(expectedOperandType))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
+                return new Types.UndefinedType();
             }
 
-            return expectedType;
+            return resultType;
         }
-        private Types.Type VisitBinary(BaseBinary node)
+        private Types.Type VisitBinary(Binary node)
         {
             Types.Type left = node.Left().Accept(this);
             Types.Type right = node.Right().Accept(this);
 
             if (!left.IsEqual(right))
             {
-                collectedNotifications.Add(new IncompatibleBinaryOperator(node.GetPosition(), node.ToString(), left.GetString(), right.GetString()));
+                return new Types.UndefinedType();
             }
 
             return left;
         }
-        private Types.Type VisitUnary(BaseUnary node)
+        private Types.Type VisitUnary(Unary node)
         {
             return node.GetChildExpression().Accept(this);
         }
-        private Types.Type VisitUnaryExpectedType(BaseUnary node, Types.Type expectedType)
+        private Types.Type VisitUnaryExpectedType(Unary node, Types.Type expectedType)
         {
             Types.Type childType = node.GetChildExpression().Accept(this);
 
             if (childType.IsEqual(expectedType))
             {
-                collectedNotifications.Add(new IncompatibleUnaryOperator(node.GetPosition(), node.ToString(), childType.GetString()));
+                return new Types.UndefinedType();
             }
 
             return expectedType;

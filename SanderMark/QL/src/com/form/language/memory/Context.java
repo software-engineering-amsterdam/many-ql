@@ -1,84 +1,128 @@
 package com.form.language.memory;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.expression.variable.Reference;
+import com.form.language.ast.expression.variable.ReferenceCollection;
+import com.form.language.ast.statement.question.Question;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.Error;
-import com.form.language.error.ErrorCollector;
+import com.form.language.gui.components.ComputedQuestionComponent;
 import com.form.language.gui.components.QuestionComponent;
+import com.form.language.issue.Error;
+import com.form.language.issue.IssueCollector;
+import com.form.language.issue.Warning;
 
 public class Context {
-    private IdValues memory;
-    private ConditionalCollection ifConditions;
-    private IdReferences idReferences;
-    private IdCollection globalIdList;
-    private ErrorCollector errors;
-    private IdDeclarations declarations;
+	private QuestionDeclarations questionDeclarations;
+	private QuestionReferences questionReferences;
+	private QuestionLabels questionLabels;
+	private QuestionValues questionValues;
+	private IfDependencies ifConditions;
+	private IssueCollector errors;
+	private IssueCollector warnings;
+	private ComputedDependencies computedDependencies;
 
-    public Context() {
-	this.memory = new IdValues();
-	this.ifConditions = new ConditionalCollection();
-	this.idReferences = new IdReferences();
-	this.globalIdList = new IdCollection();
-	this.declarations = new IdDeclarations();
-	this.errors = new ErrorCollector();
-    }
-
-    public void addDependantQuestion(Expression condition, QuestionComponent question) {
-	this.ifConditions.add(condition, question);
-    }
-
-    public List<QuestionComponent> getDependantQuestions(Expression exp) {
-	return this.ifConditions.get(exp);
-    }
-
-    public void addReference(IdCollection references, Expression value) {
-	this.idReferences.putAll(references, value);
-    }
-
-    public Iterator<Expression> getReferencingExpressions(String id) {
-	List<Expression> dependencies = idReferences.get(id);
-	return dependencies.iterator();
-    }
-
-    public void setValue(String key, GenericValue value) {
-	this.memory.put(key, value);
-    }
-
-    public GenericValue getValue(String s) {
-	return this.memory.get(s);
-    }
-
-    public void addId(IdLiteral id) {
-	if (id.IsReference()) {
-	    this.globalIdList.addId(id);
+	public Context() {
+		this.questionValues = new QuestionValues();
+		this.ifConditions = new IfDependencies();
+		this.questionReferences = new QuestionReferences();
+		this.questionDeclarations = new QuestionDeclarations();
+		this.errors = new IssueCollector();
+		this.warnings = new IssueCollector();
+		this.questionLabels = new QuestionLabels();
+		this.computedDependencies = new ComputedDependencies();
 	}
-	this.declarations.put(id.getName(), id);
-    }
 
-    public Type getIdType(IdLiteral id) {
-	IdLiteral declaration = this.declarations.get(id.getName());
-	if (declaration == null) {
-	    this.addError(new Error(id.getTokenInfo(), "Undeclared variable reference"));
-	    return new ErrorType();
+	// The questions that depend on the expression in an if-condition
+	public void addDependantQuestion(Expression condition,
+			QuestionComponent question) {
+		ifConditions.add(condition, question);
 	}
-	return declaration.getType(this);
-    }
 
-    public Boolean hasErrors() {
-	return !errors.isEmpty();
-    }
+	public List<QuestionComponent> getDependantQuestions(Expression exp) {
+		return ifConditions.get(exp);
+	}
 
-    public void addError(Error e) {
-	this.errors.add(e);
-    }
+	// A collection of references used in a given expression
+	public void addReference(ReferenceCollection references, Expression value) {
+		questionReferences.putAll(references, value);
+	}
 
-    public String getErrors() {
-	return errors.toString();
-    }
+	// All expressions that use the given question ID
+	public List<Expression> getReferencingExpressions(String id) {
+		return questionReferences.get(id);
+	}
+
+	// Adds a callback from reference to computedQuestion for all references in
+	// the ReferenceCollection
+	public void addComputationCallbacks(ReferenceCollection references,
+			ComputedQuestionComponent computedQuestion) {
+		for (Reference r : references) {
+			computedDependencies.add(r.getName(), computedQuestion);
+		}
+	}
+
+	// Gets all of the ComputedQuestionComponents depending on this question
+	public List<ComputedQuestionComponent> getReferencingComputedExpressions(
+			String id) {
+		return computedDependencies.get(id);
+	}
+
+	public void setValue(String string, GenericValue value) {
+		questionValues.put(string, value);
+	}
+
+	public GenericValue getValue(String s) {
+		return questionValues.get(s);
+	}
+
+	public void addQuestion(Question question) {
+		questionDeclarations.put(question.getId(), question);
+	}
+
+	public void addLabel(String s) {
+		questionLabels.add(s);
+	}
+
+	public boolean containsLabel(String s) {
+		return questionLabels.contains(s);
+	}
+
+	public Type getIdType(Reference id) {
+		Question declaration = questionDeclarations.get(id.getName());
+		if (declaration == null) {
+			this.addError(new Error(id.getTokenInfo(),
+					"Undeclared variable reference"));
+			return new ErrorType();
+		}
+		return declaration.getType(this);
+	}
+
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+
+	public boolean hasWarnings() {
+		return !warnings.isEmpty();
+	}
+
+	public void addError(Error e) {
+		errors.add(e);
+	}
+
+	public String getErrors() {
+		return errors.toString();
+	}
+
+	public void addWarning(Warning e) {
+		warnings.add(e);
+	}
+
+	public String getWarnings() {
+		return warnings.toString();
+	}
+
 }

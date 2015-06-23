@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 
 import ast.type.Type;
 import evaluator.Value;
-import gui.widgets.listeners.EvaluateExpression;
+import gui.listeners.EvaluateExpression;
 
 public interface IWidgetComponent {
 	

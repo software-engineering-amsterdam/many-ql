@@ -45,6 +45,96 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
         this.messages = new Messages();
     }
 
+    @Override
+    public Void visit(Form form)
+    {
+        for (Statement statement : form.getBody())
+        {
+            statement.accept(this);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visit(IfCondition condition)
+    {
+        Type inferredType = TypeDeducer.deduceType(condition.getCondition(), this.questions, this.messages);
+
+        if (this.isTypeAllowedInCond(inferredType))
+        {
+            this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
+        }
+
+        for (Statement statement : condition.getBody())
+        {
+            statement.accept(this);
+        }
+
+        return null;
+    }
+
+    private boolean isTypeAllowedInCond(Type type)
+    {
+        return !type.isBool();
+    }
+
+    @Override
+    public Void visit(Question q)
+    {
+        this.labels.registerLabel(q);
+        return null;
+    }
+
+    @Override
+    public Void visit(CalculatedQuestion q)
+    {
+        this.labels.registerLabel(q);
+        Type defined = q.getType();
+
+        Type inferredType = TypeDeducer.deduceType(q.getCalculation(), questions, this.messages);
+
+        Type assigned = inferredType.promoteTo(defined);
+
+        if (this.areTypesMismatched(defined, assigned))
+        {
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
+                    q.getLineNumber()));
+        }
+
+        return null;
+    }
+
+    private boolean areTypesMismatched(Type defined, Type assigned)
+    {
+        return this.isTypeDeclared(defined) &&
+                this.isTypeDeclared(assigned) &&
+                !(defined.equals(assigned));
+    }
+
+    private boolean isTypeDeclared(Type type)
+    {
+        return !type.isUndef();
+    }
+
+    private void checkForCyclicDependencies()
+    {
+        if (this.questionDependencies.containsCycle())
+        {
+            Identifiers cyclicIds = this.questionDependencies.getCycleIds();
+            this.messages.add(Error.cyclicQuestions(cyclicIds.toString()));
+        }
+    }
+
+    private void checkForLabelDuplication()
+    {
+        LabelDuplicates duplicates = this.labels.getLabelDuplicatesSet();
+        for (Identifiers d : duplicates)
+        {
+            this.messages.add(Warning.labelDuplication(d.toString()));
+        }
+    }
+
     private void checkForIdentDuplication()
     {
         for (String id : this.questions)
@@ -84,103 +174,5 @@ public class TypeChecker implements FormVisitor<Void>, StatVisitor<Void>
         Error error = Error.identifierAlreadyDeclared(id, lines);
 
         this.messages.add(error);
-    }
-
-    @Override
-    public Void visit(Form form)
-    {
-        for (Statement statement : form.getBody())
-        {
-            statement.accept(this);
-        }
-
-        return null;
-    }
-
-    @Override
-    public Void visit(IfCondition condition)
-    {
-        InferredTypeResult condResult = TypeDeducer.deduceType(condition.getCondition(), questions);
-        if (condResult.containsErrors())
-        {
-            this.messages.addAll(condResult.getMessages());
-        }
-
-        if (this.isTypeAllowedInCond(condResult.getType()))
-        {
-            this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
-        }
-
-        for (Statement statement : condition.getBody())
-        {
-            statement.accept(this);
-        }
-
-        return null;
-    }
-
-    private boolean isTypeAllowedInCond(Type type)
-    {
-        return !type.isBool();
-    }
-
-    @Override
-    public Void visit(Question q)
-    {
-        this.labels.registerLabel(q);
-        return null;
-    }
-
-    @Override
-    public Void visit(CalculatedQuestion q)
-    {
-        this.labels.registerLabel(q);
-        Type defined = q.getType();
-
-        InferredTypeResult typeResult = TypeDeducer.deduceType(q.getCalculation(), questions);
-        if (typeResult.containsErrors())
-        {
-            this.messages.addAll(typeResult.getMessages());
-        }
-
-        Type assigned = typeResult.getType().promoteTo(defined);
-
-        if (this.areTypesMismatched(defined, assigned))
-        {
-            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
-                    q.getLineNumber()));
-        }
-
-        return null;
-    }
-
-    private boolean areTypesMismatched(Type defined, Type assigned)
-    {
-        return this.isTypeDeclared(defined) &&
-                this.isTypeDeclared(assigned) &&
-                !(defined.equals(assigned));
-    }
-
-    private boolean isTypeDeclared(Type type)
-    {
-        return !type.isUndef();
-    }
-
-    private void checkForCyclicDependencies()
-    {
-        if (this.questionDependencies.containsCycle())
-        {
-            Identifiers cyclicIds = this.questionDependencies.getCycleIds();
-            this.messages.add(Error.cyclicQuestions(cyclicIds.toString()));
-        }
-    }
-
-    private void checkForLabelDuplication()
-    {
-        LabelDuplicates duplicates = this.labels.getLabelDuplicatesSet();
-        for (Identifiers d : duplicates)
-        {
-            this.messages.add(Warning.labelDuplication(d.toString()));
-        }
     }
 }

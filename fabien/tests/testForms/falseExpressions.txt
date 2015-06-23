@@ -1,0 +1,33 @@
+
+# Expressions that are false
+form taxOfficeExample {
+
+  "AAAAA"
+    a: boolean = (true)
+
+  if ( 4*10 < (8 + 2 - 3)*5 )  {}
+  if ( -10 * 2 > 0 )  {}
+  if ( -10 * 2 >= -10 )  {}
+
+  if ( 5 != 5 )  {}
+  if ( "test" != "test" )  {}
+  if ( "test" == "west" )  {}
+  if (!a) {}
+
+  if ( 2.0 / 4 > 3.0 /4 ) {}
+  if ( 2/4 > 3/4 ) {}
+
+  if (10 - 10) {}
+  if (10*10 - 10*10) {}
+  # Well users should not really expect floating point comparisons to work
+  if (0.5 / (10*10) - 0.5 / (10*10) ) {}
+
+  if (false) {}
+  if (10 && false) {}
+  if (false && false) {}
+  if (true && false) {}
+  if (false or false) {}
+
+  if (!(3*3 == 9)) {}
+  if (!!!(3*3 == 9)) {}
+}

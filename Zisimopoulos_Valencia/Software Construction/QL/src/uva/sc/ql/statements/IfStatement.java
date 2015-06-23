@@ -2,14 +2,14 @@ package uva.sc.ql.statements;
 
 import java.util.List;
 
-import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class IfStatement implements Statement {
 
-    Expression expr;
-    List<Question> questions;
+    private Expression expr;
+    private List<Question> questions;
 
     public IfStatement(Expression expr, List<Question> questions) {
 	this.expr = expr;
@@ -29,8 +29,8 @@ public class IfStatement implements Statement {
 	if (this.expr != null) {
 	    result += this.expr.toString() + ") THEN {";
 	}
-	for (int i = 0; i < this.questions.size(); i++) {
-	    result += questions.get(i).toString() + ",";
+	for (Question question : questions) {
+	    result += question.toString() + ",";
 	}
 	return result + "}";
     }

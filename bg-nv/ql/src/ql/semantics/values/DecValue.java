@@ -157,6 +157,12 @@ public class DecValue extends Value<BigDecimal>
         return new DecValue(this.getValue());
     }
 
+    @Override
+    public Value promoteInt(IntValue v)
+    {
+        return new DecValue(new BigDecimal(v.toString()));
+    }
+
     public <T> T accept (ValueVisitor<T> visitor)
     {
         return visitor.visit(this);

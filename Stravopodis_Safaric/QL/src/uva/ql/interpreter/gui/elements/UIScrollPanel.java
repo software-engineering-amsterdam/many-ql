@@ -1,56 +1,68 @@
 package uva.ql.interpreter.gui.elements;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import uva.ql.supporting.Tuple;
+import uva.ql.interpreter.gui.supporting.Size;
 
-public class UIScrollPanel extends JPanel{
+public class UIScrollPanel {
+
+	private JPanel container;
 	
-	static final long serialVersionUID = 42L; 
-	
-	private UIContainer jPanel;
-	private JScrollPane jScrollPane;
-	
-	public UIScrollPanel(Tuple<Integer, Integer> frameSize){
-		this.jPanel = new UIContainer(new Tuple<Integer, Integer>(500,400));
+	public JPanel randerScrollPane(Size size){
 		
-		this.jScrollPane = new JScrollPane(this.jPanel);
-		this.jScrollPane.setPreferredSize(new Dimension(500 , 400));
-		this.jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.jScrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		JPanel masterPanel = new UIContainer().randerContainer(size);
 		
-		this.setSize(frameSize.x, frameSize.y);
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.container = new UIContainer().randerContainer(size);
+		this.container.setLayout(new GridLayout(1,1));
 		
-		this.add(this.jScrollPane);
+		JScrollPane scrollPane= new JScrollPane(this.container);
+		
+		scrollPane.setPreferredSize(new Dimension(size.getWidth(), size.getHeight()));
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		
+		masterPanel.setSize(size.getWidth(), size.getHeight());
+		masterPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		masterPanel.add(scrollPane);
+		
+		return masterPanel;
 	}
 	
-	public void addComponent(Object obj){
-		GridLayout grid = (GridLayout) this.jPanel.getLayout();
+	public void setPanelLayout(LayoutManager layout){
+		this.container.setLayout(layout);
+	}
+	
+	public void addComponent(Component component){	// Add component to jPanel
+		GridLayout grid = (GridLayout) this.container.getLayout();
 		grid.setVgap(1);
 		
-		this.jPanel.setLayout(new GridLayout(grid.getRows()+1, 1));		
-		this.jPanel.addComponent(obj);
+		int rows = grid.getRows() + 1;
+		
+		this.container.setLayout(new GridLayout(rows, 1));	
+		this.container.add(component);
 	}
 	
 	public void removeAll(){
-		this.jPanel.removeAll();
+		this.container.removeAll();
 	}
 	
-	public UIContainer getPanel(){
-		return this.jPanel;
+	public void revalidateMasterPanel(){
+		this.container.revalidate();
 	}
 	
-	@Override
-	public void revalidate(){
-		if (this.jPanel != null)
-			this.jPanel.setLayout(new GridLayout(1, 1));
+	public void revalidateLayout(){
+		if (this.container!= null){
+			this.container.setLayout(new GridLayout(1, 1));
+		}
 	}
 }

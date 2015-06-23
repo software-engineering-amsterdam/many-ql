@@ -6,13 +6,13 @@ class FontColor(p.Property):
         self._color = color
 
     def prop_name(self):
-        return "font-color"
+        return "font_color"
 
     def prop_value(self):
         return self._color
 
-    def pretty_print(self, level=0):
-        return "    " * level + "font-color :" + self._color + "\n"
+    def string_presentation(self, level=0):
+        return "    " * level + "font-color : " + self._color + "\n"
 
 
 class Font(p.Property):
@@ -20,13 +20,13 @@ class Font(p.Property):
         self._font = font
 
     def prop_name(self):
-        return "font-family"
+        return "font_family"
 
     def prop_value(self):
         return self._font
 
-    def pretty_print(self, level=0):
-        return "    " * level + "font-family :" + self._font + "\n"
+    def string_presentation(self, level=0):
+        return "    " * level + "font-family : " + self._font + "\n"
 
 
 class FontSize(p.Property):
@@ -34,10 +34,25 @@ class FontSize(p.Property):
         self._number = number
 
     def prop_name(self):
-        return "font-size"
+        return "font_size "
 
     def prop_value(self):
         return self._number
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         return "    " * level + "font-size :" + self._number + "\n"
+
+
+
+class BackgroundColor(p.Property):
+    def __init__(self, color):
+        self._color = color
+
+    def prop_name(self):
+        return "background_color "
+
+    def prop_value(self):
+        return self._color
+
+    def string_presentation(self, level=0):
+        return "    " * level + "background_color :" + self._color + "\n"

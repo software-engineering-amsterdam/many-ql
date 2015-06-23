@@ -39,10 +39,8 @@
             this.SplitPanel = new System.Windows.Forms.SplitContainer();
             this.OutputTextBox = new System.Windows.Forms.TextBox();
             this.OpenQLFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.QuestionFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPanel)).BeginInit();
-            this.SplitPanel.Panel1.SuspendLayout();
             this.SplitPanel.Panel2.SuspendLayout();
             this.SplitPanel.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +52,7 @@
             this.viewToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(684, 24);
+            this.MainMenu.Size = new System.Drawing.Size(634, 24);
             this.MainMenu.TabIndex = 0;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -79,8 +77,9 @@
             // closeFileToolStripMenuItem
             // 
             this.closeFileToolStripMenuItem.Name = "closeFileToolStripMenuItem";
-            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeFileToolStripMenuItem.Text = "&Close File";
+            this.closeFileToolStripMenuItem.Click += new System.EventHandler(this.closeFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -119,13 +118,13 @@
             // 
             // SplitPanel.Panel1
             // 
-            this.SplitPanel.Panel1.Controls.Add(this.QuestionFlowLayout);
+            this.SplitPanel.Panel1.AutoScroll = true;
             // 
             // SplitPanel.Panel2
             // 
             this.SplitPanel.Panel2.Controls.Add(this.OutputTextBox);
             this.SplitPanel.Panel2Collapsed = true;
-            this.SplitPanel.Size = new System.Drawing.Size(684, 385);
+            this.SplitPanel.Size = new System.Drawing.Size(634, 688);
             this.SplitPanel.SplitterDistance = 228;
             this.SplitPanel.TabIndex = 1;
             // 
@@ -145,23 +144,11 @@
             this.OpenQLFileDialog.Filter = "QL Files|*.ql";
             this.OpenQLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenQLFileDialog_FileOk);
             // 
-            // QuestionFlowLayout
-            // 
-            this.QuestionFlowLayout.AutoScroll = true;
-            this.QuestionFlowLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.QuestionFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.QuestionFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.QuestionFlowLayout.Location = new System.Drawing.Point(0, 0);
-            this.QuestionFlowLayout.Name = "QuestionFlowLayout";
-            this.QuestionFlowLayout.Size = new System.Drawing.Size(684, 385);
-            this.QuestionFlowLayout.TabIndex = 0;
-            this.QuestionFlowLayout.WrapContents = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 409);
+            this.ClientSize = new System.Drawing.Size(634, 712);
             this.Controls.Add(this.SplitPanel);
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;
@@ -169,7 +156,6 @@
             this.Text = "Questionnaire";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.SplitPanel.Panel1.ResumeLayout(false);
             this.SplitPanel.Panel2.ResumeLayout(false);
             this.SplitPanel.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPanel)).EndInit();
@@ -192,7 +178,6 @@
         private System.Windows.Forms.OpenFileDialog OpenQLFileDialog;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outputWindowToolStripMenuItem;
-        private System.Windows.Forms.FlowLayoutPanel QuestionFlowLayout;
     }
 }
 

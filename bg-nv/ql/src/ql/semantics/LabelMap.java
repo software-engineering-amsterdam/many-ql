@@ -2,7 +2,8 @@ package ql.semantics;
 
 import ql.ast.statement.Question;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bore on 23/02/15.
@@ -20,29 +21,20 @@ public class LabelMap
     {
         String label = q.getLabel();
         String id = q.getId();
-        if (this.labelToId.containsKey(label))
+        if (!(this.labelToId.containsKey(label)))
         {
-            this.labelToId.get(label).add(id);
+            this.labelToId.put(label, new Identifiers());
         }
-        else
-        {
-            Identifiers ids = new Identifiers();
-            ids.add(id);
-            this.labelToId.put(label, ids);
-        }
+        this.labelToId.get(label).add(id);
     }
 
     public LabelDuplicates getLabelDuplicatesSet()
     {
         LabelDuplicates result = new LabelDuplicates();
 
-        for (Identifiers identifiers : this.labelToId.values())
-        {
-            if (this.containsDuplicates(identifiers))
-            {
-                result.add(identifiers);
-            }
-        }
+        this.labelToId.values().stream()
+                .filter(identifiers -> this.containsDuplicates(identifiers))
+                .forEach(result::add);
 
         return result;
     }

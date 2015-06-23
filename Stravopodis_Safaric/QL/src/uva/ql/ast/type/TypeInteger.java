@@ -1,7 +1,8 @@
 package uva.ql.ast.type;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.value.NumberValue;
+import uva.ql.ast.visitor.TypeVisitor;
 
 public class TypeInteger extends Type{
 
@@ -12,9 +13,14 @@ public class TypeInteger extends Type{
 	public TypeInteger(CodeLines _codeLines) {
 		super(_codeLines);
 	}
+	
+	@Override
+	public NumberValue typeInitialValue() {
+		return new NumberValue(0);
+	}
 
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visitTypeInteger(this);
 	}
 	

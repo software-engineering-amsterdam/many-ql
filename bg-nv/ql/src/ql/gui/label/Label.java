@@ -1,8 +1,9 @@
 package ql.gui.label;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import ql.gui.GuiElement;
-import ql.gui.ModelVisitor;
 
 /**
  * Created by Nik on 22-02-2015
@@ -14,12 +15,6 @@ public class Label extends GuiElement
 
     public Label(String text)
     {
-        this(text, true);
-    }
-
-    public Label(String text, Boolean visible)
-    {
-        super(visible);
         this.textNode = new Text();
         this.textNode.setText(text);
     }
@@ -29,9 +24,13 @@ public class Label extends GuiElement
         return this.textNode;
     }
 
-    @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public void applyColor(Paint color)
     {
-        return visitor.visit(this);
+        this.textNode.setFill(color);
+    }
+
+    public void applyFont(Font font)
+    {
+        this.textNode.setFont(font);
     }
 }

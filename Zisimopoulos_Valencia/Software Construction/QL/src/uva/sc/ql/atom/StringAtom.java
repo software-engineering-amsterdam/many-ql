@@ -5,7 +5,7 @@ import uva.sc.ql.expression.Expression;
 
 public class StringAtom extends Expression<Object> {
 
-    String value;
+    private String value;
 
     public StringAtom(String value) {
 	this.value = value;
@@ -15,6 +15,7 @@ public class StringAtom extends Expression<Object> {
 	return value;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

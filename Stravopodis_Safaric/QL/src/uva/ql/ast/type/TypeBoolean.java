@@ -1,7 +1,8 @@
 package uva.ql.ast.type;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.value.BooleanValue;
+import uva.ql.ast.visitor.TypeVisitor;
 
 public class TypeBoolean extends Type{
 
@@ -14,7 +15,12 @@ public class TypeBoolean extends Type{
 	}
 
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public BooleanValue typeInitialValue() {
+		return new BooleanValue(false);
+	}
+
+	@Override
+	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visitTypeBoolean(this);
 	}
 	
@@ -22,5 +28,4 @@ public class TypeBoolean extends Type{
 	public String toString(){
 		return this.getClass().getSimpleName() + "()";
 	}
-	
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Evaluation.Values
 {
     public class Bool : Value
@@ -62,7 +57,7 @@ namespace Evaluation.Values
         #region NotEqual
         public override Value NotEqual(Value value)
         {
-            return value.BoolEqual(this);
+            return value.BoolNotEqual(this);
         }
 
         public override Value BoolNotEqual(Bool boolValue)

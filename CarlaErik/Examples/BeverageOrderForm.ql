@@ -1,9 +1,6 @@
 age "How old are you?" int
-bool isAdult = age >= 18
 
-
-
-if(isAdult) 
+if(age >= 18) 
 {
 	canShowId "Can you provide an ID?" bool
 	
@@ -18,15 +15,11 @@ else
 	nrOfFristi "Number of glasses of Fristi (€ 2)" int
 }
 
-int nrOfAlcoholicDrinks = nrOfWine + nrOfBeer
-int costsOfAlcoholicDrinks = nrOfWine * 5 + nrOfBeer * 3
-
 nrOfTea "Number of glasses of Tea? (€ 1)" int
 nrOfCoffee "Number of glasses of coffee? (€ 1)" int
 
-
 totalNrOfGlasses "Total number of glasses: " int = 
-	nrOfTea + nrOfCoffee + nrOfAlcoholicDrinks + nrOfFristi
+	nrOfTea + nrOfCoffee + nrOfWine + nrOfBeer + nrOfFristi
 
 totalPrice "Total price: " int = 
-   (nrOfTea * 1) + (nrOfCoffee * 1) + (nrOfFristi * 2) + costsOfAlcoholicDrinks
+   (nrOfTea * 1) + (nrOfCoffee * 1) + (nrOfFristi * 2) + (nrOfWine * 5) + (nrOfBeer * 3)

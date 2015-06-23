@@ -1,9 +1,9 @@
 package org.uva.student.calinwouter.qlqls.ql;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
-import org.uva.student.calinwouter.qlqls.ql.interfaces.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interfaces.ITypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.model.AbstractStaticFormField;
-import org.uva.student.calinwouter.qlqls.ql.model.TypeCheckResults;
+import org.uva.student.calinwouter.qlqls.ql.model.QLTypeCheckResults;
 import org.uva.student.calinwouter.qlqls.ql.model.StaticFields;
 import org.uva.student.calinwouter.qlqls.ql.typechecker.PFormTypeChecker;
 
@@ -13,69 +13,79 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * X reference to undefined questions
- * X duplicate question declarations with different types
- * X conditions that are not of the type boolean
- * X operands of invalid type to operators
- *   cyclic dependencies between questions
- * X duplicate labels (warning)
+ * This type checker checks:
+ *
+ * - Reference to undefined questions
+ * - Duplicate question declarations with different types
+ * - Conditions that are not of the type boolean
+ * - Operands of invalid type to operators
+ * - Cyclic dependencies between questions
+ * - Duplicate labels (warning)
  */
 public class QLTypeChecker {
     private final AForm aForm;
     private final StaticFields staticFields;
-    private final TypeCheckResults typeCheckResults;
+    private final QLTypeCheckResults QLTypeCheckResults;
 
     private void collectDuplicateLabels() {
-        Set<String> labels = new HashSet<String>();
+        final Set<String> labels = new HashSet<String>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
             final String fieldLabel = abstractStaticFormField.getLabel();
             if (!labels.add(fieldLabel)) {
-                typeCheckResults.addWarning("Label " + fieldLabel + " found twice.");
+                QLTypeCheckResults.addLabelFoundTwiceWarning(fieldLabel);
             }
         }
     }
 
-    // TODO refactor
+    private void checkSameType(Map<String, ITypeDescriptor> identifierToTypeMap, AbstractStaticFormField toCheck) {
+        final String toCheckVariable = toCheck.getVariable();
+        final ITypeDescriptor earlierFoundValueType = identifierToTypeMap.get(toCheckVariable);
+        final ITypeDescriptor toCheckType = toCheck.getTypeDescriptor();
+        if (!earlierFoundValueType.equals(toCheckType)) {
+            QLTypeCheckResults.addTwoQuestionsSameTypeError(toCheckVariable);
+        }
+    }
+
+    private void putIfNotSet(Map<String, ITypeDescriptor> identifierToTypeMap, AbstractStaticFormField toPut) {
+        final String variableToPut = toPut.getVariable();
+        final ITypeDescriptor variableType = toPut.getTypeDescriptor();
+        if (!identifierToTypeMap.containsKey(variableToPut)) {
+            identifierToTypeMap.put(variableToPut, variableType);
+        }
+    }
+
     private void collectDuplicateQuestionsWithDifferentTypes() {
-        Map<String, TypeDescriptor> identToTypeMap = new HashMap<String, TypeDescriptor>();
+        final Map<String, ITypeDescriptor> identifierToTypeMap = new HashMap<String, ITypeDescriptor>();
         for (AbstractStaticFormField abstractStaticFormField : staticFields) {
-            if (!identToTypeMap.containsKey(abstractStaticFormField.getVariable())) {
-                identToTypeMap.put(
-                        abstractStaticFormField.getVariable(),
-                        abstractStaticFormField.getTypeDescriptor());
-            }
-            if (!identToTypeMap.get(abstractStaticFormField.getVariable())
-                    .equals(abstractStaticFormField.getTypeDescriptor())) {
-                typeCheckResults.addError("Two questions with the same identifier and a different type for label: "
-                        + abstractStaticFormField.getVariable());
-            }
+            putIfNotSet(identifierToTypeMap, abstractStaticFormField);
+            checkSameType(identifierToTypeMap, abstractStaticFormField);
         }
     }
 
-    /**
-     * Go through the AST to collect the other, undiscovered, type errors.
-     */
     private void collectTypeCheckErrorsInDepth() {
-        PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, typeCheckResults);
+        final PFormTypeChecker formTypeChecker = new PFormTypeChecker(staticFields, QLTypeCheckResults);
         aForm.apply(formTypeChecker);
     }
 
-    public TypeCheckResults typeCheck() {
-        TypeCheckResults typeCheckResults = new TypeCheckResults();
+    public QLTypeCheckResults typeCheck() {
         collectDuplicateQuestionsWithDifferentTypes();
         collectDuplicateLabels();
         collectTypeCheckErrorsInDepth();
-        return typeCheckResults;
+        return QLTypeCheckResults;
     }
 
     public QLTypeChecker(AForm aForm, StaticFields staticFields) {
         this.aForm = aForm;
         this.staticFields = staticFields;
-        this.typeCheckResults = new TypeCheckResults();
+        this.QLTypeCheckResults = new QLTypeCheckResults();
+    }
+
+    private static StaticFields collectStaticFields(AForm aForm) {
+        return new QLStaticAnalyser(aForm).collectStaticFields();
     }
 
     public QLTypeChecker(AForm aForm) {
-        this(aForm, new QLStaticAnalyser(aForm).collectStaticFields());
+        this(aForm, collectStaticFields(aForm));
     }
 
 }

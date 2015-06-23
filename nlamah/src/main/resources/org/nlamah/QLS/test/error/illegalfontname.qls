@@ -1,0 +1,4 @@
+stylesheet test
+{
+	default number font: "Arialal"
+}

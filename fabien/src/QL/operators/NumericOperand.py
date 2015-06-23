@@ -1,4 +1,6 @@
 
+from numberTypes import numberTypes
+
 class NumericOperand:
     def __init__(self, left=None, right=None):
         self.left  = left
@@ -11,6 +13,5 @@ class NumericOperand:
         leftType  = self.left.getType(IDs)
         rightType = self.right.getType(IDs)
 
-        numberTypes = ["number", "int", "float", "money"]
-
-        return leftType in numberTypes and rightType in numberTypes
+        return leftType in numberTypes() and \
+               rightType in numberTypes()

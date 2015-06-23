@@ -7,7 +7,7 @@ import uva.ql.ast.CodeLines;
 import uva.ql.ast.type.Type;
 import uva.ql.ast.type.TypeBoolean;
 import uva.ql.ast.value.BooleanValue;
-import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitor;
 
 public class BooleanLiteral extends Literal{
 	
@@ -18,13 +18,9 @@ public class BooleanLiteral extends Literal{
 		this.value = _value;
 	}
 	
-	public BooleanLiteral(CodeLines _codeLines){
-		super(_codeLines);
-	}
-	
 	@Override
-	public CodeLines getCodeLine() {
-		return this.codeLines;
+	public Boolean getValue() {
+		return this.value;
 	}
 	
 	@Override
@@ -33,23 +29,27 @@ public class BooleanLiteral extends Literal{
 	}
 
 	@Override
-	public List<Type> getValueType() {
+	public List<Type> possibleReturnTypes() {
 		return Arrays.asList(new TypeBoolean());
 	}
 	
 	@Override
-	public List<Type> getSupportedType() {
-		return Arrays.asList(new TypeBoolean());
+	public List<Type> acceptedTypes() {
+		return null;
 	}
 	
 	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitBooleanLiteral(this);
+	}
+	
+	@Override
+	public CodeLines getLinesOfCode() {
+		return this.codeLines;
 	}
 	
 	@Override
 	public String toString() {
 		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
-
 }

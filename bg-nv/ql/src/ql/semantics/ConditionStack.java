@@ -11,6 +11,7 @@ import java.util.Stack;
  */
 public class ConditionStack
 {
+    private final static BoolExpr trueBoolExpr = new BoolExpr(true);
     private final Stack<Expr> conditions;
 
     public ConditionStack()
@@ -20,14 +21,14 @@ public class ConditionStack
 
     public void push(Expr e)
     {
-        Expr r = e;
+        Expr cond = e;
         if (!(this.conditions.isEmpty()))
         {
             Expr pr = this.conditions.peek();
-            r = new And(pr, e);
+            cond = new And(pr, e);
         }
 
-        this.conditions.push(r);
+        this.conditions.push(cond);
     }
 
     public void pop()
@@ -39,7 +40,7 @@ public class ConditionStack
     {
         if (this.conditions.isEmpty())
         {
-            return new BoolExpr(true);
+            return trueBoolExpr;
         }
 
         return this.conditions.peek();

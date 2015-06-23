@@ -7,18 +7,17 @@ grammar QLS;
 stylesheet : 'stylesheet' ID '{' page* '}'                     # StyleSheet
 	       ;
 
-page       : 'page' STRING '{' (section|default_styles)* '}'
+page       : 'page' ID '{' (section|default_style)* '}'
            ;
-section    : 'section' STRING '{' (question_ref|default_styles)* '}'
+section    : 'section' STRING '{' (question_ref|default_style)* '}'
            ;
 
-question_ref   : 'question' ID '{' style_attr* '}'             # QuestionReference
-               ;
-default_styles : 'default' TYPE '{' style_attr+ '}'            # DefaultStyles
-               ;
+question_ref  : 'question' ID ('{' style_attr* '}')?              # QuestionReference
+              ;
+default_style : 'default' TYPE '{' style_attr+ '}'                # DefaultStyle
+              ;
 
-style_attr : 'width:'	INT									 	  # Width
-           | 'widget:'	widget_attr                               # Widget
+style_attr : 'widget:'	widget_attr                               # Widget
            | 'font:'	STRING                                    # Font
            | 'fontsize:'INT                                       # FontSize
            | 'color:'	HEXACOLOR                                 # Color
@@ -37,11 +36,12 @@ widget_attr : 'calendar'                                          # Calendar
  *   Lexer Rules
  */
 
-ID        : LETTER (LETTER | DIGIT)* ;
-HEXACOLOR : '#' HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC ;
 INT       : '-'? DIGIT+ ;             
 STRING    : '"' (ESC|.)*? '"' ;       
-TYPE      : 'int' | 'string' | 'bool' | 'date';
+HEXACOLOR : '#' HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC HEXADEC ;
+
+TYPE      : 'int' | 'string' | 'bool' | 'date' ;
+ID        : LETTER (LETTER | DIGIT)* ;
 
 HEXADEC   : [0-9A-F] ;
 DIGIT     : [0-9] ;

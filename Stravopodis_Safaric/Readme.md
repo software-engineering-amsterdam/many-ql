@@ -1,23 +1,32 @@
 Students: Dominik Safaric, Panagiotis Stravopodis
 Project: QL
 
+QL implementation - done
+
+QLS implementation 
+- refactoring required, but the following parts implemented:
+   * Grammar and AST hierarchy
+   * UI Widget classes
+   * Type checker
+- required: type checker refactoring (because of the QL dependency), renderer minor refactoring  
+
 ##### QL Requirements
 
 - Questions are enabled and disabled when different values are
-  entered.
+  entered. ✓
   
 - The type checker detects:
-   * reference to undefined questions
-   * duplicate question declarations with different types
-   * conditions that are not of the type boolean
-   * operands of invalid type to operators
-   * references to questions with an undefined value
-   * cyclic dependencies between questions
-   * duplicate labels (warning)
+   * reference to undefined questions ✓
+   * duplicate question declarations with different types ✓
+   * conditions that are not of the type boolean ✓
+   * operands of invalid type to operators ✓
+   * references to questions with an undefined value ✓
+   * cyclic dependencies between questions ✓
+   * duplicate labels (warning) ✓
 
-- The language supports booleans, integers and string values.
+- The language supports booleans, integers and string values. ✓
 
-- Different data types in QL map to different (default) GUI widgets.   
+- Different data types in QL map to different (default) GUI widgets. ✓
 
 Requirements on the implementation:
 
@@ -34,27 +43,37 @@ Requirements on the implementation:
 
 The code bellow is just a preliminary example of the QL's syntax. 
 
-        form HouseSelling {
+         form HouseSelling {
+  
+    
+    			question boolean hasRentHouse ("Did you rent a house in 2015?") { 
+	     			hasRentHouse : true;
+			}
+	
+			question boolean hasBoughtHouse ("Did you bought a house in 2015?") {
+				hasBoughtHouse : false;
+			}
+	
+			question boolean hasSoldHouse ("Did you sell a house in 2014 ?");
+    
+     			if (hasSoldHouse == true && hasRentHouse == true && hasBoughtHouse == true){
+    	
+    				question string firstName ("Please enter your first name:");
+    	
+    				question string lastName ("Please enter your last name:");
+    	
+    				question integer sellingPrice ("What was the selling price?"){
+    					sellingPrice : 300;
+    			}
+    	
+    			question money privateDebt ("What was the value of the private debt?");
+    	
+    			question money valueResidue ("Value residue:") {
+    				valueResidue : (sellingPrice * privateDebt) / 100;
+    				}
+	  		}
+     			}
 
-                question hasSoldHouse typeof boolean {
-                        hasSoldHouse = "Did you sold an house?";
-                        hasSoldHouse.questionType = ComputableQuestion;
-                        hasSoldHouse.value = false ;
-                }
-                question hasRentHouse typeof boolean {
-                        hasRentHouse = "Did you rent a house?";
-                        hasRentHouse.questionType = OrdinaryQuestion;
-                        hasRentHouse.value = false;
-                }
-
-                if (hasSoldHouse == true){
-                        question hasBoughtHouse typeof int {
-                            hasBoughtHouse = "What was the price of the house?";
-                            hasBoughtHouse.questionType = ComputableQuestion;
-                            hasBoughtHouse.value = 100000;
-                        }
-                }
-        }
 
 Project: QLS
 
@@ -70,11 +89,11 @@ Project: QLS
 
 - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
 
-- You cannot place a single question multiple times.
+- You cannot place a single question multiple times. 
 
-- The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions     appear (page/secion), what font-styles etc. are used, and what widget types are used.
+- The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions     appear (page/secion), what font-styles etc. are used, and what widget types are used. 
 
-- As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings),             yesno-radios, checkbox, yesno-dropdown (for booleans).
+- As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings),             yesno-radios, checkbox, yesno-dropdown (for booleans). 
 
 
 Here's an example QLS description for the simple Tax Form:

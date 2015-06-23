@@ -84,14 +84,11 @@ public class AstTest {
 
     @Test
     public void testExpressionNegative() throws RecognitionException, IOException {
-	String str = "-1 ";
-	GrammarParser parser = AstTest.getParser(str);
-	Context ctxt = new Context();
-	parser.expression().result.getType(ctxt);
-	System.out.println(ctxt.getErrors());
-	int actual = ((IntValue) (parser.expression().result).evaluate(ctxt)).getValue();
-	int exspected = -1;
-	assertEquals(exspected, actual);
+    String str = "-1";
+    GrammarParser parser = AstTest.getParser(str);
+    int actual = ((IntValue) (parser.expression().result).evaluate(new Context())).getValue();
+    int exspected = new IntValue((-1)).getValue();
+    assertEquals(exspected, actual);
     }
 
     @Test
@@ -144,7 +141,7 @@ public class AstTest {
 	String str = "1==1";
 	GrammarParser parser = AstTest.getParser(str);
 	boolean actual = ((BoolValue) (parser.expression().result).evaluate(new Context())).getValue();
-	boolean exspected = 1 == 1;
+	boolean exspected = ((Integer) 1).equals((Integer) 1);
 	assertEquals(exspected, actual);
     }
 

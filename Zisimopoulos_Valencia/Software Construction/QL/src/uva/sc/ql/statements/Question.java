@@ -1,18 +1,17 @@
 package uva.sc.ql.statements;
 
 import uva.sc.core.types.Type;
-import uva.sc.ql.ast.IQLExpressionNodeVisitor;
-import uva.sc.ql.ast.IQLFormNodeVisitor;
 import uva.sc.ql.ast.IQLStatementNodeVisitor;
 import uva.sc.ql.atom.ID;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class Question implements Statement {
 
-    String str;
-    ID id;
-    Type type;
-    Expression expr;
+    private String str;
+    private ID id;
+    private Type type;
+    private Expression expr;
 
     public Question(String str, ID id, Type type, Expression expr) {
 	this.str = str;
@@ -55,5 +54,5 @@ public class Question implements Statement {
     public <T> T accept(IQLStatementNodeVisitor<T> visitor) {
 	return visitor.visit(this);
     }
-    
+
 }

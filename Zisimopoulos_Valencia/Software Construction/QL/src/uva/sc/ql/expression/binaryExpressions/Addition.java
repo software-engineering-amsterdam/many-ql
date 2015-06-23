@@ -4,6 +4,7 @@ import uva.sc.core.types.Type;
 import uva.sc.ql.ast.IQLExpressionNodeVisitor;
 import uva.sc.ql.expression.Expression;
 
+@SuppressWarnings({ "rawtypes" })
 public class Addition extends BinaryExpression {
 
     public Addition(Expression firstOperand, Expression secondOperand) {
@@ -18,7 +19,6 @@ public class Addition extends BinaryExpression {
 	return "[op +]";
     }
 
-    @Override
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

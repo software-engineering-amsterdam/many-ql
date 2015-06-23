@@ -3,19 +3,22 @@ package com.form.language.ast.values;
 
 public class StringValue extends GenericValue {
     private final String value;
+    private final static String DEFAULT = "";
 
     public StringValue(String value) {
 	this.value = value;
     }
 
+    public StringValue() {
+	this.value = DEFAULT;
+}
     public String getValue() {
 	return value;
     }
 
     @Override
     public String toString() {
-	// TODO Auto-generated method stub
-	return "\"" + this.value + "\"";
+	return "\"" + value + "\"";
     }
     
     @Override
@@ -30,7 +33,7 @@ public class StringValue extends GenericValue {
 	if(value == null){
 	    return castO.value == null;
 	} else {
-	    return this.value.equals(castO.value);
+	    return value.equals(castO.value);
 	}
     }
     

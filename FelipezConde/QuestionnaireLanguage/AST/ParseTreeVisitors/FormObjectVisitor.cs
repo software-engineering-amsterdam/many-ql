@@ -1,8 +1,5 @@
-﻿using AST.Nodes;
-using AST.Nodes.Expressions;
+﻿using AST.Nodes.Expressions;
 using AST.Nodes.FormObjects;
-using AST.Nodes.Interfaces;
-using AST.Nodes.Labels;
 using Grammar;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +16,7 @@ namespace AST.ParseTreeVisitors
             
             Types.Type typeName = context.type().Accept(new TypeVisitor());
 
-            BaseExpression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
+            Expression computation = context.computed() != null ? context.computed().expression().Accept(new ExpressionVisitor()) : null;
 
             return new Question(new Id(identifier,IdPosition), typeName, MakeLabel(context.label()), computation,
                                 position);
@@ -27,7 +24,7 @@ namespace AST.ParseTreeVisitors
 
         public override FormObject VisitConditional(QLMainParser.ConditionalContext context)
         {
-            BaseExpression condition = context.expression().Accept(new ExpressionVisitor());
+            Expression condition = context.expression().Accept(new ExpressionVisitor());
 
             List<FormObject> body = context.formSection()
                                          .formObject()

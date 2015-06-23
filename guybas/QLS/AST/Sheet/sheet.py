@@ -4,66 +4,57 @@ import QLS.AST.Sheet.sheet_element as e
 # AST for sheets
 class Sheet(e.SheetElement):
 
+    #
+    # Override methods
+    #
+
     def __init__(self, name, pages):
         self._name = name
         self._pages = pages
-        self._widget_dict = Sheet.id_widget_dict(self._pages)
-        self._ids = Sheet.id_collection(self._pages)
-        self._properties = Sheet.property_names(self._pages)
-        self._property_dict = Sheet.property_dict_set(self._pages)
 
-    def pretty_print(self, level=0):
+    def string_presentation(self, level=0):
         s = "    " * level + "Sheet " + self._name + "\n"
         for p in self._pages:
-            s += p.pretty_print(level + 1)
+            s += p.string_presentation(level + 1)
         return s
 
     def get_ids(self):
-        return self._ids
-
-    def get_widget_dict(self):
-        return self._widget_dict
-
-    def get_property_names(self):
-        return self._properties
-
-    def get_property_dict(self):
-        return self._property_dict
-
-    @staticmethod
-    def id_collection(pages):
         ids = []
-        for p in pages:
+        for p in self._pages:
             ids += p.get_ids()
         return ids
 
-    @staticmethod
-    def id_widget_dict(pages):
+    def get_widget_dict(self):
         d = {}
-        for p in pages:
+        for p in self._pages:
             d = dict(list(d.items()) + list(p.get_widget_dict().items()))
         return d
 
-    @staticmethod
-    def property_names(elements):
+    #
+    # Sheet methods
+    #
+
+    def get_property_names(self):
         l = []
-        for x in elements:
+        for x in self._pages:
             if x.is_default():
                 prop = x.get_property_names()
                 l += prop
         return l
 
-    @staticmethod
-    def property_dict_set(elements):
+    def get_property_dict(self):
         d = {}
-        for x in elements:
+        for x in self._pages:
             if x.is_default():
                 d = dict(list(d.items()) + list(x.get_property_dict().items()))
         return d
 
-    @staticmethod
-    def property_dict_default(elements):
-        l = []
-        for x in elements:
-            l += x.get_widgets
-        return l
+    def get_defaults(self):
+        d = {}
+        for x in self._pages:
+            if x.is_default():
+                d = dict(list(d.items()) + list(x.get_property_dict().items()))
+        return d
+
+    def get_pages(self):
+        return self._pages

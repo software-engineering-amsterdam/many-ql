@@ -1,12 +1,11 @@
 package ql.ast.statement;
 
-import ql.ast.QLType;
 import ql.ast.Statement;
 import ql.ast.expression.Identifier;
-import ql.ast.type.QLForm;
 import ql.ast.visitor.StatementVisitor;
 
 public class Form extends Statement {
+	
 	private final Identifier identifier;
 	private final Block block;
 	
@@ -17,10 +16,6 @@ public class Form extends Statement {
 	
 	public Identifier getIdentifier() {
 		return this.identifier;
-	}
-	
-	public QLType getType() {
-		return new QLForm();
 	}
 	
 	public Block getBlock() {

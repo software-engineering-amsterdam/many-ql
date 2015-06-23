@@ -36,6 +36,8 @@ stylesheet taxOfficeExample {
 	}  
 }
 
+stylesheet taxOfficeExample { page Housing { section "Buying" { question hasBoughtHouse { widget checkbox } } section "Loaning" { question hasMaintLoan default money { width : 500 widget spinbox } default boolean widget radio("Yes", "No") } } }
+
 Keywords:
 	# SECTIONING
 	stylesheet

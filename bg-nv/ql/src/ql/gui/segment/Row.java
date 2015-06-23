@@ -1,37 +1,51 @@
 package ql.gui.segment;
 
 import javafx.geometry.Insets;
-import javafx.scene.layout.VBox;
-import ql.gui.ModelVisitor;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import ql.ast.expression.Expr;
+import ql.gui.Refreshable;
 import ql.gui.input.Input;
 import ql.gui.label.Label;
-
-import java.util.Collections;
+import ql.semantics.ExprEvaluator;
+import ql.semantics.ValueTable;
+import ql.semantics.values.BoolValue;
+import ql.semantics.values.Value;
 
 /**
- * Created by Nik on 23-02-2015
+ * Created by Nik on 3-3-15.
  */
-public class Row extends Segment<VBox>
+public class Row extends Segment<Pane> implements Refreshable
 {
-    private Label label;
-    private Input input;
+    private final Expr condition;
+    private final VBox inputBox;
+    private final Label label;
+    private final Input input;
+    private Insets insets;
 
-    public Row(Label label, Input input)
+    public Row(Expr condition, Label label, Input input)
     {
-        this(label, input, true);
+        super(new HBox());
+        this.input = input;
+        this.label = label;
+        this.condition = condition;
+        this.insets = new Insets(0, 0, 15, 0);
+
+        this.inputBox = new VBox();
+        this.initializeInputBox();
+
+        this.container.getChildren().add(this.inputBox);
     }
 
-    public Row(Label label, Input input, Boolean visible)
+    public void initializeInputBox()
     {
-        super(new VBox(), Collections.<Segment>emptyList(), visible);
-        this.label = label;
-        this.input = input;
+        this.inputBox.getChildren().add(this.label.getTextNode());
+        this.inputBox.getChildren().add(this.input.getInputNode());
+        this.inputBox.setFillWidth(true);
+        this.inputBox.setPrefWidth(400);
+        this.inputBox.setPadding(this.insets);
 
-        this.container.getChildren().add(this.label.getTextNode());
-        this.container.getChildren().add(this.input.getInputNode());
-        this.container.setFillWidth(true);
-        this.container.setPrefWidth(400);
-        this.container.setPadding(new Insets(0, 0, 15, 0));
     }
 
     public Label getLabel()
@@ -45,8 +59,59 @@ public class Row extends Segment<VBox>
     }
 
     @Override
-    public <V> V accept(ModelVisitor<V> visitor)
+    public <V> V accept(SegmentVisitor<V> visitor)
     {
         return visitor.visit(this);
+    }
+
+    @Override
+    public void refreshElement(ValueTable valueTable)
+    {
+        Boolean visible = false;
+
+        Value val = ExprEvaluator.evaluate(condition, valueTable);
+        if (!val.isUndefined())
+        {
+            visible = ((BoolValue)val).getValue();
+        }
+        this.setVisible(visible);
+    }
+
+    @Override
+    public Value evaluate(ValueTable valueTable)
+    {
+        return ExprEvaluator.evaluate(condition, valueTable);
+    }
+
+    public void applyStyle(RowStyle style)
+    {
+        if (style.isWidgetSet())
+        {
+            this.input.switchControl(style.getWidget());
+        }
+        this.applyWidth(style.getWidth());
+        this.applyFont(style.getFont());
+        this.applyForeColor(style.getForeColor());
+        this.applyBackColor(style.getBackColor());
+    }
+
+    private void applyWidth(Integer width)
+    {
+        this.inputBox.setPrefWidth(width.doubleValue());
+    }
+
+    private void applyForeColor(Paint color)
+    {
+        this.label.applyColor(color);
+    }
+
+    private void applyBackColor(Paint color)
+    {
+        this.inputBox.setBackground(new Background(new BackgroundFill(color, null, this.insets)));
+    }
+
+    private void applyFont(Font font)
+    {
+        this.label.applyFont(font);
     }
 }

@@ -1,10 +1,19 @@
 stylesheet taxOfficeExample 
   page Housing {
-    section "Buying"
+    section "Buying" {
       question hasBoughtHouse  
-        widget checkbox 
+        widget checkbox
+      question percentage
+      section "Subsection A" {
+        question commissioning
+        question hasContract
+      }
+      default string { widget textfield }
+    }
     section "Loaning"  
       question hasMaintLoan
+  default boolean { widget radio("Yes", "No") }
+  default integer { widget numberfield }
   }
 
   page Selling { 
@@ -13,18 +22,16 @@ stylesheet taxOfficeExample
         widget radio("Yes", "No") 
       section "You sold a house" {
         question sellingPrice
-          widget spinbox
+          widget numberfield
         question privateDebt
-          widget spinbox 
+          widget numberfield
         question valueResidue
         default integer {
-          width: 400
-          font: "Arial" 
-          fontsize: 14
-          color: #999999
-          widget spinbox
-        }        
+          color: #336699 
+          fontsize: 20 
+          font: "Arial Black" 
+          widget numberfield
+        }
       }
     }
-    default boolean widget radio("Yes", "No")
-  }  
+  }

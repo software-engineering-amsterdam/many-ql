@@ -1,11 +1,5 @@
 style PartyForm {
 
-    default number spinbox {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
     default number slider {
         width: 400
         font: "Arial"
@@ -24,45 +18,12 @@ style PartyForm {
         fontSize: 14
         color: #999999
     }
-    default boolean radio {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
-    default boolean dropdown {
-        width: 400
-        font: "Arial"
-        fontSize: 14
-        color: #999999
-    }
 
     page page1 {
-
         // Number Questions
         section "Number Questions" {
-
             section "Number Questions" {
-                comesToParty spinbox {
-                    width: 400
-                    font: "Arial"
-                    fontSize: 14
-                    color: #999999
-                }
-            }
-
-            comesToParty slider {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-
-            comesToParty text {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
+                numberOfFriends slider
             }
         }
     }
@@ -70,35 +31,16 @@ style PartyForm {
     page page2 {
         // String Questions
         section "String Questions" {
-            comesToParty text {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-
-            /*
-            comesToParty textBlock {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-            */
+            reason text
+            preferences textBlock
         }
     }
 
     page page3 {
         // Boolean Questions
         section "Boolean Questions" {
-            comesToParty radio {
-                width: 400
-                font: "Arial"
-                fontSize: 14
-                color: #999999
-            }
-
-            comesToParty dropdown {
+            comesToParty checkbox
+            needPlaceToCrash dropdown {
                 width: 400
                 font: "Arial"
                 fontSize: 14
@@ -106,5 +48,4 @@ style PartyForm {
             }
         }
     }
-
 }

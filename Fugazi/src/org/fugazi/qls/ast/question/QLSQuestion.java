@@ -19,7 +19,7 @@ public class QLSQuestion extends AbstractASTNode {
 
     @Override
     public String toString() {
-        return this.identifier.toString() + " " + "('" + this.widget.toString() + "')";
+        return this.identifier + " " + "('" + this.widget.toString() + "')";
     }
 
     public void setWidget(AbstractQLSWidget _widget) {

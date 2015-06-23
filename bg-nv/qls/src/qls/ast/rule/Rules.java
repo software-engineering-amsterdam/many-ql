@@ -1,14 +1,13 @@
 package qls.ast.rule;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by bore on 08/03/15.
  */
 public class Rules implements Iterable<Rule>
 {
+    public static final Rules empty = new Rules(Collections.EMPTY_LIST);
     private final List<Rule> rules;
 
     public Rules(List<Rule> rules)
@@ -21,32 +20,19 @@ public class Rules implements Iterable<Rule>
         return this.rules.iterator();
     }
 
-    public Rules addRules(Rules lowPr)
+    public static Rules mergeRules(Rules highPr, Rules lowPr)
     {
-        List<Rule> res = new ArrayList<>();
-        res.addAll(this.rules);
+        List<Rule> rules = new ArrayList<>();
+        rules.addAll(highPr.rules);
 
         for (Rule l : lowPr)
         {
-            if (!(this.isRuleOverwritten(l, this)))
+            if (!(l.isRuleOverwrittenBy(highPr)))
             {
-                res.add(l);
+                rules.add(l);
             }
         }
 
-        return new Rules(res);
-    }
-
-    private boolean isRuleOverwritten(Rule r, Rules highPr)
-    {
-        for (Rule h : highPr)
-        {
-            if (r.isOverwrittenBy(h))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return new Rules(rules);
     }
 }

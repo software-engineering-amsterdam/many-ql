@@ -32,6 +32,9 @@ class UnaryExpression(Node):
     def getType(self, IDs):
         return self.Operation.getType()
 
+    def evaluate(self, answers):
+        return self.Operation.evaluate(answers)
+
     @property
     def children(self):
         return []

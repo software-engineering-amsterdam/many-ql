@@ -5,7 +5,7 @@ import uva.sc.ql.expression.Expression;
 
 public class BooleanAtom extends Expression<Object> {
 
-    final Boolean value;
+    private final Boolean value;
 
     public BooleanAtom(boolean value) {
 	this.value = new Boolean(value);
@@ -27,6 +27,7 @@ public class BooleanAtom extends Expression<Object> {
 	return new BooleanAtom(false);
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public Object accept(IQLExpressionNodeVisitor visitor) {
 	return visitor.visit(this);
     }

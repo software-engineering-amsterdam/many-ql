@@ -153,6 +153,12 @@ public class IntValue extends Value<Integer>
         return new IntValue(this.getValue());
     }
 
+    @Override
+    public Value promoteTo(Value v)
+    {
+        return v.promoteInt(this);
+    }
+
     public <T> T accept (ValueVisitor<T> visitor)
     {
         return visitor.visit(this);

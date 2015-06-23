@@ -4,7 +4,7 @@ import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.fugazi.ql.ast.form.form_data.visitor.FullQLFormVisitor;
 import org.fugazi.ql.ast.type.UndefinedType;
-import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
+import org.fugazi.ql.type_checker.issue.error.UndefinedQuestionError;
 
 
 public class UndefinedQuestionsVisitor extends FullQLFormVisitor {
@@ -18,7 +18,7 @@ public class UndefinedQuestionsVisitor extends FullQLFormVisitor {
 
         if (this.formData.getIdType(idLiteral).equals(new UndefinedType())) {
             this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.UNDEFINED, idLiteral,
+                    new UndefinedQuestionError(), idLiteral,
                     "Question not defined."
             );
         }

@@ -1,116 +1,59 @@
 package qls.gui;
 
-import ql.gui.GuiElement;
 import ql.gui.SimpleModeler;
 import ql.gui.canvas.Canvas;
-import ql.gui.segment.*;
-import ql.semantics.ConditionalQuestion;
-import ql.semantics.Flat;
-import qls.ast.*;
+import ql.gui.segment.Row;
+import ql.gui.segment.RowStyle;
+import ql.gui.segment.Segment;
+import ql.semantics.CondQuestionTable;
 import qls.ast.Page;
+import qls.ast.Stylesheet;
+import qls.ast.StylesheetVisitor;
 import qls.ast.rule.Rules;
 import qls.ast.statement.*;
-import qls.ast.statement.Section;
-import qls.semantics.FormStyle;
-import qls.semantics.RulesToGui;
+import qls.semantics.QuestionStyles;
+import qls.semantics.RowStyleBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nik on 10-3-15.
  */
-// TODO
-public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Segment>, StatementVisitor<Segment>
+public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Void>, StatementVisitor<Segment>
 {
     private final Stylesheet stylesheet;
-    private final FormStyle formStyle;
-    private Map<String, GuiElement> elems;
-    private Flat flat;
+    private final QuestionStyles questionStyles;
+    private List<ql.gui.segment.Page> pages;
 
-    public StyledModeler(Stylesheet stylesheet, FormStyle formStyle)
+    public StyledModeler(CondQuestionTable condQuestionTable, Stylesheet stylesheet, QuestionStyles questionStyles)
     {
-        super();
+        super(condQuestionTable);
         this.stylesheet = stylesheet;
-        this.formStyle = formStyle;
+        this.questionStyles = questionStyles;
     }
 
     @Override
-    public Canvas model(Flat flat)
+    public Canvas buildCanvas()
     {
-        // We do not need renderables, we only need to avoid visiting default statements
-//        //TODO: get the renderables!
-//        Collection<Renderable> renderables = Collections.emptyList();
-//
-//        List<Segment> segments = new ArrayList<>();
-//        for (Renderable r : renderables)
-//        {
-//            // TODO: create a renderable visitor?
-//            // segments.add(r.accept(this));
-//        }
-        this.flat = flat;
-        List<Segment> pageSegments = new ArrayList<>();
-        for (Page p : this.stylesheet.getBody())
+        this.pages = new ArrayList<>();
+        this.stylesheet.accept(this);
+        return new Canvas(this.getCondQuestionTable().getTitle(), this.pages);
+    }
+
+    @Override
+    public Void visit(Stylesheet s)
+    {
+        for (Page p : s.getBody())
         {
-            pageSegments.add(p.accept(this));
+            p.accept(this);
         }
 
-        return new Canvas("Unicorn!", pageSegments);
-    }
-
-    @Override
-    public Segment visit(Section s)
-    {
-        List<Segment> segments = new ArrayList<>();
-
-        for (Statement stat : s.getBody())
-        {
-            if (stat.isRenderable())
-            {
-                Segment segment = stat.accept(this);
-                segments.add(segment);
-            }
-        }
-        return new ql.gui.segment.Section(segments, true);
-    }
-
-    @Override
-    public Segment visit(qls.ast.statement.Question q)
-    {
-        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
-
-        Segment qs = cq.getQuestion().accept(this);
-        List<Segment> r = new ArrayList<>();
-        r.add(qs);
-        Rules rules = formStyle.getStyleForQuestion(q.getId());
-        RowStyle style = RulesToGui.convert(rules);
-        return new Conditional(cq.getCondition(), r, style);
-    }
-
-    @Override
-    public Segment visit(QuestionWithRules q)
-    {
-        ConditionalQuestion cq = this.flat.getConditionalQuestion(q.getId());
-
-        Segment qs = cq.getQuestion().accept(this);
-        List<Segment> r = new ArrayList<>();
-        r.add(qs);
-        return new Conditional(cq.getCondition(), r);
-    }
-
-    @Override
-    public Segment visit(DefaultStat d)
-    {
-        throw new IllegalStateException("Visiting a default node is not allowed");
-    }
-
-    @Override
-    public Segment visit(Stylesheet s)
-    {
         return null;
     }
 
     @Override
-    public Segment visit(Page p)
+    public Void visit(Page p)
     {
         List<Segment> segments = new ArrayList<>();
 
@@ -123,6 +66,48 @@ public class StyledModeler extends SimpleModeler implements StylesheetVisitor<Se
             }
         }
 
-        return new ql.gui.segment.Page(segments, true);
+        this.pages.add(new ql.gui.segment.Page(segments, p.getTitle()));
+
+        return null;
+    }
+
+    @Override
+    public Segment visit(Section s)
+    {
+        List<Segment> segments = new ArrayList<>();
+        s.getBody().stream()
+                .filter(stat -> stat.isRenderable())
+                .forEach(stat -> segments.add(stat.accept(this)));
+
+        return new ql.gui.segment.Section(s.getName(), segments);
+    }
+
+    @Override
+    public Segment visit(qls.ast.statement.Question q)
+    {
+        return getConditional(q.getId());
+    }
+
+    @Override
+    public Segment visit(QuestionWithRules q)
+    {
+        return getConditional(q.getId());
+    }
+
+    private Segment getConditional(String id)
+    {
+        ql.ast.statement.Question q = this.getQuestion(id);
+        Row row = q.accept(this);
+        Rules rules = questionStyles.getStyleForQuestion(id);
+        RowStyle style = RowStyleBuilder.build(rules);
+        row.applyStyle(style);
+
+        return row;
+    }
+
+    @Override
+    public Segment visit(DefaultStat d)
+    {
+        throw new IllegalStateException("Visiting a default node is not allowed");
     }
 }
