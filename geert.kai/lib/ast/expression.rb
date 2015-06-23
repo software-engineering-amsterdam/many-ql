@@ -1,4 +1,4 @@
-require_relative "visitable"
+require_relative "../visitor_pattern/visitable"
 
 module QL
   module AST

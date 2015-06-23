@@ -1,10 +1,13 @@
-require_relative "question_visitor"
+
+require_relative "../visitor_pattern/question_visitor"
 
 module QL
-  module Checking
+  module Checkers
     class DuplicateLabelChecker
+      # gedraagt zich als een visitor
+
       def visit(base)
-        labels = base.accept(QuestionVisitor.new).map(&:description)
+        labels = base.accept(VisitorPattern::QuestionVisitor.new).map(&:description)
         
         duplicates(labels).map { |label| Error.new("Duplicate label: #{label}.") }
       end

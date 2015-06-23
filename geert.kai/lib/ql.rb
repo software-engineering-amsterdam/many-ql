@@ -6,14 +6,13 @@ require_relative "ast/form"
 require_relative "ast/expression"
 require_relative "ast/types"
 
-require_relative "checker/question_visitor"
-require_relative "checker/type_checker"
-require_relative "checker/duplicate_label_checker"
+require_relative "checkers/type_checker"
+require_relative "checkers/duplicate_label_checker"
 
 require_relative "parser/parser"
 require_relative "parser/tokenizer"
 
-require_relative "runner/runner"
+require_relative "runner/visibility_visitor"
 require_relative "runner/renderer_visitor"
 require_relative "runner/expression_evaluator"
 
@@ -28,8 +27,8 @@ module QL
   end
 
   def self.check_ql(ql_ast)
-    errors = ql_ast.accept(Checking::TypeChecker.new)
-    warnings = ql_ast.accept(Checking::DuplicateLabelChecker.new)
+    errors = ql_ast.accept(Checkers::TypeChecker.new)
+    warnings = ql_ast.accept(Checkers::DuplicateLabelChecker.new)
 
     { errors: errors, warnings: warnings }
   end

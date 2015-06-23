@@ -1,11 +1,11 @@
-require_relative "../util/base_visitor"
-require_relative "../checker/question_visitor"
+require_relative "../visitor_pattern/base_visitor"
+require_relative "../visitor_pattern/question_visitor"
 require_relative "../ast/expression"
 require_relative "../ast/form"
 require_relative "../ast/types"
 
 module QL
-  class VisibilityVisitor < BaseVisitor
+  class VisibilityVisitor < VisitorPattern::BaseVisitor
     def initialize(values)
       @values = values
     end
