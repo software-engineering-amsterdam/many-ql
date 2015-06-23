@@ -28,6 +28,19 @@ describe "VisibilityVisitor" do
   end
 
   it "handles nested if statements" do
+    # wat is je naam?
+    # wat is je oogkleur?
+    #
+    # if naam == "Geert"
+    #   if oogkleur == "bruin"
+    #     hoe heet je moeder?
+    #   else
+    #     hoe heet je vader?
+    # else
+    #   wat is je leeftijd?
+    # end
+    #
+
     second_question = Question.new("Wat is je oogkleur?", "oogkleur", :string) 
     nested_if_question = Question.new("Hoe heet je moeder?", "naam_moeder", :string)
     nested_else_question = Question.new("Hoe heet je vader?", "naam_vader", :string)
