@@ -1,3 +1,4 @@
+require_relative '../ql.rb'
 require_relative "questionair_controller"
 require_relative "question_pane"
 require_relative "widget_visitor"
@@ -11,6 +12,13 @@ module QL
     class QuestionairApp < JRubyFX::Application
       def start(stage)
         ql = QL.parse("spec/source_files/long_query.ql")
+
+        check_result = QL.check(ql)
+
+        unless check_result[:errors].empty?
+          puts check_result[:errors]
+          return 1
+        end
 
         # from here we assume ql and qls are valid?
         questionair_controller = QuestionairController.new(ql)
@@ -31,3 +39,5 @@ module QL
     end
   end
 end
+
+QL::GUI::QuestionairApp.launch

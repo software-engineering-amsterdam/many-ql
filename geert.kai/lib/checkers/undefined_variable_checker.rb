@@ -1,12 +1,10 @@
-require_relative "../visitor_pattern/base_visitor"
-require_relative "types_visitor"
 require_relative "errors"
 
 module QL
   module Checkers
-    class TypeChecker < VisitorPattern::BaseVisitor
+    class UndefinedVariableChecker < VisitorPattern::BaseVisitor
       def visit_form(form)
-        @types = form.accept(TypesVisitor.new).to_h
+        @variable_names = form.accept(VisitorPattern::QuestionVisitor.new).map(&:variable_name)
 
         form.statements.flat_map do |statement|
           visit(statement)
@@ -20,10 +18,6 @@ module QL
       def visit_if_else(if_else)
         errors = []
 
-        unless get_type(if_else.expression) == AST::BooleanType.new
-          errors << Error.new("Invalid type in #{if_else}: #{get_type(if_else.expression)} is not a boolean.")
-        end
-
         errors += visit(if_else.expression)
 
         errors += if_else.statements.flat_map do |statement|
@@ -32,24 +26,15 @@ module QL
       end
 
       def visit_binary_expression(expression)
-        lhs_type = get_type(expression.lhs)
-        rhs_type = get_type(expression.rhs)
+        [ visit(expression.lhs), visit(expression.rhs) ].flatten
+      end
 
-        errors = []
-
-        unless expression.possible_argument_types.include?(lhs_type)
-          errors << Error.new("#{lhs_type} is not a valid argument type for #{expression}, doesn't match any of #{expression.possible_argument_types}.")
+      def visit_variable(variable)
+        if @variable_names.include?(variable.name)
+          []
+        else
+          [ Error.new("#{variable.name} is not defined.") ]
         end
-
-        unless expression.possible_argument_types.include?(rhs_type)
-          errors << Error.new("#{rhs_type} is not a valid argument type for #{expression}, doesn't match any of #{expression.possible_argument_types}.")
-        end
-
-        unless lhs_type == rhs_type
-          errors << Error.new("#{lhs_type} doesn't match #{rhs_type} in #{expression}.")
-        end
-
-        errors
       end
 
       def visit_and(expression)
@@ -100,10 +85,6 @@ module QL
         visit_binary_expression(expression)
       end
 
-      def visit_variable(variable)
-        []
-      end
-
       def visit_integer_literal(literal)
         []
       end
@@ -114,14 +95,6 @@ module QL
 
       def visit_string_literal(literal)
         []
-      end
-
-      def get_type(expression)
-        if expression.is_a?(AST::Variable)
-          @types[expression.name]
-        else
-          expression.type
-        end
       end
     end
   end

@@ -6,6 +6,8 @@ require_relative "ast/types"
 
 require_relative "checkers/type_checker"
 require_relative "checkers/duplicate_label_checker"
+require_relative "checkers/undefined_variable_checker"
+require_relative "checkers/duplicate_variable_declaration_checker"
 
 require_relative "parser/parser"
 require_relative "parser/tokenizer"
@@ -13,8 +15,6 @@ require_relative "parser/tokenizer"
 require_relative "runtime/visibility_visitor"
 require_relative "runtime/renderer_visitor"
 require_relative "runtime/expression_evaluator"
-
-require_relative "gui/gui"
 
 module QL
   def self.parse(path)
@@ -26,12 +26,13 @@ module QL
     result
   end
 
-  def self.check_ql(ql_ast)
+  def self.check(ql_ast)
     errors = ql_ast.accept(Checkers::TypeChecker.new)
+    errors += ql_ast.accept(Checkers::UndefinedVariableChecker.new)
+    errors += ql_ast.accept(Checkers::DuplicateVariableDeclarationChecker.new)
+
     warnings = ql_ast.accept(Checkers::DuplicateLabelChecker.new)
 
     { errors: errors, warnings: warnings }
   end
 end
-
-QL::GUI::QuestionairApp.launch
