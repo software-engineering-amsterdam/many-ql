@@ -10,9 +10,11 @@ require_relative "checkers/duplicate_label_checker"
 require_relative "parser/parser"
 require_relative "parser/tokenizer"
 
-require_relative "runner/visibility_visitor"
-require_relative "runner/renderer_visitor"
-require_relative "runner/expression_evaluator"
+require_relative "runtime/visibility_visitor"
+require_relative "runtime/renderer_visitor"
+require_relative "runtime/expression_evaluator"
+
+require_relative "gui/gui"
 
 module QL
   def self.parse(path)
@@ -31,3 +33,5 @@ module QL
     { errors: errors, warnings: warnings }
   end
 end
+
+QL::GUI::QuestionairApp.launch
