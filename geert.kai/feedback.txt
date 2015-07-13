@@ -1,5 +1,6 @@
 High-level summary (op basis van QL, niet QLS)
 
+- [Kai] iets
 - ik zie geen support voor cycle detectie, of computed questions,
 - (???) een aantal dependencies de verkeerde kant op
 - QL en QLS lijken in verschillende directories, maar lopen toch helemaal
