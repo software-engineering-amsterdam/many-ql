@@ -13,7 +13,7 @@ module QL
       def start(stage)
         ql = QL.parse("spec/source_files/long_query.ql")
         
-        # from here we asume ql and qls are valid?
+        # from here we assume ql and qls are valid?
         questionair_controller = QuestionairController.new(ql)
 
         with(stage, title: ql.name, width: 800, height: 600) do

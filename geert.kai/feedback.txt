@@ -26,6 +26,7 @@ High-level summary (op basis van QL, niet QLS)
   alle visit methods moeten zonder magic geschreven worden.
 - [Geert] Moeten we alles aanroepen in ql.rb?
 - [Geert] gui.rb required de hele ql.rb. Is dit logisch, of kan het cleaner?
+- [Geert] is runner nog steeds de goede naam? Wat doet die map in totaal?
 
 - [Tijs] Evaluator geeft true terug of TrueLiteral.new?
 - [Tijs] Hoe zit het met eigen nil types
