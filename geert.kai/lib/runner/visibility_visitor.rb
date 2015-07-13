@@ -10,12 +10,6 @@ module QL
       @values = values
     end
 
-    def update_variable(variable_name, value)
-      @values[variable_name] = value
-      
-      run(@values)
-    end
-
     def visit_form(form)
       form.statements.flat_map do |statement|
         visit(statement)

@@ -1,5 +1,4 @@
 require_relative "spec_helper"
-require "byebug"
 
 describe "Type checker" do
   it "detects duplicate labels" do
