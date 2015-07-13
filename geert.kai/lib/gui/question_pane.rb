@@ -1,7 +1,7 @@
 
 module QL
   module GUI
-    class QuestionPane #QuestionPane kunnen we uit het programma schrijven alles gaat via css
+    class QuestionPane
       attr_accessor :label, :widget, :question
 
       def initialize(question, controller)
@@ -14,9 +14,9 @@ module QL
         @label.set_id(question.variable_name)
       end
 
-      def set_visible(boolean)
-        @widget.set_visible(boolean)
-        @label.set_visible(boolean)
+      def set_visible(visible)
+        @widget.set_visible(visible)
+        @label.set_visible(visible)
       end
     end
   end

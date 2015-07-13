@@ -6,6 +6,10 @@ module QL
       def initialize(message)
         @message = message
       end
+
+      def to_s
+        @message
+      end
     end
 
     class Error
@@ -14,9 +18,10 @@ module QL
       def initialize(message)
         @message = message
       end
-    end
 
-    class NoError
+      def to_s
+        @message
+      end
     end
   end
 end

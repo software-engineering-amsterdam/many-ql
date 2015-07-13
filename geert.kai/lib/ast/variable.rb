@@ -2,14 +2,13 @@ require_relative "../visitor_pattern/visitable"
 
 module QL
   module AST
-    class Form
+    class Variable
       include Visitable
 
-      attr_reader :name, :statements
+      attr_reader :name
 
-      def initialize(name, statements)
+      def initialize(name)
         @name = name
-        @statements = statements
       end
     end
   end

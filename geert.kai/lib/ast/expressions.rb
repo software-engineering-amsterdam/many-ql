@@ -2,51 +2,10 @@ require_relative "../visitor_pattern/visitable"
 
 module QL
   module AST
-    class Expression
+ 
+    class BinaryExpression
       include Visitable
-    end
-
-    class Variable < Expression
-      attr_reader :name
-
-      def initialize(name)
-        @name = name
-      end
-    end
-
-    class Literal < Expression
-      attr_reader :value
-
-      def initialize(value)
-        @value = value
-      end
-
-      def to_s
-        @value.to_s
-      end
-    end
-
-    class IntegerLiteral < Literal
-      def type
-        IntegerType.new
-      end
-    end
-
-    class StringLiteral < Literal
-      def type
-        StringType.new
-      end
-    end
-
-    class BooleanLiteral < Literal
-      def type
-        BooleanType.new
-      end
-    end
-
-    # Expressions
-
-    class BinaryExpression < Expression
+      
       attr_reader :lhs, :rhs
 
       def initialize(lhs, rhs)

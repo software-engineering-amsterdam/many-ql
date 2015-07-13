@@ -1,9 +1,8 @@
 High-level summary (op basis van QL, niet QLS)
 
-- [Kai] iets
 - ik zie geen support voor cycle detectie, of computed questions,
-- (???) een aantal dependencies de verkeerde kant op
-- QL en QLS lijken in verschillende directories, maar lopen toch helemaal
+- (*) een aantal dependencies de verkeerde kant op
+- (*) QL en QLS lijken in verschillende directories, maar lopen toch helemaal
   door elkaar. Op deze manier is QLS geen modulaire oplossing (wat de
   opdracht was)
 - (*) onnodige complexity met reflectie (magic) : het visitor framework,
@@ -15,26 +14,21 @@ High-level summary (op basis van QL, niet QLS)
   gebruiken geen double dispatch. Als gevolg daarvan moet je *toch* type
   checking gerelateerde spullen in de AST classes stoppen (e.g. type,
   possible_argument_types [maar waar is dat eigenlijk?])
-- je kunt CSS inderdaad gebruiken om visibility te doen, maar via een file
+- (*) je kunt CSS inderdaad gebruiken om visibility te doen, maar via een file
   is omslachtige manier. Bovendien is je huidige manier niet robuust voor
   herhaalde vragen (e.g. if (age > 18) license: bool else license: bool
   = false).
-- (???) hierarchy problem in If/If-Else/Conditional.
+- (*) hierarchy problem in If/If-Else/Conditional.
 
 - [Geert] (*) Node staat in form.rb, dat is rare naamgeving. Waar moet deze class wel?
-- [Geert] Runner bestaat niet, maar runner.rb wel, en daar staan Evaluator en VisibleQuestionWriter classes
+- [Geert] (*) Runner bestaat niet, maar runner.rb wel, en daar staan Evaluator en VisibleQuestionWriter classes
 - [Geert] (*) ExpressionEvaluator heeft hetzelfde probleem als TypeChecker, namelijk geen double dispatch, en
   alle visit methods moeten zonder magic geschreven worden.
 - [Geert] Moeten we alles aanroepen in ql.rb?
 - [Geert] gui.rb required de hele ql.rb. Is dit logisch, of kan het cleaner?
-- [Geert] is runner nog steeds de goede naam? Wat doet die map in totaal?
+- [Geert] (*) is runner nog steeds de goede naam? Wat doet die map in totaal?
 
 - [Tijs] Evaluator geeft true terug of TrueLiteral.new?
-- [Tijs] Hoe zit het met eigen nil types
-- [Tijs] Hoe zit het met error_or_type?
-- [Tijs] Mag :alias visit_and, visit_binary_expression
-- [Tijs] Wat was het hierarchy problem van If/IfElse?
-   
 
 (*) Why is the duplication between If and IfElse not shared in
 Conditional? De default parameters in de constructors suggereren een

@@ -85,9 +85,13 @@ end
 
 ---- inner
 
-  require_relative '../ast/expression'
-  require_relative '../ast/form'
-  require_relative '../ast/types'
+  require_relative "../ast/expressions"
+  require_relative "../ast/form"
+  require_relative "../ast/if_else"
+  require_relative "../ast/literals"
+  require_relative "../ast/question"
+  require_relative "../ast/types"
+  require_relative "../ast/variable"
   
   include QL::AST
 
