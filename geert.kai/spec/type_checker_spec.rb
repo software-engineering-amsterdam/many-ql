@@ -2,7 +2,7 @@ require_relative "spec_helper"
 
 describe "Type checker" do
   it "detects duplicate labels" do
-    question = QL::AST::Question.new("Wat is uw leeftijd?", "leeftijd", "integer")
+    question = QL::AST::Question.new("Wat is uw leeftijd?", "leeftijd", IntegerType.new)
     form = Form.new("dubbel label", [question, question])
 
     errors = form.accept(DuplicateLabelChecker.new)
@@ -10,13 +10,13 @@ describe "Type checker" do
     expect(errors.size).to eq 1
   end
 
-  it "detects if the type doesn't match up" do
-    question = QL::AST::Question.new("Wat is je naam?", "naam", "string")
+  xit "detects if the type doesn't match up" do
+    question = QL::AST::Question.new("Wat is je naam?", "naam", StringType.new)
     conditional = IfElse.new(GreaterThan.new(Variable.new("naam"), IntegerLiteral.new(8)), [], [])
     form = Form.new("Test", [question, conditional])
     errors = form.accept(TypeChecker.new)
 
-    expect(errors.first.message).to match /doesn't match any of/
+    expect(errors.first.message).to match /not a valid argument type/
     expect(errors.size).to eq 1
   end
 
@@ -32,9 +32,9 @@ describe "Type checker" do
   it 'detects undefined variables' do
     conditional = IfElse.new(Equal.new(Variable.new("naam"), StringLiteral.new("Geert")), [], [])
     form = Form.new("Test", [conditional])
-    errors = form.accept(TypeChecker.new)
+    errors = form.accept(UndefinedVariableChecker.new)
 
-    expect(errors.first.message).to match /naam/ 
+    expect(errors.first.message).to match /naam/
     expect(errors.size).to eq 1
   end
 end

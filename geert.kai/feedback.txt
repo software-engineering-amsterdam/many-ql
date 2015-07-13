@@ -27,6 +27,7 @@ High-level summary (op basis van QL, niet QLS)
   alle visit methods moeten zonder magic geschreven worden.
 - [Geert] Moeten we alles aanroepen in ql.rb?
 - [Geert] gui.rb required de hele ql.rb. Is dit logisch, of kan het cleaner?
+- [Geert] is runner nog steeds de goede naam? Wat doet die map in totaal?
 
 - [Tijs] Evaluator geeft true terug of TrueLiteral.new?
 - [Tijs] Hoe zit het met eigen nil types
@@ -47,24 +48,6 @@ Nu heb je dus een dependency aangebracht tussen de meest onderste laag
 inheritance too. Looking at Question Visitor the code cannot be understood
 without the BaseVisitor, which is far, far away.
 
-def visit(subject)
-
-    subject.class.ancestors.each do |ancestor|
-
-      method_name = :"visit_#{ancestor.name.snake_case}"
-
-      next unless respond_to?(method_name)
-
-      return send(method_name, subject)
-
-    end
-
-
-
-    raise "Can't handle #{subject.class}"
-
-  end
-
 
 class String
 
@@ -80,12 +63,12 @@ in DuplicateLabelChecker, maar dan kunnen ze samen) .flatten ????
 (*) Don't use exceptions as type errors: there are *not* exceptions, but
 simply output values of the type checker.
 
-In TypeChecker
+(*) In TypeChecker
 type.nil? lijkt me incorrect
 type == QL::AST::BooleanType.new || type.nil?
 More general: waarom is nil een correcte value van types?
 
-Btw: where are the possible_argument_types methods? They are called on
+(???) Btw: where are the possible_argument_types methods? They are called on
 expressions, but they are not in the AST classes.
 
 (*) Hier is het nog moeilijke te begrijpen wat er aan de hand is: def
@@ -113,37 +96,13 @@ files bij de gebruiker schrijven (gebruik dan in elk geval tmpfile oid).
 Maar ook: als ik het goed begrijp schrijf je CSS die de visibility
 bepaalt?
 
-De @visible truuk (temporary field smell) werkt niet omdat je nested
+(*) De @visible truuk (temporary field smell) werkt niet omdat je nested
 conditionals kunt hebben. Je moet minimaal een stack hebben. Maar sowieso
 is het beter dit te vermijden, en er de call stack voor te gebruiken (IOW:
 een parameter).
 
-Deze if-then-else suggereert onmiddelijk dat de hierarchy van
+(*) Deze if-then-else suggereert onmiddelijk dat de hierarchy van
 if/if-else/conditional problematisch is: if result.nil?
-
-  @visible = false
-
-  statements = map_accept(condition.statements)
-
-  @visible = true
-
-  statements
-
-else
-
-  @visible = result
-
-  true_statements = map_accept(condition.statements_true)
-
-  @visible = !result
-
-  false_statements = map_accept(condition.statements_false)
-
-  @visible = true
-
-  true_statements + false_statements
-
-end
 
 
 Typo: visibilty_tag

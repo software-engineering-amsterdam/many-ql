@@ -12,8 +12,15 @@ module QL
     class QuestionairApp < JRubyFX::Application
       def start(stage)
         ql = QL.parse("spec/source_files/long_query.ql")
-        
-        # from here we asume ql and qls are valid?
+
+        check_result = QL.check(ql)
+
+        unless check_result[:errors].empty?
+          puts check_result[:errors]
+          return 1
+        end
+
+        # from here we assume ql and qls are valid?
         questionair_controller = QuestionairController.new(ql)
 
         with(stage, title: ql.name, width: 800, height: 600) do

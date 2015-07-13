@@ -1,5 +1,6 @@
 
 require_relative "../visitor_pattern/question_visitor"
+require_relative "errors"
 
 module QL
   module Checkers
@@ -8,7 +9,7 @@ module QL
 
       def visit(base)
         labels = base.accept(VisitorPattern::QuestionVisitor.new).map(&:description)
-        
+
         duplicates(labels).map { |label| Error.new("Duplicate label: #{label}.") }
       end
 
