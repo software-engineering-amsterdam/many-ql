@@ -1,26 +1,8 @@
 require_relative "../visitor_pattern/base_visitor"
+require_relative "errors"
 
 module QL
   module Checkers
-    class Warning
-      attr_reader :message
-
-      def initialize(message)
-        @message = message
-      end
-    end
-
-    class Error
-      attr_reader :message
-
-      def initialize(message)
-        @message = message
-      end
-    end
-
-    class NoError
-    end
-
     class TypeChecker < VisitorPattern::BaseVisitor
       def initialize
         @types = {}
