@@ -1,16 +1,15 @@
-require_relative "../visitor_pattern/visitable"
-
 module QL
   module AST
- 
     class BinaryExpression
-      include Visitable
-      
       attr_reader :lhs, :rhs
 
       def initialize(lhs, rhs)
         @lhs = lhs
         @rhs = rhs
+      end
+
+      def accept(visitor)
+        visitor.visit_binary_expression(self)
       end
     end
 

@@ -7,7 +7,7 @@ module QL
     class DuplicateLabelChecker
       # gedraagt zich als een visitor
 
-      def visit(base)
+      def visit_form(base)
         labels = base.accept(VisitorPattern::QuestionVisitor.new).map(&:description)
 
         duplicates(labels).map { |label| Error.new("Duplicate label: #{label}.") }

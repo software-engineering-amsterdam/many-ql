@@ -1,11 +1,11 @@
-require_relative "../visitor_pattern/visitable"
-
 module QL
   module AST
     class Variable
-      include Visitable
-
       attr_reader :name
+
+      def accept(visitor)
+        visitor.visit_variable(self)
+      end
 
       def initialize(name)
         @name = name
