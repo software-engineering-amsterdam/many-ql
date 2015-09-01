@@ -12,6 +12,30 @@ module QL
       #   gsub(/([a-z\d])([A-Z])/,'\1_\2').
       #   downcase
       # end
+
+      def visit_statement(statement)
+        if statement.kind_of?(QL::AST::Question)
+          visit_question(statement)
+        elsif statement.kind_of?(QL::AST::ComputedQuestion)
+          visit_computed_question(statement)
+        elsif statement.kind_of?(QL::AST::IfElse)
+          visit_if_else(statement)
+        else
+          ["snor"]
+        end
+      end
+
+      def visit_expression(expresion)
+        if expresion.kind_of?(QL::AST::BinaryExpression)
+          visit_binary_expression(expresion)
+        elsif expresion.kind_of?(QL::AST::Variable)
+          visit_variable(expresion)
+        elsif expresion.kind_of?(QL::AST::Literal)
+          visit_literal(expresion)
+        else
+          ["snor"]
+        end
+      end
     end
   end
 end

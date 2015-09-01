@@ -11,7 +11,7 @@ module QL
   module GUI
     class QuestionairApp < JRubyFX::Application
       def start(stage)
-        ql = QL.parse("spec/source_files/type_error.ql")
+        ql = QL.parse("spec/source_files/long_query.ql")
 
         check_result = QL.check(ql)
 

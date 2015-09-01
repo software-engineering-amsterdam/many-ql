@@ -20,16 +20,20 @@ module QL
       end
     end
 
-    def visit_statement(statement)
-      if statement.class == QL::AST::Question
-        visit_question(statement)
-      else
-        visit_if_else(statement)
-      end
-    end
+    # def visit_statement(statement)
+    #   if statement.class == QL::AST::Question
+    #     visit_question(statement)
+    #   else
+    #     visit_if_else(statement)
+    #   end
+    # end
 
     def visit_question(question)
       question
+    end
+
+    def visit_computed_question(computed_question)
+      computed_question
     end
 
     def visit_if_else(if_else_statement)

@@ -13,12 +13,18 @@ module QL
         end
       end
 
-      def visit_statement(statement)
-        if statement.class == QL::AST::Question
-          []
-        else
-          visit_if_else(statement)
+      def visit_question(question)
+        []
+      end
+
+      def visit_computed_question(computed_question)
+        errors = []
+
+        unless get_type(computed_question.expression) == computed_question.type
+          errors << Error.new("Invalid type in #{computed_question}: #{get_type(computed_question.expression)} is not a boolean.")
         end
+
+        errors += visit_expression(computed_question.expression)
       end
 
       def visit_if_else(if_else)
@@ -34,15 +40,6 @@ module QL
           visit_statement(statement)
         end
       end
-
-      def visit_expression(expression)
-        if expression.class == QL::AST::BinaryExpression
-          visit_binary_expression(expression)
-        else
-          []
-        end
-      end
-
 
       def visit_binary_expression(expression)
         lhs_type = get_type(expression.lhs)
@@ -64,70 +61,14 @@ module QL
 
         errors
       end
-      #
-      # def visit_and(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_or(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_equal(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_inequal(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_less_than(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_less_than_or_equal_to(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_greater_than(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_greater_than_or_equal_to(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_plus(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_minus(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_multiplication(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_division(expression)
-      #   visit_binary_expression(expression)
-      # end
-      #
-      # def visit_variable(variable)
-      #   []
-      # end
-      #
-      # def visit_integer_literal(literal)
-      #   []
-      # end
-      #
-      # def visit_boolean_literal(literal)
-      #   []
-      # end
-      #
-      # def visit_string_literal(literal)
-      #   []
-      # end
+
+      def visit_variable(variable)
+        []
+      end
+
+      def visit_literal(literal)
+        []
+      end
 
       def get_type(expression)
         if expression.is_a?(AST::Variable)

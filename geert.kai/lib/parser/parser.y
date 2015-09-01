@@ -3,7 +3,7 @@ prechigh
   left     '*' '/'
   left     '+' '-'
   nonassoc '==' '!=' '<=' '<' '>=' '>'
-  nonassoc '&&' '||' 
+  nonassoc '&&' '||'
 preclow
 
 token STRING VARIABLE_NAME INTEGER
@@ -17,17 +17,21 @@ rule
     ;
   statement
     : question
+    | computed_question
     | conditional
     ;
   question
     : description variable_name ':' type { result = Question.new(val[0], val[1], val[3]) }
+    ;
+  computed_question
+    : description expression ':' type { result = ComputedQuestion.new(val[0], val[1], val[3]) }
     ;
   description
     # TODO: get rid of double quotes in a nicer way.
     : STRING { result = val[0][1..-2] }
     ;
   variable_name
-    : VARIABLE_NAME 
+    : VARIABLE_NAME
     ;
   type
     : 'boolean' { result = BooleanType.new }
@@ -69,7 +73,7 @@ rule
     | string
     | boolean
     ;
- 
+
   integer
     : INTEGER { result = IntegerLiteral.new(val[0].to_i) }
     ;
@@ -78,7 +82,7 @@ rule
     : STRING { result = StringLiteral.new(val[0][1..-2]) }
     ;
   boolean
-    : 'true' { result = BooleanLiteral.new(true) } 
+    : 'true' { result = BooleanLiteral.new(true) }
     | 'false' { result = BooleanLiteral.new(false) }
     ;
 end
@@ -90,9 +94,10 @@ end
   require_relative "../ast/if_else"
   require_relative "../ast/literals"
   require_relative "../ast/question"
+  require_relative "../ast/computed_question"
   require_relative "../ast/types"
   require_relative "../ast/variable"
-  
+
   include QL::AST
 
 
