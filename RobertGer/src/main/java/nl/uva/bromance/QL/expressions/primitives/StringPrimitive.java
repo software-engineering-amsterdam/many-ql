@@ -31,7 +31,23 @@ public class StringPrimitive extends Primitive {
     public void drawQuestion(VBox questionArea, QLGUI qlGui) {
         TextField textField = new TextField();
         textField.getStyleClass().add("question");
-        textField.setMaxWidth(630);
+        textField.maxWidth(630);
+        if (value != null) {
+            textField.setText(value);
+        }
+        if (qlGui.getFocusUuid() == uuid)
+            qlGui.setFocusedNode(textField);
+
+        textField.positionCaret(textField.getLength());
+        // Disable any input other than numbers
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() == 0) {
+                value = null;
+            } else {
+                value = newValue;
+            }
+            qlGui.renderWithFocus(uuid);
+        });
         questionArea.getChildren().add(textField);
     }
 }

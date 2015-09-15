@@ -35,6 +35,17 @@ public class BooleanPrimitive extends Primitive {
         CheckBox cb = new CheckBox();
         cb.getStyleClass().add("question");
         questionArea.getChildren().add(cb);
+
+        if (qlGui.getFocusUuid() == uuid)
+            qlGui.setFocusedNode(cb);
+
+        // Disable any input other than numbers
+        /*cb.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            value = newValue;
+            qlGui.renderWithFocus(uuid);
+        });*/
+
+        questionArea.getChildren().add(cb);
     }
 
     public void invert()

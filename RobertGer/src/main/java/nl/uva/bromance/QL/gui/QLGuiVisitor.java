@@ -16,7 +16,7 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
     Map<String, Primitive> answerMap;
     QLGUI qlGui;
 
-    public QLGuiVisitor(VBox questionArea, Map<String ,Primitive> answerMap, QLGUI qlgui){
+    public QLGuiVisitor(VBox questionArea, Map<String ,Primitive> answerMap, QLGUI qlGui){
         this.questionArea = questionArea;
         this.answerMap = answerMap;
         this.qlGui = qlGui;

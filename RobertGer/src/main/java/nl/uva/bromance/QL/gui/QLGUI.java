@@ -1,9 +1,11 @@
 package nl.uva.bromance.QL.gui;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -26,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 
 public class QLGUI {
 
@@ -35,12 +38,15 @@ public class QLGUI {
     private String stylesheets;
     private boolean debug;
     private Map<String, Primitive> answerMap;
+    private UUID focusUuid;
+    private Node focusedNode;
 
     public QLGUI(Stage stage,String stylesheets,Boolean debug){
         this.stage = stage;
         this.ast = null;
         this.stylesheets = stylesheets;
         this.debug = debug;
+        this.focusUuid = null;
         MenuBar menuBar = createMenuBar();
         createBaseView();
     }
@@ -122,11 +128,28 @@ public class QLGUI {
     }
 
     public void render(){
-        if (ast != null)
-        {
+        renderWithFocus(null);
+    }
+
+    public void renderWithFocus(UUID uuid) {
+        this.focusUuid = uuid;
+        if (ast != null) {
+            questionArea.getChildren().clear();
             QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this);
             ast.getRoot().accept(visitor);
+            if (this.focusedNode != null)
+                this.focusedNode.requestFocus();
+            stage.show();
         }
-        stage.show();
+    }
+
+    public UUID getFocusUuid()
+    {
+        return this.focusUuid;
+    }
+
+    public void setFocusedNode(Node node)
+    {
+        this.focusedNode = node;
     }
 }

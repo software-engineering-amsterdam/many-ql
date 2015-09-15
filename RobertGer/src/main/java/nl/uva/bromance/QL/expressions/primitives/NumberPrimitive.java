@@ -10,9 +10,9 @@ import nl.uva.bromance.QL.gui.QLGUI;
  */
 public class NumberPrimitive extends Primitive {
 
-    private int value;
+    private Integer value;
 
-    public NumberPrimitive(int value) {
+    public NumberPrimitive(Integer value) {
         this.value = value;
     }
 
@@ -60,15 +60,23 @@ public class NumberPrimitive extends Primitive {
         TextField textField = new TextField();
         textField.getStyleClass().add("question");
         textField.setMaxWidth(630);
+        if (value != null) {
+            textField.setText(value.toString());
+        }
+        if (qlGui.getFocusUuid() == uuid)
+            qlGui.setFocusedNode(textField);
+
+        textField.positionCaret(textField.getLength());
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]*")) {
                 textField.setText(oldValue);
             } else if (newValue.length() == 0) {
-                value = 0;
+                value = null;
             } else {
                 value = Integer.parseInt(newValue);
             }
+            qlGui.renderWithFocus(uuid);
         });
         questionArea.getChildren().add(textField);
     }

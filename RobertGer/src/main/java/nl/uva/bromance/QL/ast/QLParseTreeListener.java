@@ -192,7 +192,7 @@ public class QLParseTreeListener extends QLBaseListener {
         String identifier = identifiersStack.pop();
         switch (ctx.type.getText()) {
             case "integer":
-                identifiers.put(identifier, new NumberPrimitive(0));
+                identifiers.put(identifier, new NumberPrimitive(null));
                 break;
             case "string":
                 identifiers.put(identifier, new StringPrimitive(""));
