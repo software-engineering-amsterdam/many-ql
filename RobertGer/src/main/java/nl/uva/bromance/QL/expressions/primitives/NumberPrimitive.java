@@ -1,6 +1,9 @@
 package nl.uva.bromance.QL.expressions.primitives;
 
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.gui.QLGUI;
 
 /**
  * Created by Robert on 31-5-2015.
@@ -50,5 +53,23 @@ public class NumberPrimitive extends Primitive {
     @Override
     public Primitive evaluate() {
         return this;
+    }
+
+    @Override
+    public void drawQuestion(VBox questionArea, QLGUI qlGui) {
+        TextField textField = new TextField();
+        textField.getStyleClass().add("question");
+        textField.setMaxWidth(630);
+        // Disable any input other than numbers
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]*")) {
+                textField.setText(oldValue);
+            } else if (newValue.length() == 0) {
+                value = 0;
+            } else {
+                value = Integer.parseInt(newValue);
+            }
+        });
+        questionArea.getChildren().add(textField);
     }
 }

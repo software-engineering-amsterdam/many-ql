@@ -15,6 +15,9 @@ public class AST<NODETYPE extends Node<NODETYPE>> {
         this.identifiers = identifiers;
     }
 
+    public Map<String, Primitive> getIdentifierMap(){
+        return this.identifiers;
+    }
 
     public NODETYPE getRoot() {
         return root;

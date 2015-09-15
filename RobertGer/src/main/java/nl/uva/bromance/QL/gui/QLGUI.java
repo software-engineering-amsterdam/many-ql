@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import nl.uva.bromance.QL.ast.AST;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLParseTreeListener;
+import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Map;
 
 public class QLGUI {
 
@@ -32,6 +34,7 @@ public class QLGUI {
     private VBox questionArea;
     private String stylesheets;
     private boolean debug;
+    private Map<String, Primitive> answerMap;
 
     public QLGUI(Stage stage,String stylesheets,Boolean debug){
         this.stage = stage;
@@ -44,8 +47,12 @@ public class QLGUI {
 
     private void createBaseView() {
         VBox rootBox = new VBox();
-        questionArea = new VBox();
+        rootBox.setMaxWidth(650);
+        rootBox.setMinWidth(650);
+        rootBox.setMinHeight(800);
+        rootBox.setMaxHeight(800);
 
+        questionArea = new VBox();
         Scene scene = new Scene(rootBox, 650, 800);
 
         MenuBar menuBar = createMenuBar();
@@ -86,6 +93,7 @@ public class QLGUI {
                     AST<QLNode> qlAst = qlListener.getAST();
                     if (qlAst != null) {
                         this.ast = qlAst;
+                        this.answerMap = qlListener.getIdentifierMap();
                         createBaseView();
                         render();
                     }
@@ -114,9 +122,11 @@ public class QLGUI {
     }
 
     public void render(){
-        QLGuiVisitor visitor = new QLGuiVisitor(questionArea);
         if (ast != null)
+        {
+            QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this);
             ast.getRoot().accept(visitor);
+        }
         stage.show();
     }
 }

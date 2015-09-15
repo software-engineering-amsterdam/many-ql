@@ -1,6 +1,9 @@
 package nl.uva.bromance.QL.expressions.primitives;
 
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.gui.QLGUI;
 
 public class BooleanPrimitive extends Primitive {
 
@@ -10,7 +13,7 @@ public class BooleanPrimitive extends Primitive {
         return value;
     }
 
-    public  BooleanPrimitive(boolean value){
+    public BooleanPrimitive(boolean value){
         this.value = value;
     }
 
@@ -25,6 +28,13 @@ public class BooleanPrimitive extends Primitive {
     @Override
     public BooleanPrimitive isEqual(Primitive rhs) {
         return new BooleanPrimitive(value == ((BooleanPrimitive)rhs).getValue());
+    }
+
+    @Override
+    public void drawQuestion(VBox questionArea, QLGUI qlGui) {
+        CheckBox cb = new CheckBox();
+        cb.getStyleClass().add("question");
+        questionArea.getChildren().add(cb);
     }
 
     public void invert()

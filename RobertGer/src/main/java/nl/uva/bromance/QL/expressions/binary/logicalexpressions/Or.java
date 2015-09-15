@@ -3,7 +3,6 @@ package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
-import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 /**
  * Created by Robert on 31-5-2015.

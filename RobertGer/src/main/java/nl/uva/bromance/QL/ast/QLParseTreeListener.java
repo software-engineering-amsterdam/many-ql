@@ -36,6 +36,10 @@ public class QLParseTreeListener extends QLBaseListener {
         return ast;
     }
 
+    public Map<String, Primitive> getIdentifierMap(){
+        return this.identifiers;
+    }
+
     @Override
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
         String identifier = ctx.identifier.getText().replace("\"", "");

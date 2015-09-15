@@ -6,13 +6,20 @@ import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.expressions.unary.Primitive;
+
+import java.util.Map;
 
 class QLGuiVisitor implements QLNodeVisitorInterface {
 
     VBox questionArea = null;
+    Map<String, Primitive> answerMap;
+    QLGUI qlGui;
 
-    public QLGuiVisitor(VBox questionArea){
+    public QLGuiVisitor(VBox questionArea, Map<String ,Primitive> answerMap, QLGUI qlgui){
         this.questionArea = questionArea;
+        this.answerMap = answerMap;
+        this.qlGui = qlGui;
     }
 
     @Override
@@ -31,7 +38,9 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
     public void visit(Question question) {
         javafx.scene.control.Label label = new javafx.scene.control.Label(question.getText());
         label.getStyleClass().add("question");
+        Primitive questionPrimitive = answerMap.get(question.getIdentifier());
         questionArea.getChildren().add(label);
+        questionPrimitive.drawQuestion(questionArea, qlGui);
     }
 
     @Override

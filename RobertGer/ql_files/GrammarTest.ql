@@ -12,7 +12,7 @@ Name: "Tax" {
         }
         Question: "age" {
             Text: "How old are you?"
-            Answer: Integer
+            Answer: integer
             Range: 0 - 150
         }
     }
@@ -61,7 +61,7 @@ Name: "Tax" {
             }
             Question: "age" {
                 Text: "How old are you?"
-                Answer: Integer
+                Answer: integer
                 Range: 0 - 150
             }
         }
