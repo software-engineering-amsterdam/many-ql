@@ -1,5 +1,6 @@
 package nl.uva.bromance.QL.ast;
 
+import nl.uva.bromance.QL.ast.exceptions.DuplicateQuestionIdentifierException;
 import nl.uva.bromance.QL.ast.nodes.*;
 import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.ElseIf;
@@ -16,9 +17,7 @@ import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.grammar.QL.QLBaseListener;
 import nl.uva.bromance.grammar.QL.QLParser;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class QLParseTreeListener extends QLBaseListener {
 
@@ -27,6 +26,7 @@ public class QLParseTreeListener extends QLBaseListener {
     private Stack<String> identifiersStack = new Stack<>();
     private Stack<Evaluable> expressions = new Stack<>();
     private Map<String, Primitive> identifiers = new HashMap<>();
+    private List<Exception> exceptions = new ArrayList<>();
 
     // Here to differentiate on where to add labelText
     private boolean isQuestion;
@@ -72,13 +72,21 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     @Override
-    public void enterQuestion(QLParser.QuestionContext ctx) {
+    public void enterQuestion(QLParser.QuestionContext ctx)  {
         String identifier =
                 removeQuotations(ctx.identifier.getText());
+        checkIdentifier(identifier, ctx);
         identifiersStack.push(identifier);
         Question question = new Question(identifier, ctx.start.getLine());
         nodeStack.push(question);
         isQuestion = true;
+    }
+
+    private void checkIdentifier(String identifier, QLParser.QuestionContext ctx) {
+        if(identifiers.get(identifier) != null )
+        {
+            exceptions.add( new DuplicateQuestionIdentifierException("Apparently you have defined identical identifiers named: "+identifier+". Please look at line: "+ctx.start.getLine()));
+        }
     }
 
     @Override
