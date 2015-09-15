@@ -1,17 +1,29 @@
 package nl.uva.bromance.QL.gui;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nl.uva.bromance.QL.ast.AST;
 import nl.uva.bromance.QL.ast.QLNode;
+import nl.uva.bromance.QL.ast.QLParseTreeListener;
+import nl.uva.bromance.grammar.QL.QLLexer;
+import nl.uva.bromance.grammar.QL.QLParser;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
+import javax.swing.*;
 import java.io.File;
-import java.util.Optional;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Arrays;
 
 public class QLGUI {
 
@@ -19,11 +31,13 @@ public class QLGUI {
     private Stage stage;
     private VBox questionArea;
     private String stylesheets;
+    private boolean debug;
 
-    public QLGUI(Stage stage,String stylesheets, AST<QLNode> ast){
+    public QLGUI(Stage stage,String stylesheets,Boolean debug){
         this.stage = stage;
-        this.ast = ast;
+        this.ast = null;
         this.stylesheets = stylesheets;
+        this.debug = debug;
         MenuBar menuBar = createMenuBar();
         createBaseView();
     }
@@ -36,7 +50,7 @@ public class QLGUI {
 
         MenuBar menuBar = createMenuBar();
 
-        rootBox.getChildren().addAll(menuBar,questionArea);
+        rootBox.getChildren().addAll(menuBar, questionArea);
 
         scene.getStylesheets().add(stylesheets);
         stage.setScene(scene);
@@ -60,33 +74,49 @@ public class QLGUI {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 String qlPath = file.getAbsolutePath();
-                String qlsPath = file.getAbsolutePath().replace(".ql", ".qls");
-
                 try {
-                    /*
-                    AST<QLNode> qlAst = createQlAst(qlPath);
-                    vis = new Visualizer();
-                    pages.getChildren().clear();
-                    questions.getChildren().clear();
+                    InputStream is = new FileInputStream(qlPath);
+                    QLLexer lexer = new QLLexer(new ANTLRInputStream(is));
+                    TokenStream tokenStream = new CommonTokenStream(lexer);
+                    QLParser parser = new QLParser(tokenStream);
+                    ParseTree tree = parser.questionnaire();
+                    QLParseTreeListener qlListener = new QLParseTreeListener();
+                    ParseTreeWalker qlWalker = new ParseTreeWalker();
+                    qlWalker.walk(qlListener, tree);
+                    AST<QLNode> qlAst = qlListener.getAST();
                     if (qlAst != null) {
-                        AST<QLSNode> qlsAst = createQlsAst(qlsPath, qlAst);
-                        if (qlsAst != null) {
-                            vis.setQlsAst(qlsAst);
-                        }
-                        vis.render(qlAst, pages, questions);
+                        this.ast = qlAst;
+                        createBaseView();
+                        render();
                     }
-                    */
-                    // TODO FIX Pokemon Exception Handling
+                    if (debug)
+                        showDebugWindow(tree, parser);
                 } catch (Exception e) {
-                    System.err.println("Got error : "+e.getMessage());
+                    System.err.println("Got error opening file : " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
     }
+    private void showDebugWindow(ParseTree tree, QLParser parser){
+        //show AST in GUI
+        JFrame frame = new JFrame("Antlr AST");
+        JPanel panel = new JPanel();
+        JScrollPane pane = new JScrollPane(panel);
+        TreeViewer viewer = new TreeViewer(Arrays.asList(
+                parser.getRuleNames()), tree);
+        viewer.setScale(1.5);//scale a little
+        panel.add(viewer);
+        frame.getContentPane().add(pane);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 1000);
+        frame.setVisible(true);
+    }
 
     public void render(){
         QLGuiVisitor visitor = new QLGuiVisitor(questionArea);
-        ast.getRoot().accept(visitor);
+        if (ast != null)
+            ast.getRoot().accept(visitor);
         stage.show();
     }
 }
