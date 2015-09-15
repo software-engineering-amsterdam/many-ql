@@ -6,10 +6,7 @@ import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
-/**
- * Created by Robert on 31-5-2015.
- */
-public class BiggerThanOrEqual extends BinaryExpression {
+public class BiggerThanOrEqual extends LogicalExpression {
     public BiggerThanOrEqual(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

@@ -4,7 +4,7 @@ import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 
-public class Subtraction extends BinaryExpression {
+public class Subtraction extends ArithemeticExpression {
     public Subtraction(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

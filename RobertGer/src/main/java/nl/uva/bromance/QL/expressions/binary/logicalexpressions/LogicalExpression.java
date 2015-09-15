@@ -5,15 +5,14 @@ import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
-public class NotEqualTo extends LogicalExpression {
-    public NotEqualTo(Evaluable lhs, Evaluable rhs) {
+public class LogicalExpression extends BinaryExpression{
+
+    public LogicalExpression(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }
 
     @Override
     public BooleanPrimitive evaluate() {
-        Primitive lhs = this.lhs.evaluate();
-        Primitive rhs = this.rhs.evaluate();
-        return lhs.isNotEqual(rhs);
+        return null;
     }
 }

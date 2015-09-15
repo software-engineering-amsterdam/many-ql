@@ -5,10 +5,7 @@ import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
-/**
- * Created by Robert on 31-5-2015.
- */
-public class Or extends BinaryExpression {
+public class Or extends LogicalExpression {
     public Or(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

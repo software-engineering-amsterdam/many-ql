@@ -4,9 +4,6 @@ import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.Expression;
 
-/**
- * Created by Robert on 31-5-2015.
- */
 public abstract class BinaryExpression implements Expression {
     protected Evaluable lhs;
     protected Evaluable rhs;

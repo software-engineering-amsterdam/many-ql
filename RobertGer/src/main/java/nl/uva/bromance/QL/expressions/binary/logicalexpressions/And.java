@@ -5,7 +5,7 @@ import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
-public class And extends BinaryExpression {
+public class And extends LogicalExpression {
     public And(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

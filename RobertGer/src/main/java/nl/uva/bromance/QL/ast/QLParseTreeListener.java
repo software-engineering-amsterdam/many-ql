@@ -1,8 +1,9 @@
 package nl.uva.bromance.QL.ast;
 
-import nl.uva.bromance.QL.ast.nodes.Form;
-import nl.uva.bromance.QL.ast.nodes.Question;
-import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.ast.nodes.*;
+import nl.uva.bromance.QL.controlstructures.Else;
+import nl.uva.bromance.QL.controlstructures.ElseIf;
+import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.binary.arithmetic.*;
@@ -36,6 +37,10 @@ public class QLParseTreeListener extends QLBaseListener {
         return ast;
     }
 
+    public Stack<Evaluable> getExpressions() {
+        return expressions;
+    }
+
     @Override
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
         String identifier = ctx.identifier.getText().replace("\"", "");
@@ -45,13 +50,13 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-
         ast = new AST(nodeStack.pop(), identifiers);
+        getExpressions();
     }
 
     @Override
     public void enterForm(QLParser.FormContext ctx) {
-        String identifier = ctx.identifier.getText().replace("\"", "");
+        String identifier = removeQuotations(ctx.identifier.getText());
         Form form = new Form(identifier, ctx.start.getLine());
         nodeStack.push(form);
     }
@@ -64,7 +69,8 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterQuestion(QLParser.QuestionContext ctx) {
-        String identifier = ctx.identifier.getText().replace("\"", "");
+        String identifier =
+                removeQuotations(ctx.identifier.getText());
         identifiersStack.push(identifier);
         Question question = new Question(identifier, ctx.start.getLine());
         nodeStack.push(question);
@@ -81,29 +87,33 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterCalculation(QLParser.CalculationContext ctx) {
-
+        Calculation calc = new Calculation(ctx.start.getLine());
+        nodeStack.push(calc);
     }
 
     @Override
     public void exitCalculation(QLParser.CalculationContext ctx) {
-
+        Calculation calc = (Calculation) nodeStack.pop();
+        nodeStack.peek().addChild(calc);
     }
 
     @Override
     public void enterLabel(QLParser.LabelContext ctx) {
-
+        Label label = new Label(ctx.start.getLine(), removeQuotations(ctx.identifier.getText()));
+        nodeStack.push(label);
     }
 
     @Override
     public void exitLabel(QLParser.LabelContext ctx) {
-
+        Label label = (Label) nodeStack.pop();
+        nodeStack.peek().addChild(label);
     }
 
     @Override
     public void enterTextLabel(QLParser.TextLabelContext ctx) {
         if (isQuestion) {
             Question q = (Question) nodeStack.peek();
-            q.setText(ctx.identifier.getText().replace("\"", ""));
+            q.setText(removeQuotations(ctx.identifier.getText()));
         }
     }
 
@@ -118,7 +128,8 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitInput(QLParser.InputContext ctx) {
-
+        Input input = new Input(ctx.start.getLine(), expressions.pop());
+        nodeStack.peek().addChild(input);
     }
 
     @Override
@@ -138,27 +149,38 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
+        If iff = (If) nodeStack.pop();
+        nodeStack.peek().addChild(iff);
+    }
 
+    @Override
+    public void exitIfCondition(QLParser.IfConditionContext ctx) {
+        If iff = new If(ctx.start.getLine(), (LogicalExpression) expressions.pop());
+        nodeStack.push(iff);
     }
 
     @Override
     public void enterElseStatement(QLParser.ElseStatementContext ctx) {
-
+        Else _else = new Else(ctx.start.getLine());
+        nodeStack.push(_else);
     }
 
     @Override
     public void exitElseStatement(QLParser.ElseStatementContext ctx) {
-
+        Else _else = (Else) nodeStack.pop();
+        nodeStack.peek().addChild(_else);
     }
 
     @Override
-    public void enterElseIfStatement(QLParser.ElseIfStatementContext ctx) {
-
+    public void exitElseIfCondition(QLParser.ElseIfConditionContext ctx) {
+        ElseIf eif = new ElseIf(ctx.start.getLine(), (LogicalExpression) expressions.pop());
+        nodeStack.push(eif);
     }
 
     @Override
     public void exitElseIfStatement(QLParser.ElseIfStatementContext ctx) {
-
+        ElseIf eif = (ElseIf) nodeStack.pop();
+        nodeStack.peek().addChild(eif);
     }
 
     @Override
@@ -244,7 +266,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitVariable(QLParser.VariableContext ctx) {
-        String identifier = ctx.identifier.getText().replace("\"", "");
+        String identifier = removeQuotations(ctx.identifier.getText());
         Variable v = new Variable(identifier, ctx.start.getLine());
         expressions.push(v);
     }
@@ -262,9 +284,14 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     @Override
+    public void enterInteger(QLParser.IntegerContext ctx) {
+        expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText())));
+    }
+
+    @Override
     public void exitArithmeticExpression(QLParser.ArithmeticExpressionContext ctx) {
         if (ctx.operator != null) {
-            BinaryExpression expression = null;
+            Evaluable expression = null;
             Evaluable right = expressions.pop();
             Evaluable left = expressions.pop();
 
@@ -327,5 +354,9 @@ public class QLParseTreeListener extends QLBaseListener {
             }
             this.expressions.push(expression);
         }
+    }
+
+    private String removeQuotations(String string) {
+        return string.replace("\"", "");
     }
 }

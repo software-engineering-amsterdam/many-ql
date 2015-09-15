@@ -4,15 +4,16 @@ import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 
-public class Multiplication extends ArithemeticExpression {
-    public Multiplication(Evaluable lhs, Evaluable rhs) {
+/**
+ * Created by Robert on 9/15/2015.
+ */
+public class ArithemeticExpression extends BinaryExpression {
+    public ArithemeticExpression(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }
 
     @Override
     public NumberPrimitive evaluate() {
-        NumberPrimitive lhs =  (NumberPrimitive) this.lhs.evaluate();
-        NumberPrimitive rhs =  (NumberPrimitive) this.rhs.evaluate();
-        return lhs.multiplication(rhs);
+        return null;
     }
 }
