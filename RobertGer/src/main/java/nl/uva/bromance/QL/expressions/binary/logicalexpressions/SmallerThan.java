@@ -5,10 +5,7 @@ import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 
-/**
- * Created by Robert on 31-5-2015.
- */
-public class SmallerThan extends BinaryExpression {
+public class SmallerThan extends LogicalExpression {
     public SmallerThan(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

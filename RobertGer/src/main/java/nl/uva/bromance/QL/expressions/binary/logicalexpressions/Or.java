@@ -4,10 +4,7 @@ import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 
-/**
- * Created by Robert on 31-5-2015.
- */
-public class Or extends BinaryExpression {
+public class Or extends LogicalExpression {
     public Or(Evaluable lhs, Evaluable rhs) {
         super(lhs, rhs);
     }

@@ -26,13 +26,20 @@ ifSequence:
     ifStatement (elseIfStatement)* (elseStatement)?;
 
 ifStatement:
-    'If:' expression statementContent;
+    'If:' ifCondition statementContent;
+
+ifCondition:
+    expression;
 
 elseStatement:
     'Else:' statementContent;
 
 elseIfStatement:
-    'Else If:' expression statementContent;
+    'Else If:' elseIfCondition statementContent;
+
+elseIfCondition:
+    expression;
+
 
 //Bodies
 questionnaireContent:
@@ -88,6 +95,8 @@ variable:
 primitive:
     value= (STRING | NUMBER);
 
+integer:
+    value=NUMBER;
 
 //Expressions
 
@@ -103,9 +112,8 @@ binaryExpression:
      arithmeticExpression
     | logicalExpression;
 
-
 arithmeticExpression:
-      NUMBER
+      integer
     | variable
     | '(' arithmeticExpression ')'
     | lhs=arithmeticExpression operator=(MULTIPLICATION|DIVISION) rhs=arithmeticExpression
