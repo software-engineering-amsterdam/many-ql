@@ -9,7 +9,8 @@ public class StringPrimitive extends Primitive {
 
     private String value;
 
-    public StringPrimitive(String value) {
+    public StringPrimitive(String value, int lineNumber) {
+        super(lineNumber);
         this.value = value;
     }
 
@@ -18,8 +19,8 @@ public class StringPrimitive extends Primitive {
     }
 
     @Override
-    public BooleanPrimitive isEqual(Primitive rhs) {
-        return new BooleanPrimitive(value.equals(((StringPrimitive) rhs).getValue()));
+    public BooleanPrimitive isEqual(Primitive rhs,int lineNumber) {
+        return new BooleanPrimitive(value.equals(((StringPrimitive) rhs).getValue()), lineNumber);
     }
 
     @Override

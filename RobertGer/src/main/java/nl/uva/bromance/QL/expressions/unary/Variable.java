@@ -1,8 +1,7 @@
 package nl.uva.bromance.QL.expressions.unary;
 
-import nl.uva.bromance.QL.ast.QLNode;
 
-public class Variable extends QLNode implements UnaryExpression {
+public class Variable extends UnaryExpression {
 
     public String identifier;
 
@@ -13,6 +12,6 @@ public class Variable extends QLNode implements UnaryExpression {
 
     @Override
     public Primitive evaluate() {
-        return null; //TODO: Look up the identifier of this variabel in the identifier map.
+        return null; //TODO: Look up the identifier of this variabel in the lookuptable.
     }
 }

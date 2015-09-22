@@ -6,14 +6,14 @@ import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 
 public class SmallerThanOrEqual extends LogicalExpression {
-    public SmallerThanOrEqual(Evaluable lhs, Evaluable rhs) {
-        super(lhs, rhs);
+    public SmallerThanOrEqual(Evaluable lhs, Evaluable rhs, int lineNumber) {
+        super(lhs, rhs, lineNumber);
     }
 
     @Override
     public BooleanPrimitive evaluate() {
         NumberPrimitive lhs =  (NumberPrimitive) this.lhs.evaluate();
         NumberPrimitive rhs =  (NumberPrimitive) this.rhs.evaluate();
-        return lhs.smallerThanOrEqual(rhs);
+        return lhs.smallerThanOrEqual(rhs, getLineNumber());
     }
 }

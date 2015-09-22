@@ -1,6 +1,5 @@
 package nl.uva.bromance.QL.ast;
 
-import nl.uva.bromance.QL.ast.exceptions.DuplicateQuestionIdentifierException;
 import nl.uva.bromance.QL.ast.nodes.*;
 import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.ElseIf;
@@ -16,6 +15,7 @@ import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.grammar.QL.QLBaseListener;
 import nl.uva.bromance.grammar.QL.QLParser;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.*;
 
@@ -25,8 +25,7 @@ public class QLParseTreeListener extends QLBaseListener {
     private Stack<QLNode> nodeStack = new Stack<>();
     private Stack<String> identifiersStack = new Stack<>();
     private Stack<Evaluable> expressions = new Stack<>();
-    private Map<String, Primitive> identifiers = new HashMap<>();
-    private List<Exception> exceptions = new ArrayList<>();
+    private Map<String, Primitive> valueMap = new HashMap<>();
 
     // Here to differentiate on where to add labelText
     private boolean isQuestion;
@@ -38,7 +37,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public Map<String, Primitive> getIdentifierMap(){
-        return this.identifiers;
+        return this.valueMap;
     }
     
     public Stack<Evaluable> getExpressions() {
@@ -48,20 +47,20 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
         String identifier = ctx.identifier.getText().replace("\"", "");
-        Questionnaire questionnaire = new Questionnaire(identifier, ctx.start.getLine());
+        Questionnaire questionnaire = new Questionnaire(identifier, getLine(ctx));
         nodeStack.push(questionnaire);
     }
 
     @Override
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-        ast = new AST(nodeStack.pop(), identifiers);
+        ast = new AST(nodeStack.pop(), valueMap);
         getExpressions();
     }
 
     @Override
     public void enterForm(QLParser.FormContext ctx) {
         String identifier = removeQuotations(ctx.identifier.getText());
-        Form form = new Form(identifier, ctx.start.getLine());
+        Form form = new Form(identifier, getLine(ctx));
         nodeStack.push(form);
     }
 
@@ -75,31 +74,23 @@ public class QLParseTreeListener extends QLBaseListener {
     public void enterQuestion(QLParser.QuestionContext ctx)  {
         String identifier =
                 removeQuotations(ctx.identifier.getText());
-        checkIdentifier(identifier, ctx);
         identifiersStack.push(identifier);
-        Question question = new Question(identifier, ctx.start.getLine());
+        Question question = new Question(identifier, getLine(ctx));
         nodeStack.push(question);
         isQuestion = true;
-    }
-
-    private void checkIdentifier(String identifier, QLParser.QuestionContext ctx) {
-        if(identifiers.get(identifier) != null )
-        {
-            exceptions.add( new DuplicateQuestionIdentifierException("Apparently you have defined identical identifiers named: "+identifier+". Please look at line: "+ctx.start.getLine()));
-        }
     }
 
     @Override
     public void exitQuestion(QLParser.QuestionContext ctx) {
         Question q = (Question) nodeStack.pop();
-        q.setType(identifiers.get(q.getIdentifier()));
+        q.setType(valueMap.get(q.getIdentifier()));
         nodeStack.peek().addChild(q);
         isQuestion = false;
     }
 
     @Override
     public void enterCalculation(QLParser.CalculationContext ctx) {
-        Calculation calc = new Calculation(ctx.start.getLine());
+        Calculation calc = new Calculation(getLine(ctx));
         nodeStack.push(calc);
     }
 
@@ -167,7 +158,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitIfCondition(QLParser.IfConditionContext ctx) {
-        If iff = new If(ctx.start.getLine(), (LogicalExpression) expressions.pop());
+        If iff = new If(getLine(ctx), (LogicalExpression) expressions.pop());
         nodeStack.push(iff);
     }
 
@@ -185,7 +176,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitElseIfCondition(QLParser.ElseIfConditionContext ctx) {
-        ElseIf eif = new ElseIf(ctx.start.getLine(), (LogicalExpression) expressions.pop());
+        ElseIf eif = new ElseIf(getLine(ctx), (LogicalExpression) expressions.pop());
         nodeStack.push(eif);
     }
 
@@ -198,15 +189,16 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void enterQuestionAnswerSimple(QLParser.QuestionAnswerSimpleContext ctx) {
         String identifier = identifiersStack.pop();
+        int line = getLine(ctx);
         switch (ctx.type.getText()) {
             case "integer":
-                identifiers.put(identifier, new NumberPrimitive(null));
+                valueMap.put(identifier, new NumberPrimitive(0, line));
                 break;
             case "string":
-                identifiers.put(identifier, new StringPrimitive(""));
+                valueMap.put(identifier, new StringPrimitive("",line));
                 break;
             case "boolean":
-                identifiers.put(identifier, new BooleanPrimitive(false));
+                valueMap.put(identifier, new BooleanPrimitive(false,line));
                 break;
             default:
                 break;
@@ -217,8 +209,8 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
         String identifier = identifiersStack.pop();
-        Primitive primitive = new StringPrimitive("");
-        identifiers.put(identifier, primitive);
+        Primitive primitive = new StringPrimitive("", getLine(ctx));
+        valueMap.put(identifier, primitive);
     }
 
     @Override
@@ -279,25 +271,26 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitVariable(QLParser.VariableContext ctx) {
         String identifier = removeQuotations(ctx.identifier.getText());
-        Variable v = new Variable(identifier, ctx.start.getLine());
+        Variable v = new Variable(identifier, getLine(ctx));
         expressions.push(v);
     }
 
     @Override
     public void exitPrimitive(QLParser.PrimitiveContext ctx) {
+        int line = getLine(ctx);
         switch (ctx.value.getType()) {
             case QLParser.STRING:
-                expressions.push(new StringPrimitive(ctx.value.getText().replace("\"", "")));
+                expressions.push(new StringPrimitive(ctx.value.getText().replace("\"", ""),line));
                 break;
             case QLParser.NUMBER:
-                expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText())));
+                expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText()),line));
                 break;
         }
     }
 
     @Override
     public void enterInteger(QLParser.IntegerContext ctx) {
-        expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText())));
+        expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText()),getLine(ctx)));
     }
 
     @Override
@@ -307,24 +300,26 @@ public class QLParseTreeListener extends QLBaseListener {
             Evaluable right = expressions.pop();
             Evaluable left = expressions.pop();
 
+            int line = getLine(ctx);
+
             switch (ctx.operator.getType()) {
                 case QLParser.ADDITION:
-                    expression = new Addition(left, right);
+                    expression = new Addition(left, right, line);
                     break;
                 case QLParser.SUBTRACTION:
-                    expression = new Subtraction(left, right);
+                    expression = new Subtraction(left, right, line);
                     break;
                 case QLParser.MULTIPLICATION:
-                    expression = new Multiplication(left, right);
+                    expression = new Multiplication(left, right, line);
                     break;
                 case QLParser.DIVISION:
-                    expression = new Division(left, right);
+                    expression = new Division(left, right, line);
                     break;
                 case QLParser.EQUALTO:
-                    expression = new EqualTo(left, right);
+                    expression = new EqualTo(left, right, line);
                     break;
                 case QLParser.NOTEQUALTO:
-                    expression = new NotEqualTo(left, right);
+                    expression = new NotEqualTo(left, right, line);
                     break;
             }
             this.expressions.push(expression);
@@ -337,31 +332,32 @@ public class QLParseTreeListener extends QLBaseListener {
             BinaryExpression expression = null;
             Evaluable right = expressions.pop();
             Evaluable left = expressions.pop();
+            int line = getLine(ctx);
 
             switch (ctx.operator.getType()) {
                 case QLParser.AND:
-                    expression = new And(left, right);
+                    expression = new And(left, right, line);
                     break;
                 case QLParser.OR:
-                    expression = new Or(left, right);
+                    expression = new Or(left, right, line);
                     break;
                 case QLParser.BIGGERTHANOREQUAL:
-                    expression = new BiggerThanOrEqual(left, right);
+                    expression = new BiggerThanOrEqual(left, right, line);
                     break;
                 case QLParser.BIGGERTHAN:
-                    expression = new BiggerThan(left, right);
+                    expression = new BiggerThan(left, right, line);
                     break;
                 case QLParser.SMALLERTHANOREQUAL:
-                    expression = new SmallerThanOrEqual(left, right);
+                    expression = new SmallerThanOrEqual(left, right, line);
                     break;
                 case QLParser.SMALLERTHAN:
-                    expression = new SmallerThan(left, right);
+                    expression = new SmallerThan(left, right, line);
                     break;
                 case QLParser.EQUALTO:
-                    expression = new EqualTo(left, right);
+                    expression = new EqualTo(left, right, line);
                     break;
                 case QLParser.NOTEQUALTO:
-                    expression = new NotEqualTo(left, right);
+                    expression = new NotEqualTo(left, right, line);
                     break;
             }
             this.expressions.push(expression);
@@ -370,5 +366,9 @@ public class QLParseTreeListener extends QLBaseListener {
 
     private String removeQuotations(String string) {
         return string.replace("\"", "");
+    }
+    private int getLine(ParserRuleContext ctx)
+    {
+        return ctx.start.getLine();
     }
 }

@@ -7,8 +7,8 @@ import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 public class LogicalExpression extends BinaryExpression{
 
-    public LogicalExpression(Evaluable lhs, Evaluable rhs) {
-        super(lhs, rhs);
+    public LogicalExpression(Evaluable lhs, Evaluable rhs, int lineNumber) {
+        super(lhs, rhs, lineNumber);
     }
 
     @Override

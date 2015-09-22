@@ -5,15 +5,13 @@ import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.gui.QLGUI;
 
-/**
- * Created by Robert on 31-5-2015.
- */
 public class NumberPrimitive extends Primitive {
 
     private Integer value;
     private Boolean negative = false;
 
-    public NumberPrimitive(Integer value) {
+    public NumberPrimitive(Integer value, int lineNumber) {
+        super(lineNumber);
         this.value = value;
     }
 
@@ -21,41 +19,41 @@ public class NumberPrimitive extends Primitive {
         return value;
     }
 
-    public NumberPrimitive addition(NumberPrimitive rhs) {
-        return new NumberPrimitive(this.value + rhs.getValue());
+    public NumberPrimitive addition(NumberPrimitive rhs, int lineNumber) {
+        return new NumberPrimitive(this.value + rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive division(NumberPrimitive rhs) {
-        return new NumberPrimitive(this.value / rhs.getValue());
+    public NumberPrimitive division(NumberPrimitive rhs, int lineNumber) {
+        return new NumberPrimitive(this.value / rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive multiplication(NumberPrimitive rhs) {
-        return new NumberPrimitive(this.value * rhs.getValue());
+    public NumberPrimitive multiplication(NumberPrimitive rhs, int lineNumber) {
+        return new NumberPrimitive(this.value * rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive subtraction(NumberPrimitive rhs) {
-        return new NumberPrimitive(this.value - rhs.getValue());
+    public NumberPrimitive subtraction(NumberPrimitive rhs, int lineNumber) {
+        return new NumberPrimitive(this.value - rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs) {
-        return new BooleanPrimitive(this.value >= rhs.getValue());
+    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs, int lineNumber) {
+        return new BooleanPrimitive(this.value >= rhs.getValue(),lineNumber);
     }
 
-    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs) {
-        return new BooleanPrimitive(this.value <= rhs.getValue());
+    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs, int lineNumber) {
+        return new BooleanPrimitive(this.value <= rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive smallerThan(NumberPrimitive rhs) {
-        return new BooleanPrimitive(this.value < rhs.getValue());
+    public BooleanPrimitive smallerThan(NumberPrimitive rhs, int lineNumber) {
+        return new BooleanPrimitive(this.value < rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive biggerThan(NumberPrimitive rhs) {
-        return new BooleanPrimitive(this.value > rhs.getValue());
+    public BooleanPrimitive biggerThan(NumberPrimitive rhs, int lineNumber) {
+        return new BooleanPrimitive(this.value > rhs.getValue(), lineNumber);
     }
 
     @Override
-    public BooleanPrimitive isEqual(Primitive rhs) {
-        return new BooleanPrimitive(value == ((NumberPrimitive) rhs).getValue());
+    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber) {
+        return new BooleanPrimitive(value == ((NumberPrimitive) rhs).getValue(), lineNumber);
     }
 
     @Override

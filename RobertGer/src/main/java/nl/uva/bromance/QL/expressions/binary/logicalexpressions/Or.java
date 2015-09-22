@@ -5,14 +5,14 @@ import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 
 public class Or extends LogicalExpression {
-    public Or(Evaluable lhs, Evaluable rhs) {
-        super(lhs, rhs);
+    public Or(Evaluable lhs, Evaluable rhs, int lineNumber) {
+        super(lhs, rhs, lineNumber);
     }
 
     @Override
     public BooleanPrimitive evaluate() {
         BooleanPrimitive lhs =  (BooleanPrimitive) this.lhs.evaluate();
         BooleanPrimitive rhs =  (BooleanPrimitive) this.rhs.evaluate();
-        return lhs.or(rhs);
+        return lhs.or(rhs, getLineNumber());
     }
 }

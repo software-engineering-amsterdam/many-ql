@@ -4,6 +4,11 @@ package nl.uva.bromance.QL.ast.nodes;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.typechecking.SymbolTable;
+import nl.uva.bromance.QL.typechecking.exceptions.DuplicateQuestionIdentifierException;
+import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
+
+import java.util.Set;
 
 public class Question extends QLNode {
 
@@ -36,6 +41,29 @@ public class Question extends QLNode {
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
+        }
+    }
+
+    public boolean addIdentifierToSet(Set<String> identifiers)
+    {
+        return identifiers.add(this.identifier);
+    }
+
+    public Primitive typeCheck(SymbolTable s) throws TypeCheckingError{
+        Primitive lookup = s.lookup(identifier);
+        if(lookup == null){
+            s.add(identifier, type);
+        }
+        else{
+            compareTypes(lookup);
+        }
+        return s.lookup(identifier);
+    }
+
+    private void compareTypes(Primitive lookup) throws DuplicateQuestionIdentifierException {
+        if(lookup != this.type)
+        {
+            throw new DuplicateQuestionIdentifierException("You have a duplicate question definition with a different type on line: "+ this.getLineNumber());
         }
     }
 }

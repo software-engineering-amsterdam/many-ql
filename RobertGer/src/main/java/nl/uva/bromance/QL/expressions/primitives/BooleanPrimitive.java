@@ -13,21 +13,22 @@ public class BooleanPrimitive extends Primitive {
         return value;
     }
 
-    public BooleanPrimitive(boolean value){
+    public BooleanPrimitive(boolean value, int lineNumber){
+        super(lineNumber);
         this.value = value;
     }
 
-    public BooleanPrimitive or(BooleanPrimitive rhs){
-        return new BooleanPrimitive(this.value || rhs.getValue());
+    public BooleanPrimitive or(BooleanPrimitive rhs, int lineNumber){
+        return new BooleanPrimitive(this.value || rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive and(BooleanPrimitive rhs){
-        return new BooleanPrimitive(this.value && rhs.getValue());
+    public BooleanPrimitive and(BooleanPrimitive rhs, int lineNumber){
+        return new BooleanPrimitive(this.value && rhs.getValue(), lineNumber);
     }
 
     @Override
-    public BooleanPrimitive isEqual(Primitive rhs) {
-        return new BooleanPrimitive(value == ((BooleanPrimitive)rhs).getValue());
+    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber) {
+        return new BooleanPrimitive(value == ((BooleanPrimitive)rhs).getValue(), lineNumber);
     }
 
     @Override

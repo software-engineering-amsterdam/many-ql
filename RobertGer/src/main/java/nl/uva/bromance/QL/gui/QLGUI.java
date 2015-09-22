@@ -13,6 +13,7 @@ import nl.uva.bromance.QL.ast.AST;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLParseTreeListener;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.typechecking.TypeChecker;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -134,8 +136,14 @@ public class QLGUI {
         this.focusUuid = uuid;
         if (ast != null) {
             questionArea.getChildren().clear();
+
+            TypeChecker typeChecker = new TypeChecker();
+            List<Exception> typeCheckingErrors = typeChecker.check(ast.getRoot());
+
             QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this);
             ast.getRoot().accept(visitor);
+
+
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
         }
