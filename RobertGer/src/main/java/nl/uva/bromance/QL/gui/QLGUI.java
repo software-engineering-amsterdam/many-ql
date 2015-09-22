@@ -47,7 +47,6 @@ public class QLGUI {
         this.stylesheets = stylesheets;
         this.debug = debug;
         this.focusUuid = null;
-        MenuBar menuBar = createMenuBar();
         createBaseView();
     }
 
@@ -139,8 +138,8 @@ public class QLGUI {
             ast.getRoot().accept(visitor);
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
-            stage.show();
         }
+        stage.show();
     }
 
     public UUID getFocusUuid()
