@@ -11,6 +11,7 @@ import nl.uva.bromance.QL.gui.QLGUI;
 public class NumberPrimitive extends Primitive {
 
     private Integer value;
+    private Boolean negative = false;
 
     public NumberPrimitive(Integer value) {
         this.value = value;
@@ -23,31 +24,38 @@ public class NumberPrimitive extends Primitive {
     public NumberPrimitive addition(NumberPrimitive rhs) {
         return new NumberPrimitive(this.value + rhs.getValue());
     }
+
     public NumberPrimitive division(NumberPrimitive rhs) {
         return new NumberPrimitive(this.value / rhs.getValue());
     }
+
     public NumberPrimitive multiplication(NumberPrimitive rhs) {
         return new NumberPrimitive(this.value * rhs.getValue());
     }
+
     public NumberPrimitive subtraction(NumberPrimitive rhs) {
         return new NumberPrimitive(this.value - rhs.getValue());
     }
-    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs){
+
+    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs) {
         return new BooleanPrimitive(this.value >= rhs.getValue());
     }
-    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs){
+
+    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs) {
         return new BooleanPrimitive(this.value <= rhs.getValue());
     }
-    public BooleanPrimitive smallerThan(NumberPrimitive rhs){
+
+    public BooleanPrimitive smallerThan(NumberPrimitive rhs) {
         return new BooleanPrimitive(this.value < rhs.getValue());
     }
-    public BooleanPrimitive biggerThan(NumberPrimitive rhs){
+
+    public BooleanPrimitive biggerThan(NumberPrimitive rhs) {
         return new BooleanPrimitive(this.value > rhs.getValue());
     }
 
     @Override
     public BooleanPrimitive isEqual(Primitive rhs) {
-        return new BooleanPrimitive(value == ((NumberPrimitive)rhs).getValue());
+        return new BooleanPrimitive(value == ((NumberPrimitive) rhs).getValue());
     }
 
     @Override
@@ -59,25 +67,42 @@ public class NumberPrimitive extends Primitive {
     public void drawQuestion(VBox questionArea, QLGUI qlGui) {
         TextField textField = new TextField();
         textField.getStyleClass().add("question");
-        textField.setMaxWidth(630);
-        if (value != null) {
+        textField.setMaxWidth(100);
+
+        if (value != null)
             textField.setText(value.toString());
-        }
+        else if (negative)
+            textField.setText("-");
+
         if (qlGui.getFocusUuid() == uuid)
             qlGui.setFocusedNode(textField);
 
         textField.positionCaret(textField.getLength());
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9]*")) {
-                textField.setText(oldValue);
-            } else if (newValue.length() == 0) {
-                value = null;
-            } else {
-                value = Integer.parseInt(newValue);
+            if (newValue.matches("-?[0-9]*")) {
+                if (newValue.length() == 0) {
+                    value = null;
+                    negative = false;
+                } else if (newValue.equals("-")) {
+                    value = null;
+                    negative = true;
+                } else {
+                    // Catch integer overflow
+                    try {
+                        value = Integer.parseInt(newValue);
+                    } catch (java.lang.NumberFormatException ex) {
+                        if (negative)
+                            value = Integer.MIN_VALUE;
+                        else
+                            value = Integer.MAX_VALUE;
+                    }
+                }
             }
+
             qlGui.renderWithFocus(uuid);
         });
+
         questionArea.getChildren().add(textField);
     }
 }

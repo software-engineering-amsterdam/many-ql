@@ -31,7 +31,7 @@ public class StringPrimitive extends Primitive {
     public void drawQuestion(VBox questionArea, QLGUI qlGui) {
         TextField textField = new TextField();
         textField.getStyleClass().add("question");
-        textField.maxWidth(630);
+        textField.setMaxWidth(630);
         if (value != null) {
             textField.setText(value);
         }

@@ -27,9 +27,11 @@
     -fx-font-size: 150%;
     -fx-font-weight: bold;
     -fx-font-style: italic;
+    -fx-padding: 10 0 0 0;
 }
 
 .question {
     -fx-translate-x: 10;
     -fx-translate-y: 10;
+    -fx-padding: 5 0 0 0;
 }
