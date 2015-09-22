@@ -3,9 +3,11 @@ package nl.uva.bromance.QL.gui;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
+import nl.uva.bromance.QL.ast.nodes.Calculation;
 import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 import java.util.Map;
@@ -45,6 +47,13 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Questionnaire questionnaire) {
+    }
 
+    @Override
+    public void visit(If _if) {
+    }
+
+    @Override
+    public void visit(Calculation calc) {
     }
 }

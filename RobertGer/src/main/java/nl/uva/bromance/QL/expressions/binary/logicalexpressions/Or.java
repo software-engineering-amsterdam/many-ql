@@ -1,11 +1,12 @@
 package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 
 import nl.uva.bromance.QL.expressions.Evaluable;
+import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 
 public class Or extends LogicalExpression {
-    public Or(Evaluable lhs, Evaluable rhs, int lineNumber) {
+    public Or(Expression lhs, Expression rhs, int lineNumber) {
         super(lhs, rhs, lineNumber);
     }
 

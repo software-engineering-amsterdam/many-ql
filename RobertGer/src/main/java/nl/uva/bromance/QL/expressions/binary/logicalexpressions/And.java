@@ -1,11 +1,12 @@
 package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 
 import nl.uva.bromance.QL.expressions.Evaluable;
+import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 
 public class And extends LogicalExpression {
-    public And(Evaluable lhs, Evaluable rhs, int lineNumber) {
+    public And(Expression lhs, Expression rhs, int lineNumber) {
         super(lhs, rhs, lineNumber);
     }
 

@@ -51,4 +51,8 @@ public class StringPrimitive extends Primitive {
         });
         questionArea.getChildren().add(textField);
     }
+
+    public static StringPrimitive defaultValue(int lineNumber){
+        return new StringPrimitive("",lineNumber);
+    }
 }

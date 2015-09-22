@@ -58,4 +58,9 @@ public class BooleanPrimitive extends Primitive {
     public Primitive evaluate() {
         return this;
     }
+
+    public static BooleanPrimitive defaultValue(int lineNumber)
+    {
+        return new BooleanPrimitive(false,lineNumber);
+    }
 }

@@ -14,6 +14,7 @@ import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLParseTreeListener;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.TypeChecker;
+import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -92,6 +93,7 @@ public class QLGUI {
                     InputStream is = new FileInputStream(qlPath);
                     QLLexer lexer = new QLLexer(new ANTLRInputStream(is));
                     TokenStream tokenStream = new CommonTokenStream(lexer);
+                    //TODO: What do we do if the parser encounters something that doesn't go well with the grammar? We don't have exceptions for this ATM nor do we catch anything.
                     QLParser parser = new QLParser(tokenStream);
                     ParseTree tree = parser.questionnaire();
                     QLParseTreeListener qlListener = new QLParseTreeListener();
@@ -138,7 +140,7 @@ public class QLGUI {
             questionArea.getChildren().clear();
 
             TypeChecker typeChecker = new TypeChecker();
-            List<Exception> typeCheckingErrors = typeChecker.check(ast.getRoot());
+            List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
 
             QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this);
             ast.getRoot().accept(visitor);

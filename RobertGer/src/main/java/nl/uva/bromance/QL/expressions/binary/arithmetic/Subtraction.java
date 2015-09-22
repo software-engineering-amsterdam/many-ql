@@ -1,11 +1,12 @@
 package nl.uva.bromance.QL.expressions.binary.arithmetic;
 
 import nl.uva.bromance.QL.expressions.Evaluable;
+import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 
 public class Subtraction extends ArithemeticExpression {
-    public Subtraction(Evaluable lhs, Evaluable rhs, int lineNumber) {
+    public Subtraction(Expression lhs, Expression rhs, int lineNumber) {
         super(lhs, rhs, lineNumber);
     }
 

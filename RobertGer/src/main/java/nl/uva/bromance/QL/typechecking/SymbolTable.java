@@ -11,6 +11,7 @@ public class SymbolTable {
         return table.get(identifier);
     }
 
+    //TODO:Maybe we should consider using tuples, by adding the type of node as well, Form/Question/Calculation
     public void add(String identifier, Primitive t) {
         table.put(identifier, t);
     }

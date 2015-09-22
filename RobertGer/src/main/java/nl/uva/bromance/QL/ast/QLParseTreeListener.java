@@ -4,7 +4,7 @@ import nl.uva.bromance.QL.ast.nodes.*;
 import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.ElseIf;
 import nl.uva.bromance.QL.controlstructures.If;
-import nl.uva.bromance.QL.expressions.Evaluable;
+import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.binary.arithmetic.*;
 import nl.uva.bromance.QL.expressions.binary.logicalexpressions.*;
@@ -24,7 +24,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<QLNode> nodeStack = new Stack<>();
     private Stack<String> identifiersStack = new Stack<>();
-    private Stack<Evaluable> expressions = new Stack<>();
+    private Stack<Expression> expressions = new Stack<>();
     private Map<String, Primitive> valueMap = new HashMap<>();
 
     // Here to differentiate on where to add labelText
@@ -40,10 +40,6 @@ public class QLParseTreeListener extends QLBaseListener {
         return this.valueMap;
     }
     
-    public Stack<Evaluable> getExpressions() {
-        return expressions;
-    }
-
     @Override
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
         String identifier = ctx.identifier.getText().replace("\"", "");
@@ -54,7 +50,6 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
         ast = new AST(nodeStack.pop(), valueMap);
-        getExpressions();
     }
 
     @Override
@@ -90,7 +85,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void enterCalculation(QLParser.CalculationContext ctx) {
-        Calculation calc = new Calculation(getLine(ctx));
+        Calculation calc = new Calculation(getLine(ctx), removeQuotations(ctx.identifier.getText()));
         nodeStack.push(calc);
     }
 
@@ -192,13 +187,13 @@ public class QLParseTreeListener extends QLBaseListener {
         int line = getLine(ctx);
         switch (ctx.type.getText()) {
             case "integer":
-                valueMap.put(identifier, new NumberPrimitive(0, line));
+                valueMap.put(identifier, NumberPrimitive.defaultValue(line));
                 break;
             case "string":
-                valueMap.put(identifier, new StringPrimitive("",line));
+                valueMap.put(identifier, StringPrimitive.defaultValue(line));
                 break;
             case "boolean":
-                valueMap.put(identifier, new BooleanPrimitive(false,line));
+                valueMap.put(identifier, BooleanPrimitive.defaultValue(line));
                 break;
             default:
                 break;
@@ -209,7 +204,7 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
         String identifier = identifiersStack.pop();
-        Primitive primitive = new StringPrimitive("", getLine(ctx));
+        Primitive primitive = StringPrimitive.defaultValue(getLine(ctx));
         valueMap.put(identifier, primitive);
     }
 
@@ -296,9 +291,9 @@ public class QLParseTreeListener extends QLBaseListener {
     @Override
     public void exitArithmeticExpression(QLParser.ArithmeticExpressionContext ctx) {
         if (ctx.operator != null) {
-            Evaluable expression = null;
-            Evaluable right = expressions.pop();
-            Evaluable left = expressions.pop();
+            Expression expression = null;
+            Expression right = expressions.pop();
+            Expression left = expressions.pop();
 
             int line = getLine(ctx);
 
@@ -330,8 +325,8 @@ public class QLParseTreeListener extends QLBaseListener {
     public void exitLogicalExpression(QLParser.LogicalExpressionContext ctx) {
         if (ctx.operator != null) {
             BinaryExpression expression = null;
-            Evaluable right = expressions.pop();
-            Evaluable left = expressions.pop();
+            Expression right = expressions.pop();
+            Expression left = expressions.pop();
             int line = getLine(ctx);
 
             switch (ctx.operator.getType()) {

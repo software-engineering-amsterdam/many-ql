@@ -103,4 +103,9 @@ public class NumberPrimitive extends Primitive {
 
         questionArea.getChildren().add(textField);
     }
+
+    public static NumberPrimitive defaultValue(int lineNumber)
+    {
+        return new NumberPrimitive(0,lineNumber);
+    }
 }

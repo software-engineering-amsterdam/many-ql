@@ -8,6 +8,7 @@ import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.exceptions.DuplicateQuestionIdentifierException;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
+import java.util.List;
 import java.util.Set;
 
 public class Question extends QLNode {
@@ -49,21 +50,22 @@ public class Question extends QLNode {
         return identifiers.add(this.identifier);
     }
 
-    public Primitive typeCheck(SymbolTable s) throws TypeCheckingError{
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         Primitive lookup = s.lookup(identifier);
         if(lookup == null){
             s.add(identifier, type);
         }
         else{
-            compareTypes(lookup);
+            compareTypes(lookup, exceptions);
         }
         return s.lookup(identifier);
     }
 
-    private void compareTypes(Primitive lookup) throws DuplicateQuestionIdentifierException {
+    //TODO: Don't know if this should also apply to questions of the same type.
+    private void compareTypes(Primitive lookup, List<TypeCheckingError> exceptions){
         if(lookup != this.type)
         {
-            throw new DuplicateQuestionIdentifierException("You have a duplicate question definition with a different type on line: "+ this.getLineNumber());
+            exceptions.add(new DuplicateQuestionIdentifierException("You have a duplicate question definition with a different type on line: "+ this.getLineNumber()));
         }
     }
 }
