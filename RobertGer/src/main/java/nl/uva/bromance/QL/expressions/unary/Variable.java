@@ -1,6 +1,7 @@
 package nl.uva.bromance.QL.expressions.unary;
 
 
+import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
@@ -21,6 +22,7 @@ public class Variable extends UnaryExpression {
         return null; //TODO: Look up the identifier of this variabel in the lookuptable.
     }
 
+    //TODO:Lookup table is build top down. So if a question actually is defined but not before a reference to it is made this error is also trhown. Feature or bug?
     @Override
     public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         Primitive lookup = s.lookup(identifier);
@@ -29,5 +31,10 @@ public class Variable extends UnaryExpression {
             exceptions.add(new TypeCheckingError("Identifier: \""+identifier+"\" points to non existing question/calculation, see line: "+getLineNumber()));
         }
         return lookup;
+    }
+
+    @Override
+    public void accept(QLNodeVisitorInterface visitor) {
+        visitor.visit(this);
     }
 }

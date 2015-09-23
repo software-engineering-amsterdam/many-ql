@@ -5,10 +5,9 @@ import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
-import nl.uva.bromance.QL.typechecking.exceptions.DuplicateQuestionIdentifierException;
+import nl.uva.bromance.QL.typechecking.exceptions.DuplicateIdentifierException;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
-import java.awt.font.NumericShaper;
 import java.util.List;
 
 public class Calculation extends QLNode{
@@ -23,16 +22,7 @@ public class Calculation extends QLNode{
 
     @Override
     public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
-        Primitive lookup = s.lookup(identifier);
-        if(lookup == null){
-            //TODO: We need to think about how we are going to assign a value to a calculation. For typechecking this will do. For evaluation expressions it will not.
-            s.add(identifier, this.type);
-        }
-        else{
-            //TODO: New duplicate exception for calculations? Or we could just use TypeCheckingError for everything.
-            exceptions.add(new DuplicateQuestionIdentifierException("You have a duplicate calculation definition with a different type on line: " + this.getLineNumber()));
-        }
-        return s.lookup(identifier);
+        return type;
     }
 
     @Override
@@ -40,6 +30,18 @@ public class Calculation extends QLNode{
         visitor.visit(this);
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
+        }
+    }
+
+    //TODO: Typecheck for number primitive;
+
+    public void addToSymbolTable(SymbolTable s, List<TypeCheckingError> exceptions) {
+        Primitive lookup = s.lookup(identifier);
+        if(lookup == null){
+            s.add(identifier, this.type, this);
+        }
+        else{
+            exceptions.add(new DuplicateIdentifierException("You have a duplicate calculation definition on line: " + this.getLineNumber()));
         }
     }
 }

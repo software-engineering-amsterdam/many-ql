@@ -1,6 +1,6 @@
 package nl.uva.bromance.QL.typechecking;
 
-import nl.uva.bromance.QL.typechecking.exceptions.DuplicateQuestionIdentifierException;
+import nl.uva.bromance.QL.typechecking.exceptions.DuplicateIdentifierException;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class Identifier {
     }
 
     public void addDuplicateExceptionToExceptionList(List<Exception> exceptions) {
-        exceptions.add(new DuplicateQuestionIdentifierException("Apparently you have defined identical identifiers named: " + identifier + ". Please look at line: " + line));
+        exceptions.add(new DuplicateIdentifierException("Apparently you have defined identical identifiers named: " + identifier + ". Please look at line: " + line));
     }
 
     public boolean compareIdentifier(String identifier){

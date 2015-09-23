@@ -25,4 +25,7 @@ public abstract class QLNode extends Node<QLNode> {
     public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         return null;
     }
+
+
+
 }

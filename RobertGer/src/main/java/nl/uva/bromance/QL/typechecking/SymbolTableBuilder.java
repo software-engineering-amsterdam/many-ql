@@ -9,18 +9,17 @@ import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
-import java.util.*;
+import java.util.List;
 
-public class TypeChecker implements QLNodeVisitorInterface {
+public class SymbolTableBuilder implements QLNodeVisitorInterface {
 
-    private List<TypeCheckingError> exceptions = new ArrayList<>();
     private SymbolTable symbolTable = new SymbolTable();
+    private List<TypeCheckingError> exceptions;
 
-    public List<TypeCheckingError> check(QLNode node) {
-        symbolTable = new SymbolTableBuilder().build(node,exceptions);
-        exceptions.addAll(new CyclicDependencyChecker(node).check(symbolTable));
+    public SymbolTable build(QLNode node, List<TypeCheckingError> exceptions) {
+        this.exceptions = exceptions;
         node.accept(this);
-        return exceptions;
+        return symbolTable;
     }
 
     @Override
@@ -35,6 +34,7 @@ public class TypeChecker implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Question question) {
+        question.addToSymbolTable(symbolTable, exceptions);
     }
 
     @Override
@@ -44,11 +44,11 @@ public class TypeChecker implements QLNodeVisitorInterface {
 
     @Override
     public void visit(If _if) {
-        _if.typeCheck(symbolTable, exceptions);
+
     }
 
     @Override
     public void visit(Calculation calc) {
-        calc.typeCheck(symbolTable,exceptions);
+        calc.addToSymbolTable(symbolTable, exceptions);
     }
 }
