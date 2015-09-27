@@ -2,10 +2,7 @@ package nl.uva.bromance.QL.gui;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -44,7 +41,7 @@ public class QLGUI {
     private UUID focusUuid;
     private Node focusedNode;
 
-    public QLGUI(Stage stage,String stylesheets,Boolean debug){
+    public QLGUI(Stage stage, String stylesheets, Boolean debug) {
         this.stage = stage;
         this.ast = null;
         this.stylesheets = stylesheets;
@@ -115,7 +112,8 @@ public class QLGUI {
             }
         });
     }
-    private void showDebugWindow(ParseTree tree, QLParser parser){
+
+    private void showDebugWindow(ParseTree tree, QLParser parser) {
         //show AST in GUI
         JFrame frame = new JFrame("Antlr AST");
         JPanel panel = new JPanel();
@@ -130,7 +128,7 @@ public class QLGUI {
         frame.setVisible(true);
     }
 
-    public void render(){
+    public void render() {
         renderWithFocus(null);
     }
 
@@ -142,9 +140,14 @@ public class QLGUI {
             TypeChecker typeChecker = new TypeChecker();
             List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
 
-            QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
-            ast.getRoot().accept(visitor);
-
+            if (typeCheckingErrors.isEmpty()) {
+                QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
+                ast.getRoot().accept(visitor);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText(typeCheckingErrorsToString(typeCheckingErrors));
+                alert.show();
+            }
 
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
@@ -152,13 +155,21 @@ public class QLGUI {
         stage.show();
     }
 
-    public UUID getFocusUuid()
-    {
+    private String typeCheckingErrorsToString(List<TypeCheckingError> typeCheckingErrors) {
+        String result = "";
+
+        for (TypeCheckingError t : typeCheckingErrors) {
+            result += t.getMessage() + '\n';
+        }
+
+        return result;
+    }
+
+    public UUID getFocusUuid() {
         return this.focusUuid;
     }
 
-    public void setFocusedNode(Node node)
-    {
+    public void setFocusedNode(Node node) {
         this.focusedNode = node;
     }
 }

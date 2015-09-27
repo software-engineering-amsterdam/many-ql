@@ -60,7 +60,7 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(If _if) {
-        //showQuestions = _if.evaluate(symbolTable).getValue();
+        showQuestions = _if.evaluate(symbolTable).getValue();
     }
 
     @Override
