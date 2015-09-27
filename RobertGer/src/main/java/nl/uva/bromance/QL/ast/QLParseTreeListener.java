@@ -153,7 +153,7 @@ public class QLParseTreeListener extends QLBaseListener {
 
     @Override
     public void exitIfCondition(QLParser.IfConditionContext ctx) {
-        If iff = new If(getLine(ctx), (LogicalExpression) expressions.pop());
+        If iff = new If(getLine(ctx), expressions.pop());
         nodeStack.push(iff);
     }
 

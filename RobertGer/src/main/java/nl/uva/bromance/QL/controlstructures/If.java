@@ -3,6 +3,7 @@ package nl.uva.bromance.QL.controlstructures;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.expressions.Evaluable;
+import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.logicalexpressions.LogicalExpression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
@@ -13,9 +14,9 @@ import java.util.List;
 
 public class If extends QLNode implements Evaluable {
 
-    private LogicalExpression expr;
+    private Expression expr;
 
-    public If(int ln, LogicalExpression expr) {
+    public If(int ln, Expression expr) {
         super(ln);
         this.expr = expr;
     }

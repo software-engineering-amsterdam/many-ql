@@ -13,21 +13,24 @@ Name: "Tax" {
         Question: "age" {
             Text: "How old are you?"
             Answer: integer
-            Range: 0 - 150
         }
     }
     Form: "withConditional" {
     	Question: "income1" {
     		Text: "How much money did you earn through employer paid wages during 2014?"
     		Answer: integer
-    		Range: >0
     	}
     	If: martial == "Married" || martial == "Cohabitation" {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: integer
-        		Range: >0
         	}
+        }
+        If: employment {
+			Question: "income" {
+				Text: "How much money did you earn through employer paid wages during 2014?"
+				Answer: integer
+			}
         }
     }
 }
