@@ -12,6 +12,7 @@ import nl.uva.bromance.QL.ast.AST;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLParseTreeListener;
 import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.TypeChecker;
 import nl.uva.bromance.grammar.QL.QLLexer;
@@ -21,6 +22,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -96,15 +98,7 @@ public class QLGUI {
                     qlWalker.walk(qlListener, tree);
 
                     AST<QLNode> qlAst = qlListener.getAST();
-                    if (syntaxErrors.isEmpty() && qlAst != null) {
-                        this.ast = qlAst;
-                        this.answerMap = qlListener.getIdentifierMap();
-                        createBaseView();
-                        render();
-                    } else {
-                        showAlert(syntaxErrors);
-
-                    }
+                    showAst(syntaxErrors, qlListener, qlAst);
                 } catch (Exception e) {
                     System.err.println("Got error opening file : " + e.getMessage());
                     e.printStackTrace();
@@ -113,14 +107,25 @@ public class QLGUI {
         });
     }
 
-    private void showAlert(List<QLError> list) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText("Your file contains: "+list.size()+" error's/warning's.");
+    private void showAst(List<QLError> syntaxErrors, QLParseTreeListener qlListener, AST<QLNode> qlAst) {
+        if (syntaxErrors.isEmpty() && qlAst != null) {
+            this.ast = qlAst;
+            this.answerMap = qlListener.getIdentifierMap();
+            createBaseView();
+            render();
+        } else {
+            showAlert(syntaxErrors, Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(List<QLError> list, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setContentText("Your file contains: " + list.size() + " error's/warning's.");
         addScrollAblePaneToAlert(QLError.qlErrorListToString(list), alert);
         alert.show();
     }
 
-    private void addScrollAblePaneToAlert(String exceptionText, Alert alert){
+    private void addScrollAblePaneToAlert(String exceptionText, Alert alert) {
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
         textArea.setWrapText(true);
@@ -147,19 +152,40 @@ public class QLGUI {
             questionArea.getChildren().clear();
 
             TypeChecker typeChecker = new TypeChecker();
-            List<QLError> typeCheckingErrors = typeChecker.check(ast.getRoot());
+            List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
+
+            List<TypeCheckingError> warnings = removeWarnings(typeCheckingErrors);
 
             if (typeCheckingErrors.isEmpty()) {
+                showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(warnings), Alert.AlertType.WARNING);
                 QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
                 ast.getRoot().accept(visitor);
             } else {
-                showAlert(typeCheckingErrors);
+                showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(typeCheckingErrors), Alert.AlertType.ERROR);
             }
 
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
         }
         stage.show();
+    }
+
+    private List<TypeCheckingError> removeWarnings(List<TypeCheckingError> typeCheckingErrors) {
+        List<TypeCheckingError> warnings = new ArrayList<>();
+
+        for (TypeCheckingError e : typeCheckingErrors) {
+            if (e.isWarning()) {
+                warnings.add(e);
+            }
+        }
+        for(TypeCheckingError w : warnings)
+        {
+            if(typeCheckingErrors.contains(w))
+            {
+                typeCheckingErrors.remove(w);
+            }
+        }
+        return warnings;
     }
 
     public UUID getFocusUuid() {

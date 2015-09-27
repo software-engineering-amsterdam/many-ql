@@ -8,18 +8,18 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.exceptions.QLError;
-import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
+import nl.uva.bromance.QL.expressions.unary.Variable;
 
 import java.util.*;
 
 public class TypeChecker implements QLNodeVisitorInterface {
 
-    private List<QLError> exceptions = new ArrayList<>();
+    private List<TypeCheckingError> exceptions = new ArrayList<>();
     private SymbolTable symbolTable = new SymbolTable();
-    private List<String> duplicateQuestionlabels = new ArrayList<>();
+    private Set<String> duplicateQuestionlabels = new HashSet<>();
 
-    public List<QLError> check(QLNode node) {
+    public List<TypeCheckingError> check(QLNode node) {
         symbolTable = new SymbolTableBuilder().build(node,exceptions);
         exceptions.addAll(new CyclicDependencyChecker(node).check());
         node.accept(this);

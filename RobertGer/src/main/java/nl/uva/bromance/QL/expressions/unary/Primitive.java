@@ -1,7 +1,7 @@
 package nl.uva.bromance.QL.expressions.unary;
 
 import javafx.scene.layout.VBox;
-import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.gui.QLGUI;
@@ -31,7 +31,7 @@ public abstract class Primitive<T> extends Expression {
     public abstract void drawQuestion(VBox questionArea, QLGUI qlGui);
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         return this;
     }
 

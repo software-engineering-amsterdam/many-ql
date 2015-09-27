@@ -2,7 +2,6 @@ package nl.uva.bromance.QL.controlstructures;
 
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
-import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
@@ -27,7 +26,7 @@ public class If extends QLNode implements Evaluable {
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         Primitive type = expr.typeCheck(s, exceptions);
         // If type is null the expression typechecker couldn't find a variable
         if (type != null) {

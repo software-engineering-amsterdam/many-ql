@@ -27,7 +27,7 @@ public class Calculation extends QLNode{
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         return type;
     }
 
@@ -39,9 +39,7 @@ public class Calculation extends QLNode{
         }
     }
 
-    //TODO: Typecheck for number primitive;
-
-    public void addToSymbolTable(SymbolTable s, List<QLError> exceptions) {
+    public void addToSymbolTable(SymbolTable s, List<TypeCheckingError> exceptions) {
         Primitive lookup = s.lookup(identifier);
         if(lookup == null){
             s.add(identifier, this.type, this);

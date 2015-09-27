@@ -23,7 +23,7 @@ public abstract class QLNode extends Node<QLNode> {
     /*Typechecking does not throw errors but passes along a list of exception to which a typeChecking error can be added.
     * The alternative would be to throw TypeCheckingError's. However that would stop the typechecking dead in it's track
     * after the first Error is found.*/
-    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions){
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         return null;
     }
 

@@ -10,6 +10,7 @@ import nl.uva.bromance.QL.exceptions.DuplicateIdentifierException;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.List;
+import java.util.Set;
 
 public class Question extends QLNode {
 
@@ -45,19 +46,18 @@ public class Question extends QLNode {
         }
     }
 
-    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions){
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         return type;
     }
 
-    //TODO: Don't know if this should also apply to questions of the same type.
-    private void compareTypes(Primitive lookup, List<QLError> exceptions){
-        if(lookup != this.type)
+    private void compareTypes(Primitive lookup, List<TypeCheckingError> exceptions){
+        if(lookup.getClass() != this.type.getClass())
         {
             exceptions.add(new DuplicateIdentifierException("You have a duplicate question definition with a different type on line: " + this.getLineNumber()));
         }
     }
 
-    public void addToSymbolTable(SymbolTable s, List<QLError> exceptions) {
+    public void addToSymbolTable(SymbolTable s, List<TypeCheckingError> exceptions) {
         Primitive lookup = s.lookup(identifier);
         if(lookup == null){
             s.add(identifier, type, this);
@@ -67,7 +67,7 @@ public class Question extends QLNode {
         }
     }
 
-    public void checkForDuplicateLabels(List<String> labels, List<QLError> exceptions)
+    public void checkForDuplicateLabels(Set<String> labels, List<TypeCheckingError> exceptions)
     {
         if(!labels.add(text))
         {

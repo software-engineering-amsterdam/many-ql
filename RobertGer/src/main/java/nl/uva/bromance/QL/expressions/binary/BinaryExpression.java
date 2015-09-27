@@ -3,6 +3,7 @@ package nl.uva.bromance.QL.expressions.binary;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.exceptions.OperationException;
 import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
@@ -27,7 +28,7 @@ public abstract class BinaryExpression extends Expression {
         rhs.accept(visitor);
     }
 
-    protected void checkBooleanEquivalence(Primitive lType, Primitive rType, List<QLError> exceptions){
+    protected void checkBooleanEquivalence(Primitive lType, Primitive rType, List<TypeCheckingError> exceptions){
         try {
             BooleanPrimitive lhsp = (BooleanPrimitive) lType;
             BooleanPrimitive rhsp = (BooleanPrimitive) rType;
@@ -36,7 +37,7 @@ public abstract class BinaryExpression extends Expression {
         }
     }
 
-    public void checkNumberEquivalence(Primitive lType, Primitive rType, List<QLError> exceptions){
+    public void checkNumberEquivalence(Primitive lType, Primitive rType, List<TypeCheckingError> exceptions){
         try {
             NumberPrimitive lhsp = (NumberPrimitive) lType;
             NumberPrimitive rhsp = (NumberPrimitive) rType;
@@ -45,7 +46,7 @@ public abstract class BinaryExpression extends Expression {
         }
     }
 
-    protected BooleanPrimitive typeCheckNumberPrimitives(SymbolTable s, List<QLError> exceptions){
+    protected BooleanPrimitive typeCheckNumberPrimitives(SymbolTable s, List<TypeCheckingError> exceptions){
         try {
             Primitive lType = lhs.typeCheck(s, exceptions);
             Primitive rType = rhs.typeCheck(s, exceptions);

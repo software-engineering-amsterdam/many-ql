@@ -1,6 +1,6 @@
 package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 
-import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
@@ -21,7 +21,7 @@ public class SmallerThan extends LogicalExpression {
     }
 
     @Override
-    public BooleanPrimitive typeCheck(SymbolTable s, List<QLError> exceptions) {
+    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         return super.typeCheckNumberPrimitives(s, exceptions);
     }
 }

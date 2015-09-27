@@ -1,6 +1,6 @@
 package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 
-import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
@@ -23,7 +23,7 @@ public class EqualTo extends LogicalExpression {
     }
 
     @Override
-    public BooleanPrimitive typeCheck(SymbolTable s, List<QLError> exceptions){
+    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         Primitive lType = lhs.typeCheck(s, exceptions);
         Primitive rType = rhs.typeCheck(s, exceptions);
 

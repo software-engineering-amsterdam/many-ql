@@ -16,9 +16,9 @@ import java.util.List;
 public class SymbolTableBuilder implements QLNodeVisitorInterface {
 
     private SymbolTable symbolTable = new SymbolTable();
-    private List<QLError> exceptions;
+    private List<TypeCheckingError> exceptions;
 
-    public SymbolTable build(QLNode node, List<QLError> exceptions) {
+    public SymbolTable build(QLNode node, List<TypeCheckingError> exceptions) {
         this.exceptions = exceptions;
         node.accept(this);
         return symbolTable;
