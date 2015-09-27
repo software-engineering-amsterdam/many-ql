@@ -8,20 +8,22 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Variable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TypeChecker implements QLNodeVisitorInterface {
+/**
+ * Created by Gerrit Krijnen on 9/27/2015.
+ */
+public class CylicDependencyVariableVisitor implements QLNodeVisitorInterface {
+    private List<String> identifierList;
 
-    private List<TypeCheckingError> exceptions = new ArrayList<>();
-    private SymbolTable symbolTable = new SymbolTable();
+    public CylicDependencyVariableVisitor(){
+        identifierList = new ArrayList<>();
+    }
 
-    public List<TypeCheckingError> check(QLNode node) {
-        symbolTable = new SymbolTableBuilder().build(node,exceptions);
-        exceptions.addAll(new CyclicDependencyChecker(node).check());
-        node.accept(this);
-        return exceptions;
+    public List<String> getIdentifierList(){
+        return identifierList;
     }
 
     @Override
@@ -36,6 +38,7 @@ public class TypeChecker implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Question question) {
+
     }
 
     @Override
@@ -45,17 +48,17 @@ public class TypeChecker implements QLNodeVisitorInterface {
 
     @Override
     public void visit(If _if) {
-        _if.typeCheck(symbolTable, exceptions);
+
     }
 
     @Override
     public void visit(Calculation calc) {
-        calc.typeCheck(symbolTable,exceptions);
+
     }
 
     @Override
     public void visit(Variable var) {
-
+        identifierList.add(var.getIdentifier());
     }
 
     @Override
@@ -67,4 +70,5 @@ public class TypeChecker implements QLNodeVisitorInterface {
     public void exit(If _f) {
 
     }
+
 }

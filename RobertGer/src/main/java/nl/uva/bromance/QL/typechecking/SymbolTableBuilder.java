@@ -7,6 +7,7 @@ import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
 import java.util.List;
@@ -50,6 +51,16 @@ public class SymbolTableBuilder implements QLNodeVisitorInterface {
     @Override
     public void visit(Calculation calc) {
         calc.addToSymbolTable(symbolTable, exceptions);
+    }
+
+    @Override
+    public void visit(Variable var) {
+
+    }
+
+    @Override
+    public void visit() {
+
     }
 
     @Override

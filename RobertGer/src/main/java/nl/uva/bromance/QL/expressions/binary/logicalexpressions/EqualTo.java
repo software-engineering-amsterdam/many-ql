@@ -23,9 +23,9 @@ public class EqualTo extends LogicalExpression {
     }
 
     @Override
-    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
         Primitive lType = lhs.typeCheck(s, exceptions);
-        Primitive rType = rhs.typeCheck(s,exceptions);
+        Primitive rType = rhs.typeCheck(s, exceptions);
 
         if(lType.getClass() != rType.getClass())
         {

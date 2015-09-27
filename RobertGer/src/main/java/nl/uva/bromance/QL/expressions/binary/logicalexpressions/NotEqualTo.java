@@ -28,7 +28,7 @@ public class NotEqualTo extends LogicalExpression {
 
         if(lType.getClass() != rType.getClass())
         {
-            exceptions.add(new OperationException("Equals operation can only be performed on operands of the same type, see line:"+getLineNumber()));
+            exceptions.add(new OperationException("Not Equals operation can only be performed on operands of the same type, see line:"+getLineNumber()));
         }
 
         return BooleanPrimitive.defaultValue(getLineNumber());

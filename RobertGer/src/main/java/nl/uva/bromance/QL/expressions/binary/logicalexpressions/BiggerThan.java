@@ -3,7 +3,6 @@ package nl.uva.bromance.QL.expressions.binary.logicalexpressions;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
-import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 

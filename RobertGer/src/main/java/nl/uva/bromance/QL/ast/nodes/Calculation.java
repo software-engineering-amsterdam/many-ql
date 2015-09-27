@@ -20,6 +20,11 @@ public class Calculation extends QLNode{
         this.type = NumberPrimitive.defaultValue(ln);
     }
 
+    public String getIdentifier()
+    {
+        return identifier;
+    }
+
     @Override
     public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         return type;

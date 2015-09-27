@@ -9,9 +9,9 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.SymbolTableBuilder;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -70,6 +70,16 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Calculation calc) {
+    }
+
+    @Override
+    public void visit(Variable var) {
+
+    }
+
+    @Override
+    public void visit() {
+
     }
 
 

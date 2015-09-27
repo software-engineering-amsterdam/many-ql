@@ -5,6 +5,7 @@ import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.expressions.unary.Variable;
 
 public interface QLNodeVisitorInterface {
 
@@ -19,6 +20,10 @@ public interface QLNodeVisitorInterface {
     void visit(If _if);
 
     void visit(Calculation calc);
+
+    void visit(Variable var);
+
+    void visit();
 
     void exit(If _f);
 }

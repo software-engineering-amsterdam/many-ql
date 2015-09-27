@@ -1,6 +1,7 @@
 package nl.uva.bromance.QL.expressions.unary;
 
 
+import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
@@ -14,6 +15,10 @@ public class Variable extends UnaryExpression {
     public Variable(String identifier, int ln) {
         super(ln);
         this.identifier = identifier;
+    }
+
+    public String getIdentifier(){
+        return this.identifier;
     }
 
     @Override
@@ -35,5 +40,8 @@ public class Variable extends UnaryExpression {
     @Override
     public void accept(QLNodeVisitorInterface visitor) {
         visitor.visit(this);
+        for (QLNode child : this.getChildren()) {
+            child.accept(visitor);
+        }
     }
 }

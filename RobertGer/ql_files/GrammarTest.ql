@@ -12,7 +12,7 @@ Name: "Tax" {
         }
     }
     Form: "withConditional" {
-		If: employment == true {
+		If: employment {
 			Question: "income1" {
 				Text: "How much money did you earn through employer paid wages during 2014?"
 				Answer: integer
@@ -23,12 +23,6 @@ Name: "Tax" {
 				Answer: integer
 			}
 		}
-    	If: partner == "Married" || partner == "Cohabitation" {
-        	Question: "income_partner" {
-        		Text: "How much money did your partner earn through employer paid wages during 2014?"
-        		Answer: integer
-        	}
-        }
 		Calculation: "ttl_income" {
 			Input: income1+income2+income_partner
 		}
