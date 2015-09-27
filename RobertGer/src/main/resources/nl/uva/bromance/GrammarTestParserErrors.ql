@@ -6,24 +6,27 @@ Name: "Tax" {
 			Answer: boolean
 		}
 
+        Question: "employment" {
+			Text: "What is your marital status?"
+			Answer: ["Single" || "Married" || "Cohabitation"]
+        }
         Question: "age" {
             Text: "How old are you?"
             Answer: integer
+            Range: 0 - 150
         }
     }
     Form: "withConditional" {
     	Question: "income1" {
     		Text: "How much money did you earn through employer paid wages during 2014?"
     		Answer: integer
+    		Range: >0
     	}
-		Question: "incomeDerp" {
-			Text: "How much money did you earn through employer paid wages during 2014?"
-			Answer: integer
-		}
     	If: partner == "Married" || partner == "Cohabitation" {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: integer
+        		Range: >0
         	}
         }
     }
@@ -32,6 +35,7 @@ Name: "Tax" {
         	Question: "income1" {
         		Text: "How much money did you earn through employer paid wages during 2014?"
         		Answer: integer
+        		Range: >0
         	}
             Calculation: "ttl_income_tax" {
                 		If: partner == "Married" || partner == "Cohabitation" {
@@ -46,11 +50,13 @@ Name: "Tax" {
         	Question: "income1" {
         		Text: "How much money did you earn through employer paid wages during 2014?"
         		Answer: integer
+        		Range: >0
         	}
         	If: generic.partner == "Married" || generic.partner == "Cohabitation" {
             	Question: "income_partner" {
             		Text: "How much money did your partner earn through employer paid wages during 2014?"
             		Answer: integer
+            		Range: >0
             	}
             }
 
@@ -58,6 +64,7 @@ Name: "Tax" {
 				Question: "derp" {
 					Text: "How much money did your partner earn through employer paid wages during 2014?"
 					Answer: integer
+					Range: >0
 				}
 			}
             Calculation: "ttl_income_tax" {

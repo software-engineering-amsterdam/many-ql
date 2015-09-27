@@ -1,7 +1,7 @@
-package nl.uva.bromance.QL.typechecking.exceptions;
+package nl.uva.bromance.QL.exceptions;
 
 public class OperationException extends TypeCheckingError {
     public OperationException(String message) {
-        super(message);
+        super(message, Type.ERROR);
     }
 }

@@ -2,12 +2,13 @@ package nl.uva.bromance.QL.controlstructures;
 
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
+import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class If extends QLNode implements Evaluable {
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions) {
         Primitive type = expr.typeCheck(s, exceptions);
         // If type is null the expression typechecker couldn't find a variable
         if (type != null) {
@@ -34,7 +35,7 @@ public class If extends QLNode implements Evaluable {
             try {
                 bool = (BooleanPrimitive) type;
             } catch (ClassCastException cce) {
-                exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's see line: " + getLineNumber()));
+                exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's see line: " + getLineNumber(), TypeCheckingError.Type.ERROR));
             }
         }
         return type;

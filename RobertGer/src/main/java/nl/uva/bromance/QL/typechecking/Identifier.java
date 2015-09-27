@@ -1,6 +1,7 @@
 package nl.uva.bromance.QL.typechecking;
 
-import nl.uva.bromance.QL.typechecking.exceptions.DuplicateIdentifierException;
+import nl.uva.bromance.QL.exceptions.DuplicateIdentifierException;
+import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class Identifier {
         this.line = line;
     }
 
-    public void addDuplicateExceptionToExceptionList(List<Exception> exceptions) {
+    public void addDuplicateExceptionToExceptionList(List<QLError> exceptions) {
         exceptions.add(new DuplicateIdentifierException("Apparently you have defined identical identifiers named: " + identifier + ". Please look at line: " + line));
     }
 

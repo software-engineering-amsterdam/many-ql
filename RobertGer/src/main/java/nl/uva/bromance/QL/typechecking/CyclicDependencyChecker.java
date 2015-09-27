@@ -8,7 +8,7 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Variable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class CyclicDependencyChecker implements QLNodeVisitorInterface{
         for (VariableList varList : variableLookupList){
             for (String var : varList.getVars()){
                 if (var.equals(question.getIdentifier()))
-                    exceptions.add(new TypeCheckingError("Question at line "+question.getLineNumber()+" depends on itself at line "+varList.getLineNumber()));
+                    exceptions.add(new TypeCheckingError("Question at line "+question.getLineNumber()+" depends on itself at line "+varList.getLineNumber(), TypeCheckingError.Type.ERROR));
             }
         }
     }
@@ -85,7 +85,7 @@ public class CyclicDependencyChecker implements QLNodeVisitorInterface{
         for (VariableList varList : variableLookupList){
             for (String var : varList.getVars()){
                 if (var.equals(calc.getIdentifier()))
-                    exceptions.add(new TypeCheckingError("Calculation at line "+calc.getLineNumber()+" depends on itself at line "+varList.getLineNumber()));
+                    exceptions.add(new TypeCheckingError("Calculation at line "+calc.getLineNumber()+" depends on itself at line "+varList.getLineNumber(), TypeCheckingError.Type.ERROR));
             }
         }
     }

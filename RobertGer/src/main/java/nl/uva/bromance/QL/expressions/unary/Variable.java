@@ -3,8 +3,9 @@ package nl.uva.bromance.QL.expressions.unary;
 
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
+import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ public class Variable extends UnaryExpression {
 
     //TODO:Lookup table is build top down. So if a question actually is defined but not before a reference to it is made this error is also trhown. Feature or bug?
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<QLError> exceptions) {
         Primitive lookup = s.lookup(identifier);
         if(lookup == null)
         {
-            exceptions.add(new TypeCheckingError("Identifier: \""+identifier+"\" points to non existing question/calculation, see line: "+getLineNumber()));
+            exceptions.add(new TypeCheckingError("Identifier: \""+identifier+"\" points to non existing question/calculation, see line: "+getLineNumber(), TypeCheckingError.Type.ERROR));
         }
         return lookup;
     }

@@ -3,15 +3,17 @@ package nl.uva.bromance.QL.gui;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nl.uva.bromance.QL.ast.AST;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLParseTreeListener;
+import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.TypeChecker;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -19,9 +21,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
-
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -33,16 +32,14 @@ public class QLGUI {
     private Stage stage;
     private VBox questionArea;
     private String stylesheets;
-    private boolean debug;
     private Map<String, Primitive> answerMap;
     private UUID focusUuid;
     private Node focusedNode;
 
-    public QLGUI(Stage stage, String stylesheets, Boolean debug) {
+    public QLGUI(Stage stage, String stylesheets) {
         this.stage = stage;
         this.ast = null;
         this.stylesheets = stylesheets;
-        this.debug = debug;
         this.focusUuid = null;
         createBaseView();
     }
@@ -83,13 +80,14 @@ public class QLGUI {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
                 String qlPath = file.getAbsolutePath();
+                //TODO: Too much nesting.
                 try {
                     InputStream is = new FileInputStream(qlPath);
                     QLLexer lexer = new QLLexer(new ANTLRInputStream(is));
                     TokenStream tokenStream = new CommonTokenStream(lexer);
                     QLParser parser = new QLParser(tokenStream);
                     GrammarErrorListener errorListener = new GrammarErrorListener();
-                    List<GrammarErrorListener.SyntaxError> syntaxErrors = new ArrayList<>();
+                    List<QLError> syntaxErrors = new ArrayList<>();
                     parser.addErrorListener(errorListener);
                     ParseTree tree = parser.questionnaire();
                     errorListener.appendSyntaxErrors(syntaxErrors);
@@ -97,21 +95,15 @@ public class QLGUI {
                     ParseTreeWalker qlWalker = new ParseTreeWalker();
                     qlWalker.walk(qlListener, tree);
 
-                    if (syntaxErrors.isEmpty()) {
-                        AST<QLNode> qlAst = qlListener.getAST();
-                        if (qlAst != null) {
-                            this.ast = qlAst;
-                            this.answerMap = qlListener.getIdentifierMap();
-                            createBaseView();
-                            render();
-                        }
-                        if (debug) {
-                            showDebugWindow(tree, parser);
-                        }
+                    AST<QLNode> qlAst = qlListener.getAST();
+                    if (syntaxErrors.isEmpty() && qlAst != null) {
+                        this.ast = qlAst;
+                        this.answerMap = qlListener.getIdentifierMap();
+                        createBaseView();
+                        render();
                     } else {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setContentText(syntaxErrorToString(syntaxErrors));
-                        alert.show();
+                        showAlert(syntaxErrors);
+
                     }
                 } catch (Exception e) {
                     System.err.println("Got error opening file : " + e.getMessage());
@@ -121,19 +113,28 @@ public class QLGUI {
         });
     }
 
-    private void showDebugWindow(ParseTree tree, QLParser parser) {
-        //show AST in GUI
-        JFrame frame = new JFrame("Antlr AST");
-        JPanel panel = new JPanel();
-        JScrollPane pane = new JScrollPane(panel);
-        TreeViewer viewer = new TreeViewer(Arrays.asList(
-                parser.getRuleNames()), tree);
-        viewer.setScale(1.5);//scale a little
-        panel.add(viewer);
-        frame.getContentPane().add(pane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
-        frame.setVisible(true);
+    private void showAlert(List<QLError> list) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText("Your file contains: "+list.size()+" error's/warning's.");
+        addScrollAblePaneToAlert(QLError.qlErrorListToString(list), alert);
+        alert.show();
+    }
+
+    private void addScrollAblePaneToAlert(String exceptionText, Alert alert){
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(textArea, 0, 0);
+
+        alert.getDialogPane().setExpandableContent(expContent);
     }
 
     public void render() {
@@ -146,39 +147,19 @@ public class QLGUI {
             questionArea.getChildren().clear();
 
             TypeChecker typeChecker = new TypeChecker();
-            List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
+            List<QLError> typeCheckingErrors = typeChecker.check(ast.getRoot());
 
             if (typeCheckingErrors.isEmpty()) {
                 QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
                 ast.getRoot().accept(visitor);
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText(typeCheckingErrorToString(typeCheckingErrors));
-                alert.show();
+                showAlert(typeCheckingErrors);
             }
 
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
         }
         stage.show();
-    }
-
-    private String syntaxErrorToString(List<GrammarErrorListener.SyntaxError> exceptions) {
-        String result = "";
-
-        for (GrammarErrorListener.SyntaxError t : exceptions) {
-            result += t.getMessage() + '\n';
-        }
-        return result;
-    }
-
-    private String typeCheckingErrorToString(List<TypeCheckingError> exceptions) {
-        String result = "";
-
-        for (TypeCheckingError t : exceptions) {
-            result += t.getMessage() + '\n';
-        }
-        return result;
     }
 
     public UUID getFocusUuid() {
@@ -188,4 +169,6 @@ public class QLGUI {
     public void setFocusedNode(Node node) {
         this.focusedNode = node;
     }
+
+
 }

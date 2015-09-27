@@ -7,17 +7,19 @@ import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.unary.Variable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
+import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.*;
 
 public class TypeChecker implements QLNodeVisitorInterface {
 
-    private List<TypeCheckingError> exceptions = new ArrayList<>();
+    private List<QLError> exceptions = new ArrayList<>();
     private SymbolTable symbolTable = new SymbolTable();
+    private List<String> duplicateQuestionlabels = new ArrayList<>();
 
-    public List<TypeCheckingError> check(QLNode node) {
+    public List<QLError> check(QLNode node) {
         symbolTable = new SymbolTableBuilder().build(node,exceptions);
         exceptions.addAll(new CyclicDependencyChecker(node).check());
         node.accept(this);
@@ -36,6 +38,7 @@ public class TypeChecker implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Question question) {
+        question.checkForDuplicateLabels(duplicateQuestionlabels, exceptions);
     }
 
     @Override

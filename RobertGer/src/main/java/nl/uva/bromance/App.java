@@ -12,11 +12,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         String stylesheets = this.getClass().getResource("style.css").toExternalForm();
         primaryStage.setResizable(false);
-        QLGUI gui = new QLGUI(primaryStage,stylesheets,true);
+        QLGUI gui = new QLGUI(primaryStage,stylesheets);
         gui.render();
-
     }
 }

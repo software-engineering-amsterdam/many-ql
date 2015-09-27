@@ -1,19 +1,17 @@
 package nl.uva.bromance.QL.gui;
 
+import nl.uva.bromance.QL.exceptions.QLError;
+import nl.uva.bromance.QL.exceptions.SyntaxError;
 import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
 public class GrammarErrorListener extends BaseErrorListener {
 
-    List<SyntaxError> errorList = new ArrayList<>();
+    List<QLError> errorList = new ArrayList<>();
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
@@ -21,15 +19,7 @@ public class GrammarErrorListener extends BaseErrorListener {
     }
 
 
-
-    public static class SyntaxError extends Error {
-        public SyntaxError(String message) {
-            super(message);
-        }
-
-    }
-
-    public void appendSyntaxErrors(List<SyntaxError> errors)
+    public void appendSyntaxErrors(List<QLError> errors)
     {
         errors.addAll(errorList);
     }
