@@ -25,10 +25,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class QLGUI {
 
@@ -90,22 +87,32 @@ public class QLGUI {
                     InputStream is = new FileInputStream(qlPath);
                     QLLexer lexer = new QLLexer(new ANTLRInputStream(is));
                     TokenStream tokenStream = new CommonTokenStream(lexer);
-                    //TODO: What do we do if the parser encounters something that doesn't go well with the grammar? We don't have exceptions for this ATM nor do we catch anything.
                     QLParser parser = new QLParser(tokenStream);
-                    //parser.addErrorListener(new GrammarErrorListener());
+                    GrammarErrorListener errorListener = new GrammarErrorListener();
+                    List<GrammarErrorListener.SyntaxError> syntaxErrors = new ArrayList<>();
+                    parser.addErrorListener(errorListener);
                     ParseTree tree = parser.questionnaire();
+                    errorListener.appendSyntaxErrors(syntaxErrors);
                     QLParseTreeListener qlListener = new QLParseTreeListener();
                     ParseTreeWalker qlWalker = new ParseTreeWalker();
                     qlWalker.walk(qlListener, tree);
-                    AST<QLNode> qlAst = qlListener.getAST();
-                    if (qlAst != null) {
-                        this.ast = qlAst;
-                        this.answerMap = qlListener.getIdentifierMap();
-                        createBaseView();
-                        render();
+
+                    if (syntaxErrors.isEmpty()) {
+                        AST<QLNode> qlAst = qlListener.getAST();
+                        if (qlAst != null) {
+                            this.ast = qlAst;
+                            this.answerMap = qlListener.getIdentifierMap();
+                            createBaseView();
+                            render();
+                        }
+                        if (debug) {
+                            showDebugWindow(tree, parser);
+                        }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setContentText(syntaxErrorToString(syntaxErrors));
+                        alert.show();
                     }
-                    if (debug)
-                        showDebugWindow(tree, parser);
                 } catch (Exception e) {
                     System.err.println("Got error opening file : " + e.getMessage());
                     e.printStackTrace();
@@ -146,7 +153,7 @@ public class QLGUI {
                 ast.getRoot().accept(visitor);
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText(typeCheckingErrorsToString(typeCheckingErrors));
+                alert.setContentText(typeCheckingErrorToString(typeCheckingErrors));
                 alert.show();
             }
 
@@ -156,13 +163,21 @@ public class QLGUI {
         stage.show();
     }
 
-    private String typeCheckingErrorsToString(List<TypeCheckingError> typeCheckingErrors) {
+    private String syntaxErrorToString(List<GrammarErrorListener.SyntaxError> exceptions) {
         String result = "";
 
-        for (TypeCheckingError t : typeCheckingErrors) {
+        for (GrammarErrorListener.SyntaxError t : exceptions) {
             result += t.getMessage() + '\n';
         }
+        return result;
+    }
 
+    private String typeCheckingErrorToString(List<TypeCheckingError> exceptions) {
+        String result = "";
+
+        for (TypeCheckingError t : exceptions) {
+            result += t.getMessage() + '\n';
+        }
         return result;
     }
 
