@@ -49,7 +49,7 @@ formContent:
     '{'(question|calculation|ifSequence|label)+'}';
 
 questionContent:
-   '{' (textLabel questionAnswer questionRange?)'}';
+   '{' (textLabel questionAnswer)'}';
 
 calculationContent:
     '{'(input|ifSequence)'}';
@@ -62,28 +62,9 @@ labelContent:
     '{'(ifSequence|textLabel)'}';
 
 //Question
-//QuestionAnser abstractions
+//QuestionAnswer abstractions
 questionAnswer:
-    'Answer:' (questionAnswerSimple|questionAnswerCustom);
-
-questionAnswerSimple:
-    type=questionAllowedTypes;
-
-questionAnswerCustom:
-    '['STRING (OR STRING)+']';
-
-//QuestionRange abstractions
-questionRange:
-    'Range:' (questionRangeFromTo | questionRangeBiggerThan | questionRangeSmallerThan);
-
-questionRangeFromTo:
-    lower=NUMBER '-' higher=NUMBER;
-
-questionRangeBiggerThan:
-    BIGGERTHAN num=NUMBER;
-
-questionRangeSmallerThan:
-    SMALLERTHAN num=NUMBER;
+    'Answer:' type=questionAllowedTypes;
 
 questionAllowedTypes:
     ('integer' | 'boolean' | 'string' );

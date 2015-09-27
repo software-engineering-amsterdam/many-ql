@@ -182,7 +182,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     @Override
-    public void enterQuestionAnswerSimple(QLParser.QuestionAnswerSimpleContext ctx) {
+    public void enterQuestionAnswer(QLParser.QuestionAnswerContext ctx) {
         String identifier = identifiersStack.pop();
         int line = getLine(ctx);
         switch (ctx.type.getText()) {
@@ -198,60 +198,8 @@ public class QLParseTreeListener extends QLBaseListener {
             default:
                 break;
         }
-
     }
 
-    @Override
-    public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-        String identifier = identifiersStack.pop();
-        Primitive primitive = StringPrimitive.defaultValue(getLine(ctx));
-        valueMap.put(identifier, primitive);
-    }
-
-    @Override
-    public void exitQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-
-    }
-
-    @Override
-    public void enterQuestionRange(QLParser.QuestionRangeContext ctx) {
-
-    }
-
-    @Override
-    public void exitQuestionRange(QLParser.QuestionRangeContext ctx) {
-
-    }
-
-    @Override
-    public void enterQuestionRangeFromTo(QLParser.QuestionRangeFromToContext ctx) {
-
-    }
-
-    @Override
-    public void exitQuestionRangeFromTo(QLParser.QuestionRangeFromToContext ctx) {
-
-    }
-
-    @Override
-    public void enterQuestionRangeBiggerThan(QLParser.QuestionRangeBiggerThanContext ctx) {
-
-    }
-
-    @Override
-    public void exitQuestionRangeBiggerThan(QLParser.QuestionRangeBiggerThanContext ctx) {
-
-    }
-
-    @Override
-    public void enterQuestionRangeSmallerThan(QLParser.QuestionRangeSmallerThanContext ctx) {
-
-    }
-
-    @Override
-    public void exitQuestionRangeSmallerThan(QLParser.QuestionRangeSmallerThanContext ctx) {
-
-    }
 
     @Override
     public void enterQuestionAllowedTypes(QLParser.QuestionAllowedTypesContext ctx) {
