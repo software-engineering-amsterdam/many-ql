@@ -4,13 +4,14 @@ import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.binary.logicalexpressions.LogicalExpression;
+import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
 import java.util.List;
 
-public class If extends QLNode implements Evaluable{
+public class If extends QLNode implements Evaluable {
 
     private LogicalExpression expr;
 
@@ -20,13 +21,20 @@ public class If extends QLNode implements Evaluable{
     }
 
     @Override
-    public Primitive evaluate() {
-        return expr.evaluate();
+    public BooleanPrimitive evaluate(SymbolTable s) {
+        return (BooleanPrimitive) expr.evaluate(s);
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
-        return expr.typeCheck(s,exceptions);
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+        Primitive type = expr.typeCheck(s, exceptions);
+        BooleanPrimitive bool = BooleanPrimitive.defaultValue(type.getLineNumber());
+        try {
+            bool = (BooleanPrimitive) type;
+        } catch (ClassCastException cce) {
+            exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's"));
+        }
+        return type;
     }
 
     @Override
@@ -35,5 +43,6 @@ public class If extends QLNode implements Evaluable{
         for (QLNode child : this.getChildren()) {
             child.accept(visitor);
         }
+        visitor.exit(this);
     }
 }

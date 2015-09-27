@@ -51,4 +51,9 @@ public class SymbolTableBuilder implements QLNodeVisitorInterface {
     public void visit(Calculation calc) {
         calc.addToSymbolTable(symbolTable, exceptions);
     }
+
+    @Override
+    public void exit(If _f) {
+
+    }
 }

@@ -19,4 +19,6 @@ public interface QLNodeVisitorInterface {
     void visit(If _if);
 
     void visit(Calculation calc);
+
+    void exit(If _f);
 }

@@ -4,12 +4,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.gui.QLGUI;
+import nl.uva.bromance.QL.typechecking.SymbolTable;
 
 public class BooleanPrimitive extends Primitive {
 
     private boolean value;
 
-    boolean getValue(){
+    public Boolean getValue(){
         return value;
     }
 
@@ -55,7 +56,7 @@ public class BooleanPrimitive extends Primitive {
     }
 
     @Override
-    public Primitive evaluate() {
+    public Primitive evaluate(SymbolTable s) {
         return this;
     }
 

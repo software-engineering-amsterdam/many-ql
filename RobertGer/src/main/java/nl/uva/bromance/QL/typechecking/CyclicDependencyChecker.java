@@ -57,4 +57,9 @@ public class CyclicDependencyChecker implements QLNodeVisitorInterface{
     public void visit(Calculation calc) {
 
     }
+
+    @Override
+    public void exit(If _f) {
+
+    }
 }

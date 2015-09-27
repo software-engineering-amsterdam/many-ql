@@ -4,6 +4,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.gui.QLGUI;
+import nl.uva.bromance.QL.typechecking.SymbolTable;
 
 public class NumberPrimitive extends Primitive {
 
@@ -15,7 +16,7 @@ public class NumberPrimitive extends Primitive {
         this.value = value;
     }
 
-    int getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -57,7 +58,7 @@ public class NumberPrimitive extends Primitive {
     }
 
     @Override
-    public Primitive evaluate() {
+    public Primitive evaluate(SymbolTable s) {
         return this;
     }
 

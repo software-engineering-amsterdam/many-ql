@@ -2,10 +2,7 @@ package nl.uva.bromance.QL.expressions.binary.arithmetic;
 
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
-import nl.uva.bromance.QL.expressions.unary.Primitive;
-import nl.uva.bromance.QL.typechecking.exceptions.OperationException;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
-import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
 public class Addition extends ArithemeticExpression {
     public Addition(Expression lhs, Expression rhs, int lineNumber) {
@@ -13,9 +10,9 @@ public class Addition extends ArithemeticExpression {
     }
 
     @Override
-    public NumberPrimitive evaluate() {
-        NumberPrimitive lhs = (NumberPrimitive) this.lhs.evaluate();
-        NumberPrimitive rhs = (NumberPrimitive) this.rhs.evaluate();
+    public NumberPrimitive evaluate(SymbolTable s) {
+        NumberPrimitive lhs = (NumberPrimitive) this.lhs.evaluate(s);
+        NumberPrimitive rhs = (NumberPrimitive) this.rhs.evaluate(s);
         return lhs.addition(rhs, getLineNumber());
     }
 }

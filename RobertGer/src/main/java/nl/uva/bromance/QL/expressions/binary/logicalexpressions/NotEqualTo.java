@@ -15,9 +15,9 @@ public class NotEqualTo extends LogicalExpression {
     }
 
     @Override
-    public BooleanPrimitive evaluate() {
-        Primitive lhs = this.lhs.evaluate();
-        Primitive rhs = this.rhs.evaluate();
+    public BooleanPrimitive evaluate(SymbolTable s) {
+        Primitive lhs = this.lhs.evaluate(s);
+        Primitive rhs = this.rhs.evaluate(s);
         return lhs.isNotEqual(rhs, getLineNumber());
     }
 

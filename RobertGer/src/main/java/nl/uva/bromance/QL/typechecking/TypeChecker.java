@@ -51,4 +51,9 @@ public class TypeChecker implements QLNodeVisitorInterface {
     public void visit(Calculation calc) {
         calc.typeCheck(symbolTable,exceptions);
     }
+
+    @Override
+    public void exit(If _f) {
+
+    }
 }

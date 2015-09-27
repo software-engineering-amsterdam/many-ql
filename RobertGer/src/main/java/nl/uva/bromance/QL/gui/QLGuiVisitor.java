@@ -9,7 +9,11 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
+import nl.uva.bromance.QL.typechecking.SymbolTable;
+import nl.uva.bromance.QL.typechecking.SymbolTableBuilder;
+import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 class QLGuiVisitor implements QLNodeVisitorInterface {
@@ -17,11 +21,14 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
     VBox questionArea = null;
     Map<String, Primitive> answerMap;
     QLGUI qlGui;
+    SymbolTable symbolTable = new SymbolTable();
+    private boolean showQuestions = true;
 
-    public QLGuiVisitor(VBox questionArea, Map<String ,Primitive> answerMap, QLGUI qlGui){
+    public QLGuiVisitor(VBox questionArea, Map<String, Primitive> answerMap, QLGUI qlGui, QLNode root) {
         this.questionArea = questionArea;
         this.answerMap = answerMap;
         this.qlGui = qlGui;
+        this.symbolTable = new SymbolTableBuilder().build(root, new ArrayList<>());
     }
 
     @Override
@@ -38,11 +45,13 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(Question question) {
-        javafx.scene.control.Label label = new javafx.scene.control.Label(question.getText());
-        label.getStyleClass().add("question");
-        Primitive questionPrimitive = answerMap.get(question.getIdentifier());
-        questionArea.getChildren().add(label);
-        questionPrimitive.drawQuestion(questionArea, qlGui);
+        if (showQuestions) {
+            javafx.scene.control.Label label = new javafx.scene.control.Label(question.getText());
+            label.getStyleClass().add("question");
+            Primitive questionPrimitive = answerMap.get(question.getIdentifier());
+            questionArea.getChildren().add(label);
+            questionPrimitive.drawQuestion(questionArea, qlGui);
+        }
     }
 
     @Override
@@ -51,9 +60,17 @@ class QLGuiVisitor implements QLNodeVisitorInterface {
 
     @Override
     public void visit(If _if) {
+        //showQuestions = _if.evaluate(symbolTable).getValue();
+    }
+
+    @Override
+    public void exit(If _f) {
+        showQuestions = true;
     }
 
     @Override
     public void visit(Calculation calc) {
     }
+
+
 }

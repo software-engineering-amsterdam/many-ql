@@ -6,7 +6,7 @@ Name: "Tax" {
 			Answer: boolean
 		}
 
-        Question: "partner" {
+        Question: "employment" {
 			Text: "What is your marital status?"
 			Answer: ["Single" || "Married" || "Cohabitation"]
         }

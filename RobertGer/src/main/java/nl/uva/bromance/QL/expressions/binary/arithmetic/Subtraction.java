@@ -1,9 +1,8 @@
 package nl.uva.bromance.QL.expressions.binary.arithmetic;
 
-import nl.uva.bromance.QL.expressions.Evaluable;
 import nl.uva.bromance.QL.expressions.Expression;
-import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
+import nl.uva.bromance.QL.typechecking.SymbolTable;
 
 public class Subtraction extends ArithemeticExpression {
     public Subtraction(Expression lhs, Expression rhs, int lineNumber) {
@@ -11,9 +10,9 @@ public class Subtraction extends ArithemeticExpression {
     }
 
     @Override
-    public NumberPrimitive evaluate() {
-        NumberPrimitive lhs = (NumberPrimitive) this.lhs.evaluate();
-        NumberPrimitive rhs = (NumberPrimitive) this.rhs.evaluate();
+    public NumberPrimitive evaluate(SymbolTable s) {
+        NumberPrimitive lhs = (NumberPrimitive) this.lhs.evaluate(s);
+        NumberPrimitive rhs = (NumberPrimitive) this.rhs.evaluate(s);
         return lhs.subtraction(rhs, getLineNumber());
     }
 }

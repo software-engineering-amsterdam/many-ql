@@ -10,7 +10,7 @@ import nl.uva.bromance.QL.typechecking.exceptions.TypeCheckingError;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class Primitive extends Expression {
+public abstract class Primitive<T> extends Expression {
 
     protected UUID uuid = UUID.randomUUID();
 
@@ -19,6 +19,8 @@ public abstract class Primitive extends Expression {
     }
 
     public abstract BooleanPrimitive isEqual(Primitive rhs, int lineNumber);
+    public abstract T getValue();
+
 
     public BooleanPrimitive isNotEqual(Primitive rhs, int lineNumber) {
         BooleanPrimitive primitive = isEqual(rhs, lineNumber);
@@ -32,5 +34,6 @@ public abstract class Primitive extends Expression {
     public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         return this;
     }
+
 }
 

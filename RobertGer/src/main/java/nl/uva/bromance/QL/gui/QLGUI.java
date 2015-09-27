@@ -142,7 +142,7 @@ public class QLGUI {
             TypeChecker typeChecker = new TypeChecker();
             List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
 
-            QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this);
+            QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
             ast.getRoot().accept(visitor);
 
 
