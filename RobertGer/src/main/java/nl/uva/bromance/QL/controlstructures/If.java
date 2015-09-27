@@ -33,7 +33,7 @@ public class If extends QLNode implements Evaluable {
         try {
             bool = (BooleanPrimitive) type;
         } catch (ClassCastException cce) {
-            exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's"));
+            exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's see line: "+ getLineNumber()));
         }
         return type;
     }

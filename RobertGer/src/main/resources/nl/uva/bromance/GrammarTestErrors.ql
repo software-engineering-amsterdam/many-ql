@@ -59,6 +59,14 @@ Name: "Tax" {
             		Range: >0
             	}
             }
+
+			If: 1 + 1 {
+				Question: "derp" {
+					Text: "How much money did your partner earn through employer paid wages during 2014?"
+					Answer: integer
+					Range: >0
+				}
+			}
             Calculation: "ttl_income_tax" {
                 		If: generic.partner == "Married" || generic.partner == "Cohabitation" {
                 			Input: (income1 + income_partner) * 20

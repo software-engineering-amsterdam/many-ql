@@ -228,6 +228,9 @@ public class QLParseTreeListener extends QLBaseListener {
             case QLParser.NUMBER:
                 expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText()),line));
                 break;
+            case QLParser.BOOLEAN:
+                expressions.push(new BooleanPrimitive(Boolean.parseBoolean(ctx.value.getText()),line));
+                break;
         }
     }
 

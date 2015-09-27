@@ -74,7 +74,7 @@ variable:
     identifier=TEXT;
 
 primitive:
-    value= (STRING | NUMBER);
+    value= (STRING | NUMBER | BOOLEAN);
 
 integer:
     value=NUMBER;
@@ -105,7 +105,7 @@ logicalExpression:
       primitive
     | variable
     | '(' logicalExpression ')'
-    | lhs=logicalExpression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN| EQUALTO | NOTEQUALTO) rhs=logicalExpression
+    | lhs=logicalExpression operator=(SMALLERTHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN| EQUALTO | NOTEQUALTO) rhs=logicalExpression
     | lhs=logicalExpression operator=AND rhs=logicalExpression
     | lhs=logicalExpression operator=OR rhs=logicalExpression;
 
@@ -138,6 +138,8 @@ NUMBER :
     |   '-'? INT EXP             // 1e10 -3e4
     |   '-'? INT                 // -3, 45
     ;
+
+BOOLEAN : 'true' | 'false';
 fragment INT :
     '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :

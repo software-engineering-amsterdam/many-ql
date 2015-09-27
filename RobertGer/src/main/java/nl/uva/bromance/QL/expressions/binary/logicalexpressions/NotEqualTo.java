@@ -22,7 +22,7 @@ public class NotEqualTo extends LogicalExpression {
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
         Primitive lType = lhs.typeCheck(s, exceptions);
         Primitive rType = rhs.typeCheck(s,exceptions);
 

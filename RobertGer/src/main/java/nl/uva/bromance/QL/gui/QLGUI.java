@@ -92,6 +92,7 @@ public class QLGUI {
                     TokenStream tokenStream = new CommonTokenStream(lexer);
                     //TODO: What do we do if the parser encounters something that doesn't go well with the grammar? We don't have exceptions for this ATM nor do we catch anything.
                     QLParser parser = new QLParser(tokenStream);
+                    //parser.addErrorListener(new GrammarErrorListener());
                     ParseTree tree = parser.questionnaire();
                     QLParseTreeListener qlListener = new QLParseTreeListener();
                     ParseTreeWalker qlWalker = new ParseTreeWalker();
