@@ -98,7 +98,17 @@ public class QLGUI {
                     qlWalker.walk(qlListener, tree);
 
                     AST<QLNode> qlAst = qlListener.getAST();
-                    showAst(syntaxErrors, qlListener, qlAst);
+
+                    TypeChecker typeChecker = new TypeChecker();
+                    List<TypeCheckingError> typeCheckingErrors = typeChecker.check(qlAst.getRoot());
+
+                    List<TypeCheckingError> warnings = removeWarnings(typeCheckingErrors);
+                    if (typeCheckingErrors.isEmpty()) {
+                        showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(warnings), Alert.AlertType.WARNING);
+                        showAst(syntaxErrors, qlListener, qlAst);
+                    } else {
+                        showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(typeCheckingErrors), Alert.AlertType.ERROR);
+                    }
                 } catch (Exception e) {
                     System.err.println("Got error opening file : " + e.getMessage());
                     e.printStackTrace();
@@ -151,18 +161,8 @@ public class QLGUI {
         if (ast != null) {
             questionArea.getChildren().clear();
 
-            TypeChecker typeChecker = new TypeChecker();
-            List<TypeCheckingError> typeCheckingErrors = typeChecker.check(ast.getRoot());
-
-            List<TypeCheckingError> warnings = removeWarnings(typeCheckingErrors);
-
-            if (typeCheckingErrors.isEmpty()) {
-                showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(warnings), Alert.AlertType.WARNING);
-                QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
-                ast.getRoot().accept(visitor);
-            } else {
-                showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(typeCheckingErrors), Alert.AlertType.ERROR);
-            }
+            QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
+            ast.getRoot().accept(visitor);
 
             if (this.focusedNode != null)
                 this.focusedNode.requestFocus();
@@ -178,10 +178,8 @@ public class QLGUI {
                 warnings.add(e);
             }
         }
-        for(TypeCheckingError w : warnings)
-        {
-            if(typeCheckingErrors.contains(w))
-            {
+        for (TypeCheckingError w : warnings) {
+            if (typeCheckingErrors.contains(w)) {
                 typeCheckingErrors.remove(w);
             }
         }
