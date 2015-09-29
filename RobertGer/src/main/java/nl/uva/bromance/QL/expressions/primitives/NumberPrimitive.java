@@ -6,64 +6,77 @@ import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.gui.QLGUI;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 
-public class NumberPrimitive extends Primitive {
-
+public class NumberPrimitive extends Primitive
+{
     private Integer value;
     private Boolean negative = false;
 
-    public NumberPrimitive(Integer value, int lineNumber) {
+    public NumberPrimitive(Integer value, int lineNumber)
+    {
         super(lineNumber);
         this.value = value;
     }
 
-    public Integer getValue() {
+    public Integer getValue()
+    {
         return value;
     }
 
-    public NumberPrimitive addition(NumberPrimitive rhs, int lineNumber) {
+    public NumberPrimitive addition(NumberPrimitive rhs, int lineNumber)
+    {
         return new NumberPrimitive(this.value + rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive division(NumberPrimitive rhs, int lineNumber) {
+    public NumberPrimitive division(NumberPrimitive rhs, int lineNumber)
+    {
         return new NumberPrimitive(this.value / rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive multiplication(NumberPrimitive rhs, int lineNumber) {
+    public NumberPrimitive multiplication(NumberPrimitive rhs, int lineNumber)
+    {
         return new NumberPrimitive(this.value * rhs.getValue(), lineNumber);
     }
 
-    public NumberPrimitive subtraction(NumberPrimitive rhs, int lineNumber) {
+    public NumberPrimitive subtraction(NumberPrimitive rhs, int lineNumber)
+    {
         return new NumberPrimitive(this.value - rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs, int lineNumber) {
+    public BooleanPrimitive biggerThanOrEqual(NumberPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value >= rhs.getValue(),lineNumber);
     }
 
-    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs, int lineNumber) {
+    public BooleanPrimitive smallerThanOrEqual(NumberPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value <= rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive smallerThan(NumberPrimitive rhs, int lineNumber) {
+    public BooleanPrimitive smallerThan(NumberPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value < rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive biggerThan(NumberPrimitive rhs, int lineNumber) {
+    public BooleanPrimitive biggerThan(NumberPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value > rhs.getValue(), lineNumber);
     }
 
     @Override
-    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber) {
+    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(value == ((NumberPrimitive) rhs).getValue(), lineNumber);
     }
 
     @Override
-    public Primitive evaluate(SymbolTable s) {
+    public Primitive evaluate(SymbolTable s)
+    {
         return this;
     }
 
     @Override
-    public void drawQuestion(VBox questionArea, QLGUI qlGui) {
+    public void drawQuestion(VBox questionArea, QLGUI qlGui)
+    {
         TextField textField = new TextField();
         textField.getStyleClass().add("question");
         textField.setMaxWidth(100);
@@ -79,18 +92,27 @@ public class NumberPrimitive extends Primitive {
         textField.positionCaret(textField.getLength());
         // Disable any input other than numbers
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("-?[0-9]*")) {
-                if (newValue.length() == 0) {
+            if (newValue.matches("-?[0-9]*"))
+            {
+                if (newValue.length() == 0)
+                {
                     value = null;
                     negative = false;
-                } else if (newValue.equals("-")) {
+                }
+                else if (newValue.equals("-"))
+                {
                     value = null;
                     negative = true;
-                } else {
+                }
+                else
+                {
                     // Catch integer overflow
-                    try {
+                    try
+                    {
                         value = Integer.parseInt(newValue);
-                    } catch (java.lang.NumberFormatException ex) {
+                    }
+                    catch (java.lang.NumberFormatException ex)
+                    {
                         if (negative)
                             value = Integer.MIN_VALUE;
                         else
@@ -98,7 +120,6 @@ public class NumberPrimitive extends Primitive {
                     }
                 }
             }
-
             qlGui.renderWithFocus(uuid);
         });
 

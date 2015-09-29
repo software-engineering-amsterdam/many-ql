@@ -4,8 +4,8 @@ import nl.uva.bromance.QL.expressions.unary.Primitive;
 
 import java.util.Map;
 
-public class Reference {
-
+public class Reference
+{
     private String identifier;
     private int line;
 
@@ -19,9 +19,8 @@ public class Reference {
     {
         boolean result = false;
         if(map.get(this.identifier) != null)
-        {
             result = true;
-        }
+
         return result;
     }
 }

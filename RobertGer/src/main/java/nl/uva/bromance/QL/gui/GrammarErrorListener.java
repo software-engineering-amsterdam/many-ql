@@ -9,15 +9,15 @@ import org.antlr.v4.runtime.Recognizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GrammarErrorListener extends BaseErrorListener {
-
+public class GrammarErrorListener extends BaseErrorListener
+{
     List<QLError> errorList = new ArrayList<>();
 
     @Override
-    public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+    public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e)
+    {
         errorList.add(new SyntaxError(String.format("%s SyntaxError @ line: %s:%s %s", offendingSymbol, line, charPositionInLine, msg)));
     }
-
 
     public void appendSyntaxErrors(List<QLError> errors)
     {

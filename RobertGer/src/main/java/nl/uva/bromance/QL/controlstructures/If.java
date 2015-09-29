@@ -8,32 +8,38 @@ import nl.uva.bromance.QL.expressions.primitives.BooleanPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
-
 import java.util.List;
 
-public class If extends QLNode implements Evaluable {
-
+public class If extends QLNode implements Evaluable
+{
     private Expression expr;
 
-    public If(int ln, Expression expr) {
+    public If(int ln, Expression expr)
+    {
         super(ln);
         this.expr = expr;
     }
 
     @Override
-    public BooleanPrimitive evaluate(SymbolTable s) {
+    public BooleanPrimitive evaluate(SymbolTable s)
+    {
         return (BooleanPrimitive) expr.evaluate(s);
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions)
+    {
         Primitive type = expr.typeCheck(s, exceptions);
         // If type is null the expression typechecker couldn't find a variable
-        if (type != null) {
+        if (type != null)
+        {
             BooleanPrimitive bool = BooleanPrimitive.defaultValue(type.getLineNumber());
-            try {
+            try
+            {
                 bool = (BooleanPrimitive) type;
-            } catch (ClassCastException cce) {
+            }
+            catch (ClassCastException cce)
+            {
                 exceptions.add(new TypeCheckingError("If's can only contain BooleanPrimitive's see line: " + getLineNumber(), TypeCheckingError.Type.ERROR));
             }
         }
@@ -41,15 +47,18 @@ public class If extends QLNode implements Evaluable {
     }
 
     @Override
-    public void accept(QLNodeVisitorInterface visitor) {
+    public void accept(QLNodeVisitorInterface visitor)
+    {
         visitor.visit(this);
-        for (QLNode child : this.getChildren()) {
+        for (QLNode child : this.getChildren())
+        {
             child.accept(visitor);
         }
         visitor.exit(this);
     }
 
-    public void visitExpression(QLNodeVisitorInterface visitor){
+    public void visitExpression(QLNodeVisitorInterface visitor)
+    {
         this.expr.accept(visitor);
     }
 }

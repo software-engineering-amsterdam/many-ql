@@ -6,34 +6,40 @@ import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.gui.QLGUI;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 
-public class BooleanPrimitive extends Primitive {
-
+public class BooleanPrimitive extends Primitive
+{
     private boolean value;
 
-    public Boolean getValue(){
+    public Boolean getValue()
+    {
         return value;
     }
 
-    public BooleanPrimitive(boolean value, int lineNumber){
+    public BooleanPrimitive(boolean value, int lineNumber)
+    {
         super(lineNumber);
         this.value = value;
     }
 
-    public BooleanPrimitive or(BooleanPrimitive rhs, int lineNumber){
+    public BooleanPrimitive or(BooleanPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value || rhs.getValue(), lineNumber);
     }
 
-    public BooleanPrimitive and(BooleanPrimitive rhs, int lineNumber){
+    public BooleanPrimitive and(BooleanPrimitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(this.value && rhs.getValue(), lineNumber);
     }
 
     @Override
-    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber) {
+    public BooleanPrimitive isEqual(Primitive rhs, int lineNumber)
+    {
         return new BooleanPrimitive(value == ((BooleanPrimitive)rhs).getValue(), lineNumber);
     }
 
     @Override
-    public void drawQuestion(VBox questionArea, QLGUI qlGui) {
+    public void drawQuestion(VBox questionArea, QLGUI qlGui)
+    {
         CheckBox cb = new CheckBox();
         cb.getStyleClass().add("question");
         cb.setSelected(value);
@@ -56,7 +62,8 @@ public class BooleanPrimitive extends Primitive {
     }
 
     @Override
-    public Primitive evaluate(SymbolTable s) {
+    public Primitive evaluate(SymbolTable s)
+    {
         return this;
     }
 

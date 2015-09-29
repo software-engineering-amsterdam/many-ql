@@ -36,11 +36,6 @@ Name: "Tax" {
     }
         Form: "derp" {
 
-    		Question: "employment" {
-    			Text: "Are you currently employed?"
-    			Answer: boolean
-    		}
-
             Question: "age" {
                 Text: "How old are you?"
                 Answer: integer

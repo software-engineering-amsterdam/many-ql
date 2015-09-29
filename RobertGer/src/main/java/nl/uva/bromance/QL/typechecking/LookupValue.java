@@ -3,10 +3,8 @@ package nl.uva.bromance.QL.typechecking;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 
-/**
- * Created by Robert on 9/23/2015.
- */
-public class LookupValue {
+public class LookupValue
+{
     private Primitive type;
     private QLNode node;
 
@@ -16,11 +14,13 @@ public class LookupValue {
         this.node = node;
     }
 
-    public Primitive getType() {
+    public Primitive getType()
+    {
         return type;
     }
 
-    public QLNode getNode() {
+    public QLNode getNode()
+    {
         return node;
     }
 }

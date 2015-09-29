@@ -9,20 +9,25 @@ import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.List;
 
-public abstract class LogicalExpression extends BinaryExpression {
-
-    public LogicalExpression(Expression lhs, Expression rhs, int lineNumber) {
+public abstract class LogicalExpression extends BinaryExpression
+{
+    public LogicalExpression(Expression lhs, Expression rhs, int lineNumber)
+    {
         super(lhs, rhs, lineNumber);
     }
 
     @Override
-    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions){
-        try {
+    public BooleanPrimitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions)
+    {
+        try
+        {
             Primitive lType = lhs.typeCheck(s, exceptions);
             Primitive rType = rhs.typeCheck(s, exceptions);
             checkBooleanEquivalence(lType, rType, exceptions);
         }
-        catch (NullPointerException npe){
+        // A NullPointerException happens if the if statement is malformed, the typeChecker will warn the user of this.
+        catch (NullPointerException npe)
+        {
         }
 
         return new BooleanPrimitive(false, getLineNumber());

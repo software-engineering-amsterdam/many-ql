@@ -4,7 +4,7 @@ import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
 
-public class Division extends ArithemeticExpression {
+public class Division extends ArithmeticExpression {
     public Division(Expression lhs, Expression rhs, int lineNumber) {
         super(lhs, rhs, lineNumber);
     }

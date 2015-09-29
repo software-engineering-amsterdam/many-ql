@@ -2,7 +2,6 @@ package nl.uva.bromance.QL.ast.nodes;
 
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
-import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.expressions.primitives.NumberPrimitive;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
@@ -11,41 +10,44 @@ import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 
 import java.util.List;
 
-public class Calculation extends QLNode{
+public class Calculation extends QLNode
+{
     private final String identifier;
     private final NumberPrimitive type;
 
-    public Calculation(int ln, String identifier) {
+    public Calculation(int ln, String identifier)
+    {
         super(ln);
         this.identifier = identifier;
         this.type = NumberPrimitive.defaultValue(ln);
     }
 
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return identifier;
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions)
+    {
         return type;
     }
 
     @Override
-    public void accept(QLNodeVisitorInterface visitor) {
+    public void accept(QLNodeVisitorInterface visitor)
+    {
         visitor.visit(this);
-        for (QLNode child : this.getChildren()) {
+        for (QLNode child : this.getChildren())
+        {
             child.accept(visitor);
         }
     }
 
-    public void addToSymbolTable(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public void addToSymbolTable(SymbolTable s, List<TypeCheckingError> exceptions)
+    {
         Primitive lookup = s.lookup(identifier);
-        if(lookup == null){
+        if(lookup == null)
             s.add(identifier, this.type, this);
-        }
-        else{
-            exceptions.add(new DuplicateIdentifierException("You have a duplicate calculation definition on line: " + this.getLineNumber()));
-        }
+        else
+            exceptions.add(new DuplicateIdentifierException("Duplicate calculation definition @ line: " + this.getLineNumber()));
     }
 }

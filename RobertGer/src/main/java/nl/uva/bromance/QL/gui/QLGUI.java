@@ -14,7 +14,7 @@ import nl.uva.bromance.QL.ast.QLParseTreeListener;
 import nl.uva.bromance.QL.exceptions.QLError;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
-import nl.uva.bromance.QL.typechecking.TypeChecker;
+import nl.uva.bromance.QL.typechecking.TypeCheckerVisitor;
 import nl.uva.bromance.grammar.QL.QLLexer;
 import nl.uva.bromance.grammar.QL.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -22,14 +22,16 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-public class QLGUI {
-
+public class QLGUI
+{
     private AST<QLNode> ast;
     private Stage stage;
     private VBox questionArea;
@@ -38,7 +40,8 @@ public class QLGUI {
     private UUID focusUuid;
     private Node focusedNode;
 
-    public QLGUI(Stage stage, String stylesheets) {
+    public QLGUI(Stage stage, String stylesheets)
+    {
         this.stage = stage;
         this.ast = null;
         this.stylesheets = stylesheets;
@@ -46,7 +49,8 @@ public class QLGUI {
         createBaseView();
     }
 
-    private void createBaseView() {
+    private void createBaseView()
+    {
         VBox rootBox = new VBox();
         rootBox.setMaxWidth(650);
         rootBox.setMinWidth(650);
@@ -64,7 +68,8 @@ public class QLGUI {
         stage.setScene(scene);
     }
 
-    private MenuBar createMenuBar() {
+    private MenuBar createMenuBar()
+    {
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         MenuItem filePicker = new MenuItem("Open");
@@ -76,14 +81,17 @@ public class QLGUI {
         return menuBar;
     }
 
-    private void createOpenMenuItemHandler(MenuItem filePicker) {
+    private void createOpenMenuItemHandler(MenuItem filePicker)
+    {
         filePicker.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showOpenDialog(stage);
-            if (file != null) {
+            if (file != null)
+            {
                 String qlPath = file.getAbsolutePath();
-                //TODO: Too much nesting.
-                try {
+                try
+                {
+                    // Setup the ANTLR code and build the AST
                     InputStream is = new FileInputStream(qlPath);
                     QLLexer lexer = new QLLexer(new ANTLRInputStream(is));
                     TokenStream tokenStream = new CommonTokenStream(lexer);
@@ -96,46 +104,56 @@ public class QLGUI {
                     QLParseTreeListener qlListener = new QLParseTreeListener();
                     ParseTreeWalker qlWalker = new ParseTreeWalker();
                     qlWalker.walk(qlListener, tree);
-
                     AST<QLNode> qlAst = qlListener.getAST();
 
-                    TypeChecker typeChecker = new TypeChecker();
+                    TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
                     List<TypeCheckingError> typeCheckingErrors = typeChecker.check(qlAst.getRoot());
 
-                    List<TypeCheckingError> warnings = removeWarnings(typeCheckingErrors);
+                    List<TypeCheckingError> warnings = getAndRemoveWarnings(typeCheckingErrors);
                     if (typeCheckingErrors.isEmpty()) {
                         showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(warnings), Alert.AlertType.WARNING);
                         showAst(syntaxErrors, qlListener, qlAst);
-                    } else {
+                    }
+                    else {
                         showAlert(QLError.convertTypeCheckingErrorListToQLErrorList(typeCheckingErrors), Alert.AlertType.ERROR);
                     }
-                } catch (Exception e) {
-                    System.err.println("Got error opening file : " + e.getMessage());
-                    e.printStackTrace();
+                // Error will have been printed elsewhere already, no need to here. Just catching all to keep program running
+                }
+                catch (Exception e)
+                {
                 }
             }
         });
     }
 
-    private void showAst(List<QLError> syntaxErrors, QLParseTreeListener qlListener, AST<QLNode> qlAst) {
-        if (syntaxErrors.isEmpty() && qlAst != null) {
+    private void showAst(List<QLError> syntaxErrors, QLParseTreeListener qlListener, AST<QLNode> qlAst)
+    {
+        if (syntaxErrors.isEmpty() && qlAst != null)
+        {
             this.ast = qlAst;
             this.answerMap = qlListener.getIdentifierMap();
             createBaseView();
             render();
-        } else {
+        }
+        else
+        {
             showAlert(syntaxErrors, Alert.AlertType.ERROR);
         }
     }
 
-    private void showAlert(List<QLError> list, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setContentText("Your file contains: " + list.size() + " error's/warning's.");
-        addScrollAblePaneToAlert(QLError.qlErrorListToString(list), alert);
-        alert.show();
+    private void showAlert(List<QLError> list, Alert.AlertType type)
+    {
+        if (list.size() > 0)
+        {
+            Alert alert = new Alert(type);
+            alert.setContentText("Your file contains: " + list.size() + " errors and/or warnings.");
+            addScrollAblePaneToAlert(QLError.qlErrorListToString(list), alert);
+            alert.show();
+        }
     }
 
-    private void addScrollAblePaneToAlert(String exceptionText, Alert alert) {
+    private void addScrollAblePaneToAlert(String exceptionText, Alert alert)
+    {
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
         textArea.setWrapText(true);
@@ -152,13 +170,16 @@ public class QLGUI {
         alert.getDialogPane().setExpandableContent(expContent);
     }
 
-    public void render() {
+    public void render()
+    {
         renderWithFocus(null);
     }
 
-    public void renderWithFocus(UUID uuid) {
+    public void renderWithFocus(UUID uuid)
+    {
         this.focusUuid = uuid;
-        if (ast != null) {
+        if (ast != null)
+        {
             questionArea.getChildren().clear();
 
             QLGuiVisitor visitor = new QLGuiVisitor(questionArea, answerMap, this, ast.getRoot());
@@ -170,29 +191,30 @@ public class QLGUI {
         stage.show();
     }
 
-    private List<TypeCheckingError> removeWarnings(List<TypeCheckingError> typeCheckingErrors) {
+    private List<TypeCheckingError> getAndRemoveWarnings(List<TypeCheckingError> typeCheckingErrors)
+    {
         List<TypeCheckingError> warnings = new ArrayList<>();
 
-        for (TypeCheckingError e : typeCheckingErrors) {
-            if (e.isWarning()) {
+        for (TypeCheckingError e : typeCheckingErrors)
+        {
+            if (e.isWarning())
                 warnings.add(e);
-            }
         }
-        for (TypeCheckingError w : warnings) {
-            if (typeCheckingErrors.contains(w)) {
+        for (TypeCheckingError w : warnings)
+        {
+            if (typeCheckingErrors.contains(w))
                 typeCheckingErrors.remove(w);
-            }
         }
         return warnings;
     }
 
-    public UUID getFocusUuid() {
+    public UUID getFocusUuid()
+    {
         return this.focusUuid;
     }
 
-    public void setFocusedNode(Node node) {
+    public void setFocusedNode(Node node)
+    {
         this.focusedNode = node;
     }
-
-
 }

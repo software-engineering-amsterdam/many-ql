@@ -8,67 +8,66 @@ import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
 import nl.uva.bromance.QL.controlstructures.If;
 import nl.uva.bromance.QL.expressions.unary.Variable;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gerrit Krijnen on 9/27/2015.
- */
-public class CylicDependencyVariableVisitor implements QLNodeVisitorInterface {
+public class CylicDependencyVariableVisitor implements QLNodeVisitorInterface
+{
     private List<String> identifierList;
 
-    public CylicDependencyVariableVisitor(){
+    public CylicDependencyVariableVisitor()
+    {
         identifierList = new ArrayList<>();
     }
 
-    public List<String> getIdentifierList(){
+    public List<String> getIdentifierList()
+    {
         return identifierList;
     }
 
     @Override
-    public void visit(QLNode qlNode) {
-
+    public void visit(QLNode qlNode)
+    {
     }
 
     @Override
-    public void visit(Form form) {
-
+    public void visit(Form form)
+    {
     }
 
     @Override
-    public void visit(Question question) {
-
+    public void visit(Question question)
+    {
     }
 
     @Override
-    public void visit(Questionnaire questionnaire) {
-
+    public void visit(Questionnaire questionnaire)
+    {
     }
 
     @Override
-    public void visit(If _if) {
-
+    public void visit(If _if)
+    {
     }
 
     @Override
-    public void visit(Calculation calc) {
-
+    public void visit(Calculation calc)
+    {
     }
 
     @Override
-    public void visit(Variable var) {
+    public void visit(Variable var)
+    {
         identifierList.add(var.getIdentifier());
     }
 
     @Override
-    public void visit() {
-
+    public void visit()
+    {
     }
 
     @Override
-    public void exit(If _f) {
-
+    public void exit(If _f)
+    {
     }
-
 }

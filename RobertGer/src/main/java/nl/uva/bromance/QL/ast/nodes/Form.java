@@ -8,28 +8,33 @@ import nl.uva.bromance.QL.typechecking.SymbolTable;
 
 import java.util.List;
 
-public class Form extends QLNode{
-
+public class Form extends QLNode
+{
     private String identifier;
 
-    public Form(String identifier, int ln) {
+    public Form(String identifier, int ln)
+    {
         super(ln);
         this.identifier = identifier;
     }
 
-    public String getIdentifier(){
+    public String getIdentifier()
+    {
         return this.identifier;
     }
 
-    public void accept(QLNodeVisitorInterface visitor) {
+    public void accept(QLNodeVisitorInterface visitor)
+    {
         visitor.visit(this);
-        for (QLNode child : this.getChildren()) {
+        for (QLNode child : this.getChildren())
+        {
             child.accept(visitor);
         }
     }
 
     @Override
-    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions) {
+    public Primitive typeCheck(SymbolTable s, List<TypeCheckingError> exceptions)
+    {
         return null;
     }
 }

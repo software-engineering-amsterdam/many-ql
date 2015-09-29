@@ -1,14 +1,15 @@
 package nl.uva.bromance.QL.ast;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node<TYPE extends Node> {
+public class Node<TYPE extends Node>
+{
     private List<TYPE> children;
     private final int lineNumber;
 
-    public Node(int ln) {
+    public Node(int ln)
+    {
         this(ln, new ArrayList<>());
     }
 
@@ -21,15 +22,18 @@ public class Node<TYPE extends Node> {
         this.children.add(child);
     }
 
-    public int getLineNumber() {
+    public int getLineNumber()
+    {
         return lineNumber;
     }
 
-    public boolean hasChildren() {
+    public boolean hasChildren()
+    {
         return children.size() > 0;
     }
 
-    public List<TYPE> getChildren() {
+    public List<TYPE> getChildren()
+    {
         return children;
     }
 }
