@@ -3,9 +3,9 @@ package nl.uva.bromance.QL.controlstructures;
 import nl.uva.bromance.QL.ast.QLNode;
 import nl.uva.bromance.QL.ast.QLNodeVisitorInterface;
 
-public class Else extends QLNode
+public class IfSequence extends QLNode
 {
-    public Else(int ln)
+    public IfSequence(int ln)
     {
         super(ln);
     }
@@ -17,5 +17,7 @@ public class Else extends QLNode
         {
             child.accept(visitor);
         }
+        visitor.exit(this);
+
     }
 }

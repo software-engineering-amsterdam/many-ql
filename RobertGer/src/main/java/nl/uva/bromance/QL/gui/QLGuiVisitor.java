@@ -7,7 +7,9 @@ import nl.uva.bromance.QL.ast.nodes.Calculation;
 import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.controlstructures.IfSequence;
 import nl.uva.bromance.QL.expressions.unary.Primitive;
 import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.QL.typechecking.SymbolTable;
@@ -22,6 +24,7 @@ class QLGuiVisitor implements QLNodeVisitorInterface
     QLGUI qlGui;
     SymbolTable symbolTable = new SymbolTable();
     private boolean showQuestions = true;
+    private Boolean evaluateElse = false;
 
     public QLGuiVisitor(VBox questionArea, Map<String, Primitive> answerMap, QLGUI qlGui, QLNode root)
     {
@@ -62,13 +65,36 @@ class QLGuiVisitor implements QLNodeVisitorInterface
     }
 
     @Override
+    public void visit(IfSequence sequence)
+    {
+        showQuestions = true;
+    }
+
+    @Override
     public void visit(If _if)
     {
         showQuestions = _if.evaluate(symbolTable).getValue();
+        evaluateElse = !showQuestions;
     }
 
     @Override
     public void exit(If _f)
+    {
+        showQuestions = false;
+    }
+
+    @Override
+    public void visit(Else _else)
+    {
+        if(evaluateElse)
+            showQuestions = true;
+
+        evaluateElse = false;
+
+    }
+
+    @Override
+    public void exit(IfSequence sequence)
     {
         showQuestions = true;
     }

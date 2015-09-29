@@ -6,7 +6,9 @@ import nl.uva.bromance.QL.ast.nodes.Calculation;
 import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.controlstructures.IfSequence;
 import nl.uva.bromance.QL.expressions.unary.Variable;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import java.util.ArrayList;
@@ -116,5 +118,20 @@ public class CyclicDependencyVisitor implements QLNodeVisitorInterface{
     public void exit(If _if)
     {
         variableLookupList.remove(variableLookupList.size() - 1);
+    }
+
+    @Override
+    public void visit(Else _else) {
+
+    }
+
+    @Override
+    public void visit(IfSequence sequence) {
+
+    }
+
+    @Override
+    public void exit(IfSequence sequence) {
+
     }
 }

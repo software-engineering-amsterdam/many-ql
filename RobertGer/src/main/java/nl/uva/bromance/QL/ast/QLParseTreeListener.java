@@ -4,6 +4,7 @@ import nl.uva.bromance.QL.ast.nodes.*;
 import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.ElseIf;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.controlstructures.IfSequence;
 import nl.uva.bromance.QL.expressions.Expression;
 import nl.uva.bromance.QL.expressions.binary.BinaryExpression;
 import nl.uva.bromance.QL.expressions.binary.arithmetic.Addition;
@@ -146,6 +147,20 @@ public class QLParseTreeListener extends QLBaseListener
     {
         If iff = (If) nodeStack.pop();
         nodeStack.peek().addChild(iff);
+    }
+
+    @Override
+    public void enterIfSequence(QLParser.IfSequenceContext ctx)
+    {
+        nodeStack.push(new IfSequence(getLine(ctx)));
+    }
+
+
+    @Override
+    public void exitIfSequence(QLParser.IfSequenceContext ctx)
+    {
+        IfSequence sequence = (IfSequence) nodeStack.pop();
+        nodeStack.peek().addChild(sequence);
     }
 
     @Override

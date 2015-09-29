@@ -6,7 +6,9 @@ import nl.uva.bromance.QL.ast.nodes.Calculation;
 import nl.uva.bromance.QL.ast.nodes.Form;
 import nl.uva.bromance.QL.ast.nodes.Question;
 import nl.uva.bromance.QL.ast.nodes.Questionnaire;
+import nl.uva.bromance.QL.controlstructures.Else;
 import nl.uva.bromance.QL.controlstructures.If;
+import nl.uva.bromance.QL.controlstructures.IfSequence;
 import nl.uva.bromance.QL.exceptions.TypeCheckingError;
 import nl.uva.bromance.QL.expressions.unary.Variable;
 import java.util.*;
@@ -70,5 +72,20 @@ public class TypeCheckerVisitor implements QLNodeVisitorInterface {
     @Override
     public void exit(If _f)
     {
+    }
+
+    @Override
+    public void visit(Else _else) {
+
+    }
+
+    @Override
+    public void visit(IfSequence sequence) {
+
+    }
+
+    @Override
+    public void exit(IfSequence sequence) {
+
     }
 }
