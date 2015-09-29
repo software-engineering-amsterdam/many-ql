@@ -113,33 +113,12 @@ public class QLParseTreeListener extends QLBaseListener
     }
 
     @Override
-    public void enterLabel(QLParser.LabelContext ctx)
-    {
-        Label label = new Label(getLine(ctx), removeQuotations(ctx.identifier.getText()));
-        nodeStack.push(label);
-    }
-
-    @Override
-    public void exitLabel(QLParser.LabelContext ctx)
-    {
-        Label label = (Label) nodeStack.pop();
-        nodeStack.peek().addChild(label);
-    }
-
-    @Override
     public void enterTextLabel(QLParser.TextLabelContext ctx)
     {
         if (isQuestion) {
             Question q = (Question) nodeStack.peek();
             q.setText(removeQuotations(ctx.identifier.getText()));
         }
-    }
-
-    @Override
-    public void exitInput(QLParser.InputContext ctx)
-    {
-        Input input = new Input(getLine(ctx), expressions.pop());
-        nodeStack.peek().addChild(input);
     }
 
     @Override
@@ -334,7 +313,6 @@ public class QLParseTreeListener extends QLBaseListener
     }
 
     private int getLine(ParserRuleContext ctx)
-
     {
         return ctx.start.getLine();
     }

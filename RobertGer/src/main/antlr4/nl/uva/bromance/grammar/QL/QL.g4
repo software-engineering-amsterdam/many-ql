@@ -12,14 +12,8 @@ question:
 calculation:
     'Calculation:' identifier=STRING calculationContent;
 
-label:
-    'Label:' identifier=STRING labelContent;
-
 textLabel:
     'Text:' identifier=STRING;
-
-input:
-    'Input:' expression;
 
 //Conditionals
 ifSequence:
@@ -46,7 +40,7 @@ questionnaireContent:
     '{'(form)+'}';
 
 formContent:
-    '{'(question|calculation|ifSequence|label)+'}';
+    '{'(question|calculation|ifSequence)+'}';
 
 questionContent:
    '{' (textLabel questionAnswer)'}';
@@ -99,7 +93,7 @@ arithmeticExpression:
     | '(' arithmeticExpression ')'
     | lhs=arithmeticExpression operator=(MULTIPLICATION|DIVISION) rhs=arithmeticExpression
     | lhs=arithmeticExpression operator=(ADDITION|SUBTRACTION) rhs=arithmeticExpression
-    | lhs=arithmeticExpression operator=( EQUALTO | NOTEQUALTO) rhs=arithmeticExpression;
+    | lhs=arithmeticExpression operator=( EQUALTO | NOTEQUALTO) rhs=arithmeticExpression
 
 logicalExpression:
       primitive

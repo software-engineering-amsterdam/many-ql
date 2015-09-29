@@ -24,21 +24,19 @@ Name: "Tax" {
 			}
 		}
 		Calculation: "ttl_income" {
-			Input: income1+income2+income_partner
+			Input: income1+income2
 		}
-		Label: "totalincome" {
-			If: ttl_income  < 50000 {
-				Text: "Total income: [ttl_income] Euro"
-			} Else: {
-				Text: "MANY INCOME WOW : [ttl_income] Euro"
+		If: ttl_income > 50 {
+			Question "notrlyaquesiton" {
+				Text: "WOW MORE THAN 50 income, are you proud?"
+				Answer: boolean
 			}
 		}
     }
-        Form: "derp" {
-
-            Question: "age" {
-                Text: "How old are you?"
-                Answer: integer
-            }
+    Form: "derp" {
+    	Question: "age" {
+        	Text: "How old are you?"
+            Answer: integer
         }
+    }
 }
