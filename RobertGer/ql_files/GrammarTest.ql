@@ -36,6 +36,13 @@ Name: "Tax" {
     }
         Form: "derp" {
 
+		If: (10*10) > 90 {
+			Question: "derp"{
+			Text: "More than 90"
+			Answer: integer
+			}
+		}
+
             Question: "age" {
                 Text: "How old are you?"
                 Answer: integer

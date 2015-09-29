@@ -82,32 +82,15 @@ integer:
 //Expressions
 
 expression:
-    unaryExpression
-    | binaryExpression;
-
-unaryExpression
-    : primitive
-    | variable;
-
-binaryExpression:
-     arithmeticExpression
-    | logicalExpression;
-
-arithmeticExpression:
-      integer
+    primitive
     | variable
-    | '(' arithmeticExpression ')'
-    | lhs=arithmeticExpression operator=(MULTIPLICATION|DIVISION) rhs=arithmeticExpression
-    | lhs=arithmeticExpression operator=(ADDITION|SUBTRACTION) rhs=arithmeticExpression
-    | lhs=arithmeticExpression operator=( EQUALTO | NOTEQUALTO) rhs=arithmeticExpression;
-
-logicalExpression:
-      primitive
-    | variable
-    | '(' logicalExpression ')'
-    | lhs=logicalExpression operator=(SMALLERTHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN| EQUALTO | NOTEQUALTO) rhs=logicalExpression
-    | lhs=logicalExpression operator=AND rhs=logicalExpression
-    | lhs=logicalExpression operator=OR rhs=logicalExpression;
+    | '(' expression ')'
+    | lhs=expression operator=(MULTIPLICATION|DIVISION) rhs=expression
+    | lhs=expression operator=(ADDITION|SUBTRACTION) rhs=expression
+    | lhs=expression operator=( EQUALTO | NOTEQUALTO) rhs=expression
+    | lhs=expression operator=(SMALLERTHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN| EQUALTO | NOTEQUALTO) rhs=expression
+    | lhs=expression operator=AND rhs=expression
+    | lhs=expression operator=OR rhs=expression;
 
 //Operators
 MULTIPLICATION: '*';

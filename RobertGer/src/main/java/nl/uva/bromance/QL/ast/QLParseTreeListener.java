@@ -251,9 +251,9 @@ public class QLParseTreeListener extends QLBaseListener
         expressions.push(new NumberPrimitive(Integer.parseInt(ctx.value.getText()),getLine(ctx)));
     }
 
+
     @Override
-    public void exitArithmeticExpression(QLParser.ArithmeticExpressionContext ctx)
-    {
+    public void exitExpression(QLParser.ExpressionContext ctx) {
         if (ctx.operator != null)
         {
             Expression expression = null;
@@ -276,29 +276,6 @@ public class QLParseTreeListener extends QLBaseListener
                 case QLParser.DIVISION:
                     expression = new Division(left, right, line);
                     break;
-                case QLParser.EQUALTO:
-                    expression = new EqualTo(left, right, line);
-                    break;
-                case QLParser.NOTEQUALTO:
-                    expression = new NotEqualTo(left, right, line);
-                    break;
-            }
-            this.expressions.push(expression);
-        }
-    }
-
-    @Override
-    public void exitLogicalExpression(QLParser.LogicalExpressionContext ctx)
-    {
-        if (ctx.operator != null)
-        {
-            BinaryExpression expression = null;
-            Expression right = expressions.pop();
-            Expression left = expressions.pop();
-            int line = getLine(ctx);
-
-            switch (ctx.operator.getType())
-            {
                 case QLParser.AND:
                     expression = new And(left, right, line);
                     break;
